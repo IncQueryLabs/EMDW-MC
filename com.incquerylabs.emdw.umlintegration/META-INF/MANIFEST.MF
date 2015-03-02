@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMDW UML Integration
+Bundle-SymbolicName: com.incquerylabs.emdw.umlintegration;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: IncQuery Labs Ltd.
+Export-Package: com.incquerylabs.emdw.umlintegration,
+ com.incquerylabs.emdw.umlintegration.queries,
+ com.incquerylabs.emdw.umlintegration.queries.util,
+ com.incquerylabs.emdw.umlintegration.rules,
+ com.incquerylabs.emdw.umlintegration.util
+Require-Bundle: com.zeligsoft.xtumlrt.common.model,
+ com.incquerylabs.emdw.umlintegration.trace,
+ com.zeligsoft.xtumlrt.umlrt.model,
+ org.eclipse.emf.ecore,
+ org.eclipse.incquery.runtime,
+ org.eclipse.incquery.runtime.evm,
+ org.eclipse.xtend.lib,
+ org.eclipse.uml2.uml
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.apache.log4j

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMDW UML Integration - Test
+Bundle-SymbolicName: com.incquerylabs.emdw.umlintegration.test;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: IncQuery Labs Ltd.
+Require-Bundle: com.google.guava,
+ org.eclipse.xtend.lib;bundle-version="2.6.0",
+ org.eclipse.xtext.xbase.lib,
+ com.incquerylabs.emdw.umlintegration;bundle-version="0.1.0",
+ com.incquerylabs.emdw.umlintegration.trace;bundle-version="0.1.0",
+ org.junit;bundle-version="4.11.0",
+ org.eclipse.incquery.runtime;bundle-version="1.0.0"
+Import-Package: org.apache.log4j;version="1.2.15"

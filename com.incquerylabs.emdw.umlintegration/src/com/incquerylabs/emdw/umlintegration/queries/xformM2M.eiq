@@ -1,0 +1,67 @@
+package com.incquerylabs.emdw.umlintegration.queries
+
+import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
+import "http://www.zeligsoft.com/xtumlrt/common" as common
+import "http://www.example.org/traceability"
+
+pattern mappedRoot(uml2common, uml, common) {
+	UmlToCommon.uml(uml2common, uml);
+	UmlToCommon.common(uml2common, common);	
+}
+
+pattern uml2commonTrace(uml2common, trace, umlElement, commonElement) {
+	UmlToCommon.traces(uml2common, trace);
+	UmlToCommonTrace.umlElements(trace, umlElement);
+	UmlToCommonTrace.commonElements(trace, commonElement);
+}
+
+pattern behavioredClassifier(umlPackage: uml::Package, behavioredClassifier: BehavioredClassifier) {
+	uml::Package.packagedElement(umlPackage, behavioredClassifier);
+}
+
+pattern stateMachine(behavioredClassifier: BehavioredClassifier, stateMachine: uml::StateMachine) {
+	BehavioredClassifier.classifierBehavior(behavioredClassifier, stateMachine);
+}
+
+pattern initialState(initialState: uml::Pseudostate) {
+	find toplevelInitialState(_, initialState);
+} or {
+	find childInitialState(_, initialState);
+}
+
+pattern toplevelInitialState(stateMachine: uml::StateMachine, initialState: uml::Pseudostate) {
+	uml::StateMachine.region(stateMachine, region);
+	Region.subvertex(region, initialState);
+	uml::Pseudostate.kind(initialState, ::initial);
+}
+
+pattern childInitialState(state: uml::State, initialState: uml::Pseudostate) {
+	uml::State.region(state, region);
+	Region.subvertex(region, initialState);
+	uml::Pseudostate.kind(initialState, ::initial);
+}
+
+pattern state(state: uml::State) {
+	find toplevelState(_, state);
+} or {
+	find childState(_, state);
+}
+
+pattern toplevelState(stateMachine: uml::StateMachine, state: uml::State) {
+	uml::StateMachine.region(stateMachine, region);
+	Region.subvertex(region, state);
+}
+
+pattern childState(superstate: uml::State, substate: uml::State) {
+	uml::State.region(superstate, region);
+	Region.subvertex(region, substate);
+}
+
+pattern transition(stateMachine: uml::StateMachine, transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
+	uml::StateMachine.region(stateMachine, region);
+	uml::Region.transition(region, transition);
+	Region.subvertex(region, sourceState);
+	Region.subvertex(region, targetState);
+	uml::Transition.source(transition, sourceState);
+	uml::Transition.target(transition, targetState);
+}

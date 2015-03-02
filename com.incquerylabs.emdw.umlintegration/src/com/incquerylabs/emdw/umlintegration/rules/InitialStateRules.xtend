@@ -68,11 +68,11 @@ class ToplevelInitialStateMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 
 	override findParent(ToplevelInitialStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.stateMachine).head as StateMachine
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
 	}
 	
 	override findChild(ToplevelInitialStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.initialState).head as InitialPoint
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.initialState).head as InitialPoint
 	}
 	
 	override insertChild(StateMachine parent, InitialPoint child) {
@@ -96,11 +96,11 @@ class ChildInitialStateMapping extends AbstractContainmentRule<ChildInitialState
 	}
 
 	override findParent(ChildInitialStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.state).head as CompositeState
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
 	}
 	
 	override findChild(ChildInitialStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.initialState).head as InitialPoint
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.initialState).head as InitialPoint
 	}
 	
 	override insertChild(CompositeState parent, InitialPoint child) {

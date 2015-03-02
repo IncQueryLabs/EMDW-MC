@@ -1,16 +1,16 @@
 package com.incquerylabs.emdw.umlintegration.test.wrappers
 
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import traceability.UmlToCommon
 
 class QueryResultTraceability extends TransformationWrapper {
 
 	TransformationQrt xform
 	AdvancedIncQueryEngine engine
 
-	override initializeTransformation(UmlToCommon umlToCommon) {
+	override initializeTransformation(RootMapping umlToCommon) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(umlToCommon.eResource.resourceSet))
 		xform = new TransformationQrt
 		xform.initialize(umlToCommon, engine)

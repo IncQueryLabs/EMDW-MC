@@ -1,6 +1,8 @@
 /**
  */
-package traceability.impl;
+package com.incquerylabs.emdw.umlintegration.trace.impl;
+
+import com.incquerylabs.emdw.umlintegration.trace.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -10,32 +12,30 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import traceability.*;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * <!-- end-user-doc -->
  * @generated
  */
-public class TraceabilityFactoryImpl extends EFactoryImpl implements TraceabilityFactory {
+public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	/**
 	 * Creates the default factory implementation.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public static TraceabilityFactory init() {
+	public static TraceFactory init() {
 		try {
-			TraceabilityFactory theTraceabilityFactory = (TraceabilityFactory)EPackage.Registry.INSTANCE.getEFactory(TraceabilityPackage.eNS_URI);
-			if (theTraceabilityFactory != null) {
-				return theTraceabilityFactory;
+			TraceFactory theTraceFactory = (TraceFactory)EPackage.Registry.INSTANCE.getEFactory(TracePackage.eNS_URI);
+			if (theTraceFactory != null) {
+				return theTraceFactory;
 			}
 		}
 		catch (Exception exception) {
 			EcorePlugin.INSTANCE.log(exception);
 		}
-		return new TraceabilityFactoryImpl();
+		return new TraceFactoryImpl();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TraceabilityFactoryImpl() {
+	public TraceFactoryImpl() {
 		super();
 	}
 
@@ -56,8 +56,8 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case TraceabilityPackage.UML_TO_COMMON: return createUmlToCommon();
-			case TraceabilityPackage.UML_TO_COMMON_TRACE: return createUmlToCommonTrace();
+			case TracePackage.ROOT_MAPPING: return createRootMapping();
+			case TracePackage.TRACE: return createTrace();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -68,9 +68,9 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UmlToCommon createUmlToCommon() {
-		UmlToCommonImpl umlToCommon = new UmlToCommonImpl();
-		return umlToCommon;
+	public RootMapping createRootMapping() {
+		RootMappingImpl rootMapping = new RootMappingImpl();
+		return rootMapping;
 	}
 
 	/**
@@ -78,9 +78,9 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public UmlToCommonTrace createUmlToCommonTrace() {
-		UmlToCommonTraceImpl umlToCommonTrace = new UmlToCommonTraceImpl();
-		return umlToCommonTrace;
+	public Trace createTrace() {
+		TraceImpl trace = new TraceImpl();
+		return trace;
 	}
 
 	/**
@@ -88,8 +88,8 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TraceabilityPackage getTraceabilityPackage() {
-		return (TraceabilityPackage)getEPackage();
+	public TracePackage getTracePackage() {
+		return (TracePackage)getEPackage();
 	}
 
 	/**
@@ -99,8 +99,8 @@ public class TraceabilityFactoryImpl extends EFactoryImpl implements Traceabilit
 	 * @generated
 	 */
 	@Deprecated
-	public static TraceabilityPackage getPackage() {
-		return TraceabilityPackage.eINSTANCE;
+	public static TracePackage getPackage() {
+		return TracePackage.eINSTANCE;
 	}
 
-} //TraceabilityFactoryImpl
+} //TraceFactoryImpl

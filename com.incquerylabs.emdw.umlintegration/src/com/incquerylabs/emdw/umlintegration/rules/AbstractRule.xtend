@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import org.apache.log4j.Logger
-import com.incquerylabs.emdw.umlintegration.queries.XformM2M
+import com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns
 import com.incquerylabs.emdw.umlintegration.util.PriorityRuleSpecification
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryEngine
@@ -17,7 +17,7 @@ import static com.google.common.base.Preconditions.*
 abstract class AbstractRule<M extends IPatternMatch> {
 
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension XformM2M transformationPatterns = XformM2M.instance
+	protected extension TransformationPatterns transformationPatterns = TransformationPatterns.instance
 	protected IncQueryEngine engine
 
 	new(IncQueryEngine engine) {
@@ -34,9 +34,9 @@ abstract class AbstractRule<M extends IPatternMatch> {
 	}
 
 	protected def getRootMapping() {
-		val matcher = engine.mappedRoot
+		val matcher = engine.rootMapping
 		checkState(matcher.countMatches == 1, "Incorrect number of mappings!")
-		matcher.oneArbitraryMatch.uml2common
+		matcher.oneArbitraryMatch.rootMapping
 	}
 
 	private def getAppearedJob() {

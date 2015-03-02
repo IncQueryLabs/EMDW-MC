@@ -2,17 +2,17 @@ package com.incquerylabs.emdw.umlintegration.queries
 
 import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
 import "http://www.zeligsoft.com/xtumlrt/common" as common
-import "http://www.example.org/traceability"
+import "http://incquerylabs.com/emdw/umlintegration/trace"
 
-pattern mappedRoot(uml2common, uml, common) {
-	UmlToCommon.uml(uml2common, uml);
-	UmlToCommon.common(uml2common, common);	
+pattern rootMapping(rootMapping, umlRoot, xtumlrtRoot) {
+	RootMapping.umlRoot(rootMapping, umlRoot);
+	RootMapping.xtumlrtRoot(rootMapping, xtumlrtRoot);	
 }
 
-pattern uml2commonTrace(uml2common, trace, umlElement, commonElement) {
-	UmlToCommon.traces(uml2common, trace);
-	UmlToCommonTrace.umlElements(trace, umlElement);
-	UmlToCommonTrace.commonElements(trace, commonElement);
+pattern trace(rootMapping, trace, umlElement, xtumlrtElement) {
+	RootMapping.traces(rootMapping, trace);
+	Trace.umlElements(trace, umlElement);
+	Trace.xtumlrtElements(trace, xtumlrtElement);
 }
 
 pattern behavioredClassifier(umlPackage: uml::Package, behavioredClassifier: BehavioredClassifier) {

@@ -2,11 +2,11 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.uml2.uml.State
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import traceability.UmlToCommon
 
 import static org.junit.Assert.*
 
@@ -35,18 +35,18 @@ class StateMappingTest extends TransformationTest {
 		endTest(testId)
 	}
 	
-	static def getTargetStates(UmlToCommon mapping) {
-		mapping.common.entities.head.behaviour.top.substates
+	static def getTargetStates(RootMapping mapping) {
+		mapping.xtumlrtRoot.entities.head.behaviour.top.substates
 	}
 
-	static def assertMapping(UmlToCommon mapping, State state) {
+	static def assertMapping(RootMapping mapping, State state) {
 		val targetStates = mapping.targetStates
 		assertFalse("State not transformed", targetStates.empty)
 		val targetState = targetStates.head
 		val trace = mapping.traces.findFirst[umlElements.contains(state)]
 		assertNotNull("Trace not created", trace)
 		assertEquals("Trace is not complete (umlElements)", #[state], trace.umlElements)
-		assertEquals("Trace is not complete (commonElements)", #[targetState], trace.commonElements)
+		assertEquals("Trace is not complete (xtumlrtElements)", #[targetState], trace.xtumlrtElements)
 		targetState
 	}
 

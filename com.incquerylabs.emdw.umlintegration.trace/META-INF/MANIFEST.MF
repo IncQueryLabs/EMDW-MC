@@ -6,10 +6,10 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: traceability,
- traceability.impl,
- traceability.util
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.incquerylabs.emdw.umlintegration.trace,
+ com.incquerylabs.emdw.umlintegration.trace.impl,
+ com.incquerylabs.emdw.umlintegration.trace.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  com.zeligsoft.xtumlrt.common.model;bundle-version="0.4.0";visibility:=reexport,

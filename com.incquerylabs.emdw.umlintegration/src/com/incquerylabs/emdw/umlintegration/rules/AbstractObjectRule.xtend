@@ -1,17 +1,17 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
+import com.incquerylabs.emdw.umlintegration.queries.TraceMatch
+import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
-import com.incquerylabs.emdw.umlintegration.queries.Uml2commonTraceMatch
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.NamedElement
-import traceability.TraceabilityFactory
-import org.eclipse.emf.ecore.util.EcoreUtil
 
 abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElement, T extends com.zeligsoft.xtumlrt.common.NamedElement> extends AbstractRule<M> {
 
 	protected CommonFactory targetFactory = CommonFactory.eINSTANCE
-	protected TraceabilityFactory traceFactory = TraceabilityFactory.eINSTANCE
+	protected TraceFactory traceFactory = TraceFactory.eINSTANCE
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -34,7 +34,7 @@ abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElemen
 		val name = sourceObject.name
 		debug('''Updating mapped object with name: «name»''')
 		val traceMatch = findTrace(sourceObject)
-		val targetObject = targetClass.cast(traceMatch.commonElement)
+		val targetObject = targetClass.cast(traceMatch.xtumlrtElement)
 		targetObject.name = name
 		targetObject.updateTargetObject(match)
 		debug('''Updated mapped object with name: «name»''')
@@ -45,32 +45,32 @@ abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElemen
 		val name = sourceObject.name
 		debug('''Removing target object with name: «name»''')
 		val traceMatch = findTrace(sourceObject)
-		val targetObject = targetClass.cast(traceMatch.commonElement)
+		val targetObject = targetClass.cast(traceMatch.xtumlrtElement)
 		removeTargetObjectAndTrace(targetObject, match, traceMatch)
 		debug('''Removed target object with name: «name»''')
 	}
 	
-	private def removeTargetObjectAndTrace(T targetObject, M match, Uml2commonTraceMatch traceMatch) {
+	private def removeTargetObjectAndTrace(T targetObject, M match, TraceMatch traceMatch) {
 		EcoreUtil.remove(targetObject)
 		rootMapping.traces -= traceMatch.trace
 	}
 
 	private def updateTrace(NamedElement sourceObject, com.zeligsoft.xtumlrt.common.NamedElement targetObject) {
-		val traces = engine.uml2commonTrace.getAllValuesOftrace(null, sourceObject, null)
+		val traces = engine.trace.getAllValuesOftrace(null, sourceObject, null)
 		if (traces.empty) {
 			trace('''Creating new trace for new object''')
-			rootMapping.traces += traceFactory.createUmlToCommonTrace => [
+			rootMapping.traces += traceFactory.createTrace => [
 				umlElements += sourceObject
-				commonElements += targetObject
+				xtumlrtElements += targetObject
 			]
 		} else {
 			trace('''Adding new object to existing trace''')
-			traces.head.commonElements += targetObject
+			traces.head.xtumlrtElements += targetObject
 		}
 	}
 
 	private def findTrace(NamedElement sourceObject) {
-		engine.uml2commonTrace.getOneArbitraryMatch(rootMapping, null, sourceObject, null)
+		engine.trace.getOneArbitraryMatch(rootMapping, null, sourceObject, null)
 	}
 
 	protected def Class<? extends T> getTargetClass()

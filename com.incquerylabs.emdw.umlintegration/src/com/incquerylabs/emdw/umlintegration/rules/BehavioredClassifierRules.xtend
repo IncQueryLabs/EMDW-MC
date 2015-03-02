@@ -44,7 +44,7 @@ class BehavioredClassifierMapping extends AbstractObjectRule<BehavioredClassifie
 	}
 
 	def getTargetContainer() {
-		rootMapping.common.entities
+		rootMapping.xtumlrtRoot.entities
 	}
 
 	override protected insertTargetObject(Capsule targetObject, BehavioredClassifierMatch match) {

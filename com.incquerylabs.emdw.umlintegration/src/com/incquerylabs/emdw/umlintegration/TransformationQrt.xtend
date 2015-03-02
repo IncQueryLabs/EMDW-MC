@@ -2,37 +2,37 @@ package com.incquerylabs.emdw.umlintegration
 
 import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableSet
-import java.util.concurrent.TimeUnit
-import org.apache.log4j.Logger
-import com.incquerylabs.emdw.umlintegration.queries.XformM2M
+import com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns
 import com.incquerylabs.emdw.umlintegration.rules.BehavioredClassifierRules
 import com.incquerylabs.emdw.umlintegration.rules.InitialStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
 import com.incquerylabs.emdw.umlintegration.rules.StateRules
 import com.incquerylabs.emdw.umlintegration.rules.TransitionRules
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
+import java.util.concurrent.TimeUnit
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.evm.api.ExecutionSchema
 import org.eclipse.incquery.runtime.evm.specific.ExecutionSchemas
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
-import traceability.UmlToCommon
 
 import static com.google.common.base.Preconditions.*
 
 class TransformationQrt {
 
 	extension Logger logger = Logger.getLogger(class)
-	extension XformM2M patterns = XformM2M.instance
+	extension TransformationPatterns patterns = TransformationPatterns.instance
 
 	ExecutionSchema schema = null
 
-	UmlToCommon mapping
+	RootMapping mapping
 	IncQueryEngine engine
 
-	def initialize(UmlToCommon mapping, IncQueryEngine engine) {
+	def initialize(RootMapping mapping, IncQueryEngine engine) {
 		checkArgument(mapping != null, "Mapping cannot be null!")
-		checkArgument(mapping.uml != null, "Source not defined in mapping!")
-		checkArgument(mapping.common != null, "Target not defined in mapping!")
+		checkArgument(mapping.umlRoot != null, "Source not defined in mapping!")
+		checkArgument(mapping.xtumlrtRoot != null, "Target not defined in mapping!")
 		checkArgument(engine != null, "Engine cannot be null!")
 
 		this.mapping = mapping
@@ -49,7 +49,7 @@ class TransformationQrt {
 			info(
 				'''
 				Executing transformation on:
-					Source: «mapping.uml.name»''')
+					Source: «mapping.umlRoot.name»''')
 
 			debug("Preparing transformation rules.")
 			val watch = Stopwatch.createStarted

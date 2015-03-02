@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
-import com.zeligsoft.xtumlrt.common.CompositeState
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.zeligsoft.xtumlrt.common.CompositeState
 import org.eclipse.uml2.uml.State
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import traceability.UmlToCommon
 
 import static org.junit.Assert.*
 
@@ -37,11 +37,11 @@ class ChildStateMappingTest extends TransformationTest {
 		endTest(testId)
 	}
 	
-	def getTargetStates(UmlToCommon mapping) {
-		mapping.common.entities.head.behaviour.top.substates
+	def getTargetStates(RootMapping mapping) {
+		mapping.xtumlrtRoot.entities.head.behaviour.top.substates
 	}
 
-	def assertMapping(UmlToCommon mapping, State superstate, State substate) {
+	def assertMapping(RootMapping mapping, State superstate, State substate) {
 		val targetSuperstate = assertSuperstateMapping(mapping, superstate)
 		val targetStates = targetSuperstate.substates
 		assertFalse("State not transformed", targetStates.empty)
@@ -49,10 +49,10 @@ class ChildStateMappingTest extends TransformationTest {
 		val trace = mapping.traces.findFirst[umlElements.contains(substate)]
 		assertNotNull("Trace not created", trace)
 		assertEquals("Trace is not complete (umlElements)", #[substate], trace.umlElements)
-		assertEquals("Trace is not complete (commonElements)", #[targetState], trace.commonElements)
+		assertEquals("Trace is not complete (xtumlrtElements)", #[targetState], trace.xtumlrtElements)
 	}
 	
-	def assertSuperstateMapping(UmlToCommon mapping, State superstate) {
+	def assertSuperstateMapping(RootMapping mapping, State superstate) {
 		val targetSuperstate = StateMappingTest.assertMapping(mapping, superstate)
 		assertTrue(targetSuperstate instanceof CompositeState)
 		targetSuperstate as CompositeState

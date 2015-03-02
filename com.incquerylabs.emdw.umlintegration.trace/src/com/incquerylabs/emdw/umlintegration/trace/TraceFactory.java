@@ -1,6 +1,6 @@
 /**
  */
-package traceability;
+package com.incquerylabs.emdw.umlintegration.trace;
 
 import org.eclipse.emf.ecore.EFactory;
 
@@ -9,35 +9,35 @@ import org.eclipse.emf.ecore.EFactory;
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * @see traceability.TraceabilityPackage
+ * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage
  * @generated
  */
-public interface TraceabilityFactory extends EFactory {
+public interface TraceFactory extends EFactory {
 	/**
 	 * The singleton instance of the factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	TraceabilityFactory eINSTANCE = traceability.impl.TraceabilityFactoryImpl.init();
+	TraceFactory eINSTANCE = com.incquerylabs.emdw.umlintegration.trace.impl.TraceFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Uml To Common</em>'.
+	 * Returns a new object of class '<em>Root Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uml To Common</em>'.
+	 * @return a new object of class '<em>Root Mapping</em>'.
 	 * @generated
 	 */
-	UmlToCommon createUmlToCommon();
+	RootMapping createRootMapping();
 
 	/**
-	 * Returns a new object of class '<em>Uml To Common Trace</em>'.
+	 * Returns a new object of class '<em>Trace</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Uml To Common Trace</em>'.
+	 * @return a new object of class '<em>Trace</em>'.
 	 * @generated
 	 */
-	UmlToCommonTrace createUmlToCommonTrace();
+	Trace createTrace();
 
 	/**
 	 * Returns the package supported by this factory.
@@ -46,6 +46,6 @@ public interface TraceabilityFactory extends EFactory {
 	 * @return the package supported by this factory.
 	 * @generated
 	 */
-	TraceabilityPackage getTraceabilityPackage();
+	TracePackage getTracePackage();
 
-} //TraceabilityFactory
+} //TraceFactory

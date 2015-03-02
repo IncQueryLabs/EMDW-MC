@@ -1,5 +1,7 @@
 package com.incquerylabs.emdw.umlintegration.test
 
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
@@ -10,15 +12,13 @@ import org.eclipse.uml2.uml.PseudostateKind
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
-import traceability.TraceabilityFactory
-import traceability.UmlToCommon
 
 class ModelBuilderUtil {
 	
 	protected extension Logger logger = Logger.getLogger(ModelBuilderUtil)
 	protected extension UMLFactory sourceFactory = UMLFactory.eINSTANCE
 	protected extension CommonFactory targetFactory = CommonFactory.eINSTANCE
-	protected extension TraceabilityFactory traceFactory = TraceabilityFactory.eINSTANCE
+	protected extension TraceFactory traceFactory = TraceFactory.eINSTANCE
 	
 	def prepareEmptyModel(String cpsId) {
 		val rs = new ResourceSetImpl()
@@ -35,9 +35,9 @@ class ModelBuilderUtil {
 		]
 		targetRes.contents += targetRoot
 
-		val mapping = createUmlToCommon => [
-			uml = sourceRoot
-			common = targetRoot
+		val mapping = createRootMapping => [
+			umlRoot = sourceRoot
+			xtumlrtRoot = targetRoot
 		]
 		traceRes.contents += mapping
 		mapping
@@ -86,8 +86,8 @@ class ModelBuilderUtil {
 		state
 	}
 
-	def createStateMachine(UmlToCommon mapping) {
-		val class = prepareClass(mapping.uml, "class")
+	def createStateMachine(RootMapping mapping) {
+		val class = prepareClass(mapping.umlRoot, "class")
 		prepareStateMachine(class, "stateMachine")
 	}
 	

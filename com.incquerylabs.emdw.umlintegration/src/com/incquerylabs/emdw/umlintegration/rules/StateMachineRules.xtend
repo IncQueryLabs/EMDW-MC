@@ -45,7 +45,7 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 	}
 
 	def getTargetContainer(StateMachineMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.behavioredClassifier).filter(Capsule).head
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.behavioredClassifier).filter(Capsule).head
 	}
 
 	override insertTargetObject(StateMachine targetObject, StateMachineMatch match) {

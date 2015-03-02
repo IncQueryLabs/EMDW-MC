@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><plugin>
-  <extension id="org.eclipse.incquery.examples.uml.xform.m2m.incr.qrt.queries.XformM2M" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:org.eclipse.incquery.examples.uml.xform.m2m.incr.qrt.queries.XformM2M" id="org.eclipse.incquery.examples.uml.xform.m2m.incr.qrt.queries.XformM2M"/>
+  <extension id="com.incquerylabs.emdw.umlintegration.queries.Transformation" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.Transformation" id="com.incquerylabs.emdw.umlintegration.queries.Transformation"/>
   </extension>
-  <extension id="com.incquerylabs.emdw.umlintegration.queries.XformM2M" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.XformM2M" id="com.incquerylabs.emdw.umlintegration.queries.XformM2M"/>
+  <extension id="com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns" id="com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns"/>
   </extension>
 </plugin>

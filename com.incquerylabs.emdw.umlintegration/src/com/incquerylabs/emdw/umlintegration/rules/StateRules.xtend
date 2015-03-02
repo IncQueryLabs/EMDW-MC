@@ -67,11 +67,11 @@ class ToplevelStateMapping extends AbstractContainmentRule<ToplevelStateMatch, S
 	}
 
 	override findParent(ToplevelStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.stateMachine).head as StateMachine
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
 	}
 	
 	override findChild(ToplevelStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.state).head as State
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
 	}
 	
 	override insertChild(StateMachine parent, State child) {
@@ -95,11 +95,11 @@ class ChildStateMapping extends AbstractContainmentRule<ChildStateMatch, Composi
 	}
 
 	override findParent(ChildStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.superstate).head as CompositeState
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.superstate).head as CompositeState
 	}
 	
 	override findChild(ChildStateMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.substate).head as State
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.substate).head as State
 	}
 	
 	override insertChild(CompositeState parent, State child) {

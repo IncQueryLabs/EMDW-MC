@@ -1,6 +1,8 @@
 /**
  */
-package traceability.util;
+package com.incquerylabs.emdw.umlintegration.trace.util;
+
+import com.incquerylabs.emdw.umlintegration.trace.*;
 
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
@@ -9,24 +11,22 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 
 import org.eclipse.emf.ecore.EObject;
 
-import traceability.*;
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.
  * It provides an adapter <code>createXXX</code> method for each class of the model.
  * <!-- end-user-doc -->
- * @see traceability.TraceabilityPackage
+ * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage
  * @generated
  */
-public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
+public class TraceAdapterFactory extends AdapterFactoryImpl {
 	/**
 	 * The cached model package.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static TraceabilityPackage modelPackage;
+	protected static TracePackage modelPackage;
 
 	/**
 	 * Creates an instance of the adapter factory.
@@ -34,9 +34,9 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TraceabilityAdapterFactory() {
+	public TraceAdapterFactory() {
 		if (modelPackage == null) {
-			modelPackage = TraceabilityPackage.eINSTANCE;
+			modelPackage = TracePackage.eINSTANCE;
 		}
 	}
 
@@ -65,15 +65,15 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TraceabilitySwitch<Adapter> modelSwitch =
-		new TraceabilitySwitch<Adapter>() {
+	protected TraceSwitch<Adapter> modelSwitch =
+		new TraceSwitch<Adapter>() {
 			@Override
-			public Adapter caseUmlToCommon(UmlToCommon object) {
-				return createUmlToCommonAdapter();
+			public Adapter caseRootMapping(RootMapping object) {
+				return createRootMappingAdapter();
 			}
 			@Override
-			public Adapter caseUmlToCommonTrace(UmlToCommonTrace object) {
-				return createUmlToCommonTraceAdapter();
+			public Adapter caseTrace(Trace object) {
+				return createTraceAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -96,30 +96,30 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 
 
 	/**
-	 * Creates a new adapter for an object of class '{@link traceability.UmlToCommon <em>Uml To Common</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping <em>Root Mapping</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see traceability.UmlToCommon
+	 * @see com.incquerylabs.emdw.umlintegration.trace.RootMapping
 	 * @generated
 	 */
-	public Adapter createUmlToCommonAdapter() {
+	public Adapter createRootMappingAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link traceability.UmlToCommonTrace <em>Uml To Common Trace</em>}'.
+	 * Creates a new adapter for an object of class '{@link com.incquerylabs.emdw.umlintegration.trace.Trace <em>Trace</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see traceability.UmlToCommonTrace
+	 * @see com.incquerylabs.emdw.umlintegration.trace.Trace
 	 * @generated
 	 */
-	public Adapter createUmlToCommonTraceAdapter() {
+	public Adapter createTraceAdapter() {
 		return null;
 	}
 
@@ -135,4 +135,4 @@ public class TraceabilityAdapterFactory extends AdapterFactoryImpl {
 		return null;
 	}
 
-} //TraceabilityAdapterFactory
+} //TraceAdapterFactory

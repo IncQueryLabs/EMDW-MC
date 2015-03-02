@@ -1,13 +1,13 @@
 /**
  */
-package traceability.util;
+package com.incquerylabs.emdw.umlintegration.trace.util;
+
+import com.incquerylabs.emdw.umlintegration.trace.*;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
 import org.eclipse.emf.ecore.util.Switch;
-
-import traceability.*;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,17 +19,17 @@ import traceability.*;
  * until a non-null result is returned,
  * which is the result of the switch.
  * <!-- end-user-doc -->
- * @see traceability.TraceabilityPackage
+ * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage
  * @generated
  */
-public class TraceabilitySwitch<T> extends Switch<T> {
+public class TraceSwitch<T> extends Switch<T> {
 	/**
 	 * The cached model package
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected static TraceabilityPackage modelPackage;
+	protected static TracePackage modelPackage;
 
 	/**
 	 * Creates an instance of the switch.
@@ -37,9 +37,9 @@ public class TraceabilitySwitch<T> extends Switch<T> {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public TraceabilitySwitch() {
+	public TraceSwitch() {
 		if (modelPackage == null) {
-			modelPackage = TraceabilityPackage.eINSTANCE;
+			modelPackage = TracePackage.eINSTANCE;
 		}
 	}
 
@@ -66,15 +66,15 @@ public class TraceabilitySwitch<T> extends Switch<T> {
 	@Override
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
-			case TraceabilityPackage.UML_TO_COMMON: {
-				UmlToCommon umlToCommon = (UmlToCommon)theEObject;
-				T result = caseUmlToCommon(umlToCommon);
+			case TracePackage.ROOT_MAPPING: {
+				RootMapping rootMapping = (RootMapping)theEObject;
+				T result = caseRootMapping(rootMapping);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case TraceabilityPackage.UML_TO_COMMON_TRACE: {
-				UmlToCommonTrace umlToCommonTrace = (UmlToCommonTrace)theEObject;
-				T result = caseUmlToCommonTrace(umlToCommonTrace);
+			case TracePackage.TRACE: {
+				Trace trace = (Trace)theEObject;
+				T result = caseTrace(trace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -83,32 +83,32 @@ public class TraceabilitySwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uml To Common</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Root Mapping</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uml To Common</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Root Mapping</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUmlToCommon(UmlToCommon object) {
+	public T caseRootMapping(RootMapping object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Uml To Common Trace</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Trace</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Uml To Common Trace</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Trace</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseUmlToCommonTrace(UmlToCommonTrace object) {
+	public T caseTrace(Trace object) {
 		return null;
 	}
 
@@ -128,4 +128,4 @@ public class TraceabilitySwitch<T> extends Switch<T> {
 		return null;
 	}
 
-} //TraceabilitySwitch
+} //TraceSwitch

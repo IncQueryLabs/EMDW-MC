@@ -46,17 +46,15 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 	}
 
 	def updateSourceVertex(Transition targetObject, TransitionMatch match) {
-		val commonSource = engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.sourceState).head as Vertex
-		targetObject.sourceVertex = commonSource
+		targetObject.sourceVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.sourceState).head as Vertex
 	}
 
 	def updateTargetVertex(Transition targetObject, TransitionMatch match) {
-		val commonTarget = engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.targetState).head as Vertex
-		targetObject.targetVertex = commonTarget
+		targetObject.targetVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.targetState).head as Vertex
 	}
 
 	def getTargetContainer(TransitionMatch match) {
-		engine.uml2commonTrace.getAllValuesOfcommonElement(null, null, match.stateMachine).filter(StateMachine).head.top.transitions
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).filter(StateMachine).head.top.transitions
 	}
 	
 	override protected insertTargetObject(Transition targetObject, TransitionMatch match) {

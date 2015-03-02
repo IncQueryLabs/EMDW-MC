@@ -6,15 +6,16 @@
     usedGenPackages="../../com.zeligsoft.xtumlrt.common.model/model/common.genmodel#//common ../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../com.zeligsoft.xtumlrt.transformation.model/model/transformationmodel.genmodel#//transformationmodel ../../org.eclipse.uml2.types/model/Types.genmodel#//types ../../org.eclipse.uml2.uml/model/UML.genmodel#//uml"
     operationReflection="true" importOrganizing="true">
   <foreignModel>trace.ecore</foreignModel>
-  <genPackages prefix="Traceability" disposableProviderFactory="true" ecorePackage="trace.ecore#/">
-    <genClasses ecoreClass="trace.ecore#//UmlToCommon">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//UmlToCommon/uml"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//UmlToCommon/common"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference trace.ecore#//UmlToCommon/traces"/>
+  <genPackages prefix="Trace" basePackage="com.incquerylabs.emdw.umlintegration" disposableProviderFactory="true"
+      ecorePackage="trace.ecore#/">
+    <genClasses ecoreClass="trace.ecore#//RootMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//RootMapping/umlRoot"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//RootMapping/xtumlrtRoot"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference trace.ecore#//RootMapping/traces"/>
     </genClasses>
-    <genClasses ecoreClass="trace.ecore#//UmlToCommonTrace">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//UmlToCommonTrace/umlElements"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//UmlToCommonTrace/commonElements"/>
+    <genClasses ecoreClass="trace.ecore#//Trace">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//Trace/umlElements"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference trace.ecore#//Trace/xtumlrtElements"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

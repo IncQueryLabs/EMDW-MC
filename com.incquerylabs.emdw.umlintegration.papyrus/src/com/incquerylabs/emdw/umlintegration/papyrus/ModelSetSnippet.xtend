@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.umlintegration.papyrus
 
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
@@ -12,7 +13,6 @@ import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.resource.UMLResource
-import traceability.TraceabilityFactory
 
 class ModelSetSnippet implements IModelSetSnippet {
 
@@ -36,10 +36,10 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val targetRoot = targetFactory.createPackage
 		createResource(sourceResource, "xtumlrt", targetRoot, modelSet, resourceSet)
 
-		val traceFactory = TraceabilityFactory.eINSTANCE
-		val mapping = traceFactory.createUmlToCommon => [
-			uml = sourceResource.contents.filter(Package).head
-			common = targetRoot
+		val traceFactory = TraceFactory.eINSTANCE
+		val mapping = traceFactory.createRootMapping => [
+			umlRoot = sourceResource.contents.filter(Package).head
+			xtumlrtRoot = targetRoot
 		]
 		createResource(sourceResource, "trace", mapping, modelSet, resourceSet)
 		

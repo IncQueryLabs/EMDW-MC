@@ -2,12 +2,12 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.Transition
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import traceability.UmlToCommon
 
 import static org.junit.Assert.*
 
@@ -37,24 +37,24 @@ class TransitionMappingTest extends TransformationTest {
 		endTest(testId)
 	}
 	
-	def assertMapping(UmlToCommon mapping, Transition umlTransition, State umlSourceState, State umlTargetState) {
+	def assertMapping(RootMapping mapping, Transition umlTransition, State umlSourceState, State umlTargetState) {
 		val targetTransitions = mapping.targetTransitions
 		assertFalse("Transition not transformed", targetTransitions.empty)
-		val commonTransition = targetTransitions.head
+		val xtumlrtTransition = targetTransitions.head
 		val trace = mapping.traces.findFirst[umlElements.contains(umlTransition)]
 		assertNotNull("Trace not created", trace)
 		assertEquals("Trace is not complete (umlElements)", #[umlTransition], trace.umlElements)
-		assertEquals("Trace is not complete (commonElements)", #[commonTransition], trace.commonElements)
+		assertEquals("Trace is not complete (xtumlrtElements)", #[xtumlrtTransition], trace.xtumlrtElements)
 		
-		val commonSourceState = mapping.traces.findFirst[umlElements.contains(umlSourceState)].commonElements.head
-		val commonTargetState = mapping.traces.findFirst[umlElements.contains(umlTargetState)].commonElements.head
-		assertEquals("Transition source transition", commonSourceState, commonTransition.sourceVertex)
-		assertEquals("Transition target transition", commonTargetState, commonTransition.targetVertex)
+		val xtumlrtSourceState = mapping.traces.findFirst[umlElements.contains(umlSourceState)].xtumlrtElements.head
+		val xtumlrtTargetState = mapping.traces.findFirst[umlElements.contains(umlTargetState)].xtumlrtElements.head
+		assertEquals("Transition source transition", xtumlrtSourceState, xtumlrtTransition.sourceVertex)
+		assertEquals("Transition target transition", xtumlrtTargetState, xtumlrtTransition.targetVertex)
 		
 	}
 
-	def getTargetTransitions(UmlToCommon mapping) {
-		mapping.common.entities.head.behaviour.top.transitions
+	def getTargetTransitions(RootMapping mapping) {
+		mapping.xtumlrtRoot.entities.head.behaviour.top.transitions
 	}
 	
 	@Test

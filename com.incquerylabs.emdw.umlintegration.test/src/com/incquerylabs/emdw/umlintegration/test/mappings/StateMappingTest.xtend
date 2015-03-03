@@ -22,10 +22,10 @@ class StateMappingTest extends TransformationTest {
 		val testId = "single"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 		
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val state = modelBuilder.prepareState(stateMachine, "foo")
+		val state = modelBuilder.createState(stateMachine, "state")
 				
 		mapping.initializeTransformation
 		executeTransformation
@@ -35,19 +35,19 @@ class StateMappingTest extends TransformationTest {
 		endTest(testId)
 	}
 	
-	static def getTargetStates(RootMapping mapping) {
+	static def getXtumlrtStates(RootMapping mapping) {
 		mapping.xtumlrtRoot.entities.head.behaviour.top.substates
 	}
 
 	static def assertMapping(RootMapping mapping, State state) {
-		val targetStates = mapping.targetStates
-		assertFalse("State not transformed", targetStates.empty)
-		val targetState = targetStates.head
+		val xtumlrtStates = mapping.xtumlrtStates
+		assertFalse("State not transformed", xtumlrtStates.empty)
+		val xtumlrtState = xtumlrtStates.head
 		val trace = mapping.traces.findFirst[umlElements.contains(state)]
 		assertNotNull("Trace not created", trace)
 		assertEquals("Trace is not complete (umlElements)", #[state], trace.umlElements)
-		assertEquals("Trace is not complete (xtumlrtElements)", #[targetState], trace.xtumlrtElements)
-		targetState
+		assertEquals("Trace is not complete (xtumlrtElements)", #[xtumlrtState], trace.xtumlrtElements)
+		xtumlrtState
 	}
 
 	@Test
@@ -55,13 +55,13 @@ class StateMappingTest extends TransformationTest {
 		val testId = "incremental"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 				
 		mapping.initializeTransformation
 		executeTransformation
 
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val state = modelBuilder.prepareState(stateMachine, "foo")
+		val state = modelBuilder.createState(stateMachine, "state")
 		executeTransformation
 
 		mapping.assertMapping(state)
@@ -74,20 +74,20 @@ class StateMappingTest extends TransformationTest {
 		val testId = "remove"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val state = modelBuilder.prepareState(stateMachine, "foo")
+		val state = modelBuilder.createState(stateMachine, "state")
 
 		mapping.initializeTransformation
 		executeTransformation
 
 		mapping.assertMapping(state)
 
-		info("Removing state from source model")
+		info("Removing state from uml model")
 		stateMachine.regions.head.subvertices -= state
 		executeTransformation
 
-		assertTrue("State not removed from target model", mapping.targetStates.empty)
+		assertTrue("State not removed from xtumlrt model", mapping.xtumlrtStates.empty)
 		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(state)])
 
 		endTest(testId)

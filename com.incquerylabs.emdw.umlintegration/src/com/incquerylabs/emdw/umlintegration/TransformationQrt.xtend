@@ -48,8 +48,7 @@ class TransformationQrt {
 		if (schema == null) {
 			info(
 				'''
-				Executing transformation on:
-					Source: «mapping.umlRoot.name»''')
+				Executing transformation on «mapping.umlRoot.name»''')
 
 			debug("Preparing transformation rules.")
 			val watch = Stopwatch.createStarted

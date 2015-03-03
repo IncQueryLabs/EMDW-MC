@@ -18,36 +18,36 @@ class ModelSetSnippet implements IModelSetSnippet {
 
 	val transformation = new TransformationQrt
 
-	override start(ModelSet modelsManager) {
-		ImmutableList.copyOf(modelsManager.resources.filter(UMLResource)).forEach [ resource |
+	override start(ModelSet modelSet) {
+		ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
 			if (!resource.contents.filter(Package).empty) {
-				val mapping = createMapping(resource, modelsManager)
-				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new MultiEMFScope(#{resource, mapping.eResource.resourceSet}))
+				val mapping = createMapping(resource, modelSet)
+				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new MultiEMFScope(#{resource, mapping.eResource.resourceSet})) // TODO change to EMFScope when https://bugs.eclipse.org/bugs/show_bug.cgi?id=460722 is fixed
 				transformation.initialize(mapping, engine)
 				transformation.execute
 			}
 		]
 	}
 
-	def createMapping(Resource sourceResource, ModelSet modelSet) {
+	def createMapping(Resource umlResource, ModelSet modelSet) {
 		val resourceSet = new ResourceSetImpl
 		
-		val targetFactory = CommonFactory.eINSTANCE
-		val targetRoot = targetFactory.createPackage
-		createResource(sourceResource, "xtumlrt", targetRoot, modelSet, resourceSet)
+		val commonFactory = CommonFactory.eINSTANCE
+		val xtumlrtPackage = commonFactory.createPackage
+		createResource(umlResource, "xtumlrt", xtumlrtPackage, modelSet, resourceSet)
 
 		val traceFactory = TraceFactory.eINSTANCE
 		val mapping = traceFactory.createRootMapping => [
-			umlRoot = sourceResource.contents.filter(Package).head
-			xtumlrtRoot = targetRoot
+			umlRoot = umlResource.contents.filter(Package).head
+			xtumlrtRoot = xtumlrtPackage
 		]
-		createResource(sourceResource, "trace", mapping, modelSet, resourceSet)
+		createResource(umlResource, "trace", mapping, modelSet, resourceSet)
 		
 		mapping
 	}
 	
-	def createResource(Resource sourceResource, String fileExtension, EObject root, ModelSet modelSet, ResourceSet resourceSet) {
-		val uriWithoutExtension = sourceResource.getURI.trimFileExtension
+	def createResource(Resource umlResource, String fileExtension, EObject root, ModelSet modelSet, ResourceSet resourceSet) {
+		val uriWithoutExtension = umlResource.getURI.trimFileExtension
 		val uri = uriWithoutExtension.appendFileExtension(fileExtension)
 		val resource = resourceSet.createResource(uri)
 		resource.contents += root

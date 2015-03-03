@@ -24,7 +24,7 @@ class StateMapping extends AbstractObjectRule<StateMatch, org.eclipse.uml2.uml.S
 		super(engine)
 	}
 
-	override getTargetClass() {
+	override getXtumlrtClass() {
 		State
 	}
 	
@@ -36,18 +36,18 @@ class StateMapping extends AbstractObjectRule<StateMatch, org.eclipse.uml2.uml.S
 		state
 	}
 
-	override getSourceObject(StateMatch match) {
+	override getUmlObject(StateMatch match) {
 		match.state
 	}
 
-	override createTargetObject(org.eclipse.uml2.uml.State sourceObject, StateMatch match) {
-		targetFactory.createCompositeState // XXX should be SimpleState if UML state is not composite, but update is problematic
+	override createXtumlrtObject(org.eclipse.uml2.uml.State umlObject, StateMatch match) {
+		commonFactory.createCompositeState // XXX should be SimpleState if UML state is not composite, but update is problematic
 	}
 
-	override updateTargetObject(State targetObject, StateMatch match) {
+	override updateXtumlrtObject(State xtumlrtObject, StateMatch match) {
 	}
 	
-	override insertTargetObject(State targetObject, StateMatch match) {
+	override insertXtumlrtObject(State xtumlrtObject, StateMatch match) {
 	}
 
 }

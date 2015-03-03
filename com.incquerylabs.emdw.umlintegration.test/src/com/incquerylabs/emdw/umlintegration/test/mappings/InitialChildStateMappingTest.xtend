@@ -23,30 +23,30 @@ class InitialChildStateMappingTest extends TransformationTest {
 		val testId = "single"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 		
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val superstate = modelBuilder.prepareSuperstate(stateMachine, "foo")
-		val initialState = modelBuilder.prepareInitialChildState(superstate, "initialState")
+		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
+		val initialChildState = modelBuilder.createInitialChildState(parentState, "initialChildState")
 				
 		mapping.initializeTransformation
 		executeTransformation
 
-		mapping.assertMapping(initialState)
+		mapping.assertMapping(initialChildState)
 		
 		endTest(testId)
 	}
 	
-	def assertMapping(RootMapping mapping, Pseudostate initialState) {
-		val targetInitialState = mapping.targetInitialState
-		assertNotNull("Initial state not transformed", targetInitialState)
-		val trace = mapping.traces.findFirst[umlElements.contains(initialState)]
+	def assertMapping(RootMapping mapping, Pseudostate initialChildState) {
+		val xtumlrtInitialState = mapping.xtumlrtInitialState
+		assertNotNull("Initial state not transformed", xtumlrtInitialState)
+		val trace = mapping.traces.findFirst[umlElements.contains(initialChildState)]
 		assertNotNull("Trace not created", trace)
-		assertEquals("Trace is not complete (umlElements)", #[initialState], trace.umlElements)
-		assertEquals("Trace is not complete (xtumlrtElements)", #[targetInitialState], trace.xtumlrtElements)
+		assertEquals("Trace is not complete (umlElements)", #[initialChildState], trace.umlElements)
+		assertEquals("Trace is not complete (xtumlrtElements)", #[xtumlrtInitialState], trace.xtumlrtElements)
 	}
 	
-	def getTargetInitialState(RootMapping mapping) {
+	def getXtumlrtInitialState(RootMapping mapping) {
 		(mapping.xtumlrtRoot.entities.head.behaviour.top.substates.head as CompositeState).initial
 	}
 
@@ -55,17 +55,17 @@ class InitialChildStateMappingTest extends TransformationTest {
 		val testId = "incremental"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 				
 		mapping.initializeTransformation
 		executeTransformation
 
 		val stateMachine = createStateMachine(mapping)
-		val superstate = modelBuilder.prepareSuperstate(stateMachine, "foo")
-		val initialState = modelBuilder.prepareInitialChildState(superstate, "initialState")
+		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
+		val initialChildState = modelBuilder.createInitialChildState(parentState, "initialChildState")
 		executeTransformation
 
-		mapping.assertMapping(initialState)
+		mapping.assertMapping(initialChildState)
 		
 		endTest(testId)
 	}
@@ -75,23 +75,23 @@ class InitialChildStateMappingTest extends TransformationTest {
 		val testId = "remove"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 		
 		val stateMachine = createStateMachine(mapping)
-		val superstate = modelBuilder.prepareSuperstate(stateMachine, "foo")
-		val initialState = modelBuilder.prepareInitialChildState(superstate, "initialState")
+		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
+		val initialChildState = modelBuilder.createInitialChildState(parentState, "initialChildState")
 
 		mapping.initializeTransformation
 		executeTransformation
 
-		mapping.assertMapping(initialState)
+		mapping.assertMapping(initialChildState)
 
-		info("Removing initial state from source model")
-		superstate.regions.head.subvertices -= initialState
+		info("Removing initial state from uml model")
+		parentState.regions.head.subvertices -= initialChildState
 		executeTransformation
 
-		assertNull("Initial state not removed from target model", mapping.targetInitialState)
-		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(initialState)])
+		assertNull("Initial state not removed from xtumlrt model", mapping.xtumlrtInitialState)
+		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(initialChildState)])
 
 		endTest(testId)
 	}

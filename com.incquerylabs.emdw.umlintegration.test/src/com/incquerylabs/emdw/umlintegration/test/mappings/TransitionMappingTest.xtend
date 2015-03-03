@@ -23,11 +23,11 @@ class TransitionMappingTest extends TransformationTest {
 		val testId = "single"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val sourceState = modelBuilder.prepareState(stateMachine, "source")
-		val targetState = modelBuilder.prepareState(stateMachine, "target")
-		val transition = modelBuilder.prepareTransition(stateMachine, sourceState, "foo", targetState)
+		val sourceState = modelBuilder.createState(stateMachine, "source")
+		val targetState = modelBuilder.createState(stateMachine, "target")
+		val transition = modelBuilder.createTransition(stateMachine, "transition", sourceState, targetState)
 				
 		mapping.initializeTransformation
 		executeTransformation
@@ -38,9 +38,9 @@ class TransitionMappingTest extends TransformationTest {
 	}
 	
 	def assertMapping(RootMapping mapping, Transition umlTransition, State umlSourceState, State umlTargetState) {
-		val targetTransitions = mapping.targetTransitions
-		assertFalse("Transition not transformed", targetTransitions.empty)
-		val xtumlrtTransition = targetTransitions.head
+		val xtumlrtTransitions = mapping.xtumlrtTransitions
+		assertFalse("Transition not transformed", xtumlrtTransitions.empty)
+		val xtumlrtTransition = xtumlrtTransitions.head
 		val trace = mapping.traces.findFirst[umlElements.contains(umlTransition)]
 		assertNotNull("Trace not created", trace)
 		assertEquals("Trace is not complete (umlElements)", #[umlTransition], trace.umlElements)
@@ -53,7 +53,7 @@ class TransitionMappingTest extends TransformationTest {
 		
 	}
 
-	def getTargetTransitions(RootMapping mapping) {
+	def getXtumlrtTransitions(RootMapping mapping) {
 		mapping.xtumlrtRoot.entities.head.behaviour.top.transitions
 	}
 	
@@ -62,15 +62,15 @@ class TransitionMappingTest extends TransformationTest {
 		val testId = "incremental"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 				
 		mapping.initializeTransformation
 		executeTransformation
 
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val sourceState = modelBuilder.prepareState(stateMachine, "source")
-		val targetState = modelBuilder.prepareState(stateMachine, "target")
-		val transition = modelBuilder.prepareTransition(stateMachine, sourceState, "foo", targetState)
+		val sourceState = modelBuilder.createState(stateMachine, "source")
+		val targetState = modelBuilder.createState(stateMachine, "target")
+		val transition = modelBuilder.createTransition(stateMachine, "transition", sourceState, targetState)
 		executeTransformation
 
 		mapping.assertMapping(transition, sourceState, targetState)
@@ -83,22 +83,22 @@ class TransitionMappingTest extends TransformationTest {
 		val testId = "remove"
 		startTest(testId)
 		
-		val mapping = prepareEmptyModel(testId)
+		val mapping = createRootMapping(testId)
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val sourceState = modelBuilder.prepareState(stateMachine, "source")
-		val targetState = modelBuilder.prepareState(stateMachine, "target")
-		val transition = modelBuilder.prepareTransition(stateMachine, sourceState, "foo", targetState)
+		val sourceState = modelBuilder.createState(stateMachine, "source")
+		val targetState = modelBuilder.createState(stateMachine, "target")
+		val transition = modelBuilder.createTransition(stateMachine, "transition", sourceState, targetState)
 				
 		mapping.initializeTransformation
 		executeTransformation
 
 		mapping.assertMapping(transition, sourceState, targetState)
 
-		info("Removing transition from source model")
+		info("Removing transition from uml model")
 		stateMachine.regions.head.transitions -= transition
 		executeTransformation
 
-		assertTrue("Transition not removed from target model", mapping.targetTransitions.empty)
+		assertTrue("Transition not removed from xtumlrt model", mapping.xtumlrtTransitions.empty)
 		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(transition)])
 
 		endTest(testId)

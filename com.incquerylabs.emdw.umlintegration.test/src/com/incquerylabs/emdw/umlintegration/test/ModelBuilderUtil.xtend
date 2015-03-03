@@ -5,126 +5,125 @@ import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.BehavioredClassifier
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PseudostateKind
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 class ModelBuilderUtil {
 	
 	protected extension Logger logger = Logger.getLogger(ModelBuilderUtil)
-	protected extension UMLFactory sourceFactory = UMLFactory.eINSTANCE
-	protected extension CommonFactory targetFactory = CommonFactory.eINSTANCE
+	protected extension UMLFactory umlFactory = UMLFactory.eINSTANCE
+	protected extension CommonFactory commonFactory = CommonFactory.eINSTANCE
 	protected extension TraceFactory traceFactory = TraceFactory.eINSTANCE
 	
-	def prepareEmptyModel(String cpsId) {
-		val rs = new ResourceSetImpl()
-		val sourceRes = rs.createResource(URI.createURI("dummySourceUri"))
-		val targetRes = rs.createResource(URI.createURI("dummyTargetUri"))
-		val traceRes = rs.createResource(URI.createURI("dummyTraceabilityUri"))
+	def createRootMapping(String umlModelName) {
+		val resourceSet = new ResourceSetImpl
+		val umlResource = resourceSet.createResource(URI.createURI("dummyUmlUri"))
+		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtumlrtUri"))
+		val traceResource = resourceSet.createResource(URI.createURI("dummyTraceUri"))
 		
-		val sourceRoot = sourceFactory.createModel => [
-			name = cpsId
+		val umlModel = umlFactory.createModel => [
+			name = umlModelName
 		]
-		sourceRes.contents += sourceRoot
+		umlResource.contents += umlModel
 		
-		val targetRoot = targetFactory.createPackage => [
-		]
-		targetRes.contents += targetRoot
+		val xtumlrtPackage = commonFactory.createPackage
+		xtumlrtResource.contents += xtumlrtPackage
 
 		val mapping = createRootMapping => [
-			umlRoot = sourceRoot
-			xtumlrtRoot = targetRoot
+			umlRoot = umlModel
+			xtumlrtRoot = xtumlrtPackage
 		]
-		traceRes.contents += mapping
+		traceResource.contents += mapping
 		mapping
 	}
 	
-	def prepareClass(Package umlPackage, String id) {
-		debug('''Adding Class (ID: «id») to «umlPackage.name»''')
-		val class = sourceFactory.createClass => [
-			name = id
+	def createClass(Package umlPackage, String name) {
+		debug('''Adding Class (name: «name») to «umlPackage.name»''')
+		val class = umlFactory.createClass => [
+			it.name = name
 		]
 		umlPackage.packagedElements += class
 		class
 	}
-	
-	def prepareStateMachine(BehavioredClassifier behavioredClassifier, String id) {
-		debug('''Adding StateMachine (ID: «id») to «behavioredClassifier.name»''')
-		val stateMachine = sourceFactory.createStateMachine => [
-			name = id
-			regions += sourceFactory.createRegion
+
+	def createStateMachine(BehavioredClassifier behavioredClassifier, String name) {
+		debug('''Adding StateMachine (name: «name») to «behavioredClassifier.name»''')
+		val stateMachine = umlFactory.createStateMachine => [
+			it.name = name
+			regions += umlFactory.createRegion
 		]
 		behavioredClassifier.classifierBehavior = stateMachine
 		stateMachine
 	}
 
-	def prepareState(StateMachine sm, String stateId) {
-		debug('''Adding state (ID: «stateId») to «sm.name»''')
-		val state = sourceFactory.createState => [
-			name = stateId
+	def createState(StateMachine stateMachine, String name) {
+		debug('''Adding state (name: «name») to «stateMachine.name»''')
+		val state = umlFactory.createState => [
+			it.name = name
 		]
-		sm.regions.head.subvertices += state
+		stateMachine.regions.head.subvertices += state
 		state
 	}
 	
-	def prepareSuperstate(StateMachine sm, String stateId) {
-		prepareState(sm, stateId) => [
-			regions += sourceFactory.createRegion
+	def createParentState(StateMachine stateMachine, String name) {
+		createState(stateMachine, name) => [
+			regions += umlFactory.createRegion
 		]
 	}
 	
-	def prepareSubstate(State superstate, String stateId) {
-		debug('''Adding state (ID: «stateId») to «superstate.name»''')
-		val state = sourceFactory.createState => [
-			name = stateId
+	def createChildState(State parentState, String name) {
+		debug('''Adding state (name: «name») to «parentState.name»''')
+		val state = umlFactory.createState => [
+			it.name = name
 		]
-		superstate.regions.head.subvertices += state
+		parentState.regions.head.subvertices += state
 		state
 	}
 
-	def createStateMachine(RootMapping mapping) {
-		val class = prepareClass(mapping.umlRoot, "class")
-		prepareStateMachine(class, "stateMachine")
+	def createStateMachine(RootMapping rootMapping) {
+		val class = createClass(rootMapping.umlRoot, "class")
+		createStateMachine(class, "stateMachine")
 	}
 	
-	def prepareTransition(StateMachine stateMachine, State sourceState, String transitionID, State targetState) {
-		debug('''Adding transition (ID: «transitionID») between «sourceState.name» and «targetState.name»''')
-		prepareTransitionWithSource(stateMachine, sourceState, transitionID) => [
+	def createTransition(StateMachine stateMachine, String name, State sourceState, State targetState) {
+		debug('''Adding transition (name: «name») between «sourceState.name» and «targetState.name»''')
+		createTransitionWithSource(stateMachine, name, sourceState) => [
 			target = targetState
 		]
 	}
 
-	def prepareTransitionWithSource(StateMachine stateMachine, State sourceState, String transitionID) {
-		val transition = sourceFactory.createTransition => [
-			name = transitionID
+	def createTransitionWithSource(StateMachine stateMachine, String name, State sourceState) {
+		val transition = umlFactory.createTransition => [
+			it.name = name
 			source = sourceState 
 		]
-		stateMachine.regions.head.transitions += transition 
+		stateMachine.regions.head.transitions += transition
 		transition
 	}
 	
-	def prepareInitialState(StateMachine sm, String stateId) {
-		debug('''Adding state (ID: «stateId») to «sm.name»''')
-		val initialState = sourceFactory.createPseudostate => [
-			name = stateId
+	def createInitialState(StateMachine stateMachine, String name) {
+		debug('''Adding state (name: «name») to «stateMachine.name»''')
+		val initialState = umlFactory.createPseudostate => [
+			it.name = name
 			kind = PseudostateKind.INITIAL_LITERAL
 		]
-		sm.regions.head.subvertices += initialState
+		stateMachine.regions.head.subvertices += initialState
 		initialState
 	}
 	
-	def prepareInitialChildState(State state, String stateId) {
-		debug('''Adding state (ID: «stateId») to «state.name»''')
-		val initialState = sourceFactory.createPseudostate => [
-			name = stateId
+	def createInitialChildState(State state, String name) {
+		debug('''Adding state (name: «name») to «state.name»''')
+		val initialChildState = umlFactory.createPseudostate => [
+			it.name = name
 			kind = PseudostateKind.INITIAL_LITERAL
 		]
-		state.regions.head.subvertices += initialState
-		initialState
+		state.regions.head.subvertices += initialChildState
+		initialChildState
 	}
 
 }

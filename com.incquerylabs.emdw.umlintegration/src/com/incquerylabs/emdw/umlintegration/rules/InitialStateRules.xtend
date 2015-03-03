@@ -25,7 +25,7 @@ class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudost
 		super(engine)
 	}
 	
-	override getTargetClass() {
+	override getXtumlrtClass() {
 		InitialPoint
 	}
 
@@ -37,18 +37,18 @@ class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudost
 		initialState
 	}
 
-	override getSourceObject(InitialStateMatch match) {
+	override getUmlObject(InitialStateMatch match) {
 		match.initialState
 	}
 
-	override createTargetObject(Pseudostate sourceObject, InitialStateMatch match) {
-		targetFactory.createInitialPoint
+	override createXtumlrtObject(Pseudostate umlObject, InitialStateMatch match) {
+		commonFactory.createInitialPoint
 	}
 
-	override updateTargetObject(InitialPoint targetObject, InitialStateMatch match) {
+	override updateXtumlrtObject(InitialPoint xtumlrtObject, InitialStateMatch match) {
 	}
 
-	override protected insertTargetObject(InitialPoint targetObject, InitialStateMatch match) {
+	override protected insertXtumlrtObject(InitialPoint xtumlrtObject, InitialStateMatch match) {
 	}
 	
 }

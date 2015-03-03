@@ -12,7 +12,7 @@ Install:
 
 Clone & import:
 
-* [Common Metamodel](https://github.com/IncQueryLabs/EMDW-Mirror-Metamodels)
+* [xtumlrt metamodel](https://github.com/IncQueryLabs/EMDW-Mirror-Metamodels)
 * this repo
 
 Use:

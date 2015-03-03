@@ -17,64 +17,64 @@ class ChildStateMappingTest extends TransformationTest {
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
-	
+
 	@Test
 	def single() {
 		val testId = "single"
 		startTest(testId)
-		
-		val mapping = prepareEmptyModel(testId)
-		
+
+		val mapping = createRootMapping(testId)
+
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val superstate = modelBuilder.prepareSuperstate(stateMachine, "foo")
-		val substate = modelBuilder.prepareSubstate(superstate, "bar")
-				
+		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
+		val childState = modelBuilder.createChildState(parentState, "childState")
+
 		mapping.initializeTransformation
 		executeTransformation
 
-		mapping.assertMapping(superstate, substate)
-		
+		mapping.assertMapping(parentState, childState)
+
 		endTest(testId)
 	}
-	
-	def getTargetStates(RootMapping mapping) {
+
+	def getXtumlrtStates(RootMapping mapping) {
 		mapping.xtumlrtRoot.entities.head.behaviour.top.substates
 	}
 
-	def assertMapping(RootMapping mapping, State superstate, State substate) {
-		val targetSuperstate = assertSuperstateMapping(mapping, superstate)
-		val targetStates = targetSuperstate.substates
-		assertFalse("State not transformed", targetStates.empty)
-		val targetState = targetStates.head
-		val trace = mapping.traces.findFirst[umlElements.contains(substate)]
+	def assertMapping(RootMapping mapping, State parentState, State childState) {
+		val xtumlrtSuperstate = assertParentStateMapping(mapping, parentState)
+		val xtumlrtStates = xtumlrtSuperstate.substates
+		assertFalse("State not transformed", xtumlrtStates.empty)
+		val xtumlrtState = xtumlrtStates.head
+		val trace = mapping.traces.findFirst[umlElements.contains(childState)]
 		assertNotNull("Trace not created", trace)
-		assertEquals("Trace is not complete (umlElements)", #[substate], trace.umlElements)
-		assertEquals("Trace is not complete (xtumlrtElements)", #[targetState], trace.xtumlrtElements)
+		assertEquals("Trace is not complete (umlElements)", #[childState], trace.umlElements)
+		assertEquals("Trace is not complete (xtumlrtElements)", #[xtumlrtState], trace.xtumlrtElements)
 	}
-	
-	def assertSuperstateMapping(RootMapping mapping, State superstate) {
-		val targetSuperstate = StateMappingTest.assertMapping(mapping, superstate)
-		assertTrue(targetSuperstate instanceof CompositeState)
-		targetSuperstate as CompositeState
+
+	def assertParentStateMapping(RootMapping mapping, State parentState) {
+		val xtumlrtSuperstate = StateMappingTest.assertMapping(mapping, parentState)
+		assertTrue(xtumlrtSuperstate instanceof CompositeState)
+		xtumlrtSuperstate as CompositeState
 	}
 
 	@Test
 	def incremental() {
 		val testId = "incremental"
 		startTest(testId)
-		
-		val mapping = prepareEmptyModel(testId)
-				
+
+		val mapping = createRootMapping(testId)
+
 		mapping.initializeTransformation
 		executeTransformation
 
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val superstate = modelBuilder.prepareSuperstate(stateMachine, "foo")
-		val substate = modelBuilder.prepareSubstate(superstate, "bar")
+		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
+		val childState = modelBuilder.createChildState(parentState, "childState")
 		executeTransformation
 
-		mapping.assertMapping(superstate, substate)
-		
+		mapping.assertMapping(parentState, childState)
+
 		endTest(testId)
 	}
 
@@ -82,26 +82,26 @@ class ChildStateMappingTest extends TransformationTest {
 	def remove() {
 		val testId = "remove"
 		startTest(testId)
-		
-		val mapping = prepareEmptyModel(testId)
+
+		val mapping = createRootMapping(testId)
 		val stateMachine = modelBuilder.createStateMachine(mapping)
-		val superstate = modelBuilder.prepareSuperstate(stateMachine, "foo")
-		val substate = modelBuilder.prepareSubstate(superstate, "bar")
+		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
+		val childState = modelBuilder.createChildState(parentState, "childState")
 
 		mapping.initializeTransformation
 		executeTransformation
 
-		mapping.assertMapping(superstate, substate)
+		mapping.assertMapping(parentState, childState)
 
-		info("Removing state from source model")
-		superstate.regions.head.subvertices -= substate
+		info("Removing state from uml model")
+		parentState.regions.head.subvertices -= childState
 		executeTransformation
 
-		val targetSuperstate = assertSuperstateMapping(mapping, superstate)
-		assertTrue("State not removed from target model", targetSuperstate.substates.empty)
-		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(substate)])
+		val xtumlrtSuperstate = assertParentStateMapping(mapping, parentState)
+		assertTrue("State not removed from xtumlrt model", xtumlrtSuperstate.substates.empty)
+		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(childState)])
 
 		endTest(testId)
 	}
-	
+
 }

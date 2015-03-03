@@ -19,7 +19,7 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 		super(engine)
 	}
 
-	override getTargetClass() {
+	override getXtumlrtClass() {
 		StateMachine
 	}
 	
@@ -31,25 +31,25 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 		stateMachine
 	}
 
-	override getSourceObject(StateMachineMatch match) {
+	override getUmlObject(StateMachineMatch match) {
 		match.stateMachine
 	}
 
-	override createTargetObject(org.eclipse.uml2.uml.StateMachine sourceObject, StateMachineMatch match) {
-		targetFactory.createStateMachine => [
-			top = targetFactory.createCompositeState
+	override createXtumlrtObject(org.eclipse.uml2.uml.StateMachine umlObject, StateMachineMatch match) {
+		commonFactory.createStateMachine => [
+			top = commonFactory.createCompositeState
 		]
 	}
 
-	override updateTargetObject(StateMachine targetObject, StateMachineMatch match) {
+	override updateXtumlrtObject(StateMachine xtumlrtObject, StateMachineMatch match) {
 	}
 
-	def getTargetContainer(StateMachineMatch match) {
+	def getXtumlrtContainer(StateMachineMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.behavioredClassifier).filter(Capsule).head
 	}
 
-	override insertTargetObject(StateMachine targetObject, StateMachineMatch match) {
-		match.targetContainer.behaviour = targetObject
+	override insertXtumlrtObject(StateMachine xtumlrtObject, StateMachineMatch match) {
+		match.xtumlrtContainer.behaviour = xtumlrtObject
 	}
 	
 }

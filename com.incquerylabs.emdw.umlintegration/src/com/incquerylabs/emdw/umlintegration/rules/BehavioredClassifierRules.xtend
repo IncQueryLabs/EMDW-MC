@@ -19,7 +19,7 @@ class BehavioredClassifierMapping extends AbstractObjectRule<BehavioredClassifie
 		super(engine)
 	}
 
-	override getTargetClass() {
+	override getXtumlrtClass() {
 		Capsule
 	}
 	
@@ -31,24 +31,24 @@ class BehavioredClassifierMapping extends AbstractObjectRule<BehavioredClassifie
 		behavioredClassifier
 	}
 
-	override getSourceObject(BehavioredClassifierMatch match) {
+	override getUmlObject(BehavioredClassifierMatch match) {
 		match.behavioredClassifier
 	}
 
-	override createTargetObject(BehavioredClassifier sourceObject, BehavioredClassifierMatch match) {
-		targetFactory.createCapsule
+	override createXtumlrtObject(BehavioredClassifier umlObject, BehavioredClassifierMatch match) {
+		commonFactory.createCapsule
 	}
 
-	override updateTargetObject(Capsule targetObject, BehavioredClassifierMatch match) {
+	override updateXtumlrtObject(Capsule xtumlrtObject, BehavioredClassifierMatch match) {
 		// TODO
 	}
 
-	def getTargetContainer() {
+	def getXtumlrtContainer() {
 		rootMapping.xtumlrtRoot.entities
 	}
 
-	override protected insertTargetObject(Capsule targetObject, BehavioredClassifierMatch match) {
-		targetContainer += targetObject
+	override protected insertXtumlrtObject(Capsule xtumlrtObject, BehavioredClassifierMatch match) {
+		xtumlrtContainer += xtumlrtObject
 	}
 	
 }

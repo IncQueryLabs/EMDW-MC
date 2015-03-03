@@ -20,7 +20,7 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 		super(engine)
 	}
 	
-	override getTargetClass() {
+	override getXtumlrtClass() {
 		Transition
 	}
 	
@@ -32,33 +32,33 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 		transition
 	}
 
-	override getSourceObject(TransitionMatch match) {
+	override getUmlObject(TransitionMatch match) {
 		match.transition
 	}
 
-	override createTargetObject(org.eclipse.uml2.uml.Transition sourceObject, TransitionMatch match) {
-		targetFactory.createTransition
+	override createXtumlrtObject(org.eclipse.uml2.uml.Transition umlObject, TransitionMatch match) {
+		commonFactory.createTransition
 	}
 
-	override updateTargetObject(Transition targetObject, TransitionMatch match) {
-		updateSourceVertex(targetObject, match)
-		updateTargetVertex(targetObject, match)
+	override updateXtumlrtObject(Transition xtumlrtObject, TransitionMatch match) {
+		updateSourceVertex(xtumlrtObject, match)
+		updateTargetVertex(xtumlrtObject, match)
 	}
 
-	def updateSourceVertex(Transition targetObject, TransitionMatch match) {
-		targetObject.sourceVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.sourceState).head as Vertex
+	def updateSourceVertex(Transition xtumlrtObject, TransitionMatch match) {
+		xtumlrtObject.sourceVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.sourceState).head as Vertex
 	}
 
-	def updateTargetVertex(Transition targetObject, TransitionMatch match) {
-		targetObject.targetVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.targetState).head as Vertex
+	def updateTargetVertex(Transition xtumlrtObject, TransitionMatch match) {
+		xtumlrtObject.targetVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.targetState).head as Vertex
 	}
 
-	def getTargetContainer(TransitionMatch match) {
+	def getXtumlrtContainer(TransitionMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).filter(StateMachine).head.top.transitions
 	}
 	
-	override protected insertTargetObject(Transition targetObject, TransitionMatch match) {
-		match.targetContainer += targetObject
+	override protected insertXtumlrtObject(Transition xtumlrtObject, TransitionMatch match) {
+		match.xtumlrtContainer += xtumlrtObject
 	}
 	
 }

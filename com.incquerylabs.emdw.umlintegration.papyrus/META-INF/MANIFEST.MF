@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: EMDW UML Integration - Papyrus
+Bundle-Name: EMDW UML Integration - Papyrus Support
 Bundle-SymbolicName: com.incquerylabs.emdw.umlintegration.papyrus;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,

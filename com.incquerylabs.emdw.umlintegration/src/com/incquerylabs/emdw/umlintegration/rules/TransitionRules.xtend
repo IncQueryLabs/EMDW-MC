@@ -1,15 +1,20 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.StateMachine
+import com.incquerylabs.emdw.umlintegration.queries.TransitionMatch
 import com.zeligsoft.xtumlrt.common.Transition
 import com.zeligsoft.xtumlrt.common.Vertex
-import com.incquerylabs.emdw.umlintegration.queries.TransitionMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelTransitionMatch
+import com.zeligsoft.xtumlrt.common.StateMachine
+import com.incquerylabs.emdw.umlintegration.queries.ChildTransitionMatch
+import com.zeligsoft.xtumlrt.common.CompositeState
 
 class TransitionRules {
 	static def getRules(IncQueryEngine engine) {
 		#{
-			new TransitionMapping(engine).specification
+			new TransitionMapping(engine).specification,
+			new ToplevelTransitionMapping(engine).specification,
+			new ChildTransitionMapping(engine).specification
 		}
 	}
 }
@@ -53,12 +58,63 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 		xtumlrtObject.targetVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.targetState).head as Vertex
 	}
 
-	def getXtumlrtContainer(TransitionMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).filter(StateMachine).head.top.transitions
-	}
-	
 	override protected insertXtumlrtObject(Transition xtumlrtObject, TransitionMatch match) {
-		match.xtumlrtContainer += xtumlrtObject
 	}
 	
+}
+
+class ToplevelTransitionMapping extends AbstractContainmentRule<ToplevelTransitionMatch, StateMachine, Transition> {
+
+	new(IncQueryEngine engine) {
+		super(engine)
+	}
+	
+	override getRulePriority() {
+		6
+	}
+
+	override getQuerySpecification() {
+		toplevelTransition
+	}
+
+	override findParent(ToplevelTransitionMatch match) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+	}
+	
+	override findChild(ToplevelTransitionMatch match) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+	}
+	
+	override insertChild(StateMachine parent, Transition child) {
+		parent.top.transitions += child
+	}
+
+}
+
+class ChildTransitionMapping extends AbstractContainmentRule<ChildTransitionMatch, CompositeState, Transition> {
+
+	new(IncQueryEngine engine) {
+		super(engine)
+	}
+	
+	override getRulePriority() {
+		6
+	}
+
+	override getQuerySpecification() {
+		childTransition
+	}
+
+	override findParent(ChildTransitionMatch match) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parentState).head as CompositeState
+	}
+	
+	override findChild(ChildTransitionMatch match) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+	}
+	
+	override insertChild(CompositeState parent, Transition child) {
+		parent.transitions += child
+	}
+
 }

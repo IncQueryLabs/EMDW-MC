@@ -12,7 +12,7 @@ import org.junit.runners.Parameterized
 import static org.junit.Assert.*
 
 @RunWith(Parameterized)
-class InitialChildStateMappingTest extends TransformationTest {
+class ChildInitialStateMappingTest extends TransformationTest {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -27,12 +27,12 @@ class InitialChildStateMappingTest extends TransformationTest {
 		
 		val stateMachine = modelBuilder.createStateMachine(mapping)
 		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
-		val initialChildState = modelBuilder.createInitialChildState(parentState, "initialChildState")
+		val childInitialState = modelBuilder.createChildInitialState(parentState, "childInitialState")
 				
 		mapping.initializeTransformation
 		executeTransformation
 
-		mapping.assertMapping(initialChildState)
+		mapping.assertMapping(childInitialState)
 		
 		endTest(testId)
 	}
@@ -47,7 +47,7 @@ class InitialChildStateMappingTest extends TransformationTest {
 	}
 	
 	def getXtumlrtInitialState(RootMapping mapping) {
-		(mapping.xtumlrtRoot.entities.head.behaviour.top.substates.head as CompositeState).initial
+		(ChildStateMappingTest.getXtumlrtStates(mapping).head as CompositeState).initial
 	}
 
 	@Test
@@ -62,7 +62,7 @@ class InitialChildStateMappingTest extends TransformationTest {
 
 		val stateMachine = createStateMachine(mapping)
 		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
-		val initialChildState = modelBuilder.createInitialChildState(parentState, "initialChildState")
+		val initialChildState = modelBuilder.createChildInitialState(parentState, "initialChildState")
 		executeTransformation
 
 		mapping.assertMapping(initialChildState)
@@ -79,7 +79,7 @@ class InitialChildStateMappingTest extends TransformationTest {
 		
 		val stateMachine = createStateMachine(mapping)
 		val parentState = modelBuilder.createParentState(stateMachine, "parentState")
-		val initialChildState = modelBuilder.createInitialChildState(parentState, "initialChildState")
+		val initialChildState = modelBuilder.createChildInitialState(parentState, "initialChildState")
 
 		mapping.initializeTransformation
 		executeTransformation

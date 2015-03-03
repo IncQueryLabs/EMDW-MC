@@ -31,12 +31,15 @@ pattern initialState(initialState: uml::Pseudostate) {
 
 pattern toplevelInitialState(stateMachine: uml::StateMachine, initialState: uml::Pseudostate) {
 	uml::StateMachine.region(stateMachine, region);
-	Region.subvertex(region, initialState);
-	uml::Pseudostate.kind(initialState, ::initial);
+	find initialStateOfRegion(region, initialState);
 }
 
 pattern childInitialState(state: uml::State, initialState: uml::Pseudostate) {
 	uml::State.region(state, region);
+	find initialStateOfRegion(region, initialState);
+}
+
+private pattern initialStateOfRegion(region: Region, initialState: uml::Pseudostate) {
 	Region.subvertex(region, initialState);
 	uml::Pseudostate.kind(initialState, ::initial);
 }
@@ -52,13 +55,28 @@ pattern toplevelState(stateMachine: uml::StateMachine, state: uml::State) {
 	Region.subvertex(region, state);
 }
 
-pattern childState(superstate: uml::State, substate: uml::State) {
-	uml::State.region(superstate, region);
-	Region.subvertex(region, substate);
+pattern childState(parentState: uml::State, state: uml::State) {
+	uml::State.region(parentState, region);
+	Region.subvertex(region, state);
 }
 
-pattern transition(stateMachine: uml::StateMachine, transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
+pattern transition(transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
+	find toplevelTransition(_, transition, sourceState, targetState);
+} or {
+	find childTransition(_, transition, sourceState, targetState);
+}
+
+pattern toplevelTransition(stateMachine: uml::StateMachine, transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
 	uml::StateMachine.region(stateMachine, region);
+	find transitionOfRegion(region, transition, sourceState, targetState);
+}
+
+pattern childTransition(parentState: uml::State, transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
+	uml::State.region(parentState, region);
+	find transitionOfRegion(region, transition, sourceState, targetState);
+}
+
+private pattern transitionOfRegion(region: Region, transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
 	uml::Region.transition(region, transition);
 	Region.subvertex(region, sourceState);
 	Region.subvertex(region, targetState);

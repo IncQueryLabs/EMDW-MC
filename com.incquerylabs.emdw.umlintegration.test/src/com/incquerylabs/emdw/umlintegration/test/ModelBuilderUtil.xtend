@@ -43,7 +43,7 @@ class ModelBuilderUtil {
 	}
 	
 	def createClass(Package umlPackage, String name) {
-		debug('''Adding Class (name: «name») to «umlPackage.name»''')
+		debug('''Adding class (name: «name») to «umlPackage.name»''')
 		val class = umlFactory.createClass => [
 			it.name = name
 		]
@@ -52,7 +52,7 @@ class ModelBuilderUtil {
 	}
 
 	def createStateMachine(BehavioredClassifier behavioredClassifier, String name) {
-		debug('''Adding StateMachine (name: «name») to «behavioredClassifier.name»''')
+		debug('''Adding state machine (name: «name») to «behavioredClassifier.name»''')
 		val stateMachine = umlFactory.createStateMachine => [
 			it.name = name
 			regions += umlFactory.createRegion
@@ -92,22 +92,17 @@ class ModelBuilderUtil {
 	
 	def createTransition(StateMachine stateMachine, String name, State sourceState, State targetState) {
 		debug('''Adding transition (name: «name») between «sourceState.name» and «targetState.name»''')
-		createTransitionWithSource(stateMachine, name, sourceState) => [
-			target = targetState
-		]
-	}
-
-	def createTransitionWithSource(StateMachine stateMachine, String name, State sourceState) {
 		val transition = umlFactory.createTransition => [
 			it.name = name
-			source = sourceState 
+			source = sourceState
+			target = targetState 
 		]
 		stateMachine.regions.head.transitions += transition
 		transition
 	}
 	
 	def createInitialState(StateMachine stateMachine, String name) {
-		debug('''Adding state (name: «name») to «stateMachine.name»''')
+		debug('''Adding initial state (name: «name») to «stateMachine.name»''')
 		val initialState = umlFactory.createPseudostate => [
 			it.name = name
 			kind = PseudostateKind.INITIAL_LITERAL
@@ -116,8 +111,8 @@ class ModelBuilderUtil {
 		initialState
 	}
 	
-	def createInitialChildState(State state, String name) {
-		debug('''Adding state (name: «name») to «state.name»''')
+	def createChildInitialState(State state, String name) {
+		debug('''Adding initial state (name: «name») to «state.name»''')
 		val initialChildState = umlFactory.createPseudostate => [
 			it.name = name
 			kind = PseudostateKind.INITIAL_LITERAL

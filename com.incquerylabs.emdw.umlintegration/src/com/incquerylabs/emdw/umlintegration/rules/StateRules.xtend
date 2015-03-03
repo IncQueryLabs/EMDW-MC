@@ -95,11 +95,11 @@ class ChildStateMapping extends AbstractContainmentRule<ChildStateMatch, Composi
 	}
 
 	override findParent(ChildStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.superstate).head as CompositeState
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parentState).head as CompositeState
 	}
 	
 	override findChild(ChildStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.substate).head as State
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
 	}
 	
 	override insertChild(CompositeState parent, State child) {

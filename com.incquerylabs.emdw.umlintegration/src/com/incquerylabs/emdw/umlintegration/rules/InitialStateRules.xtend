@@ -30,7 +30,7 @@ class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudost
 	}
 
 	override getRulePriority() {
-		3
+		4
 	}
 
 	override getQuerySpecification() {

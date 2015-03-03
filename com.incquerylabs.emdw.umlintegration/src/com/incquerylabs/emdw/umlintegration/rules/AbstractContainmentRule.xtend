@@ -19,7 +19,7 @@ abstract class AbstractContainmentRule<M extends IPatternMatch, P extends NamedE
 		debug('''Mapped containment''')
 	}
 	
-	override protected updated(M m) {
+	override protected updated(M match) {
 	}
 	
 	override disappeared(M match) {

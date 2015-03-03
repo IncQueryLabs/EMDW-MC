@@ -37,7 +37,7 @@ class ChildStateMappingTest extends TransformationTest {
 		endTest(testId)
 	}
 
-	def getXtumlrtStates(RootMapping mapping) {
+	static def getXtumlrtStates(RootMapping mapping) {
 		mapping.xtumlrtRoot.entities.head.behaviour.top.substates
 	}
 

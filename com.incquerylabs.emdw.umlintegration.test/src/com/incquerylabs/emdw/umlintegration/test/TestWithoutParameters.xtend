@@ -8,13 +8,11 @@ class TestWithoutParameters {
 
 	protected extension Logger logger = Logger.getLogger(class)
 	protected extension TransformationWrapper xform
-	protected extension ModelBuilderUtil modelBuilder
-	
+
 	String wrapperType
 	
     new(TransformationWrapper wrapper, String wrapperType){
     	xform = wrapper
-    	modelBuilder = new ModelBuilderUtil
     	this.wrapperType = wrapperType
     }
     

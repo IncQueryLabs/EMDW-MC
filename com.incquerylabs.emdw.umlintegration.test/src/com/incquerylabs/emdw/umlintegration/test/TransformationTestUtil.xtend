@@ -12,15 +12,16 @@ import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.uml2.uml.Region
 
-class ModelBuilderUtil {
+class TransformationTestUtil {
 	
-	protected extension Logger logger = Logger.getLogger(ModelBuilderUtil)
-	protected extension UMLFactory umlFactory = UMLFactory.eINSTANCE
-	protected extension CommonFactory commonFactory = CommonFactory.eINSTANCE
-	protected extension TraceFactory traceFactory = TraceFactory.eINSTANCE
+	static extension Logger logger = Logger.getLogger(TransformationTestUtil)
+	static extension UMLFactory umlFactory = UMLFactory.eINSTANCE
+	static extension CommonFactory commonFactory = CommonFactory.eINSTANCE
+	static extension TraceFactory traceFactory = TraceFactory.eINSTANCE
 	
-	def createRootMapping(String umlModelName) {
+	static def createRootMapping(String umlModelName) {
 		val resourceSet = new ResourceSetImpl
 		val umlResource = resourceSet.createResource(URI.createURI("dummyUmlUri"))
 		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtumlrtUri"))
@@ -42,7 +43,7 @@ class ModelBuilderUtil {
 		mapping
 	}
 	
-	def createClass(Package umlPackage, String name) {
+	static def createClass(Package umlPackage, String name) {
 		debug('''Adding class (name: «name») to «umlPackage.name»''')
 		val class = umlFactory.createClass => [
 			it.name = name
@@ -51,7 +52,7 @@ class ModelBuilderUtil {
 		class
 	}
 
-	def createStateMachine(BehavioredClassifier behavioredClassifier, String name) {
+	static def createStateMachine(BehavioredClassifier behavioredClassifier, String name) {
 		debug('''Adding state machine (name: «name») to «behavioredClassifier.name»''')
 		val stateMachine = umlFactory.createStateMachine => [
 			it.name = name
@@ -61,64 +62,50 @@ class ModelBuilderUtil {
 		stateMachine
 	}
 
-	def createState(StateMachine stateMachine, String name) {
-		debug('''Adding state (name: «name») to «stateMachine.name»''')
+	static def createState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
 		]
-		stateMachine.regions.head.subvertices += state
+		region.subvertices += state
 		state
 	}
 	
-	def createParentState(StateMachine stateMachine, String name) {
-		createState(stateMachine, name) => [
+	static def createParentState(StateMachine stateMachine, String name) {
+		createState(stateMachine.regions.head, name) => [
 			regions += umlFactory.createRegion
 		]
 	}
 	
-	def createChildState(State parentState, String name) {
-		debug('''Adding state (name: «name») to «parentState.name»''')
-		val state = umlFactory.createState => [
-			it.name = name
-		]
-		parentState.regions.head.subvertices += state
-		state
-	}
-
-	def createStateMachine(RootMapping rootMapping) {
+	static def createStateMachine(RootMapping rootMapping) {
 		val class = createClass(rootMapping.umlRoot, "class")
 		createStateMachine(class, "stateMachine")
 	}
 	
-	def createTransition(StateMachine stateMachine, String name, State sourceState, State targetState) {
+	static def createTransition(Region region, String name, State sourceState, State targetState) {
 		debug('''Adding transition (name: «name») between «sourceState.name» and «targetState.name»''')
 		val transition = umlFactory.createTransition => [
 			it.name = name
 			source = sourceState
 			target = targetState 
 		]
-		stateMachine.regions.head.transitions += transition
+		region.transitions += transition
 		transition
 	}
 	
-	def createInitialState(StateMachine stateMachine, String name) {
-		debug('''Adding initial state (name: «name») to «stateMachine.name»''')
+	static def createInitialState(Region region, String name) {
 		val initialState = umlFactory.createPseudostate => [
 			it.name = name
 			kind = PseudostateKind.INITIAL_LITERAL
 		]
-		stateMachine.regions.head.subvertices += initialState
+		region.subvertices += initialState
 		initialState
 	}
 	
-	def createChildInitialState(State state, String name) {
-		debug('''Adding initial state (name: «name») to «state.name»''')
-		val initialChildState = umlFactory.createPseudostate => [
-			it.name = name
-			kind = PseudostateKind.INITIAL_LITERAL
-		]
-		state.regions.head.subvertices += initialChildState
-		initialChildState
+	static def getXtumlrtTopState(RootMapping mapping) {
+		mapping.xtumlrtRoot.entities.head.behaviour.top
 	}
 
+	static def <T> asSet(T object) {
+		#{object}.filterNull
+	}
 }

@@ -3,29 +3,29 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.InitialPoint
-import org.eclipse.uml2.uml.Pseudostate
+import com.zeligsoft.xtumlrt.common.Capsule
+import org.eclipse.uml2.uml.Class
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+
+import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class InitialStateMappingTest extends TransformationTest<Pseudostate, InitialPoint> {
+class ClassMappingTest extends TransformationTest<Class, Capsule> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
-		createInitialState(stateMachine.regions.head, "initialState")
+		createClass(mapping.umlRoot, "class")
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.initial.asSet
+		mapping.xtumlrtRoot.entities.filter(Capsule)
 	}
 	
-	override protected checkState(RootMapping mapping, Pseudostate umlObject, InitialPoint xtumlrtObject) {
+	override protected checkState(RootMapping mapping, Class umlObject, Capsule xtumlrtObject) {
 	}
-	
+
 }

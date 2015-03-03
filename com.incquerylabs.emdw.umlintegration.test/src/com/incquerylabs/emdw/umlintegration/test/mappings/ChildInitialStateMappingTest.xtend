@@ -6,8 +6,10 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.InitialPoint
 import org.eclipse.uml2.uml.Pseudostate
+import org.eclipse.uml2.uml.PseudostateKind
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
@@ -20,7 +22,7 @@ class ChildInitialStateMappingTest extends TransformationTest<Pseudostate, Initi
 	override protected createUmlObject(RootMapping mapping) {
 		val stateMachine = createStateMachine(mapping)
 		val parentState = createParentState(stateMachine, "parentState")
-		createInitialState(parentState.regions.head, "childInitialState")
+		createPseudostate(parentState.regions.head, "childInitialState", PseudostateKind.INITIAL_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {

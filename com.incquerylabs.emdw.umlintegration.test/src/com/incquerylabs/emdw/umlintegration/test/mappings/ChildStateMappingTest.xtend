@@ -26,7 +26,7 @@ class ChildStateMappingTest extends TransformationTest<State, com.zeligsoft.xtum
 	override protected getXtumlrtObjects(RootMapping mapping) {
 		(mapping.xtumlrtTopState.substates.head as CompositeState).substates
 	}
-	
+
 	override protected checkState(RootMapping mapping, State umlObject, com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
 	}
 	

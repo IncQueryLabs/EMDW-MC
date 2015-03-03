@@ -3,6 +3,9 @@ package com.incquerylabs.emdw.umlintegration.test
 import org.apache.log4j.Logger
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import org.junit.After
+import org.junit.BeforeClass
+import org.apache.log4j.Level
+import com.incquerylabs.emdw.umlintegration.rules.AbstractRule
 
 class TestWithoutParameters {
 
@@ -23,6 +26,11 @@ class TestWithoutParameters {
     def endTest(String testId){
     	info('''END TEST: type: «wrapperType» ID: «testId»''')
     }
+    
+    @BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(AbstractRule.LOGGER_NAME).level = Level.DEBUG
+	}
 	
 	@After
 	def cleanup() {

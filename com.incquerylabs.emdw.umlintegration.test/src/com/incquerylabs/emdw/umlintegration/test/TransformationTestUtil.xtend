@@ -92,13 +92,13 @@ class TransformationTestUtil {
 		transition
 	}
 	
-	static def createInitialState(Region region, String name) {
-		val initialState = umlFactory.createPseudostate => [
+	static def createPseudostate(Region region, String name, PseudostateKind kind) {
+		val pseudostate = umlFactory.createPseudostate => [
 			it.name = name
-			kind = PseudostateKind.INITIAL_LITERAL
+			it.kind = kind
 		]
-		region.subvertices += initialState
-		initialState
+		region.subvertices += pseudostate
+		pseudostate
 	}
 	
 	static def getXtumlrtTopState(RootMapping mapping) {

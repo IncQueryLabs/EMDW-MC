@@ -12,21 +12,16 @@ abstract class AbstractContainmentRule<M extends IPatternMatch, P extends NamedE
 	}
 
 	override appeared(M match) {
-		debug('''Mapping containment''')
 		val parent = match.findParent
 		val child = match.findChild
 		parent.insertChild(child)
-		debug('''Mapped containment''')
+		debug('''Added child «child» to parent «parent»''')
 	}
 	
 	override protected updated(M match) {
 	}
 	
 	override disappeared(M match) {
-		debug('''Removing containment''')
-		val child = match.findChild
-		EcoreUtil.remove(child)
-		debug('''Removed containment''')
 	}
 
 	protected def P findParent(M match)

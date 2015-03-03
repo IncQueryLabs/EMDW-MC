@@ -30,7 +30,7 @@ class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudost
 	}
 
 	override getRulePriority() {
-		4
+		5
 	}
 
 	override getQuerySpecification() {
@@ -38,7 +38,7 @@ class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudost
 	}
 
 	override getUmlObject(InitialStateMatch match) {
-		match.initialState
+		match.pseudostate
 	}
 
 	override createXtumlrtObject(Pseudostate umlObject, InitialStateMatch match) {
@@ -60,7 +60,7 @@ class ToplevelInitialStateMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 	
 	override getRulePriority() {
-		5
+		6
 	}
 
 	override getQuerySpecification() {
@@ -72,7 +72,7 @@ class ToplevelInitialStateMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 	
 	override findChild(ToplevelInitialStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.initialState).head as InitialPoint
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as InitialPoint
 	}
 	
 	override insertChild(StateMachine parent, InitialPoint child) {
@@ -88,7 +88,7 @@ class ChildInitialStateMapping extends AbstractContainmentRule<ChildInitialState
 	}
 	
 	override getRulePriority() {
-		5
+		6
 	}
 
 	override getQuerySpecification() {
@@ -100,7 +100,7 @@ class ChildInitialStateMapping extends AbstractContainmentRule<ChildInitialState
 	}
 	
 	override findChild(ChildInitialStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.initialState).head as InitialPoint
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as InitialPoint
 	}
 	
 	override insertChild(CompositeState parent, InitialPoint child) {

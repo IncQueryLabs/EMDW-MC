@@ -4,9 +4,11 @@ import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableSet
 import com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns
 import com.incquerylabs.emdw.umlintegration.rules.BehavioredClassifierRules
+import com.incquerylabs.emdw.umlintegration.rules.ChoiceStateRules
+import com.incquerylabs.emdw.umlintegration.rules.CompositeStateRules
 import com.incquerylabs.emdw.umlintegration.rules.InitialStateRules
+import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
-import com.incquerylabs.emdw.umlintegration.rules.StateRules
 import com.incquerylabs.emdw.umlintegration.rules.TransitionRules
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
@@ -57,7 +59,9 @@ class TransformationQrt {
 			rulesBuilder.addAll(BehavioredClassifierRules.getRules(engine))
 			rulesBuilder.addAll(StateMachineRules.getRules(engine))
 			rulesBuilder.addAll(InitialStateRules.getRules(engine))
-			rulesBuilder.addAll(StateRules.getRules(engine))
+			rulesBuilder.addAll(ChoiceStateRules.getRules(engine))
+			rulesBuilder.addAll(SimpleStateRules.getRules(engine))
+			rulesBuilder.addAll(CompositeStateRules.getRules(engine))
 			rulesBuilder.addAll(TransitionRules.getRules(engine))
 			val rules = rulesBuilder.build
 

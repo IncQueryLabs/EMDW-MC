@@ -23,42 +23,92 @@ pattern stateMachine(behavioredClassifier: BehavioredClassifier, stateMachine: u
 	BehavioredClassifier.classifierBehavior(behavioredClassifier, stateMachine);
 }
 
-pattern initialState(initialState: uml::Pseudostate) {
-	find toplevelInitialState(_, initialState);
-} or {
-	find childInitialState(_, initialState);
+private pattern pseudostateOfRegion(region: Region, pseudostate: uml::Pseudostate, kind: PseudostateKind) {
+	Region.subvertex(region, pseudostate);
+	uml::Pseudostate.kind(pseudostate, kind);
 }
 
-pattern toplevelInitialState(stateMachine: uml::StateMachine, initialState: uml::Pseudostate) {
+// Initial state
+
+pattern initialState(pseudostate: uml::Pseudostate) {
+	find toplevelInitialState(_, pseudostate);
+} or {
+	find childInitialState(_, pseudostate);
+}
+
+pattern toplevelInitialState(stateMachine: uml::StateMachine, pseudostate: uml::Pseudostate) {
 	uml::StateMachine.region(stateMachine, region);
-	find initialStateOfRegion(region, initialState);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::initial);
 }
 
-pattern childInitialState(state: uml::State, initialState: uml::Pseudostate) {
+pattern childInitialState(state: uml::State, pseudostate: uml::Pseudostate) {
 	uml::State.region(state, region);
-	find initialStateOfRegion(region, initialState);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::initial);
 }
 
-private pattern initialStateOfRegion(region: Region, initialState: uml::Pseudostate) {
-	Region.subvertex(region, initialState);
-	uml::Pseudostate.kind(initialState, ::initial);
-}
+// Choice state
 
-pattern state(state: uml::State) {
-	find toplevelState(_, state);
+pattern choiceState(pseudostate: uml::Pseudostate) {
+	find toplevelChoiceState(_, pseudostate);
 } or {
-	find childState(_, state);
+	find childChoiceState(_, pseudostate);
 }
 
-pattern toplevelState(stateMachine: uml::StateMachine, state: uml::State) {
+pattern toplevelChoiceState(stateMachine: uml::StateMachine, pseudostate: uml::Pseudostate) {
+	uml::StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::choice);
+}
+
+pattern childChoiceState(state: uml::State, pseudostate: uml::Pseudostate) {
+	uml::State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::choice);
+}
+
+// Simple state
+
+pattern simpleState(state: uml::State) {
+	find toplevelSimpleState(_, state);
+} or {
+	find childSimpleState(_, state);
+}
+
+pattern toplevelSimpleState(stateMachine: uml::StateMachine, state: uml::State) {
 	uml::StateMachine.region(stateMachine, region);
 	Region.subvertex(region, state);
+	neg find region(state, _);
 }
 
-pattern childState(parentState: uml::State, state: uml::State) {
+pattern childSimpleState(parentState: uml::State, state: uml::State) {
 	uml::State.region(parentState, region);
 	Region.subvertex(region, state);
+	neg find region(state, _);
 }
+
+// Composite state
+
+pattern compositeState(state: uml::State) {
+	find toplevelCompositeState(_, state);
+} or {
+	find childCompositeState(_, state);
+}
+
+pattern toplevelCompositeState(stateMachine: uml::StateMachine, state: uml::State) {
+	uml::StateMachine.region(stateMachine, region);
+	Region.subvertex(region, state);
+	find region(state, _);
+}
+
+pattern childCompositeState(parentState: uml::State, state: uml::State) {
+	uml::State.region(parentState, region);
+	Region.subvertex(region, state);
+	find region(state, _);
+}
+
+private pattern region(state: uml::State, region: Region) {
+	uml::State.region(state, region);
+}
+
+// Transition
 
 pattern transition(transition: uml::Transition, sourceState: uml::Vertex, targetState: uml::Vertex) {
 	find toplevelTransition(_, transition, sourceState, targetState);

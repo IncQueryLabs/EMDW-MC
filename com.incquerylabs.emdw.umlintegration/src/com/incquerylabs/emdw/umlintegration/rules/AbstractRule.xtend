@@ -16,8 +16,7 @@ import static com.google.common.base.Preconditions.*
 
 abstract class AbstractRule<M extends IPatternMatch> {
 
-	public static val LOGGER_NAME = "com.incquerylabs.emdw.umlintegration"
-	protected extension Logger logger = Logger.getLogger(LOGGER_NAME)
+	protected extension Logger logger = Logger.getLogger(class)
 	protected extension TransformationPatterns transformationPatterns = TransformationPatterns.instance
 	protected IncQueryEngine engine
 

@@ -29,7 +29,7 @@ class TestWithoutParameters {
     
     @BeforeClass
 	def static setupRootLogger() {
-		Logger.getLogger(AbstractRule.LOGGER_NAME).level = Level.DEBUG
+		Logger.getLogger(AbstractRule.package.name).level = Level.DEBUG
 	}
 	
 	@After

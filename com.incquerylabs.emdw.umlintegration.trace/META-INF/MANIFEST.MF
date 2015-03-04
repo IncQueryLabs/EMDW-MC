@@ -13,7 +13,6 @@ Export-Package: com.incquerylabs.emdw.umlintegration.trace,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  com.zeligsoft.xtumlrt.common.model;bundle-version="0.4.0";visibility:=reexport,
- com.zeligsoft.xtumlrt.transformation.model;visibility:=reexport,
  org.eclipse.uml2.types;visibility:=reexport,
  org.eclipse.uml2.uml;bundle-version="5.0.1";visibility:=reexport
 Bundle-ActivationPolicy: lazy

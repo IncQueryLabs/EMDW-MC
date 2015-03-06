@@ -21,48 +21,44 @@ abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElemen
 	override appeared(M match) {
 		val umlObject = match.umlObject
 		val name = umlObject.name
-		debug('''Creating xtumlrt object with name: «name»''')
 		val xtumlrtObject = createXtumlrtObject(umlObject, match)
 		xtumlrtObject.insertXtumlrtObject(match)
 		xtumlrtObject.name = name
 		xtumlrtObject.updateXtumlrtObject(match)
 		updateTrace(umlObject, xtumlrtObject)
-		debug('''Created xtumlrt object with name: «name»''')
+		debug('''Created xtumlrt object «xtumlrtObject»''')
 	}
 	
 	override def updated(M match) {
 		val umlObject = match.umlObject
 		val name = umlObject.name
-		debug('''Updating xtumlrt object with name: «name»''')
 		val traceMatch = findTrace(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		xtumlrtObject.name = name
 		xtumlrtObject.updateXtumlrtObject(match)
-		debug('''Updated xtumlrt object with name: «name»''')
+		debug('''Updated xtumlrt object «xtumlrtObject»''')
 	}
 
 	override def disappeared(M match) {
 		val umlObject = match.umlObject
-		val name = umlObject.name
-		debug('''Removing xtumlrt object with name: «name»''')
 		val traceMatch = findTrace(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		EcoreUtil.remove(xtumlrtObject)
 		rootMapping.traces -= traceMatch.trace
-		debug('''Removed xtumlrt object with name: «name»''')
+		debug('''Removed xtumlrt object «xtumlrtObject»''')
 	}
 	
 	private def updateTrace(NamedElement umlObject, com.zeligsoft.xtumlrt.common.NamedElement xtumlrtObject) {
 		val traces = engine.trace.getAllValuesOftrace(null, umlObject, null)
 		if (traces.empty) {
-			trace('''Creating new trace for new object''')
 			rootMapping.traces += traceFactory.createTrace => [
 				umlElements += umlObject
 				xtumlrtElements += xtumlrtObject
 			]
+			trace('''Created new trace for new object''')
 		} else {
-			trace('''Adding new object to existing trace''')
 			traces.head.xtumlrtElements += xtumlrtObject
+			trace('''Added new object to existing trace''')
 		}
 	}
 

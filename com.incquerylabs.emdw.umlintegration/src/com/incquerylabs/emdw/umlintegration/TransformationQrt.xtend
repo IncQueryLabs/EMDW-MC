@@ -2,14 +2,20 @@ package com.incquerylabs.emdw.umlintegration
 
 import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableSet
-import com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns
-import com.incquerylabs.emdw.umlintegration.rules.BehavioredClassifierRules
-import com.incquerylabs.emdw.umlintegration.rules.ChoiceStateRules
+import com.incquerylabs.emdw.umlintegration.queries.StateMachine
+import com.incquerylabs.emdw.umlintegration.queries.Structure
+import com.incquerylabs.emdw.umlintegration.queries.Trace
+import com.incquerylabs.emdw.umlintegration.rules.ChoicePointRules
 import com.incquerylabs.emdw.umlintegration.rules.CompositeStateRules
-import com.incquerylabs.emdw.umlintegration.rules.InitialStateRules
+import com.incquerylabs.emdw.umlintegration.rules.DeepHistoryRules
+import com.incquerylabs.emdw.umlintegration.rules.EntryPointRules
+import com.incquerylabs.emdw.umlintegration.rules.ExitPointRules
+import com.incquerylabs.emdw.umlintegration.rules.InitialPointRules
+import com.incquerylabs.emdw.umlintegration.rules.JunctionPointRules
 import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
 import com.incquerylabs.emdw.umlintegration.rules.TransitionRules
+import com.incquerylabs.emdw.umlintegration.rules.XTClassRules
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
 import java.util.concurrent.TimeUnit
@@ -24,7 +30,9 @@ import static com.google.common.base.Preconditions.*
 class TransformationQrt {
 
 	extension Logger logger = Logger.getLogger(class)
-	extension TransformationPatterns patterns = TransformationPatterns.instance
+	val tracePatterns = Trace.instance
+	val stateMachinePatterns = StateMachine.instance
+	val structurePatterns = Structure.instance
 
 	ExecutionSchema schema = null
 
@@ -42,7 +50,9 @@ class TransformationQrt {
 
 		debug("Preparing queries on engine.")
 		val watch = Stopwatch.createStarted
-		prepare(engine)
+		tracePatterns.prepare(engine)
+		stateMachinePatterns.prepare(engine)
+		structurePatterns.prepare(engine)
 		info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 
@@ -56,10 +66,14 @@ class TransformationQrt {
 			val watch = Stopwatch.createStarted
 
 			val rulesBuilder = ImmutableSet.builder
-			rulesBuilder.addAll(BehavioredClassifierRules.getRules(engine))
+			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(StateMachineRules.getRules(engine))
-			rulesBuilder.addAll(InitialStateRules.getRules(engine))
-			rulesBuilder.addAll(ChoiceStateRules.getRules(engine))
+			rulesBuilder.addAll(InitialPointRules.getRules(engine))
+			rulesBuilder.addAll(ChoicePointRules.getRules(engine))
+			rulesBuilder.addAll(EntryPointRules.getRules(engine))
+			rulesBuilder.addAll(ExitPointRules.getRules(engine))
+			rulesBuilder.addAll(JunctionPointRules.getRules(engine))
+			rulesBuilder.addAll(DeepHistoryRules.getRules(engine))
 			rulesBuilder.addAll(SimpleStateRules.getRules(engine))
 			rulesBuilder.addAll(CompositeStateRules.getRules(engine))
 			rulesBuilder.addAll(TransitionRules.getRules(engine))

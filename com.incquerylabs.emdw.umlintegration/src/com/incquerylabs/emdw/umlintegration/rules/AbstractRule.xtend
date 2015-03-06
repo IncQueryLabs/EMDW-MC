@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns
 import com.incquerylabs.emdw.umlintegration.util.PriorityRuleSpecification
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IPatternMatch
@@ -13,16 +12,20 @@ import org.eclipse.incquery.runtime.evm.specific.Rules
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.umlintegration.queries.Trace
+import com.incquerylabs.emdw.umlintegration.queries.StateMachine
+import com.incquerylabs.emdw.umlintegration.queries.Structure
 
 abstract class AbstractRule<M extends IPatternMatch> {
 
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension TransformationPatterns transformationPatterns = TransformationPatterns.instance
+	protected extension Trace tracePatterns = Trace.instance
+	protected extension StateMachine stateMachinePatterns = StateMachine.instance
+	protected extension Structure structurePatterns = Structure.instance
 	protected IncQueryEngine engine
 
 	new(IncQueryEngine engine) {
 		this.engine = engine
-		debug('''Creating rule «this.class.simpleName»''')
 	}
 
 	def getSpecification() {

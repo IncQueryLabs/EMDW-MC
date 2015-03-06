@@ -1,25 +1,25 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.zeligsoft.xtumlrt.common.ChoicePoint
-import com.incquerylabs.emdw.umlintegration.queries.ChoiceStateMatch
+import com.incquerylabs.emdw.umlintegration.queries.ChoicePointMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 import com.zeligsoft.xtumlrt.common.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.ToplevelChoiceStateMatch
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelChoicePointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildChoiceStateMatch
+import com.incquerylabs.emdw.umlintegration.queries.ChildChoicePointMatch
 
-class ChoiceStateRules {
+class ChoicePointRules {
 	static def getRules(IncQueryEngine engine) {
 		#{
-			new ChoiceStateMapping(engine).specification,
-			new ToplevelChoiceStateMapping(engine).specification,
-			new ChildChoiceStateMapping(engine).specification
+			new ChoicePointMapping(engine).specification,
+			new ToplevelChoicePointMapping(engine).specification,
+			new ChildChoicePointMapping(engine).specification
 		}
 	}
 }
 
-class ChoiceStateMapping extends AbstractObjectRule<ChoiceStateMatch, Pseudostate, ChoicePoint> {
+class ChoicePointMapping extends AbstractObjectRule<ChoicePointMatch, Pseudostate, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -34,26 +34,26 @@ class ChoiceStateMapping extends AbstractObjectRule<ChoiceStateMatch, Pseudostat
 	}
 
 	override getQuerySpecification() {
-		choiceState
+		choicePoint
 	}
 
-	override getUmlObject(ChoiceStateMatch match) {
+	override getUmlObject(ChoicePointMatch match) {
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, ChoiceStateMatch match) {
+	override createXtumlrtObject(Pseudostate umlObject, ChoicePointMatch match) {
 		commonFactory.createChoicePoint
 	}
 
-	override updateXtumlrtObject(ChoicePoint xtumlrtObject, ChoiceStateMatch match) {
+	override updateXtumlrtObject(ChoicePoint xtumlrtObject, ChoicePointMatch match) {
 	}
 
-	override protected insertXtumlrtObject(ChoicePoint xtumlrtObject, ChoiceStateMatch match) {
+	override protected insertXtumlrtObject(ChoicePoint xtumlrtObject, ChoicePointMatch match) {
 	}
 	
 }
 
-class ToplevelChoiceStateMapping extends AbstractContainmentRule<ToplevelChoiceStateMatch, StateMachine, ChoicePoint> {
+class ToplevelChoicePointMapping extends AbstractContainmentRule<ToplevelChoicePointMatch, StateMachine, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -64,14 +64,14 @@ class ToplevelChoiceStateMapping extends AbstractContainmentRule<ToplevelChoiceS
 	}
 
 	override getQuerySpecification() {
-		toplevelChoiceState
+		toplevelChoicePoint
 	}
 
-	override findParent(ToplevelChoiceStateMatch match) {
+	override findParent(ToplevelChoicePointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
 	}
 	
-	override findChild(ToplevelChoiceStateMatch match) {
+	override findChild(ToplevelChoicePointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ChoicePoint
 	}
 	
@@ -81,7 +81,7 @@ class ToplevelChoiceStateMapping extends AbstractContainmentRule<ToplevelChoiceS
 
 }
 
-class ChildChoiceStateMapping extends AbstractContainmentRule<ChildChoiceStateMatch, CompositeState, ChoicePoint> {
+class ChildChoicePointMapping extends AbstractContainmentRule<ChildChoicePointMatch, CompositeState, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -92,14 +92,14 @@ class ChildChoiceStateMapping extends AbstractContainmentRule<ChildChoiceStateMa
 	}
 
 	override getQuerySpecification() {
-		childChoiceState
+		childChoicePoint
 	}
 
-	override findParent(ChildChoiceStateMatch match) {
+	override findParent(ChildChoicePointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
 	}
 	
-	override findChild(ChildChoiceStateMatch match) {
+	override findChild(ChildChoicePointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ChoicePoint
 	}
 	

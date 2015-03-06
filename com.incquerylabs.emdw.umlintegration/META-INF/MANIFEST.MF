@@ -16,6 +16,7 @@ Require-Bundle: com.zeligsoft.xtumlrt.common.model,
  org.eclipse.incquery.runtime,
  org.eclipse.incquery.runtime.evm,
  org.eclipse.xtend.lib,
- org.eclipse.uml2.uml
+ org.eclipse.uml2.uml,
+ com.zeligsoft.xtumlrt.xtuml.model;bundle-version="0.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.apache.log4j

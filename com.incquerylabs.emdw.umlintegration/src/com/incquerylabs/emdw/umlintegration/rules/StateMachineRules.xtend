@@ -4,6 +4,8 @@ import com.zeligsoft.xtumlrt.common.Capsule
 import com.zeligsoft.xtumlrt.common.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.StateMachineMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.uml2.uml.BehavioredClassifier
+import com.zeligsoft.xtumlrt.xtuml.XTClass
 
 class StateMachineRules {
 	static def getRules(IncQueryEngine engine) {
@@ -45,7 +47,7 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 	}
 
 	def getXtumlrtContainer(StateMachineMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.behavioredClassifier).filter(Capsule).head
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.behavioredClassifier).head as XTClass
 	}
 
 	override insertXtumlrtObject(StateMachine xtumlrtObject, StateMachineMatch match) {

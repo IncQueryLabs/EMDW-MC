@@ -6,10 +6,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.NamedElement
+import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
 
 abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElement, T extends com.zeligsoft.xtumlrt.common.NamedElement> extends AbstractRule<M> {
 
 	protected CommonFactory commonFactory = CommonFactory.eINSTANCE
+	protected XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
 	protected TraceFactory traceFactory = TraceFactory.eINSTANCE
 
 	new(IncQueryEngine engine) {

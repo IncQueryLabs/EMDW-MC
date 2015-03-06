@@ -11,5 +11,6 @@ Require-Bundle: com.google.guava,
  com.incquerylabs.emdw.umlintegration;bundle-version="0.1.0",
  com.incquerylabs.emdw.umlintegration.trace;bundle-version="0.1.0",
  org.junit;bundle-version="4.11.0",
- org.eclipse.incquery.runtime;bundle-version="1.0.0"
+ org.eclipse.incquery.runtime;bundle-version="1.0.0",
+ com.zeligsoft.xtumlrt.xtuml.model;bundle-version="0.4.0"
 Import-Package: org.apache.log4j;version="1.2.15"

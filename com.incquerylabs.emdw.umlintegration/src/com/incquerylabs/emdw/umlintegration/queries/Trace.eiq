@@ -1,0 +1,14 @@
+package com.incquerylabs.emdw.umlintegration.queries
+
+import "http://incquerylabs.com/emdw/umlintegration/trace"
+
+pattern rootMapping(rootMapping, umlRoot, xtumlrtRoot) {
+	RootMapping.umlRoot(rootMapping, umlRoot);
+	RootMapping.xtumlrtRoot(rootMapping, xtumlrtRoot);	
+}
+
+pattern trace(rootMapping, trace, umlElement, xtumlrtElement) {
+	RootMapping.traces(rootMapping, trace);
+	Trace.umlElements(trace, umlElement);
+	Trace.xtumlrtElements(trace, xtumlrtElement);
+}

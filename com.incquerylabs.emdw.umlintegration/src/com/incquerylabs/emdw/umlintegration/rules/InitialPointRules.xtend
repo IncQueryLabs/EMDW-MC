@@ -1,25 +1,25 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.zeligsoft.xtumlrt.common.InitialPoint
-import com.incquerylabs.emdw.umlintegration.queries.InitialStateMatch
+import com.incquerylabs.emdw.umlintegration.queries.InitialPointMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 import com.zeligsoft.xtumlrt.common.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.ToplevelInitialStateMatch
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelInitialPointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildInitialStateMatch
+import com.incquerylabs.emdw.umlintegration.queries.ChildInitialPointMatch
 
-class InitialStateRules {
+class InitialPointRules {
 	static def getRules(IncQueryEngine engine) {
 		#{
-			new InitialStateMapping(engine).specification,
-			new ToplevelInitialStateMapping(engine).specification,
-			new ChildInitialStateMapping(engine).specification
+			new InitialPointMapping(engine).specification,
+			new ToplevelInitialPointMapping(engine).specification,
+			new ChildInitialPointMapping(engine).specification
 		}
 	}
 }
 
-class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudostate, InitialPoint> {
+class InitialPointMapping extends AbstractObjectRule<InitialPointMatch, Pseudostate, InitialPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -34,26 +34,26 @@ class InitialStateMapping extends AbstractObjectRule<InitialStateMatch, Pseudost
 	}
 
 	override getQuerySpecification() {
-		initialState
+		initialPoint
 	}
 
-	override getUmlObject(InitialStateMatch match) {
+	override getUmlObject(InitialPointMatch match) {
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, InitialStateMatch match) {
+	override createXtumlrtObject(Pseudostate umlObject, InitialPointMatch match) {
 		commonFactory.createInitialPoint
 	}
 
-	override updateXtumlrtObject(InitialPoint xtumlrtObject, InitialStateMatch match) {
+	override updateXtumlrtObject(InitialPoint xtumlrtObject, InitialPointMatch match) {
 	}
 
-	override protected insertXtumlrtObject(InitialPoint xtumlrtObject, InitialStateMatch match) {
+	override protected insertXtumlrtObject(InitialPoint xtumlrtObject, InitialPointMatch match) {
 	}
 	
 }
 
-class ToplevelInitialStateMapping extends AbstractContainmentRule<ToplevelInitialStateMatch, StateMachine, InitialPoint> {
+class ToplevelInitialPointMapping extends AbstractContainmentRule<ToplevelInitialPointMatch, StateMachine, InitialPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -64,14 +64,14 @@ class ToplevelInitialStateMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 
 	override getQuerySpecification() {
-		toplevelInitialState
+		toplevelInitialPoint
 	}
 
-	override findParent(ToplevelInitialStateMatch match) {
+	override findParent(ToplevelInitialPointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
 	}
 	
-	override findChild(ToplevelInitialStateMatch match) {
+	override findChild(ToplevelInitialPointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as InitialPoint
 	}
 	
@@ -81,7 +81,7 @@ class ToplevelInitialStateMapping extends AbstractContainmentRule<ToplevelInitia
 
 }
 
-class ChildInitialStateMapping extends AbstractContainmentRule<ChildInitialStateMatch, CompositeState, InitialPoint> {
+class ChildInitialPointMapping extends AbstractContainmentRule<ChildInitialPointMatch, CompositeState, InitialPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -92,14 +92,14 @@ class ChildInitialStateMapping extends AbstractContainmentRule<ChildInitialState
 	}
 
 	override getQuerySpecification() {
-		childInitialState
+		childInitialPoint
 	}
 
-	override findParent(ChildInitialStateMatch match) {
+	override findParent(ChildInitialPointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
 	}
 	
-	override findChild(ChildInitialStateMatch match) {
+	override findChild(ChildInitialPointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as InitialPoint
 	}
 	

@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.Capsule
+import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Class
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class ClassMappingTest extends TransformationTest<Class, Capsule> {
+class XTClassMappingTest extends TransformationTest<Class, XTClass> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -22,10 +22,10 @@ class ClassMappingTest extends TransformationTest<Class, Capsule> {
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtRoot.entities.filter(Capsule)
+		mapping.xtumlrtRoot.entities.filter(XTClass)
 	}
 	
-	override protected checkState(RootMapping mapping, Class umlObject, Capsule xtumlrtObject) {
+	override protected checkState(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.zeligsoft.xtumlrt.common.NamedElement
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

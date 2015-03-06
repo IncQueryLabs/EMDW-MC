@@ -1,0 +1,190 @@
+package com.incquerylabs.emdw.umlintegration.queries
+
+import "http://www.eclipse.org/uml2/5.0.0/UML"
+
+pattern stateMachine(behavioredClassifier: BehavioredClassifier, stateMachine: StateMachine) {
+	BehavioredClassifier.classifierBehavior(behavioredClassifier, stateMachine);
+}
+
+// Initial point
+
+pattern initialPoint(pseudostate: Pseudostate) {
+	find toplevelInitialPoint(_, pseudostate);
+} or {
+	find childInitialPoint(_, pseudostate);
+}
+
+pattern toplevelInitialPoint(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::initial);
+}
+
+pattern childInitialPoint(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::initial);
+}
+
+private pattern pseudostateOfRegion(region: Region, pseudostate: Pseudostate, kind: PseudostateKind) {
+	Region.subvertex(region, pseudostate);
+	Pseudostate.kind(pseudostate, kind);
+}
+
+// Choice point
+
+pattern choicePoint(pseudostate: Pseudostate) {
+	find toplevelChoicePoint(_, pseudostate);
+} or {
+	find childChoicePoint(_, pseudostate);
+}
+
+pattern toplevelChoicePoint(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::choice);
+}
+
+pattern childChoicePoint(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::choice);
+}
+
+// Entry point
+
+pattern entryPoint(pseudostate: Pseudostate) {
+	find toplevelEntryPoint(_, pseudostate);
+} or {
+	find childEntryPoint(_, pseudostate);
+}
+
+pattern toplevelEntryPoint(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::entryPoint);
+}
+
+pattern childEntryPoint(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::entryPoint);
+}
+
+// Exit point
+
+pattern exitPoint(pseudostate: Pseudostate) {
+	find toplevelExitPoint(_, pseudostate);
+} or {
+	find childExitPoint(_, pseudostate);
+}
+
+pattern toplevelExitPoint(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::exitPoint);
+}
+
+pattern childExitPoint(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::exitPoint);
+}
+
+// Junction point
+
+pattern junctionPoint(pseudostate: Pseudostate) {
+	find toplevelJunctionPoint(_, pseudostate);
+} or {
+	find childJunctionPoint(_, pseudostate);
+}
+
+pattern toplevelJunctionPoint(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::junction);
+}
+
+pattern childJunctionPoint(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::junction);
+}
+
+// Deep history
+
+pattern deepHistory(pseudostate: Pseudostate) {
+	find toplevelDeepHistory(_, pseudostate);
+} or {
+	find childDeepHistory(_, pseudostate);
+}
+
+pattern toplevelDeepHistory(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::deepHistory);
+}
+
+pattern childDeepHistory(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::deepHistory);
+}
+
+// Simple state
+
+pattern simpleState(state: State) {
+	find toplevelSimpleState(_, state);
+} or {
+	find childSimpleState(_, state);
+}
+
+pattern toplevelSimpleState(stateMachine: StateMachine, state: State) {
+	StateMachine.region(stateMachine, region);
+	Region.subvertex(region, state);
+	neg find region(state, _);
+}
+
+pattern childSimpleState(parentState: State, state: State) {
+	State.region(parentState, region);
+	Region.subvertex(region, state);
+	neg find region(state, _);
+}
+
+// Composite state
+
+pattern compositeState(state: State) {
+	find toplevelCompositeState(_, state);
+} or {
+	find childCompositeState(_, state);
+}
+
+pattern toplevelCompositeState(stateMachine: StateMachine, state: State) {
+	StateMachine.region(stateMachine, region);
+	Region.subvertex(region, state);
+	find region(state, _);
+}
+
+pattern childCompositeState(parentState: State, state: State) {
+	State.region(parentState, region);
+	Region.subvertex(region, state);
+	find region(state, _);
+}
+
+private pattern region(state: State, region: Region) {
+	State.region(state, region);
+}
+
+// Transition
+
+pattern transition(transition: Transition, sourceState: Vertex, targetState: Vertex) {
+	find toplevelTransition(_, transition, sourceState, targetState);
+} or {
+	find childTransition(_, transition, sourceState, targetState);
+}
+
+pattern toplevelTransition(stateMachine: StateMachine, transition: Transition, sourceState: Vertex, targetState: Vertex) {
+	StateMachine.region(stateMachine, region);
+	find transitionOfRegion(region, transition, sourceState, targetState);
+}
+
+pattern childTransition(parentState: State, transition: Transition, sourceState: Vertex, targetState: Vertex) {
+	State.region(parentState, region);
+	find transitionOfRegion(region, transition, sourceState, targetState);
+}
+
+private pattern transitionOfRegion(region: Region, transition: Transition, sourceState: Vertex, targetState: Vertex) {
+	Region.transition(region, transition);
+	Region.subvertex(region, sourceState);
+	Region.subvertex(region, targetState);
+	Transition.source(transition, sourceState);
+	Transition.target(transition, targetState);
+}

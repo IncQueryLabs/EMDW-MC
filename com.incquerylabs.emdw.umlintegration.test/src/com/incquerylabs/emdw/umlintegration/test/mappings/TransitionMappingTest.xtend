@@ -9,9 +9,10 @@ import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import com.zeligsoft.xtumlrt.common.CompositeState
 
 @RunWith(Parameterized)
-class TransitionMappingTest extends TransformationTest<Transition, com.zeligsoft.xtumlrt.common.Transition> {
+class ToplevelTransitionMappingTest extends TransformationTest<Transition, com.zeligsoft.xtumlrt.common.Transition> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -39,4 +40,29 @@ class TransitionMappingTest extends TransformationTest<Transition, com.zeligsoft
 		assertEquals("Transition target transition", xtumlrtTargetState, xtumlrtObject.targetVertex)
 	}
 	
+}
+
+@RunWith(Parameterized)
+class ChildTransitionMappingTest extends TransformationTest<Transition, com.zeligsoft.xtumlrt.common.Transition> {
+	
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+
+	override protected createUmlObject(RootMapping mapping) {
+		val stateMachine = createStateMachine(mapping)
+		val parentState = createParentState(stateMachine, "parentState")
+		val sourceState = createState(parentState.regions.head, "source")
+		val targetState = createState(parentState.regions.head, "target")
+		createTransition(parentState.regions.head, "transition", sourceState, targetState)
+	}
+	
+	override protected getXtumlrtObjects(RootMapping mapping) {
+		(mapping.xtumlrtTopState.substates.head as CompositeState).transitions
+	}
+	
+	override protected checkState(RootMapping mapping, Transition umlObject, com.zeligsoft.xtumlrt.common.Transition xtumlrtObject) {
+		ToplevelTransitionMappingTest.checkTransition(mapping, umlObject, xtumlrtObject)
+	}
+
 }

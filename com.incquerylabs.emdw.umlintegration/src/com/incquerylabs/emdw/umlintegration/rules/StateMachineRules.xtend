@@ -1,11 +1,9 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.Capsule
-import com.zeligsoft.xtumlrt.common.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.StateMachineMatch
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.BehavioredClassifier
+import com.zeligsoft.xtumlrt.common.StateMachine
 import com.zeligsoft.xtumlrt.xtuml.XTClass
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class StateMachineRules {
 	static def getRules(IncQueryEngine engine) {

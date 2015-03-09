@@ -26,6 +26,9 @@ import org.eclipse.incquery.runtime.evm.specific.ExecutionSchemas
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.umlintegration.rules.TriggerRules
+import com.incquerylabs.emdw.umlintegration.rules.GuardRules
+import com.incquerylabs.emdw.umlintegration.rules.ActionChainRules
 
 class TransformationQrt {
 
@@ -77,6 +80,9 @@ class TransformationQrt {
 			rulesBuilder.addAll(SimpleStateRules.getRules(engine))
 			rulesBuilder.addAll(CompositeStateRules.getRules(engine))
 			rulesBuilder.addAll(TransitionRules.getRules(engine))
+			rulesBuilder.addAll(TriggerRules.getRules(engine))
+			rulesBuilder.addAll(GuardRules.getRules(engine))
+			rulesBuilder.addAll(ActionChainRules.getRules(engine))
 			val rules = rulesBuilder.build
 
 			val schedulerFactory = Schedulers.getIQEngineSchedulerFactory(engine)

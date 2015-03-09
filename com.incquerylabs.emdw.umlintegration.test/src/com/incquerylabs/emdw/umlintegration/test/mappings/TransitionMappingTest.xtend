@@ -3,13 +3,14 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.zeligsoft.xtumlrt.common.CompositeState
 import org.eclipse.uml2.uml.Transition
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
+
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import com.zeligsoft.xtumlrt.common.CompositeState
 
 @RunWith(Parameterized)
 class ToplevelTransitionMappingTest extends TransformationTest<Transition, com.zeligsoft.xtumlrt.common.Transition> {
@@ -19,10 +20,7 @@ class ToplevelTransitionMappingTest extends TransformationTest<Transition, com.z
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
-		val sourceState = createState(stateMachine.regions.head, "source")
-		val targetState = createState(stateMachine.regions.head, "target")
-		createTransition(stateMachine.regions.head, "transition", sourceState, targetState)
+		createTransition(mapping)
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {

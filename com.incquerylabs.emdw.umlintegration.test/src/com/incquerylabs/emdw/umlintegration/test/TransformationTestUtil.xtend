@@ -5,22 +5,22 @@ import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
-import org.eclipse.uml2.uml.BehavioredClassifier
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PseudostateKind
+import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.uml2.uml.Region
 
 class TransformationTestUtil {
-	
+
 	static extension Logger logger = Logger.getLogger(TransformationTestUtil)
 	static extension UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension TraceFactory traceFactory = TraceFactory.eINSTANCE
-	
+	public static val CPP_LANGUAGE = "C++"
+
 	static def createRootMapping(String umlModelName) {
 		val resourceSet = new ResourceSetImpl
 		val umlResource = resourceSet.createResource(URI.createURI("dummyUmlUri"))
@@ -52,16 +52,6 @@ class TransformationTestUtil {
 		class
 	}
 
-	static def createStateMachine(BehavioredClassifier behavioredClassifier, String name) {
-		debug('''Adding state machine (name: «name») to «behavioredClassifier.name»''')
-		val stateMachine = umlFactory.createStateMachine => [
-			it.name = name
-			regions += umlFactory.createRegion
-		]
-		behavioredClassifier.classifierBehavior = stateMachine
-		stateMachine
-	}
-
 	static def createState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
@@ -69,7 +59,7 @@ class TransformationTestUtil {
 		region.subvertices += state
 		state
 	}
-	
+
 	static def createParentState(StateMachine stateMachine, String name) {
 		createState(stateMachine.regions.head, name) => [
 			regions += umlFactory.createRegion
@@ -78,7 +68,12 @@ class TransformationTestUtil {
 	
 	static def createStateMachine(RootMapping rootMapping) {
 		val class = createClass(rootMapping.umlRoot, "class")
-		createStateMachine(class, "stateMachine")
+		val stateMachine = umlFactory.createStateMachine => [
+			it.name = name
+			regions += umlFactory.createRegion
+		]
+		class.classifierBehavior = stateMachine
+		stateMachine
 	}
 	
 	static def createTransition(Region region, String name, State sourceState, State targetState) {
@@ -92,6 +87,13 @@ class TransformationTestUtil {
 		transition
 	}
 	
+	static def createTransition(RootMapping mapping) {
+		val stateMachine = createStateMachine(mapping)
+		val sourceState = createState(stateMachine.regions.head, "source")
+		val targetState = createState(stateMachine.regions.head, "target")
+		createTransition(stateMachine.regions.head, "transition", sourceState, targetState)
+	}
+
 	static def createPseudostate(Region region, String name, PseudostateKind kind) {
 		val pseudostate = umlFactory.createPseudostate => [
 			it.name = name

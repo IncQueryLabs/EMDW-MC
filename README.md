@@ -13,6 +13,7 @@ Install:
 Clone & import:
 
 * [xtumlrt metamodel](https://github.com/IncQueryLabs/EMDW-Mirror-Metamodels)
+* [UML-RT Code Generator](https://umlrt.zeligsoft.com/gerrit/#/admin/projects/umlrt.code-generator)
 * this repo
 
 Use:

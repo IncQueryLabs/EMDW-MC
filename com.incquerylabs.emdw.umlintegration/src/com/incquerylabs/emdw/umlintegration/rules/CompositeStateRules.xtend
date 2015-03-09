@@ -4,7 +4,6 @@ import com.incquerylabs.emdw.umlintegration.queries.ChildCompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.CompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelCompositeStateMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
 import org.eclipse.incquery.runtime.api.IncQueryEngine

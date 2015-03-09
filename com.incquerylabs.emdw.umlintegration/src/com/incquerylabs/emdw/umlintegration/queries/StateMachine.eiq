@@ -188,3 +188,17 @@ private pattern transitionOfRegion(region: Region, transition: Transition, sourc
 	Transition.source(transition, sourceState);
 	Transition.target(transition, targetState);
 }
+
+// Transition children
+
+pattern trigger(transition: Transition, trigger: Trigger) {
+	Transition.trigger(transition, trigger);
+}
+
+pattern guard(transition: Transition, guard: Constraint) {
+	Transition.guard(transition, guard);
+}
+
+pattern actionChain(transition: Transition, effect: Behavior) {
+	Transition.effect(transition, effect);
+}

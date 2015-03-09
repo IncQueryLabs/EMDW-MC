@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.ExitPoint
+import com.incquerylabs.emdw.umlintegration.queries.ChildExitPointMatch
 import com.incquerylabs.emdw.umlintegration.queries.ExitPointMatch
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelExitPointMatch
+import com.zeligsoft.xtumlrt.common.ExitPoint
+import com.zeligsoft.xtumlrt.common.State
+import com.zeligsoft.xtumlrt.common.StateMachine
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
-import com.zeligsoft.xtumlrt.common.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.ToplevelExitPointMatch
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildExitPointMatch
 
 class ExitPointRules {
 	static def getRules(IncQueryEngine engine) {
@@ -81,7 +81,7 @@ class ToplevelExitPointMapping extends AbstractContainmentRule<ToplevelExitPoint
 
 }
 
-class ChildExitPointMapping extends AbstractContainmentRule<ChildExitPointMatch, CompositeState, ExitPoint> {
+class ChildExitPointMapping extends AbstractContainmentRule<ChildExitPointMatch, State, ExitPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -96,14 +96,14 @@ class ChildExitPointMapping extends AbstractContainmentRule<ChildExitPointMatch,
 	}
 
 	override findParent(ChildExitPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
 	}
 	
 	override findChild(ChildExitPointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ExitPoint
 	}
 	
-	override insertChild(CompositeState parent, ExitPoint child) {
+	override insertChild(State parent, ExitPoint child) {
 		parent.exitPoints += child
 	}
 

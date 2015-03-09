@@ -19,12 +19,10 @@ class ActionChainMappingTest extends TransformationTest<Behavior, ActionChain> {
 		super(wrapper, wrapperType)
 	}
 
-	static val TEST_CODE = ";"
-
 	override protected createUmlObject(RootMapping mapping) {
 		val transition = createTransition(mapping)
 		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
-			bodies += TEST_CODE
+			bodies += TEST_SIDE_EFFECT_1
 			languages += CPP_LANGUAGE
 		]
 		transition.effect = effect
@@ -36,7 +34,7 @@ class ActionChainMappingTest extends TransformationTest<Behavior, ActionChain> {
 	}
 	
 	override protected checkState(RootMapping mapping, Behavior umlObject, ActionChain xtumlrtObject) {
-		assertEquals(TEST_CODE, xtumlrtObject.actions.head.source)
+		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.actions.head.source)
 	}
 
 }

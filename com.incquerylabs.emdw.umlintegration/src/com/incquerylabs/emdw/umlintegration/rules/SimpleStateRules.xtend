@@ -46,6 +46,7 @@ class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclips
 	}
 
 	override updateXtumlrtObject(SimpleState xtumlrtObject, SimpleStateMatch match) {
+		StateMachineUtil.updateState(xtumlrtObject, match.state)
 	}
 	
 	override insertXtumlrtObject(SimpleState xtumlrtObject, SimpleStateMatch match) {

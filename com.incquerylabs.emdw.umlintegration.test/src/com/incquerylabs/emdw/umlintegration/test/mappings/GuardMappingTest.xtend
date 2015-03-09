@@ -19,14 +19,12 @@ class GuardMappingTest extends TransformationTest<Constraint, Guard> {
 		super(wrapper, wrapperType)
 	}
 
-	static val TEST_CODE = "true"
-	
 	override protected createUmlObject(RootMapping mapping) {
 		val transition = createTransition(mapping)
 		val umlFactory = UMLFactory.eINSTANCE
 		val guard = umlFactory.createConstraint => [
 			specification = umlFactory.createOpaqueExpression => [
-				bodies += TEST_CODE
+				bodies += TEST_EXPRESSION
 				languages += CPP_LANGUAGE
 			]
 		]
@@ -39,7 +37,7 @@ class GuardMappingTest extends TransformationTest<Constraint, Guard> {
 	}
 	
 	override protected checkState(RootMapping mapping, Constraint umlObject, Guard xtumlrtObject) {
-		assertEquals(TEST_CODE, xtumlrtObject.body.source)
+		assertEquals(TEST_EXPRESSION, xtumlrtObject.body.source)
 	}
 
 }

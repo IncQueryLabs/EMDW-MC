@@ -45,6 +45,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 	}
 
 	override updateXtumlrtObject(CompositeState xtumlrtObject, CompositeStateMatch match) {
+		StateMachineUtil.updateState(xtumlrtObject, match.state)
 	}
 	
 	override insertXtumlrtObject(CompositeState xtumlrtObject, CompositeStateMatch match) {

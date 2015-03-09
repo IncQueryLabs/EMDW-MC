@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
+import static org.junit.Assert.*
 
 class TransformationTestUtil {
 
@@ -19,7 +20,11 @@ class TransformationTestUtil {
 	static extension UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension TraceFactory traceFactory = TraceFactory.eINSTANCE
+	
 	public static val CPP_LANGUAGE = "C++"
+	public static val TEST_SIDE_EFFECT_1 = '''cout << "foo";'''
+	public static val TEST_SIDE_EFFECT_2 = '''cout << "bar";'''
+	public static val TEST_EXPRESSION = "true"
 
 	static def createRootMapping(String umlModelName) {
 		val resourceSet = new ResourceSetImpl
@@ -55,6 +60,14 @@ class TransformationTestUtil {
 	static def createState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
+			entry = umlFactory.createOpaqueBehavior => [
+				bodies += TEST_SIDE_EFFECT_1
+				languages += CPP_LANGUAGE
+			]
+			exit = umlFactory.createOpaqueBehavior => [
+				bodies += TEST_SIDE_EFFECT_2
+				languages += CPP_LANGUAGE
+			]
 		]
 		region.subvertices += state
 		state
@@ -109,5 +122,10 @@ class TransformationTestUtil {
 
 	static def <T> asSet(T object) {
 		#{object}.filterNull
+	}
+
+	def checkState(com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
+		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.entryAction.source)
+		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.exitAction.source)
 	}
 }

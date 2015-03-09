@@ -3,11 +3,12 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.zeligsoft.xtumlrt.common.CompositeState
 import org.eclipse.uml2.uml.State
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import com.zeligsoft.xtumlrt.common.CompositeState
 
 @RunWith(Parameterized)
 class ToplevelStateMappingTest extends TransformationTest<State, com.zeligsoft.xtumlrt.common.State> {
@@ -27,7 +28,7 @@ class ToplevelStateMappingTest extends TransformationTest<State, com.zeligsoft.x
 	
 	override protected checkState(RootMapping mapping, State umlObject, com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
 	}
-
+	
 }
 
 @RunWith(Parameterized)

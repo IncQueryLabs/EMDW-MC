@@ -8,6 +8,7 @@ import com.zeligsoft.xtumlrt.common.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelEntryPointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.incquerylabs.emdw.umlintegration.queries.ChildEntryPointMatch
+import com.zeligsoft.xtumlrt.common.State
 
 class EntryPointRules {
 	static def getRules(IncQueryEngine engine) {
@@ -81,7 +82,7 @@ class ToplevelEntryPointMapping extends AbstractContainmentRule<ToplevelEntryPoi
 
 }
 
-class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatch, CompositeState, EntryPoint> {
+class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatch, State, EntryPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -96,14 +97,14 @@ class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatc
 	}
 
 	override findParent(ChildEntryPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
 	}
 	
 	override findChild(ChildEntryPointMatch match) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as EntryPoint
 	}
 	
-	override insertChild(CompositeState parent, EntryPoint child) {
+	override insertChild(State parent, EntryPoint child) {
 		parent.entryPoints += child
 	}
 

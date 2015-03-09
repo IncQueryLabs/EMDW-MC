@@ -30,7 +30,7 @@ class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclips
 	}
 	
 	override getRulePriority() {
-		3
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -62,7 +62,7 @@ class ToplevelSimpleStateMapping extends AbstractContainmentRule<ToplevelSimpleS
 	}
 	
 	override getRulePriority() {
-		4
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -90,7 +90,7 @@ class ChildSimpleStateMapping extends AbstractContainmentRule<ChildSimpleStateMa
 	}
 	
 	override getRulePriority() {
-		4
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

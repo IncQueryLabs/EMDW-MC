@@ -24,7 +24,7 @@ class TriggerMapping extends AbstractObjectRule<TriggerMatch, org.eclipse.uml2.u
 	}
 	
 	override getRulePriority() {
-		7
+		TransitionMapping.PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

@@ -30,7 +30,7 @@ class JunctionPointMapping extends AbstractObjectRule<JunctionPointMatch, Pseudo
 	}
 
 	override getRulePriority() {
-		5
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelJunctionPointMapping extends AbstractContainmentRule<ToplevelJunct
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildJunctionPointMapping extends AbstractContainmentRule<ChildJunctionPoi
 	}
 	
 	override getRulePriority() {
-		6
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

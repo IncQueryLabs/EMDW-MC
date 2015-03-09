@@ -30,7 +30,7 @@ class InitialPointMapping extends AbstractObjectRule<InitialPointMatch, Pseudost
 	}
 
 	override getRulePriority() {
-		5
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelInitialPointMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildInitialPointMapping extends AbstractContainmentRule<ChildInitialPoint
 	}
 	
 	override getRulePriority() {
-		6
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

@@ -6,6 +6,8 @@ import com.zeligsoft.xtumlrt.common.CommonFactory
 
 class StateMachineUtil {
 
+	public static val VERTEX_MAPPING_PRIORITY = 1
+
 	static val commonFactory = CommonFactory.eINSTANCE
 
 	static def void updateState(com.zeligsoft.xtumlrt.common.State it, State umlState) {

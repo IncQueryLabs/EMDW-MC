@@ -30,7 +30,7 @@ class ExitPointMapping extends AbstractObjectRule<ExitPointMatch, Pseudostate, E
 	}
 
 	override getRulePriority() {
-		5
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelExitPointMapping extends AbstractContainmentRule<ToplevelExitPoint
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildExitPointMapping extends AbstractContainmentRule<ChildExitPointMatch,
 	}
 	
 	override getRulePriority() {
-		6
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

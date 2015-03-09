@@ -1,14 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.EntryPoint
+import com.incquerylabs.emdw.umlintegration.queries.ChildEntryPointMatch
 import com.incquerylabs.emdw.umlintegration.queries.EntryPointMatch
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelEntryPointMatch
+import com.zeligsoft.xtumlrt.common.EntryPoint
+import com.zeligsoft.xtumlrt.common.State
+import com.zeligsoft.xtumlrt.common.StateMachine
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
-import com.zeligsoft.xtumlrt.common.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.ToplevelEntryPointMatch
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildEntryPointMatch
-import com.zeligsoft.xtumlrt.common.State
 
 class EntryPointRules {
 	static def getRules(IncQueryEngine engine) {
@@ -31,7 +30,7 @@ class EntryPointMapping extends AbstractObjectRule<EntryPointMatch, Pseudostate,
 	}
 
 	override getRulePriority() {
-		5
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -61,7 +60,7 @@ class ToplevelEntryPointMapping extends AbstractContainmentRule<ToplevelEntryPoi
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -89,7 +88,7 @@ class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatc
 	}
 	
 	override getRulePriority() {
-		6
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

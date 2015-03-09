@@ -26,7 +26,7 @@ class ActionChainMapping extends AbstractObjectRule<ActionChainMatch, Behavior, 
 	}
 	
 	override getRulePriority() {
-		7
+		TransitionMapping.PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

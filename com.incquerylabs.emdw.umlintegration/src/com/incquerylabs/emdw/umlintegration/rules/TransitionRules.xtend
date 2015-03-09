@@ -29,8 +29,10 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 		Transition
 	}
 	
+	public static val PRIORITY = StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
+
 	override getRulePriority() {
-		5
+		PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -70,7 +72,7 @@ class ToplevelTransitionMapping extends AbstractContainmentRule<ToplevelTransiti
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineMapping.PRIORITY, TransitionMapping.PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -98,7 +100,7 @@ class ChildTransitionMapping extends AbstractContainmentRule<ChildTransitionMatc
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineUtil.VERTEX_MAPPING_PRIORITY, TransitionMapping.PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {

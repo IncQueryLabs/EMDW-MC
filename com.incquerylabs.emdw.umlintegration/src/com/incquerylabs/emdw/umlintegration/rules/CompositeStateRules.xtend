@@ -29,7 +29,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 	}
 	
 	override getRulePriority() {
-		3
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -61,7 +61,7 @@ class ToplevelCompositeStateMapping extends AbstractContainmentRule<ToplevelComp
 	}
 	
 	override getRulePriority() {
-		4
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -89,7 +89,7 @@ class ChildCompositeStateMapping extends AbstractContainmentRule<ChildCompositeS
 	}
 	
 	override getRulePriority() {
-		4
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

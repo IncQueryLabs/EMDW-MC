@@ -30,7 +30,7 @@ class ChoicePointMapping extends AbstractObjectRule<ChoicePointMatch, Pseudostat
 	}
 
 	override getRulePriority() {
-		5
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelChoicePointMapping extends AbstractContainmentRule<ToplevelChoiceP
 	}
 	
 	override getRulePriority() {
-		6
+		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildChoicePointMapping extends AbstractContainmentRule<ChildChoicePointMa
 	}
 	
 	override getRulePriority() {
-		6
+		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

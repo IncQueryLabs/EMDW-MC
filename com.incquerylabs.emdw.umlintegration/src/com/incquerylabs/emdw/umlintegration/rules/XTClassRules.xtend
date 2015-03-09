@@ -23,8 +23,10 @@ class XTClassMapping extends AbstractObjectRule<XtClassMatch, Class, XTClass> {
 		XTClass
 	}
 	
+	public static val PRIORITY = 1
+
 	override getRulePriority() {
-		1
+		PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -40,7 +42,6 @@ class XTClassMapping extends AbstractObjectRule<XtClassMatch, Class, XTClass> {
 	}
 
 	override updateXtumlrtObject(XTClass xtumlrtObject, XtClassMatch match) {
-		// TODO
 	}
 
 	def getXtumlrtContainer() {

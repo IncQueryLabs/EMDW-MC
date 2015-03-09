@@ -26,7 +26,7 @@ class GuardMapping extends AbstractObjectRule<GuardMatch, Constraint, Guard> {
 	}
 	
 	override getRulePriority() {
-		7
+		TransitionMapping.PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

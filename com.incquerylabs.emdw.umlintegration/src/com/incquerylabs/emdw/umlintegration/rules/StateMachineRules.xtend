@@ -23,8 +23,10 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 		StateMachine
 	}
 	
+	public static val PRIORITY = XTClassMapping.PRIORITY + 1
+
 	override getRulePriority() {
-		2
+		PRIORITY
 	}
 
 	override getQuerySpecification() {

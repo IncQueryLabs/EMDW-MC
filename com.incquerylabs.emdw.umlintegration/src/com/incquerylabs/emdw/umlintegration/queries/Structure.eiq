@@ -5,3 +5,9 @@ import "http://www.eclipse.org/uml2/5.0.0/UML"
 pattern xtClass(umlPackage: Package, umlClass: Class) {
 	Package.packagedElement(umlPackage, umlClass);
 }
+
+// Events
+
+pattern xtClassEvent(umlClass: Class, signal: Signal) {
+	Class.nestedClassifier(umlClass, signal);
+}

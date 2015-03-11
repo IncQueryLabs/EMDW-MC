@@ -5,16 +5,20 @@ import com.google.common.collect.ImmutableSet
 import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
 import com.incquerylabs.emdw.umlintegration.queries.Trace
+import com.incquerylabs.emdw.umlintegration.rules.ActionChainRules
 import com.incquerylabs.emdw.umlintegration.rules.ChoicePointRules
 import com.incquerylabs.emdw.umlintegration.rules.CompositeStateRules
 import com.incquerylabs.emdw.umlintegration.rules.DeepHistoryRules
 import com.incquerylabs.emdw.umlintegration.rules.EntryPointRules
 import com.incquerylabs.emdw.umlintegration.rules.ExitPointRules
+import com.incquerylabs.emdw.umlintegration.rules.GuardRules
 import com.incquerylabs.emdw.umlintegration.rules.InitialPointRules
 import com.incquerylabs.emdw.umlintegration.rules.JunctionPointRules
 import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
 import com.incquerylabs.emdw.umlintegration.rules.TransitionRules
+import com.incquerylabs.emdw.umlintegration.rules.TriggerRules
+import com.incquerylabs.emdw.umlintegration.rules.XTClassEventRules
 import com.incquerylabs.emdw.umlintegration.rules.XTClassRules
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
@@ -26,9 +30,6 @@ import org.eclipse.incquery.runtime.evm.specific.ExecutionSchemas
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.umlintegration.rules.TriggerRules
-import com.incquerylabs.emdw.umlintegration.rules.GuardRules
-import com.incquerylabs.emdw.umlintegration.rules.ActionChainRules
 
 class TransformationQrt {
 
@@ -70,6 +71,7 @@ class TransformationQrt {
 
 			val rulesBuilder = ImmutableSet.builder
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
+			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(StateMachineRules.getRules(engine))
 			rulesBuilder.addAll(InitialPointRules.getRules(engine))
 			rulesBuilder.addAll(ChoicePointRules.getRules(engine))

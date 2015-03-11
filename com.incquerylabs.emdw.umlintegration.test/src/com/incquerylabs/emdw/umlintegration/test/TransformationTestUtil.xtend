@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
+
 import static org.junit.Assert.*
 
 class TransformationTestUtil {
@@ -116,6 +117,20 @@ class TransformationTestUtil {
 		pseudostate
 	}
 	
+	static def createTrigger(RootMapping mapping) {
+		val transition = createTransition(mapping)
+		val trigger = UMLFactory.eINSTANCE.createTrigger
+		transition.triggers += trigger
+		trigger
+	}
+	
+	static def createSignal(RootMapping mapping) {
+		val umlClass = createClass(mapping.umlRoot, "class")
+		val signal = umlFactory.createSignal
+		umlClass.nestedClassifiers += signal
+		signal
+	}
+
 	static def getXtumlrtTopState(RootMapping mapping) {
 		mapping.xtumlrtRoot.entities.head.behaviour.top
 	}

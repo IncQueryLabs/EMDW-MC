@@ -3,28 +3,30 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import org.eclipse.uml2.uml.Trigger
+import com.zeligsoft.xtumlrt.xtuml.XTClass
+import com.zeligsoft.xtumlrt.xtuml.XTClassEvent
+import org.eclipse.uml2.uml.Signal
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class TriggerMappingTest extends TransformationTest<Trigger, com.zeligsoft.xtumlrt.common.Trigger> {
-	
+class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
+
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		createTrigger(mapping)
+		createSignal(mapping)
 	}
-	
+
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.transitions.head.triggers
+		(mapping.xtumlrtRoot.entities.head as XTClass).events.filter(XTClassEvent)
 	}
-	
-	override protected checkState(RootMapping mapping, Trigger umlObject, com.zeligsoft.xtumlrt.common.Trigger xtumlrtObject) {
+
+	override protected checkState(RootMapping mapping, Signal umlObject, XTClassEvent xtumlrtObject) {
 	}
 
 }

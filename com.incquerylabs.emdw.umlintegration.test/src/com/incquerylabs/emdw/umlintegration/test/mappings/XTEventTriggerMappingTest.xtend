@@ -8,23 +8,30 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
+import com.zeligsoft.xtumlrt.xtuml.XTClass
+import static org.junit.Assert.assertEquals
 
 @RunWith(Parameterized)
-class TriggerMappingTest extends TransformationTest<Trigger, com.zeligsoft.xtumlrt.common.Trigger> {
+class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		createTrigger(mapping)
+		val trigger = createTrigger(mapping)
+		createSignalForSignalEvent(mapping, trigger) // this will become the trigger's event
+		trigger
 	}
-	
+
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.transitions.head.triggers
+		mapping.xtumlrtTopState.transitions.head.triggers.filter(XTEventTrigger)
 	}
 	
-	override protected checkState(RootMapping mapping, Trigger umlObject, com.zeligsoft.xtumlrt.common.Trigger xtumlrtObject) {
+	override protected checkState(RootMapping mapping, Trigger umlObject, XTEventTrigger xtumlrtObject) {
+		val event = (mapping.xtumlrtRoot.entities.head as XTClass).events.head
+		assertEquals(event, xtumlrtObject.signal)
 	}
 
 }

@@ -15,6 +15,7 @@ import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.Trigger
 
 class TransformationTestUtil {
 
@@ -145,14 +146,12 @@ class TransformationTestUtil {
 		signal
 	}
 
-	static def createSignalForSignalEvent(RootMapping mapping) {
+	static def createSignalForSignalEvent(RootMapping mapping, Trigger trigger) {
 		val signal = umlFactory.createSignal
 		createInterface(mapping.umlRoot, "interface") => [
 			nestedClassifiers += signal
 		]
-		createTrigger(mapping) => [
-			event = createSignalEvent(mapping, signal)
-		]
+		trigger.event = createSignalEvent(mapping, signal)
 		signal
 	}
 	

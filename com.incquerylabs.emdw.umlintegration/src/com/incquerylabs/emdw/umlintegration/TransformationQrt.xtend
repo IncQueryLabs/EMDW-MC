@@ -17,9 +17,10 @@ import com.incquerylabs.emdw.umlintegration.rules.JunctionPointRules
 import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
 import com.incquerylabs.emdw.umlintegration.rules.TransitionRules
-import com.incquerylabs.emdw.umlintegration.rules.TriggerRules
 import com.incquerylabs.emdw.umlintegration.rules.XTClassEventRules
 import com.incquerylabs.emdw.umlintegration.rules.XTClassRules
+import com.incquerylabs.emdw.umlintegration.rules.XTEventTriggerRules
+import com.incquerylabs.emdw.umlintegration.rules.XTSignalEventRules
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
 import java.util.concurrent.TimeUnit
@@ -30,7 +31,6 @@ import org.eclipse.incquery.runtime.evm.specific.ExecutionSchemas
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.umlintegration.rules.XTSignalEventRules
 
 class TransformationQrt {
 
@@ -84,7 +84,7 @@ class TransformationQrt {
 			rulesBuilder.addAll(SimpleStateRules.getRules(engine))
 			rulesBuilder.addAll(CompositeStateRules.getRules(engine))
 			rulesBuilder.addAll(TransitionRules.getRules(engine))
-			rulesBuilder.addAll(TriggerRules.getRules(engine))
+			rulesBuilder.addAll(XTEventTriggerRules.getRules(engine))
 			rulesBuilder.addAll(GuardRules.getRules(engine))
 			rulesBuilder.addAll(ActionChainRules.getRules(engine))
 			val rules = rulesBuilder.build

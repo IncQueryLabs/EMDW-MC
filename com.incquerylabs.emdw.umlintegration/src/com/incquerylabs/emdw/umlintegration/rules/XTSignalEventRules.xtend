@@ -24,8 +24,10 @@ class XTSignalEventMapping extends AbstractObjectRule<XtSignalEventMatch, Signal
 		XTSignalEvent
 	}
 	
+	public static val PRIORITY = XTClassMapping.PRIORITY + 1
+	
 	override getRulePriority() {
-		XTClassMapping.PRIORITY + 1
+		PRIORITY
 	}
 
 	override getQuerySpecification() {

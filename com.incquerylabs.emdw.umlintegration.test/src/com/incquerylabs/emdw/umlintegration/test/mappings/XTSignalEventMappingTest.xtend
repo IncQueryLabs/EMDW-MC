@@ -19,7 +19,7 @@ class XTSignalEventMappingTest extends TransformationTest<Signal, XTSignalEvent>
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		createSignalForSignalEvent(mapping)
+		createSignalForSignalEvent(mapping, createTrigger(mapping))
 	}
 
 	override protected getXtumlrtObjects(RootMapping mapping) {

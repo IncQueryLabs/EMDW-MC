@@ -191,7 +191,7 @@ private pattern transitionOfRegion(region: Region, transition: Transition, sourc
 
 // Transition children
 
-pattern trigger(transition: Transition, trigger: Trigger) {
+pattern xtEventTrigger(transition: Transition, trigger: Trigger) {
 	Transition.trigger(transition, trigger);
 }
 

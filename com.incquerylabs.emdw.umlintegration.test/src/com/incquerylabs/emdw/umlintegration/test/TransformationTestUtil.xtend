@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PseudostateKind
 import org.eclipse.uml2.uml.Region
+import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.UMLFactory
@@ -58,6 +59,15 @@ class TransformationTestUtil {
 		class
 	}
 
+	static def createInterface(Package umlPackage, String name) {
+		debug('''Adding interface (name: «name») to «umlPackage.name»''')
+		val interface = umlFactory.createInterface => [
+			it.name = name
+		]
+		umlPackage.packagedElements += interface
+		interface
+	}
+
 	static def createState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
@@ -81,12 +91,13 @@ class TransformationTestUtil {
 	}
 	
 	static def createStateMachine(RootMapping rootMapping) {
-		val class = createClass(rootMapping.umlRoot, "class")
 		val stateMachine = umlFactory.createStateMachine => [
 			it.name = name
 			regions += umlFactory.createRegion
 		]
-		class.classifierBehavior = stateMachine
+		createClass(rootMapping.umlRoot, "class") => [
+			classifierBehavior = stateMachine
+		]
 		stateMachine
 	}
 	
@@ -103,9 +114,10 @@ class TransformationTestUtil {
 	
 	static def createTransition(RootMapping mapping) {
 		val stateMachine = createStateMachine(mapping)
-		val sourceState = createState(stateMachine.regions.head, "source")
-		val targetState = createState(stateMachine.regions.head, "target")
-		createTransition(stateMachine.regions.head, "transition", sourceState, targetState)
+		val region = stateMachine.regions.head
+		val sourceState = createState(region, "source")
+		val targetState = createState(region, "target")
+		createTransition(region, "transition", sourceState, targetState)
 	}
 
 	static def createPseudostate(Region region, String name, PseudostateKind kind) {
@@ -118,17 +130,38 @@ class TransformationTestUtil {
 	}
 	
 	static def createTrigger(RootMapping mapping) {
-		val transition = createTransition(mapping)
 		val trigger = UMLFactory.eINSTANCE.createTrigger
-		transition.triggers += trigger
+		createTransition(mapping) => [
+			triggers += trigger
+		]
 		trigger
 	}
 	
-	static def createSignal(RootMapping mapping) {
-		val umlClass = createClass(mapping.umlRoot, "class")
+	static def createSignalForClassEvent(RootMapping mapping) {
 		val signal = umlFactory.createSignal
-		umlClass.nestedClassifiers += signal
+		createClass(mapping.umlRoot, "class") => [
+			nestedClassifiers += signal
+		]
 		signal
+	}
+
+	static def createSignalForSignalEvent(RootMapping mapping) {
+		val signal = umlFactory.createSignal
+		createInterface(mapping.umlRoot, "interface") => [
+			nestedClassifiers += signal
+		]
+		createTrigger(mapping) => [
+			event = createSignalEvent(mapping, signal)
+		]
+		signal
+	}
+	
+	def static createSignalEvent(RootMapping mapping, Signal signal) {
+		val signalEvent = umlFactory.createSignalEvent => [
+			it.signal = signal
+		]
+		mapping.umlRoot.packagedElements += signalEvent
+		signalEvent
 	}
 
 	static def getXtumlrtTopState(RootMapping mapping) {

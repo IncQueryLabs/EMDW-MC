@@ -30,13 +30,14 @@ import org.eclipse.incquery.runtime.evm.specific.ExecutionSchemas
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.umlintegration.rules.XTSignalEventRules
 
 class TransformationQrt {
 
 	extension Logger logger = Logger.getLogger(class)
-	val tracePatterns = Trace.instance
-	val stateMachinePatterns = StateMachine.instance
-	val structurePatterns = Structure.instance
+	static val tracePatterns = Trace.instance
+	static val stateMachinePatterns = StateMachine.instance
+	static val structurePatterns = Structure.instance
 
 	ExecutionSchema schema = null
 
@@ -72,6 +73,7 @@ class TransformationQrt {
 			val rulesBuilder = ImmutableSet.builder
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
+			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))
 			rulesBuilder.addAll(StateMachineRules.getRules(engine))
 			rulesBuilder.addAll(InitialPointRules.getRules(engine))
 			rulesBuilder.addAll(ChoicePointRules.getRules(engine))

@@ -4,7 +4,7 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTClassEvent
+import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
 import org.eclipse.uml2.uml.Signal
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -12,21 +12,21 @@ import org.junit.runners.Parameterized
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
+class XTSignalEventMappingTest extends TransformationTest<Signal, XTSignalEvent> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		createSignalForClassEvent(mapping)
+		createSignalForSignalEvent(mapping)
 	}
 
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.entities.head as XTClass).events.filter(XTClassEvent)
+		(mapping.xtumlrtRoot.entities.head as XTClass).events.filter(XTSignalEvent)
 	}
 
-	override protected checkState(RootMapping mapping, Signal umlObject, XTClassEvent xtumlrtObject) {
+	override protected checkState(RootMapping mapping, Signal umlObject, XTSignalEvent xtumlrtObject) {
 	}
 
 }

@@ -19,9 +19,9 @@ import com.incquerylabs.emdw.umlintegration.queries.Structure
 abstract class AbstractRule<M extends IPatternMatch> {
 
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension Trace tracePatterns = Trace.instance
-	protected extension StateMachine stateMachinePatterns = StateMachine.instance
-	protected extension Structure structurePatterns = Structure.instance
+	protected static extension Trace tracePatterns = Trace.instance
+	protected static extension StateMachine stateMachinePatterns = StateMachine.instance
+	protected static extension Structure structurePatterns = Structure.instance
 	protected IncQueryEngine engine
 
 	new(IncQueryEngine engine) {
@@ -53,7 +53,7 @@ abstract class AbstractRule<M extends IPatternMatch> {
 		Jobs.newStatelessJob(IncQueryActivationStateEnum.UPDATED,
 			[ M match | updated(match)])
 	}
-	
+
 	protected def void updated(M m)
 
 	private def getDisappearedJob() {

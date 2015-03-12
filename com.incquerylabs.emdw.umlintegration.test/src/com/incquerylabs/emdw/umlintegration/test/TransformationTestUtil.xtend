@@ -58,13 +58,10 @@ class TransformationTestUtil {
 		]
 	}
 	
-	static def createComponent(Package umlPackage, String name) {
-		debug('''Adding Component (name: «name») to «umlPackage.name»''')
-		val component = umlFactory.createComponent => [
+	static def createComponent(String name) {
+		umlFactory.createComponent => [
 			it.name = name
 		]
-		umlPackage.packagedElements += component
-		component
 	}
 
 	static def createClass(Package umlPackage, String name) {

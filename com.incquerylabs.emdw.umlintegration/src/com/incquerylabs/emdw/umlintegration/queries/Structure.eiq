@@ -2,13 +2,28 @@ package com.incquerylabs.emdw.umlintegration.queries
 
 import "http://www.eclipse.org/uml2/5.0.0/UML"
 
-pattern xtComponent(umlPackage: Package, component: Component) {
-	Package.packagedElement(umlPackage, component);
-}
-
 pattern xtClass(umlPackage: Package, umlClass: Class) {
 	Package.packagedElement(umlPackage, umlClass);
-	neg find xtComponent(umlPackage, umlClass); // In UML, a Component is also a Class!
+	neg find xtComponent(umlClass); // In UML, a Component is also a Class!
+}
+
+// Component
+
+pattern xtComponent(component: Component) {
+	Component(component);
+}
+
+pattern xtComponentInModel(model: Model, component: Component) {
+	Model.packagedElement(model, component);
+}
+
+pattern xtComponentInPackage(umlPackage: Package, component: Component) {
+	Package.packagedElement(umlPackage, component);
+	neg find model(umlPackage); // In UML, a Model is also a Package!
+}
+
+private pattern model(model: Model) {
+	Model(model);
 }
 
 // Package

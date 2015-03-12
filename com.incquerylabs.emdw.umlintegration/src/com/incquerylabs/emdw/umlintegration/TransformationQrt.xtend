@@ -73,8 +73,8 @@ class TransformationQrt {
 			val watch = Stopwatch.createStarted
 
 			val rulesBuilder = ImmutableSet.builder
-			rulesBuilder.addAll(XTComponentRules.getRules(engine))
 			rulesBuilder.addAll(XTPackageRules.getRules(engine))
+			rulesBuilder.addAll(XTComponentRules.getRules(engine))
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))

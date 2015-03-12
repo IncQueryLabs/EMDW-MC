@@ -42,10 +42,9 @@ class XTPackageInComponentMappingTest extends TransformationTest<Package, XTPack
 
 	override protected createUmlObject(RootMapping mapping) {
 		val package = createPackage("package")
-		val component = createComponent("component") => [
+		mapping.umlRoot.packagedElements += createComponent("component") => [
 			packagedElements += package
 		]
-		mapping.umlRoot.packagedElements += component
 		package
 	}
 	

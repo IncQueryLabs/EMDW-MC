@@ -2,9 +2,30 @@ package com.incquerylabs.emdw.umlintegration.queries
 
 import "http://www.eclipse.org/uml2/5.0.0/UML"
 
-pattern xtClass(umlPackage: Package, umlClass: Class) {
-	Package.packagedElement(umlPackage, umlClass);
-	neg find xtComponent(umlClass); // In UML, a Component is also a Class!
+// Package
+
+pattern xtPackage(umlPackage) {
+	Package(umlPackage);
+	neg find model(umlPackage);
+	neg find profile(umlPackage);
+}
+
+private pattern model(it) {
+	Model(it);
+}
+
+private pattern profile(it) {
+	Profile(it);
+}
+
+pattern xtPackageInModel(model: Model, umlPackage: Package) {
+	Model.packagedElement(model, umlPackage);
+	find xtPackage(umlPackage);
+}
+
+pattern xtPackageInComponent(component: Component, umlPackage: Package) {
+	Component.packagedElement(component, umlPackage);
+	find xtPackage(umlPackage);
 }
 
 // Component
@@ -15,29 +36,58 @@ pattern xtComponent(component: Component) {
 
 pattern xtComponentInModel(model: Model, component: Component) {
 	Model.packagedElement(model, component);
+	find xtComponent(component);
 }
 
 pattern xtComponentInPackage(umlPackage: Package, component: Component) {
 	Package.packagedElement(umlPackage, component);
-	neg find model(umlPackage); // In UML, a Model is also a Package!
+	find xtComponent(component);
+	find xtPackage(umlPackage);
 }
 
-private pattern model(model: Model) {
-	Model(model);
+// Class
+
+pattern xtClass(umlClass: Class) {
+	Class(umlClass);
+	neg find xtAssociationClass(umlClass);
+	neg find behavior(umlClass);
+	neg find xtComponent(umlClass);
+	neg find node(umlClass);
+	neg find stereotype(umlClass);
 }
 
-// Package
-
-pattern xtPackage(umlPackage: Package) {
-	Package(umlPackage);
+private pattern behavior(it) {
+	Behavior(it);
 }
 
-pattern xtPackageInModel(model: Model, umlPackage: Package) {
-	Model.packagedElement(model, umlPackage);
+private pattern node(it) {
+	Node(it);
 }
 
-pattern xtPackageInComponent(component: Component, umlPackage: Package) {
-	Component.packagedElement(component, umlPackage);
+private pattern stereotype(it) {
+	Stereotype(it);
+}
+
+pattern xtClassInModel(model: Model, umlClass: Class) {
+	Model.packagedElement(model, umlClass);
+	find xtClass(umlClass);
+}
+
+pattern xtClassInPackage(umlPackage: Package, umlClass: Class) {
+	Package.packagedElement(umlPackage, umlClass);
+	find xtClass(umlClass);
+	find xtPackage(umlPackage);
+}
+
+pattern xtClassInComponent(component: Component, umlClass: Class) {
+	Component.nestedClassifier(component, umlClass);
+	find xtClass(umlClass);
+}
+
+// Association class
+
+pattern xtAssociationClass(associationClass) {
+	AssociationClass(associationClass);
 }
 
 // Events

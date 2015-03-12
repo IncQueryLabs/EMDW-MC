@@ -95,7 +95,7 @@ class XTComponentInPackageMapping extends AbstractContainmentRule<XtComponentInP
 	}
 	
 	override getRulePriority() {
-		Math.max(XTPackageMapping.PRIORITY, XTComponentMapping.PRIORITY) + 1
+		Math.max(XTComponentMapping.PRIORITY, XTPackageMapping.PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {

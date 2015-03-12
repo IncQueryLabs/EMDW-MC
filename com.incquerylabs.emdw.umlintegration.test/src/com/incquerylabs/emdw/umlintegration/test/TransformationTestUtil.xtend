@@ -12,11 +12,10 @@ import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
+import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
-import org.eclipse.uml2.uml.Trigger
-import org.eclipse.uml2.uml.Component
 
 class TransformationTestUtil {
 
@@ -64,13 +63,10 @@ class TransformationTestUtil {
 		]
 	}
 
-	static def createClass(Package umlPackage, String name) {
-		debug('''Adding class (name: «name») to «umlPackage.name»''')
-		val class = umlFactory.createClass => [
+	static def createClass(String name) {
+		umlFactory.createClass => [
 			it.name = name
 		]
-		umlPackage.packagedElements += class
-		class
 	}
 
 	static def createInterface(Package umlPackage, String name) {
@@ -104,14 +100,15 @@ class TransformationTestUtil {
 		]
 	}
 	
-	static def createStateMachine(RootMapping rootMapping) {
+	static def createStateMachine(RootMapping mapping) {
 		val stateMachine = umlFactory.createStateMachine => [
 			it.name = name
 			regions += umlFactory.createRegion
 		]
-		createClass(rootMapping.umlRoot, "class") => [
+		val class = createClass("class") => [
 			classifierBehavior = stateMachine
 		]
+		mapping.umlRoot.packagedElements += class
 		stateMachine
 	}
 	
@@ -153,9 +150,10 @@ class TransformationTestUtil {
 	
 	static def createSignalForClassEvent(RootMapping mapping) {
 		val signal = umlFactory.createSignal
-		createClass(mapping.umlRoot, "class") => [
+		val class = createClass("class") => [
 			nestedClassifiers += signal
 		]
+		mapping.umlRoot.packagedElements += class
 		signal
 	}
 

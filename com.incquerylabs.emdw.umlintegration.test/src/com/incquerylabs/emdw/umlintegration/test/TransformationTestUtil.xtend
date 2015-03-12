@@ -40,12 +40,12 @@ class TransformationTestUtil {
 		]
 		umlResource.contents += umlModel
 		
-		val xtumlrtPackage = commonFactory.createPackage
-		xtumlrtResource.contents += xtumlrtPackage
+		val xtumlrtModel = commonFactory.createModel
+		xtumlrtResource.contents += xtumlrtModel
 
 		val mapping = createRootMapping => [
 			umlRoot = umlModel
-			xtumlrtRoot = xtumlrtPackage
+			xtumlrtRoot = xtumlrtModel
 		]
 		traceResource.contents += mapping
 		mapping
@@ -164,7 +164,7 @@ class TransformationTestUtil {
 	}
 
 	static def getXtumlrtTopState(RootMapping mapping) {
-		mapping.xtumlrtRoot.entities.head.behaviour.top
+		mapping.xtumlrtRoot.topEntities.head.behaviour.top
 	}
 
 	static def <T> asSet(T object) {

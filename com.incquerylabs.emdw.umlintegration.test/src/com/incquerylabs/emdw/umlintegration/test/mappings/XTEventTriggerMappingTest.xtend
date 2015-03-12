@@ -30,7 +30,7 @@ class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigg
 	}
 	
 	override protected checkState(RootMapping mapping, Trigger umlObject, XTEventTrigger xtumlrtObject) {
-		val event = (mapping.xtumlrtRoot.entities.head as XTClass).events.head
+		val event = (mapping.xtumlrtRoot.topEntities.head as XTClass).events.head
 		assertEquals(event, xtumlrtObject.signal)
 	}
 

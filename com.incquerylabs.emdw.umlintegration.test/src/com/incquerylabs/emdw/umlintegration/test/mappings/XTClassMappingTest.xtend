@@ -22,7 +22,7 @@ class XTClassMappingTest extends TransformationTest<Class, XTClass> {
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtRoot.entities.filter(XTClass)
+		mapping.xtumlrtRoot.topEntities.filter(XTClass)
 	}
 	
 	override protected checkState(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {

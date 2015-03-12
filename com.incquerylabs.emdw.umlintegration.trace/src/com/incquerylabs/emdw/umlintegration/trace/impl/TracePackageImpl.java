@@ -239,8 +239,8 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(rootMappingEClass, RootMapping.class, "RootMapping", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getRootMapping_UmlRoot(), theUMLPackage.getPackage(), null, "umlRoot", null, 0, 1, RootMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getRootMapping_XtumlrtRoot(), theCommonPackage.getPackage(), null, "xtumlrtRoot", null, 0, 1, RootMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRootMapping_UmlRoot(), theUMLPackage.getModel(), null, "umlRoot", null, 0, 1, RootMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getRootMapping_XtumlrtRoot(), theCommonPackage.getModel(), null, "xtumlrtRoot", null, 0, 1, RootMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getRootMapping_Traces(), this.getTrace(), null, "traces", null, 0, -1, RootMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(traceEClass, Trace.class, "Trace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

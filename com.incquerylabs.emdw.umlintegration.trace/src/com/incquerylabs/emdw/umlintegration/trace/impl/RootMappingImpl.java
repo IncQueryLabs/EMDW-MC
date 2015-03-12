@@ -21,6 +21,7 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.uml2.uml.Model;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +47,7 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * @generated
 	 * @ordered
 	 */
-	protected org.eclipse.uml2.uml.Package umlRoot;
+	protected Model umlRoot;
 
 	/**
 	 * The cached value of the '{@link #getXtumlrtRoot() <em>Xtumlrt Root</em>}' reference.
@@ -56,7 +57,7 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * @generated
 	 * @ordered
 	 */
-	protected com.zeligsoft.xtumlrt.common.Package xtumlrtRoot;
+	protected com.zeligsoft.xtumlrt.common.Model xtumlrtRoot;
 
 	/**
 	 * The cached value of the '{@link #getTraces() <em>Traces</em>}' containment reference list.
@@ -92,10 +93,10 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public org.eclipse.uml2.uml.Package getUmlRoot() {
+	public Model getUmlRoot() {
 		if (umlRoot != null && umlRoot.eIsProxy()) {
 			InternalEObject oldUmlRoot = (InternalEObject)umlRoot;
-			umlRoot = (org.eclipse.uml2.uml.Package)eResolveProxy(oldUmlRoot);
+			umlRoot = (Model)eResolveProxy(oldUmlRoot);
 			if (umlRoot != oldUmlRoot) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.ROOT_MAPPING__UML_ROOT, oldUmlRoot, umlRoot));
@@ -109,7 +110,7 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public org.eclipse.uml2.uml.Package basicGetUmlRoot() {
+	public Model basicGetUmlRoot() {
 		return umlRoot;
 	}
 
@@ -118,8 +119,8 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setUmlRoot(org.eclipse.uml2.uml.Package newUmlRoot) {
-		org.eclipse.uml2.uml.Package oldUmlRoot = umlRoot;
+	public void setUmlRoot(Model newUmlRoot) {
+		Model oldUmlRoot = umlRoot;
 		umlRoot = newUmlRoot;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.ROOT_MAPPING__UML_ROOT, oldUmlRoot, umlRoot));
@@ -130,10 +131,10 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public com.zeligsoft.xtumlrt.common.Package getXtumlrtRoot() {
+	public com.zeligsoft.xtumlrt.common.Model getXtumlrtRoot() {
 		if (xtumlrtRoot != null && xtumlrtRoot.eIsProxy()) {
 			InternalEObject oldXtumlrtRoot = (InternalEObject)xtumlrtRoot;
-			xtumlrtRoot = (com.zeligsoft.xtumlrt.common.Package)eResolveProxy(oldXtumlrtRoot);
+			xtumlrtRoot = (com.zeligsoft.xtumlrt.common.Model)eResolveProxy(oldXtumlrtRoot);
 			if (xtumlrtRoot != oldXtumlrtRoot) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.ROOT_MAPPING__XTUMLRT_ROOT, oldXtumlrtRoot, xtumlrtRoot));
@@ -147,7 +148,7 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public com.zeligsoft.xtumlrt.common.Package basicGetXtumlrtRoot() {
+	public com.zeligsoft.xtumlrt.common.Model basicGetXtumlrtRoot() {
 		return xtumlrtRoot;
 	}
 
@@ -156,8 +157,8 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Package newXtumlrtRoot) {
-		com.zeligsoft.xtumlrt.common.Package oldXtumlrtRoot = xtumlrtRoot;
+	public void setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Model newXtumlrtRoot) {
+		com.zeligsoft.xtumlrt.common.Model oldXtumlrtRoot = xtumlrtRoot;
 		xtumlrtRoot = newXtumlrtRoot;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.ROOT_MAPPING__XTUMLRT_ROOT, oldXtumlrtRoot, xtumlrtRoot));
@@ -219,10 +220,10 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case TracePackage.ROOT_MAPPING__UML_ROOT:
-				setUmlRoot((org.eclipse.uml2.uml.Package)newValue);
+				setUmlRoot((Model)newValue);
 				return;
 			case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
-				setXtumlrtRoot((com.zeligsoft.xtumlrt.common.Package)newValue);
+				setXtumlrtRoot((com.zeligsoft.xtumlrt.common.Model)newValue);
 				return;
 			case TracePackage.ROOT_MAPPING__TRACES:
 				getTraces().clear();
@@ -241,10 +242,10 @@ public class RootMappingImpl extends MinimalEObjectImpl.Container implements Roo
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case TracePackage.ROOT_MAPPING__UML_ROOT:
-				setUmlRoot((org.eclipse.uml2.uml.Package)null);
+				setUmlRoot((Model)null);
 				return;
 			case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
-				setXtumlrtRoot((com.zeligsoft.xtumlrt.common.Package)null);
+				setXtumlrtRoot((com.zeligsoft.xtumlrt.common.Model)null);
 				return;
 			case TracePackage.ROOT_MAPPING__TRACES:
 				getTraces().clear();

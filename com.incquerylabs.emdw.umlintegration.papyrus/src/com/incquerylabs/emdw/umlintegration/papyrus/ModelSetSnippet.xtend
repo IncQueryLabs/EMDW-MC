@@ -13,6 +13,7 @@ import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.uml2.uml.Model
 
 class ModelSetSnippet implements IModelSetSnippet {
 
@@ -33,13 +34,13 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val resourceSet = new ResourceSetImpl
 		
 		val commonFactory = CommonFactory.eINSTANCE
-		val xtumlrtPackage = commonFactory.createPackage
-		createResource(umlResource, "xtumlrt", xtumlrtPackage, modelSet, resourceSet)
+		val xtumlrtModel = commonFactory.createModel
+		createResource(umlResource, "xtumlrt", xtumlrtModel, modelSet, resourceSet)
 
 		val traceFactory = TraceFactory.eINSTANCE
 		val mapping = traceFactory.createRootMapping => [
-			umlRoot = umlResource.contents.filter(Package).head
-			xtumlrtRoot = xtumlrtPackage
+			umlRoot = umlResource.contents.filter(Model).head
+			xtumlrtRoot = xtumlrtModel
 		]
 		createResource(umlResource, "trace", mapping, modelSet, resourceSet)
 		

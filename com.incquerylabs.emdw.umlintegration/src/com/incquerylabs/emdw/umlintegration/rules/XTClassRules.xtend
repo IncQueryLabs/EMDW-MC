@@ -45,7 +45,7 @@ class XTClassMapping extends AbstractObjectRule<XtClassMatch, Class, XTClass> {
 	}
 
 	def getXtumlrtContainer() {
-		rootMapping.xtumlrtRoot.entities
+		rootMapping.xtumlrtRoot.topEntities
 	}
 
 	override protected insertXtumlrtObject(XTClass xtumlrtObject, XtClassMatch match) {

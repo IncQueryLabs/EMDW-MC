@@ -23,7 +23,7 @@ class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
 	}
 
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.entities.head as XTClass).events.filter(XTClassEvent)
+		(mapping.xtumlrtRoot.topEntities.head as XTClass).events.filter(XTClassEvent)
 	}
 
 	override protected checkState(RootMapping mapping, Signal umlObject, XTClassEvent xtumlrtObject) {

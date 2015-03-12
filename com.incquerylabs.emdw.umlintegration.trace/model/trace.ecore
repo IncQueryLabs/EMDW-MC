@@ -3,8 +3,8 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="trace" nsURI="http://incquerylabs.com/emdw/umlintegration/trace"
     nsPrefix="trace">
   <eClassifiers xsi:type="ecore:EClass" name="RootMapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="umlRoot" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Package"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="xtumlrtRoot" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Package"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="umlRoot" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtumlrtRoot" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Model"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="traces" upperBound="-1"
         eType="#//Trace" containment="true"/>
   </eClassifiers>

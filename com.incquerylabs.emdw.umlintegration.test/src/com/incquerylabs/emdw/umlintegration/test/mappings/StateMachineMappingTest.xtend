@@ -21,7 +21,7 @@ class StateMachineMappingTest extends TransformationTest<StateMachine, com.zelig
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtRoot.entities.head.behaviour.asSet
+		mapping.xtumlrtRoot.topEntities.head.behaviour.asSet
 	}
 	
 	override protected checkState(RootMapping mapping, StateMachine umlObject, com.zeligsoft.xtumlrt.common.StateMachine xtumlrtObject) {

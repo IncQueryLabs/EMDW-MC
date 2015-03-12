@@ -5,6 +5,7 @@ package com.incquerylabs.emdw.umlintegration.trace;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.Model;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,12 +35,12 @@ public interface RootMapping extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Uml Root</em>' reference.
-	 * @see #setUmlRoot(org.eclipse.uml2.uml.Package)
+	 * @see #setUmlRoot(Model)
 	 * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage#getRootMapping_UmlRoot()
 	 * @model
 	 * @generated
 	 */
-	org.eclipse.uml2.uml.Package getUmlRoot();
+	Model getUmlRoot();
 
 	/**
 	 * Sets the value of the '{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getUmlRoot <em>Uml Root</em>}' reference.
@@ -49,7 +50,7 @@ public interface RootMapping extends EObject {
 	 * @see #getUmlRoot()
 	 * @generated
 	 */
-	void setUmlRoot(org.eclipse.uml2.uml.Package value);
+	void setUmlRoot(Model value);
 
 	/**
 	 * Returns the value of the '<em><b>Xtumlrt Root</b></em>' reference.
@@ -60,12 +61,12 @@ public interface RootMapping extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Xtumlrt Root</em>' reference.
-	 * @see #setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Package)
+	 * @see #setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Model)
 	 * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage#getRootMapping_XtumlrtRoot()
 	 * @model
 	 * @generated
 	 */
-	com.zeligsoft.xtumlrt.common.Package getXtumlrtRoot();
+	com.zeligsoft.xtumlrt.common.Model getXtumlrtRoot();
 
 	/**
 	 * Sets the value of the '{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getXtumlrtRoot <em>Xtumlrt Root</em>}' reference.
@@ -75,7 +76,7 @@ public interface RootMapping extends EObject {
 	 * @see #getXtumlrtRoot()
 	 * @generated
 	 */
-	void setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Package value);
+	void setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Model value);
 
 	/**
 	 * Returns the value of the '<em><b>Traces</b></em>' containment reference list.

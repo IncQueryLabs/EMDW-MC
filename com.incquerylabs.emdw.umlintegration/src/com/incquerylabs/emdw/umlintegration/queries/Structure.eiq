@@ -11,6 +11,20 @@ pattern xtClass(umlPackage: Package, umlClass: Class) {
 	neg find xtComponent(umlPackage, umlClass); // In UML, a Component is also a Class!
 }
 
+// Package
+
+pattern xtPackage(umlPackage: Package) {
+	Package(umlPackage);
+}
+
+pattern xtPackageInModel(model: Model, umlPackage: Package) {
+	Model.packagedElement(model, umlPackage);
+}
+
+pattern xtPackageInComponent(component: Component, umlPackage: Package) {
+	Component.packagedElement(component, umlPackage);
+}
+
 // Events
 
 pattern xtClassEvent(umlClass: Class, signal: Signal) {

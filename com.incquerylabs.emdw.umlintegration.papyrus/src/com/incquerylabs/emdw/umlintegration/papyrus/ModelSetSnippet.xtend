@@ -11,9 +11,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
-import org.eclipse.uml2.uml.Package
-import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.resource.UMLResource
 
 class ModelSetSnippet implements IModelSetSnippet {
 
@@ -21,7 +20,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 
 	override start(ModelSet modelSet) {
 		ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
-			if (!resource.contents.filter(Package).empty) {
+			if (!resource.contents.filter(Model).empty) {
 				val mapping = createMapping(resource, modelSet)
 				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new MultiEMFScope(#{resource, mapping.eResource.resourceSet})) // TODO change to EMFScope when https://bugs.eclipse.org/bugs/show_bug.cgi?id=460722 is fixed
 				transformation.initialize(mapping, engine)
@@ -33,12 +32,10 @@ class ModelSetSnippet implements IModelSetSnippet {
 	def createMapping(Resource umlResource, ModelSet modelSet) {
 		val resourceSet = new ResourceSetImpl
 		
-		val commonFactory = CommonFactory.eINSTANCE
-		val xtumlrtModel = commonFactory.createModel
+		val xtumlrtModel = CommonFactory.eINSTANCE.createModel
 		createResource(umlResource, "xtumlrt", xtumlrtModel, modelSet, resourceSet)
 
-		val traceFactory = TraceFactory.eINSTANCE
-		val mapping = traceFactory.createRootMapping => [
+		val mapping = TraceFactory.eINSTANCE.createRootMapping => [
 			umlRoot = umlResource.contents.filter(Model).head
 			xtumlrtRoot = xtumlrtModel
 		]

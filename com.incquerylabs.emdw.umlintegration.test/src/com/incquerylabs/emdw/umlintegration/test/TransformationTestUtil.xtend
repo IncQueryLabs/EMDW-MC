@@ -16,6 +16,7 @@ import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
 import org.eclipse.uml2.uml.Trigger
+import org.eclipse.uml2.uml.Component
 
 class TransformationTestUtil {
 
@@ -49,6 +50,12 @@ class TransformationTestUtil {
 		]
 		traceResource.contents += mapping
 		mapping
+	}
+	
+	static def createPackage(String name) {
+		umlFactory.createPackage => [
+			it.name = name
+		]
 	}
 	
 	static def createComponent(Package umlPackage, String name) {

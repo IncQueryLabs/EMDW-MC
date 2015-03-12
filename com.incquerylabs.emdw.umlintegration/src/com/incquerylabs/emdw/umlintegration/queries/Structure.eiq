@@ -2,8 +2,13 @@ package com.incquerylabs.emdw.umlintegration.queries
 
 import "http://www.eclipse.org/uml2/5.0.0/UML"
 
+pattern xtComponent(umlPackage: Package, component: Component) {
+	Package.packagedElement(umlPackage, component);
+}
+
 pattern xtClass(umlPackage: Package, umlClass: Class) {
 	Package.packagedElement(umlPackage, umlClass);
+	neg find xtComponent(umlPackage, umlClass); // In UML, a Component is also a Class!
 }
 
 // Events

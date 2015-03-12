@@ -31,6 +31,7 @@ import org.eclipse.incquery.runtime.evm.specific.ExecutionSchemas
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.umlintegration.rules.XTComponentRules
 
 class TransformationQrt {
 
@@ -71,6 +72,7 @@ class TransformationQrt {
 			val watch = Stopwatch.createStarted
 
 			val rulesBuilder = ImmutableSet.builder
+			rulesBuilder.addAll(XTComponentRules.getRules(engine))
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))

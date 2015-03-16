@@ -33,6 +33,7 @@ import org.eclipse.incquery.runtime.evm.specific.Schedulers
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.umlintegration.rules.XTComponentRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPackageRules
+import com.incquerylabs.emdw.umlintegration.rules.XTPortRules
 
 class TransformationQrt {
 
@@ -75,6 +76,7 @@ class TransformationQrt {
 			val rulesBuilder = ImmutableSet.builder
 			rulesBuilder.addAll(XTPackageRules.getRules(engine))
 			rulesBuilder.addAll(XTComponentRules.getRules(engine))
+			rulesBuilder.addAll(XTPortRules.getRules(engine))
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))

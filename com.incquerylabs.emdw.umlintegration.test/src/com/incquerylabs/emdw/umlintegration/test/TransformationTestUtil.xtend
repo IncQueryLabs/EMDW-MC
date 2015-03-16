@@ -62,6 +62,14 @@ class TransformationTestUtil {
 			it.name = name
 		]
 	}
+	
+	static def createPort(RootMapping mapping) {
+		val port = umlFactory.createPort
+		mapping.umlRoot.packagedElements += createComponent("foo") => [
+			ownedAttributes += port
+		]
+		port
+	}
 
 	static def createClass(String name) {
 		umlFactory.createClass => [

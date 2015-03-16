@@ -15,6 +15,7 @@ class XTPackageRules {
 			new XTPackageMapping(engine).specification,
 			new XTPackageInModelMapping(engine).specification,
 			new XTPackageInComponentMapping(engine).specification
+			// TODO PackageInPackage
 		}
 	}
 }

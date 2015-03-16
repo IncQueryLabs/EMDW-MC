@@ -45,6 +45,12 @@ pattern xtComponentInPackage(umlPackage: Package, component: Component) {
 	find xtPackage(umlPackage);
 }
 
+// Port
+
+pattern xtPort(component: Component, port: Port) {
+	Component.ownedAttribute(component, port);
+}
+
 // Class
 
 pattern xtClass(umlClass: Class) {

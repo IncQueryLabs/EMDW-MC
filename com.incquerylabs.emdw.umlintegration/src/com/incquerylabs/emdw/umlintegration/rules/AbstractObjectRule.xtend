@@ -2,13 +2,15 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
+import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.NamedElement
-import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
 
-abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElement, T extends com.zeligsoft.xtumlrt.common.NamedElement> extends AbstractRule<M> {
+abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends Element, XtumlrtObject extends EObject> extends AbstractRule<Match> {
 
 	protected CommonFactory commonFactory = CommonFactory.eINSTANCE
 	protected XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
@@ -18,62 +20,70 @@ abstract class AbstractObjectRule<M extends IPatternMatch, S extends NamedElemen
 		super(engine)
 	}
 
-	override appeared(M match) {
+	override appeared(Match match) {
 		val umlObject = match.umlObject
-		val name = umlObject.name
 		val xtumlrtObject = createXtumlrtObject(umlObject, match)
 		xtumlrtObject.insertXtumlrtObject(match)
-		xtumlrtObject.name = name
+		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
 		updateTrace(umlObject, xtumlrtObject)
-		debug('''Created xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Created xtumlrt object «xtumlrtObject»''')
 	}
 	
-	override def updated(M match) {
+	override def updated(Match match) {
 		val umlObject = match.umlObject
-		val name = umlObject.name
 		val traceMatch = findTrace(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
-		xtumlrtObject.name = name
+		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
-		debug('''Updated xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Updated xtumlrt object «xtumlrtObject»''')
 	}
 
-	override def disappeared(M match) {
+	override def disappeared(Match match) {
 		val umlObject = match.umlObject
 		val traceMatch = findTrace(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		EcoreUtil.remove(xtumlrtObject)
 		rootMapping.traces -= traceMatch.trace
-		debug('''Removed xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Removed xtumlrt object «xtumlrtObject»''')
 	}
-	
-	private def updateTrace(NamedElement umlObject, com.zeligsoft.xtumlrt.common.NamedElement xtumlrtObject) {
+
+	private def updateName(UmlObject umlObject, XtumlrtObject xtumlrtObject) {
+		switch umlObject {
+			NamedElement: {
+				switch xtumlrtObject {
+					com.zeligsoft.xtumlrt.common.NamedElement: xtumlrtObject.name = umlObject.name
+				}
+			} 
+		}
+	}
+
+	private def updateTrace(UmlObject umlObject, XtumlrtObject xtumlrtObject) {
 		val traces = engine.trace.getAllValuesOftrace(null, umlObject, null)
 		if (traces.empty) {
 			rootMapping.traces += traceFactory.createTrace => [
 				umlElements += umlObject
 				xtumlrtElements += xtumlrtObject
 			]
-			trace('''Created new trace for new object''')
+			logger.trace('''Created new trace for new object''')
 		} else {
 			traces.head.xtumlrtElements += xtumlrtObject
-			trace('''Added new object to existing trace''')
+			logger.trace('''Added new object to existing trace''')
 		}
 	}
 
-	private def findTrace(NamedElement umlObject) {
+	private def findTrace(Element umlObject) {
 		engine.trace.getOneArbitraryMatch(rootMapping, null, umlObject, null)
 	}
 
-	protected def S getUmlObject(M match)
+	protected def UmlObject getUmlObject(Match match)
 
-	protected def Class<? extends T> getXtumlrtClass()
+	protected def Class<? extends XtumlrtObject> getXtumlrtClass()
 
-	protected def T createXtumlrtObject(S umlObject, M match)
+	protected def XtumlrtObject createXtumlrtObject(UmlObject umlObject, Match match)
 
-	protected def void insertXtumlrtObject(T xtumlrtObject, M match)
+	protected def void insertXtumlrtObject(XtumlrtObject xtumlrtObject, Match match)
 
-	protected def void updateXtumlrtObject(T xtumlrtObject, M match)
+	protected def void updateXtumlrtObject(XtumlrtObject xtumlrtObject, Match match)
 	
 }

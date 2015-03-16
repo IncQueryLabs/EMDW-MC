@@ -53,6 +53,15 @@ pattern xtPort(component: Component, port: Port) {
 
 pattern capsulePart(component: Component, property: Property) {
 	Component.ownedAttribute(component, property);
+	neg find xtPort(component, property);
+}
+
+pattern connector(component: Component, connector: Connector) {
+	Component.ownedConnector(component, connector);
+}
+
+pattern connectorEnd(connector: Connector, connectorEnd: ConnectorEnd) {
+	Connector.end(connector, connectorEnd);
 }
 
 // Class

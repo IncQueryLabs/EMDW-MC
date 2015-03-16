@@ -3,10 +3,8 @@
 package com.incquerylabs.emdw.umlintegration.trace;
 
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
-
-import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Element;
 
 /**
  * <!-- begin-user-doc -->
@@ -28,7 +26,7 @@ import org.eclipse.uml2.uml.NamedElement;
 public interface Trace extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Uml Elements</b></em>' reference list.
-	 * The list contents are of type {@link org.eclipse.uml2.uml.NamedElement}.
+	 * The list contents are of type {@link org.eclipse.uml2.uml.Element}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Uml Elements</em>' reference list isn't clear,
@@ -40,11 +38,11 @@ public interface Trace extends EObject {
 	 * @model
 	 * @generated
 	 */
-	EList<NamedElement> getUmlElements();
+	EList<Element> getUmlElements();
 
 	/**
 	 * Returns the value of the '<em><b>Xtumlrt Elements</b></em>' reference list.
-	 * The list contents are of type {@link com.zeligsoft.xtumlrt.common.NamedElement}.
+	 * The list contents are of type {@link org.eclipse.emf.ecore.EObject}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Xtumlrt Elements</em>' reference list isn't clear,
@@ -56,6 +54,6 @@ public interface Trace extends EObject {
 	 * @model
 	 * @generated
 	 */
-	EList<com.zeligsoft.xtumlrt.common.NamedElement> getXtumlrtElements();
+	EList<EObject> getXtumlrtElements();
 
 } // Trace

@@ -16,9 +16,9 @@ import com.incquerylabs.emdw.umlintegration.queries.Trace
 import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
 
-abstract class AbstractRule<M extends IPatternMatch> {
+abstract class AbstractRule<Match extends IPatternMatch> {
 
-	protected extension Logger logger = Logger.getLogger(class)
+	protected val Logger logger = Logger.getLogger(class)
 	protected static extension Trace tracePatterns = Trace.instance
 	protected static extension StateMachine stateMachinePatterns = StateMachine.instance
 	protected static extension Structure structurePatterns = Structure.instance
@@ -29,7 +29,7 @@ abstract class AbstractRule<M extends IPatternMatch> {
 	}
 
 	def getSpecification() {
-		new PriorityRuleSpecification<M> => [
+		new PriorityRuleSpecification<Match> => [
 			ruleSpecification = Rules.newMatcherRuleSpecification(querySpecification, Lifecycles.getDefault(true, true),
 				#{appearedJob, updateJob, disappearedJob})
 			priority = rulePriority
@@ -44,26 +44,26 @@ abstract class AbstractRule<M extends IPatternMatch> {
 
 	private def getAppearedJob() {
 		Jobs.newStatelessJob(IncQueryActivationStateEnum.APPEARED,
-			[ M match | appeared(match)])
+			[ Match match | appeared(match)])
 	}
 	
-	protected def void appeared(M m)
+	protected def void appeared(Match m)
 	
 	private def getUpdateJob() {
 		Jobs.newStatelessJob(IncQueryActivationStateEnum.UPDATED,
-			[ M match | updated(match)])
+			[ Match match | updated(match)])
 	}
 
-	protected def void updated(M m)
+	protected def void updated(Match m)
 
 	private def getDisappearedJob() {
 		Jobs.newStatelessJob(IncQueryActivationStateEnum.DISAPPEARED,
-			[ M match | disappeared(match) ])
+			[ Match match | disappeared(match) ])
 	}
 	
-	protected def void disappeared(M m)
+	protected def void disappeared(Match m)
 
-	protected def IQuerySpecification<? extends IncQueryMatcher<M>> getQuerySpecification()
+	protected def IQuerySpecification<? extends IncQueryMatcher<Match>> getQuerySpecification()
 
 	protected def int getRulePriority()
 

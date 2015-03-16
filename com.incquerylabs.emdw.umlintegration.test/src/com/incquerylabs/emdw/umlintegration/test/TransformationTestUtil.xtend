@@ -17,6 +17,8 @@ import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.Component
+import org.eclipse.uml2.uml.Connector
 
 class TransformationTestUtil {
 
@@ -64,26 +66,37 @@ class TransformationTestUtil {
 		]
 	}
 
-	static def createPort(RootMapping mapping) {
-		val port = umlFactory.createPort
-		createComponentInModel(mapping) => [
-			ownedAttributes += port
-		]
-		port
-	}
-
-	static def createProperty(RootMapping mapping) {
-		val property = umlFactory.createProperty
-		createComponentInModel(mapping) => [
-			ownedAttributes += property
-		]
-		property
-	}
-
 	static def createComponentInModel(RootMapping mapping) {
 		val component = createComponent("component")
 		mapping.umlRoot.packagedElements += component
 		component
+	}
+
+	static def createPort(Component component) {
+		val port = umlFactory.createPort
+		component.ownedAttributes += port
+		port
+	}
+
+	static def createProperty(Component component) {
+		val property = umlFactory.createProperty
+		component.ownedAttributes += property
+		property
+	}
+
+	static def createConnector(Component component) {
+		val connector = umlFactory.createConnector
+		component.ownedConnectors += connector
+		connector
+	}
+	
+	static def createConnectorEnd(Connector connector, Port role, org.eclipse.uml2.uml.Property partWithPort) {
+		val connectorEnd = umlFactory.createConnectorEnd => [
+			it.role = role
+			it.partWithPort = partWithPort
+		]
+		connector.ends += connectorEnd
+		connectorEnd
 	}
 
 	static def createClass(String name) {

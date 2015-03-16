@@ -4,29 +4,29 @@ import com.zeligsoft.xtumlrt.common.NamedElement
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-abstract class AbstractContainmentRule<M extends IPatternMatch, P extends NamedElement, C extends NamedElement> extends AbstractRule<M> {
+abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent extends NamedElement, Child extends NamedElement> extends AbstractRule<Match> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
 	}
 
-	override appeared(M match) {
+	override appeared(Match match) {
 		val parent = match.findParent
 		val child = match.findChild
 		parent.insertChild(child)
-		debug('''Added child «child» to parent «parent»''')
+		logger.debug('''Added child «child» to parent «parent»''')
 	}
 	
-	override protected updated(M match) {
+	override protected updated(Match match) {
 	}
 	
-	override disappeared(M match) {
+	override disappeared(Match match) {
 	}
 
-	protected def P findParent(M match)
+	protected def Parent findParent(Match match)
 
-	protected def C findChild(M match)
+	protected def Child findChild(Match match)
 	
-	protected def void insertChild(P parent, C child)
+	protected def void insertChild(Parent parent, Child child)
 
 }

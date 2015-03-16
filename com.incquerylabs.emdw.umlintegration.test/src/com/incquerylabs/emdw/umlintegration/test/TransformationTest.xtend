@@ -4,15 +4,16 @@ import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.test.wrappers.QueryResultTraceability
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.uml2.uml.NamedElement
+import org.eclipse.uml2.uml.Element
 import org.junit.Test
 import org.junit.runners.Parameterized.Parameters
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
-abstract class TransformationTest<UmlObject extends NamedElement, XtumlrtObject extends com.zeligsoft.xtumlrt.common.NamedElement> extends TestWithoutParameters {
+abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> extends TestWithoutParameters {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)

@@ -35,16 +35,17 @@ import com.incquerylabs.emdw.umlintegration.rules.XTComponentRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPackageRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPortRules
 import com.incquerylabs.emdw.umlintegration.rules.CapsulePartRules
+import com.incquerylabs.emdw.umlintegration.rules.ConnectorRules
+import com.incquerylabs.emdw.umlintegration.rules.ConnectorEndRules
 
 class TransformationQrt {
 
-	extension Logger logger = Logger.getLogger(class)
+	extension val Logger logger = Logger.getLogger(class)
 	static val tracePatterns = Trace.instance
 	static val stateMachinePatterns = StateMachine.instance
 	static val structurePatterns = Structure.instance
 
-	ExecutionSchema schema = null
-
+	ExecutionSchema schema
 	RootMapping mapping
 	IncQueryEngine engine
 
@@ -79,9 +80,12 @@ class TransformationQrt {
 			rulesBuilder.addAll(XTComponentRules.getRules(engine))
 			rulesBuilder.addAll(XTPortRules.getRules(engine))
 			rulesBuilder.addAll(CapsulePartRules.getRules(engine))
+			rulesBuilder.addAll(ConnectorRules.getRules(engine))
+			rulesBuilder.addAll(ConnectorEndRules.getRules(engine))
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))
+
 			rulesBuilder.addAll(StateMachineRules.getRules(engine))
 			rulesBuilder.addAll(InitialPointRules.getRules(engine))
 			rulesBuilder.addAll(ChoicePointRules.getRules(engine))

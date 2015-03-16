@@ -32,10 +32,10 @@ class ToplevelTransitionMappingTest extends TransformationTest<Transition, com.z
 	}
 	
 	static def checkTransition(RootMapping mapping, Transition umlObject, com.zeligsoft.xtumlrt.common.Transition xtumlrtObject) {
-		val xtumlrtSourceState = mapping.traces.findFirst[umlElements.contains(umlObject.source)].xtumlrtElements.head
-		val xtumlrtTargetState = mapping.traces.findFirst[umlElements.contains(umlObject.target)].xtumlrtElements.head
-		assertEquals("Transition source transition", xtumlrtSourceState, xtumlrtObject.sourceVertex)
-		assertEquals("Transition target transition", xtumlrtTargetState, xtumlrtObject.targetVertex)
+		val sourceVertex = mapping.traces.findFirst[umlElements.contains(umlObject.source)].xtumlrtElements.head
+		val targetVertex = mapping.traces.findFirst[umlElements.contains(umlObject.target)].xtumlrtElements.head
+		assertEquals("Transition source vertex", sourceVertex, xtumlrtObject.sourceVertex)
+		assertEquals("Transition target vertex", targetVertex, xtumlrtObject.targetVertex)
 	}
 	
 }

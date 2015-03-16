@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import org.eclipse.uml2.uml.PseudostateKind
 import com.zeligsoft.xtumlrt.common.CompositeState
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class ToplevelExitPointMappingTest extends TransformationTest<Pseudostate, ExitPoint> {
@@ -19,16 +20,16 @@ class ToplevelExitPointMappingTest extends TransformationTest<Pseudostate, ExitP
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
+	override protected createUmlObject(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
 		createPseudostate(stateMachine.regions.head, "exitState", PseudostateKind.EXIT_POINT_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.exitPoints
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.xtumlrtTopState.exitPoints
 	}
 	
-	override protected checkState(RootMapping mapping, Pseudostate umlObject, ExitPoint xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Pseudostate umlObject, ExitPoint xtumlrtObject) {
 	}
 	
 }
@@ -40,17 +41,17 @@ class ChildExitPointMappingTest extends TransformationTest<Pseudostate, ExitPoin
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
-		val parentState = createParentState(stateMachine, "parentState")
+	override protected createUmlObject(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
+		val parentState = createCompositeState(stateMachine, "parentState")
 		createPseudostate(parentState.regions.head, "childExitPoint", PseudostateKind.EXIT_POINT_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtTopState.substates.head as CompositeState).exitPoints
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.xtumlrtTopState.substates.head as CompositeState).exitPoints
 	}
 	
-	override protected checkState(RootMapping mapping, Pseudostate umlObject, ExitPoint xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Pseudostate umlObject, ExitPoint xtumlrtObject) {
 	}
 	
 }

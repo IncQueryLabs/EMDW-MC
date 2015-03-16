@@ -10,6 +10,7 @@ import org.eclipse.uml2.uml.Package
 
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTPackageInModelMappingTest extends TransformationTest<Package, XTPackage> {
@@ -18,17 +19,17 @@ class XTPackageInModelMappingTest extends TransformationTest<Package, XTPackage>
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
+	override protected createUmlObject(Model umlRoot) {
 		val package = createPackage("package")
-		mapping.umlRoot.packagedElements += package
+		umlRoot.packagedElements += package
 		package
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtRoot.rootPackages.filter(XTPackage)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.rootPackages.filter(XTPackage)
 	}
 	
-	override protected checkState(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
 	}
 	
 }
@@ -40,19 +41,19 @@ class XTPackageInComponentMappingTest extends TransformationTest<Package, XTPack
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
+	override protected createUmlObject(Model umlRoot) {
 		val package = createPackage("package")
-		mapping.umlRoot.packagedElements += createComponent("component") => [
+		umlRoot.packagedElements += createComponent("component") => [
 			packagedElements += package
 		]
 		package
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.topEntities.head as XTComponent).packages.filter(XTPackage)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.topEntities.head as XTComponent).packages.filter(XTPackage)
 	}
 
-	override protected checkState(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
 	}
 	
 }

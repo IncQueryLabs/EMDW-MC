@@ -9,6 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class ToplevelStateMappingTest extends TransformationTest<State, com.zeligsoft.xtumlrt.common.State> {
@@ -17,18 +18,18 @@ class ToplevelStateMappingTest extends TransformationTest<State, com.zeligsoft.x
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
-		createState(stateMachine.regions.head, "state")
+	override protected createUmlObject(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
+		createSimpleState(stateMachine.regions.head, "state")
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.substates
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.xtumlrtTopState.substates
 	}
 	
-	override protected checkState(RootMapping mapping, State umlObject, com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, State umlObject, com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
 	}
-	
+
 }
 
 @RunWith(Parameterized)
@@ -38,17 +39,17 @@ class ChildStateMappingTest extends TransformationTest<State, com.zeligsoft.xtum
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
-		val parentState = createParentState(stateMachine, "parentState")
-		createState(parentState.regions.head, "childState")
+	override protected createUmlObject(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
+		val parentState = createCompositeState(stateMachine, "parentState")
+		createSimpleState(parentState.regions.head, "childState")
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtTopState.substates.head as CompositeState).substates
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.xtumlrtTopState.substates.head as CompositeState).substates
 	}
 
-	override protected checkState(RootMapping mapping, State umlObject, com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, State umlObject, com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
 	}
 	
 }

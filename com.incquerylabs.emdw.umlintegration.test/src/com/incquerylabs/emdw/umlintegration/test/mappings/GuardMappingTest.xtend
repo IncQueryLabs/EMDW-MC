@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.assertEquals
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class GuardMappingTest extends TransformationTest<Constraint, Guard> {
@@ -19,8 +20,8 @@ class GuardMappingTest extends TransformationTest<Constraint, Guard> {
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val transition = createTransition(mapping)
+	override protected createUmlObject(Model umlRoot) {
+		val transition = createTransition(umlRoot)
 		val umlFactory = UMLFactory.eINSTANCE
 		val guard = umlFactory.createConstraint => [
 			specification = umlFactory.createOpaqueExpression => [
@@ -32,11 +33,11 @@ class GuardMappingTest extends TransformationTest<Constraint, Guard> {
 		guard
 	}
 
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.transitions.head.guard.asSet
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.xtumlrtTopState.transitions.head.guard.asSet
 	}
 	
-	override protected checkState(RootMapping mapping, Constraint umlObject, Guard xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Constraint umlObject, Guard xtumlrtObject) {
 		assertEquals(TEST_EXPRESSION, xtumlrtObject.body.source)
 	}
 

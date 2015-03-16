@@ -12,9 +12,9 @@ import org.eclipse.uml2.uml.NamedElement
 
 abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends Element, XtumlrtObject extends EObject> extends AbstractRule<Match> {
 
-	protected CommonFactory commonFactory = CommonFactory.eINSTANCE
-	protected XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
-	protected TraceFactory traceFactory = TraceFactory.eINSTANCE
+	protected static val CommonFactory commonFactory = CommonFactory.eINSTANCE
+	protected static val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
+	protected static val TraceFactory traceFactory = TraceFactory.eINSTANCE
 
 	new(IncQueryEngine engine) {
 		super(engine)

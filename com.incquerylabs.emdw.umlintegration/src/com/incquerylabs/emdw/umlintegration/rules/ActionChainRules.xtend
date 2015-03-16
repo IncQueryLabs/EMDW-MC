@@ -54,5 +54,5 @@ class ActionChainMapping extends AbstractObjectRule<ActionChainMatch, Behavior, 
 	override insertXtumlrtObject(ActionChain xtumlrtObject, ActionChainMatch match) {
 		match.xtumlrtContainer.actionChain = xtumlrtObject
 	}
-	
+
 }

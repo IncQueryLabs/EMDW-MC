@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTPortMappingTest extends TransformationTest<Port, XTPort> {
@@ -19,16 +20,16 @@ class XTPortMappingTest extends TransformationTest<Port, XTPort> {
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val component = createComponentInModel(mapping)
+	override protected createUmlObject(Model umlRoot) {
+		val component = createComponentInModel(umlRoot)
 		createPort(component)
 	}
 
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.topEntities.head as XTComponent).ports.filter(XTPort)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.topEntities.head as XTComponent).ports.filter(XTPort)
 	}
 
-	override protected checkState(RootMapping mapping, Port umlObject, XTPort xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Port umlObject, XTPort xtumlrtObject) {
 		assertEquals(umlObject.conjugated, xtumlrtObject.conjugate) 
 	}
 

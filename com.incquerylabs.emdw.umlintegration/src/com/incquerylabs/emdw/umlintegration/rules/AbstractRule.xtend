@@ -19,10 +19,10 @@ import com.incquerylabs.emdw.umlintegration.queries.Structure
 abstract class AbstractRule<Match extends IPatternMatch> {
 
 	protected val Logger logger = Logger.getLogger(class)
-	protected static extension Trace tracePatterns = Trace.instance
-	protected static extension StateMachine stateMachinePatterns = StateMachine.instance
-	protected static extension Structure structurePatterns = Structure.instance
-	protected IncQueryEngine engine
+	protected static extension val Trace tracePatterns = Trace.instance
+	protected static extension val StateMachine stateMachinePatterns = StateMachine.instance
+	protected static extension val Structure structurePatterns = Structure.instance
+	protected val IncQueryEngine engine
 
 	new(IncQueryEngine engine) {
 		this.engine = engine
@@ -31,40 +31,38 @@ abstract class AbstractRule<Match extends IPatternMatch> {
 	def getSpecification() {
 		new PriorityRuleSpecification<Match> => [
 			ruleSpecification = Rules.newMatcherRuleSpecification(querySpecification, Lifecycles.getDefault(true, true),
-				#{appearedJob, updateJob, disappearedJob})
+				#{appearedJob, updateJob, disappearedJob}
+			)
 			priority = rulePriority
 		]
 	}
+
+	protected def IQuerySpecification<? extends IncQueryMatcher<Match>> getQuerySpecification()
+
+	protected def int getRulePriority()
+
+	private def getAppearedJob() {
+		Jobs.newStatelessJob(IncQueryActivationStateEnum.APPEARED, [ Match match | appeared(match)])
+	}
+	
+	protected def void appeared(Match match)
+	
+	private def getUpdateJob() {
+		Jobs.newStatelessJob(IncQueryActivationStateEnum.UPDATED, [ Match match | updated(match)])
+	}
+
+	protected def void updated(Match match)
+
+	private def getDisappearedJob() {
+		Jobs.newStatelessJob(IncQueryActivationStateEnum.DISAPPEARED, [ Match match | disappeared(match) ])
+	}
+	
+	protected def void disappeared(Match match)
 
 	protected def getRootMapping() {
 		val matcher = engine.rootMapping
 		checkState(matcher.countMatches == 1, "Incorrect number of mappings!")
 		matcher.oneArbitraryMatch.rootMapping
 	}
-
-	private def getAppearedJob() {
-		Jobs.newStatelessJob(IncQueryActivationStateEnum.APPEARED,
-			[ Match match | appeared(match)])
-	}
-	
-	protected def void appeared(Match m)
-	
-	private def getUpdateJob() {
-		Jobs.newStatelessJob(IncQueryActivationStateEnum.UPDATED,
-			[ Match match | updated(match)])
-	}
-
-	protected def void updated(Match m)
-
-	private def getDisappearedJob() {
-		Jobs.newStatelessJob(IncQueryActivationStateEnum.DISAPPEARED,
-			[ Match match | disappeared(match) ])
-	}
-	
-	protected def void disappeared(Match m)
-
-	protected def IQuerySpecification<? extends IncQueryMatcher<Match>> getQuerySpecification()
-
-	protected def int getRulePriority()
 
 }

@@ -12,6 +12,7 @@ import org.junit.runners.Parameterized.Parameters
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.Model
 
 abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> extends TestWithoutParameters {
 
@@ -36,29 +37,29 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val testId = "single"
 		startTest(testId)
 		val mapping = createRootMapping(testId)
-		val umlObject = createUmlObject(mapping)
+		val umlObject = createUmlObject(mapping.umlRoot)
 		mapping.initializeTransformation
 		executeTransformation
 		mapping.assertMapping(umlObject)
 		endTest(testId)
 	}
 	
-	protected def UmlObject createUmlObject(RootMapping mapping)
+	protected def UmlObject createUmlObject(Model umlModel)
 	
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {
-		val xtumlrtObjects = mapping.xtumlrtObjects
+		val xtumlrtObjects = mapping.xtumlrtRoot.xtumlrtObjects
 		assertFalse("Object not transformed", xtumlrtObjects.empty)
 		val xtumlrtObject = xtumlrtObjects.head
 		val trace = mapping.traces.findFirst[umlElements.contains(umlObject)]
 		assertNotNull("Trace not created", trace)
-		assertEquals("Trace is not complete (umlElements)", #[umlObject], trace.umlElements)
-		assertEquals("Trace is not complete (xtumlrtElements)", #[xtumlrtObject], trace.xtumlrtElements)
-		checkState(mapping, umlObject, xtumlrtObject)		
+		assertEquals("Invalid trace umlElements", #[umlObject], trace.umlElements)
+		assertEquals("Invalid trace xtumlrtElements", #[xtumlrtObject], trace.xtumlrtElements)
+		checkXtumlrtObject(mapping, umlObject, xtumlrtObject)		
 	}
 	
-	protected def Iterable<XtumlrtObject> getXtumlrtObjects(RootMapping mapping)
+	protected def Iterable<XtumlrtObject> getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot)
 
-	protected def void checkState(RootMapping mapping, UmlObject umlObject, XtumlrtObject xtumlrtObject)
+	protected def void checkXtumlrtObject(RootMapping mapping, UmlObject umlObject, XtumlrtObject xtumlrtObject)
 
 	@Test
 	def incremental() {
@@ -67,7 +68,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val mapping = createRootMapping(testId)
 		mapping.initializeTransformation
 		executeTransformation
-		val umlObject = createUmlObject(mapping)
+		val umlObject = createUmlObject(mapping.umlRoot)
 		executeTransformation
 		mapping.assertMapping(umlObject)
 		endTest(testId)
@@ -78,14 +79,14 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val testId = "remove"
 		startTest(testId)
 		val mapping = createRootMapping(testId)
-		val umlObject = createUmlObject(mapping)
+		val umlObject = createUmlObject(mapping.umlRoot)
 		mapping.initializeTransformation
 		executeTransformation
 		mapping.assertMapping(umlObject)
 		info("Removing object from uml model")
 		EcoreUtil.remove(umlObject)
 		executeTransformation
-		assertTrue("Object not removed from xtumlrt model", mapping.xtumlrtObjects.empty)
+		assertTrue("Object not removed from xtumlrt model", mapping.xtumlrtRoot.xtumlrtObjects.empty)
 		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(umlObject)])
 		endTest(testId)
 	}

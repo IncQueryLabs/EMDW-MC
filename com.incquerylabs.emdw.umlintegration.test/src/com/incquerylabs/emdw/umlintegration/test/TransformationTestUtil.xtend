@@ -19,13 +19,15 @@ import org.eclipse.uml2.uml.UMLFactory
 import static org.junit.Assert.*
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Connector
+import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.Transition
 
 class TransformationTestUtil {
 
-	static extension Logger logger = Logger.getLogger(TransformationTestUtil)
-	static extension UMLFactory umlFactory = UMLFactory.eINSTANCE
-	static extension CommonFactory commonFactory = CommonFactory.eINSTANCE
-	static extension TraceFactory traceFactory = TraceFactory.eINSTANCE
+	static extension val Logger logger = Logger.getLogger(TransformationTestUtil)
+	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
+	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
+	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
 	
 	public static val CPP_LANGUAGE = "C++"
 	public static val TEST_SIDE_EFFECT_1 = '''cout << "foo";'''
@@ -66,9 +68,9 @@ class TransformationTestUtil {
 		]
 	}
 
-	static def createComponentInModel(RootMapping mapping) {
+	static def createComponentInModel(Model umlRoot) {
 		val component = createComponent("component")
-		mapping.umlRoot.packagedElements += component
+		umlRoot.packagedElements += component
 		component
 	}
 
@@ -114,7 +116,45 @@ class TransformationTestUtil {
 		interface
 	}
 
-	static def createState(Region region, String name) {
+	static def createSignalForClassEvent(Model umlRoot) {
+		val signal = umlFactory.createSignal
+		val class = createClass("class") => [
+			nestedClassifiers += signal
+		]
+		umlRoot.packagedElements += class
+		signal
+	}
+
+	static def createSignalForSignalEvent(Model umlRoot, Trigger trigger) {
+		val signal = umlFactory.createSignal
+		createInterface(umlRoot, "interface") => [
+			nestedClassifiers += signal
+		]
+		trigger.event = createSignalEvent(umlRoot, signal)
+		signal
+	}
+
+	private static def createSignalEvent(Model umlRoot, Signal signal) {
+		val signalEvent = umlFactory.createSignalEvent => [
+			it.signal = signal
+		]
+		umlRoot.packagedElements += signalEvent
+		signalEvent
+	}
+
+	static def createStateMachine(Model umlRoot) {
+		val stateMachine = umlFactory.createStateMachine => [
+			it.name = name
+			regions += umlFactory.createRegion
+		]
+		val class = createClass("class") => [
+			classifierBehavior = stateMachine
+		]
+		umlRoot.packagedElements += class
+		stateMachine
+	}
+
+	static def createSimpleState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
 			entry = umlFactory.createOpaqueBehavior => [
@@ -130,24 +170,21 @@ class TransformationTestUtil {
 		state
 	}
 
-	static def createParentState(StateMachine stateMachine, String name) {
-		createState(stateMachine.regions.head, name) => [
+	static def createCompositeState(StateMachine stateMachine, String name) {
+		createSimpleState(stateMachine.regions.head, name) => [
 			regions += umlFactory.createRegion
 		]
 	}
-	
-	static def createStateMachine(RootMapping mapping) {
-		val stateMachine = umlFactory.createStateMachine => [
+
+	static def createPseudostate(Region region, String name, PseudostateKind kind) {
+		val pseudostate = umlFactory.createPseudostate => [
 			it.name = name
-			regions += umlFactory.createRegion
+			it.kind = kind
 		]
-		val class = createClass("class") => [
-			classifierBehavior = stateMachine
-		]
-		mapping.umlRoot.packagedElements += class
-		stateMachine
+		region.subvertices += pseudostate
+		pseudostate
 	}
-	
+
 	static def createTransition(Region region, String name, State sourceState, State targetState) {
 		debug('''Adding transition (name: «name») between «sourceState.name» and «targetState.name»''')
 		val transition = umlFactory.createTransition => [
@@ -159,67 +196,40 @@ class TransformationTestUtil {
 		transition
 	}
 	
-	static def createTransition(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
+	static def createTransition(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
 		val region = stateMachine.regions.head
-		val sourceState = createState(region, "source")
-		val targetState = createState(region, "target")
+		val sourceState = createSimpleState(region, "source")
+		val targetState = createSimpleState(region, "target")
 		createTransition(region, "transition", sourceState, targetState)
 	}
 
-	static def createPseudostate(Region region, String name, PseudostateKind kind) {
-		val pseudostate = umlFactory.createPseudostate => [
-			it.name = name
-			it.kind = kind
-		]
-		region.subvertices += pseudostate
-		pseudostate
-	}
-	
-	static def createTrigger(RootMapping mapping) {
+	static def createTrigger(Model umlRoot) {
 		val trigger = UMLFactory.eINSTANCE.createTrigger
-		createTransition(mapping) => [
+		createTransition(umlRoot) => [
 			triggers += trigger
 		]
 		trigger
 	}
 	
-	static def createSignalForClassEvent(RootMapping mapping) {
-		val signal = umlFactory.createSignal
-		val class = createClass("class") => [
-			nestedClassifiers += signal
-		]
-		mapping.umlRoot.packagedElements += class
-		signal
-	}
-
-	static def createSignalForSignalEvent(RootMapping mapping, Trigger trigger) {
-		val signal = umlFactory.createSignal
-		createInterface(mapping.umlRoot, "interface") => [
-			nestedClassifiers += signal
-		]
-		trigger.event = createSignalEvent(mapping, signal)
-		signal
-	}
-	
-	def static createSignalEvent(RootMapping mapping, Signal signal) {
-		val signalEvent = umlFactory.createSignalEvent => [
-			it.signal = signal
-		]
-		mapping.umlRoot.packagedElements += signalEvent
-		signalEvent
-	}
-
-	static def getXtumlrtTopState(RootMapping mapping) {
-		mapping.xtumlrtRoot.topEntities.head.behaviour.top
+	static def getXtumlrtTopState(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.topEntities.head.behaviour.top
 	}
 
 	static def <T> asSet(T object) {
 		#{object}.filterNull
 	}
 
-	def checkState(com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
+	static def checkState(com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
 		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.entryAction.source)
 		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.exitAction.source)
 	}
+
+	static def checkTransition(RootMapping mapping, Transition umlObject, com.zeligsoft.xtumlrt.common.Transition xtumlrtObject) {
+		val sourceVertex = mapping.traces.findFirst[umlElements.contains(umlObject.source)].xtumlrtElements.head
+		val targetVertex = mapping.traces.findFirst[umlElements.contains(umlObject.target)].xtumlrtElements.head
+		assertEquals("Transition source vertex", sourceVertex, xtumlrtObject.sourceVertex)
+		assertEquals("Transition target vertex", targetVertex, xtumlrtObject.targetVertex)
+	}
+
 }

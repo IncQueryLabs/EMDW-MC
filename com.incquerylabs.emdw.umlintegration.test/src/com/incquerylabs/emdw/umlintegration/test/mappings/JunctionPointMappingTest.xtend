@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import org.eclipse.uml2.uml.PseudostateKind
 import com.zeligsoft.xtumlrt.common.CompositeState
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class ToplevelJunctionPointMappingTest extends TransformationTest<Pseudostate, JunctionPoint> {
@@ -19,16 +20,16 @@ class ToplevelJunctionPointMappingTest extends TransformationTest<Pseudostate, J
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
+	override protected createUmlObject(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
 		createPseudostate(stateMachine.regions.head, "junctionState", PseudostateKind.JUNCTION_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.junctionPoints
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.xtumlrtTopState.junctionPoints
 	}
 	
-	override protected checkState(RootMapping mapping, Pseudostate umlObject, JunctionPoint xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Pseudostate umlObject, JunctionPoint xtumlrtObject) {
 	}
 	
 }
@@ -40,17 +41,17 @@ class ChildJunctionPointMappingTest extends TransformationTest<Pseudostate, Junc
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val stateMachine = createStateMachine(mapping)
-		val parentState = createParentState(stateMachine, "parentState")
+	override protected createUmlObject(Model umlRoot) {
+		val stateMachine = createStateMachine(umlRoot)
+		val parentState = createCompositeState(stateMachine, "parentState")
 		createPseudostate(parentState.regions.head, "childJunctionPoint", PseudostateKind.JUNCTION_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtTopState.substates.head as CompositeState).junctionPoints
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.xtumlrtTopState.substates.head as CompositeState).junctionPoints
 	}
 	
-	override protected checkState(RootMapping mapping, Pseudostate umlObject, JunctionPoint xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Pseudostate umlObject, JunctionPoint xtumlrtObject) {
 	}
 	
 }

@@ -11,6 +11,7 @@ import static extension com.incquerylabs.emdw.umlintegration.test.Transformation
 import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import static org.junit.Assert.assertEquals
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
@@ -19,17 +20,17 @@ class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigg
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val trigger = createTrigger(mapping)
-		createSignalForSignalEvent(mapping, trigger) // this will become the trigger's event
+	override protected createUmlObject(Model umlRoot) {
+		val trigger = createTrigger(umlRoot)
+		createSignalForSignalEvent(umlRoot, trigger) // this will become the trigger's event
 		trigger
 	}
 
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtTopState.transitions.head.triggers.filter(XTEventTrigger)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.xtumlrtTopState.transitions.head.triggers.filter(XTEventTrigger)
 	}
 	
-	override protected checkState(RootMapping mapping, Trigger umlObject, XTEventTrigger xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Trigger umlObject, XTEventTrigger xtumlrtObject) {
 		val event = (mapping.xtumlrtRoot.topEntities.head as XTClass).events.head
 		assertEquals(event, xtumlrtObject.signal)
 	}

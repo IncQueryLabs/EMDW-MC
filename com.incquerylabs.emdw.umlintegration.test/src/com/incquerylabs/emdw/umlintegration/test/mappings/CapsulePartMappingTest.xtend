@@ -10,6 +10,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class CapsulePartMappingTest extends TransformationTest<Property, CapsulePart> {
@@ -18,16 +19,16 @@ class CapsulePartMappingTest extends TransformationTest<Property, CapsulePart> {
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val component = createComponentInModel(mapping)
+	override protected createUmlObject(Model umlRoot) {
+		val component = createComponentInModel(umlRoot)
 		createProperty(component)
 	}
 
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.topEntities.head as XTComponent).parts
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.topEntities.head as XTComponent).parts
 	}
 
-	override protected checkState(RootMapping mapping, Property umlObject, CapsulePart xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, CapsulePart xtumlrtObject) {
 	}
 
 }

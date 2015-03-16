@@ -21,6 +21,7 @@ abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent exten
 	}
 	
 	override disappeared(Match match) {
+		// AbstractObjectRule already removes the child from the containment hierarchy
 	}
 
 	protected def Parent findParent(Match match)

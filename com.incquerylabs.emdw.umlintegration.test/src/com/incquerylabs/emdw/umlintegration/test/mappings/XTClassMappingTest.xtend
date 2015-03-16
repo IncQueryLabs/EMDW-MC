@@ -11,6 +11,7 @@ import org.junit.runners.Parameterized
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import com.zeligsoft.xtumlrt.xtuml.XTPackage
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
@@ -19,17 +20,17 @@ class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
+	override protected createUmlObject(Model umlRoot) {
 		val class = createClass("class")
-		mapping.umlRoot.packagedElements += class
+		umlRoot.packagedElements += class
 		class
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		mapping.xtumlrtRoot.topEntities.filter(XTClass)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.topEntities.filter(XTClass)
 	}
 	
-	override protected checkState(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
 	}
 
 }
@@ -41,19 +42,19 @@ class XTClassInPackageMappingTest extends TransformationTest<Class, XTClass> {
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
+	override protected createUmlObject(Model umlRoot) {
 		val class = createClass("class")
-		mapping.umlRoot.packagedElements += createPackage("package") => [
+		umlRoot.packagedElements += createPackage("package") => [
 			packagedElements += class
 		]
 		class
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.rootPackages.head as XTPackage).entities.filter(XTClass)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.rootPackages.head as XTPackage).entities.filter(XTClass)
 	}
 
-	override protected checkState(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
 	}
 	
 }
@@ -65,19 +66,19 @@ class XTClassInComponentMappingTest extends TransformationTest<Class, XTClass> {
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
+	override protected createUmlObject(Model umlRoot) {
 		val class = createClass("class")
-		mapping.umlRoot.packagedElements += createComponent("component") => [
+		umlRoot.packagedElements += createComponent("component") => [
 			nestedClassifiers += class
 		]
 		class
 	}
 	
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.topEntities.head as XTComponent).ownedClasses.filter(XTClass)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.topEntities.head as XTComponent).ownedClasses.filter(XTClass)
 	}
 
-	override protected checkState(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
 	}
 	
 }

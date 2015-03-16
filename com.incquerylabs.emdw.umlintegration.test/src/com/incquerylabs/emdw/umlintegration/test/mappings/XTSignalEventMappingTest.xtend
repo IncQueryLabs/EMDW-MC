@@ -10,6 +10,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTSignalEventMappingTest extends TransformationTest<Signal, XTSignalEvent> {
@@ -18,15 +19,15 @@ class XTSignalEventMappingTest extends TransformationTest<Signal, XTSignalEvent>
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		createSignalForSignalEvent(mapping, createTrigger(mapping))
+	override protected createUmlObject(Model umlRoot) {
+		createSignalForSignalEvent(umlRoot, createTrigger(umlRoot))
 	}
 
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.topEntities.head as XTClass).events.filter(XTSignalEvent)
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.topEntities.head as XTClass).events.filter(XTSignalEvent)
 	}
 
-	override protected checkState(RootMapping mapping, Signal umlObject, XTSignalEvent xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Signal umlObject, XTSignalEvent xtumlrtObject) {
 	}
 
 }

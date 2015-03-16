@@ -9,6 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class ConnectorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Connector, Connector> {
@@ -17,16 +18,16 @@ class ConnectorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Conne
 		super(wrapper, wrapperType)
 	}
 
-	override protected createUmlObject(RootMapping mapping) {
-		val component = createComponentInModel(mapping)
+	override protected createUmlObject(Model umlRoot) {
+		val component = createComponentInModel(umlRoot)
 		createConnector(component)
 	}
 
-	override protected getXtumlrtObjects(RootMapping mapping) {
-		(mapping.xtumlrtRoot.topEntities.head as XTComponent).connectors
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.topEntities.head as XTComponent).connectors
 	}
 
-	override protected checkState(RootMapping mapping, org.eclipse.uml2.uml.Connector umlObject, Connector xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Connector umlObject, Connector xtumlrtObject) {
 	}
 
 }

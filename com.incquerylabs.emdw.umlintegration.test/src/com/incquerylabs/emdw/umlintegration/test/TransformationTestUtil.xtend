@@ -7,6 +7,7 @@ import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Package
+import org.eclipse.uml2.uml.Port
 import org.eclipse.uml2.uml.PseudostateKind
 import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.Signal
@@ -62,13 +63,27 @@ class TransformationTestUtil {
 			it.name = name
 		]
 	}
-	
+
 	static def createPort(RootMapping mapping) {
 		val port = umlFactory.createPort
-		mapping.umlRoot.packagedElements += createComponent("foo") => [
+		createComponentInModel(mapping) => [
 			ownedAttributes += port
 		]
 		port
+	}
+
+	static def createProperty(RootMapping mapping) {
+		val property = umlFactory.createProperty
+		createComponentInModel(mapping) => [
+			ownedAttributes += property
+		]
+		property
+	}
+
+	static def createComponentInModel(RootMapping mapping) {
+		val component = createComponent("component")
+		mapping.umlRoot.packagedElements += component
+		component
 	}
 
 	static def createClass(String name) {

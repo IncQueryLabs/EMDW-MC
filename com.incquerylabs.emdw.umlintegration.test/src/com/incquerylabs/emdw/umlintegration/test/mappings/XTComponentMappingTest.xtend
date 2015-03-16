@@ -19,9 +19,7 @@ class XTComponentInModelMappingTest extends TransformationTest<Component, XTComp
 	}
 
 	override protected createUmlObject(RootMapping mapping) {
-		val component = createComponent("component")
-		mapping.umlRoot.packagedElements += component
-		component
+		createComponentInModel(mapping)
 	}
 	
 	override protected getXtumlrtObjects(RootMapping mapping) {

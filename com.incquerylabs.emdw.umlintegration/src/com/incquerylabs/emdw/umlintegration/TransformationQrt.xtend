@@ -34,6 +34,7 @@ import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.umlintegration.rules.XTComponentRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPackageRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPortRules
+import com.incquerylabs.emdw.umlintegration.rules.CapsulePartRules
 
 class TransformationQrt {
 
@@ -77,6 +78,7 @@ class TransformationQrt {
 			rulesBuilder.addAll(XTPackageRules.getRules(engine))
 			rulesBuilder.addAll(XTComponentRules.getRules(engine))
 			rulesBuilder.addAll(XTPortRules.getRules(engine))
+			rulesBuilder.addAll(CapsulePartRules.getRules(engine))
 			rulesBuilder.addAll(XTClassRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))

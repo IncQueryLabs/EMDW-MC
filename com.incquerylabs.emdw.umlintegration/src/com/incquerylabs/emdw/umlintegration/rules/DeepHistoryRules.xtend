@@ -30,7 +30,7 @@ class DeepHistoryMapping extends AbstractObjectRule<DeepHistoryMatch, Pseudostat
 	}
 	
 	override getRulePriority() {
-		StateMachineUtil.VERTEX_MAPPING_PRIORITY
+		TransformationUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelDeepHistoryMapping extends AbstractContainmentRule<ToplevelDeepHis
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildDeepHistoryMapping extends AbstractContainmentRule<ChildDeepHistoryMa
 	}
 	
 	override getRulePriority() {
-		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
+		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

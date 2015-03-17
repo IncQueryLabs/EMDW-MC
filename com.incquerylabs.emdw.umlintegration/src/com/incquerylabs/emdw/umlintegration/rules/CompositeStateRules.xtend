@@ -29,7 +29,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 	}
 	
 	override getRulePriority() {
-		StateMachineUtil.VERTEX_MAPPING_PRIORITY
+		TransformationUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -45,7 +45,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 	}
 
 	override updateXtumlrtObject(CompositeState xtumlrtObject, CompositeStateMatch match) {
-		StateMachineUtil.updateState(xtumlrtObject, match.state)
+		TransformationUtil.updateState(xtumlrtObject, match.state)
 	}
 	
 	override insertXtumlrtObject(CompositeState xtumlrtObject, CompositeStateMatch match) {
@@ -61,7 +61,7 @@ class ToplevelCompositeStateMapping extends AbstractContainmentRule<ToplevelComp
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -89,7 +89,7 @@ class ChildCompositeStateMapping extends AbstractContainmentRule<ChildCompositeS
 	}
 	
 	override getRulePriority() {
-		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
+		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

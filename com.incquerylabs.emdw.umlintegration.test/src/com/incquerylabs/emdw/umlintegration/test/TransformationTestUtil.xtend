@@ -6,6 +6,9 @@ import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.uml2.uml.Component
+import org.eclipse.uml2.uml.Connector
+import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.Port
 import org.eclipse.uml2.uml.PseudostateKind
@@ -13,14 +16,13 @@ import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
+import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
-import org.eclipse.uml2.uml.Component
-import org.eclipse.uml2.uml.Connector
-import org.eclipse.uml2.uml.Model
-import org.eclipse.uml2.uml.Transition
+import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.ParameterDirectionKind
 
 class TransformationTestUtil {
 
@@ -107,6 +109,12 @@ class TransformationTestUtil {
 		]
 	}
 
+	static def createClassInModel(Model umlRoot) {
+		val class = createClass("class")
+		umlRoot.packagedElements += class
+		class
+	}
+
 	static def createInterface(Package umlPackage, String name) {
 		debug('''Adding interface (name: «name») to «umlPackage.name»''')
 		val interface = umlFactory.createInterface => [
@@ -114,6 +122,18 @@ class TransformationTestUtil {
 		]
 		umlPackage.packagedElements += interface
 		interface
+	}
+	
+	static def createOperation(Model umlRoot, String body, Type returnType) {
+		val operation = umlFactory.createOperation => [
+			methods += createBehavior(body)
+			ownedParameters += umlFactory.createParameter => [
+				direction = ParameterDirectionKind.RETURN_LITERAL
+				type = returnType
+			]
+		]
+		createClassInModel(umlRoot).ownedOperations += operation
+		operation
 	}
 
 	static def createSignalForClassEvent(Model umlRoot) {
@@ -157,17 +177,18 @@ class TransformationTestUtil {
 	static def createSimpleState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
-			entry = umlFactory.createOpaqueBehavior => [
-				bodies += TEST_SIDE_EFFECT_1
-				languages += CPP_LANGUAGE
-			]
-			exit = umlFactory.createOpaqueBehavior => [
-				bodies += TEST_SIDE_EFFECT_2
-				languages += CPP_LANGUAGE
-			]
+			entry = createBehavior(TEST_SIDE_EFFECT_1)
+			exit = createBehavior(TEST_SIDE_EFFECT_2)
 		]
 		region.subvertices += state
 		state
+	}
+	
+	def static createBehavior(String body) {
+		umlFactory.createOpaqueBehavior => [
+			bodies += body
+			languages += CPP_LANGUAGE
+		]
 	}
 
 	static def createCompositeState(StateMachine stateMachine, String name) {

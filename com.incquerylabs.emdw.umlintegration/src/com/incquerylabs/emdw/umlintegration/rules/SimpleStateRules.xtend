@@ -30,7 +30,7 @@ class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclips
 	}
 	
 	override getRulePriority() {
-		StateMachineUtil.VERTEX_MAPPING_PRIORITY
+		TransformationUtil.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -46,7 +46,7 @@ class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclips
 	}
 
 	override updateXtumlrtObject(SimpleState xtumlrtObject, SimpleStateMatch match) {
-		StateMachineUtil.updateState(xtumlrtObject, match.state)
+		TransformationUtil.updateState(xtumlrtObject, match.state)
 	}
 	
 	override insertXtumlrtObject(SimpleState xtumlrtObject, SimpleStateMatch match) {
@@ -62,7 +62,7 @@ class ToplevelSimpleStateMapping extends AbstractContainmentRule<ToplevelSimpleS
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, StateMachineUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -90,7 +90,7 @@ class ChildSimpleStateMapping extends AbstractContainmentRule<ChildSimpleStateMa
 	}
 	
 	override getRulePriority() {
-		StateMachineUtil.VERTEX_MAPPING_PRIORITY + 1
+		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

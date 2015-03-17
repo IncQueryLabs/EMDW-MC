@@ -103,6 +103,19 @@ pattern xtClassInComponent(component: Component, umlClass: Class) {
 	find xtClass(umlClass);
 }
 
+// Entity children
+
+pattern operation(umlClass: Class, operation: Operation) {
+	find entity(umlClass);
+	Class.ownedOperation(umlClass, operation);
+}
+
+private pattern entity(umlClass: Class) {
+	find xtClass(umlClass);
+} or {
+	find xtComponent(umlClass);
+}
+
 // Association class
 
 pattern xtAssociationClass(associationClass) {

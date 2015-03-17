@@ -4,14 +4,14 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.zeligsoft.xtumlrt.xtuml.XTClass
+import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import com.zeligsoft.xtumlrt.xtuml.XTPackage
 import org.eclipse.uml2.uml.Class
+import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import com.zeligsoft.xtumlrt.xtuml.XTPackage
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
@@ -21,9 +21,7 @@ class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
 	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val class = createClass("class")
-		umlRoot.packagedElements += class
-		class
+		createClassInModel(umlRoot)
 	}
 	
 	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {

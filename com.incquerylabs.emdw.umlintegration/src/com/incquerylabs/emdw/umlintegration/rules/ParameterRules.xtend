@@ -46,7 +46,9 @@ class ParameterMapping extends AbstractObjectRule<ParameterMatch, org.eclipse.um
 
 	override updateXtumlrtObject(Parameter xtumlrtObject, ParameterMatch match) {
 		val umlObject = match.umlObject
-		xtumlrtObject.type = engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head as Type
+		switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
+			Type: xtumlrtObject.type = type
+		}
 		xtumlrtObject.direction = TransformationUtil.transform(umlObject.direction)
 	}
 

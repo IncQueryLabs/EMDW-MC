@@ -13,6 +13,7 @@ import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.incquery.runtime.emf.EMFScope
 
 class ModelSetSnippet implements IModelSetSnippet {
 
@@ -22,7 +23,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
 			if (!resource.contents.filter(Model).empty) {
 				val mapping = createMapping(resource, modelSet)
-				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new MultiEMFScope(#{resource, mapping.eResource.resourceSet})) // TODO change to EMFScope when https://bugs.eclipse.org/bugs/show_bug.cgi?id=460722 is fixed
+				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, mapping.eResource.resourceSet}))
 				transformation.initialize(mapping, engine)
 				transformation.execute
 			}

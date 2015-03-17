@@ -50,12 +50,7 @@ class XTComponentMapping extends AbstractObjectRule<XtComponentMatch, Class, XTC
 	override updateXtumlrtObject(XTComponent xtumlrtObject, XtComponentMatch match) {
 	}
 
-	def getXtumlrtContainer() {
-		rootMapping.xtumlrtRoot.topEntities
-	}
-
 	override protected insertXtumlrtObject(XTComponent xtumlrtObject, XtComponentMatch match) {
-		xtumlrtContainer += xtumlrtObject
 	}
 	
 }

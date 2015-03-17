@@ -116,6 +116,22 @@ private pattern entity(umlClass: Class) {
 	find xtComponent(umlClass);
 }
 
+// Parameter
+
+pattern parameter(parameter) {
+	find parameterInOperation(_, parameter);
+}
+
+pattern parameterInOperation(operation: Operation, parameter: Parameter) {
+	Operation.ownedParameter(operation, parameter);
+	find notReturnParameter(parameter);
+}
+
+private pattern notReturnParameter(parameter) {
+	Parameter.direction(parameter, direction);
+	direction != ParameterDirectionKind::^return;
+}
+
 // Association class
 
 pattern xtAssociationClass(associationClass) {

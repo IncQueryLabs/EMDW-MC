@@ -4,6 +4,8 @@ import com.zeligsoft.umlrt.codegen.cpp.ModelUtil
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import com.zeligsoft.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.State
+import org.eclipse.uml2.uml.ParameterDirectionKind
+import com.zeligsoft.xtumlrt.common.DirectionKind
 
 class TransformationUtil {
 
@@ -31,6 +33,14 @@ class TransformationUtil {
 			case PRIVATE_LITERAL: VisibilityKind.PRIVATE
 			case PROTECTED_LITERAL: VisibilityKind.PROTECTED
 			case PUBLIC_LITERAL: VisibilityKind.PUBLIC
+		}
+	}
+	
+	static def transform(ParameterDirectionKind kind) {
+		switch kind {
+			case IN_LITERAL: DirectionKind.IN
+			case OUT_LITERAL: DirectionKind.OUT
+			case INOUT_LITERAL: DirectionKind.IN_OUT
 		}
 	}
 

@@ -116,6 +116,11 @@ private pattern entity(umlClass: Class) {
 	find xtComponent(umlClass);
 }
 
+pattern attribute(umlClass: Class, property: Property) {
+	find xtClass(umlClass);
+	Class.ownedAttribute(umlClass, property);
+}
+
 // Parameter
 
 pattern parameter(parameter) {

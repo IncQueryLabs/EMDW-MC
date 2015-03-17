@@ -22,7 +22,7 @@ class ConnectorEndMappingTest extends TransformationTest<org.eclipse.uml2.uml.Co
 		val component = createComponentInModel(umlRoot)
 		val connector = createConnector(component)
 		val role = createPort(component)
-		val partWithPort = createProperty(component)
+		val partWithPort = createPropertyForPart(component)
 		createConnectorEnd(connector, role, partWithPort)
 	}
 

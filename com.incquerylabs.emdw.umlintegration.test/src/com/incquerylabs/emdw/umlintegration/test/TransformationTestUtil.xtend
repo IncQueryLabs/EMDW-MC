@@ -82,7 +82,7 @@ class TransformationTestUtil {
 		port
 	}
 
-	static def createProperty(Component component) {
+	static def createPropertyForPart(Component component) {
 		val property = umlFactory.createProperty
 		component.ownedAttributes += property
 		property
@@ -134,6 +134,14 @@ class TransformationTestUtil {
 		]
 		createClassInModel(umlRoot).ownedOperations += operation
 		operation
+	}
+
+	static def createPropertyForAttribute(Model umlRoot, Type type) {
+		val property = umlFactory.createProperty => [
+			it.type = type
+		]
+		createClassInModel(umlRoot).ownedAttributes += property
+		property
 	}
 
 	static def createSignalForClassEvent(Model umlRoot) {

@@ -21,7 +21,7 @@ class CapsulePartMappingTest extends TransformationTest<Property, CapsulePart> {
 
 	override protected createUmlObject(Model umlRoot) {
 		val component = createComponentInModel(umlRoot)
-		createProperty(component)
+		createPropertyForPart(component)
 	}
 
 	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {

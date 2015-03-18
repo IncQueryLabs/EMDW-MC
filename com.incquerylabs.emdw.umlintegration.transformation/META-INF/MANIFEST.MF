@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: EMDW UML Integration
-Bundle-SymbolicName: com.incquerylabs.emdw.umlintegration;singleton:=true
+Bundle-SymbolicName: com.incquerylabs.emdw.umlintegration.transformation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
 Export-Package: com.incquerylabs.emdw.umlintegration,

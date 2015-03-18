@@ -4,14 +4,14 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.zeligsoft.xtumlrt.common.ChoicePoint
+import com.zeligsoft.xtumlrt.common.CompositeState
+import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
+import org.eclipse.uml2.uml.PseudostateKind
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import org.eclipse.uml2.uml.PseudostateKind
-import com.zeligsoft.xtumlrt.common.CompositeState
-import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class ToplevelChoicePointMappingTest extends TransformationTest<Pseudostate, ChoicePoint> {

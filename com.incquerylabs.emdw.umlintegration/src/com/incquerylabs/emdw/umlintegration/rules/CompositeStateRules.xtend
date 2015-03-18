@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ChildCompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.CompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelCompositeStateMatch
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
@@ -29,7 +30,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -61,7 +62,7 @@ class ToplevelCompositeStateMapping extends AbstractContainmentRule<ToplevelComp
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -89,7 +90,7 @@ class ChildCompositeStateMapping extends AbstractContainmentRule<ChildCompositeS
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+		CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

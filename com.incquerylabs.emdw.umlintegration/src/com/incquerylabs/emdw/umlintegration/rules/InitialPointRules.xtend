@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.InitialPoint
+import com.incquerylabs.emdw.umlintegration.queries.ChildInitialPointMatch
 import com.incquerylabs.emdw.umlintegration.queries.InitialPointMatch
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.Pseudostate
-import com.zeligsoft.xtumlrt.common.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelInitialPointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildInitialPointMatch
+import com.zeligsoft.xtumlrt.common.InitialPoint
+import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.uml2.uml.Pseudostate
 
 class InitialPointRules {
 	static def getRules(IncQueryEngine engine) {
@@ -30,7 +30,7 @@ class InitialPointMapping extends AbstractObjectRule<InitialPointMatch, Pseudost
 	}
 
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelInitialPointMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildInitialPointMapping extends AbstractContainmentRule<ChildInitialPoint
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+		CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

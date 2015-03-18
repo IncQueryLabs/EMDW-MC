@@ -1,9 +1,9 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
-import com.incquerylabs.emdw.umlintegration.rules.TransformationUtil
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Operation
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTComponent

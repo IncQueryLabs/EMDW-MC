@@ -5,12 +5,12 @@ import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
+import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Signal
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import org.eclipse.uml2.uml.Model
 
 @RunWith(Parameterized)
 class XTSignalEventMappingTest extends TransformationTest<Signal, XTSignalEvent> {

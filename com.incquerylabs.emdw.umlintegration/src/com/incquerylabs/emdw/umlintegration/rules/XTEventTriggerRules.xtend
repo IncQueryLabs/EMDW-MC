@@ -3,10 +3,10 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.XtEventTriggerMatch
 import com.zeligsoft.xtumlrt.common.Transition
 import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.Trigger
-import org.eclipse.uml2.uml.SignalEvent
 import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.uml2.uml.SignalEvent
+import org.eclipse.uml2.uml.Trigger
 
 class XTEventTriggerRules {
 	static def getRules(IncQueryEngine engine) {

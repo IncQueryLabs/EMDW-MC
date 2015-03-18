@@ -30,7 +30,7 @@ class EntryPointMapping extends AbstractObjectRule<EntryPointMatch, Pseudostate,
 	}
 
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelEntryPointMapping extends AbstractContainmentRule<ToplevelEntryPoi
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatc
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+		CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

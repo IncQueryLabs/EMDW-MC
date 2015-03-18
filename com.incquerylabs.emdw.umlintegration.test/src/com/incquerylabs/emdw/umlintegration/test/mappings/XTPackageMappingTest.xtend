@@ -3,14 +3,14 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.Package
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.eclipse.uml2.uml.Package
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import org.eclipse.uml2.uml.Model
+import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
 class XTPackageInModelMappingTest extends TransformationTest<Package, XTPackage> {

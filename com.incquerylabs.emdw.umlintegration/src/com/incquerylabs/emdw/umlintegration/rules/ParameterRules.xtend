@@ -2,10 +2,11 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.ParameterInOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.ParameterMatch
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Operation
 import com.zeligsoft.xtumlrt.common.Parameter
-import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.zeligsoft.xtumlrt.common.Type
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class ParameterRules {
 	static def getRules(IncQueryEngine engine) {
@@ -26,7 +27,7 @@ class ParameterMapping extends AbstractObjectRule<ParameterMatch, org.eclipse.um
 		Parameter
 	}
 	
-	public static val PRIORITY = TransformationUtil.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY

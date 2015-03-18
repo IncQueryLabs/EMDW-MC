@@ -1,16 +1,17 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
-import com.incquerylabs.emdw.umlintegration.rules.TransformationUtil
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Attribute
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.Property
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
-import org.eclipse.uml2.uml.Property
+
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 

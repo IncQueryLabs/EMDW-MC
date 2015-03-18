@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.ChoicePoint
+import com.incquerylabs.emdw.umlintegration.queries.ChildChoicePointMatch
 import com.incquerylabs.emdw.umlintegration.queries.ChoicePointMatch
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelChoicePointMatch
+import com.zeligsoft.xtumlrt.common.ChoicePoint
+import com.zeligsoft.xtumlrt.common.CompositeState
+import com.zeligsoft.xtumlrt.common.StateMachine
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
-import com.zeligsoft.xtumlrt.common.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.ToplevelChoicePointMatch
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildChoicePointMatch
 
 class ChoicePointRules {
 	static def getRules(IncQueryEngine engine) {
@@ -30,7 +30,7 @@ class ChoicePointMapping extends AbstractObjectRule<ChoicePointMatch, Pseudostat
 	}
 
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelChoicePointMapping extends AbstractContainmentRule<ToplevelChoiceP
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildChoicePointMapping extends AbstractContainmentRule<ChildChoicePointMa
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+		CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

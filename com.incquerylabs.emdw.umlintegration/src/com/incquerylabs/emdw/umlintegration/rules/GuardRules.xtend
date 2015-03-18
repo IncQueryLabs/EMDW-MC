@@ -1,11 +1,11 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.GuardMatch
-import com.zeligsoft.xtumlrt.common.Transition
+import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.zeligsoft.xtumlrt.common.Guard
+import com.zeligsoft.xtumlrt.common.Transition
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Constraint
-import com.zeligsoft.umlrt.codegen.cpp.ModelUtil
 
 class GuardRules {
 	static def getRules(IncQueryEngine engine) {

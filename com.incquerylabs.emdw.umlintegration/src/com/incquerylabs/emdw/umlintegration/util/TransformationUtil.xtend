@@ -1,17 +1,13 @@
-package com.incquerylabs.emdw.umlintegration.rules
+package com.incquerylabs.emdw.umlintegration.util
 
-import com.zeligsoft.umlrt.codegen.cpp.ModelUtil
+import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.zeligsoft.xtumlrt.common.CommonFactory
-import com.zeligsoft.xtumlrt.common.VisibilityKind
-import org.eclipse.uml2.uml.State
-import org.eclipse.uml2.uml.ParameterDirectionKind
 import com.zeligsoft.xtumlrt.common.DirectionKind
+import com.zeligsoft.xtumlrt.common.VisibilityKind
+import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.uml2.uml.State
 
 class TransformationUtil {
-
-	public static val VERTEX_MAPPING_PRIORITY = 1
-
-	public static val TYPE_MAPPING_PRIORITY = Math.max(XTClassMapping.PRIORITY, XTComponentMapping.PRIORITY)
 
 	static val commonFactory = CommonFactory.eINSTANCE
 

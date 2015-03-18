@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
+import com.incquerylabs.emdw.umlintegration.queries.ChildTransitionMatch
+import com.incquerylabs.emdw.umlintegration.queries.ToplevelTransitionMatch
 import com.incquerylabs.emdw.umlintegration.queries.TransitionMatch
+import com.zeligsoft.xtumlrt.common.CompositeState
+import com.zeligsoft.xtumlrt.common.StateMachine
 import com.zeligsoft.xtumlrt.common.Transition
 import com.zeligsoft.xtumlrt.common.Vertex
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.incquerylabs.emdw.umlintegration.queries.ToplevelTransitionMatch
-import com.zeligsoft.xtumlrt.common.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.ChildTransitionMatch
-import com.zeligsoft.xtumlrt.common.CompositeState
 
 class TransitionRules {
 	static def getRules(IncQueryEngine engine) {
@@ -29,7 +29,7 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 		Transition
 	}
 	
-	public static val PRIORITY = TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY
@@ -100,7 +100,7 @@ class ChildTransitionMapping extends AbstractContainmentRule<ChildTransitionMatc
 	}
 	
 	override getRulePriority() {
-		Math.max(TransformationUtil.VERTEX_MAPPING_PRIORITY, TransitionMapping.PRIORITY) + 1
+		Math.max(CommonPriorities.VERTEX_MAPPING_PRIORITY, TransitionMapping.PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {

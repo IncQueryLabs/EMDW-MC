@@ -1,5 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
+import com.incquerylabs.emdw.umlintegration.queries.StateMachine
+import com.incquerylabs.emdw.umlintegration.queries.Structure
+import com.incquerylabs.emdw.umlintegration.queries.Trace
 import com.incquerylabs.emdw.umlintegration.util.PriorityRuleSpecification
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IPatternMatch
@@ -12,9 +15,6 @@ import org.eclipse.incquery.runtime.evm.specific.Rules
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.umlintegration.queries.Trace
-import com.incquerylabs.emdw.umlintegration.queries.StateMachine
-import com.incquerylabs.emdw.umlintegration.queries.Structure
 
 abstract class AbstractRule<Match extends IPatternMatch> {
 

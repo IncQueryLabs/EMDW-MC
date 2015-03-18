@@ -3,15 +3,16 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import com.zeligsoft.xtumlrt.xtuml.XTClass
+import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
+import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Trigger
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
-import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
-import com.zeligsoft.xtumlrt.xtuml.XTClass
 import static org.junit.Assert.assertEquals
-import org.eclipse.uml2.uml.Model
+
+import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
 class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigger> {

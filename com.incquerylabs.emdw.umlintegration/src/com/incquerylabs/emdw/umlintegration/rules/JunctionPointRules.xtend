@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.JunctionPoint
+import com.incquerylabs.emdw.umlintegration.queries.ChildJunctionPointMatch
 import com.incquerylabs.emdw.umlintegration.queries.JunctionPointMatch
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.Pseudostate
-import com.zeligsoft.xtumlrt.common.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelJunctionPointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildJunctionPointMatch
+import com.zeligsoft.xtumlrt.common.JunctionPoint
+import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.uml2.uml.Pseudostate
 
 class JunctionPointRules {
 	static def getRules(IncQueryEngine engine) {
@@ -30,7 +30,7 @@ class JunctionPointMapping extends AbstractObjectRule<JunctionPointMatch, Pseudo
 	}
 
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelJunctionPointMapping extends AbstractContainmentRule<ToplevelJunct
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildJunctionPointMapping extends AbstractContainmentRule<ChildJunctionPoi
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+		CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

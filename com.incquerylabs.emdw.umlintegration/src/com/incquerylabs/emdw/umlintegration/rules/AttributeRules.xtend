@@ -1,6 +1,7 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.AttributeMatch
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Attribute
 import com.zeligsoft.xtumlrt.common.Type
 import com.zeligsoft.xtumlrt.xtuml.XTClass
@@ -25,7 +26,7 @@ class AttributeMapping extends AbstractObjectRule<AttributeMatch, Property, Attr
 		Attribute
 	}
 	
-	public static val PRIORITY = TransformationUtil.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY

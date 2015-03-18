@@ -1,7 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.OperationMatch
-import com.zeligsoft.umlrt.codegen.cpp.ModelUtil
+import com.incquerylabs.emdw.umlintegration.util.ModelUtil
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Operation
 import com.zeligsoft.xtumlrt.common.Type
 import com.zeligsoft.xtumlrt.xtuml.XTClass
@@ -25,7 +26,7 @@ class OperationMapping extends AbstractObjectRule<OperationMatch, org.eclipse.um
 		Operation
 	}
 	
-	public static val PRIORITY = TransformationUtil.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY

@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.zeligsoft.xtumlrt.common.DeepHistory
+import com.incquerylabs.emdw.umlintegration.queries.ChildDeepHistoryMatch
 import com.incquerylabs.emdw.umlintegration.queries.DeepHistoryMatch
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.Pseudostate
-import com.zeligsoft.xtumlrt.common.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelDeepHistoryMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
-import com.incquerylabs.emdw.umlintegration.queries.ChildDeepHistoryMatch
+import com.zeligsoft.xtumlrt.common.DeepHistory
+import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.uml2.uml.Pseudostate
 
 class DeepHistoryRules {
 	static def getRules(IncQueryEngine engine) {
@@ -30,7 +30,7 @@ class DeepHistoryMapping extends AbstractObjectRule<DeepHistoryMatch, Pseudostat
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -60,7 +60,7 @@ class ToplevelDeepHistoryMapping extends AbstractContainmentRule<ToplevelDeepHis
 	}
 	
 	override getRulePriority() {
-		Math.max(StateMachineMapping.PRIORITY, TransformationUtil.VERTEX_MAPPING_PRIORITY) + 1
+		Math.max(StateMachineMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
 	}
 
 	override getQuerySpecification() {
@@ -88,7 +88,7 @@ class ChildDeepHistoryMapping extends AbstractContainmentRule<ChildDeepHistoryMa
 	}
 	
 	override getRulePriority() {
-		TransformationUtil.VERTEX_MAPPING_PRIORITY + 1
+		CommonPriorities.VERTEX_MAPPING_PRIORITY + 1
 	}
 
 	override getQuerySpecification() {

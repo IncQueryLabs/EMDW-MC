@@ -5,13 +5,14 @@ import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.zeligsoft.xtumlrt.common.Guard
 import org.eclipse.uml2.uml.Constraint
+import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.UMLFactory
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.assertEquals
-import org.eclipse.uml2.uml.Model
+
+import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
 class GuardMappingTest extends TransformationTest<Constraint, Guard> {

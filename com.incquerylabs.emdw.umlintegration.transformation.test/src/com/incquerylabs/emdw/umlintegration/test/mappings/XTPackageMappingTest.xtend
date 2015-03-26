@@ -57,3 +57,27 @@ class XTPackageInComponentMappingTest extends TransformationTest<Package, XTPack
 	}
 	
 }
+
+@RunWith(Parameterized)
+class XTPackageInPackageMappingTest extends TransformationTest<Package, XTPackage> {
+
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+
+	override protected createUmlObject(Model umlRoot) {
+		val package = createPackage("package")
+		umlRoot.packagedElements += createPackage("parentPackage") => [
+			packagedElements += package
+		]
+		package
+	}
+	
+	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.rootPackages.head.packages.filter(XTPackage)
+	}
+
+	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
+	}
+	
+}

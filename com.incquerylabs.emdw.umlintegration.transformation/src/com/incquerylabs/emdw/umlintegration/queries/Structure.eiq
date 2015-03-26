@@ -28,6 +28,12 @@ pattern xtPackageInComponent(component: Component, umlPackage: Package) {
 	find xtPackage(umlPackage);
 }
 
+pattern xtPackageInPackage(parent: Package, child: Package) {
+	Package.packagedElement(parent, child);
+	find xtPackage(parent);
+	find xtPackage(child);
+}
+
 // Component
 
 pattern xtComponent(component: Component) {

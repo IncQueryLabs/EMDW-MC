@@ -8,14 +8,15 @@ import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import com.zeligsoft.xtumlrt.xtuml.XTPackage
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Package
+import com.incquerylabs.emdw.umlintegration.queries.XtPackageInPackageMatch
 
 class XTPackageRules {
 	static def getRules(IncQueryEngine engine) {
 		#{
 			new XTPackageMapping(engine).specification,
 			new XTPackageInModelMapping(engine).specification,
-			new XTPackageInComponentMapping(engine).specification
-			// TODO PackageInPackage
+			new XTPackageInComponentMapping(engine).specification,
+			new XTPackageInPackageMapping(engine).specification
 		}
 	}
 }
@@ -108,6 +109,34 @@ class XTPackageInComponentMapping extends AbstractContainmentRule<XtPackageInCom
 	}
 	
 	override insertChild(XTComponent parent, XTPackage child) {
+		parent.packages += child
+	}
+
+}
+
+class XTPackageInPackageMapping extends AbstractContainmentRule<XtPackageInPackageMatch, XTPackage, XTPackage> {
+
+	new(IncQueryEngine engine) {
+		super(engine)
+	}
+	
+	override getRulePriority() {
+		XTPackageMapping.PRIORITY + 1
+	}
+
+	override getQuerySpecification() {
+		xtPackageInPackage
+	}
+
+	override findParent(XtPackageInPackageMatch match) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parent).head as XTPackage
+	}
+	
+	override findChild(XtPackageInPackageMatch match) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.child).head as XTPackage
+	}
+	
+	override insertChild(XTPackage parent, XTPackage child) {
 		parent.packages += child
 	}
 

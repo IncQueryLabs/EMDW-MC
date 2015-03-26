@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><plugin>
-  <extension id="com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns" id="com.incquerylabs.emdw.umlintegration.queries.TransformationPatterns"/>
-  </extension>
   <extension id="com.incquerylabs.emdw.umlintegration.queries.StateMachine" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.StateMachine" id="com.incquerylabs.emdw.umlintegration.queries.StateMachine"/>
   </extension>
-  <extension id="com.incquerylabs.emdw.umlintegration.queries.Trace" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.Trace" id="com.incquerylabs.emdw.umlintegration.queries.Trace"/>
-  </extension>
   <extension id="com.incquerylabs.emdw.umlintegration.queries.Structure" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.Structure" id="com.incquerylabs.emdw.umlintegration.queries.Structure"/>
+  </extension>
+  <extension id="com.incquerylabs.emdw.umlintegration.queries.Trace" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.Trace" id="com.incquerylabs.emdw.umlintegration.queries.Trace"/>
   </extension>
 </plugin>

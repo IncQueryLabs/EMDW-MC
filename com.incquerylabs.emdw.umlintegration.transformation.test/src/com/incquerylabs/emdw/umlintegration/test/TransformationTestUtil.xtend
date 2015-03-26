@@ -170,6 +170,14 @@ class TransformationTestUtil {
 		signalEvent
 	}
 
+	static def createPrimitiveType(Model umlRoot) {
+		val primitiveType = UMLFactory.eINSTANCE.createPrimitiveType
+		umlRoot.packagedElements += createPackage("package") => [
+			packagedElements += primitiveType
+		]
+		primitiveType
+	}
+
 	static def createStateMachine(Model umlRoot) {
 		val stateMachine = umlFactory.createStateMachine => [
 			it.name = name

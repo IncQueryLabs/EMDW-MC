@@ -181,6 +181,11 @@ private pattern subregion(parent: Region, child: Region) {
 
 // Types
 
+pattern typeDefinition(umlPackage: Package, type: Type) {
+	find primitiveType(_, type);
+	Package.packagedElement(umlPackage, type);
+}
+
 pattern primitiveType(model: Model, primitiveType: PrimitiveType) {
 	Package.packagedElement(model, primitiveType);
 } or {

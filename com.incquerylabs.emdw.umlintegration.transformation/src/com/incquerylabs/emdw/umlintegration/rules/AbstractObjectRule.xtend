@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
+import com.incquerylabs.emdw.umlintegration.queries.TraceMatch
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
@@ -9,6 +10,7 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.NamedElement
+import com.incquerylabs.emdw.umlintegration.trace.Trace
 
 abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends Element, XtumlrtObject extends EObject> extends AbstractRule<Match> {
 
@@ -26,7 +28,7 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 		xtumlrtObject.insertXtumlrtObject(match)
 		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
-		updateTrace(umlObject, xtumlrtObject)
+		addTrace(umlObject, xtumlrtObject)
 		logger.debug('''Created xtumlrt object «xtumlrtObject»''')
 	}
 	
@@ -44,10 +46,10 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 		val traceMatch = findTrace(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		EcoreUtil.remove(xtumlrtObject)
-		rootMapping.traces -= traceMatch.trace
+		removeTrace(traceMatch.trace, xtumlrtObject)
 		logger.debug('''Removed xtumlrt object «xtumlrtObject»''')
 	}
-
+	
 	private def updateName(UmlObject umlObject, XtumlrtObject xtumlrtObject) {
 		switch umlObject {
 			NamedElement: {
@@ -58,22 +60,32 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 		}
 	}
 
-	private def updateTrace(UmlObject umlObject, XtumlrtObject xtumlrtObject) {
+	private def addTrace(UmlObject umlObject, XtumlrtObject xtumlrtObject) {
 		val traces = engine.trace.getAllValuesOftrace(null, umlObject, null)
 		if (traces.empty) {
 			rootMapping.traces += traceFactory.createTrace => [
 				umlElements += umlObject
 				xtumlrtElements += xtumlrtObject
 			]
-			logger.trace('''Created new trace for new object''')
+			logger.trace('''Created new trace for «xtumlrtObject»''')
 		} else {
 			traces.head.xtumlrtElements += xtumlrtObject
-			logger.trace('''Added new object to existing trace''')
+			logger.trace('''Added «xtumlrtObject» to existing trace''')
+		}
+	}
+
+	private def removeTrace(Trace trace, XtumlrtObject xtumlrtObject) {
+		trace.xtumlrtElements.remove(xtumlrtObject)
+		if (trace.xtumlrtElements.empty) {
+		  	rootMapping.traces -= trace
+			logger.trace('''Removed trace for «xtumlrtObject»''')
+		} else {
+		  	logger.trace('''Removed «xtumlrtObject» from trace''')
 		}
 	}
 
 	private def findTrace(Element umlObject) {
-		engine.trace.getOneArbitraryMatch(rootMapping, null, umlObject, null)
+		engine.trace.getAllMatches(rootMapping, null, umlObject, null).filter[xtumlrtClass.isAssignableFrom(xtumlrtElement.class)].head
 	}
 
 	protected def UmlObject getUmlObject(Match match)

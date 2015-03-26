@@ -53,7 +53,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val trace = mapping.traces.findFirst[umlElements.contains(umlObject)]
 		assertNotNull("Trace not created", trace)
 		assertEquals("Invalid trace umlElements", #[umlObject], trace.umlElements)
-		assertEquals("Invalid trace xtumlrtElements", #[xtumlrtObject], trace.xtumlrtElements)
+		assertEquals("Invalid trace xtumlrtElements", #[xtumlrtObject], trace.xtumlrtElements.filter(xtumlrtObject.class).toList)
 		checkXtumlrtObject(mapping, umlObject, xtumlrtObject)		
 	}
 	
@@ -83,11 +83,12 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		mapping.initializeTransformation
 		executeTransformation
 		mapping.assertMapping(umlObject)
+		val xtumlrtObject = mapping.xtumlrtRoot.xtumlrtObjects.head
 		info("Removing object from uml model")
 		EcoreUtil.remove(umlObject)
 		executeTransformation
-		assertTrue("Object not removed from xtumlrt model", mapping.xtumlrtRoot.xtumlrtObjects.empty)
-		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(umlObject)])
+		assertFalse("Object not removed from xtumlrt model", mapping.xtumlrtRoot.xtumlrtObjects.exists[it == xtumlrtObject])
+		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(umlObject) && xtumlrtElements.contains(xtumlrtObject)])
 		endTest(testId)
 	}
    

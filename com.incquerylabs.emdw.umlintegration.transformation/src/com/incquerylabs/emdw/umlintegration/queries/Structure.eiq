@@ -178,3 +178,19 @@ private pattern subregion(parent: Region, child: Region) {
 	Region.subvertex(parent, state);
 	State.region(state, child);
 }
+
+// Types
+
+pattern primitiveType(model: Model, primitiveType: PrimitiveType) {
+	Package.packagedElement(model, primitiveType);
+} or {
+	find xtPackageSomewhereInModel(model, umlPackage);
+	Package.packagedElement(umlPackage, primitiveType);
+}
+
+pattern xtPackageSomewhereInModel(model: Model, umlPackage: Package) {
+	find xtPackageInModel(model, umlPackage);
+} or {
+	find xtPackageInModel(model, parent);
+	find xtPackageInPackage+(parent, umlPackage);
+}

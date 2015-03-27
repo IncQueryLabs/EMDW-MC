@@ -20,9 +20,7 @@ class XTPackageInModelMappingTest extends TransformationTest<Package, XTPackage>
 	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val package = createPackage("package")
-		umlRoot.packagedElements += package
-		package
+		createPackageInModel(umlRoot)
 	}
 	
 	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {

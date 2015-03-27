@@ -19,7 +19,8 @@ class StructTypeMappingTest extends TransformationTest<DataType, StructType> {
 	}
 
 	override protected createUmlObject(Model umlRoot) {
-		createStructType(umlRoot)
+		val umlPackage = createPackageInModel(umlRoot)
+		createStructType(umlPackage)
 	}
 	
 	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {

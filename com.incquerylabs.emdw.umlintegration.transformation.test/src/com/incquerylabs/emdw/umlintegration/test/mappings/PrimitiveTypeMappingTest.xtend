@@ -18,7 +18,8 @@ class PrimitiveTypeMappingTest extends TransformationTest<org.eclipse.uml2.uml.P
 	}
 
 	override protected createUmlObject(Model umlRoot) {
-		createPrimitiveType(umlRoot)
+		val umlPackage = createPackageInModel(umlRoot)
+		createPrimitiveType(umlPackage)
 	}
 	
 	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {

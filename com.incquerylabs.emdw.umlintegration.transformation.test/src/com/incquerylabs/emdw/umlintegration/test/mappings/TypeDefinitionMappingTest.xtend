@@ -20,7 +20,8 @@ class TypeDefinitionMappingTest extends TransformationTest<Type, TypeDefinition>
 	}
 
 	override protected createUmlObject(Model umlRoot) {
-		createPrimitiveType(umlRoot)
+		val umlPackage = createPackageInModel(umlRoot)
+		createPrimitiveType(umlPackage)
 	}
 
 	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {

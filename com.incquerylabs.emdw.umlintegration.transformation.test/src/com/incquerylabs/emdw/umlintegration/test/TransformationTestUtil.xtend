@@ -10,7 +10,9 @@ import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Connector
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
+import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Port
+import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.PseudostateKind
 import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.Signal
@@ -18,11 +20,10 @@ import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
+import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
-import org.eclipse.uml2.uml.Type
-import org.eclipse.uml2.uml.ParameterDirectionKind
 
 class TransformationTestUtil {
 
@@ -63,7 +64,13 @@ class TransformationTestUtil {
 			it.name = name
 		]
 	}
-	
+
+	static def createPackageInModel(Model umlRoot) {
+		val package = createPackage("package")
+		umlRoot.packagedElements += package
+		package
+	}
+
 	static def createComponent(String name) {
 		umlFactory.createComponent => [
 			it.name = name
@@ -170,22 +177,25 @@ class TransformationTestUtil {
 		signalEvent
 	}
 
-	static def createPrimitiveType(Model umlRoot) {
+	static def createPrimitiveType(Package umlPackage) {
 		val primitiveType = umlFactory.createPrimitiveType
-		umlRoot.packagedElements += createPackage("package") => [
-			packagedElements += primitiveType
-		]
+		umlPackage.packagedElements += primitiveType
 		primitiveType
 	}
 	
-	static def createStructType(Model umlRoot) {
+	static def createStructType(Package umlPackage) {
+		val primitiveType = createPrimitiveType(umlPackage)
 		val dataType = umlFactory.createDataType => [
-			ownedAttributes += umlFactory.createProperty
+			ownedAttributes += createPropertyForStructType(primitiveType)
 		]
-		umlRoot.packagedElements += createPackage("package") => [
-			packagedElements += dataType
-		]
+		umlPackage.packagedElements += dataType
 		dataType
+	}
+	
+	static def createPropertyForStructType(PrimitiveType primitiveType) {
+		umlFactory.createProperty => [
+			type = primitiveType
+		]
 	}
 
 	static def createStateMachine(Model umlRoot) {

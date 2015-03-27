@@ -7,12 +7,12 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.uml2.uml.Element
+import org.eclipse.uml2.uml.Model
 import org.junit.Test
 import org.junit.runners.Parameterized.Parameters
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
-import org.eclipse.uml2.uml.Model
 
 abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> extends TestWithoutParameters {
 
@@ -85,11 +85,15 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		mapping.assertMapping(umlObject)
 		val xtumlrtObject = mapping.xtumlrtRoot.xtumlrtObjects.head
 		info("Removing object from uml model")
-		EcoreUtil.remove(umlObject)
+		removeUmlObject(umlObject, mapping)
 		executeTransformation
 		assertFalse("Object not removed from xtumlrt model", mapping.xtumlrtRoot.xtumlrtObjects.exists[it == xtumlrtObject])
 		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(umlObject) && xtumlrtElements.contains(xtumlrtObject)])
 		endTest(testId)
+	}
+	
+	protected def removeUmlObject(UmlObject umlObject, RootMapping rootMapping) {
+		EcoreUtil.remove(umlObject)
 	}
    
 }

@@ -193,21 +193,19 @@ private pattern isTypeDefinition(type: Type) {
 }
 
 pattern primitiveType(model: Model, primitiveType: PrimitiveType) {
-	find elementSomewhereInModel(model, primitiveType);
+	find elementInPackage(model, primitiveType);
 }
 
 pattern structType(model: Model, structType: DataType) {
-	find isStructType(structType);
-	find elementSomewhereInModel(model, structType);
+	find structMember(structType, _);
+	find elementInPackage(model, structType);
 }
 
-pattern isStructType(structType: DataType) {
-	DataType.ownedAttribute(structType, _);
+pattern structMember(structType: DataType, member: Property) {
+	DataType.ownedAttribute(structType, member);
 }
 
-private pattern elementSomewhereInModel(model: Model, packageableElement: PackageableElement) {
-	Package.packagedElement(model, packageableElement);
-} or {
+private pattern elementInPackage(model: Model, packageableElement: PackageableElement) {
 	find xtPackageSomewhereInModel(model, umlPackage);
 	Package.packagedElement(umlPackage, packageableElement);
 }

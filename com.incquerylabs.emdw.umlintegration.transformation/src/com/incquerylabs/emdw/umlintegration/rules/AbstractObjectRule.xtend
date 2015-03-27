@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.incquerylabs.emdw.umlintegration.queries.TraceMatch
+import com.incquerylabs.emdw.umlintegration.trace.Trace
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
@@ -10,8 +10,11 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.NamedElement
-import com.incquerylabs.emdw.umlintegration.trace.Trace
 
+/**
+ * Transforms an UML object to an xtumlrt object.
+ * There can be more rules which transform the same UML object altogether to a fixed number of xtumlrt objects of different types.
+ */
 abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends Element, XtumlrtObject extends EObject> extends AbstractRule<Match> {
 
 	protected static val CommonFactory commonFactory = CommonFactory.eINSTANCE

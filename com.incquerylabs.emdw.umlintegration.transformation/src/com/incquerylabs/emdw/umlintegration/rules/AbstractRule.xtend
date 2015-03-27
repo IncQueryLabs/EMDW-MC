@@ -16,6 +16,10 @@ import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEn
 
 import static com.google.common.base.Preconditions.*
 
+/**
+ * A transformation rule with a priority.
+ * Handles appeared, updated and disappeared events of a query.
+ */
 abstract class AbstractRule<Match extends IPatternMatch> {
 
 	protected val Logger logger = Logger.getLogger(class)
@@ -31,7 +35,7 @@ abstract class AbstractRule<Match extends IPatternMatch> {
 	def getSpecification() {
 		new PriorityRuleSpecification<Match> => [
 			ruleSpecification = Rules.newMatcherRuleSpecification(querySpecification, Lifecycles.getDefault(true, true),
-				#{appearedJob, updateJob, disappearedJob}
+				#{appearedJob, updatedJob, disappearedJob}
 			)
 			priority = rulePriority
 		]
@@ -47,7 +51,7 @@ abstract class AbstractRule<Match extends IPatternMatch> {
 	
 	protected def void appeared(Match match)
 	
-	private def getUpdateJob() {
+	private def getUpdatedJob() {
 		Jobs.newStatelessJob(IncQueryActivationStateEnum.UPDATED, [ Match match | updated(match)])
 	}
 

@@ -4,6 +4,10 @@ import com.zeligsoft.xtumlrt.common.NamedElement
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
+/**
+ * Establishes containment references between already transformed objects.
+ * Useful for recursive containment hierarchies.
+ */
 abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent extends NamedElement, Child extends NamedElement> extends AbstractRule<Match> {
 
 	new(IncQueryEngine engine) {

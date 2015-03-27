@@ -24,7 +24,7 @@ class TypeDefinitionMapping extends AbstractObjectRule<TypeDefinitionMatch, Type
 		TypeDefinition
 	}
 
-	public static val PRIORITY = PrimitiveTypeMapping.PRIORITY + 1
+	public static val PRIORITY = Math.max(PrimitiveTypeMapping.PRIORITY, StructTypeMapping.PRIORITY) + 1
 
 	override getRulePriority() {
 		PRIORITY

@@ -182,18 +182,37 @@ private pattern subregion(parent: Region, child: Region) {
 // Types
 
 pattern typeDefinition(umlPackage: Package, type: Type) {
-	find primitiveType(_, type);
+	find isTypeDefinition(type);
 	Package.packagedElement(umlPackage, type);
 }
 
-pattern primitiveType(model: Model, primitiveType: PrimitiveType) {
-	Package.packagedElement(model, primitiveType);
+private pattern isTypeDefinition(type: Type) {
+	find primitiveType(_, type);
 } or {
-	find xtPackageSomewhereInModel(model, umlPackage);
-	Package.packagedElement(umlPackage, primitiveType);
+	find structType(_, type);
 }
 
-pattern xtPackageSomewhereInModel(model: Model, umlPackage: Package) {
+pattern primitiveType(model: Model, primitiveType: PrimitiveType) {
+	find elementSomewhereInModel(model, primitiveType);
+}
+
+pattern structType(model: Model, structType: DataType) {
+	find isStructType(structType);
+	find elementSomewhereInModel(model, structType);
+}
+
+pattern isStructType(structType: DataType) {
+	DataType.ownedAttribute(structType, _);
+}
+
+private pattern elementSomewhereInModel(model: Model, packageableElement: PackageableElement) {
+	Package.packagedElement(model, packageableElement);
+} or {
+	find xtPackageSomewhereInModel(model, umlPackage);
+	Package.packagedElement(umlPackage, packageableElement);
+}
+
+private pattern xtPackageSomewhereInModel(model: Model, umlPackage: Package) {
 	find xtPackageInModel(model, umlPackage);
 } or {
 	find xtPackageInModel(model, parent);

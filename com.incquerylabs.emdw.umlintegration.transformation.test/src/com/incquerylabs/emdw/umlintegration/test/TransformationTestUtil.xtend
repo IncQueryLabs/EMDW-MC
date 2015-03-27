@@ -171,11 +171,21 @@ class TransformationTestUtil {
 	}
 
 	static def createPrimitiveType(Model umlRoot) {
-		val primitiveType = UMLFactory.eINSTANCE.createPrimitiveType
+		val primitiveType = umlFactory.createPrimitiveType
 		umlRoot.packagedElements += createPackage("package") => [
 			packagedElements += primitiveType
 		]
 		primitiveType
+	}
+	
+	static def createStructType(Model umlRoot) {
+		val dataType = umlFactory.createDataType => [
+			ownedAttributes += umlFactory.createProperty
+		]
+		umlRoot.packagedElements += createPackage("package") => [
+			packagedElements += dataType
+		]
+		dataType
 	}
 
 	static def createStateMachine(Model umlRoot) {

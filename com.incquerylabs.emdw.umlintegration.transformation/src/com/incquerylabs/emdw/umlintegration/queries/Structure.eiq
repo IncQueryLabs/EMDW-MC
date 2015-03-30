@@ -143,10 +143,23 @@ private pattern notReturnParameter(parameter) {
 	direction != ParameterDirectionKind::^return;
 }
 
-// Association class
+// Relations
 
+pattern xtAssociation(component: Component, association: Association) {
+	Component.nestedClassifier(component, association);
+}
+
+/* TODO
+pattern xtAssociationOpposite(source: Association, target: Association) {
+	Association.???(source, target);
+}
+*/
 pattern xtAssociationClass(associationClass) {
 	AssociationClass(associationClass);
+}
+
+pattern xtGeneralization(umlClass: Class, generalization: Generalization) {
+	Class.generalization(umlClass, generalization);
 }
 
 // Events

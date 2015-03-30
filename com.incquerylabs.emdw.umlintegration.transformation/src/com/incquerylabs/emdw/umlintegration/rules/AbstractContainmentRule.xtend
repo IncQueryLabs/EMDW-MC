@@ -5,7 +5,7 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 /**
- * Establishes containment references between already transformed objects.
+ * Establishes containment reference edges between already transformed objects.
  * Useful for recursive containment hierarchies.
  */
 abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent extends NamedElement, Child extends NamedElement> extends AbstractRule<Match> {
@@ -18,7 +18,7 @@ abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent exten
 		val parent = match.findParent
 		val child = match.findChild
 		parent.insertChild(child)
-		logger.debug('''Added child «child» to parent «parent»''')
+		logger.debug('''Added containment edge «parent» -> «child»''')
 	}
 	
 	override protected updated(Match match) {

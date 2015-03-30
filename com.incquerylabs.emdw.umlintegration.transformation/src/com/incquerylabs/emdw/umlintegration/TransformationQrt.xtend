@@ -44,6 +44,7 @@ import com.incquerylabs.emdw.umlintegration.rules.PrimitiveTypeRules
 import com.incquerylabs.emdw.umlintegration.rules.TypeDefinitionRules
 import com.incquerylabs.emdw.umlintegration.rules.StructTypeRules
 import com.incquerylabs.emdw.umlintegration.rules.StructMemberRules
+import com.incquerylabs.emdw.umlintegration.rules.XTAssociationRules
 
 class TransformationQrt {
 
@@ -93,6 +94,7 @@ class TransformationQrt {
 			rulesBuilder.addAll(AttributeRules.getRules(engine))
 			rulesBuilder.addAll(OperationRules.getRules(engine))
 			rulesBuilder.addAll(ParameterRules.getRules(engine))
+			rulesBuilder.addAll(XTAssociationRules.getRules(engine))
 			rulesBuilder.addAll(XTClassEventRules.getRules(engine))
 			rulesBuilder.addAll(XTSignalEventRules.getRules(engine))
 			rulesBuilder.addAll(TypeDefinitionRules.getRules(engine))

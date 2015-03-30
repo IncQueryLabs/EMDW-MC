@@ -25,6 +25,9 @@ import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
 
+/**
+ * Most factory methods are impure: they modify the model! 
+ */
 class TransformationTestUtil {
 
 	static extension val Logger logger = Logger.getLogger(TransformationTestUtil)
@@ -149,6 +152,19 @@ class TransformationTestUtil {
 		]
 		createClassInModel(umlRoot).ownedAttributes += property
 		property
+	}
+
+	static def createAssociation(Component component, org.eclipse.uml2.uml.Class source, org.eclipse.uml2.uml.Class target) {
+		val association = umlFactory.createAssociation => [
+			ownedEnds += umlFactory.createProperty => [
+				type = source
+			]
+			ownedEnds += umlFactory.createProperty => [
+				type = target
+			]
+		]
+		component.nestedClassifiers += association
+		association
 	}
 
 	static def createSignalForClassEvent(Model umlRoot) {

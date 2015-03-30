@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.zeligsoft.xtumlrt.proposed.cpp.model
+Bundle-SymbolicName: com.ericsson.xtumlrt.proposed.cpp.model;singleton:=true
+Bundle-Version: 0.1.0.qualifier
+Require-Bundle: org.eclipse.emf.ecore

@@ -145,15 +145,17 @@ private pattern notReturnParameter(parameter) {
 
 // Relations
 
-pattern xtAssociation(component: Component, association: Association) {
-	Component.nestedClassifier(component, association);
+pattern xtAssociation(association: Association, sourceEnd: Property, targetEnd: Property) {
+	count find associationOwnedEnd(association, _) == 2;
+	Association.ownedEnd(association, sourceEnd);
+	Association.ownedEnd(association, targetEnd);
+	sourceEnd != targetEnd;
 }
 
-/* TODO
-pattern xtAssociationOpposite(source: Association, target: Association) {
-	Association.???(source, target);
+pattern associationOwnedEnd(association: Association, ownedEnd: Property) {
+	Association.ownedEnd(association, ownedEnd);
 }
-*/
+
 pattern xtAssociationClass(associationClass) {
 	AssociationClass(associationClass);
 }

@@ -22,6 +22,7 @@ import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
+import org.eclipse.uml2.uml.Class
 
 import static org.junit.Assert.*
 
@@ -154,14 +155,12 @@ class TransformationTestUtil {
 		property
 	}
 
-	static def createAssociation(Component component, org.eclipse.uml2.uml.Class source, org.eclipse.uml2.uml.Class target) {
+	static def createAssociation(Component component, Class source, Class target) {
 		val association = umlFactory.createAssociation => [
-			ownedEnds += umlFactory.createProperty => [
-				type = source
-			]
-			ownedEnds += umlFactory.createProperty => [
-				type = target
-			]
+			ownedEnds.addAll(
+				umlFactory.createProperty => [type = source],
+				umlFactory.createProperty => [type = target]
+			)
 		]
 		component.nestedClassifiers += association
 		association

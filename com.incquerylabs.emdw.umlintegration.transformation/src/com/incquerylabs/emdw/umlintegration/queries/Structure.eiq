@@ -160,8 +160,8 @@ pattern xtAssociationClass(associationClass) {
 	AssociationClass(associationClass);
 }
 
-pattern xtGeneralization(umlClass: Class, generalization: Generalization) {
-	Class.generalization(umlClass, generalization);
+pattern xtGeneralization(subClass: Class, generalization: Generalization) {
+	Class.generalization(subClass, generalization);
 }
 
 // Events

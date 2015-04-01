@@ -47,8 +47,4 @@ class XTAssociationMappingTest extends TransformationTest<Property, XTAssociatio
 		assertEquals(xtumlrtObject, opposite.opposite)
 	}
 	
-	protected def findClass(RootMapping mapping, String className) {
-		mapping.xtumlrtRoot.topEntities.filter(XTClass).findFirst[name == className]
-	}
-	
 }

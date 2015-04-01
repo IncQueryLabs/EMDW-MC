@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.umlintegration.util
 
-import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import com.zeligsoft.xtumlrt.common.DirectionKind
 import com.zeligsoft.xtumlrt.common.VisibilityKind

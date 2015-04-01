@@ -6,8 +6,6 @@ import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
 
-import static extension com.incquerylabs.emdw.umlintegration.rules.XTAssociationMapping.*
-
 class XTAssociationRules {
 	static def getRules(IncQueryEngine engine) {
 		#{

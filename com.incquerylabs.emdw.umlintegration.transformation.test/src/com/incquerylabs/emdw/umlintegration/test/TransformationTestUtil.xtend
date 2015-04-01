@@ -6,6 +6,7 @@ import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Connector
 import org.eclipse.uml2.uml.Model
@@ -13,6 +14,7 @@ import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Port
 import org.eclipse.uml2.uml.PrimitiveType
+import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.PseudostateKind
 import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.Signal
@@ -22,9 +24,9 @@ import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
-import org.eclipse.uml2.uml.Class
 
 import static org.junit.Assert.*
+import com.zeligsoft.xtumlrt.xtuml.XTClass
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -105,7 +107,7 @@ class TransformationTestUtil {
 		connector
 	}
 	
-	static def createConnectorEnd(Connector connector, Port role, org.eclipse.uml2.uml.Property partWithPort) {
+	static def createConnectorEnd(Connector connector, Port role, Property partWithPort) {
 		val connectorEnd = umlFactory.createConnectorEnd => [
 			it.role = role
 			it.partWithPort = partWithPort
@@ -164,6 +166,15 @@ class TransformationTestUtil {
 		]
 		component.nestedClassifiers += association
 		association
+	}
+	
+	static def createGeneralization(Class subClass, Class superClass) {
+		val generalization = umlFactory.createGeneralization => [
+			specific = subClass
+			general = superClass
+		]
+		subClass.generalizations += generalization
+		generalization
 	}
 
 	static def createSignalForClassEvent(Model umlRoot) {
@@ -288,6 +299,10 @@ class TransformationTestUtil {
 		xtumlrtRoot.topEntities.head.behaviour.top
 	}
 
+	static def findClass(RootMapping mapping, String className) {
+		mapping.xtumlrtRoot.topEntities.filter(XTClass).findFirst[name == className]
+	}
+	
 	static def <T> asSet(T object) {
 		#{object}.filterNull
 	}

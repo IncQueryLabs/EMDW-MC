@@ -7,19 +7,20 @@ import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class CompositeStateRules {
-	static def getRules(IncQueryEngine engine) {
+class CompositeStateRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new CompositeStateMapping(engine).specification,
-			new ToplevelCompositeStateMapping(engine).specification,
-			new ChildCompositeStateMapping(engine).specification
+			new CompositeStateMapping(engine),
+			new ToplevelCompositeStateMapping(engine),
+			new ChildCompositeStateMapping(engine)
 		}
 	}
 }
 
-class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.eclipse.uml2.uml.State, CompositeState> {
+class CompositeStateMapping extends AbstractObjectMapping<CompositeStateMatch, org.eclipse.uml2.uml.State, CompositeState> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -55,7 +56,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 }
 
 
-class ToplevelCompositeStateMapping extends AbstractContainmentRule<ToplevelCompositeStateMatch, StateMachine, State> {
+class ToplevelCompositeStateMapping extends AbstractContainmentMapping<ToplevelCompositeStateMatch, StateMachine, State> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -83,7 +84,7 @@ class ToplevelCompositeStateMapping extends AbstractContainmentRule<ToplevelComp
 
 }
 
-class ChildCompositeStateMapping extends AbstractContainmentRule<ChildCompositeStateMatch, CompositeState, State> {
+class ChildCompositeStateMapping extends AbstractContainmentMapping<ChildCompositeStateMatch, CompositeState, State> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

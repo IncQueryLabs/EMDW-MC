@@ -6,20 +6,21 @@ import com.incquerylabs.emdw.umlintegration.queries.ToplevelEntryPointMatch
 import com.zeligsoft.xtumlrt.common.EntryPoint
 import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 
-class EntryPointRules {
-	static def getRules(IncQueryEngine engine) {
+class EntryPointRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new EntryPointMapping(engine).specification,
-			new ToplevelEntryPointMapping(engine).specification,
-			new ChildEntryPointMapping(engine).specification
+			new EntryPointMapping(engine),
+			new ToplevelEntryPointMapping(engine),
+			new ChildEntryPointMapping(engine)
 		}
 	}
 }
 
-class EntryPointMapping extends AbstractObjectRule<EntryPointMatch, Pseudostate, EntryPoint> {
+class EntryPointMapping extends AbstractObjectMapping<EntryPointMatch, Pseudostate, EntryPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -53,7 +54,7 @@ class EntryPointMapping extends AbstractObjectRule<EntryPointMatch, Pseudostate,
 	
 }
 
-class ToplevelEntryPointMapping extends AbstractContainmentRule<ToplevelEntryPointMatch, StateMachine, EntryPoint> {
+class ToplevelEntryPointMapping extends AbstractContainmentMapping<ToplevelEntryPointMatch, StateMachine, EntryPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -81,7 +82,7 @@ class ToplevelEntryPointMapping extends AbstractContainmentRule<ToplevelEntryPoi
 
 }
 
-class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatch, State, EntryPoint> {
+class ChildEntryPointMapping extends AbstractContainmentMapping<ChildEntryPointMatch, State, EntryPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

@@ -7,19 +7,20 @@ import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.StateMachine
 import com.zeligsoft.xtumlrt.common.Transition
 import com.zeligsoft.xtumlrt.common.Vertex
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class TransitionRules {
-	static def getRules(IncQueryEngine engine) {
+class TransitionRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new TransitionMapping(engine).specification,
-			new ToplevelTransitionMapping(engine).specification,
-			new ChildTransitionMapping(engine).specification
+			new TransitionMapping(engine),
+			new ToplevelTransitionMapping(engine),
+			new ChildTransitionMapping(engine)
 		}
 	}
 }
 
-class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.uml2.uml.Transition, Transition> {
+class TransitionMapping extends AbstractObjectMapping<TransitionMatch, org.eclipse.uml2.uml.Transition, Transition> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -65,7 +66,7 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 	
 }
 
-class ToplevelTransitionMapping extends AbstractContainmentRule<ToplevelTransitionMatch, StateMachine, Transition> {
+class ToplevelTransitionMapping extends AbstractContainmentMapping<ToplevelTransitionMatch, StateMachine, Transition> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -93,7 +94,7 @@ class ToplevelTransitionMapping extends AbstractContainmentRule<ToplevelTransiti
 
 }
 
-class ChildTransitionMapping extends AbstractContainmentRule<ChildTransitionMatch, CompositeState, Transition> {
+class ChildTransitionMapping extends AbstractContainmentMapping<ChildTransitionMatch, CompositeState, Transition> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

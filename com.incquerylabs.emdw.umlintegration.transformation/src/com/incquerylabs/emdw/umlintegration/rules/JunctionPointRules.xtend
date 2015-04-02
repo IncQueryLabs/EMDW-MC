@@ -6,20 +6,21 @@ import com.incquerylabs.emdw.umlintegration.queries.ToplevelJunctionPointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.JunctionPoint
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 
-class JunctionPointRules {
-	static def getRules(IncQueryEngine engine) {
+class JunctionPointRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new JunctionPointMapping(engine).specification,
-			new ToplevelJunctionPointMapping(engine).specification,
-			new ChildJunctionPointMapping(engine).specification
+			new JunctionPointMapping(engine),
+			new ToplevelJunctionPointMapping(engine),
+			new ChildJunctionPointMapping(engine)
 		}
 	}
 }
 
-class JunctionPointMapping extends AbstractObjectRule<JunctionPointMatch, Pseudostate, JunctionPoint> {
+class JunctionPointMapping extends AbstractObjectMapping<JunctionPointMatch, Pseudostate, JunctionPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -53,7 +54,7 @@ class JunctionPointMapping extends AbstractObjectRule<JunctionPointMatch, Pseudo
 	
 }
 
-class ToplevelJunctionPointMapping extends AbstractContainmentRule<ToplevelJunctionPointMatch, StateMachine, JunctionPoint> {
+class ToplevelJunctionPointMapping extends AbstractContainmentMapping<ToplevelJunctionPointMatch, StateMachine, JunctionPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -81,7 +82,7 @@ class ToplevelJunctionPointMapping extends AbstractContainmentRule<ToplevelJunct
 
 }
 
-class ChildJunctionPointMapping extends AbstractContainmentRule<ChildJunctionPointMatch, CompositeState, JunctionPoint> {
+class ChildJunctionPointMapping extends AbstractContainmentMapping<ChildJunctionPointMatch, CompositeState, JunctionPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

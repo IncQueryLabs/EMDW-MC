@@ -8,7 +8,7 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
  * Establishes reference edges between already transformed objects of the same type.
  * Useful for recursive cross-references.
  */
-abstract class AbstractRecursiveReferenceRule<Match extends IPatternMatch, XtumlrtObject extends NamedElement> extends AbstractRule<Match> {
+abstract class AbstractRecursiveReferenceMapping<Match extends IPatternMatch, XtumlrtObject extends NamedElement> extends AbstractMapping<Match> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

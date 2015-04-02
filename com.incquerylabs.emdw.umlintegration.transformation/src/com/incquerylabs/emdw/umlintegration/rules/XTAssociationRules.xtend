@@ -3,19 +3,20 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.XtAssociationMatch
 import com.zeligsoft.xtumlrt.xtuml.XTAssociation
 import com.zeligsoft.xtumlrt.xtuml.XTClass
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
 
-class XTAssociationRules {
-	static def getRules(IncQueryEngine engine) {
+class XTAssociationRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTAssociationMapping(engine).specification,
-			new XTAssociationOppositeMapping(engine).specification
+			new XTAssociationMapping(engine),
+			new XTAssociationOppositeMapping(engine)
 		}
 	}
 }
 
-class XTAssociationMapping extends AbstractObjectRule<XtAssociationMatch, Property, XTAssociation> {
+class XTAssociationMapping extends AbstractObjectMapping<XtAssociationMatch, Property, XTAssociation> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -59,7 +60,7 @@ class XTAssociationMapping extends AbstractObjectRule<XtAssociationMatch, Proper
 
 }
 
-class XTAssociationOppositeMapping extends AbstractRecursiveReferenceRule<XtAssociationMatch, XTAssociation> {
+class XTAssociationOppositeMapping extends AbstractRecursiveReferenceMapping<XtAssociationMatch, XTAssociation> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

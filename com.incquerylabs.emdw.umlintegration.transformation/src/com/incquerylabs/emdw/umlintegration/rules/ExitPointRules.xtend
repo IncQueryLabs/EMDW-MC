@@ -6,20 +6,21 @@ import com.incquerylabs.emdw.umlintegration.queries.ToplevelExitPointMatch
 import com.zeligsoft.xtumlrt.common.ExitPoint
 import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 
-class ExitPointRules {
-	static def getRules(IncQueryEngine engine) {
+class ExitPointRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new ExitPointMapping(engine).specification,
-			new ToplevelExitPointMapping(engine).specification,
-			new ChildExitPointMapping(engine).specification
+			new ExitPointMapping(engine),
+			new ToplevelExitPointMapping(engine),
+			new ChildExitPointMapping(engine)
 		}
 	}
 }
 
-class ExitPointMapping extends AbstractObjectRule<ExitPointMatch, Pseudostate, ExitPoint> {
+class ExitPointMapping extends AbstractObjectMapping<ExitPointMatch, Pseudostate, ExitPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -53,7 +54,7 @@ class ExitPointMapping extends AbstractObjectRule<ExitPointMatch, Pseudostate, E
 	
 }
 
-class ToplevelExitPointMapping extends AbstractContainmentRule<ToplevelExitPointMatch, StateMachine, ExitPoint> {
+class ToplevelExitPointMapping extends AbstractContainmentMapping<ToplevelExitPointMatch, StateMachine, ExitPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -81,7 +82,7 @@ class ToplevelExitPointMapping extends AbstractContainmentRule<ToplevelExitPoint
 
 }
 
-class ChildExitPointMapping extends AbstractContainmentRule<ChildExitPointMatch, State, ExitPoint> {
+class ChildExitPointMapping extends AbstractContainmentMapping<ChildExitPointMatch, State, ExitPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

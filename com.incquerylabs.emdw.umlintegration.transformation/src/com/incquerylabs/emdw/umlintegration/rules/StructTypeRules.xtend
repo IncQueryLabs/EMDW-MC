@@ -2,18 +2,19 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StructTypeMatch
 import com.zeligsoft.xtumlrt.common.StructType
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.DataType
 
-class StructTypeRules {
-	static def getRules(IncQueryEngine engine) {
+class StructTypeRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new StructTypeMapping(engine).specification
+			new StructTypeMapping(engine)
 		}
 	}
 }
 
-class StructTypeMapping extends AbstractObjectRule<StructTypeMatch, DataType, StructType> {
+class StructTypeMapping extends AbstractObjectMapping<StructTypeMatch, DataType, StructType> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

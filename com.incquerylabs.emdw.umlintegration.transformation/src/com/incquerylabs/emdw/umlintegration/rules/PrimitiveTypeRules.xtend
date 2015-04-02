@@ -2,17 +2,18 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.PrimitiveTypeMatch
 import com.zeligsoft.xtumlrt.common.PrimitiveType
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class PrimitiveTypeRules {
-	static def getRules(IncQueryEngine engine) {
+class PrimitiveTypeRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new PrimitiveTypeMapping(engine).specification
+			new PrimitiveTypeMapping(engine)
 		}
 	}
 }
 
-class PrimitiveTypeMapping extends AbstractObjectRule<PrimitiveTypeMatch, org.eclipse.uml2.uml.PrimitiveType, PrimitiveType> {
+class PrimitiveTypeMapping extends AbstractObjectMapping<PrimitiveTypeMatch, org.eclipse.uml2.uml.PrimitiveType, PrimitiveType> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

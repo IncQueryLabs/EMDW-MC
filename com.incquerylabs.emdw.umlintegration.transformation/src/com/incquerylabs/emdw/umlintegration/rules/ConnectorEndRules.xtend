@@ -5,17 +5,18 @@ import com.zeligsoft.xtumlrt.common.CapsulePart
 import com.zeligsoft.xtumlrt.common.Connector
 import com.zeligsoft.xtumlrt.common.ConnectorEnd
 import com.zeligsoft.xtumlrt.xtuml.XTPort
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class ConnectorEndRules {
-	static def getRules(IncQueryEngine engine) {
+class ConnectorEndRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new ConnectorEndMapping(engine).specification
+			new ConnectorEndMapping(engine)
 		}
 	}
 }
 
-class ConnectorEndMapping extends AbstractObjectRule<ConnectorEndMatch, org.eclipse.uml2.uml.ConnectorEnd, ConnectorEnd> {
+class ConnectorEndMapping extends AbstractObjectMapping<ConnectorEndMatch, org.eclipse.uml2.uml.ConnectorEnd, ConnectorEnd> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

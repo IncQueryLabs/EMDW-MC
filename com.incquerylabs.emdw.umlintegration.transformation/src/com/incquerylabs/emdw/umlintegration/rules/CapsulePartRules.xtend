@@ -3,18 +3,19 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.CapsulePartMatch
 import com.zeligsoft.xtumlrt.common.CapsulePart
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
 
-class CapsulePartRules {
-	static def getRules(IncQueryEngine engine) {
+class CapsulePartRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new CapsulePartMapping(engine).specification
+			new CapsulePartMapping(engine)
 		}
 	}
 }
 
-class CapsulePartMapping extends AbstractObjectRule<CapsulePartMatch, Property, CapsulePart> {
+class CapsulePartMapping extends AbstractObjectMapping<CapsulePartMatch, Property, CapsulePart> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

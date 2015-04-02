@@ -6,17 +6,18 @@ import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Entity
 import com.zeligsoft.xtumlrt.common.Operation
 import com.zeligsoft.xtumlrt.common.Type
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class OperationRules {
-	static def getRules(IncQueryEngine engine) {
+class OperationRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new OperationMapping(engine).specification
+			new OperationMapping(engine)
 		}
 	}
 }
 
-class OperationMapping extends AbstractObjectRule<OperationMatch, org.eclipse.uml2.uml.Operation, Operation> {
+class OperationMapping extends AbstractObjectMapping<OperationMatch, org.eclipse.uml2.uml.Operation, Operation> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

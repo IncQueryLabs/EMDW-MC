@@ -3,18 +3,19 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.XtClassEventMatch
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTClassEvent
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Signal
 
-class XTClassEventRules {
-	static def getRules(IncQueryEngine engine) {
+class XTClassEventRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTClassEventMapping(engine).specification
+			new XTClassEventMapping(engine)
 		}
 	}
 }
 
-class XTClassEventMapping extends AbstractObjectRule<XtClassEventMatch, Signal, XTClassEvent> {
+class XTClassEventMapping extends AbstractObjectMapping<XtClassEventMatch, Signal, XTClassEvent> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

@@ -2,19 +2,20 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.TypeDefinitionMatch
 import com.zeligsoft.xtumlrt.common.TypeDefinition
+import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Type
-import com.zeligsoft.xtumlrt.xtuml.XTPackage
 
-class TypeDefinitionRules {
-	static def getRules(IncQueryEngine engine) {
+class TypeDefinitionRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new TypeDefinitionMapping(engine).specification
+			new TypeDefinitionMapping(engine)
 		}
 	}
 }
 
-class TypeDefinitionMapping extends AbstractObjectRule<TypeDefinitionMatch, Type, TypeDefinition> {
+class TypeDefinitionMapping extends AbstractObjectMapping<TypeDefinitionMatch, Type, TypeDefinition> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

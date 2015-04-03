@@ -50,7 +50,7 @@ class XTAssociationMapping extends AbstractObjectRule<XtAssociationMatch, Proper
 	}
 	
 	def xtumlrtObjectOfType(Property end) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, end.type).head as XTClass
+		end.type.findXtumlrtObject(XTClass)
 	}
 
 	override protected insertXtumlrtObject(XTAssociation xtumlrtObject, XtAssociationMatch match) {
@@ -82,7 +82,7 @@ class XTAssociationOppositeMapping extends AbstractRecursiveReferenceRule<XtAsso
 	}
 	
 	def findAssociation(Property end) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, end).head as XTAssociation
+		end.findXtumlrtObject(XTAssociation)
 	}
 	
 	override addTarget(XTAssociation source, XTAssociation target) {

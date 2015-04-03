@@ -43,11 +43,11 @@ class TypeDefinitionMapping extends AbstractObjectRule<TypeDefinitionMatch, Type
 	}
 
 	override updateXtumlrtObject(TypeDefinition xtumlrtObject, TypeDefinitionMatch match) {
-		xtumlrtObject.type = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.type).filter(com.zeligsoft.xtumlrt.common.Type).head // There might be > 1 traces
+		xtumlrtObject.type = match.type.findXtumlrtObject(com.zeligsoft.xtumlrt.common.Type) // There might be > 1 traces
 	}
 
 	def getXtumlrtContainer(TypeDefinitionMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlPackage).head as XTPackage
+		match.umlPackage.findXtumlrtObject(XTPackage)
 	}
 
 	override protected insertXtumlrtObject(TypeDefinition xtumlrtObject, TypeDefinitionMatch match) {

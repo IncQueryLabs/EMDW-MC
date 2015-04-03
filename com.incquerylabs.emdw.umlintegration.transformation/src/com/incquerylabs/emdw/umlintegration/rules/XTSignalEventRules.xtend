@@ -46,7 +46,7 @@ class XTSignalEventMapping extends AbstractObjectRule<XtSignalEventMatch, Signal
 	}
 
 	def getXtumlrtContainer(XtSignalEventMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as XTClass
+		match.umlClass.findXtumlrtObject(XTClass)
 	}
 
 	override protected insertXtumlrtObject(XTSignalEvent xtumlrtObject, XtSignalEventMatch match) {

@@ -74,7 +74,7 @@ class XTComponentInModelMapping extends AbstractContainmentRule<XtComponentInMod
 	}
 	
 	override findChild(XtComponentInModelMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.component).head as XTComponent
+		match.component.findXtumlrtObject(XTComponent)
 	}
 	
 	override insertChild(Model parent, XTComponent child) {
@@ -98,11 +98,11 @@ class XTComponentInPackageMapping extends AbstractContainmentRule<XtComponentInP
 	}
 
 	override findParent(XtComponentInPackageMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlPackage).head as XTPackage
+		match.umlPackage.findXtumlrtObject(XTPackage)
 	}
 	
 	override findChild(XtComponentInPackageMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.component).head as XTComponent
+		match.component.findXtumlrtObject(XTComponent)
 	}
 	
 	override insertChild(XTPackage parent, XTComponent child) {

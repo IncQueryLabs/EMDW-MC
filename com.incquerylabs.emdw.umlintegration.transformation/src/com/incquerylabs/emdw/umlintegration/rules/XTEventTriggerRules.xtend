@@ -47,13 +47,13 @@ class XTEventTriggerMapping extends AbstractObjectRule<XtEventTriggerMatch, Trig
 	override updateXtumlrtObject(XTEventTrigger xtumlrtObject, XtEventTriggerMatch match) {
 		switch event : match.trigger.event {
 			SignalEvent: {
-				xtumlrtObject.signal = engine.trace.getAllValuesOfxtumlrtElement(null, null, event.signal).head as XTSignalEvent
+				xtumlrtObject.signal = event.signal.findXtumlrtObject(XTSignalEvent)
 			} 
 		}
 	}
 
 	def getXtumlrtContainer(XtEventTriggerMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+		match.transition.findXtumlrtObject(Transition)
 	}
 
 	override insertXtumlrtObject(XTEventTrigger xtumlrtObject, XtEventTriggerMatch match) {

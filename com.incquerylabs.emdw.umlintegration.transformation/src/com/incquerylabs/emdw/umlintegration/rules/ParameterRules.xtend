@@ -74,11 +74,11 @@ class ParameterInOperationMapping extends AbstractContainmentRule<ParameterInOpe
 	}
 
 	override findParent(ParameterInOperationMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.operation).head as Operation
+		match.operation.findXtumlrtObject(Operation)
 	}
 	
 	override findChild(ParameterInOperationMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parameter).head as Parameter
+		match.parameter.findXtumlrtObject(Parameter)
 	}
 
 	override insertChild(Operation parent, Parameter child) {

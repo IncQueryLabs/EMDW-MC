@@ -51,15 +51,15 @@ class ConnectorEndMapping extends AbstractObjectRule<ConnectorEndMatch, org.ecli
 	}
 
 	def getPartWithPort(ConnectorEndMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.connectorEnd.partWithPort).head as CapsulePart
+		match.connectorEnd.partWithPort.findXtumlrtObject(CapsulePart)
 	}
 	
 	def getRole(ConnectorEndMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.connectorEnd.role).head as XTPort
+		match.connectorEnd.role.findXtumlrtObject(XTPort)
 	}
 
 	def getXtumlrtContainer(ConnectorEndMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.connector).head as Connector
+		match.connector.findXtumlrtObject(Connector)
 	}
 
 	override insertXtumlrtObject(ConnectorEnd xtumlrtObject, ConnectorEndMatch match) {

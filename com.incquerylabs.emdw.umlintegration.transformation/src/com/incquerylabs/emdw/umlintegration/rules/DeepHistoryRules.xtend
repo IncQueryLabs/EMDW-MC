@@ -68,11 +68,11 @@ class ToplevelDeepHistoryMapping extends AbstractContainmentRule<ToplevelDeepHis
 	}
 
 	override findParent(ToplevelDeepHistoryMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelDeepHistoryMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as DeepHistory
+		match.pseudostate.findXtumlrtObject(DeepHistory)
 	}
 	
 	override insertChild(StateMachine parent, DeepHistory child) {
@@ -96,11 +96,11 @@ class ChildDeepHistoryMapping extends AbstractContainmentRule<ChildDeepHistoryMa
 	}
 
 	override findParent(ChildDeepHistoryMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
+		match.state.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildDeepHistoryMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as DeepHistory
+		match.pseudostate.findXtumlrtObject(DeepHistory)
 	}
 	
 	override insertChild(CompositeState parent, DeepHistory child) {

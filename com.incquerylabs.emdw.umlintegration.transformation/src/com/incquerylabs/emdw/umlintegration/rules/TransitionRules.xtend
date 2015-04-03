@@ -53,11 +53,11 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 	}
 
 	def updateSourceVertex(Transition xtumlrtObject, TransitionMatch match) {
-		xtumlrtObject.sourceVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.sourceState).head as Vertex
+		xtumlrtObject.sourceVertex = match.sourceState.findXtumlrtObject(Vertex)
 	}
 
 	def updateTargetVertex(Transition xtumlrtObject, TransitionMatch match) {
-		xtumlrtObject.targetVertex = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.targetState).head as Vertex
+		xtumlrtObject.targetVertex = match.targetState.findXtumlrtObject(Vertex)
 	}
 
 	override protected insertXtumlrtObject(Transition xtumlrtObject, TransitionMatch match) {
@@ -80,11 +80,11 @@ class ToplevelTransitionMapping extends AbstractContainmentRule<ToplevelTransiti
 	}
 
 	override findParent(ToplevelTransitionMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelTransitionMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+		match.transition.findXtumlrtObject(Transition)
 	}
 	
 	override insertChild(StateMachine parent, Transition child) {
@@ -108,11 +108,11 @@ class ChildTransitionMapping extends AbstractContainmentRule<ChildTransitionMatc
 	}
 
 	override findParent(ChildTransitionMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parentState).head as CompositeState
+		match.parentState.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildTransitionMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+		match.transition.findXtumlrtObject(Transition)
 	}
 	
 	override insertChild(CompositeState parent, Transition child) {

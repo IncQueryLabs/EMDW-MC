@@ -47,7 +47,7 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 	}
 
 	def getXtumlrtContainer(StateMachineMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.behavioredClassifier).head as XTClass
+		match.behavioredClassifier.findXtumlrtObject(XTClass)
 	}
 
 	override insertXtumlrtObject(StateMachine xtumlrtObject, StateMachineMatch match) {

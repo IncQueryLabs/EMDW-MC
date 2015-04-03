@@ -15,6 +15,7 @@ import org.eclipse.incquery.runtime.evm.specific.Rules
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.uml2.uml.Element
 
 /**
  * A transformation rule with a priority.
@@ -69,10 +70,20 @@ abstract class AbstractRule<Match extends IPatternMatch> {
 	
 	protected def void disappeared(Match match)
 
+	/**
+	 * Returns the root of the transformation.
+	 */
 	protected def getRootMapping() {
 		val matcher = engine.rootMapping
 		checkState(matcher.countMatches == 1, "Incorrect number of mappings!")
 		matcher.oneArbitraryMatch.rootMapping
+	}
+
+	/**
+	 * Finds the xtumlrt object in the trace which was transformed from the given UML object.
+	 */
+	protected def <T> findXtumlrtObject(Element umlObject, Class<T> type) {
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject).filter(type).head		
 	}
 
 }

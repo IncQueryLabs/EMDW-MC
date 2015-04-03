@@ -48,7 +48,7 @@ class ActionChainMapping extends AbstractObjectRule<ActionChainMatch, Behavior, 
 	}
 
 	def getXtumlrtContainer(ActionChainMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+		match.transition.findXtumlrtObject(Transition)
 	}
 
 	override insertXtumlrtObject(ActionChain xtumlrtObject, ActionChainMatch match) {

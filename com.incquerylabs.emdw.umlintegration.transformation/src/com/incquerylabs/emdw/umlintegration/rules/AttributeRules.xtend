@@ -54,7 +54,7 @@ class AttributeMapping extends AbstractObjectRule<AttributeMatch, Property, Attr
 	}
 	
 	def getXtumlrtContainer(AttributeMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as Entity
+		match.umlClass.findXtumlrtObject(Entity)
 	}
 
 	override protected insertXtumlrtObject(Attribute xtumlrtObject, AttributeMatch match) {

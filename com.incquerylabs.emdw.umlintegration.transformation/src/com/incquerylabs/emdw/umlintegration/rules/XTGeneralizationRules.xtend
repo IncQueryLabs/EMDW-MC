@@ -49,7 +49,7 @@ class XTGeneralizationMapping extends AbstractObjectRule<XtGeneralizationMatch, 
 	}
 	
 	def findClass(Element element) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, element).head as XTClass
+		element.findXtumlrtObject(XTClass)
 	}
 
 	override protected insertXtumlrtObject(XTGeneralization xtumlrtObject, XtGeneralizationMatch match) {

@@ -68,11 +68,11 @@ class ToplevelChoicePointMapping extends AbstractContainmentRule<ToplevelChoiceP
 	}
 
 	override findParent(ToplevelChoicePointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelChoicePointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ChoicePoint
+		match.pseudostate.findXtumlrtObject(ChoicePoint)
 	}
 	
 	override insertChild(StateMachine parent, ChoicePoint child) {
@@ -96,11 +96,11 @@ class ChildChoicePointMapping extends AbstractContainmentRule<ChildChoicePointMa
 	}
 
 	override findParent(ChildChoicePointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
+		match.state.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildChoicePointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ChoicePoint
+		match.pseudostate.findXtumlrtObject(ChoicePoint)
 	}
 	
 	override insertChild(CompositeState parent, ChoicePoint child) {

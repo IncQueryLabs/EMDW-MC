@@ -68,11 +68,11 @@ class ToplevelEntryPointMapping extends AbstractContainmentRule<ToplevelEntryPoi
 	}
 
 	override findParent(ToplevelEntryPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelEntryPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as EntryPoint
+		match.pseudostate.findXtumlrtObject(EntryPoint)
 	}
 	
 	override insertChild(StateMachine parent, EntryPoint child) {
@@ -96,11 +96,11 @@ class ChildEntryPointMapping extends AbstractContainmentRule<ChildEntryPointMatc
 	}
 
 	override findParent(ChildEntryPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
+		match.state.findXtumlrtObject(State)
 	}
 	
 	override findChild(ChildEntryPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as EntryPoint
+		match.pseudostate.findXtumlrtObject(EntryPoint)
 	}
 	
 	override insertChild(State parent, EntryPoint child) {

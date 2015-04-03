@@ -71,11 +71,11 @@ class ToplevelSimpleStateMapping extends AbstractContainmentRule<ToplevelSimpleS
 	}
 
 	override findParent(ToplevelSimpleStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelSimpleStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
+		match.state.findXtumlrtObject(State)
 	}
 	
 	override insertChild(StateMachine parent, State child) {
@@ -99,11 +99,11 @@ class ChildSimpleStateMapping extends AbstractContainmentRule<ChildSimpleStateMa
 	}
 
 	override findParent(ChildSimpleStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parentState).head as CompositeState
+		match.parentState.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildSimpleStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
+		match.state.findXtumlrtObject(State)
 	}
 	
 	override insertChild(CompositeState parent, State child) {

@@ -57,7 +57,7 @@ class OperationMapping extends AbstractObjectRule<OperationMatch, org.eclipse.um
 	}
 	
 	def getXtumlrtContainer(OperationMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as Entity
+		match.umlClass.findXtumlrtObject(Entity)
 	}
 
 	override protected insertXtumlrtObject(Operation xtumlrtObject, OperationMatch match) {

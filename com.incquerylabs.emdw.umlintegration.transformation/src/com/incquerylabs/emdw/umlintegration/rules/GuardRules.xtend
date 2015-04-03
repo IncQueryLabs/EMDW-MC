@@ -48,7 +48,7 @@ class GuardMapping extends AbstractObjectRule<GuardMatch, Constraint, Guard> {
 	}
 
 	def getXtumlrtContainer(GuardMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.transition).head as Transition
+		match.transition.findXtumlrtObject(Transition)
 	}
 
 	override insertXtumlrtObject(Guard xtumlrtObject, GuardMatch match) {

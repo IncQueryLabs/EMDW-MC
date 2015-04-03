@@ -68,11 +68,11 @@ class ToplevelJunctionPointMapping extends AbstractContainmentRule<ToplevelJunct
 	}
 
 	override findParent(ToplevelJunctionPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelJunctionPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as JunctionPoint
+		match.pseudostate.findXtumlrtObject(JunctionPoint)
 	}
 	
 	override insertChild(StateMachine parent, JunctionPoint child) {
@@ -96,11 +96,11 @@ class ChildJunctionPointMapping extends AbstractContainmentRule<ChildJunctionPoi
 	}
 
 	override findParent(ChildJunctionPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
+		match.state.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildJunctionPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as JunctionPoint
+		match.pseudostate.findXtumlrtObject(JunctionPoint)
 	}
 	
 	override insertChild(CompositeState parent, JunctionPoint child) {

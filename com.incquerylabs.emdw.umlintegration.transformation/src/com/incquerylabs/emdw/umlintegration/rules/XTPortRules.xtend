@@ -49,7 +49,7 @@ class XTPortMapping extends AbstractObjectRule<XtPortMatch, Port, XTPort> {
 	}
 
 	def getXtumlrtContainer(XtPortMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.component).head as XTComponent
+		match.component.findXtumlrtObject(XTComponent)
 	}
 
 	override insertXtumlrtObject(XTPort xtumlrtObject, XtPortMatch match) {

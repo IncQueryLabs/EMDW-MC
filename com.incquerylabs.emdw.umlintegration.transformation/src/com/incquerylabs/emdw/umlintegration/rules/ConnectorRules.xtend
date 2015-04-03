@@ -45,7 +45,7 @@ class ConnectorMapping extends AbstractObjectRule<ConnectorMatch, org.eclipse.um
 	}
 
 	def getXtumlrtContainer(ConnectorMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.component).head as XTComponent
+		match.component.findXtumlrtObject(XTComponent)
 	}
 
 	override insertXtumlrtObject(Connector xtumlrtObject, ConnectorMatch match) {

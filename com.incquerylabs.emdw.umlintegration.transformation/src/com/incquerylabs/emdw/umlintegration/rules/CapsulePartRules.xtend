@@ -46,7 +46,7 @@ class CapsulePartMapping extends AbstractObjectRule<CapsulePartMatch, Property, 
 	}
 
 	def getXtumlrtContainer(CapsulePartMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.component).head as XTComponent
+		match.component.findXtumlrtObject(XTComponent)
 	}
 
 	override insertXtumlrtObject(CapsulePart xtumlrtObject, CapsulePartMatch match) {

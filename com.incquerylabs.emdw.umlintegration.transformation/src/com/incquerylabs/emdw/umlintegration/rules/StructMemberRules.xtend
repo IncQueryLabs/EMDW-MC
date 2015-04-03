@@ -43,11 +43,11 @@ class StructMemberMapping extends AbstractObjectRule<StructMemberMatch, Property
 	}
 
 	override updateXtumlrtObject(StructMember xtumlrtObject, StructMemberMatch match) {
-		xtumlrtObject.type = engine.trace.getAllValuesOfxtumlrtElement(null, null, match.member.type).filter(StructType).head
+		xtumlrtObject.type = match.member.type.findXtumlrtObject(StructType)
 	}
 
 	def getXtumlrtContainer(StructMemberMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.structType).filter(StructType).head
+		match.structType.findXtumlrtObject(StructType)
 	}
 	
 	override protected insertXtumlrtObject(StructMember xtumlrtObject, StructMemberMatch match) {

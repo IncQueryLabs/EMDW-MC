@@ -68,11 +68,11 @@ class ToplevelInitialPointMapping extends AbstractContainmentRule<ToplevelInitia
 	}
 
 	override findParent(ToplevelInitialPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelInitialPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as InitialPoint
+		match.pseudostate.findXtumlrtObject(InitialPoint)
 	}
 	
 	override insertChild(StateMachine parent, InitialPoint child) {
@@ -96,11 +96,11 @@ class ChildInitialPointMapping extends AbstractContainmentRule<ChildInitialPoint
 	}
 
 	override findParent(ChildInitialPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as CompositeState
+		match.state.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildInitialPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as InitialPoint
+		match.pseudostate.findXtumlrtObject(InitialPoint)
 	}
 	
 	override insertChild(CompositeState parent, InitialPoint child) {

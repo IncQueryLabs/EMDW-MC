@@ -32,7 +32,7 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
 		addTrace(umlObject, xtumlrtObject)
-		logger.debug('''Created xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Transformed «umlObject» to «xtumlrtObject»''')
 	}
 	
 	override def updated(Match match) {

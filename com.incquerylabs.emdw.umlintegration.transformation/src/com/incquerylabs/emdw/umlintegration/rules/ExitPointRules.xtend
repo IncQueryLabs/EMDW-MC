@@ -68,11 +68,11 @@ class ToplevelExitPointMapping extends AbstractContainmentRule<ToplevelExitPoint
 	}
 
 	override findParent(ToplevelExitPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelExitPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ExitPoint
+		match.pseudostate.findXtumlrtObject(ExitPoint)
 	}
 	
 	override insertChild(StateMachine parent, ExitPoint child) {
@@ -96,11 +96,11 @@ class ChildExitPointMapping extends AbstractContainmentRule<ChildExitPointMatch,
 	}
 
 	override findParent(ChildExitPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
+		match.state.findXtumlrtObject(State)
 	}
 	
 	override findChild(ChildExitPointMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.pseudostate).head as ExitPoint
+		match.pseudostate.findXtumlrtObject(ExitPoint)
 	}
 	
 	override insertChild(State parent, ExitPoint child) {

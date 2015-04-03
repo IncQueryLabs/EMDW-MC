@@ -70,11 +70,11 @@ class ToplevelCompositeStateMapping extends AbstractContainmentRule<ToplevelComp
 	}
 
 	override findParent(ToplevelCompositeStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.stateMachine).head as StateMachine
+		match.stateMachine.findXtumlrtObject(StateMachine)
 	}
 	
 	override findChild(ToplevelCompositeStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
+		match.state.findXtumlrtObject(State)
 	}
 	
 	override insertChild(StateMachine parent, State child) {
@@ -98,11 +98,11 @@ class ChildCompositeStateMapping extends AbstractContainmentRule<ChildCompositeS
 	}
 
 	override findParent(ChildCompositeStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.parentState).head as CompositeState
+		match.parentState.findXtumlrtObject(CompositeState)
 	}
 	
 	override findChild(ChildCompositeStateMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.state).head as State
+		match.state.findXtumlrtObject(State)
 	}
 	
 	override insertChild(CompositeState parent, State child) {

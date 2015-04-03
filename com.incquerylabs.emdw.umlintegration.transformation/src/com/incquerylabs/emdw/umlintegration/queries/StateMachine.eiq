@@ -201,13 +201,16 @@ private pattern transitionOfRegion(region: Region, transition: Transition, sourc
 // Transition children
 
 pattern xtEventTrigger(transition: Transition, trigger: Trigger) {
+	find transition(transition, _, _);
 	Transition.trigger(transition, trigger);
 }
 
 pattern guard(transition: Transition, guard: Constraint) {
+	find transition(transition, _, _);
 	Transition.guard(transition, guard);
 }
 
 pattern actionChain(transition: Transition, effect: Behavior) {
+	find transition(transition, _, _);
 	Transition.effect(transition, effect);
 }

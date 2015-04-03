@@ -44,7 +44,8 @@ class XTPortMapping extends AbstractObjectRule<XtPortMatch, Port, XTPort> {
 
 	override updateXtumlrtObject(XTPort xtumlrtObject, XtPortMatch match) {
 		xtumlrtObject.conjugate = match.umlObject.conjugated
-		// TODO xtumlrtObject.multiplicity = match.umlObject.???
+		xtumlrtObject.lowerBound = match.umlObject.lowerBound
+		xtumlrtObject.upperBound = match.umlObject.upperBound
 	}
 
 	def getXtumlrtContainer(XtPortMatch match) {

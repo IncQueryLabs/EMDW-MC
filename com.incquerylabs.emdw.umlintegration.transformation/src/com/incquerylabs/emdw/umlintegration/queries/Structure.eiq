@@ -74,6 +74,7 @@ pattern connectorEnd(connector: Connector, connectorEnd: ConnectorEnd) {
 
 pattern xtClass(umlClass: Class) {
 	Class(umlClass);
+	// only accept "real" classes (in UML, it has lots of counterintuitive subclasses)
 	neg find xtAssociationClass(umlClass);
 	neg find behavior(umlClass);
 	neg find xtComponent(umlClass);

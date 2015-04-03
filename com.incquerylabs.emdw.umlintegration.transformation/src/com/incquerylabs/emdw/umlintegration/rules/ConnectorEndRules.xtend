@@ -39,7 +39,7 @@ class ConnectorEndMapping extends AbstractObjectRule<ConnectorEndMatch, org.ecli
 		match.connectorEnd
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.ConnectorEnd umlObject, ConnectorEndMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createConnectorEnd
 	}
 

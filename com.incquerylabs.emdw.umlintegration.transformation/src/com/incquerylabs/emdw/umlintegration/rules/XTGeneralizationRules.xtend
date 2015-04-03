@@ -39,7 +39,7 @@ class XTGeneralizationMapping extends AbstractObjectRule<XtGeneralizationMatch, 
 		match.generalization
 	}
 
-	override createXtumlrtObject(Generalization umlObject, XtGeneralizationMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTGeneralization
 	}
 

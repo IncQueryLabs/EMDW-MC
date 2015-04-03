@@ -40,7 +40,7 @@ class OperationMapping extends AbstractObjectRule<OperationMatch, org.eclipse.um
 		match.operation
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.Operation umlObject, OperationMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createOperation => [
 			body = commonFactory.createActionCode
 		]

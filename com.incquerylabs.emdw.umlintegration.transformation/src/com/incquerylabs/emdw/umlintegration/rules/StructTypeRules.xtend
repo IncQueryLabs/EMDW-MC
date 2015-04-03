@@ -37,7 +37,7 @@ class StructTypeMapping extends AbstractObjectRule<StructTypeMatch, DataType, St
 		match.structType
 	}
 
-	override createXtumlrtObject(DataType umlObject, StructTypeMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createStructType
 	}
 

@@ -40,7 +40,7 @@ class XTEventTriggerMapping extends AbstractObjectRule<XtEventTriggerMatch, Trig
 		match.trigger
 	}
 
-	override createXtumlrtObject(Trigger umlObject, XtEventTriggerMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTEventTrigger
 	}
 

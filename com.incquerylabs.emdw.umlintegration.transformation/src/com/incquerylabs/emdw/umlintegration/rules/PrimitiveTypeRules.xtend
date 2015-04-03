@@ -36,7 +36,7 @@ class PrimitiveTypeMapping extends AbstractObjectRule<PrimitiveTypeMatch, org.ec
 		match.primitiveType
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.PrimitiveType umlObject, PrimitiveTypeMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createPrimitiveType
 	}
 

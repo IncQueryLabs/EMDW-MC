@@ -14,6 +14,9 @@ import org.junit.runners.Parameterized.Parameters
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
+/**
+ * Base class for testing transformation rules.
+ */
 abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> extends TestWithoutParameters {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -43,7 +46,10 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		mapping.assertMapping(umlObject)
 		endTest(testId)
 	}
-	
+
+	/**
+	 * Creates an UML object which will be transformed.
+	 */	
 	protected def UmlObject createUmlObject(Model umlModel)
 	
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {
@@ -57,8 +63,14 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		checkXtumlrtObject(mapping, umlObject, xtumlrtObject)		
 	}
 	
+	/**
+	 * Returns the collection which should contain the transformed xtumlrt object.
+	 */
 	protected def Iterable<XtumlrtObject> getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot)
 
+	/**
+	 * Asserts the fields of the transformed xtumlrt object.
+	 */
 	protected def void checkXtumlrtObject(RootMapping mapping, UmlObject umlObject, XtumlrtObject xtumlrtObject)
 
 	@Test

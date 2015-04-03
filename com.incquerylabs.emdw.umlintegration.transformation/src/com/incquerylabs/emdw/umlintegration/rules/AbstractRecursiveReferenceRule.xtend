@@ -31,12 +31,24 @@ abstract class AbstractRecursiveReferenceRule<Match extends IPatternMatch, Xtuml
 		logger.debug('''Removed edge «source» -> «target»''')
 	}
 
+	/**
+	 * Returns the source of the reference by getting the xtumlrt object from the trace associated to the appropriate match parameter.
+	 */
 	protected def XtumlrtObject findSource(Match match)
 
+	/**
+	 * Returns the target of the reference by getting the xtumlrt object from the trace associated to the appropriate match parameter.
+	 */
 	protected def XtumlrtObject findTarget(Match match)
 	
+	/**
+	 * Inserts the target to the appropriate reference of the source.
+	 */
 	protected def void addTarget(XtumlrtObject source, XtumlrtObject target)
 	
+	/**
+	 * Removes the target from the appropriate reference of the source.
+	 */
 	protected def void removeTarget(XtumlrtObject source, XtumlrtObject target)
 
 }

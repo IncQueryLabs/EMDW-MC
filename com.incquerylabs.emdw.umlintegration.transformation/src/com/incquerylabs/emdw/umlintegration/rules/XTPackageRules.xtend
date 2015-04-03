@@ -45,7 +45,7 @@ class XTPackageMapping extends AbstractObjectRule<XtPackageMatch, Package, XTPac
 		match.umlPackage
 	}
 
-	override createXtumlrtObject(Package umlObject, XtPackageMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTPackage
 	}
 

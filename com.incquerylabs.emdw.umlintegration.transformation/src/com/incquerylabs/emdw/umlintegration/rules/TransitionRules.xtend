@@ -43,7 +43,7 @@ class TransitionMapping extends AbstractObjectRule<TransitionMatch, org.eclipse.
 		match.transition
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.Transition umlObject, TransitionMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createTransition
 	}
 

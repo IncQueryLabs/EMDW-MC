@@ -41,7 +41,7 @@ class JunctionPointMapping extends AbstractObjectRule<JunctionPointMatch, Pseudo
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, JunctionPointMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createJunctionPoint
 	}
 

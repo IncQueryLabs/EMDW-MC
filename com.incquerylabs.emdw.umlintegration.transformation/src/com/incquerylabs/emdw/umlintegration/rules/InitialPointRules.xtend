@@ -41,7 +41,7 @@ class InitialPointMapping extends AbstractObjectRule<InitialPointMatch, Pseudost
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, InitialPointMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createInitialPoint
 	}
 

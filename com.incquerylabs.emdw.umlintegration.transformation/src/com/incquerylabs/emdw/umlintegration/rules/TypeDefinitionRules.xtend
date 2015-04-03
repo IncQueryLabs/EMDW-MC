@@ -38,7 +38,7 @@ class TypeDefinitionMapping extends AbstractObjectRule<TypeDefinitionMatch, Type
 		match.type
 	}
 
-	override createXtumlrtObject(Type umlObject, TypeDefinitionMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createTypeDefinition
 	}
 

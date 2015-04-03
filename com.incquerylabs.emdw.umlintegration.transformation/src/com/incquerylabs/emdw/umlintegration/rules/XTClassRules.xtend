@@ -46,7 +46,7 @@ class XTClassMapping extends AbstractObjectRule<XtClassMatch, Class, XTClass> {
 		match.umlClass
 	}
 
-	override createXtumlrtObject(Class umlObject, XtClassMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTClass
 	}
 

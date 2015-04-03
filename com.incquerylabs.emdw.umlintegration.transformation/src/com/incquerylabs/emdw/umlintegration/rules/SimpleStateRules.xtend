@@ -42,7 +42,7 @@ class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclips
 		match.state
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.State umlObject, SimpleStateMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createSimpleState
 	}
 

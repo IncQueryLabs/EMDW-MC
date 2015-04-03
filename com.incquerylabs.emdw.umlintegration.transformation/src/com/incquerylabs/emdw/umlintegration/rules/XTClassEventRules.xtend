@@ -36,7 +36,7 @@ class XTClassEventMapping extends AbstractObjectRule<XtClassEventMatch, Signal, 
 		match.signal
 	}
 
-	override createXtumlrtObject(Signal umlObject, XtClassEventMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTClassEvent
 	}
 

@@ -37,7 +37,7 @@ class GuardMapping extends AbstractObjectRule<GuardMatch, Constraint, Guard> {
 		match.guard
 	}
 
-	override createXtumlrtObject(Constraint umlObject, GuardMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createGuard => [
 			body = commonFactory.createActionCode
 		]

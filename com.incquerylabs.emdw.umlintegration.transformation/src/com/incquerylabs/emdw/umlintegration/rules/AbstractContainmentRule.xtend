@@ -28,10 +28,19 @@ abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent exten
 		// AbstractObjectRule already removes the child from the containment hierarchy
 	}
 
+	/**
+	 * Returns the containment parent by getting the xtumlrt object from the trace associated to the appropriate match parameter.
+	 */
 	protected def Parent findParent(Match match)
 
+	/**
+	 * Returns the containment child by getting the xtumlrt object from the trace associated to the appropriate match parameter.
+	 */
 	protected def Child findChild(Match match)
 	
+	/**
+	 * Inserts the child to the appropriate containment reference of the parent.
+	 */
 	protected def void insertChild(Parent parent, Child child)
 
 }

@@ -3,11 +3,10 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.AttributeMatch
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Attribute
+import com.zeligsoft.xtumlrt.common.Entity
 import com.zeligsoft.xtumlrt.common.Type
-import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
-import com.zeligsoft.xtumlrt.common.Entity
 
 class AttributeRules {
 	static def getRules(IncQueryEngine engine) {
@@ -41,7 +40,7 @@ class AttributeMapping extends AbstractObjectRule<AttributeMatch, Property, Attr
 		match.property
 	}
 
-	override createXtumlrtObject(Property umlObject, AttributeMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createAttribute
 	}
 

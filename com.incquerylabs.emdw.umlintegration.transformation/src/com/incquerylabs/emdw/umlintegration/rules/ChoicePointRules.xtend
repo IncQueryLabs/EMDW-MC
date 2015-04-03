@@ -41,7 +41,7 @@ class ChoicePointMapping extends AbstractObjectRule<ChoicePointMatch, Pseudostat
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, ChoicePointMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createChoicePoint
 	}
 

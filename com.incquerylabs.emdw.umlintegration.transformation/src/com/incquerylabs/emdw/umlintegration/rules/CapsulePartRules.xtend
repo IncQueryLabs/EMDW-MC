@@ -38,7 +38,7 @@ class CapsulePartMapping extends AbstractObjectRule<CapsulePartMatch, Property, 
 		match.property
 	}
 
-	override createXtumlrtObject(Property umlObject, CapsulePartMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createCapsulePart
 	}
 

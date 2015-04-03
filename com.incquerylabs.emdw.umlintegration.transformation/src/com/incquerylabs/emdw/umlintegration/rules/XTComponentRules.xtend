@@ -43,7 +43,7 @@ class XTComponentMapping extends AbstractObjectRule<XtComponentMatch, Class, XTC
 		match.component
 	}
 
-	override createXtumlrtObject(Class umlObject, XtComponentMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTComponent
 	}
 

@@ -41,7 +41,7 @@ class ExitPointMapping extends AbstractObjectRule<ExitPointMatch, Pseudostate, E
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, ExitPointMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createExitPoint
 	}
 

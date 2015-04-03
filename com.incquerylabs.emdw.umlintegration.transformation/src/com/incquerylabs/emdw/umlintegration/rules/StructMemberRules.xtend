@@ -38,7 +38,7 @@ class StructMemberMapping extends AbstractObjectRule<StructMemberMatch, Property
 		match.member
 	}
 
-	override createXtumlrtObject(Property umlObject, StructMemberMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createStructMember
 	}
 

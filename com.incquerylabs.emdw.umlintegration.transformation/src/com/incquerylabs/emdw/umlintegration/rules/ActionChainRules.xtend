@@ -37,7 +37,7 @@ class ActionChainMapping extends AbstractObjectRule<ActionChainMatch, Behavior, 
 		match.effect
 	}
 
-	override createXtumlrtObject(Behavior umlObject, ActionChainMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createActionChain => [
 			actions += commonFactory.createActionCode
 		]

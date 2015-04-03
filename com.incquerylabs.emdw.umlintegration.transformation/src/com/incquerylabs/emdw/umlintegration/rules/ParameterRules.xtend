@@ -42,7 +42,7 @@ class ParameterMapping extends AbstractObjectRule<ParameterMatch, org.eclipse.um
 		match.parameter
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.Parameter umlObject, ParameterMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createParameter
 	}
 

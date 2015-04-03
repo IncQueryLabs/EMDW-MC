@@ -38,7 +38,7 @@ class XTPortMapping extends AbstractObjectRule<XtPortMatch, Port, XTPort> {
 		match.port
 	}
 
-	override createXtumlrtObject(Port umlObject, XtPortMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTPort
 	}
 

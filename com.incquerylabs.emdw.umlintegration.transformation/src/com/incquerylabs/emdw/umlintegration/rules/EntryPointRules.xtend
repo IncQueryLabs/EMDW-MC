@@ -41,7 +41,7 @@ class EntryPointMapping extends AbstractObjectRule<EntryPointMatch, Pseudostate,
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, EntryPointMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createEntryPoint
 	}
 

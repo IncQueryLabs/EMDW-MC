@@ -37,7 +37,7 @@ class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.ecli
 		match.stateMachine
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.StateMachine umlObject, StateMachineMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createStateMachine => [
 			top = commonFactory.createCompositeState
 		]

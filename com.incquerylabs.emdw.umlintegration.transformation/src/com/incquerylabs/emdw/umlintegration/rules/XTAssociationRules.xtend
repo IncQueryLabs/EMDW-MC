@@ -39,7 +39,7 @@ class XTAssociationMapping extends AbstractObjectRule<XtAssociationMatch, Proper
 		match.sourceEnd
 	}
 
-	override createXtumlrtObject(Property umlObject, XtAssociationMatch match) {
+	override createXtumlrtObject() {
 		xtumlFactory.createXTAssociation
 	}
 

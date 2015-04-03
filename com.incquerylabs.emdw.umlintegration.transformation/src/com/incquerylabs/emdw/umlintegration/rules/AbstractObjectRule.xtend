@@ -27,7 +27,7 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 
 	override appeared(Match match) {
 		val umlObject = match.umlObject
-		val xtumlrtObject = createXtumlrtObject(umlObject, match)
+		val xtumlrtObject = createXtumlrtObject
 		xtumlrtObject.insertXtumlrtObject(match)
 		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
@@ -91,14 +91,29 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 		engine.trace.getAllMatches(rootMapping, null, umlObject, null).filter[xtumlrtClass.isAssignableFrom(xtumlrtElement.class)].head
 	}
 
+	/**
+	 * Returns the UML object to transform, the appropriate parameter of the match.
+	 */
 	protected def UmlObject getUmlObject(Match match)
 
+	/**
+	 * Returns the type of the xtumlrt object.
+	 */
 	protected def Class<? extends XtumlrtObject> getXtumlrtClass()
 
-	protected def XtumlrtObject createXtumlrtObject(UmlObject umlObject, Match match)
+	/**
+	 * Creates an empty xtumlrt object.
+	 */
+	protected def XtumlrtObject createXtumlrtObject()
 
+	/**
+	 * Inserts the xtumlrt object in the proper containment reference of the proper xtumlrt object, found from the trace.
+	 */
 	protected def void insertXtumlrtObject(XtumlrtObject xtumlrtObject, Match match)
 
+	/**
+	 * Updates the fields of the xtumlrt object based on the match.
+	 */
 	protected def void updateXtumlrtObject(XtumlrtObject xtumlrtObject, Match match)
 	
 }

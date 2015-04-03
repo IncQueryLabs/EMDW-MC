@@ -41,7 +41,7 @@ class CompositeStateMapping extends AbstractObjectRule<CompositeStateMatch, org.
 		match.state
 	}
 
-	override createXtumlrtObject(org.eclipse.uml2.uml.State umlObject, CompositeStateMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createCompositeState
 	}
 

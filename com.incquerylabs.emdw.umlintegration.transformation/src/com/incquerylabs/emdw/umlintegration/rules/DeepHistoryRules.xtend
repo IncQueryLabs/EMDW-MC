@@ -41,7 +41,7 @@ class DeepHistoryMapping extends AbstractObjectRule<DeepHistoryMatch, Pseudostat
 		match.pseudostate
 	}
 
-	override createXtumlrtObject(Pseudostate umlObject, DeepHistoryMatch match) {
+	override createXtumlrtObject() {
 		commonFactory.createDeepHistory
 	}
 

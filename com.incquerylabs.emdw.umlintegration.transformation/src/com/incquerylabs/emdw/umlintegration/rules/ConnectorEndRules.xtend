@@ -44,7 +44,9 @@ class ConnectorEndMapping extends AbstractObjectRule<ConnectorEndMatch, org.ecli
 	}
 
 	override updateXtumlrtObject(ConnectorEnd xtumlrtObject, ConnectorEndMatch match) {
-		xtumlrtObject.partWithPort = match.partWithPort
+		if (match.connectorEnd.partWithPort != null) {
+			xtumlrtObject.partWithPort = match.partWithPort
+		}
 		xtumlrtObject.role = match.role
 	}
 

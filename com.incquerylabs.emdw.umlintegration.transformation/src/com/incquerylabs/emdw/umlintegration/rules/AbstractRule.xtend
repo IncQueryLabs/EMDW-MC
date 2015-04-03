@@ -41,8 +41,14 @@ abstract class AbstractRule<Match extends IPatternMatch> {
 		]
 	}
 
+	/**
+	 * The pattern that matches the UML object to transform.
+	 */
 	protected def IQuerySpecification<? extends IncQueryMatcher<Match>> getQuerySpecification()
 
+	/**
+	 * Higher priority rules will be executed later, so if a rule searches for an already transformed object in the trace, then its priority must be greater then that transformation's priority.
+	 */
 	protected def int getRulePriority()
 
 	private def getAppearedJob() {

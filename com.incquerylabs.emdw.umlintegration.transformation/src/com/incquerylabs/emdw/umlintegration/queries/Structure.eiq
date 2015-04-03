@@ -161,6 +161,7 @@ pattern xtAssociationClass(associationClass) {
 }
 
 pattern xtGeneralization(subClass: Class, generalization: Generalization) {
+	find xtClass(subClass);
 	Class.generalization(subClass, generalization);
 }
 

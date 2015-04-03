@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.OperationMatch
 import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
+import com.zeligsoft.xtumlrt.common.Entity
 import com.zeligsoft.xtumlrt.common.Operation
 import com.zeligsoft.xtumlrt.common.Type
-import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class OperationRules {
@@ -57,7 +57,7 @@ class OperationMapping extends AbstractObjectRule<OperationMatch, org.eclipse.um
 	}
 	
 	def getXtumlrtContainer(OperationMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as XTClass
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as Entity
 	}
 
 	override protected insertXtumlrtObject(Operation xtumlrtObject, OperationMatch match) {

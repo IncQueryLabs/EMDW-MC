@@ -7,6 +7,7 @@ import com.zeligsoft.xtumlrt.common.Type
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
+import com.zeligsoft.xtumlrt.common.Entity
 
 class AttributeRules {
 	static def getRules(IncQueryEngine engine) {
@@ -54,7 +55,7 @@ class AttributeMapping extends AbstractObjectRule<AttributeMatch, Property, Attr
 	}
 	
 	def getXtumlrtContainer(AttributeMatch match) {
-		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as XTClass
+		engine.trace.getAllValuesOfxtumlrtElement(null, null, match.umlClass).head as Entity
 	}
 
 	override protected insertXtumlrtObject(Attribute xtumlrtObject, AttributeMatch match) {

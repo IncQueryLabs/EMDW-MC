@@ -1,11 +1,10 @@
 package com.incquerylabs.emdw.umlintegration.papyrus
 
-import org.eclipse.papyrus.infra.core.resource.AbstractModel
+import java.io.IOException
 import org.eclipse.core.runtime.IPath
 import org.eclipse.emf.common.util.URI
-import java.io.IOException
 import org.eclipse.emf.ecore.resource.Resource
-import com.google.common.collect.ImmutableMap
+import org.eclipse.papyrus.infra.core.resource.AbstractModel
 
 class EmfModel extends AbstractModel {
 
@@ -16,7 +15,7 @@ class EmfModel extends AbstractModel {
 	}
 
 	override saveModel() throws IOException {
-		resource.save(ImmutableMap.of)
+		resource.save(#{})
 	}
 
 	override getModifiedURIs() {

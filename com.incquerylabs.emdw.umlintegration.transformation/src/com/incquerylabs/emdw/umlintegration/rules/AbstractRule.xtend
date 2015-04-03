@@ -13,9 +13,9 @@ import org.eclipse.incquery.runtime.evm.specific.Jobs
 import org.eclipse.incquery.runtime.evm.specific.Lifecycles
 import org.eclipse.incquery.runtime.evm.specific.Rules
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
+import org.eclipse.uml2.uml.Element
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.uml2.uml.Element
 
 /**
  * A transformation rule with a priority.

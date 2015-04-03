@@ -2,6 +2,37 @@ package com.incquerylabs.emdw.umlintegration.test
 
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.rules.AbstractRule
+import com.incquerylabs.emdw.umlintegration.rules.ActionChainMapping
+import com.incquerylabs.emdw.umlintegration.rules.AttributeMapping
+import com.incquerylabs.emdw.umlintegration.rules.CapsulePartMapping
+import com.incquerylabs.emdw.umlintegration.rules.ChoicePointMapping
+import com.incquerylabs.emdw.umlintegration.rules.CompositeStateMapping
+import com.incquerylabs.emdw.umlintegration.rules.ConnectorEndMapping
+import com.incquerylabs.emdw.umlintegration.rules.ConnectorMapping
+import com.incquerylabs.emdw.umlintegration.rules.DeepHistoryMapping
+import com.incquerylabs.emdw.umlintegration.rules.EntryPointMapping
+import com.incquerylabs.emdw.umlintegration.rules.ExitPointMapping
+import com.incquerylabs.emdw.umlintegration.rules.GuardMapping
+import com.incquerylabs.emdw.umlintegration.rules.InitialPointMapping
+import com.incquerylabs.emdw.umlintegration.rules.JunctionPointMapping
+import com.incquerylabs.emdw.umlintegration.rules.OperationMapping
+import com.incquerylabs.emdw.umlintegration.rules.ParameterMapping
+import com.incquerylabs.emdw.umlintegration.rules.PrimitiveTypeMapping
+import com.incquerylabs.emdw.umlintegration.rules.SimpleStateMapping
+import com.incquerylabs.emdw.umlintegration.rules.StateMachineMapping
+import com.incquerylabs.emdw.umlintegration.rules.StructMemberMapping
+import com.incquerylabs.emdw.umlintegration.rules.StructTypeMapping
+import com.incquerylabs.emdw.umlintegration.rules.TransitionMapping
+import com.incquerylabs.emdw.umlintegration.rules.TypeDefinitionMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTAssociationMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTClassEventMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTClassMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTComponentMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTEventTriggerMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTGeneralizationMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTPackageMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTPortMapping
+import com.incquerylabs.emdw.umlintegration.rules.XTSignalEventMapping
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.apache.log4j.Level
@@ -13,6 +44,8 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.uml2.uml.Model
 import org.junit.BeforeClass
 import org.junit.Test
+
+import static org.junit.Assert.*
 
 class IntegrationTest {
 
@@ -44,6 +77,52 @@ class IntegrationTest {
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(resourceSet))
 		transformation.initialize(mapping, engine)
 		transformation.execute
+		
+		val rules = getRules(engine)
+		val umlObjects = rules.map[allUmlObjects].flatten
+		umlObjects.forEach[umlObject |
+			val trace = mapping.traces.findFirst[umlElements.toSet == #{umlObject}]
+			val errorMessage = '''«umlObject» was not transformed'''
+			assertNotNull(errorMessage, trace)
+			assertFalse(errorMessage, trace.xtumlrtElements.empty)
+		]
+	}
+
+	def getRules(AdvancedIncQueryEngine engine) {
+		#{
+			new XTPackageMapping(engine),
+			new XTComponentMapping(engine),
+			new XTPortMapping(engine),
+			new CapsulePartMapping(engine),
+			new ConnectorMapping(engine),
+			new ConnectorEndMapping(engine),
+			new XTClassMapping(engine),
+			new AttributeMapping(engine),
+			new OperationMapping(engine),
+			new ParameterMapping(engine),
+			new XTAssociationMapping(engine),
+			new XTGeneralizationMapping(engine),
+			new XTClassEventMapping(engine),
+			new XTSignalEventMapping(engine),
+			new TypeDefinitionMapping(engine),
+			new PrimitiveTypeMapping(engine),
+			new StructTypeMapping(engine),
+			new StructMemberMapping(engine),
+		
+			new StateMachineMapping(engine),
+			new InitialPointMapping(engine),
+			new ChoicePointMapping(engine),
+			new EntryPointMapping(engine),
+			new ExitPointMapping(engine),
+			new JunctionPointMapping(engine),
+			new DeepHistoryMapping(engine),
+			new SimpleStateMapping(engine),
+			new CompositeStateMapping(engine),
+			new TransitionMapping(engine),
+			new XTEventTriggerMapping(engine),
+			new GuardMapping(engine),
+			new ActionChainMapping(engine)
+		}
 	}
 
     @BeforeClass

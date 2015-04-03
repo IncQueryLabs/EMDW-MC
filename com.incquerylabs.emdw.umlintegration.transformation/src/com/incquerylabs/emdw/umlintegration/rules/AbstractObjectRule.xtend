@@ -10,6 +10,7 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.NamedElement
+import com.google.common.annotations.VisibleForTesting
 
 /**
  * Transforms an UML object to an xtumlrt object.
@@ -115,5 +116,10 @@ abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends
 	 * Updates the fields of the xtumlrt object based on the match.
 	 */
 	protected def void updateXtumlrtObject(XtumlrtObject xtumlrtObject, Match match)
-	
+
+	@VisibleForTesting
+	def Iterable<UmlObject> getAllUmlObjects() {
+		engine.getMatcher(querySpecification).allMatches.map[getUmlObject(it)]
+	}
+
 }

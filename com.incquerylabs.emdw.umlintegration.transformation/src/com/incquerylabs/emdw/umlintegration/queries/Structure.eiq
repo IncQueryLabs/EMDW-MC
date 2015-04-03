@@ -135,6 +135,7 @@ pattern parameter(parameter) {
 }
 
 pattern parameterInOperation(operation: Operation, parameter: Parameter) {
+	find operation(_, operation);
 	Operation.ownedParameter(operation, parameter);
 	find notReturnParameter(parameter);
 }

@@ -1,5 +1,6 @@
 class SimpleTest {
 	activity test() {
 		let x : Integer = 1 + 2;
+		let y : Integer = x + 2;
 	}
 }

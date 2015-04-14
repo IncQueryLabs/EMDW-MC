@@ -4,18 +4,19 @@ import com.incquerylabs.emdw.umlintegration.queries.GuardMatch
 import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.zeligsoft.xtumlrt.common.Guard
 import com.zeligsoft.xtumlrt.common.Transition
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Constraint
 
-class GuardRules {
-	static def getRules(IncQueryEngine engine) {
+class GuardRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new GuardMapping(engine).specification
+			new GuardMapping(engine)
 		}
 	}
 }
 
-class GuardMapping extends AbstractObjectRule<GuardMatch, Constraint, Guard> {
+class GuardMapping extends AbstractObjectMapping<GuardMatch, Constraint, Guard> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

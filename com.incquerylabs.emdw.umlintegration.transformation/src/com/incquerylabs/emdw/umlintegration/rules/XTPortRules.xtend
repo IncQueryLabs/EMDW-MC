@@ -3,18 +3,19 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.XtPortMatch
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import com.zeligsoft.xtumlrt.xtuml.XTPort
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Port
 
-class XTPortRules {
-	static def getRules(IncQueryEngine engine) {
+class XTPortRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTPortMapping(engine).specification
+			new XTPortMapping(engine)
 		}
 	}
 }
 
-class XTPortMapping extends AbstractObjectRule<XtPortMatch, Port, XTPort> {
+class XTPortMapping extends AbstractObjectMapping<XtPortMatch, Port, XTPort> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

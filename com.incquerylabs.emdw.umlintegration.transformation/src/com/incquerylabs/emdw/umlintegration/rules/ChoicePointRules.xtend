@@ -6,20 +6,21 @@ import com.incquerylabs.emdw.umlintegration.queries.ToplevelChoicePointMatch
 import com.zeligsoft.xtumlrt.common.ChoicePoint
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 
-class ChoicePointRules {
-	static def getRules(IncQueryEngine engine) {
+class ChoicePointRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new ChoicePointMapping(engine).specification,
-			new ToplevelChoicePointMapping(engine).specification,
-			new ChildChoicePointMapping(engine).specification
+			new ChoicePointMapping(engine),
+			new ToplevelChoicePointMapping(engine),
+			new ChildChoicePointMapping(engine)
 		}
 	}
 }
 
-class ChoicePointMapping extends AbstractObjectRule<ChoicePointMatch, Pseudostate, ChoicePoint> {
+class ChoicePointMapping extends AbstractObjectMapping<ChoicePointMatch, Pseudostate, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -53,7 +54,7 @@ class ChoicePointMapping extends AbstractObjectRule<ChoicePointMatch, Pseudostat
 	
 }
 
-class ToplevelChoicePointMapping extends AbstractContainmentRule<ToplevelChoicePointMatch, StateMachine, ChoicePoint> {
+class ToplevelChoicePointMapping extends AbstractContainmentMapping<ToplevelChoicePointMatch, StateMachine, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -81,7 +82,7 @@ class ToplevelChoicePointMapping extends AbstractContainmentRule<ToplevelChoiceP
 
 }
 
-class ChildChoicePointMapping extends AbstractContainmentRule<ChildChoicePointMatch, CompositeState, ChoicePoint> {
+class ChildChoicePointMapping extends AbstractContainmentMapping<ChildChoicePointMatch, CompositeState, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

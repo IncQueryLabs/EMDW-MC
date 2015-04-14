@@ -3,17 +3,18 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ConnectorMatch
 import com.zeligsoft.xtumlrt.common.Connector
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class ConnectorRules {
-	static def getRules(IncQueryEngine engine) {
+class ConnectorRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new ConnectorMapping(engine).specification
+			new ConnectorMapping(engine)
 		}
 	}
 }
 
-class ConnectorMapping extends AbstractObjectRule<ConnectorMatch, org.eclipse.uml2.uml.Connector, Connector> {
+class ConnectorMapping extends AbstractObjectMapping<ConnectorMatch, org.eclipse.uml2.uml.Connector, Connector> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

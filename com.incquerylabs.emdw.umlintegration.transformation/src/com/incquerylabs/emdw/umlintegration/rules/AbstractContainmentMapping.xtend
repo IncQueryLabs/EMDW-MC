@@ -8,7 +8,7 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
  * Establishes containment reference edges between already transformed objects.
  * Useful for recursive containment hierarchies.
  */
-abstract class AbstractContainmentRule<Match extends IPatternMatch, Parent extends NamedElement, Child extends NamedElement> extends AbstractRule<Match> {
+abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent extends NamedElement, Child extends NamedElement> extends AbstractMapping<Match> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

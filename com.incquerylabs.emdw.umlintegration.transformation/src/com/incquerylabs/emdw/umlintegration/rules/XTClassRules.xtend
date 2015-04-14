@@ -8,21 +8,22 @@ import com.zeligsoft.xtumlrt.common.Model
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Class
 
-class XTClassRules {
-	static def getRules(IncQueryEngine engine) {
+class XTClassRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTClassMapping(engine).specification,
-			new XTClassInModelMapping(engine).specification,
-			new XTClassInPackageMapping(engine).specification,
-			new XTClassInComponentMapping(engine).specification
+			new XTClassMapping(engine),
+			new XTClassInModelMapping(engine),
+			new XTClassInPackageMapping(engine),
+			new XTClassInComponentMapping(engine)
 		}
 	}
 }
 
-class XTClassMapping extends AbstractObjectRule<XtClassMatch, Class, XTClass> {
+class XTClassMapping extends AbstractObjectMapping<XtClassMatch, Class, XTClass> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -58,7 +59,7 @@ class XTClassMapping extends AbstractObjectRule<XtClassMatch, Class, XTClass> {
 	
 }
 
-class XTClassInModelMapping extends AbstractContainmentRule<XtClassInModelMatch, Model, XTClass> {
+class XTClassInModelMapping extends AbstractContainmentMapping<XtClassInModelMatch, Model, XTClass> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -86,7 +87,7 @@ class XTClassInModelMapping extends AbstractContainmentRule<XtClassInModelMatch,
 
 }
 
-class XTClassInPackageMapping extends AbstractContainmentRule<XtClassInPackageMatch, XTPackage, XTClass> {
+class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackageMatch, XTPackage, XTClass> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -114,7 +115,7 @@ class XTClassInPackageMapping extends AbstractContainmentRule<XtClassInPackageMa
 
 }
 
-class XTClassInComponentMapping extends AbstractContainmentRule<XtClassInComponentMatch, XTComponent, XTClass> {
+class XTClassInComponentMapping extends AbstractContainmentMapping<XtClassInComponentMatch, XTComponent, XTClass> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

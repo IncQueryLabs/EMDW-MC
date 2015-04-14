@@ -6,20 +6,21 @@ import com.incquerylabs.emdw.umlintegration.queries.ToplevelInitialPointMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.InitialPoint
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 
-class InitialPointRules {
-	static def getRules(IncQueryEngine engine) {
+class InitialPointRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new InitialPointMapping(engine).specification,
-			new ToplevelInitialPointMapping(engine).specification,
-			new ChildInitialPointMapping(engine).specification
+			new InitialPointMapping(engine),
+			new ToplevelInitialPointMapping(engine),
+			new ChildInitialPointMapping(engine)
 		}
 	}
 }
 
-class InitialPointMapping extends AbstractObjectRule<InitialPointMatch, Pseudostate, InitialPoint> {
+class InitialPointMapping extends AbstractObjectMapping<InitialPointMatch, Pseudostate, InitialPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -53,7 +54,7 @@ class InitialPointMapping extends AbstractObjectRule<InitialPointMatch, Pseudost
 	
 }
 
-class ToplevelInitialPointMapping extends AbstractContainmentRule<ToplevelInitialPointMatch, StateMachine, InitialPoint> {
+class ToplevelInitialPointMapping extends AbstractContainmentMapping<ToplevelInitialPointMatch, StateMachine, InitialPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -81,7 +82,7 @@ class ToplevelInitialPointMapping extends AbstractContainmentRule<ToplevelInitia
 
 }
 
-class ChildInitialPointMapping extends AbstractContainmentRule<ChildInitialPointMatch, CompositeState, InitialPoint> {
+class ChildInitialPointMapping extends AbstractContainmentMapping<ChildInitialPointMatch, CompositeState, InitialPoint> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

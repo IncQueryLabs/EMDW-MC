@@ -5,18 +5,19 @@ import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Attribute
 import com.zeligsoft.xtumlrt.common.Entity
 import com.zeligsoft.xtumlrt.common.Type
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
 
-class AttributeRules {
-	static def getRules(IncQueryEngine engine) {
+class AttributeRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new AttributeMapping(engine).specification
+			new AttributeMapping(engine)
 		}
 	}
 }
 
-class AttributeMapping extends AbstractObjectRule<AttributeMatch, Property, Attribute> {
+class AttributeMapping extends AbstractObjectMapping<AttributeMatch, Property, Attribute> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

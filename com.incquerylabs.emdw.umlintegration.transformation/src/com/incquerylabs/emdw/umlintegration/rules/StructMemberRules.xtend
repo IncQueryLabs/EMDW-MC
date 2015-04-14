@@ -2,19 +2,20 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StructMemberMatch
 import com.zeligsoft.xtumlrt.common.StructMember
+import com.zeligsoft.xtumlrt.common.StructType
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
-import com.zeligsoft.xtumlrt.common.StructType
 
-class StructMemberRules {
-	static def getRules(IncQueryEngine engine) {
+class StructMemberRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new StructMemberMapping(engine).specification
+			new StructMemberMapping(engine)
 		}
 	}
 }
 
-class StructMemberMapping extends AbstractObjectRule<StructMemberMatch, Property, StructMember> {
+class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Property, StructMember> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

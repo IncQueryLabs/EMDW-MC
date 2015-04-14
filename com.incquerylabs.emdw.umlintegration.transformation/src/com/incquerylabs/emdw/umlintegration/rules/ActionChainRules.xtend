@@ -4,18 +4,19 @@ import com.incquerylabs.emdw.umlintegration.queries.ActionChainMatch
 import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.zeligsoft.xtumlrt.common.ActionChain
 import com.zeligsoft.xtumlrt.common.Transition
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Behavior
 
-class ActionChainRules {
-	static def getRules(IncQueryEngine engine) {
+class ActionChainRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new ActionChainMapping(engine).specification
+			new ActionChainMapping(engine)
 		}
 	}
 }
 
-class ActionChainMapping extends AbstractObjectRule<ActionChainMatch, Behavior, ActionChain> {
+class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavior, ActionChain> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

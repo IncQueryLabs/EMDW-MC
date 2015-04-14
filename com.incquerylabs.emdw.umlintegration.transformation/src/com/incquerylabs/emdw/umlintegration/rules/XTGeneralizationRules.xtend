@@ -3,19 +3,20 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.XtGeneralizationMatch
 import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTGeneralization
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Generalization
 
-class XTGeneralizationRules {
-	static def getRules(IncQueryEngine engine) {
+class XTGeneralizationRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTGeneralizationMapping(engine).specification
+			new XTGeneralizationMapping(engine)
 		}
 	}
 }
 
-class XTGeneralizationMapping extends AbstractObjectRule<XtGeneralizationMatch, Generalization, XTGeneralization> {
+class XTGeneralizationMapping extends AbstractObjectMapping<XtGeneralizationMatch, Generalization, XTGeneralization> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

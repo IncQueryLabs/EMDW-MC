@@ -5,7 +5,7 @@ import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import org.junit.After
 import org.junit.BeforeClass
 import org.apache.log4j.Level
-import com.incquerylabs.emdw.umlintegration.rules.AbstractRule
+import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 
 class TestWithoutParameters {
 
@@ -29,7 +29,7 @@ class TestWithoutParameters {
     
     @BeforeClass
 	def static setupRootLogger() {
-		Logger.getLogger(AbstractRule.package.name).level = Level.DEBUG
+		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
 	}
 	
 	@After

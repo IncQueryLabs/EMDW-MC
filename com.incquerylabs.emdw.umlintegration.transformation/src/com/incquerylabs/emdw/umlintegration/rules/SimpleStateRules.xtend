@@ -8,19 +8,20 @@ import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.SimpleState
 import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class SimpleStateRules {
-	static def getRules(IncQueryEngine engine) {
+class SimpleStateRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new SimpleStateMapping(engine).specification,
-			new ToplevelSimpleStateMapping(engine).specification,
-			new ChildSimpleStateMapping(engine).specification
+			new SimpleStateMapping(engine),
+			new ToplevelSimpleStateMapping(engine),
+			new ChildSimpleStateMapping(engine)
 		}
 	}
 }
 
-class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclipse.uml2.uml.State, SimpleState> {
+class SimpleStateMapping extends AbstractObjectMapping<SimpleStateMatch, org.eclipse.uml2.uml.State, SimpleState> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -56,7 +57,7 @@ class SimpleStateMapping extends AbstractObjectRule<SimpleStateMatch, org.eclips
 }
 
 
-class ToplevelSimpleStateMapping extends AbstractContainmentRule<ToplevelSimpleStateMatch, StateMachine, State> {
+class ToplevelSimpleStateMapping extends AbstractContainmentMapping<ToplevelSimpleStateMatch, StateMachine, State> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -84,7 +85,7 @@ class ToplevelSimpleStateMapping extends AbstractContainmentRule<ToplevelSimpleS
 
 }
 
-class ChildSimpleStateMapping extends AbstractContainmentRule<ChildSimpleStateMatch, CompositeState, State> {
+class ChildSimpleStateMapping extends AbstractContainmentMapping<ChildSimpleStateMatch, CompositeState, State> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

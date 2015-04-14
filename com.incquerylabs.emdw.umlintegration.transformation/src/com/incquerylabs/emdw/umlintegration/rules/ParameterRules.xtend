@@ -6,19 +6,20 @@ import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import com.zeligsoft.xtumlrt.common.Operation
 import com.zeligsoft.xtumlrt.common.Parameter
 import com.zeligsoft.xtumlrt.common.Type
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class ParameterRules {
-	static def getRules(IncQueryEngine engine) {
+class ParameterRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new ParameterMapping(engine).specification,
-			new ParameterInOperationMapping(engine).specification
+			new ParameterMapping(engine),
+			new ParameterInOperationMapping(engine)
 			// TODO ParameterInSignal
 		}
 	}
 }
 
-class ParameterMapping extends AbstractObjectRule<ParameterMatch, org.eclipse.uml2.uml.Parameter, Parameter> {
+class ParameterMapping extends AbstractObjectMapping<ParameterMatch, org.eclipse.uml2.uml.Parameter, Parameter> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -59,7 +60,7 @@ class ParameterMapping extends AbstractObjectRule<ParameterMatch, org.eclipse.um
 	
 }
 
-class ParameterInOperationMapping extends AbstractContainmentRule<ParameterInOperationMatch, Operation, Parameter> {
+class ParameterInOperationMapping extends AbstractContainmentMapping<ParameterInOperationMatch, Operation, Parameter> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

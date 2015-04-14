@@ -3,17 +3,18 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.StateMachineMatch
 import com.zeligsoft.xtumlrt.common.StateMachine
 import com.zeligsoft.xtumlrt.xtuml.XTClass
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class StateMachineRules {
-	static def getRules(IncQueryEngine engine) {
+class StateMachineRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new StateMachineMapping(engine).specification
+			new StateMachineMapping(engine)
 		}
 	}
 }
 
-class StateMachineMapping extends AbstractObjectRule<StateMachineMatch, org.eclipse.uml2.uml.StateMachine, StateMachine> {
+class StateMachineMapping extends AbstractObjectMapping<StateMachineMatch, org.eclipse.uml2.uml.StateMachine, StateMachine> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

@@ -6,20 +6,21 @@ import com.incquerylabs.emdw.umlintegration.queries.ToplevelDeepHistoryMatch
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.DeepHistory
 import com.zeligsoft.xtumlrt.common.StateMachine
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate
 
-class DeepHistoryRules {
-	static def getRules(IncQueryEngine engine) {
+class DeepHistoryRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new DeepHistoryMapping(engine).specification,
-			new ToplevelDeepHistoryMapping(engine).specification,
-			new ChildDeepHistoryMapping(engine).specification
+			new DeepHistoryMapping(engine),
+			new ToplevelDeepHistoryMapping(engine),
+			new ChildDeepHistoryMapping(engine)
 		}
 	}
 }
 
-class DeepHistoryMapping extends AbstractObjectRule<DeepHistoryMatch, Pseudostate, DeepHistory> {
+class DeepHistoryMapping extends AbstractObjectMapping<DeepHistoryMatch, Pseudostate, DeepHistory> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -53,7 +54,7 @@ class DeepHistoryMapping extends AbstractObjectRule<DeepHistoryMatch, Pseudostat
 	
 }
 
-class ToplevelDeepHistoryMapping extends AbstractContainmentRule<ToplevelDeepHistoryMatch, StateMachine, DeepHistory> {
+class ToplevelDeepHistoryMapping extends AbstractContainmentMapping<ToplevelDeepHistoryMatch, StateMachine, DeepHistory> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -81,7 +82,7 @@ class ToplevelDeepHistoryMapping extends AbstractContainmentRule<ToplevelDeepHis
 
 }
 
-class ChildDeepHistoryMapping extends AbstractContainmentRule<ChildDeepHistoryMatch, CompositeState, DeepHistory> {
+class ChildDeepHistoryMapping extends AbstractContainmentMapping<ChildDeepHistoryMatch, CompositeState, DeepHistory> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

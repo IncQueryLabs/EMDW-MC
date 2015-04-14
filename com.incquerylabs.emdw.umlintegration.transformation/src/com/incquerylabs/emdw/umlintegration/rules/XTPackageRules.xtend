@@ -2,26 +2,27 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.XtPackageInComponentMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtPackageInModelMatch
+import com.incquerylabs.emdw.umlintegration.queries.XtPackageInPackageMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtPackageMatch
 import com.zeligsoft.xtumlrt.common.Model
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Package
-import com.incquerylabs.emdw.umlintegration.queries.XtPackageInPackageMatch
 
-class XTPackageRules {
-	static def getRules(IncQueryEngine engine) {
+class XTPackageRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTPackageMapping(engine).specification,
-			new XTPackageInModelMapping(engine).specification,
-			new XTPackageInComponentMapping(engine).specification,
-			new XTPackageInPackageMapping(engine).specification
+			new XTPackageMapping(engine),
+			new XTPackageInModelMapping(engine),
+			new XTPackageInComponentMapping(engine),
+			new XTPackageInPackageMapping(engine)
 		}
 	}
 }
 
-class XTPackageMapping extends AbstractObjectRule<XtPackageMatch, Package, XTPackage> {
+class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, XTPackage> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -58,7 +59,7 @@ class XTPackageMapping extends AbstractObjectRule<XtPackageMatch, Package, XTPac
 }
 
 
-class XTPackageInModelMapping extends AbstractContainmentRule<XtPackageInModelMatch, Model, XTPackage> {
+class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInModelMatch, Model, XTPackage> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -86,7 +87,7 @@ class XTPackageInModelMapping extends AbstractContainmentRule<XtPackageInModelMa
 
 }
 
-class XTPackageInComponentMapping extends AbstractContainmentRule<XtPackageInComponentMatch, XTComponent, XTPackage> {
+class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageInComponentMatch, XTComponent, XTPackage> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -114,7 +115,7 @@ class XTPackageInComponentMapping extends AbstractContainmentRule<XtPackageInCom
 
 }
 
-class XTPackageInPackageMapping extends AbstractContainmentRule<XtPackageInPackageMatch, XTPackage, XTPackage> {
+class XTPackageInPackageMapping extends AbstractContainmentMapping<XtPackageInPackageMatch, XTPackage, XTPackage> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

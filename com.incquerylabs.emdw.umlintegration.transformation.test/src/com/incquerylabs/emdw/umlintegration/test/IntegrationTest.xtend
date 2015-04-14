@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test
 
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
-import com.incquerylabs.emdw.umlintegration.rules.AbstractRule
 import com.incquerylabs.emdw.umlintegration.rules.ActionChainMapping
 import com.incquerylabs.emdw.umlintegration.rules.AttributeMapping
 import com.incquerylabs.emdw.umlintegration.rules.CapsulePartMapping
@@ -46,6 +45,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static org.junit.Assert.*
+import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 
 class IntegrationTest {
 
@@ -127,7 +127,7 @@ class IntegrationTest {
 
     @BeforeClass
 	def static setupRootLogger() {
-		Logger.getLogger(AbstractRule.package.name).level = Level.DEBUG
+		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
 	}
 
 }

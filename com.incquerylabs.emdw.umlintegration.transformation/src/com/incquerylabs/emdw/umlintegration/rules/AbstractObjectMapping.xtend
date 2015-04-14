@@ -16,7 +16,7 @@ import com.google.common.annotations.VisibleForTesting
  * Transforms an UML object to an xtumlrt object.
  * There can be more rules which transform the same UML object altogether to a fixed number of xtumlrt objects of different types.
  */
-abstract class AbstractObjectRule<Match extends IPatternMatch, UmlObject extends Element, XtumlrtObject extends EObject> extends AbstractRule<Match> {
+abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject extends Element, XtumlrtObject extends EObject> extends AbstractMapping<Match> {
 
 	protected static val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	protected static val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE

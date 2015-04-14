@@ -4,19 +4,20 @@ import com.incquerylabs.emdw.umlintegration.queries.XtEventTriggerMatch
 import com.zeligsoft.xtumlrt.common.Transition
 import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
 import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.SignalEvent
 import org.eclipse.uml2.uml.Trigger
 
-class XTEventTriggerRules {
-	static def getRules(IncQueryEngine engine) {
+class XTEventTriggerRules{
+	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
-			new XTEventTriggerMapping(engine).specification
+			new XTEventTriggerMapping(engine)
 		}
 	}
 }
 
-class XTEventTriggerMapping extends AbstractObjectRule<XtEventTriggerMatch, Trigger, XTEventTrigger> {
+class XTEventTriggerMapping extends AbstractObjectMapping<XtEventTriggerMatch, Trigger, XTEventTrigger> {
 
 	new(IncQueryEngine engine) {
 		super(engine)

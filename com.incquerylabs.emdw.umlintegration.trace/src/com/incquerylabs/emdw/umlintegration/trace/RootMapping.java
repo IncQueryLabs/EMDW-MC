@@ -14,12 +14,12 @@ import org.eclipse.uml2.uml.Model;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getUmlRoot <em>Uml Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getXtumlrtRoot <em>Xtumlrt Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getTraces <em>Traces</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage#getRootMapping()
  * @model

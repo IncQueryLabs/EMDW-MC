@@ -11,6 +11,23 @@ import org.eclipse.papyrus.uml.alf.StringLiteralExpression
 
 class AlfSnippetCompiler {
 	
+	//TODO find a way to reuse this from parser if possible; otherwise extend this
+	static val OPERATOR_PRECEDENCE = newHashMap(
+	    "*" -> "4",
+	    "/" -> "4",
+	    "+" -> "5",
+	    "-" -> "5"
+	)
+	
+	def parenthesisRequired(ArithmeticExpression ex) {
+	    if (ex.eContainer instanceof ArithmeticExpression) {
+	        val op = ex.operator
+	        val parentOp = (ex.eContainer as ArithmeticExpression).operator
+	        return OPERATOR_PRECEDENCE.get(op) > OPERATOR_PRECEDENCE.get(parentOp) 
+	    }
+	    return false
+	}
+	
 	def dispatch String visit(EObject o) 
 		'''«FOR c : o.eContents»«c.visit»«ENDFOR»'''
 	
@@ -31,14 +48,18 @@ class AlfSnippetCompiler {
 		'''
 	
 	//Expressions
-	def dispatch String visit(ArithmeticExpression ex) 
-		'''«ex.operand1.visit» «ex.operator» «ex.operand2.visit»'''
+	def dispatch String visit(ArithmeticExpression ex) {
+	    val parenOpen = if (ex.parenthesisRequired) "(" else ""  
+	    val parenClose = if (ex.parenthesisRequired) ")" else ""  
+		'''«parenOpen»«ex.operand1.visit» «ex.operator» «ex.operand2.visit»«parenClose»'''
+	
+	}
 	
 	def dispatch String visit(NameExpression ex)
 	   '''«ex.assignment.name»'''
 	
 	def dispatch String visit(NaturalLiteralExpression lit) {
-	    lit.image
+	    lit.image.replace("_", "")
     }
 	
 	def dispatch String visit(StringLiteralExpression lit) '''"«lit.image»"'''

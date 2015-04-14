@@ -13,11 +13,11 @@ import org.eclipse.uml2.uml.Element;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.Trace#getUmlElements <em>Uml Elements</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.Trace#getXtumlrtElements <em>Xtumlrt Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage#getTrace()
  * @model

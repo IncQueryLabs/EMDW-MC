@@ -11,7 +11,6 @@ Export-Package: com.incquerylabs.emdw.umlintegration,
  com.incquerylabs.emdw.umlintegration.util
 Require-Bundle: com.zeligsoft.xtumlrt.common.model,
  com.incquerylabs.emdw.umlintegration.trace,
- com.zeligsoft.xtumlrt.umlrt.model,
  org.eclipse.emf.ecore,
  org.eclipse.incquery.runtime,
  org.eclipse.incquery.runtime.evm,

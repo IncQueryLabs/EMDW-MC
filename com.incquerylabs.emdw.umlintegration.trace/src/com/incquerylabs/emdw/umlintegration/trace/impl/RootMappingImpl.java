@@ -29,12 +29,12 @@ import org.eclipse.uml2.uml.Model;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.RootMappingImpl#getUmlRoot <em>Uml Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.RootMappingImpl#getXtumlrtRoot <em>Xtumlrt Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.RootMappingImpl#getTraces <em>Traces</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

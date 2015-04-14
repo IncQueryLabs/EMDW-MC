@@ -19,7 +19,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
 		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
-		<viatra.repository.url>http://hudson.eclipse.org/viatra/job/viatra-master/lastSuccessfulBuild/artifact/releng/org.eclipse.viatra.update/target/repository/</viatra.repository.url>
+		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
 	</properties>
 	<repositories>

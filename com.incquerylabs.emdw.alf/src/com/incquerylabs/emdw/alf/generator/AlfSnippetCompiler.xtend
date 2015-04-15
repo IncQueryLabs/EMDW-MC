@@ -8,6 +8,10 @@ import org.eclipse.papyrus.uml.alf.NameExpression
 import org.eclipse.papyrus.uml.alf.ExternalElementReference
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.papyrus.uml.alf.StringLiteralExpression
+import org.eclipse.papyrus.uml.alf.IncrementOrDecrementExpression
+import org.eclipse.papyrus.uml.alf.AssignmentExpression
+import org.eclipse.papyrus.uml.alf.AssignedSource
+import org.eclipse.papyrus.uml.alf.ExpressionStatement
 
 class AlfSnippetCompiler {
 	
@@ -41,11 +45,17 @@ class AlfSnippetCompiler {
 	    }
 	}
 	
+	def dispatch String visit(AssignedSource src) '''«src.name»'''
+	
     //Statements
 	def dispatch String visit(LocalNameDeclarationStatement st) 
 		'''
 			«st.type().visit» «st.actualName» = «st.expression.visit»;
 		'''
+	
+	def dispatch String visit(ExpressionStatement st) '''
+	   «st.expression.visit»;
+	'''
 	
 	//Expressions
 	def dispatch String visit(ArithmeticExpression ex) {
@@ -54,6 +64,14 @@ class AlfSnippetCompiler {
 		'''«parenOpen»«ex.operand1.visit» «ex.operator» «ex.operand2.visit»«parenClose»'''
 	
 	}
+	
+	def dispatch String visit(IncrementOrDecrementExpression ex) '''
+	   «IF ex.isIsPrefix»
+	       «ex.operator»«ex.assignment.visit
+	   »«ELSE»
+	       «ex.assignment.visit»«ex.operator
+	   »«ENDIF
+	   »'''
 	
 	def dispatch String visit(NameExpression ex)
 	   '''«ex.assignment.name»'''

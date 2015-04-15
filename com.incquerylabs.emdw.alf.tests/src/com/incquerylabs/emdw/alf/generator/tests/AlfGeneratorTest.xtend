@@ -15,7 +15,9 @@ class AlfGeneratorTest extends AbstractAlfGeneratorTest {
 						1 + 2;
 					}
 				}''', 
-				'''1 + 2'''
+				'''
+				    1 + 2;
+				'''
 			],
 			#[  "Simple local variable",
 			    '''
@@ -84,7 +86,7 @@ class AlfGeneratorTest extends AbstractAlfGeneratorTest {
                 }
                 ''',
 			    '''
-			     int x = (1 + (2 + 3)) + 4;
+			     int x = 1 * (2 + 3) + 4;
 			    '''
 			],
 			#[  "Local variable reference",
@@ -100,6 +102,58 @@ class AlfGeneratorTest extends AbstractAlfGeneratorTest {
 					int y = x + 2;
 				'''
 			],
+			#[  "Increment operation",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1;
+                        x++;
+                    }
+                }''',
+                '''
+                    int x = 1;
+                    x++;
+                '''
+            ],
+			#[  "Increment operation (prefix)", //Prefix expressions not supported by current parser
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1;
+                        ++x;
+                    }
+                }''',
+                '''
+                    int x = 1;
+                    ++x;
+                '''
+            ],
+			#[  "Decrement operation",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1;
+                        x--;
+                    }
+                }''',
+                '''
+                    int x = 1;
+                    x--;
+                '''
+            ],
+			#[  "Decrement operation (prefix)", //Prefix expressions not supported by current parser
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1;
+                        --x;
+                    }
+                }''',
+                '''
+                    int x = 1;
+                    --x;
+                '''
+            ],
 			#[  "String concatenation",
 			    '''
 				class SimpleTest {

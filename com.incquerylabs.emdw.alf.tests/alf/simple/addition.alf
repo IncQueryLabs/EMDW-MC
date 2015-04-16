@@ -1,6 +1,5 @@
 class SimpleTest {
-	activity test() {
-		let x : Integer = 1;
-		--x;
+	activity test(out y : Integer) {
+		y = 2;
 	}
 }

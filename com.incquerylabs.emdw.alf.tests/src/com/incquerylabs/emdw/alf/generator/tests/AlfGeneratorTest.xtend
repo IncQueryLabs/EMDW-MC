@@ -154,6 +154,186 @@ class AlfGeneratorTest extends AbstractAlfGeneratorTest {
                     --x;
                 '''
             ],
+			#[  "Left shift",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1;
+                        let y : Integer = x << 1;
+                    }
+                }''',
+                '''
+                    int x = 1;
+                    int y = x << 1;
+                '''
+            ],
+			#[  "Right shift",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1;
+                        let y : Integer = x >> 1;
+                    }
+                }''',
+                '''
+                    int x = 1;
+                    int y = x >> 1;
+                '''
+            ],
+			#[  "Shift precedence",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Integer = 1 + (2 >> 3);
+                    }
+                }''',
+                '''
+                    int x = 1 + (2 >> 3);
+                '''
+            ],
+			#[  "Comparison <",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 < 2;
+                    }
+                }''',
+                '''
+                    bool x = 1 < 2;
+                '''
+            ],
+			#[  "Comparison <=",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 <= 2;
+                    }
+                }''',
+                '''
+                    bool x = 1 <= 2;
+                '''
+            ],
+			#[  "Comparison >",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 > 2;
+                    }
+                }''',
+                '''
+                    bool x = 1 > 2;
+                '''
+            ],
+			#[  "Comparison >=",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 >= 2;
+                    }
+                }''',
+                '''
+                    bool x = 1 >= 2;
+                '''
+            ],
+			#[  "Equality",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 == 2;
+                    }
+                }''',
+                '''
+                    bool x = 1 == 2;
+                '''
+            ],
+			#[  "Inequality",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 != 2;
+                    }
+                }''',
+                '''
+                    bool x = 1 != 2;
+                '''
+            ],
+			#[  "Logical &",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 != 2 & false;
+                    }
+                }''',
+                '''
+                    bool x = 1 != 2 & false;
+                '''
+            ],
+			#[  "Logical ^",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 != 2 ^ false;
+                    }
+                }''',
+                '''
+                    bool x = 1 != 2 ^ false;
+                '''
+            ],
+			#[  "Logical |",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 != 2 | false;
+                    }
+                }''',
+                '''
+                    bool x = 1 != 2 | false;
+                '''
+            ],
+			#[  "Logical &&",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 != 2 && true;
+                    }
+                }''',
+                '''
+                    bool x = 1 != 2 && true;
+                '''
+            ],
+			#[  "Logical ||",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : Boolean = 1 != 2 || true;
+                    }
+                }''',
+                '''
+                    bool x = 1 != 2 || true;
+                '''
+            ],
+			#[  "Conditional test operation",
+                '''
+                class SimpleTest {
+                    activity test() {
+                        let x : String = (1 != 2) ? "test" : "test2";
+                    }
+                }''',
+                '''
+                    std::string x = (1 != 2) ? ("test") : ("test2");
+                '''
+            ],
+			#[  "Assignment",
+                '''
+                class SimpleTest {
+                    activity test(out y : Integer) {
+                        y = 2;
+                    }
+                }''',
+                '''
+                    y = 2;
+                '''
+            ],
 			#[  "String concatenation",
 			    '''
 				class SimpleTest {

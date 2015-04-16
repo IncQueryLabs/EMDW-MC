@@ -14,6 +14,7 @@ import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTran
 import static com.google.common.base.Preconditions.*
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import com.incquerylabs.emdw.umlintegration.util.RuleProvider
+import org.eclipse.incquery.runtime.emf.EMFScope
 
 class TransformationQrt {
 
@@ -39,16 +40,17 @@ class TransformationQrt {
 
 			debug("Preparing queries on engine.")
 			var watch = Stopwatch.createStarted
-			GenericPatternGroup.of(tracePatterns, stateMachinePatterns, structurePatterns)
+			val queries = GenericPatternGroup.of(tracePatterns, stateMachinePatterns, structurePatterns)
+			queries.prepare(engine)
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")
-			ruleProvider = new RuleProvider(engine)
+			transform = EventDrivenTransformation.forScope(engine.scope as EMFScope)
+			ruleProvider = new RuleProvider(transform.iqEngine)
 			initRules
 			val fixedPriorityResolver = new PerJobFixedPriorityConflictResolver
 			fixedPriorityResolver.setPriorities
-			transform = EventDrivenTransformation.forSource(mapping.eResource.resourceSet).
-			setConflictResolver(fixedPriorityResolver)
+			transform.setConflictResolver(fixedPriorityResolver)
 			transform.addRules
 			transform.create
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
@@ -59,9 +61,8 @@ class TransformationQrt {
 
 	def execute() {
 			info('''Executing transformation on «mapping.umlRoot.name»''')
-			val watch = Stopwatch.createStarted
 			debug("Initial execution of transformation rules.")
-			watch.reset.start
+			val watch = Stopwatch.createStarted
 			transform.executionSchema.startUnscheduledExecution
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}

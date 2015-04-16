@@ -73,7 +73,21 @@ class AlfScalabilityTest extends AbstractAlfGeneratorTest {
 		)
 	}
 
-    @Test def void t01_parseAlf() {
+    @Test def void t00_parseAlf() {
+        var Resource resource = this.resourceSet.createResource(URI.createURI("temp.alf"))
+        resource.load(new StringInputStream(input), #{})
+        if (resource.getContents().isEmpty()) {
+            Assert.fail("The resource is not expected to be empty")
+        } else {
+            if (resource.getErrors().isEmpty()) {
+                resource.getContents().get(0) as UnitDefinition
+            } else {
+                Assert.fail("The specification should not contain syntax errors")
+            }
+        }
+        resource.unload()
+    }
+    @Test def void t01_resolveAlf() {
         var Resource resource = this.resourceSet.createResource(URI.createURI("temp.alf"))
         resource.load(new StringInputStream(input), #{})
         val AlfMapper mapper = new AlfMapper()

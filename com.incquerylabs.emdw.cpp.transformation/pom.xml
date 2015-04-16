@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.incquerylabs.emdw.umlintegration</groupId>
+		<artifactId>com.incquerylabs.emdw.umlintegration</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>com.incquerylabs.emdw.cpp.transformation</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.incquery</groupId>
+				<artifactId>incquery-maven-plugin</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>src-gen</outputDirectory>
+					<metamodels>
+						<metamodel>
+							<packageClass>com.zeligsoft.xtumlrt.common.CommonPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.zeligsoft.xtumlrt.xtuml.XtumlPackage</packageClass>
+						</metamodel>
+					</metamodels>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.zeligsoft.xtumlrt</groupId>
+						<artifactId>com.zeligsoft.xtumlrt.common.model</artifactId>
+						<version>0.4.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.zeligsoft.xtumlrt</groupId>
+						<artifactId>com.zeligsoft.xtumlrt.xtuml.model</artifactId>
+						<version>0.4.0-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

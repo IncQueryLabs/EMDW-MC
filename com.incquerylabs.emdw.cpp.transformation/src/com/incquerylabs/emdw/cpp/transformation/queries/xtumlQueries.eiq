@@ -1,0 +1,8 @@
+package com.incquerylabs.emdw.cpp.transformation.queries
+
+import "http://www.zeligsoft.com/xtumlrt/common"
+import "http://www.zeligsoft.com/xtumlrt/xtuml"
+
+pattern classStateMachine(xtClass : XTClass, statemachine : StateMachine) {
+	XTClass.behaviour(xtClass, statemachine);
+}

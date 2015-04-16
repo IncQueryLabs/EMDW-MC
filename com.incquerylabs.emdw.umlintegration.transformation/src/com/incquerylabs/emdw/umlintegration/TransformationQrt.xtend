@@ -45,8 +45,8 @@ class TransformationQrt {
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")
-			transform = EventDrivenTransformation.forScope(engine.scope as EMFScope)
-			ruleProvider = new RuleProvider(transform.iqEngine)
+			transform = EventDrivenTransformation.forEngine(engine)
+			ruleProvider = new RuleProvider(engine)
 			initRules
 			val fixedPriorityResolver = new PerJobFixedPriorityConflictResolver
 			fixedPriorityResolver.setPriorities

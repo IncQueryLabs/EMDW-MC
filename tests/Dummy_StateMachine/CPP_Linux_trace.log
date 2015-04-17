@@ -1,0 +1,48 @@
+Test_FSM:INFO: Creating Test Class instance Initial Instance. Current cycle:
+Test_FSM:1
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Initial Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:2
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:3
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:4
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:5
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:6
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:7
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.
+Test_FSM:INFO: Creating Test Class instance Other Instance. Current cycle:
+Test_FSM:8
+Test_FSM:INFO: Test Class ready to delete instances.
+Test_FSM:INFO: Test Class Other Instance created.
+Test_FSM:INFO: Deleting Test Class instance.
+Test_FSM:INFO: Test Class destroyed.

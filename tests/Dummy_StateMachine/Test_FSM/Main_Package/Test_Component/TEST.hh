@@ -54,8 +54,18 @@ namespace Test_FSM {
           void processEvent(int eventId, std::string eventContent);
 
         private:
+          // INIT state
           void processEventInInitState(int eventId, std::string eventContent);
-          void processEventInProcessingState(int eventId, std::string eventContent);
+
+          bool evaluateGuardOnInitToWorkingTransition(int eventId, std::string eventContent);
+
+          // WORKING state
+          void processEventInWorkingState(int eventId, std::string eventContent);
+
+
+          void generateEvent(int eventId, std::string eventContent);
+
+
         };
       }
     }

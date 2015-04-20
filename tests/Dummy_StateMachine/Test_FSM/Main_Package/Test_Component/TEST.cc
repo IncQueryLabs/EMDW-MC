@@ -39,7 +39,7 @@ void TEST::processEvent(int eventId, std::string eventContent) {
 		processEventInInitState(eventId, eventContent);
 		break;
 	case TEST_STATE_WORKING:
-		processEventInProcessingState(eventId, eventContent);
+		processEventInWorkingState(eventId, eventContent);
 		break;
 	}
 }
@@ -53,41 +53,66 @@ void TEST::processEventInInitState(int eventId, std::string eventContent) {
 		processableEvent = true;
 		break;
 	case TEST_EVENT_DONE:
-		processableEvent = true;
+		// NOT PROCESSABLE
 		break;
 	case TEST_EVENT_NOP:
-		// NOT PROCESSABLE
+		processableEvent = true;
 		break;
 	}
 
 	if(!processableEvent){
-		cout << "  Cannot process event in this state" << endl;
+		cout << "    Cannot process event in this state" << endl;
 	} else {
-
+		// Init -WORK-> Work transition
+		if(eventId == TEST_EVENT_WORK && evaluateGuardOnInitToWorkingTransition(eventId, eventContent)){
+			current_state = TEST_STATE_WORKING;
+			cout << "    State changed to WORKING" << endl;
+		} else if(eventId == TEST_EVENT_NOP) {
+			cout << "    No state change on NOP" << endl;
+		}
 	}
 
 	return;
 }
 
-void TEST::processEventInProcessingState(int eventId, std::string eventContent) {
-	cout << "  [State: PROCESSING] Processing event" << endl;
+bool TEST::evaluateGuardOnInitToWorkingTransition(int eventId, std::string eventContent) {
+	if(eventContent == "valid") {
+		return true;
+	} else {
+		cout << "    [-> WORKING] Invalid content, guard false" << endl;
+		return false;
+	}
+}
+
+void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
+	cout << "  [State: WORKING] Processing event" << endl;
 	bool processableEvent = false;
 		switch(eventId){
 		case TEST_EVENT_WORK:
 			// NOT PROCESSABLE
 			break;
 		case TEST_EVENT_DONE:
-			// NOT PROCESSABLE
+			processableEvent = true;
 			break;
 		case TEST_EVENT_NOP:
-			processableEvent = true;
+			// NOT PROCESSABLE
 			break;
 		}
 
 	if(!processableEvent){
-		cout << "  Cannot process event in this state" << endl;
+		cout << "    Cannot process event in this state" << endl;
 	} else {
+		if(eventId == TEST_EVENT_DONE) {
+			current_state = TEST_STATE_INIT;
+			cout << "    State changed to INIT" << endl;
+		}
 	}
 
 	return;
+}
+
+
+
+void TEST::generateEvent(int eventId, std::string eventContent) {
+	cout << "  [Generate] Event " << eventId << " generated with content: " << eventContent << endl;
 }

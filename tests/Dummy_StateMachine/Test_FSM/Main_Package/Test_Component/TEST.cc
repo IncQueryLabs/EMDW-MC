@@ -44,6 +44,10 @@ void TEST::processEvent(int eventId, std::string eventContent) {
 	}
 }
 
+void TEST::performEntryActionForInitState(int eventId, std::string eventContent) {
+	cout << "    [Entry: INIT]" << endl;
+}
+
 void TEST::processEventInInitState(int eventId, std::string eventContent) {
 	cout << "  [State: INIT] Processing event" << endl;
 
@@ -65,9 +69,25 @@ void TEST::processEventInInitState(int eventId, std::string eventContent) {
 	} else {
 		// Init -WORK-> Work transition
 		if(eventId == TEST_EVENT_WORK && evaluateGuardOnInitToWorkingTransition(eventId, eventContent)){
+			// exit
+			performExitActionForWorkingState(eventId, eventContent);
+			// no trigger
+			// no action
+			// entry
+			performEntryActionForInitState(eventId, eventContent);
+			// state change
 			current_state = TEST_STATE_WORKING;
 			cout << "    State changed to WORKING" << endl;
-		} else if(eventId == TEST_EVENT_NOP) {
+		} else
+		// Init -NOP-> Init transition
+		if(eventId == TEST_EVENT_NOP) {
+			// exit
+			performExitActionForInitState(eventId, eventContent);
+			// no trigger
+			// action
+			performActionsOnInitToInitTransition(eventId, eventContent);
+			// entry
+			performEntryActionForInitState(eventId, eventContent);
 			cout << "    No state change on NOP" << endl;
 		}
 	}
@@ -84,6 +104,18 @@ bool TEST::evaluateGuardOnInitToWorkingTransition(int eventId, std::string event
 	}
 }
 
+void TEST::performActionsOnInitToInitTransition(int eventId, std::string eventContent) {
+	cout << "    [Action]" << endl;
+}
+
+void TEST::performExitActionForInitState(int eventId, std::string eventContent) {
+	cout << "    [Exit]" << endl;
+}
+
+void TEST::performEntryActionForWorkingState(int eventId, std::string eventContent) {
+	cout << "    [Entry: WORKING]" << endl;
+}
+
 void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
 	cout << "  [State: WORKING] Processing event" << endl;
 	bool processableEvent = false;
@@ -95,24 +127,52 @@ void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
 			processableEvent = true;
 			break;
 		case TEST_EVENT_NOP:
-			// NOT PROCESSABLE
+			processableEvent = true;
 			break;
 		}
 
 	if(!processableEvent){
 		cout << "    Cannot process event in this state" << endl;
 	} else {
+		// Working -DONE-> Init transition
 		if(eventId == TEST_EVENT_DONE) {
+			// exit
+			performExitActionForWorkingState(eventId, eventContent);
+			// trigger
+			triggerOnWorkingToInitTransition(eventId, eventContent);
+			// no action
+			// entry
+			performEntryActionForInitState(eventId, eventContent);
+			// state change
 			current_state = TEST_STATE_INIT;
 			cout << "    State changed to INIT" << endl;
+		} else
+		// Working -NOP-> Working self-trasition
+		if(eventId == TEST_EVENT_NOP) {
+			// no exit
+			// no trigger
+			// action
+			performActionsOnWorkingToWorkingTransition(eventId, eventContent);
+			// no entry
 		}
 	}
 
 	return;
 }
 
+void TEST::performActionsOnWorkingToWorkingTransition(int eventId, std::string eventContent) {
+	cout << "    [Action]" << endl;
+}
 
+void TEST::triggerOnWorkingToInitTransition(int eventId, std::string eventContent) {
+	cout << "    [Trigger]" << endl;
+	generateEvent(1, "done");
+}
+
+void TEST::performExitActionForWorkingState(int eventId, std::string eventContent) {
+	cout << "    [Exit]" << endl;
+}
 
 void TEST::generateEvent(int eventId, std::string eventContent) {
-	cout << "  [Generate] Event " << eventId << " generated with content: " << eventContent << endl;
+	cout << "    [Generate] Event " << eventId << " generated with content: " << eventContent << endl;
 }

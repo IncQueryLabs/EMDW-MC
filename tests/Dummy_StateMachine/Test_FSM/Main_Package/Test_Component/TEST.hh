@@ -55,14 +55,29 @@ namespace Test_FSM {
 
         private:
           // INIT state
+
+          void performEntryActionForInitState(int eventId, std::string eventContent);
+
           void processEventInInitState(int eventId, std::string eventContent);
 
           bool evaluateGuardOnInitToWorkingTransition(int eventId, std::string eventContent);
 
+          void performActionsOnInitToInitTransition(int eventId, std::string eventContent);
+
+          void performExitActionForInitState(int eventId, std::string eventContent);
+
           // WORKING state
+          void performEntryActionForWorkingState(int eventId, std::string eventContent);
+
           void processEventInWorkingState(int eventId, std::string eventContent);
 
+          void performActionsOnWorkingToWorkingTransition(int eventId, std::string eventContent);
 
+          void triggerOnWorkingToInitTransition(int eventId, std::string eventContent);
+
+          void performExitActionForWorkingState(int eventId, std::string eventContent);
+
+          // State machine
           void generateEvent(int eventId, std::string eventContent);
 
 

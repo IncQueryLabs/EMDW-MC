@@ -39,6 +39,12 @@ void ::Test_FSM::run() {
 		 return;
 	 }
 
+	 testClass->processEvent(2 /* TEST_EVENT_NOP */, "valid");
+	 if(testClass->current_state != 1) {
+		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of WORK)" << endl;
+		 return;
+	 }
+
 	 testClass->processEvent(1 /* TEST_EVENT_DONE */, "valid");
 	 if(testClass->current_state != 0) {
 		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of INIT)" << endl;

@@ -51,45 +51,30 @@ void TEST::performEntryActionForInitState(int eventId, std::string eventContent)
 void TEST::processEventInInitState(int eventId, std::string eventContent) {
 	cout << "  [State: INIT] Processing event" << endl;
 
-	bool processableEvent = false;
-	switch(eventId){
-	case TEST_EVENT_WORK:
-		processableEvent = true;
-		break;
-	case TEST_EVENT_DONE:
-		// NOT PROCESSABLE
-		break;
-	case TEST_EVENT_NOP:
-		processableEvent = true;
-		break;
-	}
-
-	if(!processableEvent){
-		cout << "    Cannot process event in this state" << endl;
+	// Init -WORK-> Work transition
+	if(eventId == TEST_EVENT_WORK && evaluateGuardOnInitToWorkingTransition(eventId, eventContent)){
+		// exit
+		performExitActionForWorkingState(eventId, eventContent);
+		// no trigger
+		// no action
+		// entry
+		performEntryActionForInitState(eventId, eventContent);
+		// state change
+		current_state = TEST_STATE_WORKING;
+		cout << "    State changed to WORKING" << endl;
+	} else
+	// Init -NOP-> Init transition
+	if(eventId == TEST_EVENT_NOP) {
+		// exit
+		performExitActionForInitState(eventId, eventContent);
+		// no trigger
+		// action
+		performActionsOnInitToInitTransition(eventId, eventContent);
+		// entry
+		performEntryActionForInitState(eventId, eventContent);
+		cout << "    No state change on NOP" << endl;
 	} else {
-		// Init -WORK-> Work transition
-		if(eventId == TEST_EVENT_WORK && evaluateGuardOnInitToWorkingTransition(eventId, eventContent)){
-			// exit
-			performExitActionForWorkingState(eventId, eventContent);
-			// no trigger
-			// no action
-			// entry
-			performEntryActionForInitState(eventId, eventContent);
-			// state change
-			current_state = TEST_STATE_WORKING;
-			cout << "    State changed to WORKING" << endl;
-		} else
-		// Init -NOP-> Init transition
-		if(eventId == TEST_EVENT_NOP) {
-			// exit
-			performExitActionForInitState(eventId, eventContent);
-			// no trigger
-			// action
-			performActionsOnInitToInitTransition(eventId, eventContent);
-			// entry
-			performEntryActionForInitState(eventId, eventContent);
-			cout << "    No state change on NOP" << endl;
-		}
+		cout << "    Cannot process event in this state" << endl;
 	}
 
 	return;
@@ -118,43 +103,29 @@ void TEST::performEntryActionForWorkingState(int eventId, std::string eventConte
 
 void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
 	cout << "  [State: WORKING] Processing event" << endl;
-	bool processableEvent = false;
-		switch(eventId){
-		case TEST_EVENT_WORK:
-			// NOT PROCESSABLE
-			break;
-		case TEST_EVENT_DONE:
-			processableEvent = true;
-			break;
-		case TEST_EVENT_NOP:
-			processableEvent = true;
-			break;
-		}
 
-	if(!processableEvent){
-		cout << "    Cannot process event in this state" << endl;
+	// Working -DONE-> Init transition
+	if(eventId == TEST_EVENT_DONE) {
+		// exit
+		performExitActionForWorkingState(eventId, eventContent);
+		// trigger
+		triggerOnWorkingToInitTransition(eventId, eventContent);
+		// no action
+		// entry
+		performEntryActionForInitState(eventId, eventContent);
+		// state change
+		current_state = TEST_STATE_INIT;
+		cout << "    State changed to INIT" << endl;
+	} else
+	// Working -NOP-> Working self-trasition
+	if(eventId == TEST_EVENT_NOP) {
+		// no exit
+		// no trigger
+		// action
+		performActionsOnWorkingToWorkingTransition(eventId, eventContent);
+		// no entry
 	} else {
-		// Working -DONE-> Init transition
-		if(eventId == TEST_EVENT_DONE) {
-			// exit
-			performExitActionForWorkingState(eventId, eventContent);
-			// trigger
-			triggerOnWorkingToInitTransition(eventId, eventContent);
-			// no action
-			// entry
-			performEntryActionForInitState(eventId, eventContent);
-			// state change
-			current_state = TEST_STATE_INIT;
-			cout << "    State changed to INIT" << endl;
-		} else
-		// Working -NOP-> Working self-trasition
-		if(eventId == TEST_EVENT_NOP) {
-			// no exit
-			// no trigger
-			// action
-			performActionsOnWorkingToWorkingTransition(eventId, eventContent);
-			// no entry
-		}
+		cout << "    Cannot process event in this state" << endl;
 	}
 
 	return;

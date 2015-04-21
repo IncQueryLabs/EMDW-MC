@@ -33,24 +33,11 @@
 							<artifactId>org.eclipse.emf.codegen.ecore</artifactId>
 							<type>eclipse-plugin</type>
 						</dependency>
-						<dependency>
-							<artifactId>com.zeligsoft.xtumlrt.common.model</artifactId>
-							<type>eclipse-plugin</type>
-						</dependency>
-						<dependency>
-							<artifactId>com.zeligsoft.xtumlrt.xtuml.model</artifactId>
-							<type>eclipse-plugin</type>
-						</dependency>
 					</dependencies>
 					<repositories>
 						<repository>
 							<id>luna</id>
 							<url>${luna-repo.url}</url>
-							<layout>p2</layout>
-						</repository>
-						<repository>
-							<id>metamodels</id>
-							<url>${metamodels-repo.url}</url>
 							<layout>p2</layout>
 						</repository>
 					</repositories>

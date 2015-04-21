@@ -24,7 +24,6 @@
 		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
-		<metamodels-repo.url>${project.baseUri}/../../metamodels/com.zeligsoft.xtumlrt.releng/target/repository/</metamodels-repo.url>
 	</properties>
 	<repositories>
 		<repository>

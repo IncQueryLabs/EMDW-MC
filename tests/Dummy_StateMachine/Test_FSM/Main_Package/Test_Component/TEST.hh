@@ -73,8 +73,6 @@ namespace Test_FSM {
 
           void performActionsOnWorkingToWorkingTransition(int eventId, std::string eventContent);
 
-          void triggerOnWorkingToInitTransition(int eventId, std::string eventContent);
-
           void performExitActionForWorkingState(int eventId, std::string eventContent);
 
           // State machine

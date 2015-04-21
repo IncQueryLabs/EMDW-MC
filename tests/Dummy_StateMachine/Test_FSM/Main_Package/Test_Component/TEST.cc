@@ -55,7 +55,6 @@ void TEST::processEventInInitState(int eventId, std::string eventContent) {
 	if(eventId == TEST_EVENT_WORK && evaluateGuardOnInitToWorkingTransition(eventId, eventContent)){
 		// exit
 		performExitActionForWorkingState(eventId, eventContent);
-		// no trigger
 		// no action
 		// entry
 		performEntryActionForInitState(eventId, eventContent);
@@ -67,7 +66,6 @@ void TEST::processEventInInitState(int eventId, std::string eventContent) {
 	if(eventId == TEST_EVENT_NOP) {
 		// exit
 		performExitActionForInitState(eventId, eventContent);
-		// no trigger
 		// action
 		performActionsOnInitToInitTransition(eventId, eventContent);
 		// entry
@@ -108,8 +106,6 @@ void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
 	if(eventId == TEST_EVENT_DONE) {
 		// exit
 		performExitActionForWorkingState(eventId, eventContent);
-		// trigger
-		triggerOnWorkingToInitTransition(eventId, eventContent);
 		// no action
 		// entry
 		performEntryActionForInitState(eventId, eventContent);
@@ -120,7 +116,6 @@ void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
 	// Working -NOP-> Working self-trasition
 	if(eventId == TEST_EVENT_NOP) {
 		// no exit
-		// no trigger
 		// action
 		performActionsOnWorkingToWorkingTransition(eventId, eventContent);
 		// no entry
@@ -133,11 +128,6 @@ void TEST::processEventInWorkingState(int eventId, std::string eventContent) {
 
 void TEST::performActionsOnWorkingToWorkingTransition(int eventId, std::string eventContent) {
 	cout << "    [Action]" << endl;
-}
-
-void TEST::triggerOnWorkingToInitTransition(int eventId, std::string eventContent) {
-	cout << "    [Trigger]" << endl;
-	generateEvent(1, "done");
 }
 
 void TEST::performExitActionForWorkingState(int eventId, std::string eventContent) {

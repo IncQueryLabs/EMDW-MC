@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %pluginName
+Bundle-SymbolicName: com.ericsson.xtumlrt.oopl.model;singleton:=true
+Bundle-Version: 0.4.0.qualifier
+Bundle-ClassPath: .
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ com.zeligsoft.xtumlrt.common.model;bundle-version="0.4.0";visibility:=reexport,
+ com.zeligsoft.xtumlrt.xtuml.model;bundle-version="0.4.0";visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.ericsson.xtumlrt.oopl,
+ com.ericsson.xtumlrt.oopl.impl,
+ com.ericsson.xtumlrt.oopl.util

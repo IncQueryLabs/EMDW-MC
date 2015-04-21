@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cppmodel" nsURI="http://www.ericsson.com/xtumlrt/oopl/cpp" nsPrefix="cpp">
+  <eClassifiers xsi:type="ecore:EClass" name="CPPNamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppName" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="nameProvider" lowerBound="1"
+        eType="#//NameProvider"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPQualifiedNamedElement" abstract="true"
+      eSuperTypes="#//CPPNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppPrefix" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppQualifiedName" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subElements" upperBound="-1"
+        eType="#//CPPQualifiedNamedElement" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPModel" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonModel" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Model"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declHeaderFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defHeaderFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="apiHeaderFile" eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalBodySkeletonDir"
+        eType="#//CPPDirectory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPPackage" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtPackage" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDir" eType="#//CPPDirectory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClass" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" lowerBound="1"
+        eType="#//CPPBodyFile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPProtocol" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocol" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocol"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPSourceFile" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genName" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genDir" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genPath" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedHeaders" upperBound="-1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderInclusion"
+        upperBound="-1" eType="#//CPPExternalHeaderInclusion"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPHeaderFile" eSuperTypes="#//CPPSourceFile">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclName" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclDir" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclPath" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPBodyFile" eSuperTypes="#//CPPSourceFile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPDirectory">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="subDirectories" upperBound="-1"
+        eType="#//CPPDirectory" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
+        eType="#//CPPSourceFile" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentDir" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPComponent" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtComponent" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTComponent"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainHeaderFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mainBodyFile" lowerBound="1"
+        eType="#//CPPBodyFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declHeaderFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defHeaderFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderDir" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalBodySkeletonDir"
+        eType="#//CPPDirectory"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeader">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeaderInclusion">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="includedExternalHeader"
+        eType="#//CPPExternalHeader"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPRelation" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPOperation" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonOperation" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Operation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPPort" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtPort" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPort"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderFile" eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" lowerBound="1"
+        eType="#//CPPBodyFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalBodySkeletonFile"
+        eType="#//CPPBodyFile"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPProtocolOperationDefinition" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationDefinition"
+        lowerBound="1" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationDefinition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPSignal" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonSignal" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Signal"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPProtocolOperationImplementation"
+      eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationImplementation"
+        lowerBound="1" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationImplementation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReference" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReference #//CPPQualifiedNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReferenceStorage" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefSimpleCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefAssocCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
+        unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        derived="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPAttribute" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonAttribute" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NameProvider" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="DerivedNameProvider" eSuperTypes="#//NameProvider">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExistingNameProvider" eSuperTypes="#//NameProvider">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonNamedElement" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPState" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonState" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//State"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPTransition" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonTransition" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Transition"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPEvent" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtEvent" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTEvent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPFormalParameter" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonParameter" lowerBound="1"
+        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Parameter"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="passingMode" ordered="false"
+        unique="false" lowerBound="1" eType="#//CPPParameterPassingKind" defaultValueLiteral="BY_VALUE"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CPPParameterPassingKind">
+    <eLiterals name="BY_VALUE"/>
+    <eLiterals name="BY_REFERENCE" value="1"/>
+    <eLiterals name="BY_CONSTANT_REFERENCE" value="2"/>
+  </eClassifiers>
+</ecore:EPackage>

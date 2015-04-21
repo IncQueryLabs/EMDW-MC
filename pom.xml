@@ -9,6 +9,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>com.ericsson.xtumlrt.oopl.model</module>
+		<module>com.ericsson.xtumlrt.oopl.cpp.model</module>
+		<module>com.ericsson.xtumlrt.oopl.java.model</module>
 		<module>com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>com.incquerylabs.emdw.umlintegration.transformation</module>
 		<module>com.incquerylabs.emdw.umlintegration.transformation.test</module>

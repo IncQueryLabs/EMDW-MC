@@ -16,6 +16,9 @@ class GuardRules{
 	}
 }
 
+/**
+ * Transforms Constraints which are a Transition's guard to the transformed Transition's guard.  
+ */
 class GuardMapping extends AbstractObjectMapping<GuardMatch, Constraint, Guard> {
 
 	new(IncQueryEngine engine) {

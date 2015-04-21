@@ -15,6 +15,10 @@ class XTPortRules{
 	}
 }
 
+/**
+ * Transforms ports which are a Component's owned attributes to the transformed XTComponent's ports.
+ * Transformed fields: conjugate, lowerBound, upperBound.
+ */
 class XTPortMapping extends AbstractObjectMapping<XtPortMatch, Port, XTPort> {
 
 	new(IncQueryEngine engine) {

@@ -15,6 +15,10 @@ class XTSignalEventRules{
 	}
 }
 
+/**
+ * Transforms Signals which are a Class's classifier behavior's transition's trigger's event's signals to the transformed XTClass's events.
+ * The Signal must also be an Interface's nested classifier.
+ */
 class XTSignalEventMapping extends AbstractObjectMapping<XtSignalEventMatch, Signal, XTSignalEvent> {
 
 	new(IncQueryEngine engine) {

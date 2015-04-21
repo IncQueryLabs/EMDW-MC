@@ -16,6 +16,10 @@ class XTGeneralizationRules{
 	}
 }
 
+/**
+ * Transforms Generalizations which are a Class's generalizations to the transformed XTClass's relations (which is the subclass).
+ * Transformed fields: sub, super.
+ */
 class XTGeneralizationMapping extends AbstractObjectMapping<XtGeneralizationMatch, Generalization, XTGeneralization> {
 
 	new(IncQueryEngine engine) {

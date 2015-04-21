@@ -20,6 +20,9 @@ class EntryPointRules{
 	}
 }
 
+/**
+ * Transforms Pseudostates of entry point kind to EntryPoints.
+ */
 class EntryPointMapping extends AbstractObjectMapping<EntryPointMatch, Pseudostate, EntryPoint> {
 
 	new(IncQueryEngine engine) {
@@ -54,6 +57,9 @@ class EntryPointMapping extends AbstractObjectMapping<EntryPointMatch, Pseudosta
 	
 }
 
+/**
+ * Inserts EntryPoints to their parent StateMachine.
+ */
 class ToplevelEntryPointMapping extends AbstractContainmentMapping<ToplevelEntryPointMatch, StateMachine, EntryPoint> {
 
 	new(IncQueryEngine engine) {
@@ -82,6 +88,9 @@ class ToplevelEntryPointMapping extends AbstractContainmentMapping<ToplevelEntry
 
 }
 
+/**
+ * Inserts EntryPoints to their parent CompositeState.
+ */
 class ChildEntryPointMapping extends AbstractContainmentMapping<ChildEntryPointMatch, State, EntryPoint> {
 
 	new(IncQueryEngine engine) {

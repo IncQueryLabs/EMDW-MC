@@ -14,6 +14,9 @@ class StructTypeRules{
 	}
 }
 
+/**
+ * Transforms DataTypes with at least one member which are a Package's packaged elements to the Model's local scope temporary types
+ */
 class StructTypeMapping extends AbstractObjectMapping<StructTypeMatch, DataType, StructType> {
 
 	new(IncQueryEngine engine) {

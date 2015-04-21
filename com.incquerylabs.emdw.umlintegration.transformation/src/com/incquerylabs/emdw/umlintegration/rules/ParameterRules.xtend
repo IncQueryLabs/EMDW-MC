@@ -19,6 +19,9 @@ class ParameterRules{
 	}
 }
 
+/**
+ * Transforms Parameters which are an Operation's non-return parameters to Parameters.
+ */
 class ParameterMapping extends AbstractObjectMapping<ParameterMatch, org.eclipse.uml2.uml.Parameter, Parameter> {
 
 	new(IncQueryEngine engine) {
@@ -60,6 +63,9 @@ class ParameterMapping extends AbstractObjectMapping<ParameterMatch, org.eclipse
 	
 }
 
+/**
+ * Inserts Parameters to their parent Operation.
+ */
 class ParameterInOperationMapping extends AbstractContainmentMapping<ParameterInOperationMatch, Operation, Parameter> {
 
 	new(IncQueryEngine engine) {

@@ -20,6 +20,9 @@ class ChoicePointRules{
 	}
 }
 
+/**
+ * Transforms Pseudostates of choice point kind to ChoicePoints.
+ */
 class ChoicePointMapping extends AbstractObjectMapping<ChoicePointMatch, Pseudostate, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
@@ -54,6 +57,9 @@ class ChoicePointMapping extends AbstractObjectMapping<ChoicePointMatch, Pseudos
 	
 }
 
+/**
+ * Inserts ChoicePoints to their parent StateMachine.
+ */
 class ToplevelChoicePointMapping extends AbstractContainmentMapping<ToplevelChoicePointMatch, StateMachine, ChoicePoint> {
 
 	new(IncQueryEngine engine) {
@@ -82,6 +88,9 @@ class ToplevelChoicePointMapping extends AbstractContainmentMapping<ToplevelChoi
 
 }
 
+/**
+ * Inserts ChoicePoints to their parent CompositeState.
+ */
 class ChildChoicePointMapping extends AbstractContainmentMapping<ChildChoicePointMatch, CompositeState, ChoicePoint> {
 
 	new(IncQueryEngine engine) {

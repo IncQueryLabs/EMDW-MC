@@ -20,6 +20,9 @@ class XTComponentRules{
 	}
 }
 
+/**
+ * Transform Components into XTComponents.
+ */
 class XTComponentMapping extends AbstractObjectMapping<XtComponentMatch, Class, XTComponent> {
 
 	new(IncQueryEngine engine) {
@@ -56,6 +59,9 @@ class XTComponentMapping extends AbstractObjectMapping<XtComponentMatch, Class, 
 	
 }
 
+/**
+ * Inserts XTComponents in their parent Model.
+ */
 class XTComponentInModelMapping extends AbstractContainmentMapping<XtComponentInModelMatch, Model, XTComponent> {
 
 	new(IncQueryEngine engine) {
@@ -84,6 +90,9 @@ class XTComponentInModelMapping extends AbstractContainmentMapping<XtComponentIn
 
 }
 
+/**
+ * Inserts XTComponents in their parent XTPackage.
+ */
 class XTComponentInPackageMapping extends AbstractContainmentMapping<XtComponentInPackageMatch, XTPackage, XTComponent> {
 
 	new(IncQueryEngine engine) {

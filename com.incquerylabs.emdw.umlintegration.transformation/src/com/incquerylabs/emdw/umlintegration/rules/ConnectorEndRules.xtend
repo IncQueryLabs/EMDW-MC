@@ -16,6 +16,9 @@ class ConnectorEndRules{
 	}
 }
 
+/**
+ * Transforms ConnectorEnds to the Connector's ends which is transformed from their connector.
+ */
 class ConnectorEndMapping extends AbstractObjectMapping<ConnectorEndMatch, org.eclipse.uml2.uml.ConnectorEnd, ConnectorEnd> {
 
 	new(IncQueryEngine engine) {

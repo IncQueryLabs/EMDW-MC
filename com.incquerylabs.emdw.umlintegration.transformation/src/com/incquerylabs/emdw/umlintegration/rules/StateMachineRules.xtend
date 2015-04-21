@@ -14,6 +14,9 @@ class StateMachineRules{
 	}
 }
 
+/**
+ * Transform StateMachines which are a BehavioredClassifier's classifier behavior to the transformed XTClass's behaviour.
+ */
 class StateMachineMapping extends AbstractObjectMapping<StateMachineMatch, org.eclipse.uml2.uml.StateMachine, StateMachine> {
 
 	new(IncQueryEngine engine) {

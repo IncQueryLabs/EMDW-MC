@@ -16,6 +16,9 @@ class ActionChainRules{
 	}
 }
 
+/**
+ * Transforms Behaviors which are a Transition's effect to the transformed Transition's action chain.  
+ */
 class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavior, ActionChain> {
 
 	new(IncQueryEngine engine) {

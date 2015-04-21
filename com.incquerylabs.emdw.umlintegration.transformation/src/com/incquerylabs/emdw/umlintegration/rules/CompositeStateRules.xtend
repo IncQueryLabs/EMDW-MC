@@ -20,6 +20,10 @@ class CompositeStateRules{
 	}
 }
 
+/**
+ * Transforms States which have one ore more Regions to CompositeStates.
+ * Transformed fields: entryAction, exitAction.
+ */
 class CompositeStateMapping extends AbstractObjectMapping<CompositeStateMatch, org.eclipse.uml2.uml.State, CompositeState> {
 
 	new(IncQueryEngine engine) {
@@ -55,7 +59,9 @@ class CompositeStateMapping extends AbstractObjectMapping<CompositeStateMatch, o
 
 }
 
-
+/**
+ * Inserts CompositeStates to their parent StateMachine.
+ */
 class ToplevelCompositeStateMapping extends AbstractContainmentMapping<ToplevelCompositeStateMatch, StateMachine, State> {
 
 	new(IncQueryEngine engine) {
@@ -84,6 +90,9 @@ class ToplevelCompositeStateMapping extends AbstractContainmentMapping<ToplevelC
 
 }
 
+/**
+ * Inserts CompositeStates to their parent CompositeState.
+ */
 class ChildCompositeStateMapping extends AbstractContainmentMapping<ChildCompositeStateMatch, CompositeState, State> {
 
 	new(IncQueryEngine engine) {

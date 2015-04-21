@@ -15,6 +15,9 @@ class StructMemberRules{
 	}
 }
 
+/**
+ * Transforms Properties which are a DataType owned attribute to the transformed StructType's struct members.
+ */
 class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Property, StructMember> {
 
 	new(IncQueryEngine engine) {

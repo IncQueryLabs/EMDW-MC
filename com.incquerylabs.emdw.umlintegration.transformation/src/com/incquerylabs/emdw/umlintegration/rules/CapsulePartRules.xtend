@@ -15,6 +15,9 @@ class CapsulePartRules{
 	}
 }
 
+/**
+ * Transforms Properties except of Ports which are a Component's owned attributes to the transformed XTComponent's parts.
+ */
 class CapsulePartMapping extends AbstractObjectMapping<CapsulePartMatch, Property, CapsulePart> {
 
 	new(IncQueryEngine engine) {

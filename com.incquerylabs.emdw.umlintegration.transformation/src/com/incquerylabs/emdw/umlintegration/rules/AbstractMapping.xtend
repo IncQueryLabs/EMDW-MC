@@ -35,6 +35,7 @@ abstract class AbstractMapping<Match extends IPatternMatch> {
 
 	/**
 	 * Higher priority rules will be executed later, so if a rule searches for an already transformed object in the trace, then its priority must be greater then that transformation's priority.
+	 * For example, a containment mapping rule must have a higher priority than the mapping rule of the container objects. 
 	 */
 	def int getRulePriority()
 	

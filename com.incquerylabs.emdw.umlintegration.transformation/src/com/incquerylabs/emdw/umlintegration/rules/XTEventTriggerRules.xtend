@@ -17,6 +17,9 @@ class XTEventTriggerRules{
 	}
 }
 
+/**
+ * Transforms Triggers which are a Transition's triggers to the transformed Transition's triggers.
+ */
 class XTEventTriggerMapping extends AbstractObjectMapping<XtEventTriggerMatch, Trigger, XTEventTrigger> {
 
 	new(IncQueryEngine engine) {

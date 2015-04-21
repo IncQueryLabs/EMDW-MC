@@ -17,6 +17,10 @@ class OperationRules{
 	}
 }
 
+/**
+ * Transforms Operations which are a Class's or Component's owned operations to the transformed Entity's operations.
+ * Transformed fields: body, static, visibility.
+ */
 class OperationMapping extends AbstractObjectMapping<OperationMatch, org.eclipse.uml2.uml.Operation, Operation> {
 
 	new(IncQueryEngine engine) {

@@ -20,6 +20,9 @@ class JunctionPointRules{
 	}
 }
 
+/**
+ * Transforms Pseudostates of junction point kind to JunctionPoints.
+ */
 class JunctionPointMapping extends AbstractObjectMapping<JunctionPointMatch, Pseudostate, JunctionPoint> {
 
 	new(IncQueryEngine engine) {
@@ -54,6 +57,9 @@ class JunctionPointMapping extends AbstractObjectMapping<JunctionPointMatch, Pse
 	
 }
 
+/**
+ * Inserts JunctionPoints to their parent StateMachine.
+ */
 class ToplevelJunctionPointMapping extends AbstractContainmentMapping<ToplevelJunctionPointMatch, StateMachine, JunctionPoint> {
 
 	new(IncQueryEngine engine) {
@@ -82,6 +88,9 @@ class ToplevelJunctionPointMapping extends AbstractContainmentMapping<ToplevelJu
 
 }
 
+/**
+ * Inserts JunctionPoints to their parent CompositeState.
+ */
 class ChildJunctionPointMapping extends AbstractContainmentMapping<ChildJunctionPointMatch, CompositeState, JunctionPoint> {
 
 	new(IncQueryEngine engine) {

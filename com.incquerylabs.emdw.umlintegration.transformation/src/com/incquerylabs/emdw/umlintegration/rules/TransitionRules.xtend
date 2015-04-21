@@ -20,6 +20,10 @@ class TransitionRules{
 	}
 }
 
+/**
+ * Transforms UML Transitions to xtumlrt Transitions.
+ * Transformed fields: sourceVertex, targetVertex.
+ */
 class TransitionMapping extends AbstractObjectMapping<TransitionMatch, org.eclipse.uml2.uml.Transition, Transition> {
 
 	new(IncQueryEngine engine) {
@@ -66,6 +70,9 @@ class TransitionMapping extends AbstractObjectMapping<TransitionMatch, org.eclip
 	
 }
 
+/**
+ * Inserts Transitions to their parent StateMachine.
+ */
 class ToplevelTransitionMapping extends AbstractContainmentMapping<ToplevelTransitionMatch, StateMachine, Transition> {
 
 	new(IncQueryEngine engine) {
@@ -94,6 +101,9 @@ class ToplevelTransitionMapping extends AbstractContainmentMapping<ToplevelTrans
 
 }
 
+/**
+ * Inserts Transitions to their parent CompositeState.
+ */
 class ChildTransitionMapping extends AbstractContainmentMapping<ChildTransitionMatch, CompositeState, Transition> {
 
 	new(IncQueryEngine engine) {

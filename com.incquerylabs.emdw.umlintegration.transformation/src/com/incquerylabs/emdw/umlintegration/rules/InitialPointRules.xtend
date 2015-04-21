@@ -20,6 +20,9 @@ class InitialPointRules{
 	}
 }
 
+/**
+ * Transforms Pseudostates of initial point kind to InitialPoints.
+ */
 class InitialPointMapping extends AbstractObjectMapping<InitialPointMatch, Pseudostate, InitialPoint> {
 
 	new(IncQueryEngine engine) {
@@ -54,6 +57,9 @@ class InitialPointMapping extends AbstractObjectMapping<InitialPointMatch, Pseud
 	
 }
 
+/**
+ * Inserts InitialPoints to their parent StateMachine.
+ */
 class ToplevelInitialPointMapping extends AbstractContainmentMapping<ToplevelInitialPointMatch, StateMachine, InitialPoint> {
 
 	new(IncQueryEngine engine) {
@@ -82,6 +88,9 @@ class ToplevelInitialPointMapping extends AbstractContainmentMapping<ToplevelIni
 
 }
 
+/**
+ * Inserts InitialPoints to their parent CompositeState.
+ */
 class ChildInitialPointMapping extends AbstractContainmentMapping<ChildInitialPointMatch, CompositeState, InitialPoint> {
 
 	new(IncQueryEngine engine) {

@@ -23,6 +23,9 @@ class XTClassRules{
 	}
 }
 
+/**
+ * Transforms Classes whose type is exactly Class to XTClasses.
+ */
 class XTClassMapping extends AbstractObjectMapping<XtClassMatch, Class, XTClass> {
 
 	new(IncQueryEngine engine) {
@@ -59,6 +62,9 @@ class XTClassMapping extends AbstractObjectMapping<XtClassMatch, Class, XTClass>
 	
 }
 
+/**
+ * Inserts XTClasses in their parent Model.
+ */
 class XTClassInModelMapping extends AbstractContainmentMapping<XtClassInModelMatch, Model, XTClass> {
 
 	new(IncQueryEngine engine) {
@@ -87,6 +93,9 @@ class XTClassInModelMapping extends AbstractContainmentMapping<XtClassInModelMat
 
 }
 
+/**
+ * Inserts XTClasses in their parent XTPackage.
+ */
 class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackageMatch, XTPackage, XTClass> {
 
 	new(IncQueryEngine engine) {
@@ -115,6 +124,9 @@ class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackag
 
 }
 
+/**
+ * Inserts XTClasses in their parent XTComponent.
+ */
 class XTClassInComponentMapping extends AbstractContainmentMapping<XtClassInComponentMatch, XTComponent, XTClass> {
 
 	new(IncQueryEngine engine) {

@@ -21,6 +21,10 @@ class SimpleStateRules{
 	}
 }
 
+/**
+ * Transforms States which have no Regions to SimpleStates.
+ * Transformed fields: entryAction, exitAction.
+ */
 class SimpleStateMapping extends AbstractObjectMapping<SimpleStateMatch, org.eclipse.uml2.uml.State, SimpleState> {
 
 	new(IncQueryEngine engine) {
@@ -56,7 +60,9 @@ class SimpleStateMapping extends AbstractObjectMapping<SimpleStateMatch, org.ecl
 
 }
 
-
+/**
+ * Inserts SimpleStates to their parent StateMachine.
+ */
 class ToplevelSimpleStateMapping extends AbstractContainmentMapping<ToplevelSimpleStateMatch, StateMachine, State> {
 
 	new(IncQueryEngine engine) {
@@ -85,6 +91,9 @@ class ToplevelSimpleStateMapping extends AbstractContainmentMapping<ToplevelSimp
 
 }
 
+/**
+ * Inserts SimpleStates to their parent CompositeState.
+ */
 class ChildSimpleStateMapping extends AbstractContainmentMapping<ChildSimpleStateMatch, CompositeState, State> {
 
 	new(IncQueryEngine engine) {

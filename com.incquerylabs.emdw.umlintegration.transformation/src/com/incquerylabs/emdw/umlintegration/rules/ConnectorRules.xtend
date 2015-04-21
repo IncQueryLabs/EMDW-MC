@@ -14,6 +14,9 @@ class ConnectorRules{
 	}
 }
 
+/**
+ * Transforms Connectors which are a Component's connectors to the transformed XTComponent's connectors.
+ */
 class ConnectorMapping extends AbstractObjectMapping<ConnectorMatch, org.eclipse.uml2.uml.Connector, Connector> {
 
 	new(IncQueryEngine engine) {

@@ -20,6 +20,9 @@ class DeepHistoryRules{
 	}
 }
 
+/**
+ * Transforms Pseudostates of deep history kind to DeepHistories.
+ */
 class DeepHistoryMapping extends AbstractObjectMapping<DeepHistoryMatch, Pseudostate, DeepHistory> {
 
 	new(IncQueryEngine engine) {
@@ -54,6 +57,9 @@ class DeepHistoryMapping extends AbstractObjectMapping<DeepHistoryMatch, Pseudos
 	
 }
 
+/**
+ * Inserts DeepHistories to their parent StateMachine.
+ */
 class ToplevelDeepHistoryMapping extends AbstractContainmentMapping<ToplevelDeepHistoryMatch, StateMachine, DeepHistory> {
 
 	new(IncQueryEngine engine) {
@@ -82,6 +88,9 @@ class ToplevelDeepHistoryMapping extends AbstractContainmentMapping<ToplevelDeep
 
 }
 
+/**
+ * Inserts DeepHistories to their parent CompositeState.
+ */
 class ChildDeepHistoryMapping extends AbstractContainmentMapping<ChildDeepHistoryMatch, CompositeState, DeepHistory> {
 
 	new(IncQueryEngine engine) {

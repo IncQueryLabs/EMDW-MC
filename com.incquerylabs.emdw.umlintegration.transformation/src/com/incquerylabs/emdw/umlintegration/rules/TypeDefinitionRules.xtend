@@ -15,6 +15,9 @@ class TypeDefinitionRules{
 	}
 }
 
+/**
+ * Transforms Types defining a primitive or struct type which are a Package's packaged elements to the transformed XTPackage's type definitions. 
+ */
 class TypeDefinitionMapping extends AbstractObjectMapping<TypeDefinitionMatch, Type, TypeDefinition> {
 
 	new(IncQueryEngine engine) {

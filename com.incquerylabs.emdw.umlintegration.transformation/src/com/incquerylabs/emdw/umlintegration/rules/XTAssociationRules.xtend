@@ -16,6 +16,10 @@ class XTAssociationRules{
 	}
 }
 
+/**
+ * Transforms Associations with exactly 2 owned ends to the relations of the XTClass transformed from their source end type.
+ * Transformed fields: source, target.
+ */
 class XTAssociationMapping extends AbstractObjectMapping<XtAssociationMatch, Property, XTAssociation> {
 
 	new(IncQueryEngine engine) {
@@ -60,6 +64,9 @@ class XTAssociationMapping extends AbstractObjectMapping<XtAssociationMatch, Pro
 
 }
 
+/**
+ * Maintains the opposite references of XTAssociations.
+ */
 class XTAssociationOppositeMapping extends AbstractRecursiveReferenceMapping<XtAssociationMatch, XTAssociation> {
 
 	new(IncQueryEngine engine) {

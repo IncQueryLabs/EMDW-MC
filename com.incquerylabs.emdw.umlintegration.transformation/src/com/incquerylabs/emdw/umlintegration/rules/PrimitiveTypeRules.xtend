@@ -13,6 +13,9 @@ class PrimitiveTypeRules{
 	}
 }
 
+/**
+ * Transforms PrimitiveTypes which are a Package's packaged elements to the Model's local scope temporary types.
+ */
 class PrimitiveTypeMapping extends AbstractObjectMapping<PrimitiveTypeMatch, org.eclipse.uml2.uml.PrimitiveType, PrimitiveType> {
 
 	new(IncQueryEngine engine) {

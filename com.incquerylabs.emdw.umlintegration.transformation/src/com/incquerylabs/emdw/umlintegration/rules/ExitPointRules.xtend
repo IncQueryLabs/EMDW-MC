@@ -20,6 +20,9 @@ class ExitPointRules{
 	}
 }
 
+/**
+ * Transforms Pseudostates of exit point kind to ExitPoints.
+ */
 class ExitPointMapping extends AbstractObjectMapping<ExitPointMatch, Pseudostate, ExitPoint> {
 
 	new(IncQueryEngine engine) {
@@ -54,6 +57,9 @@ class ExitPointMapping extends AbstractObjectMapping<ExitPointMatch, Pseudostate
 	
 }
 
+/**
+ * Inserts ExitPoints to their parent StateMachine.
+ */
 class ToplevelExitPointMapping extends AbstractContainmentMapping<ToplevelExitPointMatch, StateMachine, ExitPoint> {
 
 	new(IncQueryEngine engine) {
@@ -82,6 +88,9 @@ class ToplevelExitPointMapping extends AbstractContainmentMapping<ToplevelExitPo
 
 }
 
+/**
+ * Inserts ExitPoints to their parent CompositeState.
+ */
 class ChildExitPointMapping extends AbstractContainmentMapping<ChildExitPointMatch, State, ExitPoint> {
 
 	new(IncQueryEngine engine) {

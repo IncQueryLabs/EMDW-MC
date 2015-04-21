@@ -22,6 +22,9 @@ class XTPackageRules{
 	}
 }
 
+/**
+ * Transforms Packages whose type is exactly Package to XTPackages.
+ */
 class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, XTPackage> {
 
 	new(IncQueryEngine engine) {
@@ -58,7 +61,9 @@ class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, XT
 
 }
 
-
+/**
+ * Inserts XTPackages in their parent Model.
+ */
 class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInModelMatch, Model, XTPackage> {
 
 	new(IncQueryEngine engine) {
@@ -87,6 +92,9 @@ class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInMode
 
 }
 
+/**
+ * Inserts XTPackages in their parent XTComponent.
+ */
 class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageInComponentMatch, XTComponent, XTPackage> {
 
 	new(IncQueryEngine engine) {
@@ -115,6 +123,9 @@ class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageIn
 
 }
 
+/**
+ * Inserts XTPackages in their parent XTPackage.
+ */
 class XTPackageInPackageMapping extends AbstractContainmentMapping<XtPackageInPackageMatch, XTPackage, XTPackage> {
 
 	new(IncQueryEngine engine) {

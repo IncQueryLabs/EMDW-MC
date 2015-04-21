@@ -17,6 +17,9 @@ class AttributeRules{
 	}
 }
 
+/**
+ * Transforms Properties which are a Class's owned attributes to the transformed XTClass's attributes.
+ */
 class AttributeMapping extends AbstractObjectMapping<AttributeMatch, Property, Attribute> {
 
 	new(IncQueryEngine engine) {

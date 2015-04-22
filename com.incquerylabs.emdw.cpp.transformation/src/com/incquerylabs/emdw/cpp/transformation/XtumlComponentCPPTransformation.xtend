@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.transformation
 
 import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.transformation.util.RuleProvider
 import com.zeligsoft.xtumlrt.common.Model
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
@@ -10,18 +11,19 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 
 class XtumlComponentCPPTransformation {
 
 	extension val Logger logger = Logger.getLogger(class)
-//	extension RuleProvider ruleProvider
+	RuleProvider ruleProvider
 	static val xtUmlQueries = XtumlQueries.instance
 	private var initialized = false;
 
 	BatchTransformation transform
 	IncQueryEngine engine
 	Model xtUmlModel
+	extension BatchTransformationStatements statements
 	
 
 	def initialize(Model xtUmlModel, IncQueryEngine engine) {
@@ -38,11 +40,11 @@ class XtumlComponentCPPTransformation {
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")
-			transform = BatchTransformation.forScope(engine.scope as EMFScope)
-//			ruleProvider = new RuleProvider(engine)
-//			initRules
-//			transform.addRules
-//			transform.create
+			transform = BatchTransformation.forEngine(engine)
+			ruleProvider = new RuleProvider(engine)
+			ruleProvider.initRules
+			ruleProvider.addRules(transform)
+			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true
@@ -52,7 +54,9 @@ class XtumlComponentCPPTransformation {
 	def execute() {
 			info('''Executing transformation on «xtUmlModel.name»''')
 			val watch = Stopwatch.createStarted
-			
+			statements.fireAllCurrent(ruleProvider.stateRule)
+			statements.fireAllCurrent(ruleProvider.transitionRule)
+			statements.fireAllCurrent(ruleProvider.eventRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

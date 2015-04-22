@@ -1,28 +1,26 @@
 package com.incquerylabs.emdw.xtumltocpp.test.mappings
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.xtumltocpp.test.TransformationTest
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
-import com.zeligsoft.xtumlrt.common.ActionChain
 import com.zeligsoft.xtumlrt.common.DirectionKind
+import com.zeligsoft.xtumlrt.common.Model
 import com.zeligsoft.xtumlrt.common.VisibilityKind
-import org.eclipse.uml2.uml.Behavior
+import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.xtumltocpp.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class EventMultipleTypeTest extends TransformationTest<Behavior, ActionChain> {
+class EventMultipleTypeTest extends TransformationTest<XTClass, CPPClass> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
 		
-	override protected createXtUmlModel(RootMapping root) {
-		val xtumlmodel = root.xtumlrtRoot
+	override protected prepareXtUmlModel(Model xtumlmodel) {
 		val pack = xtumlmodel.createXtPackage("RootPackage")
 		
 		val primitiveType = pack.createTypeDefinition("IntDefinition").createPrimitiveType("Integer")
@@ -73,17 +71,15 @@ class EventMultipleTypeTest extends TransformationTest<Behavior, ActionChain> {
 		
 		topState.createTransition(s5,exit,"t2")
 
-		xtumlmodel
+		xtClass
 	}
-	
-	override protected createResultCppModel(RootMapping reference, CPPModel cppmodel, CPPDirectory cppdir) {
+		
+	override protected prepareCppModel(CPPModel cppModel) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override protected AssertResult(CPPModel result, CPPDirectory resultdir, CPPModel ref, CPPDirectory refdir) {
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
-	
-
 
 }

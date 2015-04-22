@@ -7,10 +7,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IncQuery Labs Ltd.
 Require-Bundle: com.google.guava,
  org.eclipse.xtend.lib,
- org.eclipse.xtext.xbase.lib,
  org.junit;bundle-version="4.11.0",
  org.eclipse.incquery.runtime;bundle-version="1.0.0",
  com.zeligsoft.xtumlrt.xtuml.model;bundle-version="0.4.0",
  com.ericsson.xtumlrt.oopl.cpp.model;bundle-version="0.4.0",
- com.incquerylabs.emdw.umlintegration.trace;bundle-version="1.0.0"
+ com.incquerylabs.emdw.umlintegration.trace;bundle-version="1.0.0",
+ com.incquerylabs.emdw.cpp.transformation;bundle-version="1.0.0"
 Import-Package: org.apache.log4j;version="1.2.15"

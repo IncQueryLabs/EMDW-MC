@@ -1,36 +1,33 @@
 package com.incquerylabs.emdw.xtumltocpp.test.mappings
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.xtumltocpp.test.TransformationTest
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
-import com.zeligsoft.xtumlrt.common.ActionChain
-import org.eclipse.uml2.uml.Behavior
+import com.zeligsoft.xtumlrt.common.Model
+import com.zeligsoft.xtumlrt.xtuml.XTClass
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static org.junit.Assert.assertEquals
 
 @RunWith(Parameterized)
-class DummyTest extends TransformationTest<Behavior, ActionChain> {
+class DummyTest extends TransformationTest<XTClass, CPPClass> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
 	
-	override protected createXtUmlModel(RootMapping root) {
+	override protected prepareXtUmlModel(Model xtumlmodel) {
 		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override protected createResultCppModel(RootMapping reference, CPPModel cppmodel, CPPDirectory cppdir) {
-		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected prepareCppModel(CPPModel cppModel) {
+//		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override protected AssertResult(CPPModel result, CPPDirectory resultdir, CPPModel ref, CPPDirectory refdir) {
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
 		assertEquals("","")
 	}
 	
-
-
 }

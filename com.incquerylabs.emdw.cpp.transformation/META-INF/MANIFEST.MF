@@ -4,12 +4,14 @@ Bundle-Name: xtUMLrt-CPP Transformation
 Bundle-SymbolicName: com.incquerylabs.emdw.cpp.transformation;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
-Export-Package: com.incquerylabs.emdw.cpp.transformation.queries,
+Export-Package: com.incquerylabs.emdw.cpp.transformation,
+ com.incquerylabs.emdw.cpp.transformation.queries,
  com.incquerylabs.emdw.cpp.transformation.queries.util
 Require-Bundle: com.ericsson.xtumlrt.oopl.cpp.model,
  com.google.guava,
  org.eclipse.xtend.lib,
  org.eclipse.viatra.emf.runtime,
- org.eclipse.incquery.runtime
+ org.eclipse.incquery.runtime,
+ org.eclipse.incquery.runtime.evm;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.log4j;version="1.2.15"

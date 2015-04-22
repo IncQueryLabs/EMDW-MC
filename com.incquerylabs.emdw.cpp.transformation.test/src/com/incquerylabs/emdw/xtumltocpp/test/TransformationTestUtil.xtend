@@ -1,14 +1,23 @@
 package com.incquerylabs.emdw.xtumltocpp.test
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
-import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.zeligsoft.xtumlrt.common.ActionChain
+import com.zeligsoft.xtumlrt.common.Attribute
 import com.zeligsoft.xtumlrt.common.CommonFactory
 import com.zeligsoft.xtumlrt.common.CompositeState
 import com.zeligsoft.xtumlrt.common.DirectionKind
@@ -20,6 +29,7 @@ import com.zeligsoft.xtumlrt.common.Port
 import com.zeligsoft.xtumlrt.common.Protocol
 import com.zeligsoft.xtumlrt.common.Signal
 import com.zeligsoft.xtumlrt.common.SimpleState
+import com.zeligsoft.xtumlrt.common.State
 import com.zeligsoft.xtumlrt.common.StateMachine
 import com.zeligsoft.xtumlrt.common.Transition
 import com.zeligsoft.xtumlrt.common.Type
@@ -30,36 +40,21 @@ import com.zeligsoft.xtumlrt.xtuml.XTClass
 import com.zeligsoft.xtumlrt.xtuml.XTComponent
 import com.zeligsoft.xtumlrt.xtuml.XTEvent
 import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import com.zeligsoft.xtumlrt.xtuml.XTPort
 import com.zeligsoft.xtumlrt.xtuml.XTProtocol
-import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
 import com.zeligsoft.xtumlrt.xtuml.XTTypeConstraint
 import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.uml2.uml.UMLFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
-import com.zeligsoft.xtumlrt.xtuml.XTPort
-import com.zeligsoft.xtumlrt.common.Attribute
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
-import com.zeligsoft.xtumlrt.common.State
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 
 /**
  * Most factory methods are impure: they modify the model! 
  */
 class TransformationTestUtil {
 
-	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
-	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
 	static extension val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
-
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 
 	public static val CPP_LANGUAGE = "C++"
@@ -68,26 +63,14 @@ class TransformationTestUtil {
 	public static val TEST_EXPRESSION = "true"
 
 	// XTUML UTIL
-	static def createRootMapping(String modelname) {
+	static def createEmptyXtumlModel(String modelname) {
 		val resourceSet = new ResourceSetImpl
-		val umlResource = resourceSet.createResource(URI.createURI("dummyUmlUri"))
 		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtumlrtUri"))
-		val traceResource = resourceSet.createResource(URI.createURI("dummyTraceUri"))
-
-		val umlModel = umlFactory.createModel => [
-			name = modelname
-		]
-		umlResource.contents += umlModel
 
 		val xtumlrtModel = commonFactory.createModel
 		xtumlrtResource.contents += xtumlrtModel
-
-		val mapping = createRootMapping => [
-			umlRoot = umlModel
-			xtumlrtRoot = xtumlrtModel
-		]
-		traceResource.contents += mapping
-		mapping
+		
+		xtumlrtModel
 	}
 
 	static def createXtPackage(Model xtumlmodel, String name) {
@@ -162,6 +145,14 @@ class TransformationTestUtil {
 		]
 		root.events += signalEvent
 		signalEvent
+	}
+	
+	static def createXtClassEvent(XTClass root, String name) {
+		val classEvent = xtumlFactory.createXTClassEvent => [
+			it.name = name
+		]
+		root.events += classEvent
+		classEvent
 	}
 
 	static def createPort(XTComponent root, Protocol type, String name, VisibilityKind visibility) {
@@ -273,7 +264,7 @@ class TransformationTestUtil {
 		aChain
 	}
 
-	static def createXTEventTrigger(Transition root, XTSignalEvent signal, String name) {
+	static def createXTEventTrigger(Transition root, XTEvent signal, String name) {
 		val xtevent = xtumlFactory.createXTEventTrigger => [
 			it.name = name
 			it.signal = signal
@@ -400,30 +391,33 @@ class TransformationTestUtil {
 	}
 
 	// CPP UTIL
-	static def createCppModel(Model xtmodel) {
-		val cppResource = xtmodel.eResource
+	static def createCPPResource(Model xtUmlModel) {
+		val cppResource = xtUmlModel.eResource.resourceSet.createResource(URI.createURI("dummyCPPUri"))
+		cppResource
+	}
+	
+	static def createCPPModel(Resource cppResource, Model xtModel) {
 		val cppModel = cppFactory.createCPPModel => [
-			commonModel = xtmodel
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtmodel ]
+			commonModel = xtModel
+			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtModel ]
 		]
 		cppResource.contents += cppModel
 		cppModel
 	}
 
-	static def createCppDir(Model xtmodel) {
-		val cppResource = xtmodel.eResource
+	static def createCPPDirectory(Resource cppResource) {
 		val cppDir = cppFactory.createCPPDirectory
 		cppResource.contents += cppDir
 		cppDir
 	}
 	
-	static def createCppDir(CPPDirectory root) {
+	static def createCPPSubDirectory(CPPDirectory root) {
 		val cppDir = cppFactory.createCPPDirectory
 		root.subDirectories += cppDir
 		cppDir
 	}
 	
-	static def createCppHeaderFile(CPPDirectory root, CPPHeaderFile ... included) {
+	static def createCPPHeaderFile(CPPDirectory root, CPPHeaderFile ... included) {
 		val cppHeader = cppFactory.createCPPHeaderFile=>[
 			includedHeaders+=included
 		]
@@ -431,7 +425,7 @@ class TransformationTestUtil {
 		cppHeader
 	}
 	
-	static def createCppBodyFile(CPPDirectory root, CPPHeaderFile ... included) {
+	static def createCPPBodyFile(CPPDirectory root, CPPHeaderFile ... included) {
 		val cppBody = cppFactory.createCPPBodyFile=>[
 			includedHeaders+=included
 		]

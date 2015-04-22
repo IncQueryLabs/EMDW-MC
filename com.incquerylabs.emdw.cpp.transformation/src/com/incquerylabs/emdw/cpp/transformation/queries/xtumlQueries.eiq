@@ -2,7 +2,57 @@ package com.incquerylabs.emdw.cpp.transformation.queries
 
 import "http://www.zeligsoft.com/xtumlrt/common"
 import "http://www.zeligsoft.com/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.zeligsoft.com/xtumlrt/oopl"
 
-pattern classStateMachine(xtClass : XTClass, statemachine : StateMachine) {
+pattern classStateMachine(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	statemachine : StateMachine
+) {
 	XTClass.behaviour(xtClass, statemachine);
+	CPPClass.xtClass(cppClass, xtClass);
+}
+
+pattern stateMachineStates(
+	stateMachine : StateMachine,
+	state : State
+) {
+	StateMachine.top(stateMachine, top);
+	find compositeStateSubStates+(top, state);
+}
+
+pattern compositeStateSubStates(
+	compositeState : CompositeState,
+	subState : State
+) {
+	CompositeState.substates(compositeState, subState);
+}
+
+pattern classStateMachineStates(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	state : State
+) {
+	find classStateMachine(xtClass, cppClass, statemachine);
+	find stateMachineStates(statemachine, state);
+}
+
+pattern classStateMachineTransitions(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	transition : Transition
+) {
+	find classStateMachineStates(xtClass, cppClass, state);
+	CompositeState.transitions(state, transition);
+}
+
+pattern classStateMachineEvents(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	event : XTEvent
+) {
+	find classStateMachineTransitions(xtClass, cppClass, transition);
+	Transition.triggers(transition, trigger);
+	XTEventTrigger.signal(trigger, event);
 }

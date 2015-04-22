@@ -23,7 +23,9 @@
 		<tycho.version>0.21.0</tycho.version>
 		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
+		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
+		<xtumlrt.repository.url>https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-metamodels/lastSuccessfulBuild/artifact/com.zeligsoft.xtumlrt.releng/target/repository/</xtumlrt.repository.url>
 	</properties>
 	<repositories>
 		<repository>
@@ -38,13 +40,18 @@
 		</repository>
 		<repository>
 			<id>emf-incquery</id>
-			<url>https://hudson.eclipse.org/incquery/job/incquery-master/lastSuccessfulBuild/artifact/update-site/</url>
+			<url>${incquery.repository.url}</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>viatra.update</id>
 			<layout>p2</layout>
 			<url>${viatra.repository.url}</url>
+		</repository>
+		<repository>
+			<id>xtumlrt.update</id>
+			<layout>p2</layout>
+			<url>${xtumlrt.repository.url}</url>
 		</repository>
 		<repository>
 			<id>xtext</id>

@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ParameterInOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.ParameterMatch
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import com.zeligsoft.xtumlrt.common.Operation
-import com.zeligsoft.xtumlrt.common.Parameter
-import com.zeligsoft.xtumlrt.common.Type
+import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.eclipse.papyrusrt.xtumlrt.common.Parameter
+import org.eclipse.papyrusrt.xtumlrt.common.Type
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

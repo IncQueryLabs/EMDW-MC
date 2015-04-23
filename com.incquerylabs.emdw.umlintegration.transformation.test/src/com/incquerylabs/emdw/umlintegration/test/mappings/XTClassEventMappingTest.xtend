@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTClassEvent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Signal
 import org.junit.runner.RunWith
@@ -23,7 +23,7 @@ class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
 		createSignalForClassEvent(umlRoot)
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		(xtumlrtRoot.topEntities.head as XTClass).events.filter(XTClassEvent)
 	}
 

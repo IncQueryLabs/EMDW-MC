@@ -18,11 +18,11 @@ import org.eclipse.uml2.uml.Element;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
- * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.TraceImpl#getUmlElements <em>Uml Elements</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.TraceImpl#getXtumlrtElements <em>Xtumlrt Elements</em>}</li>
  * </ul>
+ * </p>
  *
  * @generated
  */

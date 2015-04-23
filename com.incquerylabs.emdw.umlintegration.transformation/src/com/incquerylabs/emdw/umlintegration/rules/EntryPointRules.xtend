@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ChildEntryPointMatch
 import com.incquerylabs.emdw.umlintegration.queries.EntryPointMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelEntryPointMatch
-import com.zeligsoft.xtumlrt.common.EntryPoint
-import com.zeligsoft.xtumlrt.common.State
-import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.common.EntryPoint
+import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate

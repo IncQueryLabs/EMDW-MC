@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.JunctionPoint
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.JunctionPoint
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
@@ -25,7 +25,7 @@ class ToplevelJunctionPointMappingTest extends TransformationTest<Pseudostate, J
 		createPseudostate(stateMachine.regions.head, "junctionState", PseudostateKind.JUNCTION_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.xtumlrtTopState.junctionPoints
 	}
 	
@@ -47,7 +47,7 @@ class ChildJunctionPointMappingTest extends TransformationTest<Pseudostate, Junc
 		createPseudostate(parentState.regions.head, "childJunctionPoint", PseudostateKind.JUNCTION_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		(xtumlrtRoot.xtumlrtTopState.substates.head as CompositeState).junctionPoints
 	}
 	

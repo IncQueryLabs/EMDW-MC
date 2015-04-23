@@ -3,10 +3,10 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ChildTransitionMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelTransitionMatch
 import com.incquerylabs.emdw.umlintegration.queries.TransitionMatch
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.StateMachine
-import com.zeligsoft.xtumlrt.common.Transition
-import com.zeligsoft.xtumlrt.common.Vertex
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.common.Transition
+import org.eclipse.papyrusrt.xtumlrt.common.Vertex
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

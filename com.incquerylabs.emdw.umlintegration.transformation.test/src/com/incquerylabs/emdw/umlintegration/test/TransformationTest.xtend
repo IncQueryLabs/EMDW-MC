@@ -66,7 +66,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	/**
 	 * Returns the collection which should contain the transformed xtumlrt object.
 	 */
-	protected def Iterable<XtumlrtObject> getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot)
+	protected def Iterable<XtumlrtObject> getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot)
 
 	/**
 	 * Asserts the fields of the transformed xtumlrt object.

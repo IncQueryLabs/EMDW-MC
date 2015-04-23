@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.Guard
+import org.eclipse.papyrusrt.xtumlrt.common.Guard
 import org.eclipse.uml2.uml.Constraint
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.UMLFactory
@@ -34,7 +34,7 @@ class GuardMappingTest extends TransformationTest<Constraint, Guard> {
 		guard
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.xtumlrtTopState.transitions.head.guard.asSet
 	}
 	

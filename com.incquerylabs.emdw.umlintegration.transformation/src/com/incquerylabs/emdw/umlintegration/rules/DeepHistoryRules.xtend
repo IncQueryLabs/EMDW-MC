@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ChildDeepHistoryMatch
 import com.incquerylabs.emdw.umlintegration.queries.DeepHistoryMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelDeepHistoryMatch
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.DeepHistory
-import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.DeepHistory
+import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Pseudostate

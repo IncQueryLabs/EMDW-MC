@@ -33,7 +33,7 @@ import com.incquerylabs.emdw.umlintegration.rules.XTPackageMapping
 import com.incquerylabs.emdw.umlintegration.rules.XTPortMapping
 import com.incquerylabs.emdw.umlintegration.rules.XTSignalEventMapping
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
-import com.zeligsoft.xtumlrt.common.CommonFactory
+import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI

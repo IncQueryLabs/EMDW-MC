@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.Model
-import com.zeligsoft.xtumlrt.xtuml.XTGeneralization
-import com.zeligsoft.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTGeneralization
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Generalization
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized

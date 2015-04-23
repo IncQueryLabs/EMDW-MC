@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import com.zeligsoft.xtumlrt.xtuml.XTPort
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Port
 import org.junit.runner.RunWith
@@ -25,7 +25,7 @@ class XTPortMappingTest extends TransformationTest<Port, XTPort> {
 		createPort(component)
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		(xtumlrtRoot.topEntities.head as XTComponent).ports.filter(XTPort)
 	}
 

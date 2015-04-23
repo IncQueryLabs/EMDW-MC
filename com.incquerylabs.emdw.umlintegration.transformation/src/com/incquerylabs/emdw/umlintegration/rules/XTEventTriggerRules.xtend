@@ -1,9 +1,9 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.XtEventTriggerMatch
-import com.zeligsoft.xtumlrt.common.Transition
-import com.zeligsoft.xtumlrt.xtuml.XTEventTrigger
-import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
+import org.eclipse.papyrusrt.xtumlrt.common.Transition
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTSignalEvent
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.SignalEvent

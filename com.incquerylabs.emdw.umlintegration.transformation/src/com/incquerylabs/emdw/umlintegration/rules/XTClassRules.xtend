@@ -4,10 +4,10 @@ import com.incquerylabs.emdw.umlintegration.queries.XtClassInComponentMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtClassInModelMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtClassInPackageMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtClassMatch
-import com.zeligsoft.xtumlrt.common.Model
-import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Class

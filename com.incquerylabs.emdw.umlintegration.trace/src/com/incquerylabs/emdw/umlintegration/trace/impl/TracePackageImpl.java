@@ -6,16 +6,11 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping;
 import com.incquerylabs.emdw.umlintegration.trace.Trace;
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory;
 import com.incquerylabs.emdw.umlintegration.trace.TracePackage;
-
-import com.zeligsoft.xtumlrt.common.CommonPackage;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.uml2.uml.UMLPackage;
 
 /**
@@ -86,7 +81,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 		isInited = true;
 
 		// Initialize simple dependencies
-		CommonPackage.eINSTANCE.eClass();
+		org.eclipse.papyrusrt.xtumlrt.common.CommonPackage.eINSTANCE.eClass();
 		UMLPackage.eINSTANCE.eClass();
 
 		// Create package meta-data objects
@@ -230,7 +225,7 @@ public class TracePackageImpl extends EPackageImpl implements TracePackage {
 
 		// Obtain other dependent packages
 		UMLPackage theUMLPackage = (UMLPackage)EPackage.Registry.INSTANCE.getEPackage(UMLPackage.eNS_URI);
-		CommonPackage theCommonPackage = (CommonPackage)EPackage.Registry.INSTANCE.getEPackage(CommonPackage.eNS_URI);
+		org.eclipse.papyrusrt.xtumlrt.common.CommonPackage theCommonPackage = (org.eclipse.papyrusrt.xtumlrt.common.CommonPackage)EPackage.Registry.INSTANCE.getEPackage(org.eclipse.papyrusrt.xtumlrt.common.CommonPackage.eNS_URI);
 		EcorePackage theEcorePackage = (EcorePackage)EPackage.Registry.INSTANCE.getEPackage(EcorePackage.eNS_URI);
 
 		// Create type parameters

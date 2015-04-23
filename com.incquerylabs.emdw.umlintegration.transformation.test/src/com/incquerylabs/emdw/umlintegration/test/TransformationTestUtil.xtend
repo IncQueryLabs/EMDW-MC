@@ -2,7 +2,7 @@ package com.incquerylabs.emdw.umlintegration.test
 
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
-import com.zeligsoft.xtumlrt.common.CommonFactory
+import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
@@ -26,7 +26,7 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
-import com.zeligsoft.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -295,7 +295,7 @@ class TransformationTestUtil {
 		trigger
 	}
 	
-	static def getXtumlrtTopState(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	static def getXtumlrtTopState(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.topEntities.head.behaviour.top
 	}
 
@@ -307,12 +307,12 @@ class TransformationTestUtil {
 		#{object}.filterNull
 	}
 
-	static def checkState(com.zeligsoft.xtumlrt.common.State xtumlrtObject) {
+	static def checkState(org.eclipse.papyrusrt.xtumlrt.common.State xtumlrtObject) {
 		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.entryAction.source)
 		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.exitAction.source)
 	}
 
-	static def checkTransition(RootMapping mapping, Transition umlObject, com.zeligsoft.xtumlrt.common.Transition xtumlrtObject) {
+	static def checkTransition(RootMapping mapping, Transition umlObject, org.eclipse.papyrusrt.xtumlrt.common.Transition xtumlrtObject) {
 		val sourceVertex = mapping.traces.findFirst[umlElements.contains(umlObject.source)].xtumlrtElements.head
 		val targetVertex = mapping.traces.findFirst[umlElements.contains(umlObject.target)].xtumlrtElements.head
 		assertEquals("Transition source vertex", sourceVertex, xtumlrtObject.sourceVertex)

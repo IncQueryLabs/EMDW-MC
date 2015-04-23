@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.ConnectorMatch
-import com.zeligsoft.xtumlrt.common.Connector
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.common.Connector
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

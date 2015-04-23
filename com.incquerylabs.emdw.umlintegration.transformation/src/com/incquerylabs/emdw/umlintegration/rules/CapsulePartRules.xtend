@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.CapsulePartMatch
-import com.zeligsoft.xtumlrt.common.CapsulePart
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.common.CapsulePart
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property

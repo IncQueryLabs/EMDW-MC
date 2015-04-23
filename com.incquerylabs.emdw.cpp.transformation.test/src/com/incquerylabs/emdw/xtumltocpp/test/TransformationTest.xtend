@@ -4,8 +4,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.XtumlCPPTransformationWrapper
-import com.zeligsoft.xtumlrt.common.Model
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.Test
 import org.junit.runners.Parameterized.Parameters
 

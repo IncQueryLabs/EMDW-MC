@@ -4,9 +4,9 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import com.zeligsoft.xtumlrt.common.Parameter
-import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.common.Parameter
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.UMLFactory
@@ -33,7 +33,7 @@ class ParameterInOperationMappingTest extends TransformationTest<org.eclipse.uml
 		parameter
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.topEntities.filter(XTClass).head.operations.head.parameters
 	}
 

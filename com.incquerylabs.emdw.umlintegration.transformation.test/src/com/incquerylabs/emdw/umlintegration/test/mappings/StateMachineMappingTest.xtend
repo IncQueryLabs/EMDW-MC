@@ -11,7 +11,7 @@ import org.junit.runners.Parameterized
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class StateMachineMappingTest extends TransformationTest<StateMachine, com.zeligsoft.xtumlrt.common.StateMachine> {
+class StateMachineMappingTest extends TransformationTest<StateMachine, org.eclipse.papyrusrt.xtumlrt.common.StateMachine> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -21,11 +21,11 @@ class StateMachineMappingTest extends TransformationTest<StateMachine, com.zelig
 		createStateMachine(umlRoot)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.topEntities.head.behaviour.asSet
 	}
 	
-	override protected checkXtumlrtObject(RootMapping mapping, StateMachine umlObject, com.zeligsoft.xtumlrt.common.StateMachine xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, StateMachine umlObject, org.eclipse.papyrusrt.xtumlrt.common.StateMachine xtumlrtObject) {
 	}
 
 }

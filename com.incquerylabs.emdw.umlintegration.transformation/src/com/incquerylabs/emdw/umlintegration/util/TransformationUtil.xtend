@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.util
 
-import com.zeligsoft.xtumlrt.common.CommonFactory
-import com.zeligsoft.xtumlrt.common.DirectionKind
-import com.zeligsoft.xtumlrt.common.VisibilityKind
+import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
+import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.State
 
@@ -10,7 +10,7 @@ class TransformationUtil {
 
 	static val commonFactory = CommonFactory.eINSTANCE
 
-	static def void updateState(com.zeligsoft.xtumlrt.common.State it, State umlState) {
+	static def void updateState(org.eclipse.papyrusrt.xtumlrt.common.State it, State umlState) {
 		if (umlState.entry != null) {
 			entryAction = commonFactory.createActionCode => [
 				source = ModelUtil.getCppCode(umlState.entry)

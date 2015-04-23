@@ -1,10 +1,10 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.ConnectorEndMatch
-import com.zeligsoft.xtumlrt.common.CapsulePart
-import com.zeligsoft.xtumlrt.common.Connector
-import com.zeligsoft.xtumlrt.common.ConnectorEnd
-import com.zeligsoft.xtumlrt.xtuml.XTPort
+import org.eclipse.papyrusrt.xtumlrt.common.CapsulePart
+import org.eclipse.papyrusrt.xtumlrt.common.Connector
+import org.eclipse.papyrusrt.xtumlrt.common.ConnectorEnd
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

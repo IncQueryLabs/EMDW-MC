@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StructMemberMatch
-import com.zeligsoft.xtumlrt.common.StructMember
-import com.zeligsoft.xtumlrt.common.StructType
+import org.eclipse.papyrusrt.xtumlrt.common.StructMember
+import org.eclipse.papyrusrt.xtumlrt.common.StructType
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property

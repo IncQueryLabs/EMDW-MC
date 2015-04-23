@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StateMachineMatch
-import com.zeligsoft.xtumlrt.common.StateMachine
-import com.zeligsoft.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

@@ -3,17 +3,17 @@ package com.incquerylabs.emdw.umlintegration.papyrus
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
-import com.zeligsoft.xtumlrt.common.CommonFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
+import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.resource.UMLResource
-import org.eclipse.incquery.runtime.emf.EMFScope
 
 class ModelSetSnippet implements IModelSetSnippet {
 

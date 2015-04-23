@@ -4,8 +4,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.xtumltocpp.test.TransformationTest
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
-import com.zeligsoft.xtumlrt.common.Model
-import com.zeligsoft.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 

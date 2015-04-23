@@ -3,15 +3,15 @@ package com.incquerylabs.emdw.cpp.transformation
 import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.util.RuleProvider
-import com.zeligsoft.xtumlrt.common.Model
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 
 class XtumlComponentCPPTransformation {
 

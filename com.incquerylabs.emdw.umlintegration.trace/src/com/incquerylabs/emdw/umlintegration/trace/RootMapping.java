@@ -14,12 +14,12 @@ import org.eclipse.uml2.uml.Model;
  *
  * <p>
  * The following features are supported:
- * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getUmlRoot <em>Uml Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getXtumlrtRoot <em>Xtumlrt Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getTraces <em>Traces</em>}</li>
  * </ul>
+ * </p>
  *
  * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage#getRootMapping()
  * @model
@@ -61,12 +61,12 @@ public interface RootMapping extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Xtumlrt Root</em>' reference.
-	 * @see #setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Model)
+	 * @see #setXtumlrtRoot(org.eclipse.papyrusrt.xtumlrt.common.Model)
 	 * @see com.incquerylabs.emdw.umlintegration.trace.TracePackage#getRootMapping_XtumlrtRoot()
 	 * @model
 	 * @generated
 	 */
-	com.zeligsoft.xtumlrt.common.Model getXtumlrtRoot();
+	org.eclipse.papyrusrt.xtumlrt.common.Model getXtumlrtRoot();
 
 	/**
 	 * Sets the value of the '{@link com.incquerylabs.emdw.umlintegration.trace.RootMapping#getXtumlrtRoot <em>Xtumlrt Root</em>}' reference.
@@ -76,7 +76,7 @@ public interface RootMapping extends EObject {
 	 * @see #getXtumlrtRoot()
 	 * @generated
 	 */
-	void setXtumlrtRoot(com.zeligsoft.xtumlrt.common.Model value);
+	void setXtumlrtRoot(org.eclipse.papyrusrt.xtumlrt.common.Model value);
 
 	/**
 	 * Returns the value of the '<em><b>Traces</b></em>' containment reference list.

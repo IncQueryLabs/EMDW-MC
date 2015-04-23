@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.ActionChain
+import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.UMLFactory
@@ -31,7 +31,7 @@ class ActionChainMappingTest extends TransformationTest<Behavior, ActionChain> {
 		effect
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.xtumlrtTopState.transitions.head.actionChain.asSet
 	}
 	

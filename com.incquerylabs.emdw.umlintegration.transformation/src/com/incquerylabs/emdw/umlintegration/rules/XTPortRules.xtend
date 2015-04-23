@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.XtPortMatch
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import com.zeligsoft.xtumlrt.xtuml.XTPort
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Port

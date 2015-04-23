@@ -5,11 +5,11 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.xtumltocpp.test.TransformationTest
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
-import com.zeligsoft.xtumlrt.common.Model
-import com.zeligsoft.xtumlrt.common.State
-import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 

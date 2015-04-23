@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.StructType
+import org.eclipse.papyrusrt.xtumlrt.common.StructType
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -23,7 +23,7 @@ class StructTypeMappingTest extends TransformationTest<DataType, StructType> {
 		createStructType(umlPackage)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.localScopeTemporaryTypes.filter(StructType)
 	}
 	

@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.Connector
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.common.Connector
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -23,7 +23,7 @@ class ConnectorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Conne
 		createConnector(component)
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		(xtumlrtRoot.topEntities.head as XTComponent).connectors
 	}
 

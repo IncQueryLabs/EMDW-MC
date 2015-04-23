@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.XtAssociationMatch
-import com.zeligsoft.xtumlrt.xtuml.XTAssociation
-import com.zeligsoft.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property

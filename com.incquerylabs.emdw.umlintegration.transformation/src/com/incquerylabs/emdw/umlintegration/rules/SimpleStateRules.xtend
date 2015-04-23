@@ -4,10 +4,10 @@ import com.incquerylabs.emdw.umlintegration.queries.ChildSimpleStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.SimpleStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelSimpleStateMatch
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.SimpleState
-import com.zeligsoft.xtumlrt.common.State
-import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.SimpleState
+import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

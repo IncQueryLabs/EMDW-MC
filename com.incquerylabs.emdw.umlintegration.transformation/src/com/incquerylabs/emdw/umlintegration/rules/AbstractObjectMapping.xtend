@@ -2,8 +2,8 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.trace.Trace
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
-import com.zeligsoft.xtumlrt.common.CommonFactory
-import com.zeligsoft.xtumlrt.xtuml.XtumlFactory
+import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IPatternMatch
@@ -58,7 +58,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 		switch umlObject {
 			NamedElement: {
 				switch xtumlrtObject {
-					com.zeligsoft.xtumlrt.common.NamedElement: xtumlrtObject.name = umlObject.name
+					org.eclipse.papyrusrt.xtumlrt.common.NamedElement: xtumlrtObject.name = umlObject.name
 				}
 			} 
 		}

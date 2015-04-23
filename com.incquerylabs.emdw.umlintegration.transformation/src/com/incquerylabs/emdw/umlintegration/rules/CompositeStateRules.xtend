@@ -4,9 +4,9 @@ import com.incquerylabs.emdw.umlintegration.queries.ChildCompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.CompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelCompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.State
-import com.zeligsoft.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

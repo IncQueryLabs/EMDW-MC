@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.XtComponentInModelMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtComponentInPackageMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtComponentMatch
-import com.zeligsoft.xtumlrt.common.Model
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
-import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Class

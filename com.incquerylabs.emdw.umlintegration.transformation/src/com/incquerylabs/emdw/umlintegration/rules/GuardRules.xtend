@@ -2,8 +2,8 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.GuardMatch
 import com.incquerylabs.emdw.umlintegration.util.ModelUtil
-import com.zeligsoft.xtumlrt.common.Guard
-import com.zeligsoft.xtumlrt.common.Transition
+import org.eclipse.papyrusrt.xtumlrt.common.Guard
+import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Constraint

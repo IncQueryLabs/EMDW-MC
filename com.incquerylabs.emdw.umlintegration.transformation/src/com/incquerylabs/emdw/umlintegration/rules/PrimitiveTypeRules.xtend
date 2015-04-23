@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.PrimitiveTypeMatch
-import com.zeligsoft.xtumlrt.common.PrimitiveType
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 

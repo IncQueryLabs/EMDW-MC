@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.StructMember
-import com.zeligsoft.xtumlrt.common.StructType
+import org.eclipse.papyrusrt.xtumlrt.common.StructMember
+import org.eclipse.papyrusrt.xtumlrt.common.StructType
 import javax.lang.model.type.PrimitiveType
 import org.eclipse.uml2.uml.DataType
 import org.eclipse.uml2.uml.Model
@@ -27,7 +27,7 @@ class StructMemberMappingTest extends TransformationTest<Property, StructMember>
 		createStructType(umlPackage).ownedAttributes.head
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.localScopeTemporaryTypes.filter(StructType).head.structMembers
 	}
 	

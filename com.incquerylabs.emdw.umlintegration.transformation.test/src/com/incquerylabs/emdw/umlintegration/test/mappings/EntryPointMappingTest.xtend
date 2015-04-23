@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.EntryPoint
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.EntryPoint
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
@@ -25,7 +25,7 @@ class ToplevelEntryPointMappingTest extends TransformationTest<Pseudostate, Entr
 		createPseudostate(stateMachine.regions.head, "entryState", PseudostateKind.ENTRY_POINT_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.xtumlrtTopState.entryPoints
 	}
 	
@@ -47,7 +47,7 @@ class ChildEntryPointMappingTest extends TransformationTest<Pseudostate, EntryPo
 		createPseudostate(parentState.regions.head, "childEntryPoint", PseudostateKind.ENTRY_POINT_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		(xtumlrtRoot.xtumlrtTopState.substates.head as CompositeState).entryPoints
 	}
 	

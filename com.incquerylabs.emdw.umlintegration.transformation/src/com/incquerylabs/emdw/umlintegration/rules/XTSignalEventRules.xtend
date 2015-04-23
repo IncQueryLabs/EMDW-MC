@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.XtSignalEventMatch
-import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTSignalEvent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTSignalEvent
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Signal

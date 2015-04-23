@@ -3,8 +3,8 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.zeligsoft.xtumlrt.common.CompositeState
-import com.zeligsoft.xtumlrt.common.DeepHistory
+import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
+import org.eclipse.papyrusrt.xtumlrt.common.DeepHistory
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
@@ -25,7 +25,7 @@ class ToplevelDeepHistoryMappingTest extends TransformationTest<Pseudostate, Dee
 		createPseudostate(stateMachine.regions.head, "deepHistory", PseudostateKind.DEEP_HISTORY_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.xtumlrtTopState.deepHistory.asSet
 	}
 	
@@ -47,7 +47,7 @@ class ChildDeepHistoryMappingTest extends TransformationTest<Pseudostate, DeepHi
 		createPseudostate(parentState.regions.head, "childDeepHistory", PseudostateKind.DEEP_HISTORY_LITERAL)
 	}
 	
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		(xtumlrtRoot.xtumlrtTopState.substates.head as CompositeState).deepHistory.asSet
 	}
 	

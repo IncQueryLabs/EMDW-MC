@@ -4,9 +4,9 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import com.zeligsoft.xtumlrt.common.Attribute
-import com.zeligsoft.xtumlrt.xtuml.XTClass
-import com.zeligsoft.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Property
 import org.junit.runner.RunWith
@@ -26,7 +26,7 @@ class AttributeMappingTest extends TransformationTest<Property, Attribute> {
 		createPropertyForAttribute(umlRoot, createComponentInModel(umlRoot))
 	}
 
-	override protected getXtumlrtObjects(com.zeligsoft.xtumlrt.common.Model xtumlrtRoot) {
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		xtumlrtRoot.topEntities.filter(XTClass).head.attributes
 	}
 

@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.TypeDefinitionMatch
-import com.zeligsoft.xtumlrt.common.TypeDefinition
-import com.zeligsoft.xtumlrt.xtuml.XTPackage
+import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Type
@@ -47,7 +47,7 @@ class TypeDefinitionMapping extends AbstractObjectMapping<TypeDefinitionMatch, T
 	}
 
 	override updateXtumlrtObject(TypeDefinition xtumlrtObject, TypeDefinitionMatch match) {
-		xtumlrtObject.type = match.type.findXtumlrtObject(com.zeligsoft.xtumlrt.common.Type) // There might be > 1 traces
+		xtumlrtObject.type = match.type.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Type) // There might be > 1 traces
 	}
 
 	def getXtumlrtContainer(TypeDefinitionMatch match) {

@@ -43,12 +43,12 @@
 				</configuration>
 				<dependencies>
 					<dependency>
-						<groupId>org.eclipse.papyrusr</groupId>
+						<groupId>org.eclipse.papyrusrt</groupId>
 						<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
 						<version>0.4.0-SNAPSHOT</version>
 					</dependency>
 					<dependency>
-						<groupId>org.eclipse.papyrusr</groupId>
+						<groupId>org.eclipse.papyrusrt</groupId>
 						<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
 						<version>0.4.0-SNAPSHOT</version>
 					</dependency>

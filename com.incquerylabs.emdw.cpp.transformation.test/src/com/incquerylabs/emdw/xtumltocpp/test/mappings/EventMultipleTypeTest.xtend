@@ -23,8 +23,11 @@ class EventMultipleTypeTest extends TransformationTest<XTClass, CPPClass> {
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		val pack = xtumlmodel.createXtPackage("RootPackage")
 		
-		val primitiveType = pack.createTypeDefinition("IntDefinition").createPrimitiveType("Integer")
-		val userDefinedType = pack.createTypeDefinition("UserTypeDefinition").createXTUserDefinedType("UserType")
+		val typedef = pack.createTypeDefinition("IntDefinition")
+		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		
+		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
+		val userDefinedType = pack.createXTUserDefinedType(typedef2, "UserType")
 		
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")

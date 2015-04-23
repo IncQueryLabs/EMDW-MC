@@ -39,10 +39,8 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		
 		val testId = "single"
 		startTest(testId)
-		//Create Root mapping
-		val xtModel = createEmptyXtumlModel(testId)
-		//Init UML model
-		//Transform model to XTUML
+		//Create xtuml model
+		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
 		val xtObject = prepareXtUmlModel(xtModel)
 		//init cpp model
 		val cppResource = createCPPResource(xtModel)
@@ -56,7 +54,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		endTest(testId)
 	}
 	
-	//Additional alternatives can be added heres
+	//Additional alternatives can be added here
 
 	protected def XtumlObject prepareXtUmlModel(Model xtModel)
 

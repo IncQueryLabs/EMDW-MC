@@ -65,9 +65,9 @@ class TransformationTestUtil {
 	// XTUML UTIL
 	static def createEmptyXtumlModel(String modelname) {
 		val resourceSet = new ResourceSetImpl
-		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtumlrtUri"))
+		val xtumlrtResource = resourceSet.createResource(URI.createURI("model/"+modelname+"/ref/test.xtumlrt"))
 
-		val xtumlrtModel = commonFactory.createModel
+		val xtumlrtModel = commonFactory.createModel=>[it.name = modelname]
 		xtumlrtResource.contents += xtumlrtModel
 		
 		xtumlrtModel
@@ -112,6 +112,14 @@ class TransformationTestUtil {
 		root.ownedClasses += xtclass
 		xtclass
 	}
+	
+	static def createXtClass(XTPackage root, String name) {
+		var xtclass = xtumlFactory.createXTClass => [
+			it.name = name
+		]
+		root.entities += xtclass
+		xtclass
+	}
 
 	static def createStateMachine(XTClass root, String name) {
 		var sm = commonFactory.createStateMachine => [
@@ -136,6 +144,8 @@ class TransformationTestUtil {
 		root.protocolBehaviourFeatures += signal
 		signal
 	}
+	
+
 
 	static def createXtSignalEvent(Port port, Signal signal, XTClass root, String name) {
 		val signalEvent = xtumlFactory.createXTSignalEvent => [
@@ -172,6 +182,14 @@ class TransformationTestUtil {
 		root.top = compState
 		compState
 	}
+	
+	static def createCompositeState(CompositeState root, String name) {
+		var compState = commonFactory.createCompositeState => [
+			it.name = name
+		]
+		root.substates+=compState
+		compState
+	}
 
 	static def createInitialPoint(CompositeState root, String name) {
 		val init = commonFactory.createInitialPoint => [
@@ -195,6 +213,14 @@ class TransformationTestUtil {
 		]
 		root.substates += state
 		state
+	}
+	
+	static def createDeepHistory(CompositeState root, String name) {
+		val dh = commonFactory.createDeepHistory => [
+			it.name = name
+		]
+		root.deepHistory = dh
+		dh
 	}
 
 	static def createTransition(CompositeState root, Vertex source, Vertex target, String name) {
@@ -236,8 +262,26 @@ class TransformationTestUtil {
 		root.entryAction = action
 		action
 	}
+	
+	static def createEntryActionCode(CompositeState root, String name, String code) {
+		val action = commonFactory.createActionCode => [
+			it.name = name
+			it.source = code
+		]
+		root.entryAction = action
+		action
+	}
 
 	static def createExitActionCode(SimpleState root, String name, String code) {
+		val action = commonFactory.createActionCode => [
+			it.name = name
+			it.source = code
+		]
+		root.exitAction = action
+		action
+	}
+	
+	static def createExitActionCode(CompositeState root, String name, String code) {
 		val action = commonFactory.createActionCode => [
 			it.name = name
 			it.source = code
@@ -310,20 +354,22 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createPrimitiveType(TypeDefinition typedef, String name) {
+	static def createPrimitiveType(XTPackage pack, TypeDefinition typedef, String name) {
 		val type = commonFactory.createPrimitiveType => [
 			it.name = name
 		]
 		typedef.type = type
+		pack.eResource.contents+=type
 		type
 	}
 
-	static def createXTUserDefinedType(TypeDefinition typedef, String name, XTTypeConstraint ... const) {
+	static def createXTUserDefinedType(XTPackage pack, TypeDefinition typedef, String name, XTTypeConstraint ... const) {
 		val type = xtumlFactory.createXTUserDefinedTypes => [
 			it.name = name
 			it.constraints += const
 		]
 		typedef.type = type
+		pack.eResource.contents+=type
 		type
 
 	}
@@ -392,16 +438,18 @@ class TransformationTestUtil {
 
 	// CPP UTIL
 	static def createCPPResource(Model xtUmlModel) {
-		val cppResource = xtUmlModel.eResource.resourceSet.createResource(URI.createURI("dummyCPPUri"))
+		val cppResource = xtUmlModel.eResource.resourceSet.createResource(URI.createURI("model/"+xtUmlModel.name+"/ref/test.cppmodel"))
 		cppResource
 	}
 	
 	static def createCPPModel(Resource cppResource, Model xtModel) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtModel ]
 		val cppModel = cppFactory.createCPPModel => [
 			commonModel = xtModel
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtModel ]
+			it.nameProvider = provider
 		]
 		cppResource.contents += cppModel
+		cppResource.contents+=provider
 		cppModel
 	}
 
@@ -434,111 +482,133 @@ class TransformationTestUtil {
 	}
 
 	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, XTPackage xtpackage) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtpackage ]
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.xtPackage = xtpackage
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtpackage ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppPackage
+		root.eResource.contents+= provider
 		cppPackage
 	}
 
 	static def CPPProtocol createCPPProtocol(CPPQualifiedNamedElement root, XTProtocol protocol, CPPHeaderFile header) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = protocol ]
 		val cppProtocol = cppFactory.createCPPProtocol => [
 			it.xtProtocol = protocol
 			it.headerFile = header
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = protocol ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppProtocol
+		root.eResource.contents+= provider
 		cppProtocol
 	}
 
 	static def CPPSignal createCPPSignal(CPPQualifiedNamedElement root, Signal signal) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = signal ]
 		val cppSignal = cppFactory.createCPPSignal => [
 			it.commonSignal = signal
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = signal ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppSignal
+		root.eResource.contents+= provider
 		cppSignal
 	}
 
 	static def CPPEvent createCPPEvent(CPPQualifiedNamedElement root, XTEvent event) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = event ]
 		val cppEvent = cppFactory.createCPPEvent => [
 			it.xtEvent = event
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = event ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppEvent
+		root.eResource.contents+= provider
 		cppEvent
 	}
 	
 	static def CPPOperation createCPPOperation(CPPQualifiedNamedElement root, Operation operation) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = operation ]
 		val cppOperation = cppFactory.createCPPOperation => [
 			it.commonOperation = operation
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = operation ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppOperation
+		root.eResource.contents+= provider
 		cppOperation
 	}
 	
 	static def CPPState createCPPState(CPPQualifiedNamedElement root, State state) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = state ]
 		val cppState = cppFactory.createCPPState => [
 			it.commonState = state
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = state ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppState
+		root.eResource.contents+= provider
 		cppState
 	}
 	
 	static def CPPTransition createCPPTransition(CPPQualifiedNamedElement root, Transition trans) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = trans ]
 		val cppTransition = cppFactory.createCPPTransition => [
 			it.commonTransition = trans
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = trans ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppTransition
+		root.eResource.contents+= provider
 		cppTransition
 	}
 	
 	static def CPPPort createCPPPort(CPPQualifiedNamedElement root, XTPort port,CPPHeaderFile header, CPPBodyFile body  ) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = port ]
 		val cppPort = cppFactory.createCPPPort => [
 			it.xtPort = port
 			it.headerFile = header
 			it.bodyFile = body
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = port ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppPort
+		root.eResource.contents+= provider
 		cppPort
 	}
 	
 	static def CPPAttribute createCPPAttribute(CPPQualifiedNamedElement root, Attribute attr) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = attr ]
 		val cppAttr = cppFactory.createCPPAttribute => [
 			it.commonAttribute = attr
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = attr ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppAttr
+		root.eResource.contents+= provider
 		cppAttr
 	}
 
 	static def CPPComponent createCPPComponent(CPPQualifiedNamedElement root, XTComponent xtcomponent,
 		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtcomponent ]
 		val cppComponent = cppFactory.createCPPComponent => [
 			it.xtComponent = xtcomponent
 			it.mainHeaderFile = mainheader
 			it.mainBodyFile = mainbody
 			it.defHeaderFile = defheader
 			it.declHeaderFile = declheader
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtcomponent ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppComponent
+		root.eResource.contents+= provider
 		cppComponent	
 	}
 	
 	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body ) {
+		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtclass ]
 		val cppClass = cppFactory.createCPPClass => [
 			it.xtClass = xtclass
 			it.headerFile = header
 			it.bodyFile = body
-			it.nameProvider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtclass ]
+			it.nameProvider = provider
 		]
 		root.subElements += cppClass
+		root.eResource.contents+= provider
 		cppClass	
 	}
 }

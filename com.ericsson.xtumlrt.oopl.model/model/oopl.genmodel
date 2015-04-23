@@ -24,32 +24,32 @@
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//AssociativeCollectionKind/UNORDERED_MULTIMAP"/>
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//AssociativeCollectionKind/ORDERED_MULTIMAP"/>
     </genEnums>
-    <genClasses ecoreClass="oopl.ecore#//OOPClass">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPClass/xtClass"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPClass/referenceStorage"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClass">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClass/xtClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClass/referenceStorage"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="oopl.ecore#//OOPType">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPType/commonType"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLType/commonType"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//OOPClassReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPClassReference/class"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClassReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReference/class"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="oopl.ecore#//OOPClassReferenceCollection">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPClassReferenceCollection/class"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClassReferenceCollection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReferenceCollection/class"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//OOPClassRefSimpleCollection">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPClassRefSimpleCollection/kind"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClassRefSimpleCollection">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefSimpleCollection/kind"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//OOPClassRefAssocCollection">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPClassRefAssocCollection/key"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPClassRefAssocCollection/kind"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClassRefAssocCollection">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassRefAssocCollection/key"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefAssocCollection/kind"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//OOPClassReferenceStorage">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPClassReferenceStorage/type"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClassReferenceStorage">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReferenceStorage/type"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//OOPRelation">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPRelation/xtRelation"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPRelation/referenceStorage"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLRelation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLRelation/xtRelation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLRelation/referenceStorage"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

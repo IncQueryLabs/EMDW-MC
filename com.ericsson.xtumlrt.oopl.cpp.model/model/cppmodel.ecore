@@ -42,7 +42,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDir" eType="#//CPPDirectory"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClass" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass">
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClass" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass">
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" lowerBound="1"
@@ -124,7 +124,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPRelation" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPRelation" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
   <eClassifiers xsi:type="ecore:EClass" name="CPPOperation" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonOperation" lowerBound="1"
         eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Operation"/>
@@ -153,14 +153,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationImplementation"
         lowerBound="1" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationImplementation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReference" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReference #//CPPQualifiedNamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReferenceStorage" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefSimpleCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection">
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReference" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference #//CPPQualifiedNamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReferenceStorage" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefSimpleCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefAssocCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection">
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefAssocCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         derived="true"/>

@@ -1759,7 +1759,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_ffUEIONsEeSjd7NJV0WKhQ">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_ffUEIeNsEeSjd7NJV0WKhQ" key="_3AioQNn0EeStCoUidseI5g">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_gVLpQ-N5EeSjd7NJV0WKhQ" value="_gVLpQON5EeSjd7NJV0WKhQ">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -1767,7 +1767,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_ffhfgONsEeSjd7NJV0WKhQ">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_ffiGkONsEeSjd7NJV0WKhQ" key="_1FDuwN0wEeSQ-sQNaQgo9Q">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_gVYdk-N5EeSjd7NJV0WKhQ" value="_gVYdkON5EeSjd7NJV0WKhQ">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -3325,9 +3325,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_2-R-cNn0EeStCoUidseI5g" name="OOPClass" tooltipText="" outgoingEdges="_3AioQNn0EeStCoUidseI5g _WHQkYN0xEeSQ-sQNaQgo9Q" incomingEdges="_E3wPsNn1EeStCoUidseI5g" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_2-R-cNn0EeStCoUidseI5g" name="OOPLClass" tooltipText="" outgoingEdges="_3AioQNn0EeStCoUidseI5g _WHQkYN0xEeSQ-sQNaQgo9Q" incomingEdges="_E3wPsNn1EeStCoUidseI5g" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_2_2EsNn0EeStCoUidseI5g">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -3344,8 +3344,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_3AioQNn0EeStCoUidseI5g" name="[1..1] xtClass" visible="false" sourceNode="_2-R-cNn0EeStCoUidseI5g" targetNode="_cms6YNFWEeSJfol0P0KPCg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gVLpRON5EeSjd7NJV0WKhQ" description="_gVLpQON5EeSjd7NJV0WKhQ" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_gVLpReN5EeSjd7NJV0WKhQ"/>
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_gVLpRuN5EeSjd7NJV0WKhQ" labelFormat="bold" showIcon="false">
@@ -3402,9 +3402,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1ErUQN0wEeSQ-sQNaQgo9Q" name="OOPRelation" tooltipText="" outgoingEdges="_1FDuwN0wEeSQ-sQNaQgo9Q _WHQkZ90xEeSQ-sQNaQgo9Q" incomingEdges="_9gUq4N0wEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1ErUQN0wEeSQ-sQNaQgo9Q" name="OOPLRelation" tooltipText="" outgoingEdges="_1FDuwN0wEeSQ-sQNaQgo9Q _WHQkZ90xEeSQ-sQNaQgo9Q" incomingEdges="_9gUq4N0wEeSQ-sQNaQgo9Q" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_1E5WsN0wEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -3421,8 +3421,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_1FDuwN0wEeSQ-sQNaQgo9Q" name="[1..1] xtRelation" visible="false" sourceNode="_1ErUQN0wEeSQ-sQNaQgo9Q" targetNode="_9Q1pMNLDEeSYKurd2GZ11A">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_2izfIN0wEeSQ-sQNaQgo9Q"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gVYdlON5EeSjd7NJV0WKhQ" description="_gVYdkON5EeSjd7NJV0WKhQ" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_gVYdleN5EeSjd7NJV0WKhQ"/>
@@ -3451,9 +3451,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_WG6mIN0xEeSQ-sQNaQgo9Q" name="OOPClassReferenceStorage" tooltipText="" incomingEdges="_WHQkYN0xEeSQ-sQNaQgo9Q _WHQkZ90xEeSQ-sQNaQgo9Q _j6ayQN0xEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_WG6mIN0xEeSQ-sQNaQgo9Q" name="OOPLClassReferenceStorage" tooltipText="" incomingEdges="_WHQkYN0xEeSQ-sQNaQgo9Q _WHQkZ90xEeSQ-sQNaQgo9Q _j6ayQN0xEeSQ-sQNaQgo9Q" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_WHGzYN0xEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -3470,8 +3470,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_WHQkYN0xEeSQ-sQNaQgo9Q" name="[0..*] referenceStorage" visible="false" sourceNode="_2-R-cNn0EeStCoUidseI5g" targetNode="_WG6mIN0xEeSQ-sQNaQgo9Q">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/referenceStorage"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/referenceStorage"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/referenceStorage"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/referenceStorage"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_Xb-UkN0xEeSQ-sQNaQgo9Q"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_WHQkYd0xEeSQ-sQNaQgo9Q" routingStyle="manhattan">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
@@ -3488,8 +3488,8 @@
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_WHQkZ90xEeSQ-sQNaQgo9Q" name="[0..*] referenceStorage" visible="false" sourceNode="_1ErUQN0wEeSQ-sQNaQgo9Q" targetNode="_WG6mIN0xEeSQ-sQNaQgo9Q">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/referenceStorage"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/referenceStorage"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/referenceStorage"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/referenceStorage"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_XTS5sN0xEeSQ-sQNaQgo9Q"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_WHRLcN0xEeSQ-sQNaQgo9Q" routingStyle="manhattan">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
@@ -19299,7 +19299,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_2cchsN6fEeSdkdK9JAnWrg">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/key"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/key"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_2cchsd6fEeSdkdK9JAnWrg" key="_5YxlgN0WEeSQ-sQNaQgo9Q">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_2cdIw96fEeSdkdK9JAnWrg" value="_2cdIwN6fEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -20813,9 +20813,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_iHdbIN0WEeSQ-sQNaQgo9Q" name="OOPClassReference" tooltipText="" incomingEdges="__gmfYN0WEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReference"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReference"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_iHdbIN0WEeSQ-sQNaQgo9Q" name="OOPLClassReference" tooltipText="" incomingEdges="__gmfYN0WEeSQ-sQNaQgo9Q" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_iH9xcN0WEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -20831,9 +20831,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1YHzgN0WEeSQ-sQNaQgo9Q" name="OOPClassRefSimpleCollection" tooltipText="" incomingEdges="_2gygMN0gEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1YHzgN0WEeSQ-sQNaQgo9Q" name="OOPLClassRefSimpleCollection" tooltipText="" incomingEdges="_2gygMN0gEeSQ-sQNaQgo9Q" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_1YXrIN0WEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -20849,8 +20849,8 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_1YWdAN0WEeSQ-sQNaQgo9Q" name="kind : SimpleCollectionKind = SIMPLY_LINKED_LIST" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection/kind"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection/kind"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection/kind"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection/kind"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_1YWdAd0WEeSQ-sQNaQgo9Q" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_1YWdAt0WEeSQ-sQNaQgo9Q"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -20860,9 +20860,9 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_5YG3IN0WEeSQ-sQNaQgo9Q" name="OOPClassRefAssocCollection" tooltipText="" outgoingEdges="_5YxlgN0WEeSQ-sQNaQgo9Q" incomingEdges="_3s8KQN0gEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_5YG3IN0WEeSQ-sQNaQgo9Q" name="OOPLClassRefAssocCollection" tooltipText="" outgoingEdges="_5YxlgN0WEeSQ-sQNaQgo9Q" incomingEdges="_3s8KQN0gEeSQ-sQNaQgo9Q" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_5Yi8AN0WEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -20878,8 +20878,8 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_5YhG0N0WEeSQ-sQNaQgo9Q" name="kind : AssociativeCollectionKind = UNORDERED_SET" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/kind"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/kind"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/kind"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/kind"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_5Yht4N0WEeSQ-sQNaQgo9Q" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_5Yht4d0WEeSQ-sQNaQgo9Q"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -20890,8 +20890,8 @@
         </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_5YxlgN0WEeSQ-sQNaQgo9Q" name="[1..1] key" visible="false" sourceNode="_5YG3IN0WEeSQ-sQNaQgo9Q" targetNode="_0d62Jdg0EeSRHevzpvokqQ">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/key"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/key"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/key"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/key"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_2cdIxN6fEeSdkdK9JAnWrg" description="_2cdIwN6fEeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_2cdIxd6fEeSdkdK9JAnWrg"/>
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_2cdIxt6fEeSdkdK9JAnWrg" labelFormat="bold" showIcon="false">
@@ -23161,7 +23161,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_1F3JQN6fEeSdkdK9JAnWrg">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_1F3JQd6fEeSdkdK9JAnWrg" key="__0kndN3EEeSdkdK9JAnWrg">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_1F3JRd6fEeSdkdK9JAnWrg" value="_1F3JQt6fEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -23169,7 +23169,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_1F7asN6fEeSdkdK9JAnWrg">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_1F7asd6fEeSdkdK9JAnWrg" key="__0knlt3EEeSdkdK9JAnWrg">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_1F7atd6fEeSdkdK9JAnWrg" value="_1F7ast6fEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -24645,9 +24645,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__0knbd3EEeSdkdK9JAnWrg" name="OOPClass" visible="false" tooltipText="" outgoingEdges="__0kndN3EEeSdkdK9JAnWrg __0knrN3EEeSdkdK9JAnWrg" incomingEdges="__0kne93EEeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__0knbd3EEeSdkdK9JAnWrg" name="OOPLClass" visible="false" tooltipText="" outgoingEdges="__0kndN3EEeSdkdK9JAnWrg __0knrN3EEeSdkdK9JAnWrg" incomingEdges="__0kne93EEeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="__0knbt3EEeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -24665,8 +24665,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="__0kndN3EEeSdkdK9JAnWrg" name="[1..1] xtClass" visible="false" sourceNode="__0knbd3EEeSdkdK9JAnWrg" targetNode="__0kBAd3EEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_1F3JRt6fEeSdkdK9JAnWrg" description="_1F3JQt6fEeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_1F3JR96fEeSdkdK9JAnWrg"/>
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_1F3JSN6fEeSdkdK9JAnWrg" labelFormat="bold" showIcon="false">
@@ -24724,9 +24724,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__0knj93EEeSdkdK9JAnWrg" name="OOPRelation" visible="false" tooltipText="" outgoingEdges="__0knlt3EEeSdkdK9JAnWrg __0kntN3EEeSdkdK9JAnWrg" incomingEdges="__0knnt3EEeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__0knj93EEeSdkdK9JAnWrg" name="OOPLRelation" visible="false" tooltipText="" outgoingEdges="__0knlt3EEeSdkdK9JAnWrg __0kntN3EEeSdkdK9JAnWrg" incomingEdges="__0knnt3EEeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="__0knkN3EEeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -24744,8 +24744,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="__0knlt3EEeSdkdK9JAnWrg" name="[1..1] xtRelation" visible="false" sourceNode="__0knj93EEeSdkdK9JAnWrg" targetNode="__0knKt3EEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="__0knl93EEeSdkdK9JAnWrg"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_1F7att6fEeSdkdK9JAnWrg" description="_1F7ast6fEeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_1F7at96fEeSdkdK9JAnWrg"/>
@@ -24774,9 +24774,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__0knpd3EEeSdkdK9JAnWrg" name="OOPClassReferenceStorage" visible="false" tooltipText="" incomingEdges="__0knrN3EEeSdkdK9JAnWrg __0kntN3EEeSdkdK9JAnWrg __0knw93EEeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="__0knpd3EEeSdkdK9JAnWrg" name="OOPLClassReferenceStorage" visible="false" tooltipText="" incomingEdges="__0knrN3EEeSdkdK9JAnWrg __0kntN3EEeSdkdK9JAnWrg __0knw93EEeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="__0knpt3EEeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -24794,8 +24794,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="__0knrN3EEeSdkdK9JAnWrg" name="[0..*] referenceStorage" visible="false" sourceNode="__0knbd3EEeSdkdK9JAnWrg" targetNode="__0knpd3EEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/referenceStorage"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/referenceStorage"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/referenceStorage"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/referenceStorage"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="__0knrd3EEeSdkdK9JAnWrg"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="__0knrt3EEeSdkdK9JAnWrg" routingStyle="manhattan">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
@@ -24812,8 +24812,8 @@
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="__0kntN3EEeSdkdK9JAnWrg" name="[0..*] referenceStorage" visible="false" sourceNode="__0knj93EEeSdkdK9JAnWrg" targetNode="__0knpd3EEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/referenceStorage"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/referenceStorage"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/referenceStorage"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/referenceStorage"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="__0kntd3EEeSdkdK9JAnWrg"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="__0kntt3EEeSdkdK9JAnWrg" routingStyle="manhattan">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
@@ -27094,7 +27094,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_YGI6dd6ZEeSdkdK9JAnWrg">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_YGI6dt6ZEeSdkdK9JAnWrg" key="_YGJiyd6ZEeSdkdK9JAnWrg">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_YGI6d96ZEeSdkdK9JAnWrg" value="_YGI6Ad6ZEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -27102,7 +27102,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_YGI6eN6ZEeSdkdK9JAnWrg">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_YGI6ed6ZEeSdkdK9JAnWrg" key="_YGJi696ZEeSdkdK9JAnWrg">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_YGI6et6ZEeSdkdK9JAnWrg" value="_YGI6BN6ZEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -28567,9 +28567,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_YGJiwt6ZEeSdkdK9JAnWrg" name="OOPClass" visible="false" tooltipText="" outgoingEdges="_YGJiyd6ZEeSdkdK9JAnWrg _YGJjAd6ZEeSdkdK9JAnWrg" incomingEdges="_YGJi0N6ZEeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_YGJiwt6ZEeSdkdK9JAnWrg" name="OOPLClass" visible="false" tooltipText="" outgoingEdges="_YGJiyd6ZEeSdkdK9JAnWrg _YGJjAd6ZEeSdkdK9JAnWrg" incomingEdges="_YGJi0N6ZEeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_YGJiw96ZEeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -28587,8 +28587,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_YGJiyd6ZEeSdkdK9JAnWrg" name="[1..1] xtClass" visible="false" sourceNode="_YGJiwt6ZEeSdkdK9JAnWrg" targetNode="_YGJgu96ZEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/xtClass"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/xtClass"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_YGJiyt6ZEeSdkdK9JAnWrg" description="_YGI6Ad6ZEeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_YGJiy96ZEeSdkdK9JAnWrg"/>
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_YGJizN6ZEeSdkdK9JAnWrg" labelFormat="bold" showIcon="false">
@@ -28646,9 +28646,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_YGJi5N6ZEeSdkdK9JAnWrg" name="OOPRelation" visible="false" tooltipText="" outgoingEdges="_YGJi696ZEeSdkdK9JAnWrg _YGJjCd6ZEeSdkdK9JAnWrg" incomingEdges="_YGJi896ZEeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_YGJi5N6ZEeSdkdK9JAnWrg" name="OOPLRelation" visible="false" tooltipText="" outgoingEdges="_YGJi696ZEeSdkdK9JAnWrg _YGJjCd6ZEeSdkdK9JAnWrg" incomingEdges="_YGJi896ZEeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_YGJi5d6ZEeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -28666,8 +28666,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_YGJi696ZEeSdkdK9JAnWrg" name="[1..1] xtRelation" visible="false" sourceNode="_YGJi5N6ZEeSdkdK9JAnWrg" targetNode="_YGJif96ZEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/xtRelation"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/xtRelation"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_YGJi7N6ZEeSdkdK9JAnWrg"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_YGJi7d6ZEeSdkdK9JAnWrg" description="_YGI6BN6ZEeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_YGJi7t6ZEeSdkdK9JAnWrg"/>
@@ -28696,9 +28696,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_YGJi-t6ZEeSdkdK9JAnWrg" name="OOPClassReferenceStorage" visible="false" tooltipText="" incomingEdges="_YGJjAd6ZEeSdkdK9JAnWrg _YGJjCd6ZEeSdkdK9JAnWrg _YGJjGN6ZEeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReferenceStorage"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_YGJi-t6ZEeSdkdK9JAnWrg" name="OOPLClassReferenceStorage" visible="false" tooltipText="" incomingEdges="_YGJjAd6ZEeSdkdK9JAnWrg _YGJjCd6ZEeSdkdK9JAnWrg _YGJjGN6ZEeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_YGJi-96ZEeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -28716,8 +28716,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_YGJjAd6ZEeSdkdK9JAnWrg" name="[0..*] referenceStorage" visible="false" sourceNode="_YGJiwt6ZEeSdkdK9JAnWrg" targetNode="_YGJi-t6ZEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/referenceStorage"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClass/referenceStorage"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/referenceStorage"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass/referenceStorage"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_YGJjAt6ZEeSdkdK9JAnWrg"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_YGJjA96ZEeSdkdK9JAnWrg" routingStyle="manhattan">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
@@ -28734,8 +28734,8 @@
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_YGJjCd6ZEeSdkdK9JAnWrg" name="[0..*] referenceStorage" visible="false" sourceNode="_YGJi5N6ZEeSdkdK9JAnWrg" targetNode="_YGJi-t6ZEeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/referenceStorage"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPRelation/referenceStorage"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/referenceStorage"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation/referenceStorage"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_YGJjCt6ZEeSdkdK9JAnWrg"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_YGJjC96ZEeSdkdK9JAnWrg" routingStyle="manhattan">
           <description xmi:type="style:EdgeStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']/@style"/>
@@ -30977,7 +30977,7 @@
               </value>
             </value>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_LVTPmt6_EeSdkdK9JAnWrg">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/key"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/key"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_LVTPm96_EeSdkdK9JAnWrg" key="_LVT2vd6_EeSdkdK9JAnWrg">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_LVTPnN6_EeSdkdK9JAnWrg" value="_LVTPJN6_EeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="cppmodel.ecore#/"/>
@@ -32508,9 +32508,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_LVT2nt6_EeSdkdK9JAnWrg" name="OOPClassReference" visible="false" tooltipText="" incomingEdges="_LVT2xN6_EeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReference"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassReference"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_LVT2nt6_EeSdkdK9JAnWrg" name="OOPLClassReference" visible="false" tooltipText="" incomingEdges="_LVT2xN6_EeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_LVT2n96_EeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -32527,9 +32527,9 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_LVT2pd6_EeSdkdK9JAnWrg" name="OOPClassRefSimpleCollection" visible="false" tooltipText="" incomingEdges="_LVT29t6_EeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_LVT2pd6_EeSdkdK9JAnWrg" name="OOPLClassRefSimpleCollection" visible="false" tooltipText="" incomingEdges="_LVT29t6_EeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_LVT2pt6_EeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -32546,8 +32546,8 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_LVT2rN6_EeSdkdK9JAnWrg" name="kind : SimpleCollectionKind = SIMPLY_LINKED_LIST" visible="false" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection/kind"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefSimpleCollection/kind"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection/kind"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection/kind"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_LVT2rd6_EeSdkdK9JAnWrg" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_LVT2rt6_EeSdkdK9JAnWrg"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -32557,9 +32557,9 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_LVT2sd6_EeSdkdK9JAnWrg" name="OOPClassRefAssocCollection" visible="false" tooltipText="" outgoingEdges="_LVT2vd6_EeSdkdK9JAnWrg" incomingEdges="_LVT2_d6_EeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection"/>
+      <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_LVT2sd6_EeSdkdK9JAnWrg" name="OOPLClassRefAssocCollection" visible="false" tooltipText="" outgoingEdges="_LVT2vd6_EeSdkdK9JAnWrg" incomingEdges="_LVT2_d6_EeSdkdK9JAnWrg" width="12" height="10">
+        <target xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_LVT2st6_EeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -32576,8 +32576,8 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_LVT2uN6_EeSdkdK9JAnWrg" name="kind : AssociativeCollectionKind = UNORDERED_SET" visible="false" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/kind"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/kind"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/kind"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/kind"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_LVT2ud6_EeSdkdK9JAnWrg" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_LVT2ut6_EeSdkdK9JAnWrg"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -32588,8 +32588,8 @@
         </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_LVT2vd6_EeSdkdK9JAnWrg" name="[1..1] key" visible="false" sourceNode="_LVT2sd6_EeSdkdK9JAnWrg" targetNode="_LVT2DN6_EeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/key"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPClassRefAssocCollection/key"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/key"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection/key"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_LVT2vt6_EeSdkdK9JAnWrg" description="_LVTPJN6_EeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_LVT2v96_EeSdkdK9JAnWrg"/>
           <centerLabelStyle xmi:type="diagram:CenterLabelStyle" xmi:id="_LVT2wN6_EeSdkdK9JAnWrg" labelFormat="bold" showIcon="false">

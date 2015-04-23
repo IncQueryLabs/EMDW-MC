@@ -21,7 +21,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPModel" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonModel" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Model"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Model"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="declHeaderFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
@@ -36,7 +36,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPPackage" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtPackage" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPackage"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPackage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
@@ -50,7 +50,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPProtocol" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocol" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocol"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocol"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
   </eClassifiers>
@@ -98,7 +98,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPComponent" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtComponent" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTComponent"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTComponent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainHeaderFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainBodyFile" lowerBound="1"
@@ -127,11 +127,11 @@
   <eClassifiers xsi:type="ecore:EClass" name="CPPRelation" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
   <eClassifiers xsi:type="ecore:EClass" name="CPPOperation" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonOperation" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Operation"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Operation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPPort" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtPort" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPort"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPort"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderFile" eType="#//CPPHeaderFile"/>
@@ -142,16 +142,16 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPProtocolOperationDefinition" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationDefinition"
-        lowerBound="1" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationDefinition"/>
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationDefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPSignal" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonSignal" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Signal"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Signal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPProtocolOperationImplementation"
       eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationImplementation"
-        lowerBound="1" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationImplementation"/>
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationImplementation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPClassReference" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference #//CPPQualifiedNamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="CPPClassReferenceStorage" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
@@ -167,7 +167,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPAttribute" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonAttribute" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NameProvider" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="DerivedNameProvider" eSuperTypes="#//NameProvider">
@@ -175,23 +175,23 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ExistingNameProvider" eSuperTypes="#//NameProvider">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="commonNamedElement" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonNamedElement" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPState" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonState" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//State"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//State"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPTransition" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonTransition" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Transition"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Transition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPEvent" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtEvent" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTEvent"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTEvent"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPFormalParameter" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonParameter" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Parameter"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="passingMode" ordered="false"
         unique="false" lowerBound="1" eType="#//CPPParameterPassingKind" defaultValueLiteral="BY_VALUE"/>
   </eClassifiers>

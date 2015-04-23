@@ -2,11 +2,11 @@
 <viewpoint:DAnalysis xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style" xmi:id="_45htwNkxEeS1BrpXkezDhg" selectedViews="_5DPqcNkxEeS1BrpXkezDhg" version="8.1.1">
   <models xmi:type="ecore:EPackage" href="oopl.ecore#/"/>
   <models xmi:type="genmodel:GenModel" href="oopl.genmodel#/"/>
-  <models xmi:type="ecore:EPackage" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#/"/>
+  <models xmi:type="ecore:EPackage" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#/"/>
   <models xmi:type="ecore:EPackage" href="http://www.eclipse.org/emf/2002/Ecore#/"/>
-  <models xmi:type="genmodel:GenModel" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.genmodel#/"/>
-  <models xmi:type="ecore:EPackage" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#/"/>
-  <models xmi:type="genmodel:GenModel" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.genmodel#/"/>
+  <models xmi:type="genmodel:GenModel" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#/"/>
+  <models xmi:type="ecore:EPackage" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#/"/>
+  <models xmi:type="genmodel:GenModel" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#/"/>
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_5DPqcNkxEeS1BrpXkezDhg" initialized="true">
     <ownedRepresentations xmi:type="diagram:DSemanticDiagram" xmi:id="_5HPZoNkxEeS1BrpXkezDhg" name="oopl class diagram">
       <ownedAnnotationEntries xmi:type="description:AnnotationEntry" xmi:id="_5HQAsNkxEeS1BrpXkezDhg" source="GMF_DIAGRAMS">
@@ -267,7 +267,7 @@
           <cache xmi:type="diagram:DiagramElementMapping2ModelElement" xmi:id="_1fehQ90tEeSQ-sQNaQgo9Q">
             <key xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_1fehRN0tEeSQ-sQNaQgo9Q">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass/relations"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass/relations"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_1ffIUN0tEeSQ-sQNaQgo9Q" key="_1fehQN0tEeSQ-sQNaQgo9Q">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_9LthI97CEeSdkdK9JAnWrg" value="_9LthIN7CEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="oopl.ecore#/"/>
@@ -317,8 +317,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_iGdQcNnzEeStCoUidseI5g" name="XTClass" tooltipText="" outgoingEdges="_1fehQN0tEeSQ-sQNaQgo9Q" incomingEdges="_oF2AANnzEeStCoUidseI5g" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
+        <target xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_iHSW4NnzEeStCoUidseI5g">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -396,8 +396,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_1fZowN0tEeSQ-sQNaQgo9Q" name="XTRelation" tooltipText="" outgoingEdges="_oIRiQN2_EeSdkdK9JAnWrg" incomingEdges="_1fehQN0tEeSQ-sQNaQgo9Q _6i-3YN0tEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
+        <target xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_1fdTIN0tEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -414,8 +414,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_1fehQN0tEeSQ-sQNaQgo9Q" name="[0..*] relations" visible="false" sourceNode="_iGdQcNnzEeStCoUidseI5g" targetNode="_1fZowN0tEeSQ-sQNaQgo9Q">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass/relations"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass/relations"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass/relations"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass/relations"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_2H1hwN0tEeSQ-sQNaQgo9Q"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_9LthJN7CEeSdkdK9JAnWrg" description="_9LthIN7CEeSdkdK9JAnWrg" sourceArrow="FillDiamond" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_9LthJd7CEeSdkdK9JAnWrg"/>
@@ -460,8 +460,8 @@
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_oH7kAN2_EeSdkdK9JAnWrg" name="NamedElement" visible="false" tooltipText="" incomingEdges="_oIRiQN2_EeSdkdK9JAnWrg" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
+        <target xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_oINQ0N2_EeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -478,8 +478,8 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_oILboN2_EeSdkdK9JAnWrg" name="name : EString" visible="false" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement/name"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement/name"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement/name"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement/name"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_oIMCsN2_EeSdkdK9JAnWrg" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_oIMCsd2_EeSdkdK9JAnWrg"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -489,8 +489,8 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_oIMpwN2_EeSdkdK9JAnWrg" name="description : EString" visible="false" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement/description"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//NamedElement/description"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement/description"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement/description"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_oIMpwd2_EeSdkdK9JAnWrg" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_oIMpwt2_EeSdkdK9JAnWrg"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -501,8 +501,8 @@
         </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_oIRiQN2_EeSdkdK9JAnWrg" visible="false" sourceNode="_1fZowN0tEeSQ-sQNaQgo9Q" targetNode="_oH7kAN2_EeSdkdK9JAnWrg">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
-        <semanticElements xmi:type="ecore:EGenericType" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation/@eGenericSuperTypes.0"/>
+        <target xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
+        <semanticElements xmi:type="ecore:EGenericType" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation/@eGenericSuperTypes.0"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_q-JjMN2_EeSdkdK9JAnWrg">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -890,7 +890,7 @@
           <cache xmi:type="diagram:DiagramElementMapping2ModelElement" xmi:id="_Ql79kNz0EeSQ-sQNaQgo9Q">
             <key xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
             <value xmi:type="diagram:ModelElement2ViewVariable" xmi:id="_KgbB8N0iEeSQ-sQNaQgo9Q">
-              <key xmi:type="ecore:EReference" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/type"/>
+              <key xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/type"/>
               <value xmi:type="diagram:ViewVariable2ContainerVariable" xmi:id="_KgbB8d0iEeSQ-sQNaQgo9Q" key="_fZK4oN0FEeSQ-sQNaQgo9Q">
                 <value xmi:type="diagram:ContainerVariable2StyleDescription" xmi:id="_GQ3u397DEeSdkdK9JAnWrg" value="_GQ3u3N7DEeSdkdK9JAnWrg">
                   <key xmi:type="ecore:EPackage" href="oopl.ecore#/"/>
@@ -978,8 +978,8 @@
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_EncLQNz0EeSQ-sQNaQgo9Q" name="Type" tooltipText="" incomingEdges="_NSZJMNz0EeSQ-sQNaQgo9Q _fZK4oN0FEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Type"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Type"/>
+        <target xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Type"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Type"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_En1z4Nz0EeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -1122,8 +1122,8 @@
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC%20ESupertypes']"/>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DNodeList" xmi:id="_fYva0N0FEeSQ-sQNaQgo9Q" name="Attribute" tooltipText="" outgoingEdges="_fZK4oN0FEeSQ-sQNaQgo9Q" incomingEdges="_vWIroN0FEeSQ-sQNaQgo9Q" width="12" height="10">
-        <target xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute"/>
-        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+        <target xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+        <semanticElements xmi:type="ecore:EClass" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
         <decorations xmi:type="viewpoint:Decoration" xmi:id="_fZJqgN0FEeSQ-sQNaQgo9Q">
           <description xmi:type="description:SemanticBasedDecoration" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@decorationDescriptionsSet/@decorationDescriptions[name='External']"/>
         </decorations>
@@ -1139,8 +1139,8 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_fY-EUN0FEeSQ-sQNaQgo9Q" name="visibility : VisibilityKind = PUBLIC" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/visibility"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/visibility"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/visibility"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/visibility"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_fZEyAN0FEeSQ-sQNaQgo9Q" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_fZEyAd0FEeSQ-sQNaQgo9Q"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -1150,8 +1150,8 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_fZHOQN0FEeSQ-sQNaQgo9Q" name="default : EString" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/default"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/default"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/default"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/default"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_fZH1UN0FEeSQ-sQNaQgo9Q" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_fZH1Ud0FEeSQ-sQNaQgo9Q"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -1161,8 +1161,8 @@
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
         <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_fZIcYN0FEeSQ-sQNaQgo9Q" name="static : EBoolean = false" tooltipText="">
-          <target xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/static"/>
-          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/static"/>
+          <target xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/static"/>
+          <semanticElements xmi:type="ecore:EAttribute" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/static"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_fZIcYd0FEeSQ-sQNaQgo9Q" labelAlignment="LEFT">
             <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_fZIcYt0FEeSQ-sQNaQgo9Q"/>
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']/@style"/>
@@ -1173,8 +1173,8 @@
         </ownedElements>
       </ownedDiagramElements>
       <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_fZK4oN0FEeSQ-sQNaQgo9Q" name="[1..1] type" visible="false" sourceNode="_fYva0N0FEeSQ-sQNaQgo9Q" targetNode="_EncLQNz0EeSQ-sQNaQgo9Q">
-        <target xmi:type="ecore:EReference" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/type"/>
-        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute/type"/>
+        <target xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/type"/>
+        <semanticElements xmi:type="ecore:EReference" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute/type"/>
         <graphicalFilters xmi:type="diagram:HideFilter" xmi:id="_pKeaoN0FEeSQ-sQNaQgo9Q"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_GQ3u4N7DEeSdkdK9JAnWrg" description="_GQ3u3N7DEeSdkdK9JAnWrg" routingStyle="manhattan">
           <strokeColor xmi:type="viewpoint:RGBValues" xmi:id="_GQ3u4d7DEeSdkdK9JAnWrg"/>

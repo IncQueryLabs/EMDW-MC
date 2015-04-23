@@ -8,6 +8,10 @@
   <models xmi:type="genmodel:GenModel" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#/"/>
   <models xmi:type="genmodel:GenModel" href="platform:/resource/com.zeligsoft.xtumlrt.common.model/model/common.genmodel#/"/>
   <models xmi:type="genmodel:GenModel" href="platform:/resource/com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.genmodel#/"/>
+  <models xmi:type="ecore:EPackage" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#/"/>
+  <models xmi:type="ecore:EPackage" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#/"/>
+  <models xmi:type="genmodel:GenModel" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#/"/>
+  <models xmi:type="genmodel:GenModel" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#/"/>
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_6JD9EM7rEeS3VI6j6-KGPw" initialized="true">
     <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Review']"/>
   </ownedViews>

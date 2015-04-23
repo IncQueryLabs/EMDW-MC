@@ -3,24 +3,24 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="oopl" nsURI="http://www.zeligsoft.com/xtumlrt/oopl" nsPrefix="oopl">
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClass" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Representation of XTUML class ({@link com.zeligsoft.xtumlrt.xtuml.model.XTClass}) for OOP languages."/>
+      <details key="documentation" value="Representation of XTUML class ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.model.XTClass}) for OOP languages."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtClass" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="referenceStorage" upperBound="-1"
         eType="#//OOPLClassReferenceStorage"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLType" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Representation of common type ({@link com.zeligsoft.xtumlrt.common.model.Type}) for OOP languages."/>
+      <details key="documentation" value="Representation of common type ({@link org.eclipse.papyrusrt.xtumlrt.common.model.Type}) for OOP languages."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonType" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Type"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassReference" abstract="true"
       eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Reference type in OOP languages to store reference to the OOP representation of a model class ({@link com.zeligsoft.xtumlrt.oopl.model.OOPClass})."/>
+      <details key="documentation" value="Reference type in OOP languages to store reference to the OOP representation of a model class ({@link org.eclipse.papyrusrt.xtumlrt.oopl.model.OOPClass})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="class" lowerBound="1" eType="#//OOPLClass"/>
   </eClassifiers>
@@ -35,7 +35,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefAssocCollection" abstract="true"
       eSuperTypes="#//OOPLClassReferenceCollection">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="ecore:EClass ../../com.zeligsoft.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="key" lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false" unique="false"
         eType="#//AssociativeCollectionKind" defaultValueLiteral="UNORDERED_SET"/>
   </eClassifiers>
@@ -57,16 +57,16 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassReferenceStorage" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Storage for references of a class ({@link com.zeligsoft.xtumlrt.oopl.model.OOPClass}) for queries that are made directly on the class or for a relation ({@link com.zeligsoft.xtumlrt.oopl.model.OOPRelation}) if queries are made across the relation. Storage may be a single reference (for signleton classes and x-to-one relations) or a collection of references (for all other classes and x-to-many relations). Multiple storages for the same class or relation are possible if different queries require different access to the references (e.g. maps with different keys)."/>
+      <details key="documentation" value="Storage for references of a class ({@link org.eclipse.papyrusrt.xtumlrt.oopl.model.OOPClass}) for queries that are made directly on the class or for a relation ({@link org.eclipse.papyrusrt.xtumlrt.oopl.model.OOPRelation}) if queries are made across the relation. Storage may be a single reference (for signleton classes and x-to-one relations) or a collection of references (for all other classes and x-to-many relations). Multiple storages for the same class or relation are possible if different queries require different access to the references (e.g. maps with different keys)."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLRelation" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Representation of XTUML relation ({@link com.zeligsoft.xtumlrt.xtuml.model.XTRelation}) for OOP languages."/>
+      <details key="documentation" value="Representation of XTUML relation ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.model.XTRelation}) for OOP languages."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtRelation" lowerBound="1"
-        eType="ecore:EClass ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTRelation"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="referenceStorage" upperBound="-1"
         eType="#//OOPLClassReferenceStorage"/>
   </eClassifiers>

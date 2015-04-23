@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.ericsson.xtumlrt.oopl.model/src" modelPluginID="com.ericsson.xtumlrt.oopl.model"
     modelName="Oopl" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
-    usedGenPackages="../../com.zeligsoft.xtumlrt.common.model/model/common.genmodel#//common ../../com.zeligsoft.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
+    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
     operationReflection="true" importOrganizing="true">
   <foreignModel>oopl.ecore</foreignModel>
   <genPackages prefix="Oopl" basePackage="com.ericsson.xtumlrt" disposableProviderFactory="true"

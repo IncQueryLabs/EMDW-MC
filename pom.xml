@@ -25,7 +25,7 @@
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
-		<xtumlrt.repository.url>https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-metamodels-maven/lastSuccessfulBuild/artifact/com.zeligsoft.xtumlrt.releng/target/repository</xtumlrt.repository.url>
+		<xtumlrt.repository.url>https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-metamodels-maven/lastSuccessfulBuild/artifact/org.eclipse.papyrusrt.releng/target/repository</xtumlrt.repository.url>
 	</properties>
 	<repositories>
 		<repository>

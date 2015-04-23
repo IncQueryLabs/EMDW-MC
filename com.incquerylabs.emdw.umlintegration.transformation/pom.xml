@@ -40,10 +40,10 @@
 							<packageClass>org.eclipse.uml2.types.TypesPackage</packageClass>
 						</metamodel>
 						<metamodel>
-							<packageClass>com.zeligsoft.xtumlrt.common.CommonPackage</packageClass>
+							<packageClass>org.eclipse.papyrusrt.xtumlrt.common.CommonPackage</packageClass>
 						</metamodel>
 						<metamodel>
-							<packageClass>com.zeligsoft.xtumlrt.xtuml.XtumlPackage</packageClass>
+							<packageClass>org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage</packageClass>
 						</metamodel>
 						<metamodel>
 							<packageClass>com.incquerylabs.emdw.umlintegration.trace.TracePackage</packageClass>
@@ -63,12 +63,12 @@
 					</dependency>
 					<dependency>
 						<groupId>com.zeligsoft.xtumlrt</groupId>
-						<artifactId>com.zeligsoft.xtumlrt.common.model</artifactId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
 						<version>0.4.0-SNAPSHOT</version>
 					</dependency>
 					<dependency>
 						<groupId>com.zeligsoft.xtumlrt</groupId>
-						<artifactId>com.zeligsoft.xtumlrt.xtuml.model</artifactId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
 						<version>0.4.0-SNAPSHOT</version>
 					</dependency>
 					<dependency>

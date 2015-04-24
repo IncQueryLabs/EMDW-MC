@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.transformation.queries
 
-import "http://www.zeligsoft.com/xtumlrt/common"
-import "http://www.zeligsoft.com/xtumlrt/xtuml"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.zeligsoft.com/xtumlrt/oopl"
 

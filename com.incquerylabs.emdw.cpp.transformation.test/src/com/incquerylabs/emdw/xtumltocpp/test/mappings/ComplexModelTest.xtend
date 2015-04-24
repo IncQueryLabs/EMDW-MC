@@ -4,13 +4,13 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.xtumltocpp.test.TransformationTest
 import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
-import com.zeligsoft.xtumlrt.common.DirectionKind
-import com.zeligsoft.xtumlrt.common.Model
-import com.zeligsoft.xtumlrt.common.VisibilityKind
-import com.zeligsoft.xtumlrt.xtuml.XTClass
 import java.util.Collections
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 

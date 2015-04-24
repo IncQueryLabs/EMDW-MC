@@ -1,41 +1,41 @@
-package com.incquerylabs.emdw.cpp.transformation
+package com.incquerylabs.emdw.cpp.codegeneration
 
 import com.google.common.base.Stopwatch
-import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import com.incquerylabs.emdw.cpp.transformation.util.RuleProvider
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.codegeneration.util.RuleProvider
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 
-class XtumlComponentCPPTransformation {
+class CPPCodeGeneration {
 
 	extension val Logger logger = Logger.getLogger(class)
-	static val xtUmlQueries = XtumlQueries.instance
+	static val codeGenQueries = CppCodeGenerationQueries.instance
 	private var initialized = false;
 
-	Model xtUmlModel
-	IncQueryEngine engine
 	BatchTransformation transform
+	IncQueryEngine engine
 	RuleProvider ruleProvider
+	CPPModel cppModel
 	extension BatchTransformationStatements statements
 	
 
-	def initialize(Model xtUmlModel, IncQueryEngine engine) {
-		checkArgument(xtUmlModel != null, "XTUML Model cannot be null!")
+	def initialize(CPPModel cppModel, IncQueryEngine engine) {
+		checkArgument(cppModel != null, "CPP Model cannot be null!")
 		checkArgument(engine != null, "Engine cannot be null!")
 		if (!initialized) {
-			this.xtUmlModel = xtUmlModel
+			this.cppModel = cppModel
 			this.engine = engine
 
 			debug("Preparing queries on engine.")
 			var watch = Stopwatch.createStarted
-			val queries = GenericPatternGroup.of(xtUmlQueries)
+			val queries = GenericPatternGroup.of(codeGenQueries)
 			queries.prepare(engine)
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
@@ -52,11 +52,8 @@ class XtumlComponentCPPTransformation {
 	}
 
 	def execute() {
-			info('''Executing transformation on «xtUmlModel.name»''')
+			info('''Executing transformation on «cppModel.commonModel.name»''')
 			val watch = Stopwatch.createStarted
-			statements.fireAllCurrent(ruleProvider.stateRule)
-			statements.fireAllCurrent(ruleProvider.transitionRule)
-			statements.fireAllCurrent(ruleProvider.eventRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

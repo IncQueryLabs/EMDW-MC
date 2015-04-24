@@ -25,6 +25,10 @@
 		<!-- Ignored tests because they are incomplete and failing
 		<module>com.incquerylabs.emdw.cpp.transformation.test</module>
 		-->
+		
+		<!-- CPP code generation -->
+		<module>com.incquerylabs.emdw.cpp.codegeneration</module>
+		
 	</modules>
 
 	<properties>

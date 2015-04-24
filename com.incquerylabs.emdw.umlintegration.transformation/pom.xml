@@ -4,8 +4,8 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>com.incquerylabs.emdw.umlintegration</groupId>
-		<artifactId>com.incquerylabs.emdw.umlintegration</artifactId>
+		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.incquerylabs.emdw</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>com.incquerylabs.emdw.umlintegration.transformation</artifactId>
@@ -72,7 +72,7 @@
 						<version>0.5.0-SNAPSHOT</version>
 					</dependency>
 					<dependency>
-						<groupId>com.incquerylabs.emdw.umlintegration</groupId>
+						<groupId>com.incquerylabs.emdw</groupId>
 						<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
 						<version>1.0.0-SNAPSHOT</version>
 					</dependency>

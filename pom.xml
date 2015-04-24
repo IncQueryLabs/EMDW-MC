@@ -3,19 +3,28 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.incquerylabs.emdw.umlintegration</groupId>
-	<artifactId>com.incquerylabs.emdw.umlintegration</artifactId>
+	<groupId>com.incquerylabs.emdw</groupId>
+	<artifactId>com.incquerylabs.emdw</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
+		<!-- Metamodels -->
 		<module>com.ericsson.xtumlrt.oopl.model</module>
 		<module>com.ericsson.xtumlrt.oopl.cpp.model</module>
 		<module>com.ericsson.xtumlrt.oopl.java.model</module>
+		
+		<!-- UML integration -->
 		<module>com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>com.incquerylabs.emdw.umlintegration.transformation</module>
 		<module>com.incquerylabs.emdw.umlintegration.transformation.test</module>
 		<module>com.incquerylabs.emdw.umlintegration.papyrus</module>
+
+		<!-- XTUML-CPP transformation -->
+		<module>com.incquerylabs.emdw.cpp.transformation</module>
+		<!-- Ignored tests because they are incomplete and failing
+		<module>com.incquerylabs.emdw.cpp.transformation.test</module>
+		-->
 	</modules>
 
 	<properties>

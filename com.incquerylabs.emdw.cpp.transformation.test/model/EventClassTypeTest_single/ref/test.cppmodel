@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml">
+  <cpp:CPPModel nameProvider="/1">
+    <subElements xsi:type="cpp:CPPPackage" nameProvider="/3">
+      <subElements xsi:type="cpp:CPPComponent" nameProvider="/4" mainHeaderFile="/2/@subDirectories.0/@subDirectories.0/@files.0" mainBodyFile="/2/@subDirectories.0/@subDirectories.0/@files.1" declHeaderFile="/2/@subDirectories.0/@subDirectories.0/@files.2" defHeaderFile="/2/@subDirectories.0/@subDirectories.0/@files.3">
+        <subElements xsi:type="cpp:CPPClass" nameProvider="/5" headerFile="/2/@subDirectories.0/@subDirectories.0/@subDirectories.0/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.0/@subDirectories.0/@files.1">
+          <subElements xsi:type="cpp:CPPEvent" nameProvider="/10">
+            <xtEvent xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@events.0"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPState" nameProvider="/11">
+            <commonState href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.0"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPState" nameProvider="/12">
+            <commonState href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.1"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPTransition" nameProvider="/13">
+            <commonTransition href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPTransition" nameProvider="/14">
+            <commonTransition href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
+          </subElements>
+          <xtClass href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0"/>
+        </subElements>
+        <subElements xsi:type="cpp:CPPClass" nameProvider="/6" headerFile="/2/@subDirectories.0/@subDirectories.1/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.1/@files.1">
+          <xtClass href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0"/>
+        </subElements>
+        <subElements xsi:type="cpp:CPPPort" nameProvider="/9" headerFile="/2/@subDirectories.0/@subDirectories.0/@subDirectories.1/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.0/@subDirectories.1/@files.1">
+          <xtPort href="test.xtumlrt#//@rootPackages.1/@entities.0/@ports.0"/>
+        </subElements>
+        <xtComponent href="test.xtumlrt#//@rootPackages.1/@entities.0"/>
+      </subElements>
+      <subElements xsi:type="cpp:CPPProtocol" nameProvider="/7" headerFile="/2/@subDirectories.0/@subDirectories.2/@files.0">
+        <subElements xsi:type="cpp:CPPSignal" nameProvider="/8">
+          <commonSignal href="test.xtumlrt#//@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.0"/>
+        </subElements>
+        <xtProtocol href="test.xtumlrt#//@rootPackages.1/@protocols.0"/>
+      </subElements>
+      <xtPackage href="test.xtumlrt#//@rootPackages.1"/>
+    </subElements>
+    <commonModel href="test.xtumlrt#/"/>
+  </cpp:CPPModel>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="common:Model" href="test.xtumlrt#/"/>
+  </cpp:ExistingNameProvider>
+  <cpp:CPPDirectory>
+    <subDirectories>
+      <subDirectories>
+        <subDirectories>
+          <files xsi:type="cpp:CPPHeaderFile"/>
+          <files xsi:type="cpp:CPPBodyFile"/>
+        </subDirectories>
+        <subDirectories>
+          <files xsi:type="cpp:CPPHeaderFile"/>
+          <files xsi:type="cpp:CPPBodyFile"/>
+        </subDirectories>
+        <files xsi:type="cpp:CPPHeaderFile"/>
+        <files xsi:type="cpp:CPPBodyFile"/>
+        <files xsi:type="cpp:CPPHeaderFile"/>
+        <files xsi:type="cpp:CPPHeaderFile"/>
+      </subDirectories>
+      <subDirectories>
+        <files xsi:type="cpp:CPPHeaderFile"/>
+        <files xsi:type="cpp:CPPBodyFile"/>
+      </subDirectories>
+      <subDirectories>
+        <files xsi:type="cpp:CPPHeaderFile"/>
+      </subDirectories>
+    </subDirectories>
+  </cpp:CPPDirectory>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTPackage" href="test.xtumlrt#//@rootPackages.1"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTComponent" href="test.xtumlrt#//@rootPackages.1/@entities.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTClass" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTClass" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTProtocol" href="test.xtumlrt#//@rootPackages.1/@protocols.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="common:Signal" href="test.xtumlrt#//@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTPort" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ports.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@events.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.1"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
+  </cpp:ExistingNameProvider>
+  <cpp:ExistingNameProvider>
+    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#//@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
+  </cpp:ExistingNameProvider>
+</xmi:XMI>

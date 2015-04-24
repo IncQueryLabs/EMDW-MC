@@ -26,8 +26,9 @@ class EventSelfSendPriorityTest extends TransformationTest<XTClass, CPPClass> {
 		val aClass = aComponent.createXtClass("AClass")
 		val bComponent = pack.createXtComponent("BComponent")
 		val bClass = bComponent.createXtClass("BClass")
-		
-		val primitiveType = pack.createTypeDefinition("IntDefinition").createPrimitiveType("Integer")
+		val typedef = pack.createTypeDefinition("IntDefinition")
+		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+
 		aClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false,"i")
 		bClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false,"i")
 		

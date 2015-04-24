@@ -22,7 +22,8 @@ class EventUserDefinedTypeTest extends TransformationTest<XTClass, CPPClass> {
 
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		val pack = xtumlmodel.createXtPackage("RootPackage")
-		val userDefinedType = pack.createTypeDefinition("UserTypeDefinition").createXTUserDefinedType("UserType")
+		val typedef = pack.createTypeDefinition("UserTypeDefinition")
+		val userDefinedType = pack.createXTUserDefinedType(typedef, "UserType")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")

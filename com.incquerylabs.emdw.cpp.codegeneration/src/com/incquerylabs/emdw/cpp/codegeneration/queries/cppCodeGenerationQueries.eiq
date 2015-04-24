@@ -56,3 +56,16 @@ pattern classStateMachineEvents(
 	Transition.triggers(transition, trigger);
 	XTEventTrigger.signal(trigger, event);
 }
+
+pattern cppTransitionInfo(
+	cppTransition : CPPTransition,
+	transition : Transition,
+	cppSource : CPPState,
+	cppTarget : CPPState	
+) {
+	CPPTransition.commonTransition(cppTransition, transition);
+	CPPState.commonState(cppSource, source);
+	CPPState.commonState(cppTarget, target);
+	Transition.sourceVertex(transition, source);
+	Transition.targetVertex(transition, target);
+}

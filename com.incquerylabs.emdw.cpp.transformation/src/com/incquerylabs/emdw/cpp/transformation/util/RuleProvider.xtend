@@ -7,6 +7,7 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
+import com.ericsson.xtumlrt.oopl.OoplFactory
 
 class RuleProvider {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -14,6 +15,7 @@ class RuleProvider {
 	extension val Logger logger = Logger.getLogger(class)
 	extension BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	
 	IncQueryEngine engine
@@ -25,6 +27,7 @@ class RuleProvider {
 		val state = match.state
 		val cppState = createCPPState => [
 			commonState = state
+			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = state ]
 		]
 		match.cppClass.subElements += cppState
 		trace('''Mapped State «state.name» in state machine of «match.xtClass.name» to CPPState''')
@@ -34,6 +37,7 @@ class RuleProvider {
 		val transition = match.transition
 		val cppTransition = createCPPTransition => [
 			commonTransition = transition
+			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = transition ]
 		]
 		match.cppClass.subElements += cppTransition
 		trace('''Mapped Transition «transition.name» in state machine of «match.xtClass.name» to CPPTransition''')
@@ -43,6 +47,7 @@ class RuleProvider {
 		val event = match.event
 		val cppEvent = createCPPEvent => [
 			xtEvent = event
+			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = event ]
 		]
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')

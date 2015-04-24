@@ -6,7 +6,8 @@
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ooplNameProvider" lowerBound="1"
-        eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLNameProvider"/>
+        eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLNameProvider"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPQualifiedNamedElement" abstract="true"
       eSuperTypes="#//CPPNamedElement">

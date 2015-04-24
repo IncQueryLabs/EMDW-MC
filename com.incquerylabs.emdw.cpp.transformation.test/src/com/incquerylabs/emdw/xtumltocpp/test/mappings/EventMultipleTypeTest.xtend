@@ -8,12 +8,58 @@ import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.xtumltocpp.test.TransformationTestUtil.*
 
-@RunWith(Parameterized)
+/**
+ * Test case which is responsible for checking if the given transformation method is 
+ * capable of creating a cpp structure model which can later be used to determine whether
+ * in case of multiple transitions leading to a single state, the correct dynamic behavior
+ * is invoked and the signal parameters can be accessed correctly
+ * 
+ * Also generates xtumlrt and cpp instance models in the model/EventClassTypeTest/ref 
+ * folder, which can be later used as reference.
+ * 
+ * Creates the following xtuml model and initiates the target CPP model bsed on it.
+ * 
+ * - Package
+ * 	 - Component
+ * 		- Port
+ * 		- Class
+ * 			- SignalEvent1 based on Signal1
+ *		 	- SignalEvent2 based on Signal2
+ *			- SignalEvent3 based on Signal3
+ * 			- State Machine
+ * 				- Region
+ * 					- Init state
+ * 					- State1 with an exit action
+ * 					- State2 with an entry action
+ * 					- State3
+ * 					- State4
+ * 					- State5 
+ * 					- Transition1 between init and State1
+ * 					- Transition2 between State1 and State2 with action code, triggered by SignalEvent1
+ * 					- Transition3 between State1 and State3 with action code, triggered by SignalEvent2
+ * 					- Transition4 between State1 and State4 with action code, triggered by SignalEvent3
+ * 					- Transition5 between State2 and State5 with action code, triggered by SignalEvent1
+ * 					- Transition6 between State3 and State5 with action code, triggered by SignalEvent2
+ * 					- Transition7 between State4 and State5 with action code, triggered by SignalEvent3
+ * 	 - Primitive Type definition
+ * 	 - User defined Type definition		
+ * 	 - Class Type definition
+ * 	 - Protocol
+ * 		- Signal1
+ * 			-Class Type parameter
+ * 		- Signal2
+ * 			-Primitive Type parameter
+ * 		- Signal3
+ * 			-User Defined Type parameter
+ */
+ @RunWith(Parameterized)
 class EventMultipleTypeTest extends TransformationTest<XTClass, CPPClass> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -53,7 +99,6 @@ class EventMultipleTypeTest extends TransformationTest<XTClass, CPPClass> {
 		
 		
 		val init = topState.createInitialPoint("init")
-		val exit = topState.createExitPoint("exit")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
 		val s3 = topState.createSimpleState("s3")
@@ -71,14 +116,20 @@ class EventMultipleTypeTest extends TransformationTest<XTClass, CPPClass> {
 		topState.createTransition(s2,s5,"t2", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(primitiveEvent, "Trigger")
 		topState.createTransition(s3,s5,"t3", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(userDefinedEvent, "Trigger")
 		topState.createTransition(s4,s5,"t1", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(classEvent, "Trigger")
-		
-		topState.createTransition(s5,exit,"t2")
 
 		xtClass
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val xtmodel = cppModel.commonModel
+		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val xtComponent = xtPackage.entities.head as XTComponent
+		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		val xtClass = xtComponent.ownedClasses.head as XTClass
+		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		
+		cppClass
 	}
 	
 	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {

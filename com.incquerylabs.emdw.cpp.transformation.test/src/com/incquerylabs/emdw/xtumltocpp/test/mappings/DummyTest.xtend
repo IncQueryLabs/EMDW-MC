@@ -19,11 +19,11 @@ class DummyTest extends TransformationTest<XTClass, CPPClass> {
 	}
 	
 	override protected prepareXtUmlModel(Model xtumlmodel) {
-		//throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-//		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {

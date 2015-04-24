@@ -16,8 +16,20 @@ import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.xtumltocpp.test.TransformationTestUtil.*
 
+/**
+ * This test case generates a complex instance model, providing 
+ * a reference for future transformation development
+ * 
+ * Contains: 
+ * 	Multiple type definitions
+ * 	Multiple components with classes and state machines
+ * 	Multiple signal events
+ * 	Complex, multi-layer state machines
+ * 
+ * The generated instance model can be found in the model/GenerateComplexModelTest_single/ref folder
+ */
 @RunWith(Parameterized)
-class ComplexModelTest extends TransformationTest<XTClass, CPPClass> {
+class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)

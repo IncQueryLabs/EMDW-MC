@@ -7,11 +7,40 @@ import com.incquerylabs.emdw.xtumltocpp.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.xtumltocpp.test.TransformationTestUtil.*
 
+/**
+ * Test case which is responsible for checking if the given transformation method is 
+ * capable of creating a cpp structure model which can later be used to determine whether
+ * the dynamics of destructor methods work properly.
+ * 
+ * Creates the following xtuml model and initiates the target CPP model based on it.
+ * 
+ * - Package
+ * 	 - Component
+ * 		- Port
+ * 		- Class
+ * 			- a : Attribute with Primitive Type
+ * 			- b : Attribute with User Defined Type
+ * 			- ~TestClass(a,b) : Destructor operation with two attributes
+ * 			- SignalEvent based on Signal
+ * 			- State Machine
+ * 				- Region
+ * 					- Init state
+ * 					- State1
+ * 					- State2
+ * 					- Transition1 between init and State1
+ * 					- Transition2	between State1 and State2 triggered by SignalEvent		
+ * 	 - Primitive Type definition
+ * 	 - User defined Type definition
+ * 	 - Protocol
+ * 		- Signal
+ */
 @RunWith(Parameterized)
 class ClassDestructorTest extends TransformationTest<XTClass, CPPClass> {
 
@@ -40,18 +69,24 @@ class ClassDestructorTest extends TransformationTest<XTClass, CPPClass> {
 		val signal = protocol.createSignal("Signal")
 		val signalEvent	 = component.createPort(protocol,"Port", VisibilityKind.PUBLIC).createXtSignalEvent(signal,xtClass,"SignalEvent")
 		val init = topState.createInitialPoint("init")
-		val exit = topState.createExitPoint("exit")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
 		topState.createTransition(init,s1,"t1")
 		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
-		topState.createTransition(s2,exit,"t3")
 
 		xtClass
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val xtmodel = cppModel.commonModel
+		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val xtComponent = xtPackage.entities.head as XTComponent
+		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		val xtClass = xtComponent.ownedClasses.head as XTClass
+		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		
+		cppClass
 	}
 	
 	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {

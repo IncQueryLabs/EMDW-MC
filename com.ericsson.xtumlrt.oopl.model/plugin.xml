@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated oopl -->
       <package
-            uri="http://www.zeligsoft.com/xtumlrt/oopl"
+            uri="http://www.ericsson.com/xtumlrt/oopl"
             class="com.ericsson.xtumlrt.oopl.OoplPackage"
             genModel="model/oopl.genmodel"/>
    </extension>

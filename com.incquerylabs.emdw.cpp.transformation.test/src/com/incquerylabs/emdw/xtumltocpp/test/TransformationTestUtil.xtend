@@ -47,6 +47,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTTypeConstraint
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
+import com.ericsson.xtumlrt.oopl.OoplFactory
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -56,6 +57,7 @@ class TransformationTestUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	static extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 
 	public static val CPP_LANGUAGE = "C++"
 	public static val TEST_SIDE_EFFECT_1 = '''cout << "foo";'''
@@ -443,10 +445,10 @@ class TransformationTestUtil {
 	}
 	
 	static def createCPPModel(Resource cppResource, Model xtModel) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtModel ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
 		val cppModel = cppFactory.createCPPModel => [
 			commonModel = xtModel
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		cppResource.contents += cppModel
 		cppResource.contents+=provider
@@ -482,10 +484,10 @@ class TransformationTestUtil {
 	}
 
 	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, XTPackage xtpackage) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtpackage ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.xtPackage = xtpackage
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppPackage
 		root.eResource.contents+= provider
@@ -493,11 +495,11 @@ class TransformationTestUtil {
 	}
 
 	static def CPPProtocol createCPPProtocol(CPPQualifiedNamedElement root, XTProtocol protocol, CPPHeaderFile header) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = protocol ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = protocol ]
 		val cppProtocol = cppFactory.createCPPProtocol => [
 			it.xtProtocol = protocol
 			it.headerFile = header
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppProtocol
 		root.eResource.contents+= provider
@@ -505,10 +507,10 @@ class TransformationTestUtil {
 	}
 
 	static def CPPSignal createCPPSignal(CPPQualifiedNamedElement root, Signal signal) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = signal ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = signal ]
 		val cppSignal = cppFactory.createCPPSignal => [
 			it.commonSignal = signal
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppSignal
 		root.eResource.contents+= provider
@@ -516,10 +518,10 @@ class TransformationTestUtil {
 	}
 
 	static def CPPEvent createCPPEvent(CPPQualifiedNamedElement root, XTEvent event) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = event ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = event ]
 		val cppEvent = cppFactory.createCPPEvent => [
 			it.xtEvent = event
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppEvent
 		root.eResource.contents+= provider
@@ -527,10 +529,10 @@ class TransformationTestUtil {
 	}
 	
 	static def CPPOperation createCPPOperation(CPPQualifiedNamedElement root, Operation operation) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = operation ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = operation ]
 		val cppOperation = cppFactory.createCPPOperation => [
 			it.commonOperation = operation
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppOperation
 		root.eResource.contents+= provider
@@ -538,10 +540,10 @@ class TransformationTestUtil {
 	}
 	
 	static def CPPState createCPPState(CPPQualifiedNamedElement root, State state) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = state ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = state ]
 		val cppState = cppFactory.createCPPState => [
 			it.commonState = state
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppState
 		root.eResource.contents+= provider
@@ -549,10 +551,10 @@ class TransformationTestUtil {
 	}
 	
 	static def CPPTransition createCPPTransition(CPPQualifiedNamedElement root, Transition trans) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = trans ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = trans ]
 		val cppTransition = cppFactory.createCPPTransition => [
 			it.commonTransition = trans
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppTransition
 		root.eResource.contents+= provider
@@ -560,12 +562,12 @@ class TransformationTestUtil {
 	}
 	
 	static def CPPPort createCPPPort(CPPQualifiedNamedElement root, XTPort port,CPPHeaderFile header, CPPBodyFile body  ) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = port ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = port ]
 		val cppPort = cppFactory.createCPPPort => [
 			it.xtPort = port
 			it.headerFile = header
 			it.bodyFile = body
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppPort
 		root.eResource.contents+= provider
@@ -573,10 +575,10 @@ class TransformationTestUtil {
 	}
 	
 	static def CPPAttribute createCPPAttribute(CPPQualifiedNamedElement root, Attribute attr) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = attr ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = attr ]
 		val cppAttr = cppFactory.createCPPAttribute => [
 			it.commonAttribute = attr
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppAttr
 		root.eResource.contents+= provider
@@ -585,14 +587,14 @@ class TransformationTestUtil {
 
 	static def CPPComponent createCPPComponent(CPPQualifiedNamedElement root, XTComponent xtcomponent,
 		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtcomponent ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
 		val cppComponent = cppFactory.createCPPComponent => [
 			it.xtComponent = xtcomponent
 			it.mainHeaderFile = mainheader
 			it.mainBodyFile = mainbody
 			it.defHeaderFile = defheader
 			it.declHeaderFile = declheader
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppComponent
 		root.eResource.contents+= provider
@@ -600,12 +602,12 @@ class TransformationTestUtil {
 	}
 	
 	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body ) {
-		val provider = cppFactory.createExistingNameProvider=>[commonNamedElement = xtclass ]
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtclass ]
 		val cppClass = cppFactory.createCPPClass => [
 			it.xtClass = xtclass
 			it.headerFile = header
 			it.bodyFile = body
-			it.nameProvider = provider
+			it.ooplNameProvider = provider
 		]
 		root.subElements += cppClass
 		root.eResource.contents+= provider

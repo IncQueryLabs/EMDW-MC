@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.queries
 import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
 import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
-import "http://www.zeligsoft.com/xtumlrt/oopl"
+import "http://www.ericsson.com/xtumlrt/oopl"
 
 pattern classStateMachine(
 	xtClass : XTClass,

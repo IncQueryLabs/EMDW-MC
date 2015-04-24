@@ -5,8 +5,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="nameProvider" lowerBound="1"
-        eType="#//NameProvider"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ooplNameProvider" lowerBound="1"
+        eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLNameProvider"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPQualifiedNamedElement" abstract="true"
       eSuperTypes="#//CPPNamedElement">
@@ -67,7 +67,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="includedHeaders" upperBound="-1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderInclusion"
-        upperBound="-1" eType="#//CPPExternalHeaderInclusion"/>
+        upperBound="-1" eType="#//CPPExternalHeaderInclusion" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPHeaderFile" eSuperTypes="#//CPPSourceFile">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclName" ordered="false"
@@ -119,7 +119,7 @@
         changeable="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeaderInclusion">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="includedExternalHeader"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeader" lowerBound="1"
         eType="#//CPPExternalHeader"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -169,14 +169,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonAttribute" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NameProvider" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="DerivedNameProvider" eSuperTypes="#//NameProvider">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
-        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExistingNameProvider" eSuperTypes="#//NameProvider">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="commonNamedElement" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPState" eSuperTypes="#//CPPQualifiedNamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonState" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//State"/>
@@ -199,5 +191,9 @@
     <eLiterals name="BY_VALUE"/>
     <eLiterals name="BY_REFERENCE" value="1"/>
     <eLiterals name="BY_CONSTANT_REFERENCE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPExternalLibrary">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeader" upperBound="-1"
+        eType="#//CPPExternalHeader" containment="true"/>
   </eClassifiers>
 </ecore:EPackage>

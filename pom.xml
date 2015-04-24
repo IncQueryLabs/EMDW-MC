@@ -35,6 +35,7 @@
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
 		<xtumlrt.repository.url>https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-metamodels-maven/lastSuccessfulBuild/artifact/org.eclipse.papyrusrt.xtumlrt.releng/target/repository</xtumlrt.repository.url>
+		<org.eclipse.papyrusrt.version>0.5.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 	</properties>
 	<repositories>
 		<repository>

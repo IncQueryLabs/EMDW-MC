@@ -15,7 +15,7 @@
     </genEnums>
     <genClasses ecoreClass="cppmodel.ecore#//CPPNamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPNamedElement/cppName"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPNamedElement/nameProvider"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPNamedElement/ooplNameProvider"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPQualifiedNamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPQualifiedNamedElement/cppPrefix"/>
@@ -83,7 +83,7 @@
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPExternalHeader/name"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPExternalHeaderInclusion">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalHeaderInclusion/includedExternalHeader"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalHeaderInclusion/externalHeader"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPExternalHeaderInclusion/comment"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPRelation"/>
@@ -117,13 +117,6 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPAttribute">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPAttribute/commonAttribute"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="cppmodel.ecore#//NameProvider"/>
-    <genClasses ecoreClass="cppmodel.ecore#//DerivedNameProvider">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//DerivedNameProvider/name"/>
-    </genClasses>
-    <genClasses ecoreClass="cppmodel.ecore#//ExistingNameProvider">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//ExistingNameProvider/commonNamedElement"/>
-    </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPState">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPState/commonState"/>
     </genClasses>
@@ -136,6 +129,9 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPFormalParameter">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPFormalParameter/commonParameter"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPFormalParameter/passingMode"/>
+    </genClasses>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPExternalLibrary">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalLibrary/externalHeader"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

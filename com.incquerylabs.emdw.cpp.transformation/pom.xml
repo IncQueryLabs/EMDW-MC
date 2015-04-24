@@ -39,6 +39,12 @@
 						<metamodel>
 							<packageClass>org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage</packageClass>
 						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.OoplPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage</packageClass>
+						</metamodel>
 					</metamodels>
 				</configuration>
 				<dependencies>
@@ -51,6 +57,16 @@
 						<groupId>org.eclipse.papyrusrt</groupId>
 						<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
 						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.cpp.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
 					</dependency>
 				</dependencies>
 			</plugin>

@@ -12,19 +12,19 @@ class CPPTemplates {
 	
 	def classHeaderTemplate(CPPClass cppClass, IncQueryEngine engine) {
 		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
-		val cppClassName = cppClass.cppName
+		val cppClassName = cppClass.xtClass.name
 		'''
 		class «cppClassName» {
 		public:
 		
 		  enum «cppClassName»_state {
 			«FOR state : cppClass.subElements.filter(CPPState) SEPARATOR ","»
-			    «cppClassName»_STATE_«state.cppName»
+			    «cppClassName»_STATE_«state.commonState.name»
 			«ENDFOR»
 		  };
 		  enum «cppClassName»_event {
 			«FOR event : cppClass.subElements.filter(CPPEvent) SEPARATOR ","»
-			    «cppClassName»_EVENT_«event.cppName»
+			    «cppClassName»_EVENT_«event.xtEvent.name»
 			«ENDFOR»
 		  };
 		
@@ -44,8 +44,8 @@ class CPPTemplates {
 		private:
 		
 		«FOR state : cppClass.subElements.filter(CPPState) SEPARATOR ","»
-			«val stateCppName = state.cppName»
-			// «state.cppName» state
+			«val stateCppName = state.commonState.name»
+			// «stateCppName» state
 			
 			«IF state.commonState.entryAction != null»
 				void performEntryActionFor«stateCppName»State(int eventId, std::string eventContent);
@@ -54,7 +54,7 @@ class CPPTemplates {
 			void processEventIn«stateCppName»State(int eventId, std::string eventContent);
 			
 			«FOR transitionInfo : cppTransitionInfoMatcher.getAllMatches(null, null, state, null)»
-				«val target = transitionInfo.cppTarget.cppName»
+				«val target = transitionInfo.cppTarget.commonState.name»
 				«val transition = transitionInfo.transition»
 				«IF transition.guard != null»
 					bool evaluateGuardOn«stateCppName»To«target»Transition(int eventId, std::string eventContent);
@@ -79,8 +79,9 @@ class CPPTemplates {
 	}
 	
 	def classBodyTemplate(CPPClass cppClass, IncQueryEngine engine) {
-		val cppClassName = cppClass.cppName
-		val cppFQN = cppClass.cppQualifiedName
+		val cppClassName = cppClass.xtClass.name
+		val cppFQN = '''::TEST::dummy::«cppClassName»''' //cppClass.cppQualifiedName
+
 		'''
 		«cppFQN»::«cppClassName»(): current_state(TEST_STATE_INIT) {
 		}

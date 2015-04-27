@@ -4,8 +4,23 @@ Bundle-Name: CPP Code Generation
 Bundle-SymbolicName: com.incquerylabs.emdw.cpp.codegeneration;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
-Export-Package: com.incquerylabs.emdw.cpp.codegeneration.queries,
- com.incquerylabs.emdw.cpp.codegeneration.queries.util
+Export-Package: com.incquerylabs.emdw.cpp.codegeneration,
+ com.incquerylabs.emdw.cpp.codegeneration.queries;
+  uses:="com.ericsson.xtumlrt.oopl.cppmodel,
+   org.eclipse.papyrusrt.xtumlrt.xtuml,
+   org.eclipse.incquery.runtime.api.impl,
+   com.incquerylabs.emdw.cpp.codegeneration.queries.util,
+   org.eclipse.emf.common.notify,
+   org.eclipse.incquery.runtime.matchers.tuple,
+   org.eclipse.papyrusrt.xtumlrt.common,
+   org.eclipse.incquery.runtime.api",
+ com.incquerylabs.emdw.cpp.codegeneration.queries.util;
+  uses:="com.ericsson.xtumlrt.oopl.cppmodel,
+   com.incquerylabs.emdw.cpp.codegeneration.queries,
+   org.eclipse.papyrusrt.xtumlrt.xtuml,
+   org.eclipse.incquery.runtime.api.impl,
+   org.eclipse.papyrusrt.xtumlrt.common,
+   org.eclipse.incquery.runtime.api"
 Require-Bundle: com.ericsson.xtumlrt.oopl.cpp.model,
  com.google.guava,
  org.eclipse.xtend.lib,

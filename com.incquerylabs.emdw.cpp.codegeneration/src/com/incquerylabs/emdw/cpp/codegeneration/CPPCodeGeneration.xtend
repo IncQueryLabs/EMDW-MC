@@ -1,7 +1,9 @@
 package com.incquerylabs.emdw.cpp.codegeneration
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.incquerylabs.emdw.cpp.codegeneration.util.RuleProvider
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
@@ -10,8 +12,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.codegeneration.util.RuleProvider
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 
 class CPPCodeGeneration {
 
@@ -54,6 +54,7 @@ class CPPCodeGeneration {
 	def execute() {
 			info('''Executing transformation on «cppModel.commonModel.name»''')
 			val watch = Stopwatch.createStarted
+			
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

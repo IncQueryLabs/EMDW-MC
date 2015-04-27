@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/com.ericsson.xtumlrt.oopl.metamodels.feature_1.0.0.qualifier.jar" id="com.ericsson.xtumlrt.oopl.metamodels.feature" version="1.0.0.qualifier">
+      <category name="com.incquerylabs.emdw.update"/>
+   </feature>
+   <feature url="features/com.incquerylabs.emdw.metamodels.feature_1.0.0.qualifier.jar" id="com.incquerylabs.emdw.metamodels.feature" version="1.0.0.qualifier">
+      <category name="com.incquerylabs.emdw.update"/>
+   </feature>
+   <feature url="features/com.incquerylabs.emdw.papyrus.feature_1.0.0.qualifier.jar" id="com.incquerylabs.emdw.papyrus.feature" version="1.0.0.qualifier">
+      <category name="com.incquerylabs.emdw.update"/>
+   </feature>
+   <category-def name="com.incquerylabs.emdw.update" label="EMDW"/>
+</site>

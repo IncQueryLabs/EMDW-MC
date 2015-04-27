@@ -11,7 +11,7 @@
 	</parent>
 	<artifactId>com.incquerylabs.emdw.cpp.generator.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
-	<build>
+	<!-- <build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
@@ -42,5 +42,5 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build> -->
 </project>

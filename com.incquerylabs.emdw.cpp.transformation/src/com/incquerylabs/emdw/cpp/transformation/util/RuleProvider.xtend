@@ -62,8 +62,6 @@ class RuleProvider {
 	}
 	
 	public def addRules(BatchTransformation transformation) {
-		
-		
 		val rules = new TransformationRuleGroup(
 			stateRule,
 			transitionRule,

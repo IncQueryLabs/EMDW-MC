@@ -19,11 +19,11 @@ class TestWithoutParameters {
     }
     
     def startTest(String testId){
-    	info('''START TEST: type: «wrapperType» ID: «testId»''')
+    	info('''START TEST: type: Â«wrapperTypeÂ» ID: Â«testIdÂ»''')
     }
     
     def endTest(String testId){
-    	info('''END TEST: type: «wrapperType» ID: «testId»''')
+    	info('''END TEST: type: Â«wrapperTypeÂ» ID: Â«testIdÂ»''')
     }
     
     @BeforeClass

@@ -13,11 +13,12 @@ class RuleProvider {
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
-	extension CPPTemplates = new CPPTemplates	
+	extension CPPTemplates templates
 	
 	IncQueryEngine engine
 	new(IncQueryEngine engine) {
 		this.engine = engine
+		templates = new CPPTemplates(engine)
 	}
 	
 	/**
@@ -30,16 +31,18 @@ class RuleProvider {
 	
 	public val xtClassRule = createRule.precondition(classStateMachine).action[ match |
 		val cppClass = match.cppClass
-		val header = classHeaderTemplate(cppClass, engine)
+		val header = classHeaderTemplate(cppClass)
 		debug(
-		'''«cppClass.xtClass.name».hh
-		
+		'''
+			«cppClass.xtClass.name».hh
+			
 			«header»
 		''')
-		val body = classBodyTemplate(cppClass, engine)
+		val body = classBodyTemplate(cppClass)
 		debug(
-		'''«cppClass.xtClass.name».hh
-		
+		'''
+			«cppClass.xtClass.name».cc
+			
 			«body»
 		''')
 		trace('''Generated code for «cppClass.xtClass.name» CPPClass''')

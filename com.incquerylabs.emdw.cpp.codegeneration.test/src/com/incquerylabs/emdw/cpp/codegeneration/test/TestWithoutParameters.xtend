@@ -5,6 +5,7 @@ import org.junit.After
 import org.junit.BeforeClass
 import org.apache.log4j.Level
 import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 
 class TestWithoutParameters {
 
@@ -28,7 +29,7 @@ class TestWithoutParameters {
     
     @BeforeClass
 	def static setupRootLogger() {
-		Logger.getLogger(TestWithoutParameters.getClass()).level = Level.DEBUG
+		Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
 	}
 	
 	@After

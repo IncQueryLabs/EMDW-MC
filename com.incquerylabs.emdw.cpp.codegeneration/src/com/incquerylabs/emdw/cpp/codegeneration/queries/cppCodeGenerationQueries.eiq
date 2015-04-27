@@ -69,3 +69,15 @@ pattern cppTransitionInfo(
 	Transition.sourceVertex(transition, source);
 	Transition.targetVertex(transition, target);
 }
+
+pattern cppClassInitState(
+	cppClass : CPPClass,
+	cppInitState : CPPState,
+	initTrans : Transition
+) {
+	find classStateMachine(_, cppClass, statemachine);
+	StateMachine.top.initial(statemachine, initial);
+	Transition.sourceVertex(initTrans, initial);
+	Transition.targetVertex(initTrans, init);
+	CPPState.commonState(cppInitState, init);
+}

@@ -22,16 +22,23 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.createXtPackage("RootPackage")
 		val xtComponent = xtPackage.createXtComponent("Component")
-		val xtClass = xtComponent.createXtClass("Class")
+		val xtClass = xtComponent.createXtClass("TEST")
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")
 		val classEvent = xtClass.createXtClassEvent("ClassEvent")
+		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
+		topState.createTransition(init, s1, "SAMPLE_CODE")
 		val s2 = topState.createSimpleState("s2")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE").createXTEventTrigger(classEvent, "Trigger")
+		val t = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
+		t.createXTEventTrigger(classEvent, "Trigger")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
 		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		cppClass.createCPPEvent(classEvent)
+		cppClass.createCPPState(s1)
+		cppClass.createCPPState(s2)
+		cppClass.createCPPTransition(t)
 		
 		cppClass
 	}

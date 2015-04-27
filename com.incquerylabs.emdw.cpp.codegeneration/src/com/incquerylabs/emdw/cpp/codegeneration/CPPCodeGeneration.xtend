@@ -54,7 +54,7 @@ class CPPCodeGeneration {
 	def execute() {
 			info('''Executing transformation on «cppModel.commonModel.name»''')
 			val watch = Stopwatch.createStarted
-			
+			fireAllCurrent(ruleProvider.xtClassRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.zeligsoft.com/xtumlrt/common" xmlns:xtuml="http://www.zeligsoft.com/xtumlrt/xtuml">
   <common:Model name="ComplexModelTest_single">
     <rootPackages xsi:type="xtuml:XTPackage" name="RootPackage">
       <protocols xsi:type="xtuml:XTProtocol" name="Protocol">

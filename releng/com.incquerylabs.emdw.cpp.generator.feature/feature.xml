@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.incquerylabs.emdw..cpp.generator.feature"
+      id="com.incquerylabs.emdw.cpp.generator.feature"
       label="EMDW C++ Generator"
       version="1.0.0.qualifier"
       provider-name="IncQuery Labs Ltd.">

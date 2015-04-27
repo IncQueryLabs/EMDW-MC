@@ -2,6 +2,9 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="cppmodel" nsURI="http://www.ericsson.com/xtumlrt/oopl/cpp" nsPrefix="cpp">
   <eClassifiers xsi:type="ecore:EClass" name="CPPNamedElement" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Superclass for all named elements in the C++ domain that contains the syntactically valid C++-style name of the element. The original name is taken from {@link com.ericsson.xtumlrt.oopl.OOPLNameProvider}."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
@@ -11,6 +14,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPQualifiedNamedElement" abstract="true"
       eSuperTypes="#//CPPNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Superclass for all elements in the C++ domain that have fully qualified names. The qualified name of the element is composed of a prefix and its C++ name. The prefix is the qualified name of the container element extended with two colons."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppPrefix" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
@@ -21,6 +27,9 @@
         eType="#//CPPQualifiedNamedElement" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPModel" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a model ({@link org.eclipse.papyrusrt.xtumlrt.common.Model}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonModel" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Model"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
@@ -36,6 +45,9 @@
         eType="#//CPPDirectory"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPPackage" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML package ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtPackage" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPackage"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
@@ -44,18 +56,27 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDir" eType="#//CPPDirectory"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPClass" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClass">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML class ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass}) In the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" lowerBound="1"
         eType="#//CPPBodyFile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPProtocol" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML protocol ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocol" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocol"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPSourceFile" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of C++ source file (header and body)."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="genName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
@@ -71,6 +92,9 @@
         upperBound="-1" eType="#//CPPExternalHeaderInclusion" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPHeaderFile" eSuperTypes="#//CPPSourceFile">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="C++ header file that contains the path that must appear in the #include directive."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
@@ -81,8 +105,15 @@
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPBodyFile" eSuperTypes="#//CPPSourceFile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPBodyFile" eSuperTypes="#//CPPSourceFile">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="C++ body file."/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPDirectory">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a file system directory in the C++ domain. Directories contain each other and they have a single root: the target directory for code generation."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subDirectories" upperBound="-1"
         eType="#//CPPDirectory" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="files" upperBound="-1"
@@ -98,6 +129,9 @@
         changeable="false" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPComponent" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML Component ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent}) In the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtComponent" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTComponent"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainHeaderFile" lowerBound="1"
@@ -115,22 +149,38 @@
         eType="#//CPPDirectory"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeader">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="External C++ header file that must be included into another C++ source file. Such headerfiles contain type and functions that are defined in the handwritten code but are used by the model."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeaderInclusion">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Entity describing a connection between a C++ source file ({@link com.ericsson.xtumlrt.cppmodel.CPPSourceFile}) and an external header ({@link com.ericsson.xtumlrt.cppmodel.CPPExternalHeader}) file. It also contains a comment that should contain the reason for the inclusion (the fully qualified name of the external elements that are declared or defined in the external header file."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeader" lowerBound="1"
         eType="#//CPPExternalHeader"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="comment" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPRelation" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPRelation" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLRelation">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of an XTUML class relation ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTRelation}) in the C++ domain."/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPOperation" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a class operation ({@link org.eclipse.papyrusrt.xtumlrt.common.Attribute}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonOperation" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Operation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPPort" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML port ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort}) In the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtPort" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPort"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
@@ -142,47 +192,87 @@
         eType="#//CPPBodyFile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPProtocolOperationDefinition" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML protocol operation definition ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationDefinition"
         lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationDefinition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPSignal" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a signal ({@link org.eclipse.papyrusrt.xtumlrt.common.Signal}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonSignal" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Signal"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPProtocolOperationImplementation"
       eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML Protocol Operation Implementation ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation}) In the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtProtocolOperationImplementation"
         lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTProtocolOperationImplementation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReference" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference #//CPPQualifiedNamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReferenceStorage" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReference" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReference #//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Pointer type in C++ to store reference to the CÓÓ representation of a model class ({@link com.ericsson.xtumlrt.cppmodel.CPPClass})."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPClassReferenceStorage" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassReferenceStorage">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="C++ specialization of the OOPL class reference storage ({@link com.ericsson.xtumlrt.OOPLClassReferenceStorage})."/>
+    </eAnnotations>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefSimpleCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefSimpleCollection">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Simple (non-associative) collection C++ type to store pointers to the C++ representation of model classes ({@link com.ericsson.xtumlrt.cppmodel.CPPClass})."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         changeable="false" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefAssocCollection" eSuperTypes="#//CPPQualifiedNamedElement ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLClassRefAssocCollection">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Associative collection C++ type to store pointers to the C++ representation of model classes ({@link com.ericsson.xtumlrt.cppmodel.CPPClass}) indexed by one of the attributes ({@link com.ericsson.xtumlrt.cppmodel.CPPAttribute}) of the class."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
         derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cppAttribute" lowerBound="1"
+        eType="#//CPPAttribute" changeable="false" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPAttribute" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a class attribute ({@link org.eclipse.papyrusrt.xtumlrt.common.Attribute}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonAttribute" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPState" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a state machine state ({@link org.eclipse.papyrusrt.xtumlrt.common.State}) In the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonState" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//State"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPTransition" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a state machine transition ({@link org.eclipse.papyrusrt.xtumlrt.common.Transition}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonTransition" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Transition"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPEvent" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of XTUML state machine event ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent}) in the C++ domain."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="xtEvent" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTEvent"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPFormalParameter" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Representation of a formal parameter ({@link org.eclipse.papyrusrt.xtumlrt.common.Parameter}) in the C++ domain. Passing mode is derived from the direction: for IN parameters the mode is BY_VALUE for simple and BY_CONSTANT_REFERENCE for complex types. For OUT and IN_OUT parameters the mode is BY_REFERENCE."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonParameter" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="passingMode" ordered="false"
@@ -194,6 +284,9 @@
     <eLiterals name="BY_CONSTANT_REFERENCE" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalLibrary">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Artificial root for all {@link com.ericsson.xtumlrt.cppmodel.CPPExternalHeader} elements."/>
+    </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeader" upperBound="-1"
         eType="#//CPPExternalHeader" containment="true"/>
   </eClassifiers>

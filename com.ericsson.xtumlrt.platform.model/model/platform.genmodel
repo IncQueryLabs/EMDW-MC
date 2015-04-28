@@ -10,7 +10,11 @@
   <foreignModel>../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore</foreignModel>
   <genPackages prefix="Platform" disposableProviderFactory="true" ecorePackage="platform.ecore#/">
     <genClasses ecoreClass="platform.ecore#//PlatformThread">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform.ecore#//PlatformThread/capsules"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform.ecore#//PlatformThread/commonCapsules"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform.ecore#//PlatformThread/supportedCommunicationProtocols"/>
+    </genClasses>
+    <genClasses ecoreClass="platform.ecore#//PlatformCommunicationProtocol">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference platform.ecore#//PlatformCommunicationProtocol/commonConnectors"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

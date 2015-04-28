@@ -2,7 +2,13 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="platform" nsURI="http://www.example.org/platform" nsPrefix="platform">
   <eClassifiers xsi:type="ecore:EClass" name="PlatformThread">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="capsules" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonCapsules" lowerBound="1"
         upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Capsule"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supportedCommunicationProtocols"
+        upperBound="-1" eType="#//PlatformCommunicationProtocol"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PlatformCommunicationProtocol">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonConnectors" lowerBound="1"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Connector"/>
   </eClassifiers>
 </ecore:EPackage>

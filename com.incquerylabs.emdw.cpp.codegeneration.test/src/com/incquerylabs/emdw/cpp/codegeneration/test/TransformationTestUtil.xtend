@@ -67,7 +67,7 @@ class TransformationTestUtil {
 	// XTUML UTIL
 	static def createEmptyXtumlModel(String modelname) {
 		val resourceSet = new ResourceSetImpl
-		val xtumlrtResource = resourceSet.createResource(URI.createURI("model/"+modelname+"/ref/test.xtumlrt"))
+		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtUMLuri"))
 
 		val xtumlrtModel = commonFactory.createModel=>[it.name = modelname]
 		xtumlrtResource.contents += xtumlrtModel

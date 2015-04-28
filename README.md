@@ -5,13 +5,15 @@ Our own private github repo for the Ericsson project
 
 ### User Guide
 
+* Make sure you are in Papyrus perspective
 * Create Papyrus project with UML model and Class Diagram
-* Create Class
-* Create State Machine under Class
-* Select Class, show the Properties view, select Advanced, set Classifier Behavior to the State Machine
-* Create State Machine Diagram under State Machine
-* Create initial node, states & transitions
-* Save the UML model and you can see the resulting xtumlrt model
+* Create Class by dragging from Palette
+* Create State Machine Diagram under Class in Model Explorer view
+  * Right click on class, New diagram, Create a New State Machine Diagram
+* On Class Diagram select Class, show the Properties view, select Advanced, set Classifier Behavior to the State Machine
+* On State Machine Diagram, Create initial node, states & transitions from Palette
+* Save the UML model and you can see the resulting xtumlrt model under your Papyrus model
+* You can open the xtumlrt model by right click, Open with..., Other, Sample Reflective Ecore Model Editor if the generated editor of xtUMLrt is not available
 
 ### Developer Guide
 

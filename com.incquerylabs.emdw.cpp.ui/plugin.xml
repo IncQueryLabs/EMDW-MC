@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.ui.popup.any">
+         <command
+               commandId="com.incquerylabs.emdw.cpp.ui.generate"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="com.incquerylabs.emdw.cpp.ui.xtclassdef">
+               </reference>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.core.expressions.definitions">
+      <definition
+            id="com.incquerylabs.emdw.cpp.ui.xtclassdef">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false">
+               <instanceof
+                     value="org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass">
+               </instanceof>
+            </iterate>
+         </with>
+      </definition>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="com.incquerylabs.emdw.cpp.ui.CPPHandler"
+            id="com.incquerylabs.emdw.cpp.ui.generate"
+            name="Generate CPP code for selected XTClass">
+      </command>
+   </extension>
+
+</plugin>

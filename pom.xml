@@ -29,9 +29,7 @@
 		<!-- CPP code generation -->
 		<module>com.incquerylabs.emdw.cpp.codegeneration</module>
 		<module>com.incquerylabs.emdw.cpp.ui</module>
-		<!-- Ignored tests because they are incomplete and failing
 		<module>com.incquerylabs.emdw.cpp.codegeneration.test</module>
-		-->
 		
 		<!--  Releng -->
 		<module>releng/com.ericsson.xtumlrt.oopl.metamodels.feature</module>

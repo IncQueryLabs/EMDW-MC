@@ -5,6 +5,34 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
+pattern xtModelToCppModel(
+	xtModel : Model,
+	cppModel : CPPModel
+) {
+	CPPModel.commonModel(cppModel, xtModel);
+}
+
+pattern xtModelXTClasses(
+	xtModel : Model,
+	xtClass : XTClass
+) {
+	Model.topEntities(xtModel, xtClass);
+} or {
+	Model.rootPackages(xtModel, xtPackage);
+	XTPackage.entities(xtPackage, xtClass);
+} or {
+	Model.rootPackages(xtModel, xtPackage);
+	find xtPackageSubPackages+(xtPackage, subPackage);
+	XTPackage.entities(subPackage, xtClass);
+}
+
+pattern xtPackageSubPackages(
+	parent : XTPackage,
+	subPackage : XTPackage
+) {
+	XTPackage.packages(parent, subPackage);
+}
+
 pattern classStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,

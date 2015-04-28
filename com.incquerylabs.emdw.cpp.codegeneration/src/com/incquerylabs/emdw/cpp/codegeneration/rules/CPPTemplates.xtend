@@ -1,15 +1,17 @@
 package com.incquerylabs.emdw.cpp.codegeneration.rules
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
-import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionInfoMatch
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
+import java.util.List
 
 class CPPTemplates {
 	
@@ -70,10 +72,10 @@ class CPPTemplates {
 					«val target = transitionInfo.cppTarget.commonState.name»
 					«val transition = transitionInfo.transition»
 					«IF transition.guard != null»
-						bool evaluate_guard_on_«stateCppName»_to_«target»_transition(int event_id, std::string event_content);
+						bool evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
 					«ENDIF»
 					«IF transition.actionChain != null»
-						void perform_actions_on_«stateCppName»_to_«target»_transition(int event_id, std::string event_content);
+						void perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
 					«ENDIF»
 				«ENDFOR»
 				
@@ -96,7 +98,6 @@ class CPPTemplates {
 		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
-		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 
 		'''
@@ -145,7 +146,7 @@ class CPPTemplates {
 				«IF generateTracingCode»
 					cout << "  [State: «stateCppName»] Processing event" << endl;
 				«ENDIF»
-				«FOR transitionInfo : cppTransitionInfoMatcher.getAllMatches(null, null, state, null)»
+				«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
 					«val cppTarget = transitionInfo.cppTarget»
 					«val target = cppTarget.commonState.name»
 					«val transition = transitionInfo.transition»
@@ -159,7 +160,7 @@ class CPPTemplates {
 						«ENDIF»
 						«IF transition.actionChain != null»
 							// transition action
-							perform_actions_on_«stateCppName»_to_«target»_transition(event_id, event_content);
+							perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
 						«ELSE»
 							// no transition action
 						«ENDIF»
@@ -181,16 +182,21 @@ class CPPTemplates {
 								cout << "    No state change on «transition.name»" << endl;
 							«ENDIF»
 						«ENDIF»
-					}
-				«ENDFOR»
+					} «ENDFOR» 
+				{
+					// event not processed in state
+					«IF generateTracingCode»
+						cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+					«ENDIF»
+				}
 				return;
 			}
 			
-			«FOR transitionInfo : cppTransitionInfoMatcher.getAllMatches(null, null, state, null)»
+			«FOR transitionInfo : state.orderTransitions»
 				«val target = transitionInfo.cppTarget.commonState.name»
 				«val transition = transitionInfo.transition»
 				«IF transition.guard != null»
-					bool «cppFQN»::evaluate_guard_on_«stateCppName»_to_«target»_transition(int event_id, std::string event_content){
+					bool «cppFQN»::evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
 						«IF generateTracingCode»
 							cout << "    [Guard: -> «target»]" << endl;
 						«ENDIF»
@@ -209,7 +215,7 @@ class CPPTemplates {
 				«ENDIF»
 				«IF transition.actionChain != null»
 				
-				void «cppFQN»::perform_actions_on_«stateCppName»_to_«target»_transition(int event_id, std::string event_content){
+				void «cppFQN»::perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
 					«IF generateTracingCode»
 						cout << "    [Action: -> «target»]" << endl;
 					«ENDIF»
@@ -248,9 +254,32 @@ class CPPTemplates {
 		'''// «action?.source»'''	
 	}
 	
+	def orderTransitions(CPPState cppState) {
+		val compositeStateMatcher = codeGenQueries.getCompositeStateSubStates(engine)
+		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
+		
+		val commonState = cppState.commonState
+		val compositeState = compositeStateMatcher.getOneArbitraryMatch(null, commonState).compositeState
+		
+		val List<CppTransitionInfoMatch> transitionsWithTrigger = newArrayList
+		val List<CppTransitionInfoMatch> transitionsWithNoTrigger = newArrayList
+		
+		// separate transitions with trigger and without trigger		
+		compositeState.transitions.filter[sourceVertex == commonState].forEach[transition |
+			val match = cppTransitionInfoMatcher.getOneArbitraryMatch(null, transition, cppState, null)
+			if(transition.triggers.empty){
+				transitionsWithNoTrigger += match
+			} else {
+				transitionsWithTrigger += match
+			}
+		]
+		
+		transitionsWithTrigger
+	}
+	
 	def generatedTransitionCondition(Transition transition, String cppClassName, String stateCppName, String target) {
 		var condition = transition.generateEventMatchingCondition(cppClassName)
-		val guardCall = '''evaluate_guard_on_«stateCppName»_to_«target»_transition(event_id, event_content)'''
+		val guardCall = '''evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content)'''
 		if(condition.length > 0 && transition.guard != null){
 			condition = condition + " && "
 		}

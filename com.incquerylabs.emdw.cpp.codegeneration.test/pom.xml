@@ -8,7 +8,7 @@
 		<artifactId>com.incquerylabs.emdw</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.incquerylabs.emdw.cpp.transformation.test</artifactId>
+	<artifactId>com.incquerylabs.emdw.cpp.codegeneration.test</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 	<build>
 		<plugins>

@@ -60,7 +60,7 @@
               <styles xmi:type="notation:SortingStyle" xmi:id="_-si-8e2uEeSGx5Oa56glyw"/>
               <styles xmi:type="notation:FilteringStyle" xmi:id="_-si-8u2uEeSGx5Oa56glyw"/>
             </children>
-            <styles xmi:type="notation:ShapeStyle" xmi:id="_-sfUke2uEeSGx5Oa56glyw" fontName="Segoe UI" fontHeight="8"/>
+            <styles xmi:type="notation:ShapeStyle" xmi:id="_-sfUke2uEeSGx5Oa56glyw" fontName="Segoe UI" fontHeight="8" fillColor="12648447"/>
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-sfUku2uEeSGx5Oa56glyw" x="408" y="324" width="183" height="99"/>
           </children>
           <styles xmi:type="notation:DiagramStyle" xmi:id="_1yGzi-2uEeSGx5Oa56glyw"/>
@@ -129,11 +129,12 @@
         <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
         <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
         <ownedStyle xmi:type="diagram:FlatContainerStyle" xmi:id="_-sCBkO2uEeSGx5Oa56glyw" backgroundStyle="Liquid">
+          <customFeatures>backgroundColor</customFeatures>
+          <customFeatures>foregroundColor</customFeatures>
           <labelColor xmi:type="viewpoint:RGBValues" xmi:id="_-sCBke2uEeSGx5Oa56glyw"/>
           <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@style"/>
           <borderColor xmi:type="viewpoint:RGBValues" xmi:id="_-sCBku2uEeSGx5Oa56glyw"/>
-          <backgroundColor xmi:type="viewpoint:RGBValues" xmi:id="_-sCBk-2uEeSGx5Oa56glyw" red="255" green="255" blue="255"/>
-          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_-sCBlO2uEeSGx5Oa56glyw" red="255" green="252" blue="216"/>
+          <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_hz1xcO2yEeSGx5Oa56glyw" red="255" green="255" blue="192"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
       </ownedDiagramElements>

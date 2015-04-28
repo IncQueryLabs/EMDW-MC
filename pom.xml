@@ -22,8 +22,11 @@
 
 		<!-- XTUML-CPP transformation -->
 		<module>com.incquerylabs.emdw.cpp.transformation</module>
+		<module>com.incquerylabs.emdw.cpp.codegeneration</module>
+		<module>com.incquerylabs.emdw.cpp.ui</module>
 		<!-- Ignored tests because they are incomplete and failing
 		<module>com.incquerylabs.emdw.cpp.transformation.test</module>
+		<module>com.incquerylabs.emdw.cpp.codegeneration.test</module>
 		-->
 		
 		<!-- CPP code generation -->

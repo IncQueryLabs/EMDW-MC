@@ -1,47 +1,45 @@
 package com.incquerylabs.emdw.cpp.codegeneration.util
 
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.incquerylabs.emdw.cpp.codegeneration.rules.CPPTemplates
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
-import com.incquerylabs.emdw.cpp.codegeneration.rules.CPPTemplates
 
 class RuleProvider {
 	static extension val CppCodeGenerationQueries codeGenQueries = CppCodeGenerationQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
-	extension BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
-	extension CPPTemplates templates
+	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
+	extension val CPPTemplates templates
 	
 	IncQueryEngine engine
+	public val generatedFiles = <String, String>newHashMap
+	
 	new(IncQueryEngine engine) {
 		this.engine = engine
 		templates = new CPPTemplates(engine)
 	}
 	
-	/**
-	 * Public method that initiates each rule
-	 * 
-	 */
-	public def initRules() {
-//		ActionChainRules.getRules(engine).initRules
-	}
-	
 	public val xtClassRule = createRule.precondition(classStateMachine).action[ match |
 		val cppClass = match.cppClass
+		trace('''Generating code for «cppClass.xtClass.name» CPPClass''')
 		val header = classHeaderTemplate(cppClass)
+		val className = cppClass.xtClass.name + "_statemachine_snippet"
+		generatedFiles.put('''«className».hh''', header.toString)
 		debug(
 		'''
-			«cppClass.xtClass.name».hh
+			«className».hh
 			
 			«header»
 		''')
 		val body = classBodyTemplate(cppClass)
+		generatedFiles.put('''«className».cc''', body.toString)
 		debug(
 		'''
-			«cppClass.xtClass.name».cc
+			«className».cc
 			
 			«body»
 		''')

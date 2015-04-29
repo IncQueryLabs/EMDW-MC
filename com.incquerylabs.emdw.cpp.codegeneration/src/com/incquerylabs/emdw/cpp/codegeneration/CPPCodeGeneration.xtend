@@ -12,6 +12,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.google.common.collect.ImmutableMap
 
 class CPPCodeGeneration {
 
@@ -23,6 +24,7 @@ class CPPCodeGeneration {
 	IncQueryEngine engine
 	RuleProvider ruleProvider
 	CPPModel cppModel
+	
 	extension BatchTransformationStatements statements
 	
 
@@ -42,7 +44,6 @@ class CPPCodeGeneration {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			ruleProvider = new RuleProvider(engine)
-			ruleProvider.initRules
 			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
@@ -56,6 +57,10 @@ class CPPCodeGeneration {
 			val watch = Stopwatch.createStarted
 			fireAllCurrent(ruleProvider.xtClassRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+	}
+	
+	def getGeneratedFiles() {
+		return ImmutableMap.copyOf(ruleProvider.generatedFiles)
 	}
 
 	def dispose() {

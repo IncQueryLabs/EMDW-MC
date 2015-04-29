@@ -42,7 +42,6 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			ruleProvider = new RuleProvider(engine)
-			ruleProvider.initRules
 			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')

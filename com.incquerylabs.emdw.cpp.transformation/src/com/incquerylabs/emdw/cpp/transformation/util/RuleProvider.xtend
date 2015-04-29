@@ -53,14 +53,6 @@ class RuleProvider {
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
 	].build
 	
-	/**
-	 * Public method that initiates each rule
-	 * 
-	 */
-	public def initRules() {
-//		ActionChainRules.getRules(engine).initRules
-	}
-	
 	public def addRules(BatchTransformation transformation) {
 		val rules = new TransformationRuleGroup(
 			stateRule,

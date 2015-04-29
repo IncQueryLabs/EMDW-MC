@@ -61,6 +61,10 @@ class CPPHandler extends AbstractHandler {
             		val codegen = new CPPCodeGeneration
             		codegen.initialize(cppModel, engine)
             		codegen.execute
+            		val generatedFiles = codegen.generatedFiles
+            		generatedFiles.forEach[ fileName, content |
+            			GeneratorHelper.createFileNextToWorkspaceResource(xtResource, fileName, true, content)
+            		]
             	}
             	
             ]
@@ -86,4 +90,5 @@ class CPPHandler extends AbstractHandler {
 		}
 		return cppModel
 	}
+	
 }

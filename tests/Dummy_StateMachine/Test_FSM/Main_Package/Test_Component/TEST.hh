@@ -35,6 +35,9 @@ namespace Test_FSM {
   namespace Main_Package {
     namespace Test_Component {
       namespace Test_Package {
+
+      	// GENERATED CODE START
+
         class TEST {
         public:
           enum TEST_state {TEST_STATE_INIT, TEST_STATE_WORKING};
@@ -78,8 +81,9 @@ namespace Test_FSM {
           // State machine
           void generateEvent(int eventId, std::string eventContent);
 
-
         };
+
+        // GENERATED CODE END
       }
     }
   }

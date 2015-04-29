@@ -72,7 +72,8 @@ pattern classStateMachineTransitions(
 	transition : Transition
 ) {
 	find classStateMachineStates(xtClass, cppClass, state);
-	CompositeState.transitions(state, transition);
+	CompositeState.substates(compState, state);
+	CompositeState.transitions(compState, transition);
 }
 
 pattern classStateMachineEvents(

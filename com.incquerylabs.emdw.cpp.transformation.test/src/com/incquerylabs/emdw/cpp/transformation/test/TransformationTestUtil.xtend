@@ -106,6 +106,14 @@ class TransformationTestUtil {
 		root.entities += comp
 		comp
 	}
+	
+	static def createXtComponent(Model root, String name) {
+		var comp = xtumlFactory.createXTComponent => [
+			it.name = name
+		]
+		root.topEntities += comp
+		comp
+	}
 
 	static def createXtClass(XTComponent root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
@@ -122,20 +130,37 @@ class TransformationTestUtil {
 		root.entities += xtclass
 		xtclass
 	}
+	
+	static def createXtClass(Model root, String name) {
+		var xtclass = xtumlFactory.createXTClass => [
+			it.name = name
+		]
+		root.topEntities += xtclass
+		xtclass
+	}
 
-	static def createStateMachine(XTClass root, String name) {
+	static def createStateMachine(Entity root, String name) {
 		var sm = commonFactory.createStateMachine => [
 			it.name = name
 		]
 		root.behaviour = sm
 		sm
 	}
+	
 
 	static def createXtProtocol(XTPackage root, String name) {
 		var protocol = xtumlFactory.createXTProtocol => [
 			it.name = name
 		]
 		root.protocols += protocol
+		protocol
+	}
+	
+	static def createXtProtocol(Model root, String name) {
+		var protocol = xtumlFactory.createXTProtocol => [
+			it.name = name
+		]
+		root.topProtocols += protocol
 		protocol
 	}
 

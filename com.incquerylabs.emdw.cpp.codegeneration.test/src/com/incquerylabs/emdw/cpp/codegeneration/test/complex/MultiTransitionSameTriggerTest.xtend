@@ -29,10 +29,18 @@ class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass>
 		
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
-		topState.createTransition(init, s1, "SAMPLE_CODE")
+		topState.createTransition(init, s1, "initTrans",
+			'''
+				SAMPLE_CODE
+				some other code
+			''')
 		val s2 = topState.createSimpleState("s2")
 		
-		val t1 = topState.createTransition(s1,s2,"t1", "SAMPLE_CODE")
+		val t1 = topState.createTransition(s1,s2,"t1", "SAMPLE_CODE",
+			'''
+				SAMPLE_CODE_2
+				some more code
+			''')
 		t1.createXTEventTrigger(classEvent, "Trigger1")
 		val t2 = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
 		t2.createXTEventTrigger(classEvent2, "Trigger2")

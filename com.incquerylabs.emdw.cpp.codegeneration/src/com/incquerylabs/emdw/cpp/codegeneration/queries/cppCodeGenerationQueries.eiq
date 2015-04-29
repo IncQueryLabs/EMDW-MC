@@ -81,3 +81,11 @@ pattern cppClassInitState(
 	Transition.targetVertex(initTrans, init);
 	CPPState.commonState(cppInitState, init);
 }
+
+pattern cppClassFinalStates(
+	cppClass : CPPClass,
+	cppFinalState : CPPState
+) {
+	CPPClass.subElements(cppClass, cppFinalState);
+	neg find cppTransitionInfo(_, _, cppFinalState, _);
+}

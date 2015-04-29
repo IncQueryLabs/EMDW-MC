@@ -25,19 +25,18 @@ class CPPTemplates {
 	}
 	
 	def classHeaderTemplate(CPPClass cppClass) {
-		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
 		val cppClassName = cppClass.xtClass.name
 		'''
 		class «cppClassName» {
 		public:
 		
 			enum «cppClassName»_state {
-				«FOR state : cppClass.subElements.filter(CPPState) SEPARATOR ","»
+				«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name] SEPARATOR ","»
 					«cppClassName»_STATE_«state.commonState.name»
 				«ENDFOR»
 			};
 			enum «cppClassName»_event {
-				«FOR event : cppClass.subElements.filter(CPPEvent) SEPARATOR ","»
+				«FOR event : cppClass.subElements.filter(CPPEvent).sortBy[xtEvent.name] SEPARATOR ","»
 					«cppClassName»_EVENT_«event.xtEvent.name»
 				«ENDFOR»
 			};
@@ -59,7 +58,7 @@ class CPPTemplates {
 
 		private:
 		
-			«FOR state : cppClass.subElements.filter(CPPState)»
+			«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name]»
 				«val stateCppName = state.commonState.name»
 				// «stateCppName» state
 				«IF state.commonState.entryAction != null»
@@ -68,7 +67,7 @@ class CPPTemplates {
 				
 				void process_event_in_«stateCppName»_state(int event_id, std::string event_content);
 				
-				«FOR transitionInfo : cppTransitionInfoMatcher.getAllMatches(null, null, state, null)»
+				«FOR transitionInfo : state.orderTransitions»
 					«val target = transitionInfo.cppTarget.commonState.name»
 					«val transition = transitionInfo.transition»
 					«IF transition.guard != null»
@@ -98,6 +97,7 @@ class CPPTemplates {
 		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
+		val finalStateMatcher = codeGenQueries.getCppClassFinalStates(engine)
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 
 		'''
@@ -122,15 +122,25 @@ class CPPTemplates {
 			«ENDIF»
 		
 			switch(current_state){
-			«FOR state : cppClass.subElements.filter(CPPState)»
+			«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name]»
 			case «cppClassName»_STATE_«state.commonState.name»:
 				process_event_in_«state.commonState.name»_state(event_id, event_content);
 				break;
 			«ENDFOR»	
 			}
+			
+			«IF finalStateMatcher.hasMatch(cppClass, null)»
+				switch(current_state){
+				«FOR finalState : finalStateMatcher.getAllValuesOfcppFinalState(cppClass).sortBy[commonState.name]»
+					case «cppClassName»_STATE_«finalState.commonState.name»:
+				«ENDFOR»
+					delete this;
+					break;
+				}
+			«ENDIF»
 		}
 		
-		«FOR state : cppClass.subElements.filter(CPPState)»
+		«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name]»
 			«val stateCppName = state.commonState.name»
 			// «stateCppName» state
 			«IF state.commonState.entryAction != null»
@@ -245,13 +255,19 @@ class CPPTemplates {
 	def generateActionCode(Iterable<ActionCode> actions) {
 		'''
 		«FOR action : actions»
-		// «action.source»
+			«action.generateActionCode»
 		«ENDFOR»
 		'''	
 	}
 	
 	def generateActionCode(ActionCode action) {
-		'''// «action?.source»'''	
+		if(action?.source != null){
+			'''
+			/* Original «action.name» action code source: 
+				«action.source»
+			*/
+			'''	
+		}
 	}
 	
 	def orderTransitions(CPPState cppState) {

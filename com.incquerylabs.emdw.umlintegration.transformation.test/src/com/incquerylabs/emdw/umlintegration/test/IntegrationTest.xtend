@@ -75,7 +75,7 @@ class IntegrationTest {
 
 		val transformation = new TransformationQrt
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(resourceSet))
-		transformation.initialize(mapping, engine)
+		transformation.initialize(engine)
 		transformation.execute
 		
 		val rules = getRules(engine)

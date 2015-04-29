@@ -17,8 +17,12 @@ abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent ex
 	override appeared(Match match) {
 		val parent = match.findParent
 		val child = match.findChild
-		parent.insertChild(child)
-		logger.debug('''Added containment edge «parent» -> «child»''')
+		if(parent == null){
+			logger.debug('''Containment edge for «child» without parent not added''')
+		} else {
+			parent.insertChild(child)
+			logger.debug('''Added containment edge «parent» -> «child»''')
+		}
 	}
 	
 	override protected updated(Match match) {

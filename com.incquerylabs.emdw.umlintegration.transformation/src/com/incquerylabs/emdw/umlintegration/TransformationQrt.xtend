@@ -4,17 +4,15 @@ import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
 import com.incquerylabs.emdw.umlintegration.queries.Trace
-import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
+import com.incquerylabs.emdw.umlintegration.util.RuleProvider
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.incquery.runtime.api.GenericPatternGroup
-import com.incquerylabs.emdw.umlintegration.util.RuleProvider
-import org.eclipse.incquery.runtime.emf.EMFScope
 
 class TransformationQrt {
 
@@ -26,16 +24,11 @@ class TransformationQrt {
 	private var initialized = false;
 
 	EventDrivenTransformation transform
-	RootMapping mapping
 	IncQueryEngine engine
 
-	def initialize(RootMapping mapping, IncQueryEngine engine) {
-		checkArgument(mapping != null, "Mapping cannot be null!")
-		checkArgument(mapping.umlRoot != null, "Source not defined in mapping!")
-		checkArgument(mapping.xtumlrtRoot != null, "Target not defined in mapping!")
+	def initialize(IncQueryEngine engine) {
 		checkArgument(engine != null, "Engine cannot be null!")
 		if (!initialized) {
-			this.mapping = mapping
 			this.engine = engine
 
 			debug("Preparing queries on engine.")
@@ -60,7 +53,7 @@ class TransformationQrt {
 	}
 
 	def execute() {
-			info('''Executing transformation on «mapping.umlRoot.name»''')
+			info('''Executing transformation''')
 			debug("Initial execution of transformation rules.")
 			val watch = Stopwatch.createStarted
 			transform.executionSchema.startUnscheduledExecution

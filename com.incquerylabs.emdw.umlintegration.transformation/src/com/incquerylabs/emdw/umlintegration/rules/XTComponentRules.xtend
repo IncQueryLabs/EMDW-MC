@@ -77,7 +77,12 @@ class XTComponentInModelMapping extends AbstractContainmentMapping<XtComponentIn
 	}
 
 	override findParent(XtComponentInModelMatch match) {
-		rootMapping.xtumlrtRoot
+		if(rootMapping.umlRoot == match.model){
+			rootMapping.xtumlrtRoot
+		} else {
+			// XXX known null return since this class is out of scope
+			null
+		}
 	}
 	
 	override findChild(XtComponentInModelMatch match) {

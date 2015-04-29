@@ -20,18 +20,20 @@ class ModelSetSnippet implements IModelSetSnippet {
 	val transformation = new TransformationQrt
 
 	override start(ModelSet modelSet) {
+		val resourceSet = new ResourceSetImpl
+		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
+		
 		ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
 			if (!resource.contents.filter(Model).empty) {
-				val mapping = createMapping(resource, modelSet)
-				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, mapping.eResource.resourceSet}))
-				transformation.initialize(mapping, engine)
-				transformation.execute
+				createMapping(resource, modelSet, resourceSet)
 			}
 		]
+		
+		transformation.initialize(engine)
+		transformation.execute
 	}
 
-	def createMapping(Resource umlResource, ModelSet modelSet) {
-		val resourceSet = new ResourceSetImpl
+	def createMapping(Resource umlResource, ModelSet modelSet, ResourceSet resourceSet) {
 		
 		val xtumlrtModel = CommonFactory.eINSTANCE.createModel
 		createResource(umlResource, "xtumlrt", xtumlrtModel, modelSet, resourceSet)

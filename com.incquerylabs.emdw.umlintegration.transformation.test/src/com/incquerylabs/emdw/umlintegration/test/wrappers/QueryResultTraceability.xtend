@@ -13,7 +13,7 @@ class QueryResultTraceability extends TransformationWrapper {
 	override initializeTransformation(RootMapping umlToCommon) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(umlToCommon.eResource.resourceSet))
 		xform = new TransformationQrt
-		xform.initialize(umlToCommon, engine)
+		xform.initialize(engine)
 	}
 
 	override executeTransformation() {

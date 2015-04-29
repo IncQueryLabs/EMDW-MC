@@ -25,7 +25,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 
 	@Parameters(name="{index}: {1}")
 	public static def transformations() {
-		val alternatives = ImmutableList.builder//        	.add(new DummyWrapper())
+		val alternatives = ImmutableList.builder
 		.add(new XtumlCPPTransformationWrapper()).build
 
 		alternatives.map [

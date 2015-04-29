@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_KSqHQO1_EeSpPNRl4rkQeA" name="model">
+  <packagedElement xmi:type="uml:Class" xmi:id="_N6XNwO1_EeSpPNRl4rkQeA" name="TEST" classifierBehavior="_a61acO1_EeSpPNRl4rkQeA" isActive="true">
+    <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a61acO1_EeSpPNRl4rkQeA" name="StateMachine1">
+      <region xmi:type="uml:Region" xmi:id="_exZcUO1_EeSpPNRl4rkQeA" name="Region1">
+        <transition xmi:type="uml:Transition" xmi:id="_jqIF0O1_EeSpPNRl4rkQeA" name="Trans1" source="_iRSqoO1_EeSpPNRl4rkQeA" target="_i1m4oO1_EeSpPNRl4rkQeA">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_FMx9cO6OEeSWBJLmP_1KDA" name="init_tr">
+            <language>C++</language>
+            <body>[init transition actions]</body>
+          </effect>
+        </transition>
+        <transition xmi:type="uml:Transition" xmi:id="_WFC0gO5hEeSoVvYukz70vw" name="work" source="_i1m4oO1_EeSpPNRl4rkQeA" target="_TUmGIO5hEeSoVvYukz70vw">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_bQY3MO6REeS1HcsLCJKcDw" name="work_trans">
+            <language>C++</language>
+            <body>[working transition action]&#xD;
+[some more action]</body>
+          </effect>
+          <trigger xmi:type="uml:Trigger" xmi:id="_2KEMAO5oEeSjdrU0lGAP_Q" name="workTrigger" event="_zkWG8O5oEeSjdrU0lGAP_Q"/>
+        </transition>
+        <transition xmi:type="uml:Transition" xmi:id="_cTKjoO5hEeSoVvYukz70vw" name="done" source="_TUmGIO5hEeSoVvYukz70vw" target="_i1m4oO1_EeSpPNRl4rkQeA">
+          <effect xmi:type="uml:OpaqueBehavior" xmi:id="_gYR-EO6REeS1HcsLCJKcDw" name="done_trans">
+            <language>C++</language>
+            <body>[done transition action]</body>
+          </effect>
+          <trigger xmi:type="uml:Trigger" xmi:id="_6w83kO5oEeSjdrU0lGAP_Q" name="doneTrigger" event="_6TOZwO5oEeSjdrU0lGAP_Q"/>
+        </transition>
+        <transition xmi:type="uml:Transition" xmi:id="_odLpcO5hEeSoVvYukz70vw" name="nop" source="_i1m4oO1_EeSpPNRl4rkQeA" target="_i1m4oO1_EeSpPNRl4rkQeA">
+          <trigger xmi:type="uml:Trigger" xmi:id="_F1ZccO5pEeSjdrU0lGAP_Q" name="nopTrigger" event="_Frjj8O5pEeSjdrU0lGAP_Q"/>
+        </transition>
+        <transition xmi:type="uml:Transition" xmi:id="_J-xsoO5pEeSjdrU0lGAP_Q" name="nop_work" source="_TUmGIO5hEeSoVvYukz70vw" target="_TUmGIO5hEeSoVvYukz70vw">
+          <trigger xmi:type="uml:Trigger" xmi:id="_T0TnUO5pEeSjdrU0lGAP_Q" name="nopWorkTrigger" event="_Frjj8O5pEeSjdrU0lGAP_Q"/>
+        </transition>
+        <transition xmi:type="uml:Transition" xmi:id="_RQwakO5rEeSZvuB_k-hBwA" name="die" source="_TUmGIO5hEeSoVvYukz70vw" target="_QFm2EO5rEeSZvuB_k-hBwA"/>
+        <subvertex xmi:type="uml:Pseudostate" xmi:id="_iRSqoO1_EeSpPNRl4rkQeA" name="Initial1"/>
+        <subvertex xmi:type="uml:State" xmi:id="_i1m4oO1_EeSpPNRl4rkQeA" name="Init">
+          <entry xmi:type="uml:OpaqueBehavior" xmi:id="_10MigO6QEeS1HcsLCJKcDw" name="init_entry">
+            <language>C++</language>
+            <body>[init entry action]</body>
+          </entry>
+          <exit xmi:type="uml:OpaqueBehavior" xmi:id="_73jzIO6QEeS1HcsLCJKcDw" name="init_exit">
+            <language>C++</language>
+            <body>[init exit action]</body>
+          </exit>
+        </subvertex>
+        <subvertex xmi:type="uml:State" xmi:id="_TUmGIO5hEeSoVvYukz70vw" name="Working">
+          <entry xmi:type="uml:OpaqueBehavior" xmi:id="_BFDLsO6REeS1HcsLCJKcDw" name="working_entry">
+            <language>C++</language>
+            <body>[working entry action]</body>
+          </entry>
+        </subvertex>
+        <subvertex xmi:type="uml:State" xmi:id="_QFm2EO5rEeSZvuB_k-hBwA" name="Dead">
+          <entry xmi:type="uml:OpaqueBehavior" xmi:id="_E09zAO6REeS1HcsLCJKcDw" name="dead_entry">
+            <language>C++</language>
+            <body>[dead entry action]</body>
+          </entry>
+        </subvertex>
+      </region>
+    </ownedBehavior>
+    <nestedClassifier xmi:type="uml:Signal" xmi:id="_GbNUsO5oEeSjdrU0lGAP_Q" name="WORK"/>
+    <nestedClassifier xmi:type="uml:Signal" xmi:id="_IqFAAO5oEeSjdrU0lGAP_Q" name="DONE"/>
+    <nestedClassifier xmi:type="uml:Signal" xmi:id="_FgKMQO5pEeSjdrU0lGAP_Q" name="NOP"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_zkWG8O5oEeSjdrU0lGAP_Q" name="workSignalEvent" signal="_GbNUsO5oEeSjdrU0lGAP_Q"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_6TOZwO5oEeSjdrU0lGAP_Q" name="doneSignalEvent" signal="_IqFAAO5oEeSjdrU0lGAP_Q"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_Frjj8O5pEeSjdrU0lGAP_Q" name="nopSignalEvent" signal="_FgKMQO5pEeSjdrU0lGAP_Q"/>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_kswAcO1_EeSpPNRl4rkQeA">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ktUBIO1_EeSpPNRl4rkQeA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>

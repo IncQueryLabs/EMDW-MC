@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.util;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Constraint;
 import org.eclipse.uml2.uml.OpaqueBehavior;
@@ -49,15 +50,19 @@ public class ModelUtil {
 		String code = null;
 		if (behaviour instanceof OpaqueBehavior) {
 			OpaqueBehavior opaqueBehaviour = (OpaqueBehavior) behaviour;
-			for (int i = 0; i < opaqueBehaviour.getLanguages().size(); ++i) {
-				String language = opaqueBehaviour.getLanguages().get(i);
+			EList<String> languages = opaqueBehaviour.getLanguages();
+			for (int i = 0; i < languages.size(); ++i) {
+				String language = languages.get(i);
 				if (isCppLanguage(language)) {
-					if (code != null)
+					if (code != null) {
 						throw new RuntimeException(
 								"too many C++-compatible languages for "
 										+ behaviour.getQualifiedName());
-
-					code = opaqueBehaviour.getBodies().get(i);
+					}
+					EList<String> bodies = opaqueBehaviour.getBodies();
+					if(bodies.size() > i) {
+						code = bodies.get(i);
+					}
 				}
 			}
 		}

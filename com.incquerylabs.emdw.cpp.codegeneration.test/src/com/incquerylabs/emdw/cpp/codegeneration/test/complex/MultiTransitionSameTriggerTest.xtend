@@ -29,12 +29,15 @@ class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass>
 		
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
+		s1.createEntryActionCode("entry", "SAMPLE_entry")
+		s1.createExitActionCode("s1_exit", "SOME s1 exit code")
 		topState.createTransition(init, s1, "initTrans",
 			'''
 				SAMPLE_CODE
 				some other code
 			''')
 		val s2 = topState.createSimpleState("s2")
+		s2.createEntryActionCode("s2_entry", "SOME s2 entry action")
 		
 		val t1 = topState.createTransition(s1,s2,"t1", "SAMPLE_CODE",
 			'''

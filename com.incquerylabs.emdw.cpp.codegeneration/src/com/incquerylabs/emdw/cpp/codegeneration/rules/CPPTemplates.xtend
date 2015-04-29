@@ -26,6 +26,7 @@ class CPPTemplates {
 	
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.xtClass.name
+		val finalStateMatcher = codeGenQueries.getCppClassFinalStates(engine)
 		'''
 		class «cppClassName» {
 		public:
@@ -65,7 +66,9 @@ class CPPTemplates {
 					void perform_entry_action_for_«stateCppName»_state(int event_id, std::string event_content);
 				«ENDIF»
 				
-				void process_event_in_«stateCppName»_state(int event_id, std::string event_content);
+				«IF !finalStateMatcher.hasMatch(cppClass, state)»
+					void process_event_in_«stateCppName»_state(int event_id, std::string event_content);
+				«ENDIF»
 				
 				«FOR transitionInfo : state.orderTransitions»
 					«val target = transitionInfo.cppTarget.commonState.name»
@@ -114,6 +117,7 @@ class CPPTemplates {
 			«ENDIF»
 			// execute actions
 			«cppInitStateMatch.initTrans.actionChain.generateActionCode»
+			«cppInitStateMatch.cppInitState.commonState.entryAction.generateActionCode»
 		}
 		
 		void «cppFQN»::process_event(int event_id, std::string event_content) {
@@ -122,7 +126,7 @@ class CPPTemplates {
 			«ENDIF»
 		
 			switch(current_state){
-			«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name]»
+			«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name].filter[!finalStateMatcher.hasMatch(cppClass, it)]»
 			case «cppClassName»_STATE_«state.commonState.name»:
 				process_event_in_«state.commonState.name»_state(event_id, event_content);
 				break;
@@ -152,55 +156,57 @@ class CPPTemplates {
 				}
 			«ENDIF»
 			
-			void «cppFQN»::process_event_in_«stateCppName»_state(int event_id, std::string event_content){
-				«IF generateTracingCode»
-					cout << "  [State: «stateCppName»] Processing event" << endl;
-				«ENDIF»
-				«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
-					«val cppTarget = transitionInfo.cppTarget»
-					«val target = cppTarget.commonState.name»
-					«val transition = transitionInfo.transition»
-					// «stateCppName» -«transition.name»-> «target» transition
-					if(«transition.generatedTransitionCondition(cppClassName, stateCppName, target)») {
-						«IF state.commonState.exitAction != null»	
-							// exit action
-							perform_exit_action_for_«stateCppName»_state(event_id, event_content);
-						«ELSE»
-							// no exit action
-						«ENDIF»
-						«IF transition.actionChain != null»
-							// transition action
-							perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
-						«ELSE»
-							// no transition action
-						«ENDIF»
-						«IF cppTarget.commonState.entryAction != null»
-							// entry action
-							perform_entry_action_for_«target»_state(event_id, event_content);
-						«ELSE»
-							// no entry action
-						«ENDIF»
-						«IF state != cppTarget»
-							// state change
-							current_state = «cppClassName»_STATE_«target»;
-							«IF generateTracingCode»
-								cout << "    State changed to «target»" << endl;
-							«ENDIF»
-						«ELSE»
-							// no state change
-							«IF generateTracingCode»
-								cout << "    No state change on «transition.name»" << endl;
-							«ENDIF»
-						«ENDIF»
-					} «ENDFOR» 
-				{
-					// event not processed in state
+			«IF !finalStateMatcher.hasMatch(cppClass, state)»
+				void «cppFQN»::process_event_in_«stateCppName»_state(int event_id, std::string event_content){
 					«IF generateTracingCode»
-						cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+						cout << "  [State: «stateCppName»] Processing event" << endl;
 					«ENDIF»
+					«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
+						«val cppTarget = transitionInfo.cppTarget»
+						«val target = cppTarget.commonState.name»
+						«val transition = transitionInfo.transition»
+						// «stateCppName» -«transition.name»-> «target» transition
+						if(«transition.generatedTransitionCondition(cppClassName, stateCppName, target)») {
+							«IF state.commonState.exitAction != null»	
+								// exit action
+								perform_exit_action_for_«stateCppName»_state(event_id, event_content);
+							«ELSE»
+								// no exit action
+							«ENDIF»
+							«IF transition.actionChain != null»
+								// transition action
+								perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
+							«ELSE»
+								// no transition action
+							«ENDIF»
+							«IF cppTarget.commonState.entryAction != null»
+								// entry action
+								perform_entry_action_for_«target»_state(event_id, event_content);
+							«ELSE»
+								// no entry action
+							«ENDIF»
+							«IF state != cppTarget»
+								// state change
+								current_state = «cppClassName»_STATE_«target»;
+								«IF generateTracingCode»
+									cout << "    State changed to «target»" << endl;
+								«ENDIF»
+							«ELSE»
+								// no state change
+								«IF generateTracingCode»
+									cout << "    No state change on «transition.name»" << endl;
+								«ENDIF»
+							«ENDIF»
+						} «ENDFOR» 
+					{
+						// event not processed in state
+						«IF generateTracingCode»
+							cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+						«ENDIF»
+					}
+					return;
 				}
-				return;
-			}
+			«ENDIF»
 			
 			«FOR transitionInfo : state.orderTransitions»
 				«val target = transitionInfo.cppTarget.commonState.name»

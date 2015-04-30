@@ -25,8 +25,8 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPModel">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/commonModel"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/bodyFile"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/declHeaderFile"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/defHeaderFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/declarationHeaderFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/definitionHeaderFile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/apiHeaderFile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/headerDir"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/bodyDir"/>
@@ -49,35 +49,35 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPProtocol/headerFile"/>
     </genClasses>
     <genClasses image="false" ecoreClass="cppmodel.ecore#//CPPSourceFile">
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSourceFile/genName"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSourceFile/genDir"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSourceFile/genPath"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSourceFile/generationName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSourceFile/generationDirectory"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSourceFile/generationPath"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPSourceFile/includedHeaders"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPSourceFile/externalHeaderInclusion"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPHeaderFile">
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPHeaderFile/inclName"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPHeaderFile/inclDir"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPHeaderFile/inclPath"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPHeaderFile/includeName"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPHeaderFile/includeDirectory"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPHeaderFile/includePath"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPBodyFile"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPDirectory">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPDirectory/subDirectories"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPDirectory/files"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/name"/>
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/parentDir"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/parentDirectory"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/path"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPComponent">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/xtComponent"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/mainHeaderFile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/mainBodyFile"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/declHeaderFile"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/defHeaderFile"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/headerDir"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/bodyDir"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/externalHeaderDir"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/externalBodySkeletonDir"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/declarationHeaderFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/definitionHeaderFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/headerDirectory"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/bodyDirectory"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/externalHeaderDirectory"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/externalBodySkeletonDirectory"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPExternalHeader">
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPExternalHeader/name"/>
@@ -113,6 +113,7 @@
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPClassRefAssocCollection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPClassRefAssocCollection/cppContainer"/>
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPClassRefAssocCollection/cppAttribute"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPAttribute">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPAttribute/commonAttribute"/>

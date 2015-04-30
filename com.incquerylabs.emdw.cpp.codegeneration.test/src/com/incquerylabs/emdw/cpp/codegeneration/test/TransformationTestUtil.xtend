@@ -592,8 +592,8 @@ class TransformationTestUtil {
 			it.xtComponent = xtcomponent
 			it.mainHeaderFile = mainheader
 			it.mainBodyFile = mainbody
-			it.defHeaderFile = defheader
-			it.declHeaderFile = declheader
+			it.declarationHeaderFile = defheader
+			it.declarationHeaderFile = declheader
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppComponent

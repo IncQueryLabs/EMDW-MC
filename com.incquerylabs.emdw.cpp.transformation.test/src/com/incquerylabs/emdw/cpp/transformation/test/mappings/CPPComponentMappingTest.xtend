@@ -51,8 +51,8 @@ class CPPComponentInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 			assertNotNull(xtComponent)
 			assertNotNull(mainHeaderFile)
 			assertNotNull(mainBodyFile)
-			assertNotNull(declHeaderFile)
-			assertNotNull(defHeaderFile)
+			assertNotNull(declarationHeaderFile)
+			assertNotNull(definitionHeaderFile)
 		]
 	}
 	
@@ -95,8 +95,8 @@ class CPPComponentInModelTest extends MappingBaseTest<Model, CPPModel> {
 			assertNotNull(xtComponent)
 			assertNotNull(mainHeaderFile)
 			assertNotNull(mainBodyFile)
-			assertNotNull(declHeaderFile)
-			assertNotNull(defHeaderFile)
+			assertNotNull(declarationHeaderFile)
+			assertNotNull(definitionHeaderFile)
 		]
 	}
 	

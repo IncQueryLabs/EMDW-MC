@@ -222,8 +222,8 @@ abstract class DynamicBehaviorBaseTest extends TransformationTest<XTPackage, CPP
 
 				comp.assertNotNull
 				comp.xtComponent.assertNotNull
-				comp.declHeaderFile.assertNotNull
-				comp.defHeaderFile.assertNotNull
+				comp.declarationHeaderFile.assertNotNull
+				comp.definitionHeaderFile.assertNotNull
 				comp.mainHeaderFile.assertNotNull
 				comp.mainBodyFile.assertNotNull
 			]

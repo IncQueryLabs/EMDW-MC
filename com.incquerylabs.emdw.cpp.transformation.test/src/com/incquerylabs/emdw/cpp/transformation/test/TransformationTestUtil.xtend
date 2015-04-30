@@ -48,6 +48,10 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTTypeConstraint
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
+import org.eclipse.papyrusrt.xtumlrt.common.ProtocolBehaviourFeatureKind
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocolOperationDefinition
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -163,6 +167,28 @@ class TransformationTestUtil {
 		root.topProtocols += protocol
 		protocol
 	}
+	
+	static def createXtProtocolOperationDefinition(Protocol root, String name, VisibilityKind visibility, boolean isStatic, Type returnType, ProtocolBehaviourFeatureKind kind, Parameter ... parameter) {
+		var def = xtumlFactory.createXTProtocolOperationDefinition => [
+			it.name = name
+			it.visibility = visibility
+			it.static = isStatic
+			it.returnType = returnType
+			it.kind = kind
+			it.parameters += parameter
+		]
+		root.protocolBehaviourFeatures += def
+		def
+	}
+	
+	static def createXtProtocolOperationImplementation(XTPort root, XTProtocolOperationDefinition definition, String body) {
+		var def = xtumlFactory.createXTProtocolOperationImplementation => [
+			it.implements = definition
+		]
+		def.createActionCode("", body)
+		root.realizedOperations += def
+		def
+	}
 
 	static def createSignal(XTProtocol root, String name) {
 		var signal = commonFactory.createSignal => [
@@ -190,6 +216,35 @@ class TransformationTestUtil {
 		]
 		root.events += classEvent
 		classEvent
+	}
+	
+	static def createXtAssociation(XTClass source, XTClass target,String name, boolean unique, boolean ordered, int lowerBound, int upperBound) {
+		val assoc = xtumlFactory.createXTAssociation => [
+			it.source = source
+			it.target = target
+			it.name = name
+			it.unique = unique
+			it.ordered = ordered
+			it.lowerBound = lowerBound
+			it.upperBound = upperBound
+		]
+		source.relations += assoc
+		assoc
+	}
+	
+	static def createXtAssociationClass(XTClass source, XTClass target, XTClass assocClass, String name, boolean unique, boolean ordered, int lowerBound, int upperBound) {
+		val assoc = xtumlFactory.createXTAssociationClass => [
+			it.source = source
+			it.target = target
+			it.associationClass = assocClass
+			it.name = name
+			it.unique = unique
+			it.ordered = ordered
+			it.lowerBound = lowerBound
+			it.upperBound = upperBound
+		]
+		source.relations += assoc
+		assoc
 	}
 
 	static def createPort(XTComponent root, Protocol type, String name, VisibilityKind visibility) {
@@ -323,6 +378,15 @@ class TransformationTestUtil {
 			it.source = code
 		]
 		root.body = action
+		action
+	}
+	
+	static def createActionCode(XTProtocolOperationImplementation root, String name, String code) {
+		val action = commonFactory.createActionCode => [
+			it.name = name
+			it.source = code
+		]
+		root.protocolOperationImplementationAction += action
 		action
 	}
 
@@ -529,6 +593,17 @@ class TransformationTestUtil {
 		root.subElements += cppProtocol
 		root.eResource.contents+= provider
 		cppProtocol
+	}
+	
+	static def CPPProtocolOperationDefinition createCPPProtocolOperationDefinition(CPPQualifiedNamedElement root, XTProtocolOperationDefinition definition) {
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = definition ]
+		val cppdef = cppFactory.createCPPProtocolOperationDefinition => [
+			it.xtProtocolOperationDefinition = definition
+			it.ooplNameProvider = provider
+		]
+		root.subElements += cppdef
+		root.eResource.contents+= provider
+		cppdef
 	}
 
 	static def CPPSignal createCPPSignal(CPPQualifiedNamedElement root, Signal signal) {

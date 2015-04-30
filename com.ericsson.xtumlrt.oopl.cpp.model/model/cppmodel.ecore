@@ -7,7 +7,11 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPNamedElement.ooplNameProvider(cppNamedElement, provider);&#xD;&#xA;&#x9;OOPLExistingNameProvider(provider);&#xD;&#xA;&#x9;OOPLExistingNameProvider.commonNamedElement(provider, element);&#xD;&#xA;&#x9;cppName == eval(toCPPName(element.name));&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPNamedElement.ooplNameProvider(cppNamedElement, provider);&#xD;&#xA;&#x9;OOPLDerivedName(provider);&#xD;&#xA;&#x9;cppName == eval(toCPPName(provider.name));&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="ooplNameProvider" lowerBound="1"
         eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLNameProvider"
         containment="true"/>
@@ -19,10 +23,18 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppPrefix" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPQualifiedNamedElement(parent);&#xD;&#xA;&#x9;parent.subElements == cppQualifiedNamedElement;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppQualifiedName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;cppQualifiedName == eval(cppPrefix+cppName);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="subElements" upperBound="-1"
         eType="#//CPPQualifiedNamedElement" containment="true"/>
   </eClassifiers>
@@ -33,9 +45,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonModel" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Model"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="declHeaderFile" lowerBound="1"
-        eType="#//CPPHeaderFile"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="defHeaderFile" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declarationHeaderFile"
+        lowerBound="1" eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definitionHeaderFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="apiHeaderFile" eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
@@ -77,15 +89,27 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of C++ source file (header and body)."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genName" ordered="false"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="generationName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genDir" ordered="false"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPClass(class);&#xD;&#xA;&#x9;CPPClass.headerFile(class, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(class.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPClass(class);&#xD;&#xA;&#x9;CPPClass.bodyFile(class, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(class.cppName+&quot;.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.mainHeaderFile(component, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(component.cppName+&quot;_main.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.declarationHeaderFile(component, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(component.cppName+&quot;_decl.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.definitionHeaderFile(component, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(component.cppName+&quot;_def.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.mainBodyFile(component, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(component.cppName+&quot;_main.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.declarationHeaderFile(model, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(model.cppName+&quot;_decl.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.definitionHeaderFile(model, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(model.cppName+&quot;_def.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.apiHeaderFile(model, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(model.cppName+&quot;_api.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPackage(package);&#xD;&#xA;&#x9;CPPPackage.headerFile(package, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(package.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPackage(package);&#xD;&#xA;&#x9;CPPPackage.bodyFile(package, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(package.cppName+&quot;.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.headerFile(port, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(port.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.externalHeaderFile(port, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(port.cppName+&quot;_impl.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.bodyFile(port, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(port.cppName+&quot;.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.externalBodySkeletonFile(port, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(port.cppName+&quot;_impl.&quot;+GlobalSettings.cppBodyFileExtension+&quot;_skel&quot;);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPProtocol(protocol);&#xD;&#xA;&#x9;CPPProtocol.headerFile(protocol, cppSourceFile);&#xD;&#xA;&#x9;generationName == eval(protocol.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="generationDirectory" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="genPath" ordered="false"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPDirectory.files(directory, cppSourceFile);&#xD;&#xA;&#x9;generationDirectory == eval(GlobalSettings.generationDirectory+GlobalSettings.pathSeparator+directory.path);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="generationPath" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;generationPath == eval(cppFile.generationDirectory+GlobalSettings.pathSeparator+cppFile.generationName);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="includedHeaders" upperBound="-1"
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderInclusion"
@@ -95,15 +119,27 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="C++ header file that contains the path that must appear in the #include directive."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclName" ordered="false"
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeName" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclDir" ordered="false"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPClass(class);&#xD;&#xA;&#x9;CPPClass.headerFile(class, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(class.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPClass(class);&#xD;&#xA;&#x9;CPPClass.bodyFile(class, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(class.cppName+&quot;.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.mainHeaderFile(component, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(component.cppName+&quot;_main.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.declarationHeaderFile(component, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(component.cppName+&quot;_decl.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.definitionHeaderFile(component, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(component.cppName+&quot;_def.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.mainBodyFile(component, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(component.cppName+&quot;_main.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.declarationHeaderFile(model, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(model.cppName+&quot;_decl.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.definitionHeaderFile(model, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(model.cppName+&quot;_def.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.apiHeaderFile(model, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(model.cppName+&quot;_api.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPackage(package);&#xD;&#xA;&#x9;CPPPackage.headerFile(package, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(package.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPackage(package);&#xD;&#xA;&#x9;CPPPackage.bodyFile(package, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(package.cppName+&quot;.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.headerFile(port, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(port.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.externalHeaderFile(port, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(port.cppName+&quot;_impl.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.bodyFile(port, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(port.cppName+&quot;.&quot;+GlobalSettings.cppBodyFileExtension);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPort(port);&#xD;&#xA;&#x9;CPPPort.externalBodySkeletonFile(port, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(port.cppName+&quot;_impl.&quot;+GlobalSettings.cppBodyFileExtension+&quot;_skel&quot;);&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPProtocol(protocol);&#xD;&#xA;&#x9;CPPProtocol.headerFile(protocol, cppSourceFile);&#xD;&#xA;&#x9;includeName == eval(protocol.cppName+&quot;.&quot;+GlobalSettings.cppHeaderFileExtension);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includeDirectory" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="inclPath" ordered="false"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPDirectory.files(directory, cppHeaderFile);&#xD;&#xA;&#x9;includeDirectory==eval(CPPDirectory.path);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="includePath" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;includePath==eval(cppHeaderFile.includeDirectory+GlobalSettings.pathSeparator+cppHeaderFile.includeName);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPBodyFile" eSuperTypes="#//CPPSourceFile">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -120,13 +156,25 @@
         eType="#//CPPSourceFile" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentDir" ordered="false"
+        changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.headerDirectory(component, cppDirectory);&#xD;&#xA;&#x9;generationName == component.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.bodyDirectory(component, cppDirectory);&#xD;&#xA;&#x9;generationName == component.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.externalHeaderDirectory(component, cppDirectory);&#xD;&#xA;&#x9;generationName == component.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPComponent(component);&#xD;&#xA;&#x9;CPPComponent.externalBodySkeletonDirectory(component, cppDirectory);&#xD;&#xA;&#x9;generationName == component.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.headerDirectory(model, cppDirectory);&#xD;&#xA;&#x9;generationName == model.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.bodyDirectory(model, cppDirectory);&#xD;&#xA;&#x9;generationName == model.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.externalHeaderDirectory(model, cppDirectory);&#xD;&#xA;&#x9;generationName == model.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPModel(model);&#xD;&#xA;&#x9;CPPModel.externalBodySkeletonDirectory(model, cppDirectory);&#xD;&#xA;&#x9;generationName == model.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPackage(package);&#xD;&#xA;&#x9;CPPPackage.headerDirectory(package, cppDirectory);&#xD;&#xA;&#x9;generationName == package.cppName;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPPackagel(package);&#xD;&#xA;&#x9;CPPPackage.bodyDirectory(package, cppDirectory);&#xD;&#xA;&#x9;generationName == package.cppName;&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentDirectory" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;CPPDirectory.subDirectories(parent, cppDirectory);&#xD;&#xA;&#x9;parentDirectory==parent.name;&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" ordered="false" unique="false"
         lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true"/>
+        changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;cppDirectory.path==eval(cppDirectory.parentDirectory+GlobalSettings.pathSeparator+cppDirectory.name);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPComponent" eSuperTypes="#//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -138,14 +186,15 @@
         eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="mainBodyFile" lowerBound="1"
         eType="#//CPPBodyFile"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="declHeaderFile" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="declarationHeaderFile"
+        lowerBound="1" eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definitionHeaderFile" lowerBound="1"
         eType="#//CPPHeaderFile"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="defHeaderFile" lowerBound="1"
-        eType="#//CPPHeaderFile"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDir" eType="#//CPPDirectory"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderDir" eType="#//CPPDirectory"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="externalBodySkeletonDir"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerDirectory" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyDirectory" eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeaderDirectory"
+        eType="#//CPPDirectory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="externalBodySkeletonDirectory"
         eType="#//CPPDirectory"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeader">

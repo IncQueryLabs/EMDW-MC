@@ -54,5 +54,9 @@ class CPPSignalMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {
 		xtObject.protocolBehaviourFeatures.clear
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTProtocol xtObject, CPPProtocol cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 	
 }

@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
@@ -48,7 +47,7 @@ class CPPTransitionInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 		val xtClass = xtComponent.ownedClasses.head as XTClass
 		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
 		
-		cppClass
+		return cppClass
 	}
 	
 	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
@@ -64,69 +63,20 @@ class CPPTransitionInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 	private def List<Transition> getAllTransitions(CompositeState comp){
 		val compstates = comp.substates.filter(CompositeState)
 		val transitions = new ArrayList<Transition>()
-		compstates.forEach[
-			transitions.addAll(allTransitions)
+		compstates.forEach[it |
+			transitions.addAll(it.allTransitions)
 		]
 		transitions.addAll(comp.transitions)
-		transitions
+		return transitions
 	}
 	
 	override protected clearXtUmlElement(XTClass xtObject) {
 		xtObject.behaviour.top.transitions.clear
 	}
 	
-}
-
-
-@RunWith(Parameterized)
-class CPPTransitionInComponentTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
-	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
-		val component = pack.createXtComponent("Component")
-		val topState = component.createStateMachine("SM").createCompositeState("top")
-		val s1 = topState.createSimpleState("s1")
-		val s2 = topState.createSimpleState("s2")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
-
-		component
-	}
-		
-	override protected prepareCppModel(CPPModel cppModel) {
-		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		
-		cppComponent
-	}
-	
-	override protected assertResult(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
-		val xtTrans = xtObject.behaviour.top.allTransitions
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
 		val cppTrans = cppObject.subElements.filter(CPPTransition)
-		assertEquals(xtTrans.size,cppTrans.size)
-		cppTrans.forEach[
-			assertNotNull(ooplNameProvider)
-			assertNotNull(commonTransition)
-		]
-	}
-	
-	private def List<Transition> getAllTransitions(CompositeState comp){
-		val compstates = comp.substates.filter(CompositeState)
-		val transitions = new ArrayList<Transition>()
-		compstates.forEach[
-			transitions.addAll(allTransitions)
-		]
-		transitions.addAll(comp.transitions)
-		transitions
-	}
-	
-	override protected clearXtUmlElement(XTComponent xtObject) {
-		xtObject.behaviour.top.transitions.clear
+		assertEquals(0,cppTrans.size)
 	}
 	
 }

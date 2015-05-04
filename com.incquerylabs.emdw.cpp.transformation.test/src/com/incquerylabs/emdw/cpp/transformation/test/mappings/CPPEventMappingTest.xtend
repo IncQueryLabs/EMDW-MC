@@ -62,5 +62,9 @@ class CPPEventMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 		xtObject.events.clear
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 	
 }

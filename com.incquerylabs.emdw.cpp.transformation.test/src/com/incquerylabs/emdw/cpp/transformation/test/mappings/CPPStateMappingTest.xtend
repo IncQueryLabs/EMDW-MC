@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
@@ -63,46 +62,9 @@ class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPClass> {
 		xtObject.substates.clear
 	}
 	
-}
-
-@RunWith(Parameterized)
-class CPPStateInComponentTest extends MappingBaseTest<CompositeState, CPPComponent> {
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
-		override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
-		val component = pack.createXtComponent("Component")
-		val topState = component.createStateMachine("SM").createCompositeState("top")
-		val s1 = topState.createSimpleState("s1")
-		val s2 = topState.createSimpleState("s2")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
-		topState
-	}
-		
-	override protected prepareCppModel(CPPModel cppModel) {
-		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		
-		cppComponent
-	}
-	
-	override protected assertResult(Model input, CPPModel result, CompositeState xtObject, CPPComponent cppObject) {
+	override protected assertClear(Model input, CPPModel result, CompositeState xtObject, CPPClass cppObject) {
 		val cppStates = cppObject.subElements.filter(CPPState)
-		assertFalse(cppStates.exists[commonState == xtObject])
-		assertEquals(2,cppStates.size)
-		cppStates.forEach[
-			assertNotNull(ooplNameProvider)
-			assertNotNull(commonState)
-		]
-	}
-	
-	override protected clearXtUmlElement(CompositeState xtObject) {
-		xtObject.substates.clear
+		assertEquals(0,cppStates.size)
 	}
 	
 }

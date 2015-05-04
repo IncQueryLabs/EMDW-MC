@@ -72,4 +72,8 @@ class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPPor
 		xtObject.realizedOperations.clear
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTPort xtObject, CPPPort cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

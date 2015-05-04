@@ -55,6 +55,10 @@ class CPPProtocolInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 		xtObject.protocols.clear
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
 
 
@@ -92,6 +96,10 @@ class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	
 	override protected clearXtUmlElement(Model xtObject) {
 		xtObject.topProtocols.clear
+	}
+	
+	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

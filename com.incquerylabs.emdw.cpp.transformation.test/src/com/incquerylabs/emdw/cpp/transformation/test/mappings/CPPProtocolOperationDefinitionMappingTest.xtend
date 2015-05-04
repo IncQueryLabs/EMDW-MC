@@ -59,5 +59,9 @@ class CPPProtocolOperationDefinitionMappingTest extends MappingBaseTest<XTProtoc
 		xtObject.protocolBehaviourFeatures.removeAll(defs)
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTProtocol xtObject, CPPProtocol cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 	
 }

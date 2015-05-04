@@ -58,6 +58,10 @@ class CPPAttributeInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 		xtObject.attributes.clear
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
 
 
@@ -98,6 +102,10 @@ class CPPAttributeInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	
 	override protected clearXtUmlElement(XTComponent xtObject) {
 		xtObject.attributes.clear
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

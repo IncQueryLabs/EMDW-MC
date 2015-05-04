@@ -66,4 +66,8 @@ class CPPPortMappingTest extends MappingBaseTest<XTComponent, CPPComponent> {
 		xtObject.ports.clear
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

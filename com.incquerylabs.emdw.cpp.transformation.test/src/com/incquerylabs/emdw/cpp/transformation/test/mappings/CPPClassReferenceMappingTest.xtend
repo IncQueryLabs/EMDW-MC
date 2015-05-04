@@ -77,6 +77,10 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 		xtObject.relations.removeAll(associations)
 	}
 	
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }
 
 
@@ -134,6 +138,10 @@ CPPDirectory rootDir;
 	override protected clearXtUmlElement(XTClass xtObject) {
 		val associations = xtObject.relations.filter(XTAssociation)
 		xtObject.relations.removeAll(associations)
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }
@@ -199,6 +207,10 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 	override protected clearXtUmlElement(XTClass xtObject) {
 		val associations = xtObject.relations.filter(XTAssociationClass)
 		xtObject.relations.removeAll(associations)
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

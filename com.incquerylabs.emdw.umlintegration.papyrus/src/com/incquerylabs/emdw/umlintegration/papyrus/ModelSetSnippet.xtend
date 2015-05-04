@@ -3,6 +3,10 @@ package com.incquerylabs.emdw.umlintegration.papyrus
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
+import org.apache.log4j.RollingFileAppender
+import org.apache.log4j.SimpleLayout
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -18,6 +22,18 @@ import org.eclipse.uml2.uml.resource.UMLResource
 class ModelSetSnippet implements IModelSetSnippet {
 
 	val transformation = new TransformationQrt
+
+	new(){
+		val logger = Logger.getLogger(TransformationQrt.package.name)
+		if(logger.level != Level.TRACE){
+			logger.level = Level.TRACE
+			val layout = new SimpleLayout()
+			val rollingAppender = new RollingFileAppender(layout, "emdw-papyrus-integration.log")
+			rollingAppender.setMaxFileSize("1MB")
+			rollingAppender.setMaxBackupIndex(10)
+			logger.addAppender(rollingAppender)
+		}
+	}
 
 	override start(ModelSet modelSet) {
 		val resourceSet = new ResourceSetImpl

@@ -32,11 +32,9 @@ class CPPTransitionInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")
-		val classEvent = xtClass.createXtClassEvent("ClassEvent")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		val trans = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
-		trans.createXTEventTrigger(classEvent, "Trigger")
+		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
 		
 		xtClass
 	}

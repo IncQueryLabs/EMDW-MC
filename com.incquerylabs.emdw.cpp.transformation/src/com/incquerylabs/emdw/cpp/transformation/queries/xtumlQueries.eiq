@@ -5,41 +5,102 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
-pattern xtModelToCppModel(
+/**
+ * XTUML queries
+ */
+
+pattern xtModelEntities(
 	xtModel : Model,
-	cppModel : CPPModel
+	entity : Entity
 ) {
-	CPPModel.commonModel(cppModel, xtModel);
+	Model.topEntities(xtModel, entity);
+} or {
+	Model.rootPackages(xtModel, xtPackage);
+	XTPackage.entities(xtPackage, entity);
+} or {
+	Model.rootPackages(xtModel, xtPackage);
+	find xtPackageSubPackages+(xtPackage, subPackage);
+	XTPackage.entities(subPackage, entity);
 }
 
 pattern xtModelXTClasses(
 	xtModel : Model,
 	xtClass : XTClass
 ) {
-	Model.topEntities(xtModel, xtClass);
-} or {
-	Model.rootPackages(xtModel, xtPackage);
-	XTPackage.entities(xtPackage, xtClass);
-} or {
-	Model.rootPackages(xtModel, xtPackage);
-	find xtPackageSubPackages+(xtPackage, subPackage);
-	XTPackage.entities(subPackage, xtClass);
+	find xtModelEntities(xtModel, xtClass);
+}
+
+pattern xtComponentXTClasses(
+	xtComponent : XTComponent,
+	xtClass : XTClass
+) {
+	XTComponent.ownedClasses(xtComponent, xtClass);
+}
+
+pattern xtComponentXTPackages(
+	xtComponent : XTComponent,
+	xtPackage : XTPackage
+) {
+	XTComponent.packages(xtComponent, xtPackage);
 }
 
 pattern xtPackageSubPackages(
-	parent : XTPackage,
+	xtPackage : XTPackage,
 	subPackage : XTPackage
 ) {
-	XTPackage.packages(parent, subPackage);
+	XTPackage.packages(xtPackage, subPackage);
 }
 
-pattern classStateMachine(
-	xtClass : XTClass,
-	cppClass : CPPClass,
-	statemachine : StateMachine
+pattern xtPackageXTComponents(
+	xtPackage : XTPackage,
+	xtComponent : XTComponent
 ) {
-	XTClass.behaviour(xtClass, statemachine);
-	CPPClass.xtClass(cppClass, xtClass);
+	XTPackage.entities(xtPackage, xtComponent);
+}
+
+pattern xtPackageXTClasses(
+	xtPackage : XTPackage,
+	xtClass : XTClass
+) {
+	XTPackage.entities(xtPackage, xtClass);
+}
+
+pattern allXTComponentsOfXTComponent(
+	xtComponent : XTComponent,
+	subComponent : XTComponent
+) {
+	find xtComponentXTPackages(xtComponent, xtPackage);
+	find xtPackageXTComponents(xtPackage, subComponent);
+} or {
+	find xtComponentXTPackages(xtComponent, xtPackage);
+	find xtPackageSubPackages+(xtPackage, xtSubPackage);
+	find xtPackageXTComponents(xtSubPackage, subComponent);
+}
+
+pattern allXTComponentsOfModel(
+	xtModel : Model,
+	xtComponent : XTComponent
+) {
+	Model.topEntities(xtModel, xtComponent);
+} or {
+	Model.topEntities(xtModel, parent);
+	find allXTComponentsOfXTComponent+(parent, xtComponent);
+} or {
+	Model.rootPackages(xtModel, xtPackage);
+	find xtPackageXTComponents(xtPackage, xtComponent);
+} or {
+	Model.rootPackages(xtModel, parent);
+	find xtPackageSubPackages+(parent, xtPackage);
+	find xtPackageXTComponents(xtPackage, xtComponent);
+} or {
+	Model.rootPackages(xtModel, parent);
+	find xtPackageSubPackages+(parent, xtPackage);
+	find xtPackageXTComponents(xtPackage, component);
+	find allXTComponentsOfXTComponent+(component, xtComponent);
+} or {
+	Model.rootPackages(xtModel, xtPackage);
+	find xtPackageXTComponents(xtPackage, parent);
+	find allXTComponentsOfXTComponent+(parent, xtComponent);
 }
 
 pattern stateMachineStates(
@@ -55,6 +116,34 @@ pattern compositeStateSubStates(
 	subState : State
 ) {
 	CompositeState.substates(compositeState, subState);
+}
+
+/**
+ * CPP Model queries
+ */
+
+pattern xtModelToCppModel(
+	xtModel : Model,
+	cppModel : CPPModel
+) {
+	CPPModel.commonModel(cppModel, xtModel);
+}
+
+pattern cppComponents(
+	xtModel : Model,
+	cppComponent : CPPComponent
+) {
+	find xtModelEntities(xtModel, xtComponent);
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+}
+
+pattern classStateMachine(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	statemachine : StateMachine
+) {
+	XTClass.behaviour(xtClass, statemachine);
+	CPPClass.xtClass(cppClass, xtClass);
 }
 
 pattern classStateMachineStates(

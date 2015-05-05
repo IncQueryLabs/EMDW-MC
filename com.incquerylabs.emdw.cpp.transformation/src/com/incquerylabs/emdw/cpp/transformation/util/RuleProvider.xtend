@@ -23,6 +23,10 @@ class RuleProvider {
 		this.engine = engine
 	}
 	
+	public val cleanComponentsRule = createRule.precondition(allXTComponentsOfModel).action[ match |
+		// TODO clean component
+	].build
+	
 	public val stateRule = createRule.precondition(classStateMachineStates).action[ match |
 		val state = match.state
 		val cppState = createCPPState => [

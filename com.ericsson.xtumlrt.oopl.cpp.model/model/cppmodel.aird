@@ -8,6 +8,7 @@
   <models xmi:type="genmodel:GenModel" href="platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#/"/>
   <models xmi:type="genmodel:GenModel" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#/"/>
   <models xmi:type="genmodel:GenModel" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#/"/>
+  <models xmi:type="css:Stylesheet" href="../doc/stylesheet.css#/"/>
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_6JD9EM7rEeS3VI6j6-KGPw" initialized="true">
     <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Review']"/>
   </ownedViews>
@@ -2466,7 +2467,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms619FWEeSJfol0P0KPCg" name="/parentDir : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms619FWEeSJfol0P0KPCg" name="/parentDirectory : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPDirectory/parentDirectory"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPDirectory/parentDirectory"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU5VYON5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU3gMuN5EeSjd7NJV0WKhQ">
@@ -2516,7 +2517,7 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_cms67dFWEeSJfol0P0KPCg" red="228" green="228" blue="228"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms67tFWEeSJfol0P0KPCg" name="/genName : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms67tFWEeSJfol0P0KPCg" name="/generationName : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationName"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationName"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU6jguN5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU6jgON5EeSjd7NJV0WKhQ">
@@ -2526,7 +2527,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms689FWEeSJfol0P0KPCg" name="/genDir : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms689FWEeSJfol0P0KPCg" name="/generationDirectory : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationDirectory"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationDirectory"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU7KlON5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU7KkuN5EeSjd7NJV0WKhQ">
@@ -2536,7 +2537,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms6-NFWEeSJfol0P0KPCg" name="/genPath : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms6-NFWEeSJfol0P0KPCg" name="/generationPath : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationPath"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationPath"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU7xpON5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU7xouN5EeSjd7NJV0WKhQ">
@@ -2619,7 +2620,7 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_cms7HdFWEeSJfol0P0KPCg" red="255" green="252" blue="216"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms7HtFWEeSJfol0P0KPCg" name="/inclName : EString" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms7HtFWEeSJfol0P0KPCg" name="/includeName : EString" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeName"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeName"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU8_wuN5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU8_wON5EeSjd7NJV0WKhQ">
@@ -2629,7 +2630,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms7I9FWEeSJfol0P0KPCg" name="/inclDir : EString" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms7I9FWEeSJfol0P0KPCg" name="/includeDirectory : EString" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeDirectory"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeDirectory"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU9m0ON5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU8_yON5EeSjd7NJV0WKhQ">
@@ -2639,7 +2640,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms7KNFWEeSJfol0P0KPCg" name="/inclPath : EString" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_cms7KNFWEeSJfol0P0KPCg" name="/includePath : EString" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includePath"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includePath"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_gU9m2ON5EeSjd7NJV0WKhQ" labelFormat="bold" labelAlignment="LEFT" description="_gU9m1uN5EeSjd7NJV0WKhQ">
@@ -2707,7 +2708,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7SdFWEeSJfol0P0KPCg" name="[1..1] declHeaderFile" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7SdFWEeSJfol0P0KPCg" name="[1..1] declarationHeaderFile" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/declarationHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/declarationHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gVP6tuN5EeSjd7NJV0WKhQ" description="_gVP6suN5EeSjd7NJV0WKhQ" routingStyle="manhattan">
@@ -2721,7 +2722,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7UNFWEeSJfol0P0KPCg" name="[1..1] defHeaderFile" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7UNFWEeSJfol0P0KPCg" name="[1..1] definitionHeaderFile" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/definitionHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/definitionHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gVQhxuN5EeSjd7NJV0WKhQ" description="_gVQhwuN5EeSjd7NJV0WKhQ" routingStyle="manhattan">
@@ -2735,7 +2736,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7V9FWEeSJfol0P0KPCg" name="[0..1] headerDir" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7V9FWEeSJfol0P0KPCg" name="[0..1] headerDirectory" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/headerDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/headerDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_cms7WNFWEeSJfol0P0KPCg" routingStyle="manhattan">
@@ -2750,7 +2751,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7XtFWEeSJfol0P0KPCg" name="[0..1] bodyDir" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7XtFWEeSJfol0P0KPCg" name="[0..1] bodyDirectory" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/bodyDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/bodyDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_cms7X9FWEeSJfol0P0KPCg" routingStyle="manhattan">
@@ -2782,7 +2783,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7bNFWEeSJfol0P0KPCg" name="[1..1] declHeaderFile" visible="false" sourceNode="_cms6LNFWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7bNFWEeSJfol0P0KPCg" name="[1..1] declarationHeaderFile" visible="false" sourceNode="_cms6LNFWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/declarationHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/declarationHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gVGwxeN5EeSjd7NJV0WKhQ" description="_gVGwweN5EeSjd7NJV0WKhQ" routingStyle="manhattan">
@@ -2796,7 +2797,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7c9FWEeSJfol0P0KPCg" name="[1..1] defHeaderFile" visible="false" sourceNode="_cms6LNFWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_cms7c9FWEeSJfol0P0KPCg" name="[1..1] definitionHeaderFile" visible="false" sourceNode="_cms6LNFWEeSJfol0P0KPCg" targetNode="_cms7GNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/definitionHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/definitionHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_gVH-5uN5EeSjd7NJV0WKhQ" description="_gVH-4uN5EeSjd7NJV0WKhQ" routingStyle="manhattan">
@@ -3057,7 +3058,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_g-Y78NIuEeSYKurd2GZ11A" name="[0..1] externalHeaderDir" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_g-Y78NIuEeSYKurd2GZ11A" name="[0..1] externalHeaderDirectory" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalHeaderDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalHeaderDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_g-ZjANIuEeSYKurd2GZ11A" routingStyle="manhattan">
@@ -3074,7 +3075,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_g-ZjBtIuEeSYKurd2GZ11A" name="[0..1] externalBodySkeletonDir" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_g-ZjBtIuEeSYKurd2GZ11A" name="[0..1] externalBodySkeletonDirectory" visible="false" sourceNode="_cms6U9FWEeSJfol0P0KPCg" targetNode="_cms6zNFWEeSJfol0P0KPCg">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalBodySkeletonDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalBodySkeletonDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_g-ZjB9IuEeSYKurd2GZ11A" routingStyle="manhattan">
@@ -20178,7 +20179,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d6PbNg0EeSRHevzpvokqQ" name="/parentDir : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d6PbNg0EeSRHevzpvokqQ" name="/parentDirectory : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPDirectory/parentDirectory"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPDirectory/parentDirectory"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25Qrpt7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25Qrpd7CEeSdkdK9JAnWrg">
@@ -20230,7 +20231,7 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_0d6Pgtg0EeSRHevzpvokqQ" red="228" green="228" blue="228"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d6Pg9g0EeSRHevzpvokqQ" name="/genName : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d6Pg9g0EeSRHevzpvokqQ" name="/generationName : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationName"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationName"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25RStt7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25RStd7CEeSdkdK9JAnWrg">
@@ -20240,7 +20241,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d6PiNg0EeSRHevzpvokqQ" name="/genDir : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d6PiNg0EeSRHevzpvokqQ" name="/generationDirectory : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationDirectory"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationDirectory"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25R5wd7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25R5wN7CEeSdkdK9JAnWrg">
@@ -20250,7 +20251,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61Etg0EeSRHevzpvokqQ" name="/genPath : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61Etg0EeSRHevzpvokqQ" name="/generationPath : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationPath"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPSourceFile/generationPath"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25R5xt7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25R5xd7CEeSdkdK9JAnWrg">
@@ -20339,7 +20340,7 @@
           <foregroundColor xmi:type="viewpoint:RGBValues" xmi:id="_0d61N9g0EeSRHevzpvokqQ" red="255" green="252" blue="216"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']"/>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61ONg0EeSRHevzpvokqQ" name="/inclName : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61ONg0EeSRHevzpvokqQ" name="/includeName : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeName"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeName"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25Sg0d7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25Sg0N7CEeSdkdK9JAnWrg">
@@ -20349,7 +20350,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61Pdg0EeSRHevzpvokqQ" name="/inclDir : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61Pdg0EeSRHevzpvokqQ" name="/includeDirectory : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeDirectory"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includeDirectory"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25TH4N7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25Sg1d7CEeSdkdK9JAnWrg">
@@ -20359,7 +20360,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='EC%20EAttribute']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61Qtg0EeSRHevzpvokqQ" name="/inclPath : EString" visible="false" tooltipText="">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_0d61Qtg0EeSRHevzpvokqQ" name="/includePath : EString" visible="false" tooltipText="">
           <target xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includePath"/>
           <semanticElements xmi:type="ecore:EAttribute" href="cppmodel.ecore#//CPPHeaderFile/includePath"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_25TH5d7CEeSdkdK9JAnWrg" labelFormat="bold" labelAlignment="LEFT" description="_25TH5N7CEeSdkdK9JAnWrg">
@@ -20429,7 +20430,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61Y9g0EeSRHevzpvokqQ" name="[1..1] declHeaderFile" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61Y9g0EeSRHevzpvokqQ" name="[1..1] declarationHeaderFile" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/declarationHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/declarationHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d61ZNg0EeSRHevzpvokqQ" description="_0d5ol9g0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20443,7 +20444,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61atg0EeSRHevzpvokqQ" name="[1..1] defHeaderFile" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61atg0EeSRHevzpvokqQ" name="[1..1] definitionHeaderFile" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/definitionHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/definitionHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d61a9g0EeSRHevzpvokqQ" description="_0d5omtg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20457,7 +20458,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61cdg0EeSRHevzpvokqQ" name="[0..1] headerDir" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61cdg0EeSRHevzpvokqQ" name="[0..1] headerDirectory" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/headerDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/headerDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d61ctg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20472,7 +20473,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61eNg0EeSRHevzpvokqQ" name="[0..1] bodyDir" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61eNg0EeSRHevzpvokqQ" name="[0..1] bodyDirectory" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/bodyDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/bodyDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d61edg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20504,7 +20505,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61htg0EeSRHevzpvokqQ" name="[1..1] declHeaderFile" visible="false" sourceNode="_0d6Oudg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61htg0EeSRHevzpvokqQ" name="[1..1] declarationHeaderFile" visible="false" sourceNode="_0d6Oudg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/declarationHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/declarationHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d61h9g0EeSRHevzpvokqQ" description="_0d6OAdg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20518,7 +20519,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61jdg0EeSRHevzpvokqQ" name="[1..1] defHeaderFile" visible="false" sourceNode="_0d6Oudg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d61jdg0EeSRHevzpvokqQ" name="[1..1] definitionHeaderFile" visible="false" sourceNode="_0d6Oudg0EeSRHevzpvokqQ" targetNode="_0d61Mtg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/definitionHeaderFile"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPModel/definitionHeaderFile"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d61jtg0EeSRHevzpvokqQ" description="_0d6OBNg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20779,7 +20780,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d62Bdg0EeSRHevzpvokqQ" name="[0..1] externalHeaderDir" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d62Bdg0EeSRHevzpvokqQ" name="[0..1] externalHeaderDirectory" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalHeaderDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalHeaderDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d62Btg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -20796,7 +20797,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@edgeMappings[name='EC_EReference']"/>
       </ownedDiagramElements>
-      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d62DNg0EeSRHevzpvokqQ" name="[0..1] externalBodySkeletonDir" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
+      <ownedDiagramElements xmi:type="diagram:DEdge" xmi:id="_0d62DNg0EeSRHevzpvokqQ" name="[0..1] externalBodySkeletonDirectory" visible="false" sourceNode="_0d6O4tg0EeSRHevzpvokqQ" targetNode="_0d6PYdg0EeSRHevzpvokqQ">
         <target xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalBodySkeletonDirectory"/>
         <semanticElements xmi:type="ecore:EReference" href="cppmodel.ecore#//CPPComponent/externalBodySkeletonDirectory"/>
         <ownedStyle xmi:type="diagram:EdgeStyle" xmi:id="_0d62Ddg0EeSRHevzpvokqQ" routingStyle="manhattan">
@@ -33634,7 +33635,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_9yfyH-mQEeSO_bDErj8qSQ" routing="Tree"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_9yfyIOmQEeSO_bDErj8qSQ" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_9yfyIemQEeSO_bDErj8qSQ" points="[0, -49, -168, 144]$[0, -97, -168, 96]$[168, -97, 0, 96]$[168, -144, 0, 49]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_9yfyIemQEeSO_bDErj8qSQ" points="[0, -49, -180, 144]$[0, -97, -180, 96]$[180, -97, 0, 96]$[180, -144, 0, 49]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_9yfyIumQEeSO_bDErj8qSQ" id="(0.5,0.5)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_9yfyI-mQEeSO_bDErj8qSQ" id="(0.5,0.5)"/>
           </edges>
@@ -35670,5 +35671,4 @@
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_6lPiwM7rEeS3VI6j6-KGPw" initialized="true">
     <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Archetype']"/>
   </ownedViews>
-  <models xmi:type="css:Stylesheet" href="../doc/stylesheet.css#/"/>
 </viewpoint:DAnalysis>

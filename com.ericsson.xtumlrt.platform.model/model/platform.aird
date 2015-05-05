@@ -109,7 +109,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_Bq9Q0e2vEeSGx5Oa56glyw" routing="Rectilinear" jumpLinkStatus="Above"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_Bq9Q0u2vEeSGx5Oa56glyw" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Bq9Q0-2vEeSGx5Oa56glyw" points="[-6, 49, -6, -143]$[-6, 144, -6, -48]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Bq9Q0-2vEeSGx5Oa56glyw" points="[0, 49, 0, -143]$[0, 144, 0, -48]"/>
           </edges>
           <edges xmi:type="notation:Edge" xmi:id="_abz-gO2zEeSGx5Oa56glyw" type="4001" element="_abvtEO2zEeSGx5Oa56glyw" source="_-sfUkO2uEeSGx5Oa56glyw" target="_abyJUO2zEeSGx5Oa56glyw">
             <children xmi:type="notation:Node" xmi:id="_ab0lkO2zEeSGx5Oa56glyw" type="6001">

@@ -100,7 +100,8 @@ class RuleProvider {
 		XTGeneralizationRules.getRules(engine).initRules
 		XTPackageRules.getRules(engine).initRules
 		XTPortRules.getRules(engine).initRules
-		XTSignalEventRules.getRules(engine).initRules
+// FIXME signal event not correct 
+//		XTSignalEventRules.getRules(engine).initRules
 	}
 	
 	/**

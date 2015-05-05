@@ -16,8 +16,7 @@ class XTSignalEventRules{
 }
 
 /**
- * Transforms Signals which are a Class's classifier behavior's transition's trigger's event's signals to the transformed XTClass's events.
- * The Signal must also be an Interface's nested classifier.
+ * FIXME signal events are related to protocol signals and not dependent on transition triggers
  */
 class XTSignalEventMapping extends AbstractObjectMapping<XtSignalEventMatch, Signal, XTSignalEvent> {
 

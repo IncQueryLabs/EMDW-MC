@@ -171,8 +171,11 @@ pattern xtGeneralization(subClass: Class, generalization: Generalization) {
 
 pattern xtClassEvent(umlClass: Class, signal: Signal) {
 	Class.nestedClassifier(umlClass, signal);
+	SignalEvent.signal(_, signal);
+	
 }
 
+// FIXME Signal Event is related to protocol, so this is incorrect
 pattern xtSignalEvent(umlClass: Class, signal: Signal) {
 	Interface.nestedClassifier(_, signal);
 

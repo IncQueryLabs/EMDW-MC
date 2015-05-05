@@ -23,7 +23,8 @@ class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigg
 
 	override protected createUmlObject(Model umlRoot) {
 		val trigger = createTrigger(umlRoot)
-		createSignalForSignalEvent(umlRoot, trigger) // this will become the trigger's event
+		val owner = umlRoot.packagedElements.filter(org.eclipse.uml2.uml.Class).head
+		createSignalAndSignalEvent(umlRoot, owner, trigger) // this will become the trigger's event
 		trigger
 	}
 

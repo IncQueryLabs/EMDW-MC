@@ -177,25 +177,28 @@ class TransformationTestUtil {
 		generalization
 	}
 
-	static def createSignalForClassEvent(Model umlRoot) {
-		val signal = umlFactory.createSignal
+	static def createClassAndSignal(Model umlRoot) {
+		val mySignal = umlFactory.createSignal
 		val class = createClass("class") => [
-			nestedClassifiers += signal
+			nestedClassifiers += mySignal
 		]
 		umlRoot.packagedElements += class
-		signal
+		mySignal
+	}
+	
+	static def createClassSignal(Class owner) {
+		val mySignal = umlFactory.createSignal
+		owner.nestedClassifiers += mySignal
+		mySignal
 	}
 
-	static def createSignalForSignalEvent(Model umlRoot, Trigger trigger) {
-		val signal = umlFactory.createSignal
-		createInterface(umlRoot, "interface") => [
-			nestedClassifiers += signal
-		]
+	static def createSignalAndSignalEvent(Model umlRoot, Class owner, Trigger trigger) {
+		val signal = owner.createClassSignal
 		trigger.event = createSignalEvent(umlRoot, signal)
 		signal
 	}
 
-	private static def createSignalEvent(Model umlRoot, Signal signal) {
+	static def createSignalEvent(Model umlRoot, Signal signal) {
 		val signalEvent = umlFactory.createSignalEvent => [
 			it.signal = signal
 		]

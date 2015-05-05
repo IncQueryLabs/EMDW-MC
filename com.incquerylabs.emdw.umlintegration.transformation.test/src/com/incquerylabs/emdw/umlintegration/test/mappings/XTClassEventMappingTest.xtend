@@ -20,7 +20,9 @@ class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
 	}
 
 	override protected createUmlObject(Model umlRoot) {
-		createSignalForClassEvent(umlRoot)
+		val signal = createClassAndSignal(umlRoot)
+		createSignalEvent(umlRoot, signal)
+		signal
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {

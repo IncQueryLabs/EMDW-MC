@@ -29,7 +29,7 @@ class TestWithoutParameters {
     
     @BeforeClass
 	def static setupRootLogger() {
-		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.DEBUG
+		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.TRACE
 	}
 	
 	@After

@@ -12,10 +12,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import org.junit.runners.Suite
+
+@SuiteClasses(#[
+	CPPClassInPackageTest,
+	CPPClassInModelTest,
+	CPPClassInComponentTest
+])
+@RunWith(Suite)
+class CPPClassMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPClassInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
@@ -126,18 +136,22 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 		val component = pack.createXtComponent("Component")
 		component.createXtClass("Class")
 		
-		component
+		return component
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.rootPackages.head as XTPackage
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		cppComponent
+		
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		cppComponent.headerDirectory = rootDir
+		cppComponent.bodyDirectory = rootDir
+		
+		return cppComponent
 	}
 	
 	override protected assertResult(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
@@ -159,7 +173,10 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppClasses = cppObject.subElements.filter(CPPClass)
+		assertEquals(0,cppClasses.size)
+		assertEquals(0,rootDir.countCppHeaderFiles)
+		assertEquals(0,rootDir.countCppBodyFiles)
 	}
 	
 }

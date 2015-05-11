@@ -9,10 +9,19 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	CPPProtocolInPackageTest,
+	CPPProtocolInModelTest
+])
+@RunWith(Suite)
+class CPPProtocolMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPProtocolInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {

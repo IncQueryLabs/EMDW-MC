@@ -142,6 +142,15 @@ pattern cppComponents(
 	CPPComponent.xtComponent(cppComponent, xtComponent);
 }
 
+pattern cppComponentClasses(
+	xtComponent : XTComponent,
+	cppComponent : CPPComponent,
+	xtClass : XTClass
+){
+	find cppComponents(xtComponent, cppComponent);
+	XTComponent.ownedClasses(xtComponent, xtClass);
+}
+
 pattern classStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,

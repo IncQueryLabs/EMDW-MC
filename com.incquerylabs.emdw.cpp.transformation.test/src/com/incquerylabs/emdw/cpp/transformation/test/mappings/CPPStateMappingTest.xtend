@@ -1,23 +1,33 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
+@SuiteClasses(#[
+	CPPStateInClassTest
+])
+@RunWith(Suite)
+class CPPStateMappingTestSuite {}
+
 @RunWith(Parameterized)
-class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPClass> {
+class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPComponent> {
+	CPPDirectory rootDir;
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -33,7 +43,7 @@ class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPClass> {
 		val s2 = topState.createSimpleState("s2")
 		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE").createXTEventTrigger(classEvent, "Trigger")
 		
-		topState
+		return topState
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
@@ -42,14 +52,18 @@ class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPClass> {
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		val xtClass = xtComponent.ownedClasses.head as XTClass
-		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
-		
-		cppClass
+
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		cppComponent.headerDirectory = rootDir
+		cppComponent.bodyDirectory = rootDir
+
+		return cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, CompositeState xtObject, CPPClass cppObject) {
-		val cppStates = cppObject.subElements.filter(CPPState)
+	override protected assertResult(Model input, CPPModel result, CompositeState xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).head
+		val cppStates = cppClass.subElements.filter(CPPState)
 		assertFalse(cppStates.exists[commonState == xtObject])
 		assertEquals(2,cppStates.size)
 		cppStates.forEach[
@@ -62,8 +76,9 @@ class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPClass> {
 		xtObject.substates.clear
 	}
 	
-	override protected assertClear(Model input, CPPModel result, CompositeState xtObject, CPPClass cppObject) {
-		val cppStates = cppObject.subElements.filter(CPPState)
+	override protected assertClear(Model input, CPPModel result, CompositeState xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).head
+		val cppStates = cppClass.subElements.filter(CPPState)
 		assertEquals(0,cppStates.size)
 	}
 	

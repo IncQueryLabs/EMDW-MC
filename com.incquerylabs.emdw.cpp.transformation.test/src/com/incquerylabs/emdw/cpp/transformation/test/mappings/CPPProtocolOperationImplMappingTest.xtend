@@ -6,19 +6,27 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocolOperationImplementation
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.ProtocolBehaviourFeatureKind
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import org.eclipse.papyrusrt.xtumlrt.common.ProtocolBehaviourFeatureKind
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
+
+@SuiteClasses(#[
+	CPPProtocolOperationImplMappingTest
+])
+@RunWith(Suite)
+class CPPProtocolOperationImplMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPPort> {

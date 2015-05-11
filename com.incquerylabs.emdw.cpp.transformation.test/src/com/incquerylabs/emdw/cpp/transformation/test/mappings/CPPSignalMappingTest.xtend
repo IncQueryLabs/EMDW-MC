@@ -5,15 +5,23 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Signal
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import org.eclipse.papyrusrt.xtumlrt.common.Signal
+
+@SuiteClasses(#[
+	CPPSignalMappingTest
+])
+@RunWith(Suite)
+class CPPSignalMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPSignalMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {

@@ -12,10 +12,18 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	CPPProtocolOperationDefinitionMappingTest
+])
+@RunWith(Suite)
+class CPPProtocolOperationDefinitionMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPProtocolOperationDefinitionMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {

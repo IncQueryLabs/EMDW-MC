@@ -27,7 +27,36 @@ class RuleProvider {
 		// TODO clean component
 		val cppComponent = match.cppComponent
 		cppComponent.subElements.clear
+		val bodyDirectory = cppComponent.bodyDirectory
+		if(bodyDirectory != null){
+			bodyDirectory.files.clear
+			bodyDirectory.subDirectories.clear
+		}
+		val headerDirectory = cppComponent.headerDirectory
+		if(headerDirectory != null){
+			headerDirectory.files.clear
+			headerDirectory.subDirectories.clear
+		}
 		
+		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
+	].build
+
+	public val classRule = createRule.precondition(cppComponentClasses).action[ match |
+		val xtCls = match.xtClass
+		val bodyDir = match.cppComponent.bodyDirectory
+		val headerDir = match.cppComponent.headerDirectory
+		val cppClass = createCPPClass => [
+			xtClass = xtCls
+			bodyFile = createCPPBodyFile
+			bodyDir.files += bodyFile
+			
+			headerFile = createCPPHeaderFile
+			headerDir.files += headerFile
+			
+			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = xtCls ]
+		]
+		match.cppComponent.subElements += cppClass
+		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
 	].build
 	
 	public val stateRule = createRule.precondition(classStateMachineStates).action[ match |

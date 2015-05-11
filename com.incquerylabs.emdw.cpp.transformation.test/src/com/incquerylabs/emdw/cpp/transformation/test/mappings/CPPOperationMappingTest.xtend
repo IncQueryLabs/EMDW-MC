@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
@@ -13,13 +14,24 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
+@SuiteClasses(#[
+	CPPOperationInClassTest,
+	CPPOperationInComponentTest
+])
+@RunWith(Suite)
+class CPPOperationMappingTestSuite {}
+
 @RunWith(Parameterized)
 class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
+	CPPDirectory rootDir;
+	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
@@ -41,6 +53,11 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
 		val xtClass = xtComponent.ownedClasses.head as XTClass
 		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		cppComponent.headerDirectory = rootDir
+		cppComponent.bodyDirectory = rootDir
 		
 		cppClass
 	}
@@ -68,6 +85,8 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 
 @RunWith(Parameterized)
 class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPComponent> {
+	CPPDirectory rootDir;
+	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
 	}
@@ -87,6 +106,11 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		cppComponent.headerDirectory = rootDir
+		cppComponent.bodyDirectory = rootDir
 		
 		cppComponent
 	}

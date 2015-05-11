@@ -53,6 +53,8 @@ class XtumlComponentCPPTransformation {
 	def execute() {
 			info('''Executing transformation on «xtUmlModel.name»''')
 			val watch = Stopwatch.createStarted
+			statements.fireAllCurrent(ruleProvider.cleanComponentsRule)
+			statements.fireAllCurrent(ruleProvider.classRule)
 			statements.fireAllCurrent(ruleProvider.stateRule)
 			statements.fireAllCurrent(ruleProvider.transitionRule)
 			statements.fireAllCurrent(ruleProvider.eventRule)

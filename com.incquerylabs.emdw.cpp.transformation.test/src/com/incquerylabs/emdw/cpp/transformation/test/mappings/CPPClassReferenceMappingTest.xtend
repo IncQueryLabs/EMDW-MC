@@ -16,10 +16,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	CPPClassReferenceMappingTest,
+	CPPClassRefSimpleCollectionMappingTest,
+	CPPClassRefAssocCollectionMappingTest
+])
+@RunWith(Suite)
+class CPPClassReferenceMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {

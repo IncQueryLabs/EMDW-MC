@@ -12,10 +12,18 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	CPPPortMappingTest
+])
+@RunWith(Suite)
+class CPPPortMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPPortMappingTest extends MappingBaseTest<XTComponent, CPPComponent> {

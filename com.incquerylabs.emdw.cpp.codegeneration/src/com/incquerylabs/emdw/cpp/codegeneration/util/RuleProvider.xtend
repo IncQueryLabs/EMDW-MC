@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.codegeneration.util
 
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import com.incquerylabs.emdw.cpp.codegeneration.rules.CPPTemplates
+import com.incquerylabs.emdw.cpp.codegeneration.templates.CPPTemplates
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup

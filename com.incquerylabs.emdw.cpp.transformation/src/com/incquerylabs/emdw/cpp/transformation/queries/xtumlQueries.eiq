@@ -103,6 +103,12 @@ pattern allXTComponentsOfModel(
 	find allXTComponentsOfXTComponent+(parent, xtComponent);
 }
 
+pattern xtComponents(
+	xtComponent : XTComponent
+) {
+	XTComponent(xtComponent);
+}
+
 pattern stateMachineStates(
 	stateMachine : StateMachine,
 	state : State
@@ -130,10 +136,9 @@ pattern xtModelToCppModel(
 }
 
 pattern cppComponents(
-	xtModel : Model,
+	xtComponent : XTComponent,
 	cppComponent : CPPComponent
 ) {
-	find xtModelEntities(xtModel, xtComponent);
 	CPPComponent.xtComponent(cppComponent, xtComponent);
 }
 

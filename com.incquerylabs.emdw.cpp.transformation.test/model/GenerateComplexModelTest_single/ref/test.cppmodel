@@ -4,127 +4,127 @@
     <subElements xsi:type="cpp:CPPPackage">
       <subElements xsi:type="cpp:CPPPackage">
         <subElements xsi:type="cpp:CPPClass" headerFile="/2/@subDirectories.0/@subDirectories.0/@subDirectories.0/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.0/@subDirectories.0/@files.1">
-          <xtClass href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
+          <xtClass href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
         </subElements>
-        <xtPackage href="test.xtumlrt#/0/@rootPackages.1"/>
+        <xtPackage href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1"/>
       </subElements>
-      <subElements xsi:type="cpp:CPPComponent" mainHeaderFile="/2/@subDirectories.0/@subDirectories.1/@files.0" mainBodyFile="/2/@subDirectories.0/@subDirectories.1/@files.1" declHeaderFile="/2/@subDirectories.0/@subDirectories.1/@files.2" defHeaderFile="/2/@subDirectories.0/@subDirectories.1/@files.3">
+      <subElements xsi:type="cpp:CPPComponent" mainHeaderFile="/2/@subDirectories.0/@subDirectories.1/@files.0" mainBodyFile="/2/@subDirectories.0/@subDirectories.1/@files.1" declarationHeaderFile="/2/@subDirectories.0/@subDirectories.1/@files.2" definitionHeaderFile="/2/@subDirectories.0/@subDirectories.1/@files.3">
         <subElements xsi:type="cpp:CPPClass" headerFile="/2/@subDirectories.0/@subDirectories.1/@subDirectories.0/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.1/@subDirectories.0/@files.1">
           <subElements xsi:type="cpp:CPPEvent">
-            <xtEvent xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.0"/>
+            <xtEvent xsi:type="xtuml:XTSignalEvent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPEvent">
-            <xtEvent xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.1"/>
+            <xtEvent xsi:type="xtuml:XTSignalEvent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.1"/>
           </subElements>
           <subElements xsi:type="cpp:CPPAttribute">
-            <commonAttribute href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@attributes.0"/>
+            <commonAttribute href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@attributes.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPOperation">
-            <commonOperation href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@operations.0"/>
+            <commonOperation href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@operations.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.0"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.1"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.1"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.3"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.3"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.4"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.4"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.0"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.1"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.1"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.2"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.2"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.2"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.2"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.3"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.3"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.4"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.4"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.5"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.5"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.6"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.6"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.7"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.7"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.8"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.8"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.9"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.9"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.10"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.10"/>
           </subElements>
-          <xtClass href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
+          <xtClass href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
         </subElements>
         <subElements xsi:type="cpp:CPPPort" headerFile="/2/@subDirectories.0/@subDirectories.1/@subDirectories.1/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.1/@subDirectories.1/@files.1">
-          <xtPort href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ports.0"/>
+          <xtPort href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ports.0"/>
         </subElements>
-        <xtComponent href="test.xtumlrt#/0/@rootPackages.1/@entities.0"/>
+        <xtComponent href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0"/>
       </subElements>
-      <subElements xsi:type="cpp:CPPComponent" mainHeaderFile="/2/@subDirectories.0/@subDirectories.2/@files.0" mainBodyFile="/2/@subDirectories.0/@subDirectories.2/@files.1" declHeaderFile="/2/@subDirectories.0/@subDirectories.2/@files.2" defHeaderFile="/2/@subDirectories.0/@subDirectories.2/@files.3">
+      <subElements xsi:type="cpp:CPPComponent" mainHeaderFile="/2/@subDirectories.0/@subDirectories.2/@files.0" mainBodyFile="/2/@subDirectories.0/@subDirectories.2/@files.1" declarationHeaderFile="/2/@subDirectories.0/@subDirectories.2/@files.2" definitionHeaderFile="/2/@subDirectories.0/@subDirectories.2/@files.3">
         <subElements xsi:type="cpp:CPPClass" headerFile="/2/@subDirectories.0/@subDirectories.2/@subDirectories.0/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.2/@subDirectories.0/@files.1">
           <subElements xsi:type="cpp:CPPEvent">
-            <xtEvent xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@events.0"/>
+            <xtEvent xsi:type="xtuml:XTSignalEvent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@events.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPState">
-            <commonState href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@substates.0"/>
+            <commonState href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@substates.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
           </subElements>
           <subElements xsi:type="cpp:CPPTransition">
-            <commonTransition href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
+            <commonTransition href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
           </subElements>
-          <xtClass href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
+          <xtClass href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
         </subElements>
         <subElements xsi:type="cpp:CPPPort" headerFile="/2/@subDirectories.0/@subDirectories.2/@subDirectories.1/@files.0" bodyFile="/2/@subDirectories.0/@subDirectories.2/@subDirectories.1/@files.1">
-          <xtPort href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ports.0"/>
+          <xtPort href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ports.0"/>
         </subElements>
-        <xtComponent href="test.xtumlrt#/0/@rootPackages.1/@entities.1"/>
+        <xtComponent href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1"/>
       </subElements>
       <subElements xsi:type="cpp:CPPProtocol" headerFile="/2/@subDirectories.0/@subDirectories.3/@files.0">
         <subElements xsi:type="cpp:CPPSignal">
-          <commonSignal href="test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.0"/>
+          <commonSignal href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.0"/>
         </subElements>
         <subElements xsi:type="cpp:CPPSignal">
-          <commonSignal href="test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.1"/>
+          <commonSignal href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.1"/>
         </subElements>
         <subElements xsi:type="cpp:CPPSignal">
-          <commonSignal href="test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.2"/>
+          <commonSignal href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.2"/>
         </subElements>
-        <xtProtocol href="test.xtumlrt#/0/@rootPackages.1/@protocols.0"/>
+        <xtProtocol href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0"/>
       </subElements>
-      <xtPackage href="test.xtumlrt#/0/@rootPackages.1"/>
+      <xtPackage href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1"/>
     </subElements>
-    <commonModel href="test.xtumlrt#/0"/>
+    <commonModel href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0"/>
   </cpp:CPPModel>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Model" href="test.xtumlrt#/0"/>
+    <commonNamedElement xsi:type="common:Model" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0"/>
   </oopl:OOPLExistingNameProvider>
   <cpp:CPPDirectory>
     <subDirectories>
@@ -168,123 +168,123 @@
     </subDirectories>
   </cpp:CPPDirectory>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTPackage" href="test.xtumlrt#/0/@rootPackages.1"/>
+    <commonNamedElement xsi:type="xtuml:XTPackage" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTPackage" href="test.xtumlrt#/0/@rootPackages.1"/>
+    <commonNamedElement xsi:type="xtuml:XTPackage" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTComponent" href="test.xtumlrt#/0/@rootPackages.1/@entities.0"/>
+    <commonNamedElement xsi:type="xtuml:XTComponent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTComponent" href="test.xtumlrt#/0/@rootPackages.1/@entities.1"/>
+    <commonNamedElement xsi:type="xtuml:XTComponent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTClass" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
+    <commonNamedElement xsi:type="xtuml:XTClass" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTClass" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
+    <commonNamedElement xsi:type="xtuml:XTClass" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTClass" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
+    <commonNamedElement xsi:type="xtuml:XTClass" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTProtocol" href="test.xtumlrt#/0/@rootPackages.1/@protocols.0"/>
+    <commonNamedElement xsi:type="xtuml:XTProtocol" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Signal" href="test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.0"/>
+    <commonNamedElement xsi:type="common:Signal" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Signal" href="test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.1"/>
+    <commonNamedElement xsi:type="common:Signal" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Signal" href="test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.2"/>
+    <commonNamedElement xsi:type="common:Signal" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@protocols.0/@protocolBehaviourFeatures.2"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTPort" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ports.0"/>
+    <commonNamedElement xsi:type="xtuml:XTPort" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ports.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTPort" href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ports.0"/>
+    <commonNamedElement xsi:type="xtuml:XTPort" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ports.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.0"/>
+    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.1"/>
+    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@events.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Attribute" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@attributes.0"/>
+    <commonNamedElement xsi:type="common:Attribute" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@attributes.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Operation" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@operations.0"/>
+    <commonNamedElement xsi:type="common:Operation" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@operations.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.0"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.1"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:CompositeState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2"/>
+    <commonNamedElement xsi:type="common:CompositeState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.3"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.3"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.4"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.4"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.0"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.1"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.2"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@substates.2/@substates.2"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.2"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.2"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.3"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.3"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.4"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.4"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.5"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.5"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.6"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.6"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.7"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.7"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.8"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.8"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.9"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.9"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.10"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.0/@ownedClasses.0/@behaviour/@top/@transitions.10"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@events.0"/>
+    <commonNamedElement xsi:type="xtuml:XTSignalEvent" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@events.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:SimpleState" href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@substates.0"/>
+    <commonNamedElement xsi:type="common:SimpleState" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@substates.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.0"/>
   </oopl:OOPLExistingNameProvider>
   <oopl:OOPLExistingNameProvider>
-    <commonNamedElement xsi:type="common:Transition" href="test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
+    <commonNamedElement xsi:type="common:Transition" href="model/GenerateComplexModelTest_single/ref/test.xtumlrt#/0/@rootPackages.1/@entities.1/@ownedClasses.0/@behaviour/@top/@transitions.1"/>
   </oopl:OOPLExistingNameProvider>
 </xmi:XMI>

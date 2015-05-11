@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.cpp.transformation.util
 
+import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
-import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
-import com.ericsson.xtumlrt.oopl.OoplFactory
 
 class RuleProvider {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -23,8 +23,11 @@ class RuleProvider {
 		this.engine = engine
 	}
 	
-	public val cleanComponentsRule = createRule.precondition(allXTComponentsOfModel).action[ match |
+	public val cleanComponentsRule = createRule.precondition(cppComponents).action[ match |
 		// TODO clean component
+		val cppComponent = match.cppComponent
+		cppComponent.subElements.clear
+		
 	].build
 	
 	public val stateRule = createRule.precondition(classStateMachineStates).action[ match |

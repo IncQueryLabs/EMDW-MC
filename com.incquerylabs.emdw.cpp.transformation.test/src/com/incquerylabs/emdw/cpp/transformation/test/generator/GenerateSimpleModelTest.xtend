@@ -17,6 +17,7 @@ import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import org.junit.Ignore
 
 /**
  * This test case generates a relatively simple instance model, providing 
@@ -41,6 +42,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
  * 
  * The generated instance model can be found in the model/GenerateSimpleModelTest_single/ref folder
  */
+@Ignore("Enable to recreate example models")
 @RunWith(Parameterized)
 class GenerateSimpleModelTest extends TransformationTest<XTPackage, CPPDirectory> {
 

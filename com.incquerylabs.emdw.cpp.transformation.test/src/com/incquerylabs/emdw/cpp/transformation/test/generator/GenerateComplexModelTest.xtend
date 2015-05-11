@@ -17,6 +17,7 @@ import org.junit.runners.Parameterized
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import org.junit.Ignore
 
 /**
  * This test case generates a complex instance model, providing 
@@ -30,6 +31,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
  * 
  * The generated instance model can be found in the model/GenerateComplexModelTest_single/ref folder
  */
+@Ignore("Enable to recreate example models")
 @RunWith(Parameterized)
 class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 

@@ -16,11 +16,6 @@
     label="EMDW-MC">
   <setupTask
       xsi:type="setup:EclipseIniTask"
-      option="-Doomph.redirection.emdw.setup"
-      value="=https://raw.githubusercontent.com/IncQueryLabs/EMDW-MC/master/releng/com.incquerylabs.emdw.setup/EMDW-MC.setup->${git.clone.emdw-mc.location|uri}/releng/com.incquerylabs.emdw.setup/EMDW-MC.setup"
-      vm="true"/>
-  <setupTask
-      xsi:type="setup:EclipseIniTask"
       option="-Xmx"
       value="2G"
       vm="true">
@@ -118,9 +113,10 @@
   <setupTask
       xsi:type="setup.targlets:TargletTask">
     <targlet
-        name="EMDW">
+        name="EMDW"
+        activeRepositoryList="Default">
       <requirement
-          name="org.eclipse.papyrus.sdk.feature.feature.group"/>
+          name="org.eclipse.papyrus.sdk.sources.feature.feature.group"/>
       <requirement
           name="org.eclipse.incquery.sdk.feature.source.feature.group"/>
       <requirement
@@ -134,7 +130,7 @@
       <requirement
           name="org.eclipse.uml2.sdk.feature.group"/>
       <repositoryList
-          name="">
+          name="Default">
         <repository
             url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/luna"/>
         <repository

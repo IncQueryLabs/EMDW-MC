@@ -22,7 +22,7 @@ class StateMachineMappingTest extends TransformationTest<StateMachine, org.eclip
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.head.behaviour.asSet
+		xtumlrtRoot.entities.head.behaviour.asSet
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, StateMachine umlObject, org.eclipse.papyrusrt.xtumlrt.common.StateMachine xtumlrtObject) {

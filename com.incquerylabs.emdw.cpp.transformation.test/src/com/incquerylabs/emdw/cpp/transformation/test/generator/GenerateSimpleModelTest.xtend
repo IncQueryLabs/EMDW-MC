@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.test.generator
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
@@ -8,16 +9,15 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
-import org.junit.Ignore
 
 /**
  * This test case generates a relatively simple instance model, providing 
@@ -44,7 +44,7 @@ import org.junit.Ignore
  */
 @Ignore("Enable to recreate example models")
 @RunWith(Parameterized)
-class GenerateSimpleModelTest extends TransformationTest<XTPackage, CPPDirectory> {
+class GenerateSimpleModelTest extends TransformationTest<Package, CPPDirectory> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -52,7 +52,7 @@ class GenerateSimpleModelTest extends TransformationTest<XTPackage, CPPDirectory
 
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		
-		val pack = xtumlmodel.createXtPackage("RootPackage")
+		val pack = xtumlmodel.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 		
@@ -87,7 +87,7 @@ class GenerateSimpleModelTest extends TransformationTest<XTPackage, CPPDirectory
 		val rootcppdir = res.createCPPDirectory
 		val packagedir = rootcppdir.createCPPSubDirectory
 		
-		val pack = cppModel.commonModel.createXtPackage("RootPackage")
+		val pack = cppModel.commonModel.createPackage("RootPackage")
 		val cpppack = cppModel.createCPPPackage(pack)
 		
 		val component = pack.createXtComponent("Component")
@@ -143,7 +143,7 @@ class GenerateSimpleModelTest extends TransformationTest<XTPackage, CPPDirectory
 		rootcppdir
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTPackage xtObject, CPPDirectory cppObject) {
+	override protected assertResult(Model input, CPPModel result, Package xtObject, CPPDirectory cppObject) {
 		assertTrue(true)
 	}
 	

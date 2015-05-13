@@ -8,10 +8,10 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Suite
@@ -29,7 +29,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 class CPPOperationMappingTestSuite {}
 
 @RunWith(Parameterized)
-class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
+class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir;
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -37,7 +37,7 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Attribute", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
@@ -47,24 +47,23 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 		
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		val xtClass = xtComponent.ownedClasses.head as XTClass
-		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
 		
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		cppComponent.headerDirectory = rootDir
 		cppComponent.bodyDirectory = rootDir
 		
-		cppClass
+		cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val xtOp = xtObject.operations
-		val cppOp = cppObject.subElements.filter(CPPOperation)
+		val cppClass = cppObject.subElements.filter(CPPClass).head
+		val cppOp = cppClass.subElements.filter(CPPOperation)
 		assertEquals(xtOp.size,cppOp.size)
 		cppOp.forEach[
 			assertNotNull(ooplNameProvider)
@@ -76,12 +75,13 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPClass> {
 		xtObject.operations.clear
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).head
+		val cppOp = cppClass.subElements.filter(CPPOperation)
+		assertEquals(0,cppOp.size)
 	}
 	
 }
-
 
 @RunWith(Parameterized)
 class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPComponent> {
@@ -92,7 +92,7 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 		component.createOperation(VisibilityKind.PUBLIC, false, null,"Attribute", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
@@ -102,7 +102,7 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
@@ -130,7 +130,8 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppOp = cppObject.subElements.filter(CPPOperation)
+		assertEquals(0,cppOp.size)
 	}
 	
 }

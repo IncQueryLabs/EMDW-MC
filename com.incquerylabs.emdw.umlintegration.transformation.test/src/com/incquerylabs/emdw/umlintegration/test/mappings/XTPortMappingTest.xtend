@@ -26,7 +26,7 @@ class XTPortMappingTest extends TransformationTest<Port, XTPort> {
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.topEntities.head as XTComponent).ports.filter(XTPort)
+		(xtumlrtRoot.entities.head as XTComponent).ports.filter(XTPort)
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Port umlObject, XTPort xtumlrtObject) {

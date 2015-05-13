@@ -20,7 +20,7 @@ class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass>
 	override protected prepareCppModel(CPPModel cppModel) {
 		
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.createXtPackage("RootPackage")
+		val xtPackage = xtmodel.createPackage("RootPackage")
 		val xtComponent = xtPackage.createXtComponent("Component")
 		val xtClass = xtComponent.createXtClass("TEST")
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")

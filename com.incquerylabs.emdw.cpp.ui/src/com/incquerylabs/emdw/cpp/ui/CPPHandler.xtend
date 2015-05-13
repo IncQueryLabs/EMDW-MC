@@ -36,7 +36,7 @@ class CPPHandler extends AbstractHandler {
             	xtumlQueries.prepare(engine)
             	
             	val modelToClassMatcher = getXtModelXTClasses(engine)
-            	val classStateMachineMatcher = getClassStateMachine(engine)
+            	val classStateMachineMatcher = getCppClassStateMachine(engine)
             	
             	if(modelToClassMatcher.hasMatch(null, xtClass)){
             		

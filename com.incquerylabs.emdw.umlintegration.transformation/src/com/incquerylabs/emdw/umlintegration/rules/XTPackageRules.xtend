@@ -6,7 +6,6 @@ import com.incquerylabs.emdw.umlintegration.queries.XtPackageInPackageMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtPackageMatch
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Package
@@ -25,14 +24,14 @@ class XTPackageRules{
 /**
  * Transforms Packages whose type is exactly Package to XTPackages.
  */
-class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, XTPackage> {
+class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
 	}
 
 	override getXtumlrtClass() {
-		XTPackage
+		org.eclipse.papyrusrt.xtumlrt.common.Package
 	}
 	
 	public static val PRIORITY = 1
@@ -50,13 +49,13 @@ class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, XT
 	}
 
 	override createXtumlrtObject() {
-		xtumlFactory.createXTPackage
+		commonFactory.createPackage
 	}
 
-	override updateXtumlrtObject(XTPackage xtumlrtObject, XtPackageMatch match) {
+	override updateXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package xtumlrtObject, XtPackageMatch match) {
 	}
 	
-	override insertXtumlrtObject(XTPackage xtumlrtObject, XtPackageMatch match) {
+	override insertXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package xtumlrtObject, XtPackageMatch match) {
 	}
 
 }
@@ -64,7 +63,7 @@ class XTPackageMapping extends AbstractObjectMapping<XtPackageMatch, Package, XT
 /**
  * Inserts XTPackages in their parent Model.
  */
-class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInModelMatch, Model, XTPackage> {
+class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInModelMatch, Model, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -88,11 +87,11 @@ class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInMode
 	}
 	
 	override findChild(XtPackageInModelMatch match) {
-		match.umlPackage.findXtumlrtObject(XTPackage)
+		match.umlPackage.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override insertChild(Model parent, XTPackage child) {
-		parent.rootPackages += child
+	override insertChild(Model parent, org.eclipse.papyrusrt.xtumlrt.common.Package child) {
+		parent.packages += child
 	}
 
 }
@@ -100,7 +99,7 @@ class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInMode
 /**
  * Inserts XTPackages in their parent XTComponent.
  */
-class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageInComponentMatch, XTComponent, XTPackage> {
+class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageInComponentMatch, XTComponent, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -119,10 +118,10 @@ class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageIn
 	}
 	
 	override findChild(XtPackageInComponentMatch match) {
-		match.umlPackage.findXtumlrtObject(XTPackage)
+		match.umlPackage.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override insertChild(XTComponent parent, XTPackage child) {
+	override insertChild(XTComponent parent, org.eclipse.papyrusrt.xtumlrt.common.Package child) {
 		parent.packages += child
 	}
 
@@ -131,7 +130,7 @@ class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageIn
 /**
  * Inserts XTPackages in their parent XTPackage.
  */
-class XTPackageInPackageMapping extends AbstractContainmentMapping<XtPackageInPackageMatch, XTPackage, XTPackage> {
+class XTPackageInPackageMapping extends AbstractContainmentMapping<XtPackageInPackageMatch, org.eclipse.papyrusrt.xtumlrt.common.Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -146,14 +145,14 @@ class XTPackageInPackageMapping extends AbstractContainmentMapping<XtPackageInPa
 	}
 
 	override findParent(XtPackageInPackageMatch match) {
-		match.parent.findXtumlrtObject(XTPackage)
+		match.parent.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
 	override findChild(XtPackageInPackageMatch match) {
-		match.child.findXtumlrtObject(XTPackage)
+		match.child.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override insertChild(XTPackage parent, XTPackage child) {
+	override insertChild(org.eclipse.papyrusrt.xtumlrt.common.Package parent, org.eclipse.papyrusrt.xtumlrt.common.Package child) {
 		parent.packages += child
 	}
 

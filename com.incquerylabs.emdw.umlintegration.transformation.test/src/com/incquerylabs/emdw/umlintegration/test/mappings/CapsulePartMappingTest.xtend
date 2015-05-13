@@ -25,7 +25,7 @@ class CapsulePartMappingTest extends TransformationTest<Property, CapsulePart> {
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.topEntities.head as XTComponent).parts
+		(xtumlrtRoot.entities.head as XTComponent).parts
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, CapsulePart xtumlrtObject) {

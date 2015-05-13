@@ -34,11 +34,11 @@ class ParameterInOperationMappingTest extends TransformationTest<org.eclipse.uml
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.filter(XTClass).head.operations.head.parameters
+		xtumlrtRoot.entities.filter(XTClass).head.operations.head.parameters
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Parameter umlObject, Parameter xtumlrtObject) {
-		assertEquals(mapping.xtumlrtRoot.topEntities.filter(XTComponent).head, xtumlrtObject.type)
+		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.type)
 		assertEquals(TransformationUtil.transform(umlObject.direction), xtumlrtObject.direction)
 	}
 

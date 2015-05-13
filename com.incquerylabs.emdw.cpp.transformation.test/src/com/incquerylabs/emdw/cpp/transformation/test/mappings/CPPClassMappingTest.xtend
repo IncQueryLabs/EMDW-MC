@@ -7,17 +7,18 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import org.junit.runners.Suite
 
 @SuiteClasses(#[
 	CPPClassInPackageTest,
@@ -27,8 +28,9 @@ import org.junit.runners.Suite
 @RunWith(Suite)
 class CPPClassMappingTestSuite {}
 
+@Ignore("packages not yet in scope")
 @RunWith(Parameterized)
-class CPPClassInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
+class CPPClassInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	CPPDirectory rootDir;
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -36,7 +38,7 @@ class CPPClassInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		pack.createXtClass("Class")
 		
 		pack
@@ -46,13 +48,13 @@ class CPPClassInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
 		cppPackage
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
+	override protected assertResult(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
 		val xtClasses = xtObject.entities.filter(XTClass)
 		val cppClasses = cppObject.subElements.filter(CPPClass)
 		assertEquals(xtClasses.size,cppClasses.size)
@@ -66,18 +68,18 @@ class CPPClassInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 		]
 	}
 	
-	override protected clearXtUmlElement(XTPackage xtObject) {
+	override protected clearXtUmlElement(Package xtObject) {
 		val classes = xtObject.entities.filter(XTComponent)
 		xtObject.entities.removeAll(classes)
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
+	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }
 
-
+@Ignore("model not yet in scope")
 @RunWith(Parameterized)
 class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	CPPDirectory rootDir;
@@ -99,7 +101,7 @@ class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected assertResult(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		val xtClasses = xtObject.topEntities.filter(XTClass)
+		val xtClasses = xtObject.entities.filter(XTClass)
 		val cppClasses = cppObject.subElements.filter(CPPClass)
 		assertEquals(xtClasses.size,cppClasses.size)
 		assertEquals(xtClasses.size,rootDir.countCppHeaderFiles)
@@ -113,8 +115,8 @@ class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected clearXtUmlElement(Model xtObject) {
-		val classes = xtObject.topEntities.filter(XTComponent)
-		xtObject.topEntities.removeAll(classes)
+		val classes = xtObject.entities.filter(XTComponent)
+		xtObject.entities.removeAll(classes)
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
@@ -132,7 +134,7 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		component.createXtClass("Class")
 		
@@ -141,7 +143,7 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 		
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
@@ -155,7 +157,7 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	}
 	
 	override protected assertResult(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
-		val xtClasses = xtObject.ownedClasses
+		val xtClasses = xtObject.entities
 		val cppClasses = cppObject.subElements.filter(CPPClass)
 		assertEquals(xtClasses.size,cppClasses.size)
 		assertEquals(xtClasses.size,rootDir.countCppHeaderFiles)
@@ -169,7 +171,7 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	}
 	
 	override protected clearXtUmlElement(XTComponent xtObject) {
-		xtObject.ownedClasses.clear
+		xtObject.entities.clear
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {

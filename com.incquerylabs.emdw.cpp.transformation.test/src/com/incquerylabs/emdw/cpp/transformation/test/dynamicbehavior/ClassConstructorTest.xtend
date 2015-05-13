@@ -54,7 +54,7 @@ class ClassConstructorTest extends DynamicBehaviorBaseTest {
 	}
 
 	override protected prepareXtUmlModel(Model xtumlmodel) {
-		val pack = xtumlmodel.createXtPackage("RootPackage")
+		val pack = xtumlmodel.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("TestClass")
 
@@ -62,7 +62,7 @@ class ClassConstructorTest extends DynamicBehaviorBaseTest {
 		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
 
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createXTUserDefinedType(typedef2, "UserType")
+		val userDefinedType = pack.createUserDefinedType(typedef2, "UserType")
 
 		xtClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false, "a")
 		xtClass.createSingleAttribute(userDefinedType, VisibilityKind.PUBLIC, false, "b")

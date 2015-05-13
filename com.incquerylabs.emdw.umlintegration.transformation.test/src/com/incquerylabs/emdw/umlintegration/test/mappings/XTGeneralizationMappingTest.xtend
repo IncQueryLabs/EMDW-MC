@@ -35,7 +35,7 @@ class XTGeneralizationMappingTest extends TransformationTest<Generalization, XTG
 	}
 
 	override protected getXtumlrtObjects(Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.filter(XTClass).findFirst[name == subClassName].relations.filter(XTGeneralization)
+		xtumlrtRoot.entities.filter(XTClass).findFirst[name == subClassName].relations.filter(XTGeneralization)
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Generalization umlObject, XTGeneralization xtumlrtObject) {

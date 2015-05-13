@@ -40,6 +40,17 @@ class RuleProvider {
 		
 		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
 	].build
+	
+	public val componentAttributeRule = createRule.precondition(cppComponentAttributes).action[ match |
+		val cppComponent = match.cppComponent
+		val attribute = match.attribute
+		val cppAttribute = createCPPAttribute => [
+			commonAttribute = attribute
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = attribute ]
+		]
+		cppComponent.subElements += cppAttribute
+		trace('''Mapped Attribute «attribute.name» in component «match.xtComponent.name» to CPPAttribute''')
+	].build
 
 	public val classRule = createRule.precondition(cppComponentClasses).action[ match |
 		val xtCls = match.xtClass
@@ -53,37 +64,60 @@ class RuleProvider {
 			headerFile = createCPPHeaderFile
 			headerDir.files += headerFile
 			
-			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = xtCls ]
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = xtCls ]
 		]
 		match.cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
 	].build
 	
-	public val stateRule = createRule.precondition(classStateMachineStates).action[ match |
+	public val classAttributeRule = createRule.precondition(cppClassAttributes).action[ match |
+		val cppClass = match.cppClass
+		val attribute = match.attribute
+		val cppAttribute = createCPPAttribute => [
+			commonAttribute = attribute
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = attribute ]
+		]
+		cppClass.subElements += cppAttribute
+		trace('''Mapped Attribute «attribute.name» in class «match.xtClass.name» to CPPAttribute''')
+	].build
+	
+	public val classOperationRule = createRule.precondition(cppClassOperations).action[ match |
+		val cppClass = match.cppClass
+		val operation = match.operation
+		val cppOperation = createCPPOperation => [
+			commonOperation = operation
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = operation ]
+		]
+		cppClass.subElements += cppOperation
+		trace('''Mapped Operation «operation.name» in class «match.xtClass.name» to CPPOperation''')
+	].build
+	
+	
+	public val stateRule = createRule.precondition(cppClassStateMachineStates).action[ match |
 		val state = match.state
 		val cppState = createCPPState => [
 			commonState = state
-			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = state ]
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = state ]
 		]
 		match.cppClass.subElements += cppState
 		trace('''Mapped State «state.name» in state machine of «match.xtClass.name» to CPPState''')
 	].build
 	
-	public val transitionRule = createRule.precondition(classStateMachineTransitions).action[ match |
+	public val transitionRule = createRule.precondition(cppClassStateMachineTransitions).action[ match |
 		val transition = match.transition
 		val cppTransition = createCPPTransition => [
 			commonTransition = transition
-			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = transition ]
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = transition ]
 		]
 		match.cppClass.subElements += cppTransition
 		trace('''Mapped Transition «transition.name» in state machine of «match.xtClass.name» to CPPTransition''')
 	].build
 	
-	public val eventRule = createRule.precondition(classStateMachineEvents).action[ match |
+	public val eventRule = createRule.precondition(cppClassStateMachineEvents).action[ match |
 		val event = match.event
 		val cppEvent = createCPPEvent => [
 			xtEvent = event
-			ooplNameProvider = createOOPLExistingNameProvider=>[commonNamedElement = event ]
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = event ]
 		]
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')

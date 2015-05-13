@@ -26,12 +26,12 @@ class OperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Opera
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.filter(XTClass).head.operations
+		xtumlrtRoot.entities.filter(XTClass).head.operations
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Operation umlObject, Operation xtumlrtObject) {
 		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
-		assertEquals(mapping.xtumlrtRoot.topEntities.filter(XTComponent).head, xtumlrtObject.returnType)
+		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.returnType)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
 		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
 	}

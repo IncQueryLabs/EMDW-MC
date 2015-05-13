@@ -4,12 +4,12 @@ import com.incquerylabs.emdw.umlintegration.queries.XtClassInComponentMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtClassInModelMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtClassInPackageMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtClassMatch
-import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Class
 
 class XTClassRules{
@@ -93,7 +93,7 @@ class XTClassInModelMapping extends AbstractContainmentMapping<XtClassInModelMat
 	}
 	
 	override insertChild(Model parent, XTClass child) {
-		parent.topEntities += child
+		parent.entities += child
 	}
 
 }
@@ -101,7 +101,7 @@ class XTClassInModelMapping extends AbstractContainmentMapping<XtClassInModelMat
 /**
  * Inserts XTClasses in their parent XTPackage.
  */
-class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackageMatch, XTPackage, XTClass> {
+class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackageMatch, Package, XTClass> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -116,14 +116,14 @@ class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackag
 	}
 
 	override findParent(XtClassInPackageMatch match) {
-		match.umlPackage.findXtumlrtObject(XTPackage)
+		match.umlPackage.findXtumlrtObject(Package)
 	}
 	
 	override findChild(XtClassInPackageMatch match) {
 		match.umlClass.findXtumlrtObject(XTClass)
 	}
 	
-	override insertChild(XTPackage parent, XTClass child) {
+	override insertChild(Package parent, XTClass child) {
 		parent.entities += child
 	}
 
@@ -155,7 +155,7 @@ class XTClassInComponentMapping extends AbstractContainmentMapping<XtClassInComp
 	}
 	
 	override insertChild(XTComponent parent, XTClass child) {
-		parent.ownedClasses += child
+		parent.entities += child
 	}
 
 }

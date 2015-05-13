@@ -26,7 +26,7 @@ class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.topEntities.head as XTClass).events.filter(XTClassEvent)
+		(xtumlrtRoot.entities.head as XTClass).events.filter(XTClassEvent)
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Signal umlObject, XTClassEvent xtumlrtObject) {

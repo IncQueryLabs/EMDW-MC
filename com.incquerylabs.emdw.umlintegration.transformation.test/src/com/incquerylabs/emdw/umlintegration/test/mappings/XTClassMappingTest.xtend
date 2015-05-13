@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
@@ -25,7 +25,7 @@ class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.filter(XTClass)
+		xtumlrtRoot.entities.filter(XTClass)
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
@@ -49,7 +49,7 @@ class XTClassInPackageMappingTest extends TransformationTest<Class, XTClass> {
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.rootPackages.head as XTPackage).entities.filter(XTClass)
+		(xtumlrtRoot.packages.head as Package).entities.filter(XTClass)
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
@@ -73,7 +73,7 @@ class XTClassInComponentMappingTest extends TransformationTest<Class, XTClass> {
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.topEntities.head as XTComponent).ownedClasses.filter(XTClass)
+		(xtumlrtRoot.entities.head as XTComponent).entities.filter(XTClass)
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {

@@ -72,7 +72,7 @@ class EventSelfSendPriorityTest extends DynamicBehaviorBaseTest{
 	}
 	
 	override protected prepareXtUmlModel(Model xtumlmodel) {
-		val pack = xtumlmodel.createXtPackage("RootPackage")
+		val pack = xtumlmodel.createPackage("RootPackage")
 		
 		val aComponent = pack.createXtComponent("AComponent")
 		val aClass = aComponent.createXtClass("AClass")

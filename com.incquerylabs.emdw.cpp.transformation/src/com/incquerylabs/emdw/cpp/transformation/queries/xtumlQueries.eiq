@@ -13,14 +13,14 @@ pattern xtModelEntities(
 	xtModel : Model,
 	entity : Entity
 ) {
-	Model.topEntities(xtModel, entity);
+	Model.entities(xtModel, entity);
 } or {
-	Model.rootPackages(xtModel, xtPackage);
-	XTPackage.entities(xtPackage, entity);
+	Model.packages(xtModel, xtPackage);
+	Package.entities(xtPackage, entity);
 } or {
-	Model.rootPackages(xtModel, xtPackage);
+	Model.packages(xtModel, xtPackage);
 	find xtPackageSubPackages+(xtPackage, subPackage);
-	XTPackage.entities(subPackage, entity);
+	Package.entities(subPackage, entity);
 }
 
 pattern xtModelXTClasses(
@@ -34,35 +34,35 @@ pattern xtComponentXTClasses(
 	xtComponent : XTComponent,
 	xtClass : XTClass
 ) {
-	XTComponent.ownedClasses(xtComponent, xtClass);
+	XTComponent.entities(xtComponent, xtClass);
 }
 
 pattern xtComponentXTPackages(
 	xtComponent : XTComponent,
-	xtPackage : XTPackage
+	xtPackage : Package
 ) {
 	XTComponent.packages(xtComponent, xtPackage);
 }
 
 pattern xtPackageSubPackages(
-	xtPackage : XTPackage,
-	subPackage : XTPackage
+	xtPackage : Package,
+	subPackage : Package
 ) {
-	XTPackage.packages(xtPackage, subPackage);
+	Package.packages(xtPackage, subPackage);
 }
 
 pattern xtPackageXTComponents(
-	xtPackage : XTPackage,
+	xtPackage : Package,
 	xtComponent : XTComponent
 ) {
-	XTPackage.entities(xtPackage, xtComponent);
+	Package.entities(xtPackage, xtComponent);
 }
 
 pattern xtPackageXTClasses(
-	xtPackage : XTPackage,
+	xtPackage : Package,
 	xtClass : XTClass
 ) {
-	XTPackage.entities(xtPackage, xtClass);
+	Package.entities(xtPackage, xtClass);
 }
 
 pattern allXTComponentsOfXTComponent(
@@ -81,24 +81,24 @@ pattern allXTComponentsOfModel(
 	xtModel : Model,
 	xtComponent : XTComponent
 ) {
-	Model.topEntities(xtModel, xtComponent);
+	Model.entities(xtModel, xtComponent);
 } or {
-	Model.topEntities(xtModel, parent);
+	Model.entities(xtModel, parent);
 	find allXTComponentsOfXTComponent+(parent, xtComponent);
 } or {
-	Model.rootPackages(xtModel, xtPackage);
+	Model.packages(xtModel, xtPackage);
 	find xtPackageXTComponents(xtPackage, xtComponent);
 } or {
-	Model.rootPackages(xtModel, parent);
+	Model.packages(xtModel, parent);
 	find xtPackageSubPackages+(parent, xtPackage);
 	find xtPackageXTComponents(xtPackage, xtComponent);
 } or {
-	Model.rootPackages(xtModel, parent);
+	Model.packages(xtModel, parent);
 	find xtPackageSubPackages+(parent, xtPackage);
 	find xtPackageXTComponents(xtPackage, component);
 	find allXTComponentsOfXTComponent+(component, xtComponent);
 } or {
-	Model.rootPackages(xtModel, xtPackage);
+	Model.packages(xtModel, xtPackage);
 	find xtPackageXTComponents(xtPackage, parent);
 	find allXTComponentsOfXTComponent+(parent, xtComponent);
 }
@@ -148,43 +148,86 @@ pattern cppComponentClasses(
 	xtClass : XTClass
 ){
 	find cppComponents(xtComponent, cppComponent);
-	XTComponent.ownedClasses(xtComponent, xtClass);
+	XTComponent.entities(xtComponent, xtClass);
 }
 
-pattern classStateMachine(
+pattern cppComponentAttributes(
+	xtComponent : XTComponent,
+	cppComponent : CPPComponent,
+	attribute : Attribute
+) {
+	find cppComponents(xtComponent, cppComponent);
+	Entity.attributes(xtComponent, attribute);
+}
+
+pattern cppComponentOperations(
+	xtComponent : XTComponent,
+	cppComponent : CPPComponent,
+	operation : Operation
+) {
+	find cppComponents(xtComponent, cppComponent);
+	Entity.operations(xtComponent, operation);
+}
+
+pattern cppClasses(
+	xtClass : XTClass,
+	cppClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+}
+
+pattern cppClassAttributes(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	attribute : Attribute
+) {
+	find cppClasses(xtClass, cppClass);
+	Entity.attributes(xtClass, attribute);
+}
+
+pattern cppClassOperations(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	operation : Operation
+) {
+	find cppClasses(xtClass, cppClass);
+	Entity.operations(xtClass, operation);
+}
+
+pattern cppClassStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,
 	statemachine : StateMachine
 ) {
 	XTClass.behaviour(xtClass, statemachine);
-	CPPClass.xtClass(cppClass, xtClass);
+	find cppClasses(xtClass, cppClass);
 }
 
-pattern classStateMachineStates(
+pattern cppClassStateMachineStates(
 	xtClass : XTClass,
 	cppClass : CPPClass,
 	state : State
 ) {
-	find classStateMachine(xtClass, cppClass, statemachine);
+	find cppClassStateMachine(xtClass, cppClass, statemachine);
 	find stateMachineStates(statemachine, state);
 }
 
-pattern classStateMachineTransitions(
+pattern cppClassStateMachineTransitions(
 	xtClass : XTClass,
 	cppClass : CPPClass,
 	transition : Transition
 ) {
-	find classStateMachineStates(xtClass, cppClass, state);
+	find cppClassStateMachineStates(xtClass, cppClass, state);
 	CompositeState.substates(compState, state);
 	CompositeState.transitions(compState, transition);
 }
 
-pattern classStateMachineEvents(
+pattern cppClassStateMachineEvents(
 	xtClass : XTClass,
 	cppClass : CPPClass,
 	event : XTEvent
 ) {
-	find classStateMachineTransitions(xtClass, cppClass, transition);
+	find cppClassStateMachineTransitions(xtClass, cppClass, transition);
 	Transition.triggers(transition, trigger);
 	XTEventTrigger.signal(trigger, event);
 }

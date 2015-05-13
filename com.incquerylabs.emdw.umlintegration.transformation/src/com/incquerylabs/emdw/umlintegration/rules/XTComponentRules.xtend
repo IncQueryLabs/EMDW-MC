@@ -5,7 +5,6 @@ import com.incquerylabs.emdw.umlintegration.queries.XtComponentInPackageMatch
 import com.incquerylabs.emdw.umlintegration.queries.XtComponentMatch
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Class
@@ -90,7 +89,7 @@ class XTComponentInModelMapping extends AbstractContainmentMapping<XtComponentIn
 	}
 	
 	override insertChild(Model parent, XTComponent child) {
-		parent.topEntities += child
+		parent.entities += child
 	}
 
 }
@@ -98,7 +97,7 @@ class XTComponentInModelMapping extends AbstractContainmentMapping<XtComponentIn
 /**
  * Inserts XTComponents in their parent XTPackage.
  */
-class XTComponentInPackageMapping extends AbstractContainmentMapping<XtComponentInPackageMatch, XTPackage, XTComponent> {
+class XTComponentInPackageMapping extends AbstractContainmentMapping<XtComponentInPackageMatch, org.eclipse.papyrusrt.xtumlrt.common.Package, XTComponent> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -113,14 +112,14 @@ class XTComponentInPackageMapping extends AbstractContainmentMapping<XtComponent
 	}
 
 	override findParent(XtComponentInPackageMatch match) {
-		match.umlPackage.findXtumlrtObject(XTPackage)
+		match.umlPackage.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
 	override findChild(XtComponentInPackageMatch match) {
 		match.component.findXtumlrtObject(XTComponent)
 	}
 	
-	override insertChild(XTPackage parent, XTComponent child) {
+	override insertChild(org.eclipse.papyrusrt.xtumlrt.common.Package parent, XTComponent child) {
 		parent.entities += child
 	}
 

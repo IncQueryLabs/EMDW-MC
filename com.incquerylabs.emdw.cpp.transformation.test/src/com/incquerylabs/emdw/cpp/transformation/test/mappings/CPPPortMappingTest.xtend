@@ -6,10 +6,11 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Suite
@@ -25,6 +26,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPPortMappingTestSuite {}
 
+@Ignore("ports not yet in scope")
 @RunWith(Parameterized)
 class CPPPortMappingTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	CPPDirectory rootDir;
@@ -34,7 +36,7 @@ class CPPPortMappingTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val protocol = pack.createXtProtocol("Protocol")
 		component.createPort(protocol, "Port", VisibilityKind.PUBLIC)
@@ -46,7 +48,7 @@ class CPPPortMappingTest extends MappingBaseTest<XTComponent, CPPComponent> {
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)

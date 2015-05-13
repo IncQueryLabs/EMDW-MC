@@ -42,12 +42,11 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTTypeConstraint
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.OoplFactory
+import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -75,31 +74,31 @@ class TransformationTestUtil {
 		xtumlrtModel
 	}
 
-	static def createXtPackage(Model xtumlmodel, String name) {
-		var pack = xtumlFactory.createXTPackage => [
+	static def createPackage(Model xtumlmodel, String name) {
+		var pack = commonFactory.createPackage => [
 			it.name = name
 		]
-		xtumlmodel.rootPackages += pack
+		xtumlmodel.packages += pack
 		pack
 	}
 
-	static def createXtPackage(XTPackage root, String name) {
-		var pack = xtumlFactory.createXTPackage => [
-			it.name = name
-		]
-		root.packages += pack
-		pack
-	}
-
-	static def createXtPackage(XTComponent root, String name) {
-		var pack = xtumlFactory.createXTPackage => [
+	static def createPackage(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+		var pack = commonFactory.createPackage => [
 			it.name = name
 		]
 		root.packages += pack
 		pack
 	}
 
-	static def createXtComponent(XTPackage root, String name) {
+	static def createPackage(XTComponent root, String name) {
+		var pack = commonFactory.createPackage => [
+			it.name = name
+		]
+		root.packages += pack
+		pack
+	}
+
+	static def createXtComponent(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
 		var comp = xtumlFactory.createXTComponent => [
 			it.name = name
 		]
@@ -111,11 +110,11 @@ class TransformationTestUtil {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
 		]
-		root.ownedClasses += xtclass
+		root.entities += xtclass
 		xtclass
 	}
 	
-	static def createXtClass(XTPackage root, String name) {
+	static def createXtClass(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
 		]
@@ -131,7 +130,7 @@ class TransformationTestUtil {
 		sm
 	}
 
-	static def createXtProtocol(XTPackage root, String name) {
+	static def createXtProtocol(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
 		var protocol = xtumlFactory.createXTProtocol => [
 			it.name = name
 		]
@@ -338,7 +337,7 @@ class TransformationTestUtil {
 		parameter
 	}
 
-	static def createTypeDefinition(XTPackage root, Type type, String name) {
+	static def createTypeDefinition(org.eclipse.papyrusrt.xtumlrt.common.Package root, Type type, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -347,7 +346,7 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createTypeDefinition(XTPackage root, String name) {
+	static def createTypeDefinition(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -356,7 +355,7 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createPrimitiveType(XTPackage pack, TypeDefinition typedef, String name) {
+	static def createPrimitiveType(org.eclipse.papyrusrt.xtumlrt.common.Package pack, TypeDefinition typedef, String name) {
 		val type = commonFactory.createPrimitiveType => [
 			it.name = name
 		]
@@ -365,8 +364,8 @@ class TransformationTestUtil {
 		type
 	}
 
-	static def createXTUserDefinedType(XTPackage pack, TypeDefinition typedef, String name, XTTypeConstraint ... const) {
-		val type = xtumlFactory.createXTUserDefinedTypes => [
+	static def createXTUserDefinedType(org.eclipse.papyrusrt.xtumlrt.common.Package pack, TypeDefinition typedef, String name, TypeConstraint ... const) {
+		val type = commonFactory.createUserDefinedType => [
 			it.name = name
 			it.constraints += const
 		]
@@ -483,10 +482,10 @@ class TransformationTestUtil {
 		cppBody
 	}
 
-	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, XTPackage xtpackage) {
+	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, org.eclipse.papyrusrt.xtumlrt.common.Package xtpackage) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
 		val cppPackage = cppFactory.createCPPPackage => [
-			it.xtPackage = xtpackage
+			it.commonPackage = xtpackage
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppPackage

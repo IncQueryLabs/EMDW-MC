@@ -5,9 +5,10 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.Signal
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Suite
@@ -23,6 +24,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPSignalMappingTestSuite {}
 
+@Ignore("protocols not yet in scope")
 @RunWith(Parameterized)
 class CPPSignalMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {
 	
@@ -31,7 +33,7 @@ class CPPSignalMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		val protocol = pack.createXtProtocol("Protocol")
 		protocol.createSignal("Signal")
 		
@@ -40,7 +42,7 @@ class CPPSignalMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {
 		
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtProt = xtPackage.protocols.head as XTProtocol
 		val cppProtocol = createCPPProtocol(cppPackage,xtProt, null)

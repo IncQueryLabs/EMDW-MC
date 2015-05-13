@@ -1,3 +1,4 @@
+
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
@@ -5,7 +6,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
+import org.eclipse.papyrusrt.xtumlrt.common.Package
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Suite
@@ -22,8 +24,9 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite) 
 class CPPPackageMappingTestSuite {}
 
+@Ignore("packages not yet in scope")
 @RunWith(Parameterized)
-class CPPPackageInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
+class CPPPackageInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	CPPDirectory rootDir;
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -31,8 +34,8 @@ class CPPPackageInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
-		pack.createXtPackage("component")
+		val pack = model.createPackage("RootPackage")
+		pack.createPackage("component")
 		
 		pack
 	}
@@ -41,33 +44,34 @@ class CPPPackageInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
 		cppPackage
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
+	override protected assertResult(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
 		val xtPackages = xtObject.packages
 		val cppPackages = cppObject.subElements.filter(CPPPackage)
 		assertEquals(xtPackages.size,cppPackages.size)
 		cppPackages.forEach[
 			assertNotNull(ooplNameProvider)
-			assertNotNull(xtPackage)
+			assertNotNull(commonPackage)
 		]
 	}
 	
-	override protected clearXtUmlElement(XTPackage xtObject) {
+	override protected clearXtUmlElement(Package xtObject) {
 		xtObject.packages.clear
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
+		val cppPackages = cppObject.subElements.filter(CPPPackage)
+		assertEquals(0,cppPackages.size)
 	}
 	
 }
 
-
+@Ignore("packages not yet in scope")
 @RunWith(Parameterized)
 class CPPPackageInModelTest extends MappingBaseTest<Model, CPPModel> {
 	CPPDirectory rootDir;
@@ -77,7 +81,7 @@ class CPPPackageInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		model.createXtPackage("component")
+		model.createPackage("component")
 		
 		model
 	}
@@ -89,21 +93,22 @@ class CPPPackageInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected assertResult(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		val xtPackages = xtObject.rootPackages
+		val xtPackages = xtObject.packages
 		val cppPackages = cppObject.subElements.filter(CPPPackage)
 		assertEquals(xtPackages.size,cppPackages.size)
 		cppPackages.forEach[
 			assertNotNull(ooplNameProvider)
-			assertNotNull(xtPackage)
+			assertNotNull(commonPackage)
 		]
 	}
 	
 	override protected clearXtUmlElement(Model xtObject) {
-		xtObject.rootPackages.clear
+		xtObject.packages.clear
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppPackages = cppObject.subElements.filter(CPPPackage)
+		assertEquals(0,cppPackages.size)
 	}
 	
 }

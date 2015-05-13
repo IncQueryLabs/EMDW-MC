@@ -4,7 +4,6 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.junit.runner.RunWith
@@ -13,7 +12,7 @@ import org.junit.runners.Parameterized
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class XTPackageInModelMappingTest extends TransformationTest<Package, XTPackage> {
+class XTPackageInModelMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -24,16 +23,16 @@ class XTPackageInModelMappingTest extends TransformationTest<Package, XTPackage>
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.rootPackages.filter(XTPackage)
+		xtumlrtRoot.packages.filter(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, org.eclipse.papyrusrt.xtumlrt.common.Package xtumlrtObject) {
 	}
 	
 }
 
 @RunWith(Parameterized)
-class XTPackageInComponentMappingTest extends TransformationTest<Package, XTPackage> {
+class XTPackageInComponentMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -48,16 +47,16 @@ class XTPackageInComponentMappingTest extends TransformationTest<Package, XTPack
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.topEntities.head as XTComponent).packages.filter(XTPackage)
+		(xtumlrtRoot.entities.head as XTComponent).packages.filter(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 
-	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, org.eclipse.papyrusrt.xtumlrt.common.Package xtumlrtObject) {
 	}
 	
 }
 
 @RunWith(Parameterized)
-class XTPackageInPackageMappingTest extends TransformationTest<Package, XTPackage> {
+class XTPackageInPackageMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -72,10 +71,10 @@ class XTPackageInPackageMappingTest extends TransformationTest<Package, XTPackag
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.rootPackages.head.packages.filter(XTPackage)
+		xtumlrtRoot.packages.head.packages.filter(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 
-	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, XTPackage xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Package umlObject, org.eclipse.papyrusrt.xtumlrt.common.Package xtumlrtObject) {
 	}
 	
 }

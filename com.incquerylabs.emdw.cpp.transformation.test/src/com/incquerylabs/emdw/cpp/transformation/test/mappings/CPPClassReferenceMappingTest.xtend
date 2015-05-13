@@ -13,7 +13,6 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociationClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Suite
@@ -44,7 +43,7 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		sourceClass = pack.createXtClass("sourceClass")
 		targetClass = pack.createXtClass("targetClass")
 		sourceClass.createXtAssociation(targetClass, "singleAssoc",false,false,1,1)
@@ -56,7 +55,7 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		sourceCPPClass = createCPPClass(cppPackage, sourceClass, null, null)
 		targetCPPClass = createCPPClass(cppPackage, targetClass, null, null)
@@ -107,7 +106,7 @@ CPPDirectory rootDir;
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		sourceClass = pack.createXtClass("sourceClass")
 		targetClass = pack.createXtClass("targetClass")
 		sourceClass.createXtAssociation(targetClass, "singleAssoc",false,false,1,25)
@@ -119,7 +118,7 @@ CPPDirectory rootDir;
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		sourceCPPClass = createCPPClass(cppPackage, sourceClass, null, null)
 		targetCPPClass = createCPPClass(cppPackage, targetClass, null, null)
@@ -171,7 +170,7 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		sourceClass = pack.createXtClass("sourceClass")
 		targetClass = pack.createXtClass("targetClass")
 		assocClass = pack.createXtClass("targetClass")
@@ -185,7 +184,7 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		sourceCPPClass = createCPPClass(cppPackage, sourceClass, null, null)
 		targetCPPClass = createCPPClass(cppPackage, targetClass, null, null)

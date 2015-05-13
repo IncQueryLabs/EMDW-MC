@@ -27,11 +27,11 @@ class AttributeMappingTest extends TransformationTest<Property, Attribute> {
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.filter(XTClass).head.attributes
+		xtumlrtRoot.entities.filter(XTClass).head.attributes
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, Attribute xtumlrtObject) {
-		assertEquals(mapping.xtumlrtRoot.topEntities.filter(XTComponent).head, xtumlrtObject.type)
+		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.type)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
 		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
 	}

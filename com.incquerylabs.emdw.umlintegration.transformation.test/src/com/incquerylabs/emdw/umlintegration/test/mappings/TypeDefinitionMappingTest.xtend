@@ -25,7 +25,7 @@ class TypeDefinitionMappingTest extends TransformationTest<Type, TypeDefinition>
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.rootPackages.head.typedefinitions
+		xtumlrtRoot.packages.head.typedefinitions
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Type umlObject, TypeDefinition xtumlrtObject) {

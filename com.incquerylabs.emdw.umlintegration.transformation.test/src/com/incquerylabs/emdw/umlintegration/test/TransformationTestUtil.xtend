@@ -299,11 +299,11 @@ class TransformationTestUtil {
 	}
 	
 	static def getXtumlrtTopState(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.head.behaviour.top
+		xtumlrtRoot.entities.head.behaviour.top
 	}
 
 	static def findClass(RootMapping mapping, String className) {
-		mapping.xtumlrtRoot.topEntities.filter(XTClass).findFirst[name == className]
+		mapping.xtumlrtRoot.entities.filter(XTClass).findFirst[name == className]
 	}
 	
 	static def <T> asSet(T object) {

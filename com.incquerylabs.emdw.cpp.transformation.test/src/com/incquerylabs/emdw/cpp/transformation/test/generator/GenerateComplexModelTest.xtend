@@ -40,11 +40,11 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 	}
 		
 	override protected prepareXtUmlModel(Model xtumlmodel) {
-		val pack = xtumlmodel.createXtPackage("RootPackage")
+		val pack = xtumlmodel.createPackage("RootPackage")
 		
 		//add packages
 
-		val typesPack = pack.createXtPackage("RootPackage")
+		val typesPack = pack.createPackage("RootPackage")
 	
 		//add components and classes
 		val component = pack.createXtComponent("Component")
@@ -58,7 +58,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val typedef = pack.createTypeDefinition("IntDefinition")
 		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createXTUserDefinedType(typedef2, "UserDefinedType")
+		val userDefinedType = pack.createUserDefinedType(typedef2, "UserDefinedType")
 
 		
 		//protocols and signals
@@ -162,12 +162,12 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val rootcppdir = res.createCPPDirectory
 		
 		val packagedir = rootcppdir.createCPPSubDirectory
-		val pack = cppModel.commonModel.createXtPackage("RootPackage")
+		val pack = cppModel.commonModel.createPackage("RootPackage")
 		val cpppack = cppModel.createCPPPackage(pack)
 		
 		//add packages
 		val typesdir = packagedir.createCPPSubDirectory
-		val typesPack = pack.createXtPackage("RootPackage")
+		val typesPack = pack.createPackage("RootPackage")
 		val cpptypes = cpppack.createCPPPackage(pack)
 	
 		//add components and classes
@@ -195,7 +195,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val typedef = pack.createTypeDefinition("IntDefinition")
 		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createXTUserDefinedType(typedef2, "UserDefinedType")
+		val userDefinedType = pack.createUserDefinedType(typedef2, "UserDefinedType")
 
 		//protocols and signals
 		

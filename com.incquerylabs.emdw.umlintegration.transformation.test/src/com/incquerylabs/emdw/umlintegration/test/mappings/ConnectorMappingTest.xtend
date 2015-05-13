@@ -24,7 +24,7 @@ class ConnectorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Conne
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		(xtumlrtRoot.topEntities.head as XTComponent).connectors
+		(xtumlrtRoot.entities.head as XTComponent).connectors
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Connector umlObject, Connector xtumlrtObject) {

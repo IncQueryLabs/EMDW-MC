@@ -16,14 +16,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import static extension org.junit.Assert.*
 
-abstract class DynamicBehaviorBaseTest extends TransformationTest<XTPackage, CPPDirectory> {
+abstract class DynamicBehaviorBaseTest extends TransformationTest<Package, CPPDirectory> {
 	protected var ROOTCPPPACKAGES =0
 	protected var CPPPROTOCOLS = 0
 	protected var CPPSIGNALS = 0
@@ -46,17 +46,17 @@ abstract class DynamicBehaviorBaseTest extends TransformationTest<XTPackage, CPP
 		val res = cppModel.eResource
 		val rootcppdir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		val xtClass = xtComponent.ownedClasses.head as XTClass
+		val xtClass = xtComponent.entities.head as XTClass
 		createCPPClass(cppComponent, xtClass, null, null)
 
 		rootcppdir
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTPackage xtObject, CPPDirectory cppObject) {
+	override protected assertResult(Model input, CPPModel result, Package xtObject, CPPDirectory cppObject) {
 		val rootCppPackages = result.subElements.filter(CPPPackage)
 		assertEquals(ROOTCPPPACKAGES, rootCppPackages.size)
 
@@ -147,7 +147,7 @@ abstract class DynamicBehaviorBaseTest extends TransformationTest<XTPackage, CPP
 
 			cppComponents.forEach [ comp |
 				val cppClasses = comp.subElements.filter(CPPClass)
-				assertEquals(comp.xtComponent.ownedClasses.size, cppClasses.size)
+				assertEquals(comp.xtComponent.entities.size, cppClasses.size)
 
 				// check classes
 				cppClasses.forEach [ cppClass |

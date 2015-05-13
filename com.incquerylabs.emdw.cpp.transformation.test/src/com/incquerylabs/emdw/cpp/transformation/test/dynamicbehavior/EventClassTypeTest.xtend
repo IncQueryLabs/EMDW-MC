@@ -51,7 +51,7 @@ class EventClassTypeTest extends DynamicBehaviorBaseTest {
 
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 
-		val pack = xtumlmodel.createXtPackage("RootPackage")
+		val pack = xtumlmodel.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 

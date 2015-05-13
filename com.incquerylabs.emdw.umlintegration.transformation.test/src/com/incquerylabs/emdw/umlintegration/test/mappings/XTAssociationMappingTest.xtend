@@ -35,7 +35,7 @@ class XTAssociationMappingTest extends TransformationTest<Property, XTAssociatio
 	}
 
 	override protected getXtumlrtObjects(Model xtumlrtRoot) {
-		xtumlrtRoot.topEntities.filter(XTClass).findFirst[name == sourceClassName].relations.filter(XTAssociation)
+		xtumlrtRoot.entities.filter(XTClass).findFirst[name == sourceClassName].relations.filter(XTAssociation)
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, XTAssociation xtumlrtObject) {

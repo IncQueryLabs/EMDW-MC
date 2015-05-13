@@ -6,7 +6,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage
+import org.eclipse.papyrusrt.xtumlrt.common.Package
+import org.junit.Ignore
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Suite
@@ -23,8 +24,9 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPProtocolMappingTestSuite {}
 
+@Ignore("protocols not yet in scope")
 @RunWith(Parameterized)
-class CPPProtocolInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
+class CPPProtocolInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	CPPDirectory rootDir;
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -32,7 +34,7 @@ class CPPProtocolInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 	}
 	
 	override protected prepareXtUmlModel(Model model) {
-		val pack = model.createXtPackage("RootPackage")
+		val pack = model.createPackage("RootPackage")
 		pack.createXtProtocol("Protocol")
 		
 		pack
@@ -42,13 +44,13 @@ class CPPProtocolInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.rootPackages.head as XTPackage
+		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
 		cppPackage
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
+	override protected assertResult(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
 		val xtProtocols = xtObject.protocols
 		val cppProtocols = cppObject.subElements.filter(CPPProtocol)
 		assertEquals(xtProtocols.size,cppProtocols.size)
@@ -60,17 +62,17 @@ class CPPProtocolInPackageTest extends MappingBaseTest<XTPackage, CPPPackage> {
 		]
 	}
 	
-	override protected clearXtUmlElement(XTPackage xtObject) {
+	override protected clearXtUmlElement(Package xtObject) {
 		xtObject.protocols.clear
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTPackage xtObject, CPPPackage cppObject) {
+	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }
 
-
+@Ignore("protocols not yet in scope")
 @RunWith(Parameterized)
 class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	CPPDirectory rootDir;
@@ -92,7 +94,7 @@ class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected assertResult(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		val xtProtocols = xtObject.topProtocols
+		val xtProtocols = xtObject.protocols
 		val cppProtocols = cppObject.subElements.filter(CPPProtocol)
 		assertEquals(xtProtocols.size,cppProtocols.size)
 		assertEquals(xtProtocols.size,rootDir.countCppHeaderFiles)
@@ -104,7 +106,7 @@ class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected clearXtUmlElement(Model xtObject) {
-		xtObject.topProtocols.clear
+		xtObject.protocols.clear
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {

@@ -18,7 +18,7 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 	@Test
 	def deletion() {
 
-		val testId = "single"
+		val testId = "deletion"
 		startTest(testId)
 		// Create xtuml model
 		val xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)

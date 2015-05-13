@@ -21,6 +21,7 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import org.junit.Ignore
 
 @SuiteClasses(#[
 	CPPClassReferenceMappingTest,
@@ -30,6 +31,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPClassReferenceMappingTestSuite {}
 
+@Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
 class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 	CPPDirectory rootDir;
@@ -92,7 +94,7 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 	
 }
 
-
+@Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
 class CPPClassRefSimpleCollectionMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 CPPDirectory rootDir;
@@ -155,6 +157,7 @@ CPPDirectory rootDir;
 	
 }
 
+@Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
 class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 	CPPDirectory rootDir

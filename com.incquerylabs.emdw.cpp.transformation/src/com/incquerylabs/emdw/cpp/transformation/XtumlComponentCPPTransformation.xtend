@@ -55,8 +55,10 @@ class XtumlComponentCPPTransformation {
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(ruleProvider.cleanComponentsRule)
 			statements.fireAllCurrent(ruleProvider.componentAttributeRule)
+			statements.fireAllCurrent(ruleProvider.componentOperationRule)
 			statements.fireAllCurrent(ruleProvider.classRule)
 			statements.fireAllCurrent(ruleProvider.classAttributeRule)
+			statements.fireAllCurrent(ruleProvider.classOperationRule)
 			statements.fireAllCurrent(ruleProvider.stateRule)
 			statements.fireAllCurrent(ruleProvider.transitionRule)
 			statements.fireAllCurrent(ruleProvider.eventRule)

@@ -51,6 +51,17 @@ class RuleProvider {
 		cppComponent.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in component «match.xtComponent.name» to CPPAttribute''')
 	].build
+	
+	public val componentOperationRule = createRule.precondition(cppComponentOperations).action[ match |
+		val cppComponent = match.cppComponent
+		val operation = match.operation
+		val cppOperation = createCPPOperation => [
+			commonOperation = operation
+			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = operation ]
+		]
+		cppComponent.subElements += cppOperation
+		trace('''Mapped Operation «operation.name» in component «match.xtComponent.name» to CPPOperation''')
+	].build
 
 	public val classRule = createRule.precondition(cppComponentClasses).action[ match |
 		val xtCls = match.xtClass

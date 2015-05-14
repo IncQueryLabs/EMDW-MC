@@ -29,7 +29,7 @@ class TypeDefinitionMappingTest extends TransformationTest<Type, TypeDefinition>
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Type umlObject, TypeDefinition xtumlrtObject) {
-		assertEquals(mapping.xtumlrtRoot.localScopeTemporaryTypes.head, xtumlrtObject.type)
+		assertNotNull(xtumlrtObject.type)
 	}
 	
 }

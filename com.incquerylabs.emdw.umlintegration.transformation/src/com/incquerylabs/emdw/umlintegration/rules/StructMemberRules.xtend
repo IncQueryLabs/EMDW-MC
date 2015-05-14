@@ -6,6 +6,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.StructType
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Property
+import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class StructMemberRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -47,7 +48,7 @@ class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Prope
 	}
 
 	override updateXtumlrtObject(StructMember xtumlrtObject, StructMemberMatch match) {
-		xtumlrtObject.type = match.member.type.findXtumlrtObject(StructType)
+		xtumlrtObject.type = match.member.type.findXtumlrtObject(Type)
 	}
 
 	def getXtumlrtContainer(StructMemberMatch match) {

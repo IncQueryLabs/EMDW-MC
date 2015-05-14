@@ -24,7 +24,7 @@ class StructTypeMappingTest extends TransformationTest<DataType, StructType> {
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.localScopeTemporaryTypes.filter(StructType)
+		xtumlrtRoot.packages.head.typedefinitions.map[type].filter(StructType)
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, DataType umlObject, StructType xtumlrtObject) {

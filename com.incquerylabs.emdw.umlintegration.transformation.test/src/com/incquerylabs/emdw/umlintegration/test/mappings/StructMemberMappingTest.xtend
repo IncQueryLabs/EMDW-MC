@@ -5,7 +5,6 @@ import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.StructMember
 import org.eclipse.papyrusrt.xtumlrt.common.StructType
-import javax.lang.model.type.PrimitiveType
 import org.eclipse.uml2.uml.DataType
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Property
@@ -14,6 +13,7 @@ import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 
 @RunWith(Parameterized)
 class StructMemberMappingTest extends TransformationTest<Property, StructMember> {
@@ -28,7 +28,7 @@ class StructMemberMappingTest extends TransformationTest<Property, StructMember>
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.localScopeTemporaryTypes.filter(StructType).head.structMembers
+		xtumlrtRoot.packages.head.typedefinitions.map[type].filter(StructType).head.structMembers
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, StructMember xtumlrtObject) {
@@ -36,7 +36,7 @@ class StructMemberMappingTest extends TransformationTest<Property, StructMember>
 	}
 	
 	protected def getTypeOfStructMember(RootMapping mapping) {
-		mapping.xtumlrtRoot.localScopeTemporaryTypes.filter(PrimitiveType).head
+		mapping.xtumlrtRoot.packages.head.typedefinitions.map[type].filter(PrimitiveType).head
 	}
 
 	override protected removeUmlObject(Property umlObject, RootMapping mapping) {

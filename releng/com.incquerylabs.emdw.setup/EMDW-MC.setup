@@ -129,6 +129,8 @@
           name="org.eclipse.emf.sdk.feature.group"/>
       <requirement
           name="org.eclipse.uml2.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.sdk.feature.group"/>
       <repositoryList
           name="Default">
         <repository

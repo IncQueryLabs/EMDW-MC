@@ -1,15 +1,15 @@
-package com.incquerylabs.emdw.cpp.transformation.util
+package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
-import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
+import org.eclipse.xtend.lib.annotations.Accessors
 
-class RuleProvider {
+class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
@@ -17,53 +17,20 @@ class RuleProvider {
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
-	
-	IncQueryEngine engine
-	new(IncQueryEngine engine) {
-		this.engine = engine
+	def addRules(BatchTransformation transformation){
+		val rules = new TransformationRuleGroup(
+			classRule,
+			classAttributeRule,
+			classOperationRule,
+			stateRule,
+			transitionRule,
+			eventRule
+		)
+		transformation.addRules(rules)
 	}
 	
-	public val cleanComponentsRule = createRule.precondition(cppComponents).action[ match |
-		// TODO clean component
-		val cppComponent = match.cppComponent
-		cppComponent.subElements.clear
-		val bodyDirectory = cppComponent.bodyDirectory
-		if(bodyDirectory != null){
-			bodyDirectory.files.clear
-			bodyDirectory.subDirectories.clear
-		}
-		val headerDirectory = cppComponent.headerDirectory
-		if(headerDirectory != null){
-			headerDirectory.files.clear
-			headerDirectory.subDirectories.clear
-		}
-		
-		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
-	].build
-	
-	public val componentAttributeRule = createRule.precondition(cppComponentAttributes).action[ match |
-		val cppComponent = match.cppComponent
-		val attribute = match.attribute
-		val cppAttribute = createCPPAttribute => [
-			commonAttribute = attribute
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = attribute ]
-		]
-		cppComponent.subElements += cppAttribute
-		trace('''Mapped Attribute «attribute.name» in component «match.xtComponent.name» to CPPAttribute''')
-	].build
-	
-	public val componentOperationRule = createRule.precondition(cppComponentOperations).action[ match |
-		val cppComponent = match.cppComponent
-		val operation = match.operation
-		val cppOperation = createCPPOperation => [
-			commonOperation = operation
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = operation ]
-		]
-		cppComponent.subElements += cppOperation
-		trace('''Mapped Operation «operation.name» in component «match.xtComponent.name» to CPPOperation''')
-	].build
-
-	public val classRule = createRule.precondition(cppComponentClasses).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val classRule = createRule.precondition(cppComponentClasses).action[ match |
 		val xtCls = match.xtClass
 		val bodyDir = match.cppComponent.bodyDirectory
 		val headerDir = match.cppComponent.headerDirectory
@@ -81,7 +48,8 @@ class RuleProvider {
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
 	].build
 	
-	public val classAttributeRule = createRule.precondition(cppClassAttributes).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val classAttributeRule = createRule.precondition(cppClassAttributes).action[ match |
 		val cppClass = match.cppClass
 		val attribute = match.attribute
 		val cppAttribute = createCPPAttribute => [
@@ -92,7 +60,8 @@ class RuleProvider {
 		trace('''Mapped Attribute «attribute.name» in class «match.xtClass.name» to CPPAttribute''')
 	].build
 	
-	public val classOperationRule = createRule.precondition(cppClassOperations).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val classOperationRule = createRule.precondition(cppClassOperations).action[ match |
 		val cppClass = match.cppClass
 		val operation = match.operation
 		val cppOperation = createCPPOperation => [
@@ -104,7 +73,8 @@ class RuleProvider {
 	].build
 	
 	
-	public val stateRule = createRule.precondition(cppClassStateMachineStates).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val stateRule = createRule.precondition(cppClassStateMachineStates).action[ match |
 		val state = match.state
 		val cppState = createCPPState => [
 			commonState = state
@@ -114,7 +84,8 @@ class RuleProvider {
 		trace('''Mapped State «state.name» in state machine of «match.xtClass.name» to CPPState''')
 	].build
 	
-	public val transitionRule = createRule.precondition(cppClassStateMachineTransitions).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val transitionRule = createRule.precondition(cppClassStateMachineTransitions).action[ match |
 		val transition = match.transition
 		val cppTransition = createCPPTransition => [
 			commonTransition = transition
@@ -124,7 +95,8 @@ class RuleProvider {
 		trace('''Mapped Transition «transition.name» in state machine of «match.xtClass.name» to CPPTransition''')
 	].build
 	
-	public val eventRule = createRule.precondition(cppClassStateMachineEvents).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val eventRule = createRule.precondition(cppClassStateMachineEvents).action[ match |
 		val event = match.event
 		val cppEvent = createCPPEvent => [
 			xtEvent = event
@@ -133,19 +105,5 @@ class RuleProvider {
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
 	].build
-	
-	public def addRules(BatchTransformation transformation) {
-		val rules = new TransformationRuleGroup(
-			stateRule,
-			transitionRule,
-			eventRule
-		)
-		
-		transformation.addRules(rules)
-	}
-	
-//	
-//	private def initRule(AbstractObjectMapping rule) {
-//		val eventDrivenRule = createRule.precondition().action().build
-//	}
+
 }

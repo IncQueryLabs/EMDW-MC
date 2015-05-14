@@ -2,7 +2,6 @@ package com.incquerylabs.emdw.cpp.transformation
 
 import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import com.incquerylabs.emdw.cpp.transformation.util.RuleProvider
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
@@ -12,6 +11,8 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
 
 class XtumlComponentCPPTransformation {
 
@@ -22,8 +23,10 @@ class XtumlComponentCPPTransformation {
 	Model xtUmlModel
 	IncQueryEngine engine
 	BatchTransformation transform
-	RuleProvider ruleProvider
 	extension BatchTransformationStatements statements
+	
+	val componentRules = new ComponentRules
+	val classRules = new ClassRules
 	
 
 	def initialize(Model xtUmlModel, IncQueryEngine engine) {
@@ -41,8 +44,8 @@ class XtumlComponentCPPTransformation {
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
-			ruleProvider = new RuleProvider(engine)
-			ruleProvider.addRules(transform)
+			componentRules.addRules(transform)
+			classRules.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
@@ -53,15 +56,15 @@ class XtumlComponentCPPTransformation {
 	def execute() {
 			info('''Executing transformation on «xtUmlModel.name»''')
 			val watch = Stopwatch.createStarted
-			statements.fireAllCurrent(ruleProvider.cleanComponentsRule)
-			statements.fireAllCurrent(ruleProvider.componentAttributeRule)
-			statements.fireAllCurrent(ruleProvider.componentOperationRule)
-			statements.fireAllCurrent(ruleProvider.classRule)
-			statements.fireAllCurrent(ruleProvider.classAttributeRule)
-			statements.fireAllCurrent(ruleProvider.classOperationRule)
-			statements.fireAllCurrent(ruleProvider.stateRule)
-			statements.fireAllCurrent(ruleProvider.transitionRule)
-			statements.fireAllCurrent(ruleProvider.eventRule)
+			statements.fireAllCurrent(componentRules.cleanComponentsRule)
+			statements.fireAllCurrent(componentRules.componentAttributeRule)
+			statements.fireAllCurrent(componentRules.componentOperationRule)
+			statements.fireAllCurrent(classRules.classRule)
+			statements.fireAllCurrent(classRules.classAttributeRule)
+			statements.fireAllCurrent(classRules.classOperationRule)
+			statements.fireAllCurrent(classRules.stateRule)
+			statements.fireAllCurrent(classRules.transitionRule)
+			statements.fireAllCurrent(classRules.eventRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

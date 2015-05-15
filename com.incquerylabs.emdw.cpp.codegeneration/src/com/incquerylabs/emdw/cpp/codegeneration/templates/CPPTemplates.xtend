@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
 
 class CPPTemplates {
 	
@@ -11,10 +12,12 @@ class CPPTemplates {
 	val generateTracingCode = GENERATE_TRACING_CODE
 	val IncQueryEngine engine
 	val ClassTemplates classTemplates
+	val TypeIdentifierGenerator typeIdGenerator
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
-		classTemplates = new ClassTemplates(engine)
+		typeIdGenerator = new TypeIdentifierGenerator
+		classTemplates = new ClassTemplates(engine, typeIdGenerator)
 	}
 	
 	def classHeaderTemplate(CPPClass cppClass) {

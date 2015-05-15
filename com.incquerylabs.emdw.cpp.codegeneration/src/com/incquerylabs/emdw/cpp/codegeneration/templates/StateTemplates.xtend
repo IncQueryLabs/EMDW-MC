@@ -97,18 +97,21 @@ class StateTemplates {
 						«ELSE»
 							// no exit action
 						«ENDIF»
+						
 						«IF transition.actionChain != null»
 							// transition action
 							perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
 						«ELSE»
 							// no transition action
 						«ENDIF»
+						
 						«IF cppTarget.commonState.entryAction != null»
 							// entry action
 							perform_entry_action_for_«target»_state(event_id, event_content);
 						«ELSE»
 							// no entry action
 						«ENDIF»
+						
 						«IF state != cppTarget»
 							// state change
 							current_state = «cppClassName»_STATE_«target»;
@@ -135,6 +138,7 @@ class StateTemplates {
 		«FOR transitionInfo : state.orderTransitions»
 			«val target = transitionInfo.cppTarget.commonState.name»
 			«val transition = transitionInfo.transition»
+			
 			«IF transition.guard != null»
 				bool «cppFQN»::evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
 					«IF generateTracingCode»
@@ -153,16 +157,17 @@ class StateTemplates {
 					}
 				}
 			«ENDIF»
-			«IF transition.actionChain != null»
 			
-			void «cppFQN»::perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
-				«IF generateTracingCode»
-					cout << "    [Action: -> «target»]" << endl;
-				«ENDIF»
-				«transition.actionChain.generateActionCode»
-			}
+			«IF transition.actionChain != null»
+				void «cppFQN»::perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
+					«IF generateTracingCode»
+						cout << "    [Action: -> «target»]" << endl;
+					«ENDIF»
+					«transition.actionChain.generateActionCode»
+				}
 			«ENDIF»
 		«ENDFOR»
+		
 		«IF state.commonState.exitAction != null»	
 			void «cppFQN»::perform_exit_action_for_«stateCppName»_state(int event_id, std::string event_content){
 				«IF generateTracingCode»

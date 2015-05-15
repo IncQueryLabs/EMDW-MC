@@ -355,22 +355,20 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createPrimitiveType(org.eclipse.papyrusrt.xtumlrt.common.Package pack, TypeDefinition typedef, String name) {
+	static def createPrimitiveType(TypeDefinition typedef, String name) {
 		val type = commonFactory.createPrimitiveType => [
 			it.name = name
 		]
 		typedef.type = type
-		pack.eResource.contents+=type
 		type
 	}
 
-	static def createXTUserDefinedType(org.eclipse.papyrusrt.xtumlrt.common.Package pack, TypeDefinition typedef, String name, TypeConstraint ... const) {
+	static def createXTUserDefinedType(TypeDefinition typedef, String name, TypeConstraint ... const) {
 		val type = commonFactory.createUserDefinedType => [
 			it.name = name
 			it.constraints += const
 		]
 		typedef.type = type
-		pack.eResource.contents+=type
 		type
 
 	}

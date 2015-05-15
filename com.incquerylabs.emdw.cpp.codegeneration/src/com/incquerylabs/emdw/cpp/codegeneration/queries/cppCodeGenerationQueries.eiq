@@ -5,6 +5,33 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
+pattern cppClasses(
+	xtClass : XTClass,
+	cppClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+}
+
+pattern cppClassAttributes(
+	cppClass : CPPClass,
+	cppAttribute : CPPAttribute,
+	visibility : VisibilityKind
+) {
+	CPPClass.subElements(cppClass, cppAttribute);
+	CPPAttribute.commonAttribute(cppAttribute, attribute);
+	Attribute.visibility(attribute, visibility);
+}
+
+pattern cppClassOperations(
+	cppClass : CPPClass,
+	cppOperation : CPPOperation,
+	visibility : VisibilityKind
+) {
+	CPPClass.subElements(cppClass, cppOperation);
+	CPPOperation.commonOperation(cppOperation, operation);
+	Operation.visibility(operation, visibility);
+}
+
 pattern classStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,

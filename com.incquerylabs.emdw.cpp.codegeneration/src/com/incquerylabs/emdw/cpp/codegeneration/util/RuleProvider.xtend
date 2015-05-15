@@ -23,7 +23,7 @@ class RuleProvider {
 		templates = new CPPTemplates(engine)
 	}
 	
-	public val xtClassRule = createRule.precondition(classStateMachine).action[ match |
+	public val xtClassRule = createRule.precondition(cppClasses).action[ match |
 		val cppClass = match.cppClass
 		trace('''Generating code for «cppClass.xtClass.name» CPPClass''')
 		val header = classHeaderTemplate(cppClass)

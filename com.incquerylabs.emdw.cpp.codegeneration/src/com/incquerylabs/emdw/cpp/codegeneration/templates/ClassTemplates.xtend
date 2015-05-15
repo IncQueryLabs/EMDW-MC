@@ -4,6 +4,11 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
+import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
+import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 
 class ClassTemplates {
 	
@@ -11,48 +16,147 @@ class ClassTemplates {
 	
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
+	val TypeConverter typeConverter
+	val TypeIdentifierGenerator typeIdGenerator
+
+	extension OperationTemplates operationTemplates 
 	extension StateTemplates stateTemplates 
 	extension EventTemplates eventTemplates
 	extension ActionCodeTemplates actionCodeTemplates
 	extension IncQueryEngine engine
 	
-	new(IncQueryEngine engine) {
+	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator) {
 		this.engine = engine
+		this.typeIdGenerator = typeIdGenerator
+		
+		operationTemplates = new OperationTemplates(engine)
 		stateTemplates = new StateTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
+		typeConverter = new TypeConverter
 	}
 	
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.xtClass.name
+		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
 		class «cppClassName» {
+			
 		public:
 		
-			// Constructor
-			«cppClassName»();
+			«publicContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
+			
+		protected:
 		
-			// Destructor
-			~«cppClassName»();
+			«protectedContentInClassHeader(cppClass, cppClassName)»
 		
-			// Attributes
-			std::string name;
-		
-			void perform_initialization();
-
-«««			TODO only call if there is a state machine 
-			«publicStateMachineCodeInClassHeader(cppClass)»
-
 		private:
 		
-«««			TODO only call if there is a state machine		
-			«privateStateMachineCodeInClassHeader(cppClass)»
-
+			// Deny copy of the class using copy constructor
+			«cppClassName»(const «cppClassName»&);
+		
+			// Deny copy of the class using assignment
+			«cppClassName»& operator=(const «cppClassName»&);
+		
+			static std::vector<«cppClassName»*> _instances;
+		
+			static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
+		
+			virtual unsigned short get_type_id() const {
+				return type_id;
+			}
+		
+			«IF hasStateMachine»
+				«privateStateMachineCodeInClassHeader(cppClass)»
+			«ENDIF»
 		};
 		
 		'''
 		
+	}
+	
+	def publicContentInClassHeader(CPPClass cppClass, String cppClassName, boolean hasStateMachine) {
+		'''
+		// Constructor
+		«cppClassName»();
+	
+		// Destructor
+		virtual ~«cppClassName»();
+	
+		«attributesInClassHeader(cppClass, VisibilityKind.PUBLIC)»
+	
+		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
+		
+		void perform_initialization();
+
+		«IF hasStateMachine»
+			«publicStateMachineCodeInClassHeader(cppClass)»
+		«ENDIF»
+		'''
+	}
+	
+	def protectedContentInClassHeader(CPPClass cppClass, String cppClassName) {
+		'''
+		«attributesInClassHeader(cppClass, VisibilityKind.PROTECTED)»
+
+		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PROTECTED)»
+		'''
+	}
+	
+	def privateContentInClassHeader(CPPClass cppClass, String cppClassName, boolean hasStateMachine) {
+		'''
+		// Deny copy of the class using copy constructor
+		«cppClassName»(const «cppClassName»&);
+		
+		// Deny copy of the class using assignment
+		«cppClassName»& operator=(const «cppClassName»&);
+		
+		static std::vector<«cppClassName»*> _instances;
+		
+		static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
+		
+		virtual unsigned short get_type_id() const {
+			return type_id;
+		}
+		
+		«attributesInClassHeader(cppClass, VisibilityKind.PRIVATE)»
+		
+		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
+		
+		«IF hasStateMachine»
+			«privateStateMachineCodeInClassHeader(cppClass)»
+		«ENDIF»
+		'''
+	}
+	
+	
+	
+	def attributesInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+		val cppAttrMatcher = codeGenQueries.getCppClassAttributes(engine)
+		
+		'''
+		// Attributes
+		«FOR attribute : cppClass.subElements.filter(CPPAttribute).sortBy[commonAttribute.name]»
+			«IF cppAttrMatcher.hasMatch(cppClass, attribute, visibility)»
+				«val commonAttr = attribute.commonAttribute»
+				«IF commonAttr.static»static «ENDIF»«typeConverter.convertType(commonAttr.type)» «commonAttr.name»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
+			«ENDIF»
+		«ENDFOR»
+		'''
+	}
+	
+	def operationDeclarationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+		val cppOpMatcher = codeGenQueries.getCppClassOperations(engine)
+		
+		'''
+		// Operations
+		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[commonOperation.name]»
+			«IF cppOpMatcher.hasMatch(cppClass, operation, visibility)»
+				«operationTemplates.operationDeclarationInClassHeader(operation)»
+			«ENDIF»
+		«ENDFOR»
+		'''
 	}
 	
 	def publicStateMachineCodeInClassHeader(CPPClass cppClass) {
@@ -83,6 +187,7 @@ class ClassTemplates {
 	def classBodyTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.xtClass.name // cppClass.cppName
 		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
+		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
 		«cppClass.classConstructorDefinition»
@@ -93,7 +198,9 @@ class ClassTemplates {
 		
 		«cppClass.performInitializationDefinition»
 		
-		«cppClass.stateMachineCodeInClassBody»
+		«IF hasStateMachine»
+			«cppClass.stateMachineCodeInClassBody»
+		«ENDIF»
 		
 		'''
 	}
@@ -132,9 +239,13 @@ class ClassTemplates {
 			«IF generateTracingCode»
 				cout << "[«cppClassName»] Initialization" << endl;
 			«ENDIF»
-			// execute actions
-			«cppInitStateMatch.initTrans.actionChain.generateActionCode»
-			«cppInitStateMatch.cppInitState.commonState.entryAction.generateActionCode»
+			«IF cppInitStateMatch != null»
+				// execute actions
+				«cppInitStateMatch.initTrans.actionChain.generateActionCode»
+				«cppInitStateMatch.cppInitState.commonState.entryAction.generateActionCode»
+			«ELSE»
+				// no action
+			«ENDIF»
 		}
 		'''
 		

@@ -449,7 +449,6 @@ class TransformationTestUtil {
 			it.name = name
 		]
 		typedef.type = type
-		pack.eResource.contents+=type
 		type
 	}
 
@@ -459,7 +458,6 @@ class TransformationTestUtil {
 			it.constraints += const
 		]
 		typedef.type = type
-		pack.eResource.contents+=type
 		type
 
 	}

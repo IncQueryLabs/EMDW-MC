@@ -450,7 +450,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		cppResource.contents += cppModel
-		cppResource.contents+=provider
 		cppModel
 	}
 
@@ -489,7 +488,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppPackage
-		root.eResource.contents+= provider
 		cppPackage
 	}
 
@@ -501,7 +499,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppProtocol
-		root.eResource.contents+= provider
 		cppProtocol
 	}
 
@@ -512,7 +509,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppSignal
-		root.eResource.contents+= provider
 		cppSignal
 	}
 
@@ -523,7 +519,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppEvent
-		root.eResource.contents+= provider
 		cppEvent
 	}
 	
@@ -534,7 +529,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppOperation
-		root.eResource.contents+= provider
 		cppOperation
 	}
 	
@@ -545,7 +539,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppState
-		root.eResource.contents+= provider
 		cppState
 	}
 	
@@ -556,7 +549,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppTransition
-		root.eResource.contents+= provider
 		cppTransition
 	}
 	
@@ -569,7 +561,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppPort
-		root.eResource.contents+= provider
 		cppPort
 	}
 	
@@ -580,7 +571,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppAttr
-		root.eResource.contents+= provider
 		cppAttr
 	}
 
@@ -596,7 +586,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppComponent
-		root.eResource.contents+= provider
 		cppComponent	
 	}
 	
@@ -609,7 +598,6 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppClass
-		root.eResource.contents+= provider
 		cppClass	
 	}
 }

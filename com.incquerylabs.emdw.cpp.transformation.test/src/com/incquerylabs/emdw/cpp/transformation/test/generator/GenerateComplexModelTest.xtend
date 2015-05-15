@@ -178,7 +178,11 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val componentdir2 = packagedir.createCPPSubDirectory
 		
 		val cppcomp = cpppack.createCPPComponent(component,componentdir.createCPPHeaderFile(), componentdir.createCPPBodyFile(), componentdir.createCPPHeaderFile(),componentdir.createCPPHeaderFile())
+		cppcomp.bodyDirectory = componentdir
+		cppcomp.headerDirectory = componentdir
 		val cppcomp2 = cpppack.createCPPComponent(component2,componentdir2.createCPPHeaderFile(), componentdir2.createCPPBodyFile(), componentdir2.createCPPHeaderFile(),componentdir2.createCPPHeaderFile())
+		cppcomp2.bodyDirectory = componentdir2
+		cppcomp2.headerDirectory = componentdir2
 		
 		val xtClass = component.createXtClass("Class")
 		val classdir = componentdir.createCPPSubDirectory

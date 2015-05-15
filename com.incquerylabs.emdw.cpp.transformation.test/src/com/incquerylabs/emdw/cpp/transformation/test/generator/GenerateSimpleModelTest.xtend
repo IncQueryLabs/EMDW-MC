@@ -94,6 +94,8 @@ class GenerateSimpleModelTest extends TransformationTest<Package, CPPDirectory> 
 		val componentdir = packagedir.createCPPSubDirectory
 		
 		val cppcomp = cpppack.createCPPComponent(component,componentdir.createCPPHeaderFile(), componentdir.createCPPBodyFile(), componentdir.createCPPHeaderFile(),componentdir.createCPPHeaderFile())
+		cppcomp.bodyDirectory = componentdir
+		cppcomp.headerDirectory = componentdir
 		
 		val xtClass = component.createXtClass("Class")
 		val classdir = componentdir.createCPPSubDirectory

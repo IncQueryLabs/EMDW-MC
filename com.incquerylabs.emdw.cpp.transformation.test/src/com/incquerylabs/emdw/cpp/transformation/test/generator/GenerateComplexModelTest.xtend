@@ -149,7 +149,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 
 		val reg = Resource.Factory.Registry.INSTANCE
     	val m = reg.getExtensionToFactoryMap()
-    	m.put("xtumlrt", new XMIResourceFactoryImpl())
+    	m.put("xtuml", new XMIResourceFactoryImpl())
 		
 		
 		xtumlmodel.eResource.save(Collections.EMPTY_MAP)
@@ -330,7 +330,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val reg = Resource.Factory.Registry.INSTANCE
     	val m = reg.getExtensionToFactoryMap()
     	m.put("cpp", new XMIResourceFactoryImpl())
-    	m.put("xtumlrt", new XMIResourceFactoryImpl())
+    	m.put("xtuml", new XMIResourceFactoryImpl())
 		
 		
 		res.save(Collections.EMPTY_MAP)

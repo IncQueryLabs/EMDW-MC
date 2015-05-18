@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:css="http://www.eclipse.org/papyrus/infra/gmfdiag/css" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:style="http://www.eclipse.org/papyrus/infra/viewpoints/policy/style" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <notation:Diagram xmi:id="_jcr7gP09EeSRIO43C-Otmg" type="PapyrusUMLClassDiagram" name="NewDiagram" measurementUnit="Pixel">
+    <children xmi:type="notation:Shape" xmi:id="_w7K9EP1BEeSRIO43C-Otmg" type="2002">
+      <children xmi:type="notation:DecorationNode" xmi:id="_w7K9Ev1BEeSRIO43C-Otmg" type="5005"/>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_w7K9E_1BEeSRIO43C-Otmg" type="7002">
+        <children xmi:type="notation:Shape" xmi:id="_1Q1VwP1BEeSRIO43C-Otmg" type="2008">
+          <children xmi:type="notation:DecorationNode" xmi:id="_1Q180P1BEeSRIO43C-Otmg" type="5029"/>
+          <children xmi:type="notation:BasicCompartment" xmi:id="_1Q180f1BEeSRIO43C-Otmg" type="7017">
+            <styles xmi:type="notation:TitleStyle" xmi:id="_1Q180v1BEeSRIO43C-Otmg"/>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_1Q180_1BEeSRIO43C-Otmg"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_1Q181P1BEeSRIO43C-Otmg"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1Q181f1BEeSRIO43C-Otmg"/>
+          </children>
+          <children xmi:type="notation:BasicCompartment" xmi:id="_1Q181v1BEeSRIO43C-Otmg" type="7018">
+            <styles xmi:type="notation:TitleStyle" xmi:id="_1Q181_1BEeSRIO43C-Otmg"/>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_1Q182P1BEeSRIO43C-Otmg"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_1Q182f1BEeSRIO43C-Otmg"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1Q182v1BEeSRIO43C-Otmg"/>
+          </children>
+          <children xmi:type="notation:BasicCompartment" xmi:id="_1Q182_1BEeSRIO43C-Otmg" type="7019">
+            <styles xmi:type="notation:TitleStyle" xmi:id="_1Q183P1BEeSRIO43C-Otmg"/>
+            <styles xmi:type="notation:SortingStyle" xmi:id="_1Q183f1BEeSRIO43C-Otmg"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_1Q183v1BEeSRIO43C-Otmg"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1Q183_1BEeSRIO43C-Otmg"/>
+          </children>
+          <element xmi:type="uml:Class" href="model2.uml#_1Qjo8P1BEeSRIO43C-Otmg"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1Q1Vwf1BEeSRIO43C-Otmg" x="106" y="157"/>
+        </children>
+        <styles xmi:type="notation:TitleStyle" xmi:id="_w7K9FP1BEeSRIO43C-Otmg"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_w7K9Ff1BEeSRIO43C-Otmg"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_w7K9Fv1BEeSRIO43C-Otmg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w7K9F_1BEeSRIO43C-Otmg"/>
+      </children>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_w7K9GP1BEeSRIO43C-Otmg" type="7003">
+        <styles xmi:type="notation:TitleStyle" xmi:id="_w7K9Gf1BEeSRIO43C-Otmg"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_w7K9Gv1BEeSRIO43C-Otmg"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_w7K9G_1BEeSRIO43C-Otmg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w7K9HP1BEeSRIO43C-Otmg"/>
+      </children>
+      <children xmi:type="notation:BasicCompartment" xmi:id="_w7LkIP1BEeSRIO43C-Otmg" type="7004">
+        <styles xmi:type="notation:TitleStyle" xmi:id="_w7LkIf1BEeSRIO43C-Otmg"/>
+        <styles xmi:type="notation:SortingStyle" xmi:id="_w7LkIv1BEeSRIO43C-Otmg"/>
+        <styles xmi:type="notation:FilteringStyle" xmi:id="_w7LkI_1BEeSRIO43C-Otmg"/>
+        <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w7LkJP1BEeSRIO43C-Otmg"/>
+      </children>
+      <element xmi:type="uml:Component" href="model2.uml#_w7Ig0P1BEeSRIO43C-Otmg"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_w7K9Ef1BEeSRIO43C-Otmg" x="378" y="62" width="400" height="321"/>
+    </children>
+    <styles xmi:type="notation:StringValueStyle" xmi:id="_jcr7gf09EeSRIO43C-Otmg" name="diagram_compatibility_version" stringValue="1.0.0"/>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_jcr7gv09EeSRIO43C-Otmg"/>
+    <styles xmi:type="style:PapyrusViewStyle" xmi:id="_jcr7g_09EeSRIO43C-Otmg">
+      <owner xmi:type="uml:Model" href="model2.uml#_jcegIP09EeSRIO43C-Otmg"/>
+    </styles>
+    <element xmi:type="uml:Model" href="model2.uml#_jcegIP09EeSRIO43C-Otmg"/>
+  </notation:Diagram>
+  <css:ModelStyleSheets xmi:id="_tsjBwP09EeSRIO43C-Otmg"/>
+</xmi:XMI>

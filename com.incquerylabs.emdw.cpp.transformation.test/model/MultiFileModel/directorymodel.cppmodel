@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cpp:CPPDirectory xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" name="root">
+  <subDirectories name="myModel1">
+    <subDirectories name="myComponent1">
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myComponent1Decl.hh"/>
+      <files xsi:type="cpp:CPPBodyFile" generationName="myComponent1.cc"/>
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myComponent1Def.hh"/>
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myComponent1.hh"/>
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myClass1.hh"/>
+      <files xsi:type="cpp:CPPBodyFile" generationName="myClass1.cc"/>
+    </subDirectories>
+    <files xsi:type="cpp:CPPBodyFile" generationName="myModel1.cc"/>
+    <files xsi:type="cpp:CPPHeaderFile" generationName="myModel1Api.hh"/>
+    <files xsi:type="cpp:CPPHeaderFile" generationName="myModel1Decl.hh"/>
+    <files xsi:type="cpp:CPPHeaderFile" generationName="myModel1Def.hh"/>
+  </subDirectories>
+  <subDirectories name="myModel2">
+    <subDirectories name="myComponent2">
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myComponent2Decl.hh"/>
+      <files xsi:type="cpp:CPPBodyFile" generationName="myComponent2.cc"/>
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myComponent2Def.hh"/>
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myComponent2.hh"/>
+      <files xsi:type="cpp:CPPHeaderFile" generationName="myClass2.hh"/>
+      <files xsi:type="cpp:CPPBodyFile" generationName="myClass2.cc"/>
+    </subDirectories>
+    <files xsi:type="cpp:CPPBodyFile" generationName="myModel2.cc"/>
+    <files xsi:type="cpp:CPPHeaderFile" generationName="myModel2Api.hh"/>
+    <files xsi:type="cpp:CPPHeaderFile" generationName="myModel2Decl.hh"/>
+    <files xsi:type="cpp:CPPHeaderFile" generationName="myModel2Def.hh"/>
+  </subDirectories>
+</cpp:CPPDirectory>

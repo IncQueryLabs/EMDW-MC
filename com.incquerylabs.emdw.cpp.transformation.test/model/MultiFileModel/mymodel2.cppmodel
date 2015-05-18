@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cpp:CPPModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" cppName="myModel2">
+  <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+    <commonNamedElement xsi:type="common:Model" href="mymodel2.xtuml#/"/>
+  </ooplNameProvider>
+  <subElements xsi:type="cpp:CPPComponent" cppName="myComponent2">
+    <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+      <commonNamedElement xsi:type="xtuml:XTComponent" href="mymodel2.xtuml#//@entities.0"/>
+    </ooplNameProvider>
+    <subElements xsi:type="cpp:CPPClass" cppName="myClass2">
+      <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+        <commonNamedElement xsi:type="xtuml:XTClass" href="mymodel2.xtuml#//@entities.0/@entities.0"/>
+      </ooplNameProvider>
+      <xtClass href="mymodel2.xtuml#//@entities.0/@entities.0"/>
+      <headerFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.4"/>
+      <bodyFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.5"/>
+    </subElements>
+    <xtComponent href="mymodel2.xtuml#//@entities.0"/>
+    <mainHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.3"/>
+    <mainBodyFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.1"/>
+    <declarationHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.0"/>
+    <definitionHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.2"/>
+    <headerDirectory href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0"/>
+    <bodyDirectory href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0"/>
+  </subElements>
+  <commonModel href="mymodel2.xtuml#/"/>
+  <bodyFile href="mymodel3.cppmodel#//@subDirectories.1/@files.0"/>
+  <declarationHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@files.2"/>
+  <definitionHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@files.3"/>
+  <apiHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@files.1"/>
+  <headerDir href="mymodel3.cppmodel#//@subDirectories.1"/>
+  <bodyDir href="mymodel3.cppmodel#//@subDirectories.1"/>
+</cpp:CPPModel>

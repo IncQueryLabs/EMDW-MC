@@ -89,6 +89,5 @@
     <genClasses ecoreClass="oopl.ecore#//OOPLUserDefinedType">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLUserDefinedType/baseType"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//NewEClass19"/>
   </genPackages>
 </genmodel:GenModel>

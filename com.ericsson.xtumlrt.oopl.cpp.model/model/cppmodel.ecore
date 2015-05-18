@@ -60,8 +60,8 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of XTUML package ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTPackage}) in the C++ domain."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="xtPackage" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTPackage"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonPackage" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Package"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" eType="#//CPPBodyFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" eType="#//CPPHeaderFile"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="headerDir" eType="#//CPPDirectory"/>

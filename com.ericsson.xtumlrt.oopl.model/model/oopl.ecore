@@ -183,5 +183,4 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" lowerBound="1"
         eType="#//OOPLType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NewEClass19"/>
 </ecore:EPackage>

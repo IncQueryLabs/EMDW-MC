@@ -15,7 +15,7 @@
     </genEnums>
     <genClasses ecoreClass="cppmodel.ecore#//CPPNamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPNamedElement/cppName"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPNamedElement/ooplNameProvider"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPNamedElement/ooplNameProvider"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPQualifiedNamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPQualifiedNamedElement/cppPrefix"/>
@@ -34,7 +34,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPModel/externalBodySkeletonDir"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPPackage">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPPackage/xtPackage"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPPackage/commonPackage"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPPackage/bodyFile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPPackage/headerFile"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPPackage/headerDir"/>
@@ -134,5 +134,16 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPExternalLibrary">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalLibrary/externalHeader"/>
     </genClasses>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPBasicType"/>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPSequence">
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSequence/cppContainer"/>
+    </genClasses>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPEnumType"/>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPEnumerator">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPEnumerator/cppValue"/>
+    </genClasses>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPStructType"/>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPStructMember"/>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPUserDefinedType"/>
   </genPackages>
 </genmodel:GenModel>

@@ -19,17 +19,19 @@ class ClassTemplates {
 	val TypeConverter typeConverter
 	val TypeIdentifierGenerator typeIdGenerator
 
-	extension OperationTemplates operationTemplates 
-	extension StateTemplates stateTemplates 
-	extension EventTemplates eventTemplates
-	extension ActionCodeTemplates actionCodeTemplates
-	extension IncQueryEngine engine
+	OperationTemplates operationTemplates 
+	AttributeTemplates attributeTemplates
+	StateTemplates stateTemplates 
+	EventTemplates eventTemplates
+	ActionCodeTemplates actionCodeTemplates
+	IncQueryEngine engine
 	
 	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator) {
 		this.engine = engine
 		this.typeIdGenerator = typeIdGenerator
 		
 		operationTemplates = new OperationTemplates(engine)
+		attributeTemplates = new AttributeTemplates(engine)
 		stateTemplates = new StateTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
@@ -46,30 +48,14 @@ class ClassTemplates {
 		public:
 		
 			«publicContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
-			
+		
 		protected:
 		
 			«protectedContentInClassHeader(cppClass, cppClassName)»
 		
 		private:
 		
-			// Deny copy of the class using copy constructor
-			«cppClassName»(const «cppClassName»&);
-		
-			// Deny copy of the class using assignment
-			«cppClassName»& operator=(const «cppClassName»&);
-		
-			static std::vector<«cppClassName»*> _instances;
-		
-			static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
-		
-			virtual unsigned short get_type_id() const {
-				return type_id;
-			}
-		
-			«IF hasStateMachine»
-				«privateStateMachineCodeInClassHeader(cppClass)»
-			«ENDIF»
+			«privateContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
 		};
 		
 		'''
@@ -87,7 +73,7 @@ class ClassTemplates {
 		«attributesInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 	
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
-		
+	
 		void perform_initialization();
 
 		«IF hasStateMachine»
@@ -139,8 +125,7 @@ class ClassTemplates {
 		// Attributes
 		«FOR attribute : cppClass.subElements.filter(CPPAttribute).sortBy[commonAttribute.name]»
 			«IF cppAttrMatcher.hasMatch(cppClass, attribute, visibility)»
-				«val commonAttr = attribute.commonAttribute»
-				«IF commonAttr.static»static «ENDIF»«typeConverter.convertType(commonAttr.type)» «commonAttr.name»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
+				«attributeTemplates.attributeDeclarationInClassHeader(attribute)»
 			«ENDIF»
 		«ENDFOR»
 		'''
@@ -150,7 +135,7 @@ class ClassTemplates {
 		val cppOpMatcher = codeGenQueries.getCppClassOperations(engine)
 		
 		'''
-		// Operations
+		// Operation declarations
 		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[commonOperation.name]»
 			«IF cppOpMatcher.hasMatch(cppClass, operation, visibility)»
 				«operationTemplates.operationDeclarationInClassHeader(operation)»
@@ -186,7 +171,7 @@ class ClassTemplates {
 	
 	def classBodyTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
+		val cppFQN = cppClass.classFullyQualifiedName
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
@@ -194,9 +179,12 @@ class ClassTemplates {
 		
 		// Destructor
 		«cppFQN»::~«cppClassName»() {
+			_instances.erase(std::find(_instances.begin(), _instances.end(), this));
 		}
 		
 		«cppClass.performInitializationDefinition»
+		
+		«operationDefinitions(cppClass)»
 		
 		«IF hasStateMachine»
 			«cppClass.stateMachineCodeInClassBody»
@@ -218,9 +206,23 @@ class ClassTemplates {
 		}
 		'''
 		«cppFQN»::«cppClassName»()«fieldInitialization» {
+			_instances.push_back(this);
 		}
 		'''
 		
+	}
+	
+	def operationDefinitions(CPPClass cppClass) {
+		
+		val operations = cppClass.subElements.filter(CPPOperation)
+		'''
+		«IF !operations.empty»
+			// Operation definitions
+		«ENDIF»
+		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[commonOperation.name]»
+			«operationTemplates.operationDefinitionInClassBody(operation)»
+		«ENDFOR»
+		'''
 	}
 	
 	def performInitializationDefinition(CPPClass cppClass) {
@@ -241,8 +243,8 @@ class ClassTemplates {
 			«ENDIF»
 			«IF cppInitStateMatch != null»
 				// execute actions
-				«cppInitStateMatch.initTrans.actionChain.generateActionCode»
-				«cppInitStateMatch.cppInitState.commonState.entryAction.generateActionCode»
+				«actionCodeTemplates.generateActionCode(cppInitStateMatch.initTrans.actionChain)»
+				«actionCodeTemplates.generateActionCode(cppInitStateMatch.cppInitState.commonState.entryAction)»
 			«ELSE»
 				// no action
 			«ENDIF»
@@ -269,7 +271,7 @@ class ClassTemplates {
 				break;
 			«ENDFOR»
 			}
-			
+		
 			«IF finalStateMatcher.hasMatch(cppClass, null)»
 				switch(current_state){
 				«FOR finalState : finalStateMatcher.getAllValuesOfcppFinalState(cppClass).sortBy[commonState.name]»

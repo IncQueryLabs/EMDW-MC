@@ -12,8 +12,8 @@ class TransitionTemplates {
 	
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-	extension ActionCodeTemplates actionCodeTemplates
-	extension IncQueryEngine engine
+	val ActionCodeTemplates actionCodeTemplates
+	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine

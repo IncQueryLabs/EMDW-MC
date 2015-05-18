@@ -12,8 +12,8 @@ class OperationTemplates {
 	
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-	extension ActionCodeTemplates actionCodeTemplates
-	extension IncQueryEngine engine
+	val ActionCodeTemplates actionCodeTemplates
+	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
@@ -26,8 +26,8 @@ class OperationTemplates {
 		val commonOp = operation.commonOperation
 		val returnType = commonOp.returnType
 		val parameters = commonOp.parameters
-				
-		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType)» «commonOp.name»(«FOR param : parameters SEPARATOR ", "»«typeConverter.convertType(param.type)» «param.name»«ENDFOR»)'''
+						
+		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType)» «IF useQualifiedName»«operation.operationFullyQualifiedName»«ELSE»«commonOp.name»«ENDIF»(«FOR param : parameters SEPARATOR ", "»«typeConverter.convertType(param.type)» «param.name»«ENDFOR»)'''
 	}
 	
 	def operationDeclarationInClassHeader(CPPOperation operation) {
@@ -39,8 +39,14 @@ class OperationTemplates {
 		
 		'''
 			«operationSignature(operation, true)» {
-				// add code
+				«actionCodeTemplates.generateActionCode(operation.commonOperation.body)»
 			}
 		'''
+	}
+	
+	def operationFullyQualifiedName(CPPOperation cppOperation) {
+		val cppName = cppOperation.commonOperation.name // cppOperation.cppName
+		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::TEST::«cppName»''' //cppOperation.cppQualifiedName
+		cppFQN
 	}
 }

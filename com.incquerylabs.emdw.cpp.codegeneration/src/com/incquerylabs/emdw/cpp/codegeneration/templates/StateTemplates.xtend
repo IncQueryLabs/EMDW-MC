@@ -16,8 +16,8 @@ class StateTemplates {
 	
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-	extension ActionCodeTemplates actionCodeTemplates
-	extension IncQueryEngine engine
+	val ActionCodeTemplates actionCodeTemplates
+	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
@@ -76,7 +76,7 @@ class StateTemplates {
 				«IF generateTracingCode»
 					cout << "    [Entry: INIT]" << endl;
 				«ENDIF»
-				«state.commonState.entryAction.generateActionCode»
+				«actionCodeTemplates.generateActionCode(state.commonState.entryAction)»
 			}
 		«ENDIF»
 		
@@ -144,7 +144,7 @@ class StateTemplates {
 					«IF generateTracingCode»
 						cout << "    [Guard: -> «target»]" << endl;
 					«ENDIF»
-					«transition.guard.body.generateActionCode»
+					«actionCodeTemplates.generateActionCode(transition.guard.body)»
 					
 					// DUMMY GUARD
 					if(event_content == "valid") {
@@ -163,7 +163,7 @@ class StateTemplates {
 					«IF generateTracingCode»
 						cout << "    [Action: -> «target»]" << endl;
 					«ENDIF»
-					«transition.actionChain.generateActionCode»
+					«actionCodeTemplates.generateActionCode(transition.actionChain)»
 				}
 			«ENDIF»
 		«ENDFOR»
@@ -173,7 +173,7 @@ class StateTemplates {
 				«IF generateTracingCode»
 					cout << "    [Exit]" << endl;
 				«ENDIF»
-				«state.commonState.exitAction.generateActionCode»
+				«actionCodeTemplates.generateActionCode(state.commonState.exitAction)»
 			}
 		«ENDIF»
 		'''

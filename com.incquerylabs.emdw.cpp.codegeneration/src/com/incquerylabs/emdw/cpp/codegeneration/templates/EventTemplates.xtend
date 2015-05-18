@@ -8,7 +8,7 @@ class EventTemplates {
 
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-	extension IncQueryEngine engine
+	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine

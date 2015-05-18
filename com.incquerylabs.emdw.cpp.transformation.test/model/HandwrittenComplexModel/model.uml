@@ -26,14 +26,27 @@
       </ownedAttribute>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_M9AkgPo_EeSpnsHyI6QRfw" name="myStateMachine">
         <region xmi:type="uml:Region" xmi:id="_OUqT8Po_EeSpnsHyI6QRfw" name="myRegion">
-          <transition xmi:type="uml:Transition" xmi:id="_Mu5akPpAEeSpnsHyI6QRfw" name="myTI1" source="_r5Wg4Po_EeSpnsHyI6QRfw" target="_zN5FgPo_EeSpnsHyI6QRfw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_Mu5akPpAEeSpnsHyI6QRfw" name="myTI1" source="_r5Wg4Po_EeSpnsHyI6QRfw" target="_zN5FgPo_EeSpnsHyI6QRfw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_PaYvAP02EeSIg42JIh_SpA">
+              <language>C++</language>
+              <body>std::cout &lt;&lt; &quot;myTransitionI1 happened&quot; &lt;&lt; std::endl;</body>
+            </effect>
+          </transition>
           <transition xmi:type="uml:Transition" xmi:id="_NXN-0PpAEeSpnsHyI6QRfw" name="myT12" source="_zN5FgPo_EeSpnsHyI6QRfw" target="_zZss4Po_EeSpnsHyI6QRfw">
             <trigger xmi:type="uml:Trigger" xmi:id="_eLe-gPpGEeSIULC1X3PCpw" name="myTrigger12" event="_f4TQMPpHEeSIULC1X3PCpw"/>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_NrzuwPpAEeSpnsHyI6QRfw" name="myT13" source="_zN5FgPo_EeSpnsHyI6QRfw" target="_zrhcsPo_EeSpnsHyI6QRfw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_TiCg4P02EeSIg42JIh_SpA" name="myT13Action">
+              <language>C++</language>
+              <body>std::cout &lt;&lt; &quot;myTransition13 happened&quot; &lt;&lt; std::endl;</body>
+            </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_DgATAPpJEeSIULC1X3PCpw" name="myTrigger13" event="_CllSIPpJEeSIULC1X3PCpw"/>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_O9SkwPpAEeSpnsHyI6QRfw" name="myT24" source="_zZss4Po_EeSpnsHyI6QRfw" target="_z-2BUPo_EeSpnsHyI6QRfw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_c-3nsP02EeSIg42JIh_SpA" name="myT24Action">
+              <language>C++</language>
+              <body>std::cout &lt;&lt; &quot;myTransition24 happened&quot; &lt;&lt; std::endl;</body>
+            </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_T2qYYPpJEeSIULC1X3PCpw" name="myTrigger24" event="_TlODEPpJEeSIULC1X3PCpw"/>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_ParEUPpAEeSpnsHyI6QRfw" name="myT34" guard="_yGis0PpIEeSIULC1X3PCpw" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_z-2BUPo_EeSpnsHyI6QRfw">
@@ -49,12 +62,20 @@
             <trigger xmi:type="uml:Trigger" xmi:id="_fxfysPpJEeSIULC1X3PCpw" name="myTrigger33" event="_f4TQMPpHEeSIULC1X3PCpw"/>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_kr3KAPpAEeSpnsHyI6QRfw" name="myT35" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_xcTMEPo_EeSpnsHyI6QRfw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Xi1c0P02EeSIg42JIh_SpA" name="myT35Action">
+              <language>C++</language>
+              <body>std::cout &lt;&lt; &quot;myTransition35 happened&quot; &lt;&lt; std::endl;</body>
+            </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_j3HkQPpJEeSIULC1X3PCpw" name="myTrigger35" event="_TlODEPpJEeSIULC1X3PCpw"/>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_lH_FUPpAEeSpnsHyI6QRfw" name="myT4F" source="_z-2BUPo_EeSpnsHyI6QRfw" target="_vLtpgPo_EeSpnsHyI6QRfw">
             <trigger xmi:type="uml:Trigger" xmi:id="_vqwxcPpJEeSIULC1X3PCpw" name="myTrigger4F" event="_f4TQMPpHEeSIULC1X3PCpw"/>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_lkKD8PpAEeSpnsHyI6QRfw" name="myT5F" source="_xcTMEPo_EeSpnsHyI6QRfw" target="_vLtpgPo_EeSpnsHyI6QRfw">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aHHXcP02EeSIg42JIh_SpA" name="myT5FAction">
+              <language>C++</language>
+              <body>std::cout &lt;&lt; &quot;myTransition5F happened&quot; &lt;&lt; std::endl;</body>
+            </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_nAM1EPpJEeSIULC1X3PCpw" name="myTrigger 5F" event="_CllSIPpJEeSIULC1X3PCpw"/>
           </transition>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_r5Wg4Po_EeSpnsHyI6QRfw" name="myInitialPoint"/>

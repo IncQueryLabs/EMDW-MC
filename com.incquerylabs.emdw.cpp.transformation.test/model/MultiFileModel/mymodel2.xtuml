@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="" description="">
+  <entities xsi:type="xtuml:XTComponent" name="myComponent2">
+    <entities xsi:type="xtuml:XTClass" name="myClass2"/>
+  </entities>
+</common:Model>

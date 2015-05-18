@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="model">
+  <packagedElement xmi:type="uml:Component" xmi:id="_RcK-0Po8EeSpnsHyI6QRfw" name="myComponent">
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_I2LZYPo8EeSpnsHyI6QRfw" name="myClass" isActive="true">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_cqG24Po8EeSpnsHyI6QRfw" name="myInt" visibility="public">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fLsp4Po8EeSpnsHyI6QRfw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fLt4APo8EeSpnsHyI6QRfw" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_8WAn8Po8EeSpnsHyI6QRfw" name="myStrings" visibility="public">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-OX3wPo8EeSpnsHyI6QRfw"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-OYe0Po8EeSpnsHyI6QRfw" value="*"/>
+        <defaultValue xmi:type="uml:LiteralString" xmi:id="_G7fY4Po9EeSpnsHyI6QRfw" name="myDefaultStringLiteral" value="This is my default string literal"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_MrV3oPo9EeSpnsHyI6QRfw" name="myBoolean">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_Uby8MPo9EeSpnsHyI6QRfw" name="myReals">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YLCOEPo9EeSpnsHyI6QRfw" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YLC1IPo9EeSpnsHyI6QRfw" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_ZZAdEPo9EeSpnsHyI6QRfw" name="myNatural">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
+      </ownedAttribute>
+    </nestedClassifier>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Ba2TcPpAEeSpnsHyI6QRfw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BbPVAPpAEeSpnsHyI6QRfw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>

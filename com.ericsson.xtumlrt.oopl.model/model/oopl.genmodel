@@ -24,6 +24,14 @@
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//AssociativeCollectionKind/UNORDERED_MULTIMAP"/>
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//AssociativeCollectionKind/ORDERED_MULTIMAP"/>
     </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="oopl.ecore#//SequenceOrderednessKind">
+      <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceOrderednessKind/UNORDERED"/>
+      <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceOrderednessKind/ORDERED"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="oopl.ecore#//SequenceUniquenessKind">
+      <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceUniquenessKind/NON_UNIQUE"/>
+      <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceUniquenessKind/UNIQUE"/>
+    </genEnums>
     <genClasses ecoreClass="oopl.ecore#//OOPLClass">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClass/xtClass"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClass/referenceStorage"/>
@@ -58,5 +66,29 @@
     <genClasses ecoreClass="oopl.ecore#//OOPLExistingNameProvider">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLExistingNameProvider/commonNamedElement"/>
     </genClasses>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLBasicType"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLEnumType">
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference oopl.ecore#//OOPLEnumType/enumerators"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLEnumType/defaultValue"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLEnumerator">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLEnumerator/commonEnumerationLiteral"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//OOPLStructType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLStructType/members"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//OOPLStructMember">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLStructMember/commonMember"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLStructMember/type"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//OOPLSequence">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLSequence/elementType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLSequence/orderedness"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLSequence/uniqueness"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//OOPLUserDefinedType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLUserDefinedType/baseType"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//NewEClass19"/>
   </genPackages>
 </genmodel:GenModel>

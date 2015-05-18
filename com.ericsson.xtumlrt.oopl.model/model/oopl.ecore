@@ -103,4 +103,85 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonNamedElement" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLBasicType" abstract="true" eSuperTypes="#//OOPLType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Basic type in OOP languages correstponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType}."/>
+    </eAnnotations>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLEnumType" abstract="true" eSuperTypes="#//OOPLType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Enumeration type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.Enumeration}. Consists of structure members ({@link com.ericsson.xtumlrt.oopl.OOPLEnumerator})."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="enumerators" lowerBound="1"
+        upperBound="-1" eType="#//OOPLEnumerator" changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;&#x9;Enumeration(type);&#xD;&#xA;&#x9;Enumeration.literals(type, enumerator);&#xD;&#xA;&#x9;OOPLEnumerator.commonEnumerationLiteral(ooplEnumerator, enumerator);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultValue" lowerBound="1"
+        eType="#//OOPLEnumerator" changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;&#x9;Enumeration(type);&#xD;&#xA;&#x9;Enumeration.defaultValue(type, enumerator);&#xD;&#xA;&#x9;OOPLEnumerator.commonEnumerationLiteral(ooplEnumerator, enumerator);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLEnumerator" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Member of structure type ({@link com.ericsson.xtumlrt.oopl.OOPLEnumType}) in OOP languages corresponding to ({@link org.eclipse.papyrusrt.xtumlrt.common.EnumerationLiteral})."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonEnumerationLiteral"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//EnumerationLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLStructType" abstract="true" eSuperTypes="#//OOPLType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Structure type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.StructType}. Consists of structure members ({@link com.ericsson.xtumlrt.oopl.OOPLStructMember})."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="members" lowerBound="1"
+        upperBound="-1" eType="#//OOPLStructMember" changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;&#x9;StructType(type);&#xD;&#xA;&#x9;StructType.structMembers(type, member);&#xD;&#xA;&#x9;OOPLStructMember.commonMember(ooplStructMember, member);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLStructMember" abstract="true">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Member of structure type ({@link com.ericsson.xtumlrt.oopl.OOPLStructType}) in OOP languages corresponding to ({@link org.eclipse.papyrusrt.xtumlrt.common.StructMember})."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonMember" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//StructMember"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLType"
+        changeable="false" derived="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLStructMember.commonMember.type(ooplStructMember, type);&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;}"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" abstract="true" eSuperTypes="#//OOPLType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="Sequence (array, set or multiset) type in OOP languages. Eelements are OOP types ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1"
+        eType="#//OOPLType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderedness" ordered="false"
+        unique="false" lowerBound="1" eType="#//SequenceOrderednessKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uniqueness" ordered="false"
+        unique="false" lowerBound="1" eType="#//SequenceUniquenessKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SequenceOrderednessKind">
+    <eLiterals name="UNORDERED"/>
+    <eLiterals name="ORDERED" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="SequenceUniquenessKind">
+    <eLiterals name="NON_UNIQUE"/>
+    <eLiterals name="UNIQUE" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLUserDefinedType" abstract="true"
+      eSuperTypes="#//OOPLType">
+    <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+      <details key="documentation" value="User defined type in OOP languages correstponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.UserDefinedType}. Based on any OOP type ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" lowerBound="1"
+        eType="#//OOPLType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NewEClass19"/>
 </ecore:EPackage>

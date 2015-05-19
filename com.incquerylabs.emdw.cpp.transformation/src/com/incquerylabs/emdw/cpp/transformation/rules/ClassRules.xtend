@@ -42,7 +42,7 @@ class ClassRules {
 			headerFile = createCPPHeaderFile
 			headerDir.files += headerFile
 			
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = xtCls ]
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtCls ]
 		]
 		match.cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
@@ -54,7 +54,7 @@ class ClassRules {
 		val attribute = match.attribute
 		val cppAttribute = createCPPAttribute => [
 			commonAttribute = attribute
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = attribute ]
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = attribute ]
 		]
 		cppClass.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in class «match.xtClass.name» to CPPAttribute''')
@@ -66,7 +66,14 @@ class ClassRules {
 		val operation = match.operation
 		val cppOperation = createCPPOperation => [
 			commonOperation = operation
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = operation ]
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = operation ]
+		]
+		operation.parameters.forEach[ param |
+			val cppFormalParameter = createCPPFormalParameter => [
+				commonParameter = param
+				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
+			]
+			cppOperation.subElements += cppFormalParameter
 		]
 		cppClass.subElements += cppOperation
 		trace('''Mapped Operation «operation.name» in class «match.xtClass.name» to CPPOperation''')
@@ -78,7 +85,7 @@ class ClassRules {
 		val state = match.state
 		val cppState = createCPPState => [
 			commonState = state
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = state ]
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = state ]
 		]
 		match.cppClass.subElements += cppState
 		trace('''Mapped State «state.name» in state machine of «match.xtClass.name» to CPPState''')
@@ -89,7 +96,7 @@ class ClassRules {
 		val transition = match.transition
 		val cppTransition = createCPPTransition => [
 			commonTransition = transition
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = transition ]
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = transition ]
 		]
 		match.cppClass.subElements += cppTransition
 		trace('''Mapped Transition «transition.name» in state machine of «match.xtClass.name» to CPPTransition''')
@@ -100,7 +107,7 @@ class ClassRules {
 		val event = match.event
 		val cppEvent = createCPPEvent => [
 			xtEvent = event
-			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = event ]
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = event ]
 		]
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')

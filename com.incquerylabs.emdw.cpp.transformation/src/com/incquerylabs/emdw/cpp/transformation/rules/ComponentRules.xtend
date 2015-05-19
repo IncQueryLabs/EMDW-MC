@@ -64,6 +64,13 @@ class ComponentRules {
 			commonOperation = operation
 			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = operation ]
 		]
+		operation.parameters.forEach[ param |
+			val cppFormalParameter = createCPPFormalParameter => [
+				commonParameter = param
+				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
+			]
+			cppOperation.subElements += cppFormalParameter
+		]
 		cppComponent.subElements += cppOperation
 		trace('''Mapped Operation «operation.name» in component «match.xtComponent.name» to CPPOperation''')
 	].build

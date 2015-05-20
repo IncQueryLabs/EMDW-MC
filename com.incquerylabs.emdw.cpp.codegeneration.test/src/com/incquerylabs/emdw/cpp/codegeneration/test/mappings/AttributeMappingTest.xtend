@@ -28,11 +28,14 @@ class AttributeMappingTest extends TransformationTest<State, CPPClass> {
 		val xtClass = xtComponent.createXtClass("TEST")
 		val xtType = xtPackage.createTypeDefinition("BooleanDef").createPrimitiveType("Boolean")
 		val xtAttr = xtClass.createSingleAttribute(xtType, VisibilityKind.PUBLIC, false, "myBool")
+		val xtAttr2 = xtClass.createListAttribute(xtType, VisibilityKind.PUBLIC, true, "myBool")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
 		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
 		val cppAttr = createCPPAttribute(cppClass, xtAttr)
+		val cppAttr2 = createCPPAttribute(cppClass, xtAttr2)
+		createCPPSequence(cppAttr2, xtType)
 		
 		cppClass
 	}

@@ -8,6 +8,7 @@ import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
 
 class ComponentRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -51,6 +52,11 @@ class ComponentRules {
 		val cppAttribute = createCPPAttribute => [
 			commonAttribute = attribute
 			ooplNameProvider = createOOPLExistingNameProvider=>[ commonNamedElement = attribute ]
+			if(attribute.multiValue){
+				subElements += createCPPSequence => [
+					commonType = attribute.type
+				]
+			}
 		]
 		cppComponent.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in component «match.xtComponent.name» to CPPAttribute''')
@@ -68,11 +74,21 @@ class ComponentRules {
 			val cppFormalParameter = createCPPFormalParameter => [
 				commonParameter = param
 				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
+				if(param.multiValue){
+					subElements += createCPPSequence => [
+						commonType = param.type
+					]
+				}
 			]
 			cppOperation.subElements += cppFormalParameter
 		]
 		cppComponent.subElements += cppOperation
 		trace('''Mapped Operation «operation.name» in component «match.xtComponent.name» to CPPOperation''')
 	].build
+	
+	def isMultiValue(MultiplicityElement multiplicityElement) {
+		val upperBound = multiplicityElement.upperBound
+		return upperBound > 1 || upperBound == -1
+	}
 	
 }

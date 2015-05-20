@@ -127,6 +127,13 @@ pattern compositeStateSubStates(
 /**
  * CPP Model queries
  */
+ 
+pattern typeToOOPLType(
+	commonType : Type,
+	ooplType : OOPLType
+) {
+	OOPLType.commonType(ooplType, commonType);
+}
 
 pattern xtModelToCppModel(
 	xtModel : Model,

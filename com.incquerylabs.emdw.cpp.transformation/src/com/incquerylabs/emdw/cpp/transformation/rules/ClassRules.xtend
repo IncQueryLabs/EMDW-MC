@@ -8,14 +8,16 @@ import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
+import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
-	extension BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
-	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
-	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
+	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new TransformationRuleGroup(
@@ -55,6 +57,11 @@ class ClassRules {
 		val cppAttribute = createCPPAttribute => [
 			commonAttribute = attribute
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = attribute ]
+			if(attribute.multiValue){
+				subElements += createCPPSequence => [
+					commonType = attribute.type
+				]
+			}
 		]
 		cppClass.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in class «match.xtClass.name» to CPPAttribute''')
@@ -72,6 +79,11 @@ class ClassRules {
 			val cppFormalParameter = createCPPFormalParameter => [
 				commonParameter = param
 				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
+				if(param.multiValue){
+					subElements += createCPPSequence => [
+						commonType = param.type
+					]
+				}
 			]
 			cppOperation.subElements += cppFormalParameter
 		]
@@ -113,4 +125,9 @@ class ClassRules {
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
 	].build
 
+	def isMultiValue(MultiplicityElement multiplicityElement) {
+		val upperBound = multiplicityElement.upperBound
+		return upperBound > 1 || upperBound == -1
+	}
+	
 }

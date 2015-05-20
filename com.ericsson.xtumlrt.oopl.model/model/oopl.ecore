@@ -14,8 +14,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of common type ({@link org.eclipse.papyrusrt.xtumlrt.common.Type}) for OOP languages."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="commonType" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonType" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassReference" abstract="true"
       eSuperTypes="#//OOPLType">

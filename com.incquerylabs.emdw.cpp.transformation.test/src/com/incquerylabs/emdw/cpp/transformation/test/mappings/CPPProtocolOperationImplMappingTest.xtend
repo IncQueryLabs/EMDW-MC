@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
@@ -31,7 +32,7 @@ class CPPProtocolOperationImplMappingTestSuite {}
 
 @Ignore("protocols not yet in scope")
 @RunWith(Parameterized)
-class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPPort> {
+class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPComponent> {
 	CPPDirectory rootDir;
 	XTProtocolOperationDefinition xtdef;
 	
@@ -56,21 +57,22 @@ class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPPor
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
 		val xtProt = xtPackage.protocols.head as XTProtocol
-		val cppProtocol = createCPPProtocol(cppPackage,xtProt, null)
+		val cppProtocol = cppPackage.createCPPProtocol(xtProt, null)
 		val xtPort = xtComponent.ports.head as XTPort
-		val cppPort = cppComponent.createCPPPort(xtPort, null, null)
+		cppComponent.createCPPPort(xtPort, null, null)
 		cppProtocol.createCPPProtocolOperationDefinition(xtdef)
 		
-		cppPort
+		cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTPort xtObject, CPPPort cppObject) {
+	override protected assertResult(Model input, CPPModel result, XTPort xtObject, CPPComponent cppObject) {
+		val cppPort = cppObject.subElements.filter(CPPPort).head
 		val xtImpls = xtObject.realizedOperations
-		val cppImpls = cppObject.subElements.filter(CPPProtocolOperationImplementation)
+		val cppImpls = cppPort.subElements.filter(CPPProtocolOperationImplementation)
 		assertEquals(xtImpls.size,cppImpls.size)
 		cppImpls.forEach[
 			assertNotNull(ooplNameProvider)
@@ -82,8 +84,10 @@ class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPPor
 		xtObject.realizedOperations.clear
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTPort xtObject, CPPPort cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected assertClear(Model input, CPPModel result, XTPort xtObject, CPPComponent cppObject) {
+		val cppPort = cppObject.subElements.filter(CPPPort).head
+		val cppImpls = cppPort.subElements.filter(CPPProtocolOperationImplementation)
+		assertEquals(0,cppImpls.size)
 	}
 	
 }

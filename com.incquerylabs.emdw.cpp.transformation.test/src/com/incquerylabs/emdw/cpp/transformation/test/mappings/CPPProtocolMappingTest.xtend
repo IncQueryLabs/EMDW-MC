@@ -67,7 +67,9 @@ class CPPProtocolInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppProtocols = cppObject.subElements.filter(CPPProtocol)
+		assertEquals(0,cppProtocols.size)
+		assertEquals(0,rootDir.countCppHeaderFiles)
 	}
 	
 }
@@ -110,7 +112,9 @@ class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppProtocols = cppObject.subElements.filter(CPPProtocol)
+		assertEquals(0,cppProtocols.size)
+		assertEquals(0,rootDir.countCppHeaderFiles)
 	}
 	
 }

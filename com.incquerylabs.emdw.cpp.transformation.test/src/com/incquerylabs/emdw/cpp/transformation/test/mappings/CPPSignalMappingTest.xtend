@@ -65,7 +65,8 @@ class CPPSignalMappingTest extends MappingBaseTest<XTProtocol, CPPProtocol> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTProtocol xtObject, CPPProtocol cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppSignals = cppObject.subElements.filter(CPPSignal)
+		assertEquals(0,cppSignals.size)
 	}
 	
 	

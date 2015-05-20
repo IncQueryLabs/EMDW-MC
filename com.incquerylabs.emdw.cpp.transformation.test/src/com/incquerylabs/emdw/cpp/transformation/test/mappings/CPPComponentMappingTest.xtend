@@ -73,7 +73,10 @@ class CPPComponentInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppComponents = cppObject.subElements.filter(CPPComponent)
+		assertEquals(0,cppComponents.size)
+		assertEquals(0,rootDir.countCppHeaderFiles)
+		assertEquals(0,rootDir.countCppBodyFiles)
 	}
 	
 }
@@ -121,7 +124,10 @@ class CPPComponentInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppComponents = cppObject.subElements.filter(CPPComponent)
+		assertEquals(0,cppComponents.size)
+		assertEquals(0,rootDir.countCppHeaderFiles)
+		assertEquals(0,rootDir.countCppBodyFiles)
 	}
 	
 }

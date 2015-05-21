@@ -308,6 +308,10 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonAttribute" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unnamedSequenceType" eType="#//CPPSequence"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLType"
+        changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPState" eSuperTypes="#//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -338,6 +342,14 @@
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Parameter"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="passingMode" ordered="false"
         unique="false" lowerBound="1" eType="#//CPPParameterPassingKind" defaultValueLiteral="BY_VALUE"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unnamedSequenceType" eType="#//CPPSequence"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This reference shall be used only for containing a CPPSequence."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLType"
+        changeable="false" volatile="true" transient="true" derived="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CPPParameterPassingKind">
     <eLiterals name="BY_VALUE"/>
@@ -351,7 +363,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="externalHeader" upperBound="-1"
         eType="#//CPPExternalHeader" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CPPBasicType" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLBasicType">
+  <eClassifiers xsi:type="ecore:EClass" name="CPPBasicType" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLBasicType #//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="C++ type corresponding to UML primitive types. Not necessarily primitive type in C++ as well (see strings)."/>
     </eAnnotations>
@@ -369,6 +381,8 @@
         <details key="documentation" value="{&#xD;&#xA;&#x9;!CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==NON_UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::multiset&quot;;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==NON_UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::unordered_multiset&quot;;&#xD;&#xA;{&#xD;&#xA;&#x9;!CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::set&quot;;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::unordered_set&quot;;&#xD;&#xA;} or {&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==ORDERED;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::vector&quot;;&#xD;&#xA;}&#xD;&#xA;"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementation" lowerBound="1"
+        eType="#//CPPSequenceImplementation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPEnumType" eSuperTypes="../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLEnumType #//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -401,4 +415,5 @@
       <details key="documentation" value="User defined type (typedef type) in C++."/>
     </eAnnotations>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPSequenceImplementation"/>
 </ecore:EPackage>

@@ -104,7 +104,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLBasicType" abstract="true" eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Basic type in OOP languages correstponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType}."/>
+      <details key="documentation" value="Basic type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType}."/>
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLEnumType" abstract="true" eSuperTypes="#//OOPLType">
@@ -157,7 +157,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" abstract="true" eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="Sequence (array, set or multiset) type in OOP languages. Eelements are OOP types ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
+      <details key="documentation" value="Sequence (array, set or multiset) type in OOP languages. Elements are OOP types ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1"
         eType="#//OOPLType"/>
@@ -177,7 +177,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="OOPLUserDefinedType" abstract="true"
       eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
-      <details key="documentation" value="User defined type in OOP languages correstponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.UserDefinedType}. Based on any OOP type ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
+      <details key="documentation" value="User defined type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.UserDefinedType}. Based on any OOP type ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" lowerBound="1"
         eType="#//OOPLType"/>

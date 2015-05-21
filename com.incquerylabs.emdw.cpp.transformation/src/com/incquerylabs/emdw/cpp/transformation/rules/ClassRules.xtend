@@ -58,7 +58,7 @@ class ClassRules {
 			commonAttribute = attribute
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = attribute ]
 			if(attribute.multiValue){
-				subElements += createCPPSequence => [
+				unnamedSequenceType = createCPPSequence => [
 					commonType = attribute.type
 				]
 			}
@@ -80,7 +80,7 @@ class ClassRules {
 				commonParameter = param
 				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
 				if(param.multiValue){
-					subElements += createCPPSequence => [
+					unnamedSequenceType = createCPPSequence => [
 						commonType = param.type
 					]
 				}

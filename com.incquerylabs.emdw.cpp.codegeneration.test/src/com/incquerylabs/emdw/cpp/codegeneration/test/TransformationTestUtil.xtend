@@ -544,11 +544,21 @@ class TransformationTestUtil {
 		cppFormalParameter
 	}
 	
-	static def CPPSequence createCPPSequence(CPPQualifiedNamedElement root, Type type) {
+	static def CPPSequence createCPPSequence(CPPFormalParameter root, Type type) {
 		val seq = cppFactory.createCPPSequence => [
+//			it.elementType = type
 			it.commonType = type
 		]
-		root.subElements += seq
+		root.unnamedSequenceType = seq
+		seq
+	}
+	
+	static def CPPSequence createCPPSequence(CPPAttribute root, Type type) {
+		val seq = cppFactory.createCPPSequence => [
+//			it.elementType = type
+			it.commonType = type
+		]
+		root.unnamedSequenceType = seq
 		seq
 	}
 	

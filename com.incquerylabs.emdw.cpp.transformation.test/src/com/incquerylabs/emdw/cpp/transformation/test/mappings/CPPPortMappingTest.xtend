@@ -77,7 +77,10 @@ class CPPPortMappingTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppPorts = cppObject.subElements.filter(CPPPort)
+		assertEquals(0,cppPorts.size)
+		assertEquals(0,rootDir.countCppHeaderFiles)
+		assertEquals(0,rootDir.countCppBodyFiles)
 	}
 	
 }

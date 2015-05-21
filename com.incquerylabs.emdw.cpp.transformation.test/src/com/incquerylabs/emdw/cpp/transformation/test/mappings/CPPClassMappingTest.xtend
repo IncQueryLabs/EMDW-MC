@@ -69,12 +69,15 @@ class CPPClassInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	}
 	
 	override protected clearXtUmlElement(Package xtObject) {
-		val classes = xtObject.entities.filter(XTComponent)
+		val classes = xtObject.entities.filter(XTClass)
 		xtObject.entities.removeAll(classes)
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPPackage cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppClasses = cppObject.subElements.filter(CPPClass)
+		assertEquals(0, cppClasses.size)
+		assertEquals(0, rootDir.countCppHeaderFiles)
+		assertEquals(0, rootDir.countCppBodyFiles)
 	}
 	
 }
@@ -115,12 +118,15 @@ class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 	
 	override protected clearXtUmlElement(Model xtObject) {
-		val classes = xtObject.entities.filter(XTComponent)
+		val classes = xtObject.entities.filter(XTClass)
 		xtObject.entities.removeAll(classes)
 	}
 	
 	override protected assertClear(Model input, CPPModel result, Model xtObject, CPPModel cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppClasses = cppObject.subElements.filter(CPPClass)
+		assertEquals(0, cppClasses.size)
+		assertEquals(0, rootDir.countCppHeaderFiles)
+		assertEquals(0, rootDir.countCppBodyFiles)
 	}
 	
 }

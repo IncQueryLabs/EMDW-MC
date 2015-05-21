@@ -22,6 +22,8 @@ import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import org.junit.Ignore
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 
 @SuiteClasses(#[
 	CPPClassReferenceMappingTest,
@@ -33,12 +35,11 @@ class CPPClassReferenceMappingTestSuite {}
 
 @Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
-class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
+class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir;
 	XTClass sourceClass;
 	XTClass targetClass
-	CPPClass sourceCPPClass;
-	CPPClass targetCPPClass
+
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -46,31 +47,35 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
-		sourceClass = pack.createXtClass("sourceClass")
-		targetClass = pack.createXtClass("targetClass")
+		val component = pack.createXtComponent("Component")
+		sourceClass = component.createXtClass("sourceClass")
+		targetClass = component.createXtClass("targetClass")
 		sourceClass.createXtAssociation(targetClass, "singleAssoc",false,false,1,1)
 		
 		sourceClass
 	}
 		
-	override protected prepareCppModel(CPPModel cppModel) {
+	override  protected prepareCppModel(CPPModel cppModel) {
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		sourceCPPClass = createCPPClass(cppPackage, sourceClass, null, null)
-		targetCPPClass = createCPPClass(cppPackage, targetClass, null, null)
+		val xtComponent = xtPackage.entities.filter(XTComponent).head
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
+		cppPackage.createCPPClass(sourceClass, null, null)
+		cppPackage.createCPPClass(targetClass, null, null)
 		
-		sourceCPPClass
+		return cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val xtAssociations = xtObject.relations.filter(XTAssociation)
-		val cppReferenceStorages = cppObject.subElements.filter(CPPClassReferenceStorage)
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
 		
 		assertEquals(xtAssociations.size,cppReferenceStorages.size)
-		assertEquals(xtAssociations.size,cppObject.referenceStorage.size)
+		assertEquals(xtAssociations.size,cppClass.referenceStorage.size)
 		cppReferenceStorages.forEach[ 
 			assertNotNull(type)
 			val references = subElements.filter(CPPClassReference)
@@ -88,20 +93,22 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPClass> {
 		xtObject.relations.removeAll(associations)
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
+		assertEquals(0, cppReferenceStorages.size)
+		assertEquals(0, cppClass.referenceStorage.size)
 	}
 	
 }
 
 @Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
-class CPPClassRefSimpleCollectionMappingTest extends MappingBaseTest<XTClass, CPPClass> {
+class CPPClassRefSimpleCollectionMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 CPPDirectory rootDir;
 	XTClass sourceClass;
 	XTClass targetClass
-	CPPClass sourceCPPClass;
-	CPPClass targetCPPClass
+
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -109,8 +116,9 @@ CPPDirectory rootDir;
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
-		sourceClass = pack.createXtClass("sourceClass")
-		targetClass = pack.createXtClass("targetClass")
+		val component = pack.createXtComponent("Component")
+		sourceClass = component.createXtClass("sourceClass")
+		targetClass = component.createXtClass("targetClass")
 		sourceClass.createXtAssociation(targetClass, "singleAssoc",false,false,1,25)
 		
 		sourceClass
@@ -121,19 +129,23 @@ CPPDirectory rootDir;
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		sourceCPPClass = createCPPClass(cppPackage, sourceClass, null, null)
-		targetCPPClass = createCPPClass(cppPackage, targetClass, null, null)
+		val xtComponent = xtPackage.entities.filter(XTComponent).head
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
 		
-		sourceCPPClass
+		cppComponent.createCPPClass(sourceClass, null, null)
+		cppComponent.createCPPClass(targetClass, null, null)
+		
+		cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val xtAssociations = xtObject.relations.filter(XTAssociation)
-		val cppReferenceStorages = cppObject.subElements.filter(CPPClassReferenceStorage)
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
 		
 		assertEquals(xtAssociations.size,cppReferenceStorages.size)
-		assertEquals(xtAssociations.size,cppObject.referenceStorage.size)
+		assertEquals(xtAssociations.size,cppClass.referenceStorage.size)
 		cppReferenceStorages.forEach[ 
 			assertNotNull(type)
 			val collections = subElements.filter(CPPClassRefSimpleCollection)
@@ -151,22 +163,22 @@ CPPDirectory rootDir;
 		xtObject.relations.removeAll(associations)
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
+		assertEquals(0,cppReferenceStorages.size)
+		assertEquals(0,cppClass.referenceStorage.size)
 	}
 	
 }
 
 @Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
-class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPPClass> {
+class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir
 	XTClass sourceClass
 	XTClass targetClass
 	XTClass assocClass
-	CPPClass sourceCPPClass
-	CPPClass targetCPPClass
-	CPPClass assocCPPClass
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -174,9 +186,10 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
-		sourceClass = pack.createXtClass("sourceClass")
-		targetClass = pack.createXtClass("targetClass")
-		assocClass = pack.createXtClass("targetClass")
+		val component = pack.createXtComponent("Component")
+		sourceClass = component.createXtClass("sourceClass")
+		targetClass = component.createXtClass("targetClass")
+		assocClass = component.createXtClass("targetClass")
 		assocClass.createSingleAttribute(pack.createPrimitiveType(pack.createTypeDefinition("Integer"),"Integer"),VisibilityKind.PUBLIC, false, "i")
 		sourceClass.createXtAssociationClass(targetClass, assocClass,"singleAssoc",false,false,1,1)
 		
@@ -188,20 +201,25 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		sourceCPPClass = createCPPClass(cppPackage, sourceClass, null, null)
-		targetCPPClass = createCPPClass(cppPackage, targetClass, null, null)
-		assocCPPClass = createCPPClass(cppPackage, assocClass, null, null)
+		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		
-		sourceCPPClass
+		
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
+		cppComponent.createCPPClass(sourceClass, null, null)
+		cppComponent.createCPPClass(targetClass, null, null)
+		cppComponent.createCPPClass(assocClass, null, null)
+		
+		cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val xtAssociations = xtObject.relations.filter(XTAssociationClass)
-		val cppReferenceStorages = cppObject.subElements.filter(CPPClassReferenceStorage)
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
 		
 		assertEquals(xtAssociations.size,cppReferenceStorages.size)
-		assertEquals(xtAssociations.size,cppObject.referenceStorage.size)
+		assertEquals(xtAssociations.size,cppClass.referenceStorage.size)
 		cppReferenceStorages.forEach[ 
 			assertNotNull(type)
 			val collections = subElements.filter(CPPClassRefAssocCollection)
@@ -221,8 +239,12 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 		xtObject.relations.removeAll(associations)
 	}
 	
-	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPClass cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
+		
+		assertEquals(0,cppReferenceStorages.size)
+		assertEquals(0,cppClass.referenceStorage.size)
 	}
 	
 }

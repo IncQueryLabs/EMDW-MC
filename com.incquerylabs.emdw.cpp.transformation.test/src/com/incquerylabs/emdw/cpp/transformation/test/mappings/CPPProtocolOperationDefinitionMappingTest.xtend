@@ -70,7 +70,8 @@ class CPPProtocolOperationDefinitionMappingTest extends MappingBaseTest<XTProtoc
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTProtocol xtObject, CPPProtocol cppObject) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val cppDefs = cppObject.subElements.filter(CPPProtocolOperationDefinition)
+		assertEquals(0,cppDefs.size)
 	}
 	
 	

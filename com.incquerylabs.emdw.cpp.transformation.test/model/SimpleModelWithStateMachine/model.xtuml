@@ -2,43 +2,9 @@
 <common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml">
   <entities xsi:type="xtuml:XTComponent" name="myComponent">
     <entities xsi:type="xtuml:XTClass" name="myClass">
-      <attributes lowerBound="1" upperBound="1" name="myBoolean">
-        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.0/@type"/>
-      </attributes>
-      <attributes lowerBound="1" upperBound="1" name="myNatural">
-        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.4/@type"/>
-      </attributes>
       <attributes upperBound="1" name="myInt">
-        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.1/@type"/>
+        <type xsi:type="common:PrimitiveType" href="../../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.1/@type"/>
       </attributes>
-      <attributes lowerBound="1" upperBound="-1" name="myReals">
-        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.2/@type"/>
-      </attributes>
-      <attributes upperBound="-1" name="myStrings">
-        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.3/@type"/>
-      </attributes>
-      <operations name="myVoidOperation">
-        <returnType xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.5/@type"/>
-        <parameters lowerBound="1" upperBound="1" name="toPrintParameter">
-          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.3/@type"/>
-        </parameters>
-        <body source="std::cout &lt;&lt; toPrintParameter &lt;&lt; std::endl;"/>
-      </operations>
-      <operations name="myGetterOperation">
-        <returnType xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.3/@type"/>
-        <body name="" source="return myStrings[0];"/>
-      </operations>
-      <operations name="myMultiParamOperation">
-        <returnType xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.0/@type"/>
-        <parameters lowerBound="1" upperBound="1" name="myInParam"/>
-        <parameters lowerBound="1" upperBound="1" name="myInOutParam" direction="IN_OUT">
-          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.2/@type"/>
-        </parameters>
-        <parameters lowerBound="1" upperBound="1" name="myOutParam" direction="OUT">
-          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.0/@type"/>
-        </parameters>
-        <body source="myOutParam = true;&#xD;&#xA;if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;&#xA;{&#xD;&#xA;&#x9;myOutParam = false;&#xD;&#xA;&#x9;myInOutParam += 2;&#xD;&#xA;&#x9;return true;&#xD;&#xA;}&#xD;&#xA;return false;"/>
-      </operations>
       <behaviour name="myStateMachine">
         <top>
           <initial name="myInitialPoint" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>

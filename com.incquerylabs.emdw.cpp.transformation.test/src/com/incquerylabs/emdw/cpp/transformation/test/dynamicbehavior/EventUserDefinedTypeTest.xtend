@@ -53,7 +53,7 @@ class EventUserDefinedTypeTest extends DynamicBehaviorBaseTest {
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		val pack = xtumlmodel.createPackage("RootPackage")
 		val typedef = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createUserDefinedType(typedef, "UserType")
+		val userDefinedType = createUserDefinedType(typedef, "UserType")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")

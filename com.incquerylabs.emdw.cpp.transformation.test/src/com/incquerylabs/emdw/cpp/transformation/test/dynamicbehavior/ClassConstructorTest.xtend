@@ -59,10 +59,10 @@ class ClassConstructorTest extends DynamicBehaviorBaseTest {
 		val xtClass = component.createXtClass("TestClass")
 
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createUserDefinedType(typedef2, "UserType")
+		val userDefinedType = createUserDefinedType(typedef2, "UserType")
 
 		xtClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false, "a")
 		xtClass.createSingleAttribute(userDefinedType, VisibilityKind.PUBLIC, false, "b")

@@ -142,6 +142,46 @@ pattern xtModelToCppModel(
 	CPPModel.commonModel(cppModel, xtModel);
 }
 
+pattern cppEntityAttributes(
+	xtEntity : Entity,
+	cppElement : CPPQualifiedNamedElement,
+	attribute : Attribute
+) {
+	find cppClasses(xtEntity, cppElement);
+	Entity.attributes(xtEntity, attribute);
+} or {
+	find cppComponents(xtEntity, cppElement);
+	Entity.attributes(xtEntity, attribute);
+}
+
+pattern cppSequenceType(
+	typedElement : NamedElement,
+	cppSequence : CPPSequence,
+	ooplType : OOPLType
+) {
+	CPPAttribute.unnamedSequenceType(cppAttribute, cppSequence);
+	CPPAttribute.commonAttribute(cppAttribute, typedElement);
+	Attribute.type(typedElement, type);
+	find typeToOOPLType(type, ooplType);
+} or {
+	CPPFormalParameter.unnamedSequenceType(cppFP, cppSequence);
+	CPPFormalParameter.commonParameter(cppFP, typedElement);
+	Parameter.type(typedElement, type);
+	find typeToOOPLType(type, ooplType);
+}
+
+pattern cppEntityOperations(
+	xtEntity : Entity,
+	cppElement : CPPQualifiedNamedElement,
+	operation : Operation
+) {
+	find cppClasses(xtEntity, cppElement);
+	Entity.operations(xtEntity, operation);
+} or {
+	find cppComponents(xtEntity, cppElement);
+	Entity.operations(xtEntity, operation);
+}
+
 pattern cppComponents(
 	xtComponent : XTComponent,
 	cppComponent : CPPComponent
@@ -158,47 +198,11 @@ pattern cppComponentClasses(
 	XTComponent.entities(xtComponent, xtClass);
 }
 
-pattern cppComponentAttributes(
-	xtComponent : XTComponent,
-	cppComponent : CPPComponent,
-	attribute : Attribute
-) {
-	find cppComponents(xtComponent, cppComponent);
-	Entity.attributes(xtComponent, attribute);
-}
-
-pattern cppComponentOperations(
-	xtComponent : XTComponent,
-	cppComponent : CPPComponent,
-	operation : Operation
-) {
-	find cppComponents(xtComponent, cppComponent);
-	Entity.operations(xtComponent, operation);
-}
-
 pattern cppClasses(
 	xtClass : XTClass,
 	cppClass : CPPClass
 ) {
 	CPPClass.xtClass(cppClass, xtClass);
-}
-
-pattern cppClassAttributes(
-	xtClass : XTClass,
-	cppClass : CPPClass,
-	attribute : Attribute
-) {
-	find cppClasses(xtClass, cppClass);
-	Entity.attributes(xtClass, attribute);
-}
-
-pattern cppClassOperations(
-	xtClass : XTClass,
-	cppClass : CPPClass,
-	operation : Operation
-) {
-	find cppClasses(xtClass, cppClass);
-	Entity.operations(xtClass, operation);
 }
 
 pattern cppClassStateMachine(

@@ -72,10 +72,10 @@ class EventMultipleTypeTest extends DynamicBehaviorBaseTest {
 		val pack = xtumlmodel.createPackage("RootPackage")
 		
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 		
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createUserDefinedType(typedef2, "UserType")
+		val userDefinedType = createUserDefinedType(typedef2, "UserType")
 		
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")

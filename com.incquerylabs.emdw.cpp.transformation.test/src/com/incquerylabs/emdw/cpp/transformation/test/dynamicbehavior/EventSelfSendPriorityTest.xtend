@@ -79,7 +79,7 @@ class EventSelfSendPriorityTest extends DynamicBehaviorBaseTest{
 		val bComponent = pack.createXtComponent("BComponent")
 		val bClass = bComponent.createXtClass("BClass")
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 
 		aClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false,"i")
 		bClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false,"i")

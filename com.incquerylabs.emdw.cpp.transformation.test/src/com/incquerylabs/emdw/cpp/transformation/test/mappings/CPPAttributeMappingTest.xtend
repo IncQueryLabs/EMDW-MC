@@ -94,8 +94,9 @@ class CPPAttributeInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
-		val xtClass = component.createXtClass("Class")
-		component.createSingleAttribute(xtClass, VisibilityKind.PUBLIC, false, "Attribute")
+		val xtTypeDef = pack.createTypeDefinition("td")
+		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
+		component.createListAttribute(xtType, VisibilityKind.PUBLIC, false, "Attribute")
 		
 		component
 	}
@@ -106,6 +107,8 @@ class CPPAttributeInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		
+		createCPPBasicType(cppPackage, xtPackage.typedefinitions.head.type)
 		
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
@@ -122,6 +125,8 @@ class CPPAttributeInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		cppAttrs.forEach[
 			assertNotNull(ooplNameProvider)
 			assertNotNull(commonAttribute)
+			assertNotNull(unnamedSequenceType)
+			assertNotNull(unnamedSequenceType.elementType)
 		]
 	}
 	

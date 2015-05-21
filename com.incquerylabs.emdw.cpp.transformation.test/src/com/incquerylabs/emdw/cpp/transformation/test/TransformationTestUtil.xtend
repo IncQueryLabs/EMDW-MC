@@ -51,6 +51,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocolOperationDefinition
 import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -444,7 +445,7 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createPrimitiveType(org.eclipse.papyrusrt.xtumlrt.common.Package pack, TypeDefinition typedef, String name) {
+	static def createPrimitiveType(TypeDefinition typedef, String name) {
 		val type = commonFactory.createPrimitiveType => [
 			it.name = name
 		]
@@ -452,7 +453,7 @@ class TransformationTestUtil {
 		type
 	}
 
-	static def createUserDefinedType(org.eclipse.papyrusrt.xtumlrt.common.Package pack, TypeDefinition typedef, String name, TypeConstraint ... const) {
+	static def createUserDefinedType(TypeDefinition typedef, String name, TypeConstraint ... const) {
 		val type = commonFactory.createUserDefinedType => [
 			it.name = name
 			it.constraints += const
@@ -696,5 +697,13 @@ class TransformationTestUtil {
 		]
 		root.subElements += cppClass
 		cppClass	
+	}
+	
+	static def CPPBasicType createCPPBasicType(CPPQualifiedNamedElement root, Type type) {
+		cppFactory.createCPPBasicType => [
+			it.commonType = type
+			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider => [ commonNamedElement = type]
+			root.subElements += it
+		]
 	}
 }

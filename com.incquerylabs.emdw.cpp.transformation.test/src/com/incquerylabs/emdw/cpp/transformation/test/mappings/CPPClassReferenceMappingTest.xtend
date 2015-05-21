@@ -190,7 +190,7 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 		sourceClass = component.createXtClass("sourceClass")
 		targetClass = component.createXtClass("targetClass")
 		assocClass = component.createXtClass("targetClass")
-		assocClass.createSingleAttribute(pack.createPrimitiveType(pack.createTypeDefinition("Integer"),"Integer"),VisibilityKind.PUBLIC, false, "i")
+		assocClass.createSingleAttribute(createPrimitiveType(pack.createTypeDefinition("Integer"),"Integer"),VisibilityKind.PUBLIC, false, "i")
 		sourceClass.createXtAssociationClass(targetClass, assocClass,"singleAssoc",false,false,1,1)
 		
 		sourceClass

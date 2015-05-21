@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
@@ -20,7 +21,6 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 
 @SuiteClasses(#[
 	CPPOperationInClassTest,
@@ -41,7 +41,12 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
+		val xtTypeDef = pack.createTypeDefinition("td")
+		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
+		val xtParam = createParameter(xtType,"Param",DirectionKind.IN) => [
+			upperBound = 5
+		]
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body",xtParam)
 		
 		xtClass
 	}
@@ -52,6 +57,8 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		
+		createCPPBasicType(cppPackage, xtPackage.typedefinitions.head.type)
 		
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
@@ -73,6 +80,8 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 			subElements.filter(CPPFormalParameter).forEach[
 				assertNotNull(ooplNameProvider)
 				assertNotNull(commonParameter)
+				assertNotNull(unnamedSequenceType)
+				assertNotNull(unnamedSequenceType.elementType)
 			]
 		]
 	}
@@ -101,7 +110,7 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
-		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
+		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", createParameter(xtClass,"Param",DirectionKind.IN))
 		
 		component
 	}

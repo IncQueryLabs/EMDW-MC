@@ -13,6 +13,7 @@ import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
+import com.incquerylabs.emdw.cpp.transformation.rules.EntityRules
 
 class XtumlComponentCPPTransformation {
 
@@ -25,6 +26,7 @@ class XtumlComponentCPPTransformation {
 	BatchTransformation transform
 	extension BatchTransformationStatements statements
 	
+	val entityRules = new EntityRules
 	val componentRules = new ComponentRules
 	val classRules = new ClassRules
 	
@@ -46,6 +48,7 @@ class XtumlComponentCPPTransformation {
 			transform = BatchTransformation.forEngine(engine)
 			componentRules.addRules(transform)
 			classRules.addRules(transform)
+			entityRules.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
@@ -57,14 +60,13 @@ class XtumlComponentCPPTransformation {
 			info('''Executing transformation on «xtUmlModel.name»''')
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
-			statements.fireAllCurrent(componentRules.componentAttributeRule)
-			statements.fireAllCurrent(componentRules.componentOperationRule)
 			statements.fireAllCurrent(classRules.classRule)
-			statements.fireAllCurrent(classRules.classAttributeRule)
-			statements.fireAllCurrent(classRules.classOperationRule)
 			statements.fireAllCurrent(classRules.stateRule)
 			statements.fireAllCurrent(classRules.transitionRule)
 			statements.fireAllCurrent(classRules.eventRule)
+			statements.fireAllCurrent(entityRules.entityAttributeRule)
+			statements.fireAllCurrent(entityRules.entityOperationRule)
+			statements.fireAllCurrent(entityRules.cppSequenceTypeRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

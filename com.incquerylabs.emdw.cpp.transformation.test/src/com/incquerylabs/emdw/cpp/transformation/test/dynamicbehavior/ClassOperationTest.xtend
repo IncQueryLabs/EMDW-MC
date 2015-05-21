@@ -58,10 +58,10 @@ class ClassOperationTest extends DynamicBehaviorBaseTest {
 		val xtClass = component.createXtClass("TestClass")
 		
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 		
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createUserDefinedType(typedef2, "UserType")
+		val userDefinedType = createUserDefinedType(typedef2, "UserType")
 		val classType = component.createXtClass("ParamClass")
 		pack.createTypeDefinition(classType, "ClassTypeDef")
 		

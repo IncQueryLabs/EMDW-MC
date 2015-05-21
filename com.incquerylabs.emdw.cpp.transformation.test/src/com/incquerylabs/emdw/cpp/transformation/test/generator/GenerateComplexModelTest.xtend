@@ -56,9 +56,9 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val paramClass = typesPack.createXtClass("ParamClass")
 		
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createUserDefinedType(typedef2, "UserDefinedType")
+		val userDefinedType = createUserDefinedType(typedef2, "UserDefinedType")
 
 		
 		//protocols and signals
@@ -197,9 +197,9 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		cpptypes.createCPPClass(xtClass, paramClassdir.createCPPHeaderFile(), paramClassdir.createCPPBodyFile())
 		
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 		val typedef2 = pack.createTypeDefinition("UserTypeDefinition")
-		val userDefinedType = pack.createUserDefinedType(typedef2, "UserDefinedType")
+		val userDefinedType = createUserDefinedType(typedef2, "UserDefinedType")
 
 		//protocols and signals
 		

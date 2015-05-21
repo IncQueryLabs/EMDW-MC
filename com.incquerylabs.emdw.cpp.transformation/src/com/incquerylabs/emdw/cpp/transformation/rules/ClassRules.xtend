@@ -22,8 +22,6 @@ class ClassRules {
 	def addRules(BatchTransformation transformation){
 		val rules = new TransformationRuleGroup(
 			classRule,
-			classAttributeRule,
-			classOperationRule,
 			stateRule,
 			transitionRule,
 			eventRule
@@ -48,49 +46,7 @@ class ClassRules {
 		]
 		match.cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
-	].build
-	
-	@Accessors(PUBLIC_GETTER)
-	val classAttributeRule = createRule.precondition(cppClassAttributes).action[ match |
-		val cppClass = match.cppClass
-		val attribute = match.attribute
-		val cppAttribute = createCPPAttribute => [
-			commonAttribute = attribute
-			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = attribute ]
-			if(attribute.multiValue){
-				unnamedSequenceType = createCPPSequence => [
-					commonType = attribute.type
-				]
-			}
-		]
-		cppClass.subElements += cppAttribute
-		trace('''Mapped Attribute «attribute.name» in class «match.xtClass.name» to CPPAttribute''')
-	].build
-	
-	@Accessors(PUBLIC_GETTER)
-	val classOperationRule = createRule.precondition(cppClassOperations).action[ match |
-		val cppClass = match.cppClass
-		val operation = match.operation
-		val cppOperation = createCPPOperation => [
-			commonOperation = operation
-			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = operation ]
-		]
-		operation.parameters.forEach[ param |
-			val cppFormalParameter = createCPPFormalParameter => [
-				commonParameter = param
-				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
-				if(param.multiValue){
-					unnamedSequenceType = createCPPSequence => [
-						commonType = param.type
-					]
-				}
-			]
-			cppOperation.subElements += cppFormalParameter
-		]
-		cppClass.subElements += cppOperation
-		trace('''Mapped Operation «operation.name» in class «match.xtClass.name» to CPPOperation''')
-	].build
-	
+	].build	
 	
 	@Accessors(PUBLIC_GETTER)
 	val stateRule = createRule.precondition(cppClassStateMachineStates).action[ match |
@@ -125,9 +81,4 @@ class ClassRules {
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
 	].build
 
-	def isMultiValue(MultiplicityElement multiplicityElement) {
-		val upperBound = multiplicityElement.upperBound
-		return upperBound > 1 || upperBound == -1
-	}
-	
 }

@@ -53,7 +53,7 @@ class EventPrimitiveTypeTest extends DynamicBehaviorBaseTest {
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		val pack = xtumlmodel.createPackage("RootPackage")
 		val typedef = pack.createTypeDefinition("IntDefinition")
-		val primitiveType = pack.createPrimitiveType(typedef, "Integer")
+		val primitiveType = createPrimitiveType(typedef, "Integer")
 		
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")

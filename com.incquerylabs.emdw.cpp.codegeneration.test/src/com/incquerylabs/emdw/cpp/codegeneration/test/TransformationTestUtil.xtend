@@ -47,6 +47,8 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -528,6 +530,26 @@ class TransformationTestUtil {
 		]
 		root.subElements += cppOperation
 		cppOperation
+	}
+	
+	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, boolean multiValue) {
+		val cppFormalParameter = cppFactory.createCPPFormalParameter => [
+			it.commonParameter = parameter
+			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = parameter ]
+			if(multiValue){
+				createCPPSequence(it, parameter.type)
+			}
+		]
+		root.subElements += cppFormalParameter
+		cppFormalParameter
+	}
+	
+	static def CPPSequence createCPPSequence(CPPQualifiedNamedElement root, Type type) {
+		val seq = cppFactory.createCPPSequence => [
+			it.commonType = type
+		]
+		root.subElements += seq
+		seq
 	}
 	
 	static def CPPState createCPPState(CPPQualifiedNamedElement root, State state) {

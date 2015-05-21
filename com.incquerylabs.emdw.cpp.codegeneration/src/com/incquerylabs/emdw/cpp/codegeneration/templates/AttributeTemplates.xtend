@@ -4,6 +4,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class AttributeTemplates {
 	
@@ -24,8 +25,17 @@ class AttributeTemplates {
 	def attributeDeclarationInClassHeader(CPPAttribute attribute) {
 		val commonAttr = attribute.commonAttribute
 		'''
-		«IF commonAttr.static»static «ENDIF»«typeConverter.convertType(commonAttr.type)» «commonAttr.name»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
+		«IF commonAttr.static»static «ENDIF»«generateCPPAttributeType(attribute)» «commonAttr.name»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
 		'''
+	}
+	
+	def generateCPPAttributeType(CPPAttribute attribute){
+		val cppSequence = attribute.subElements.filter(CPPSequence).head
+		if(cppSequence != null){
+			typeConverter.convertSequence(cppSequence)
+		} else {
+			typeConverter.convertType(attribute.commonAttribute.type)
+		}
 	}
 	
 }

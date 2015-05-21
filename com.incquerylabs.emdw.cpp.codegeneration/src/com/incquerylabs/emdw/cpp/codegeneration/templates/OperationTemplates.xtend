@@ -4,6 +4,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class OperationTemplates {
 	
@@ -25,9 +27,9 @@ class OperationTemplates {
 		
 		val commonOp = operation.commonOperation
 		val returnType = commonOp.returnType
-		val parameters = commonOp.parameters
+		val parameters = operation.subElements.filter(CPPFormalParameter)
 						
-		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType)» «IF useQualifiedName»«operation.operationFullyQualifiedName»«ELSE»«commonOp.name»«ENDIF»(«FOR param : parameters SEPARATOR ", "»«typeConverter.convertType(param.type)» «param.name»«ENDFOR»)'''
+		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType)» «IF useQualifiedName»«operation.operationFullyQualifiedName»«ELSE»«commonOp.name»«ENDIF»(«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.commonParameter.name»«ENDFOR»)'''
 	}
 	
 	def operationDeclarationInClassHeader(CPPOperation operation) {
@@ -48,5 +50,14 @@ class OperationTemplates {
 		val cppName = cppOperation.commonOperation.name // cppOperation.cppName
 		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::TEST::«cppName»''' //cppOperation.cppQualifiedName
 		cppFQN
+	}
+	
+	def generateCPPFormalParameterType(CPPFormalParameter param){
+		val cppSequence = param.subElements.filter(CPPSequence).head
+		if(cppSequence != null){
+			typeConverter.convertSequence(cppSequence)
+		} else {
+			typeConverter.convertType(param.commonParameter.type)
+		}
 	}
 }

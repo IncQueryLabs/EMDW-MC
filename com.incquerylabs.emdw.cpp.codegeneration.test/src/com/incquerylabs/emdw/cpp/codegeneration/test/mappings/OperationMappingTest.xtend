@@ -29,12 +29,16 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		val xtClass = xtComponent.createXtClass("TEST")
 		val xtType = xtPackage.createTypeDefinition("BooleanDef").createPrimitiveType("Boolean")
 		val xtPar = createParameter(xtType, "myParam", DirectionKind.IN)
-		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "PSEUDO_CODE", xtPar)
+		val xtPar2 = createParameter(xtType, "myParam2", DirectionKind.IN)
+		xtPar2.upperBound = 2;
+		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "PSEUDO_CODE", xtPar, xtPar2)
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
 		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
 		val cppOp = createCPPOperation(cppClass, xtOp)
+		createCPPFormalParameter(cppOp, xtPar, false)
+		createCPPFormalParameter(cppOp, xtPar2, true)
 		
 		cppClass
 	}

@@ -20,6 +20,7 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 
 @SuiteClasses(#[
 	CPPOperationInClassTest,
@@ -40,7 +41,7 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Attribute", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
 		
 		xtClass
 	}
@@ -68,6 +69,11 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		cppOp.forEach[
 			assertNotNull(ooplNameProvider)
 			assertNotNull(commonOperation)
+			assertEquals(commonOperation.parameters.size, subElements.filter(CPPFormalParameter).size)
+			subElements.filter(CPPFormalParameter).forEach[
+				assertNotNull(ooplNameProvider)
+				assertNotNull(commonParameter)
+			]
 		]
 	}
 	
@@ -95,7 +101,7 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
-		component.createOperation(VisibilityKind.PUBLIC, false, null,"Attribute", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
+		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body",createParameter(xtClass,"Param",DirectionKind.IN))
 		
 		component
 	}
@@ -122,6 +128,11 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		cppOp.forEach[
 			assertNotNull(ooplNameProvider)
 			assertNotNull(commonOperation)
+			assertEquals(commonOperation.parameters.size, subElements.filter(CPPFormalParameter).size)
+			subElements.filter(CPPFormalParameter).forEach[
+				assertNotNull(ooplNameProvider)
+				assertNotNull(commonParameter)
+			]
 		]
 	}
 	

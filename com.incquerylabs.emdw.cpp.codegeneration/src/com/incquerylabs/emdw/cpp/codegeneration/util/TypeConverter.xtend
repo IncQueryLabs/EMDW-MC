@@ -43,12 +43,12 @@ class TypeConverter {
 		
 		if(orderedness == SequenceOrderednessKind.UNORDERED){
 			if(uniqueness == SequenceUniquenessKind.UNIQUE){
-				return '''std::set<«cppSequenceElementType»>'''
+				return '''std::set< «cppSequenceElementType» >'''
 			} else {
-				return '''std::multiset<«cppSequenceElementType»>'''
+				return '''std::multiset< «cppSequenceElementType» >'''
 			}
 		} else {
-				return '''std::vector<«cppSequenceElementType»>'''
+				return '''std::vector< «cppSequenceElementType» >'''
 		}
 	}
 	
@@ -56,10 +56,10 @@ class TypeConverter {
 		
 		switch(type.name) {
 			case "Boolean":	"bool"
-			case "Integer": "int" 
+			case "Integer": "long" 
 			case "Real": "double"
 			case "String": "std::string"
-			case "UnlimitedNatural": "long"
+			case "Void": "void"
 		}
 		
 	}

@@ -64,17 +64,18 @@ class ClassTemplates {
 	
 	def publicContentInClassHeader(CPPClass cppClass, String cppClassName, boolean hasStateMachine) {
 		'''
+
 		// Constructor
 		«cppClassName»();
-	
+		
 		// Destructor
 		virtual ~«cppClassName»();
-	
-		«attributesInClassHeader(cppClass, VisibilityKind.PUBLIC)»
-	
-		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
-	
+		
 		void perform_initialization();
+		
+		«attributesInClassHeader(cppClass, VisibilityKind.PUBLIC)»
+		
+		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 
 		«IF hasStateMachine»
 			«publicStateMachineCodeInClassHeader(cppClass)»
@@ -98,7 +99,7 @@ class ClassTemplates {
 		// Deny copy of the class using assignment
 		«cppClassName»& operator=(const «cppClassName»&);
 		
-		static std::vector<«cppClassName»*> _instances;
+		static std::vector< «cppClassName»* > _instances;
 		
 		static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
 		
@@ -175,6 +176,8 @@ class ClassTemplates {
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
+		std::vector< «cppFQN»*> («cppFQN»::_instances);
+		
 		«cppClass.classConstructorDefinition»
 		
 		// Destructor
@@ -205,6 +208,7 @@ class ClassTemplates {
 			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.commonState.name»)'''
 		}
 		'''
+		// Constructor
 		«cppFQN»::«cppClassName»()«fieldInitialization» {
 			_instances.push_back(this);
 		}
@@ -290,8 +294,12 @@ class ClassTemplates {
 	}
 	
 	def classFullyQualifiedName(CPPClass cppClass) {
+		'''::«cppClass.classQualifiedName»'''
+	}
+	
+	def classQualifiedName(CPPClass cppClass) {
 		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
+		val cppFQN = '''Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
 		cppFQN
 	}
 	

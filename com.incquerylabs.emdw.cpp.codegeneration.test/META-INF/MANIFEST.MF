@@ -11,5 +11,6 @@ Require-Bundle: com.google.guava,
  org.eclipse.incquery.runtime;bundle-version="1.0.0",
  com.ericsson.xtumlrt.oopl.cpp.model;bundle-version="0.4.0",
  org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="0.5.0",
- com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0"
+ com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0",
+ com.incquerylabs.emdw.cpp.transformation.test;bundle-version="1.0.0"
 Import-Package: org.apache.log4j;version="1.2.15"

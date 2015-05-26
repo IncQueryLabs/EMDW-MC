@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<plugin>
+
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <package 
+       uri = "http://www.incquerylabs.com/uml/alf/ReducedAlfLanguage" 
+       class = "com.incquerylabs.uml.alf.reducedAlfLanguage.ReducedAlfLanguagePackage"
+       genModel = "model/generated/ReducedAlfLanguage.genmodel" /> 
+	
+  </extension>
+
+
+
+</plugin>

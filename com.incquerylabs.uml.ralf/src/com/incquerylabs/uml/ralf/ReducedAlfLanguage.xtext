@@ -72,20 +72,20 @@ QualifiedName :
 //  )?
 //;
 
-ColonQualifiedName returns QualifiedName : 
-    UnqualifiedName ( '::' nameBinding += NameBinding )+
-;
-
-DotQualifiedName returns QualifiedName : 
-    UnqualifiedName ( '.' nameBinding += NameBinding )+
-;
+//ColonQualifiedName returns QualifiedName : 
+//    UnqualifiedName ( '::' nameBinding += NameBinding )+
+//;
+//
+//DotQualifiedName returns QualifiedName : 
+//    UnqualifiedName ( '.' nameBinding += NameBinding )+
+//;
 
 UnqualifiedName returns QualifiedName : 
     nameBinding += NameBinding
 ; 
 
 NameBinding : 
-    name = Name ( binding = TemplateBinding )?  
+    name = Name //( binding = TemplateBinding )?  
 ;
 
 /*
@@ -102,21 +102,21 @@ ColonQualifiedNameCompletionWithoutBinding :
 */
 
 /* Unbounded lookahead required here */
-TemplateBinding : 
-    '<' ( NamedTemplateBinding | PositionalTemplateBinding ) '>'
-;
+//TemplateBinding : 
+//    '<' ( NamedTemplateBinding | PositionalTemplateBinding ) '>'
+//;
 
-PositionalTemplateBinding : 
-    argumentName += QualifiedName ( ',' argumentName += QualifiedName )*
-;
+//PositionalTemplateBinding : 
+//    argumentName += QualifiedName ( ',' argumentName += QualifiedName )*
+//;
 
-NamedTemplateBinding : 
-    substitution += TemplateParameterSubstitution ( ',' substitution += TemplateParameterSubstitution )*
-;
+//NamedTemplateBinding : 
+//    substitution += TemplateParameterSubstitution ( ',' substitution += TemplateParameterSubstitution )*
+//;
 
-TemplateParameterSubstitution :
-    parameterName = Name "=>" argumentName = QualifiedName
-;
+//TemplateParameterSubstitution :
+//    parameterName = Name "=>" argumentName = QualifiedName
+//;
 
 /***************
 * EXPRESSIONS *
@@ -141,22 +141,6 @@ PrimaryExpression returns Expression :
     {SequenceAccessExpression.primary = current} index = Index
   )*
 ;
-
-//NonNamePrimaryExpression returns Expression :
-//  NonNameBaseExpression |
-//  BaseExpression
-//  // CHANGE: Made FeatureReference and ExtentOrExpression subtypes of Expression.
-//  ( {FeatureReference.expression = current} '.' nameBinding = NameBinding {FeatureInvocationExpression.target = current} tuple = Tuple |
-//    {FeatureReference.expression = current} '.' nameBinding = NameBinding {PropertyAccessExpression.featureReference = current} | 
-//    {ExtentOrExpression.nonNameExpression = current} '->' 
-//      ( {SequenceOperationExpression.primary = current} operation = QualifiedName tuple = Tuple
-//      | {SequenceReductionExpression.primary = current} 'reduce' ( isOrdered ?= 'ordered' )? behaviorName = QualifiedName 
-//      // CHANGE: Made SequenceExpansionExpression concrete.
-//      | {SequenceExpansionExpression.primary = current} operation = ID variable = Name '(' argument = Expression ')'
-//      ) | 
-//    {SequenceAccessExpression.primary = current} index = Index
-//  )+
-//;
 
 BaseExpression returns Expression : 
     LiteralExpression |
@@ -521,12 +505,8 @@ AssignmentOperator :
 /**************
  * STATEMENTS *
  **************/
-StatementSequence returns Block : 
-    {Block} ( statement += AnnotatedStatement )*
-;
-
 Statement : 
-    InLineStatement |
+//    InLineStatement |
     BlockStatement |
     EmptyStatement |
     LocalNameDeclarationStatement |
@@ -537,9 +517,9 @@ Statement :
     ForStatement |
     DoStatement |
     BreakStatement |
-    ReturnStatement |
-    AcceptStatement |
-    ClassifyStatement
+    ReturnStatement //|
+//    AcceptStatement //|
+//    ClassifyStatement
 ;
 
 /* BLOCK */
@@ -564,11 +544,11 @@ Annotation :
 */
 
 /* IN-LINE STATEMENTS */
-InLineStatement : 
-  // CHANGE: Include all text lexically in one attribute of InLineStatement.
-  code = INLINE_STATEMENT
-    //'/*@' 'inline' '(' language = Name ')' '*/'
-;
+//InLineStatement : 
+//  // CHANGE: Include all text lexically in one attribute of InLineStatement.
+//  code = INLINE_STATEMENT
+//    //'/*@' 'inline' '(' language = Name ')' '*/'
+//;
 
 /* BLOCK STATEMENTS */
 BlockStatement :
@@ -679,7 +659,7 @@ ReturnStatement :
 ;
 
 /* ACCEPT STATEMENTS */
-AcceptStatement : 
+/*AcceptStatement : 
     ( acceptBlock += AcceptClause ';' | 
     acceptBlock += AcceptBlock ( 'or' acceptBlock += AcceptBlock )* 
   )
@@ -691,10 +671,10 @@ AcceptBlock :
 
 AcceptClause returns AcceptBlock : 
     'accept' '(' ( name = Name ':' )? signalNames = QualifiedNameList ')'
-;
+;*/
 
 /* CLASSIFY STATEMENTS */
-ClassifyStatement :
+/*ClassifyStatement :
     'classify' expression = Expression 
    (
      fromList = ClassificationFromClause ( toList = ClassificationToClause )? |
@@ -713,11 +693,11 @@ ClassificationToClause returns QualifiedNameList :
 
 ReclassifyAllClause : 
     'from' '*'
-;
+;*/
 
-QualifiedNameList : 
-    name += QualifiedName ( ',' name += QualifiedName )*
-;
+//QualifiedNameList : 
+//    name += QualifiedName ( ',' name += QualifiedName )*
+//;
 
 
 /****************
@@ -742,7 +722,7 @@ terminal STATEMENT_ANNOTATION : '//@' -> '\n'
 //  '//@' WS? ID (WS? '(' WS? (ID | UNRESTRICTED_NAME) (WS? ',' WS? (ID | UNRESTRICTED_NAME))* WS? ')')? 
 //  (WS? '@' WS? ID (WS? '(' WS? (ID | UNRESTRICTED_NAME) (WS? ',' WS? (ID | UNRESTRICTED_NAME))* WS? ')')?)* (' '|'\t')* ('\r'? '\n')
 ;
-terminal INLINE_STATEMENT : '/*@inline(' (ID | UNRESTRICTED_NAME) ')' -> '*/';
+//terminal INLINE_STATEMENT : '/*@inline(' (ID | UNRESTRICTED_NAME) ')' -> '*/';
 
 terminal ML_COMMENT : '/*' !('*' | '@') -> '*/';
 terminal SL_COMMENT : '//' (!('@'|'\n'|'\r') !('\n'|'\r')*)? ('\r'? '\n')?;

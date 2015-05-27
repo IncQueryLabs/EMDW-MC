@@ -5,8 +5,8 @@
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http://www.incquerylabs.com/uml/alf/ReducedAlfLanguage" 
-       class = "com.incquerylabs.uml.alf.reducedAlfLanguage.ReducedAlfLanguagePackage"
+       uri = "http://www.incquerylabs.com/uml/ralf/ReducedAlfLanguage" 
+       class = "com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage"
        genModel = "model/generated/ReducedAlfLanguage.genmodel" /> 
 	
   </extension>

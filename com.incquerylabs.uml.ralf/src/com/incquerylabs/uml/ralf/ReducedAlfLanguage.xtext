@@ -11,9 +11,9 @@
  *  IJI - Initial implementation
  * 
  *****************************************************************************/
-grammar com.incquerylabs.uml.alf.ReducedAlfLanguage hidden (WS, ML_COMMENT, SL_COMMENT)
+grammar com.incquerylabs.uml.ralf.ReducedAlfLanguage hidden (WS, ML_COMMENT, SL_COMMENT)
 
-generate reducedAlfLanguage "http://www.incquerylabs.com/uml/alf/ReducedAlfLanguage"
+generate reducedAlfLanguage "http://www.incquerylabs.com/uml/ralf/ReducedAlfLanguage"
 import "http://www.eclipse.org/emf/2002/Ecore" as ecore
 
 
@@ -45,8 +45,7 @@ PackageImportReference :
 PackageImportQualifiedName returns QualifiedName :
   nameBinding += NameBinding 
   (
-    ('::' nameBinding += NameBinding)* '::' '*' |
-    ('.' nameBinding += NameBinding)* '.' '*'
+    ('::' nameBinding += NameBinding)* '::' '*'
   )
 ;
 
@@ -62,7 +61,8 @@ Name :
 ;
 
 QualifiedName :
-    UnqualifiedName ( ( '::' nameBinding += NameBinding )+ | ( '.' nameBinding += NameBinding )+ )?
+//    UnqualifiedName ( '::' nameBinding += NameBinding )*
+    Name ( '::' Name )*
 ;
     
 //PotentiallyAmbiguousQualifiedName returns QualifiedName :
@@ -80,9 +80,9 @@ QualifiedName :
 //    UnqualifiedName ( '.' nameBinding += NameBinding )+
 //;
 
-UnqualifiedName returns QualifiedName : 
-    nameBinding += NameBinding
-; 
+//UnqualifiedName returns QualifiedName : 
+//    nameBinding += NameBinding
+//; 
 
 NameBinding : 
     name = Name //( binding = TemplateBinding )?  
@@ -182,7 +182,7 @@ StringLiteralExpression :
 
 /* Name EXPRESSIONS */
 NameExpression :
-  name = /*PotentiallyAmbiguous*/QualifiedName
+  reference = [Variable|/*PotentiallyAmbiguous*/QualifiedName]
 ;
 
 /* THIS EXPRESSIONS */
@@ -491,7 +491,7 @@ LeftHandSide :
 
 NameLeftHandSide :
   // CHANGE: Moved the index property from LeftHandSide down to just NameLeftHandSide.
-  target = /*PotentiallyAmbiguous*/QualifiedName ( index = Index )? 
+  target = /*PotentiallyAmbiguous*/[Variable|QualifiedName] ( index = Index )? 
 ;
 
 FeatureLeftHandSide :
@@ -561,13 +561,15 @@ EmptyStatement :
     ';'
 ;
 
+VariableDeclaration returns Variable: 
+  // CHANGE: Added isAny attribute to localNameDeclarationStatement in order to allow Xtext serialization.
+   name = Name ':' ( isAny ?= 'any' | typeName = QualifiedName ) hasMultiplicity ?= MultiplicityIndicator? |
+   ( isAny ?= 'any' | typeName = QualifiedName ) hasMultiplicity ?= MultiplicityIndicator? name = Name     
+;
+
 /* LOCAL NAME DECLARATION STATEMENTS */
 LocalNameDeclarationStatement : 
-  // CHANGE: Added isAny attribute to localNameDeclarationStatement in order to allow Xtext serialization.
-    ( 'let' name = Name ':' ( isAny ?= 'any' | typeName = QualifiedName ) hasMultiplicity ?= MultiplicityIndicator? |
-      ( isAny ?= 'any' | typeName = QualifiedName ) hasMultiplicity ?= MultiplicityIndicator? name = Name
-    )
-    '=' expression = InitializationExpression ';'
+    'let' variable = VariableDeclaration '=' expression = InitializationExpression ';'
 ;
 
 InitializationExpression returns Expression :
@@ -639,11 +641,16 @@ ForStatement :
     body = Block
 ;
 
-LoopVariableDefinition : 
+LoopVariable returns Variable:
+    name = Name |
+    ( isAny ?= 'any' | typeName = QualifiedName ) name = Name    
+;
+
+LoopVariableDefinition: 
   // CHANGE: Added isAny attribute to LoopVariableDefinition in order to allow Xtext serialization.
   // NOTE: Default for typeIsInferred must be false.
-    variable = Name typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
-    ( isAny ?= 'any' | typeName = QualifiedName ) variable = Name ':' expression1 = Expression
+     variable = LoopVariable typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
+     variable = LoopVariable ':' expression1 = Expression
 ;
 
 /* BREAK STATEMENTS */

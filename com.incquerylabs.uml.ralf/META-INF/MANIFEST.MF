@@ -16,15 +16,16 @@ Require-Bundle: org.eclipse.xtext;visibility:=reexport,
  org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: com.incquerylabs.uml.alf,
- com.incquerylabs.uml.alf.services,
- com.incquerylabs.uml.alf.reducedAlfLanguage,
- com.incquerylabs.uml.alf.reducedAlfLanguage.impl,
- com.incquerylabs.uml.alf.reducedAlfLanguage.util,
- com.incquerylabs.uml.alf.serializer,
- com.incquerylabs.uml.alf.parser.antlr,
- com.incquerylabs.uml.alf.parser.antlr.internal,
- com.incquerylabs.uml.alf.validation,
- com.incquerylabs.uml.alf.scoping,
- com.incquerylabs.uml.alf.generator,
- com.incquerylabs.uml.alf.formatting
+Export-Package: com.incquerylabs.uml.ralf,
+ com.incquerylabs.uml.ralf.formatting,
+ com.incquerylabs.uml.ralf.generator,
+ com.incquerylabs.uml.ralf.parser.antlr,
+ com.incquerylabs.uml.ralf.parser.antlr.internal,
+ com.incquerylabs.uml.ralf.reducedAlfLanguage,
+ com.incquerylabs.uml.ralf.reducedAlfLanguage.impl,
+ com.incquerylabs.uml.ralf.reducedAlfLanguage.util,
+ com.incquerylabs.uml.ralf.scoping,
+ com.incquerylabs.uml.ralf.serializer,
+ com.incquerylabs.uml.ralf.services,
+ com.incquerylabs.uml.ralf.validation
+

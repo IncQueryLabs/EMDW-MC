@@ -214,6 +214,15 @@ pattern cppComponentPackages(
 	find xtComponentXTPackages(xtComponent,xtPackage);
 }
 
+pattern cppPackageClasses(
+	xtPackage : Package,
+	cppPackage : CPPPackage,
+	xtClass : XTClass
+){
+	find cppPackages(xtPackage, cppPackage);
+	find xtPackageXTClasses(xtPackage, xtClass);
+}
+
 pattern cppPackagesInPackages(
 	xtParentPackage : Package,
 	cppParentPackage : CPPPackage,

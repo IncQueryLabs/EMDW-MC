@@ -22,6 +22,7 @@ class ClassRules {
 	def addRules(BatchTransformation transformation){
 		val rules = new TransformationRuleGroup(
 			classRule,
+			classInPackageRule,
 			stateRule,
 			transitionRule,
 			eventRule
@@ -46,6 +47,25 @@ class ClassRules {
 		]
 		match.cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
+	].build	
+	
+	@Accessors(PUBLIC_GETTER)
+	val classInPackageRule = createRule.precondition(cppPackageClasses).action[ match |
+		val xtCls = match.xtClass
+		val bodyDir = match.cppPackage.bodyDir
+		val headerDir = match.cppPackage.headerDir
+		val cppClass = createCPPClass => [
+			xtClass = xtCls
+			bodyFile = createCPPBodyFile
+			bodyDir.files += bodyFile
+			
+			headerFile = createCPPHeaderFile
+			headerDir.files += headerFile
+			
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtCls ]
+		]
+		match.cppPackage.subElements += cppClass
+		trace('''Mapped Class «xtCls.name» in package «match.xtPackage.name» to CPPClass''')
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)

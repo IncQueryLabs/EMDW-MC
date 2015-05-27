@@ -66,6 +66,7 @@ class XtumlComponentCPPTransformation {
 			statements.fireAllCurrent(packageRules.packageInComponentRule)
 			statements.fireWhilePossible(packageRules.packageInPackageRule)
 			statements.fireAllCurrent(classRules.classRule)
+			statements.fireAllCurrent(classRules.classInPackageRule)
 			statements.fireAllCurrent(classRules.stateRule)
 			statements.fireAllCurrent(classRules.transitionRule)
 			statements.fireAllCurrent(classRules.eventRule)

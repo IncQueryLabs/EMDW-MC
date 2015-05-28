@@ -641,16 +641,15 @@ ForStatement :
     body = Block
 ;
 
-LoopVariable returns Variable:
-    name = Name |
-    ( isAny ?= 'any' | typeName = QualifiedName ) name = Name    
-;
-
-LoopVariableDefinition: 
+LoopVariableDefinition returns Variable: 
   // CHANGE: Added isAny attribute to LoopVariableDefinition in order to allow Xtext serialization.
   // NOTE: Default for typeIsInferred must be false.
-     variable = LoopVariable typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
-     variable = LoopVariable ':' expression1 = Expression
+     {LoopVariable} 
+       (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
+       typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
+     {LoopVariable} 
+       (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
+       ':' expression1 = Expression
 ;
 
 /* BREAK STATEMENTS */

@@ -3,6 +3,19 @@
  */
 package com.incquerylabs.uml.ralf.scoping
 
+import org.eclipse.emf.ecore.EClass
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.EReference
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import org.eclipse.xtext.util.PolymorphicDispatcher
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import org.eclipse.xtext.EcoreUtil2
+import org.eclipse.xtext.scoping.IScope
+import org.eclipse.xtext.scoping.Scopes
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
+
 /**
  * This class contains custom scoping description.
  * 
@@ -10,6 +23,55 @@ package com.incquerylabs.uml.ralf.scoping
  * on how and when to use it.
  *
  */
-class ReducedAlfLanguageScopeProvider extends org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider {
+class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
+    
+//    override getPredicate(EObject context, EClass type) {
+//        val methodName = "scope_" + type.name
+//        println(methodName)
+//        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
+//    }
+//
+//    override getPredicate(EObject context, EReference reference) {
+//        val methodName = "scope_" + reference.EContainingClass.name + "_" + reference.name
+//        println(methodName)
+//        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
+//    }
+    
+    def scope_Variable(Expression context, EReference reference) {
+        val scope = scope_Variable(context)
+        scope
+    }
+    
+    private def IScope scope_Variable(EObject block) {
+        var parentBlock = block.eContainer
+        if (parentBlock == null) {
+            IScope.NULLSCOPE
+        } else {
+            val parentScope = scope_Variable(parentBlock)
+            val declarations = parentBlock.variableDeclarations(block)
+            if (declarations.nullOrEmpty) {
+                parentScope
+            } else {
+                Scopes.scopeFor(declarations, parentScope)
+            }
+        }
+    }
+    
+    private def variableDeclarations(EObject container, EObject until) {
+        switch (container) {
+          Block:  
+            container.statement.
+                takeWhile[it != until].
+                map[eContents.filter(Variable)].
+                flatten
+          Statement: 
+            container.eContents.
+                takeWhile[it != until].
+                filter(Variable)
+          default:
+            emptyList
+        }
+    }
+    
 }

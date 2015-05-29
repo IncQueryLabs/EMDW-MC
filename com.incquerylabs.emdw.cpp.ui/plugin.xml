@@ -27,7 +27,7 @@
             <iterate
                   ifEmpty="false">
                <instanceof
-                     value="org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass">
+                     value="org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent">
                </instanceof>
             </iterate>
          </with>
@@ -38,7 +38,7 @@
       <command
             defaultHandler="com.incquerylabs.emdw.cpp.ui.CPPHandler"
             id="com.incquerylabs.emdw.cpp.ui.generate"
-            name="Generate CPP code for selected XTClass">
+            name="Generate CPP code for selected XTComponent">
       </command>
    </extension>
 

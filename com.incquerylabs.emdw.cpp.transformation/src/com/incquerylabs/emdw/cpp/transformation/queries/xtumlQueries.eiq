@@ -189,6 +189,13 @@ pattern cppComponents(
 	CPPComponent.xtComponent(cppComponent, xtComponent);
 }
 
+pattern cppPackages(
+	xtPackage : Package,
+	cppPackage : CPPPackage
+) {
+	CPPPackage.commonPackage(cppPackage, xtPackage);
+}
+
 pattern cppComponentClasses(
 	xtComponent : XTComponent,
 	cppComponent : CPPComponent,
@@ -196,6 +203,34 @@ pattern cppComponentClasses(
 ){
 	find cppComponents(xtComponent, cppComponent);
 	XTComponent.entities(xtComponent, xtClass);
+}
+
+pattern cppComponentPackages(
+	xtComponent : XTComponent,
+	cppComponent : CPPComponent,
+	xtPackage : Package
+) {
+	find cppComponents(xtComponent, cppComponent);
+	find xtComponentXTPackages(xtComponent,xtPackage);
+}
+
+pattern cppPackageClasses(
+	xtPackage : Package,
+	cppPackage : CPPPackage,
+	xtClass : XTClass
+){
+	find cppPackages(xtPackage, cppPackage);
+	find xtPackageXTClasses(xtPackage, xtClass);
+}
+
+pattern cppPackagesInPackages(
+	xtParentPackage : Package,
+	cppParentPackage : CPPPackage,
+	xtPackage : Package 
+) {
+	find cppPackages(xtParentPackage, cppParentPackage);
+	neg find cppPackages(xtPackage, _);
+	find xtPackageSubPackages(xtParentPackage, xtPackage);
 }
 
 pattern cppClasses(

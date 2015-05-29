@@ -14,6 +14,7 @@ import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
 import com.incquerylabs.emdw.cpp.transformation.rules.EntityRules
+import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
 
 class XtumlComponentCPPTransformation {
 
@@ -26,6 +27,7 @@ class XtumlComponentCPPTransformation {
 	BatchTransformation transform
 	extension BatchTransformationStatements statements
 	
+	val packageRules = new PackageRules
 	val entityRules = new EntityRules
 	val componentRules = new ComponentRules
 	val classRules = new ClassRules
@@ -47,6 +49,7 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			componentRules.addRules(transform)
+			packageRules.addRules(transform)
 			classRules.addRules(transform)
 			entityRules.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
@@ -60,7 +63,10 @@ class XtumlComponentCPPTransformation {
 			info('''Executing transformation on «xtUmlModel.name»''')
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
+			statements.fireAllCurrent(packageRules.packageInComponentRule)
+			statements.fireWhilePossible(packageRules.packageInPackageRule)
 			statements.fireAllCurrent(classRules.classRule)
+			statements.fireAllCurrent(classRules.classInPackageRule)
 			statements.fireAllCurrent(classRules.stateRule)
 			statements.fireAllCurrent(classRules.transitionRule)
 			statements.fireAllCurrent(classRules.eventRule)

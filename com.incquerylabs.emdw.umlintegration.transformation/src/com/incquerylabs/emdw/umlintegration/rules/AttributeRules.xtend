@@ -55,6 +55,12 @@ class AttributeMapping extends AbstractObjectMapping<AttributeMatch, Property, A
 		}
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
+		
+		xtumlrtObject.lowerBound = match.property.lower
+		xtumlrtObject.upperBound = match.property.upper
+		xtumlrtObject.ordered = match.property.isOrdered
+		xtumlrtObject.unique = match.property.isUnique
+		
 	}
 	
 	def getXtumlrtContainer(AttributeMatch match) {

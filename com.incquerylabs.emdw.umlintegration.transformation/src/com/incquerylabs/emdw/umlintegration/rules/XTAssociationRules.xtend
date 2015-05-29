@@ -52,6 +52,11 @@ class XTAssociationMapping extends AbstractObjectMapping<XtAssociationMatch, Pro
 		xtumlrtObject.source = match.sourceEnd.xtumlrtObjectOfType
 		xtumlrtObject.target = match.targetEnd.xtumlrtObjectOfType
 		xtumlrtObject.name = '''«match.association.name»_«match.sourceEnd.name»'''
+		
+		xtumlrtObject.upperBound = match.targetEnd.upper
+		xtumlrtObject.lowerBound = match.targetEnd.lower
+		xtumlrtObject.ordered = match.targetEnd.isOrdered
+		xtumlrtObject.unique = match.targetEnd.isUnique
 	}
 	
 	def xtumlrtObjectOfType(Property end) {

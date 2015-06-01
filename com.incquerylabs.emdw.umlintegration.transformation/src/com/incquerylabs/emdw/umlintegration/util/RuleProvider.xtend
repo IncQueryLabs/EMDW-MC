@@ -49,6 +49,7 @@ import org.eclipse.incquery.runtime.evm.specific.resolver.FixedPriorityConflictR
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation
+import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -127,7 +128,7 @@ class RuleProvider {
 	 * Adds the initiated rules to a provided EventDrivenTransformation object
 	 * 
 	 */
-	public def addRules(EventDrivenTransformation trans) {
+	public def addRules(EventDrivenTransformationBuilder trans) {
 		val comp = new RuleComparator(rulemap);
 		val sorted_list = newArrayList();
 		sorted_list.addAll(rulemap.keySet)

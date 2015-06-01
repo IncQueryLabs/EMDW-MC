@@ -7,6 +7,7 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
+import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 
 class RuleProvider {
 	static extension val CppCodeGenerationQueries codeGenQueries = CppCodeGenerationQueries.instance
@@ -48,7 +49,7 @@ class RuleProvider {
 	
 	public def addRules(BatchTransformation transformation) {
 		
-		val rules = new TransformationRuleGroup(
+		val rules = new BatchTransformationRuleGroup(
 			xtClassRule
 		)
 		

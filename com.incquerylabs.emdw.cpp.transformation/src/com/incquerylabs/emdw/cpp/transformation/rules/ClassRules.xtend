@@ -4,12 +4,10 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
-import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
+import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
-import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -20,7 +18,7 @@ class ClassRules {
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	def addRules(BatchTransformation transformation){
-		val rules = new TransformationRuleGroup(
+		val rules = new BatchTransformationRuleGroup(
 			classRule,
 			classInPackageRule,
 			stateRule,

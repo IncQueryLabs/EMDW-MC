@@ -38,14 +38,14 @@ class TransformationQrt {
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")
-			transform = EventDrivenTransformation.forEngine(engine)
+			val builder = EventDrivenTransformation.forEngine(engine)
 			ruleProvider = new RuleProvider(engine)
 			initRules
 			val fixedPriorityResolver = new PerJobFixedPriorityConflictResolver
 			fixedPriorityResolver.setPriorities
-			transform.setConflictResolver(fixedPriorityResolver)
-			transform.addRules
-			transform.create
+			builder.setConflictResolver(fixedPriorityResolver)
+			builder.addRules
+			transform = builder.build
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true

@@ -91,7 +91,7 @@
 							<outputDirectory>${project.basedir}/emf-gen</outputDirectory>
 							<resources>          
 								<resource>
-									<directory>target/generated/emf/src</directory>
+									<directory>target/generated/emf/emf-gen</directory>
 								</resource>
 							</resources>              
 						</configuration>            

@@ -123,7 +123,7 @@
 							<packageClass>com.ericsson.xtumlrt.oopl.OoplPackage</packageClass>
 						</metamodel>
 						<metamodel>
-							<packageClass>com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage</packageClass>
+							<genmodelUri>model/cppmodel.genmodel</genmodelUri>
 						</metamodel>
 					</metamodels>
 				</configuration>

@@ -114,6 +114,15 @@
 					<outputDirectory>src-gen</outputDirectory>
 					<metamodels>
 						<metamodel>
+							<genmodelUri>../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel</genmodelUri>
+						</metamodel>
+						<metamodel>
+							<genmodelUri>../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel</genmodelUri>
+						</metamodel>
+						<metamodel>
+							<genmodelUri>../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel</genmodelUri>
+						</metamodel>
+						<metamodel>
 							<genmodelUri>model/cppmodel.genmodel</genmodelUri>
 						</metamodel>
 					</metamodels>

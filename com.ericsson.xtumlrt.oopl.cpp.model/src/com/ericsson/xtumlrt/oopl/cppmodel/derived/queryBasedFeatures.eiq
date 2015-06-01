@@ -9,8 +9,7 @@ pattern cppAttributeType(
 	source : CPPAttribute,
 	target : OOPLType
 ) {
-	find cppAttributeUnnamedSequenceType(source, cppSequence);
-	find cppSequenceType(cppSequence, target);
+	find cppAttributeUnnamedSequenceType(source, target);
 } or {
 	CPPAttribute.commonAttribute.type(source, commonType);
 	OOPLType.commonType(target, commonType);
@@ -22,8 +21,7 @@ pattern cppFormalParameterType(
 	source : CPPFormalParameter,
 	target : OOPLType
 ) {
-	find cppFormalParameterUnnamedSequenceType(source, cppSequence);
-	find cppSequenceType(cppSequence, target);
+	find cppFormalParameterUnnamedSequenceType(source, target);
 } or {
 	CPPFormalParameter.commonParameter.type(source, commonType);
 	OOPLType.commonType(target, commonType);
@@ -34,8 +32,7 @@ pattern cppSequenceType(
 	cppSequence : CPPSequence,
 	ooplType : OOPLType
 ) {
-	CPPSequence.commonType(cppSequence, commonType);
-	OOPLType.commonType(ooplType, commonType);
+	CPPSequence.elementType(cppSequence, ooplType);
 }
 
 pattern cppAttributeUnnamedSequenceType(

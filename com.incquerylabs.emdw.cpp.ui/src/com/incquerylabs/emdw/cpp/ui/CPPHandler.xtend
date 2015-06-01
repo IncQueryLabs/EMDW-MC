@@ -18,6 +18,7 @@ import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
+import org.eclipse.emf.common.util.URI
 
 class CPPHandler extends AbstractHandler {
 	
@@ -41,6 +42,8 @@ class CPPHandler extends AbstractHandler {
         		val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponent).head
         		val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
 				val cppResource = cppModel.eResource
+				
+				loadCPPBasicTypes(xtResourceSet)
 
 				// Create the CPPComponent with its directories if it does not exist
 				// The incremental part of the m2m transformation should provide the cppComponent in the future
@@ -93,6 +96,10 @@ class CPPHandler extends AbstractHandler {
 			cppResource.contents += cppModel
 		}
 		return cppModel
+	}
+	
+	def loadCPPBasicTypes(ResourceSet rs) {
+		rs.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true), true)
 	}
 	
 }

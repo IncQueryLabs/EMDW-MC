@@ -30,12 +30,8 @@ class AttributeTemplates {
 	}
 	
 	def generateCPPAttributeType(CPPAttribute attribute){
-		val cppSequence = attribute.subElements.filter(CPPSequence).head
-		if(cppSequence != null){
-			typeConverter.convertSequence(cppSequence)
-		} else {
-			typeConverter.convertType(attribute.commonAttribute.type)
-		}
+		val type = attribute.type
+		typeConverter.convertType(type)
 	}
 	
 }

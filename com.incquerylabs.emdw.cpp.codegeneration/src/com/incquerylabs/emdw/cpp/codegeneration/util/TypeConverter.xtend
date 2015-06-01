@@ -4,9 +4,22 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
+import com.ericsson.xtumlrt.oopl.OOPLType
 
 class TypeConverter {
 	
+	
+	def String convertType(OOPLType type) {
+		
+		if(type instanceof CPPSequence) {
+			return convertSequence(type)
+		} else {
+			if(type != null){
+				return convertType(type.commonType)
+			}
+		}
+		return "UNKNOWN_TYPE"
+	}
 	
 	/*
 		{
@@ -39,7 +52,7 @@ class TypeConverter {
 		val orderedness = sequence.orderedness
 		val uniqueness = sequence.uniqueness
 		
-		var cppSequenceElementType = sequence.commonType.convertType
+		var cppSequenceElementType = sequence.elementType.convertType
 		
 		if(orderedness == SequenceOrderednessKind.UNORDERED){
 			if(uniqueness == SequenceUniquenessKind.UNIQUE){
@@ -54,12 +67,18 @@ class TypeConverter {
 	
 	def convertType(Type type) {
 		
+		if(type == null){
+			return "UNNAMED_TYPE"
+		}
+		
 		switch(type.name) {
+			case null: "NULL_TYPE" 
 			case "Boolean":	"bool"
 			case "Integer": "long" 
 			case "Real": "double"
 			case "String": "std::string"
 			case "Void": "void"
+			default: type.name
 		}
 		
 	}

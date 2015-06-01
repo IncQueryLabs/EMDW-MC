@@ -53,11 +53,7 @@ class OperationTemplates {
 	}
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){
-		val cppSequence = param.subElements.filter(CPPSequence).head
-		if(cppSequence != null){
-			typeConverter.convertSequence(cppSequence)
-		} else {
-			typeConverter.convertType(param.commonParameter.type)
-		}
+		val type = param.type
+		typeConverter.convertType(type)
 	}
 }

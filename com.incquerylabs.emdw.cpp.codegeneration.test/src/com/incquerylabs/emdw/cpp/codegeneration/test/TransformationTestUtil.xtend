@@ -49,6 +49,8 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
+import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -532,31 +534,38 @@ class TransformationTestUtil {
 		cppOperation
 	}
 	
-	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, boolean multiValue) {
+	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, OOPLType type, boolean multiValue) {
 		val cppFormalParameter = cppFactory.createCPPFormalParameter => [
 			it.commonParameter = parameter
 			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = parameter ]
 			if(multiValue){
-				createCPPSequence(it, parameter.type)
+				createCPPSequence(it, type)
 			}
 		]
 		root.subElements += cppFormalParameter
 		cppFormalParameter
 	}
 	
-	static def CPPSequence createCPPSequence(CPPFormalParameter root, Type type) {
-		val seq = cppFactory.createCPPSequence => [
-//			it.elementType = type
+	static def CPPBasicType createCPPBasicType(CPPQualifiedNamedElement root, Type type) {
+		val cppBasicType = cppFactory.createCPPBasicType => [
 			it.commonType = type
+			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = type ]
+		]
+		root.subElements += cppBasicType
+		cppBasicType
+	}
+	
+	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLType type) {
+		val seq = cppFactory.createCPPSequence => [
+			it.elementType = type
 		]
 		root.unnamedSequenceType = seq
 		seq
 	}
 	
-	static def CPPSequence createCPPSequence(CPPAttribute root, Type type) {
+	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLType type) {
 		val seq = cppFactory.createCPPSequence => [
-//			it.elementType = type
-			it.commonType = type
+			it.elementType = type
 		]
 		root.unnamedSequenceType = seq
 		seq

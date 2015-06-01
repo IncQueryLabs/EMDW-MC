@@ -37,8 +37,9 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
 		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
 		val cppOp = createCPPOperation(cppClass, xtOp)
-		createCPPFormalParameter(cppOp, xtPar, false)
-		createCPPFormalParameter(cppOp, xtPar2, true)
+		val cppType = createCPPBasicType(cppPackage, xtType)
+		createCPPFormalParameter(cppOp, xtPar, cppType, false)
+		createCPPFormalParameter(cppOp, xtPar2, cppType, true)
 		
 		cppClass
 	}

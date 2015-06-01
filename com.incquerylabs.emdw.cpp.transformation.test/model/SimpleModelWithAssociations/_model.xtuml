@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml">
+  <entities xsi:type="xtuml:XTComponent" name="myComponent">
+    <entities xsi:type="xtuml:XTClass" name="myClass1">
+      <relations xsi:type="xtuml:XTAssociation" name="myAssoc1_myClass2s" upperBound="-1" opposite="//@entities.0/@entities.1/@relations.0" source="//@entities.0/@entities.0" target="//@entities.0/@entities.1"/>
+      <relations xsi:type="xtuml:XTAssociation" name="myAssoc2_myClass3s" upperBound="-1" opposite="//@entities.0/@entities.2/@relations.0" source="//@entities.0/@entities.0" target="//@entities.0/@entities.2"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="myClass2">
+      <relations xsi:type="xtuml:XTAssociation" name="myAssoc1_myClass1" upperBound="1" opposite="//@entities.0/@entities.0/@relations.0" source="//@entities.0/@entities.1" target="//@entities.0/@entities.0"/>
+      <relations xsi:type="xtuml:XTAssociation" name="myAssoc3_myClass3" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.2/@relations.1" source="//@entities.0/@entities.1" target="//@entities.0/@entities.2"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="myClass3">
+      <relations xsi:type="xtuml:XTAssociation" name="myAssoc2_myClass1" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.0/@relations.1" source="//@entities.0/@entities.2" target="//@entities.0/@entities.0"/>
+      <relations xsi:type="xtuml:XTAssociation" name="myAssoc3_myClass2" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.1/@relations.1" source="//@entities.0/@entities.2" target="//@entities.0/@entities.1"/>
+    </entities>
+  </entities>
+</common:Model>

@@ -36,12 +36,6 @@
           </ooplNameProvider>
           <commonAttribute href="model.xtuml#//@entities.0/@entities.0/@attributes.3"/>
         </subElements>
-        <subElements xsi:type="cpp:CPPAttribute">
-          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@entities.0/@attributes.4"/>
-          </ooplNameProvider>
-          <commonAttribute href="model.xtuml#//@entities.0/@entities.0/@attributes.4"/>
-        </subElements>
         <xtClass href="model.xtuml#//@entities.0/@entities.0"/>
       </subElements>
       <xtComponent href="model.xtuml#//@entities.0"/>

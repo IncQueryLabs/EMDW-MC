@@ -49,10 +49,10 @@
               xsi:type="oopl:OOPLExistingNameProvider">
             <commonNamedElement
                 xsi:type="common:Attribute"
-                href="model.xtuml#//@entities.0/@entities.0/@attributes.2"/>
+                href="model.xtuml#//@entities.0/@entities.0/@attributes.0"/>
           </ooplNameProvider>
           <commonAttribute
-              href="model.xtuml#//@entities.0/@entities.0/@attributes.2"/>
+              href="model.xtuml#//@entities.0/@entities.0/@attributes.0"/>
         </subElements>
         <subElements
             xsi:type="cpp:CPPState">

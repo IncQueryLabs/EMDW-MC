@@ -3,7 +3,7 @@
   <entities xsi:type="xtuml:XTComponent" name="myComponent">
     <entities xsi:type="xtuml:XTClass" name="myClass">
       <attributes upperBound="1" name="myInt">
-        <type xsi:type="common:PrimitiveType" href="../../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.1/@type"/>
+        <type xsi:type="common:PrimitiveType" href="platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typedefinitions.1/@type"/>
       </attributes>
       <behaviour name="myStateMachine">
         <top>

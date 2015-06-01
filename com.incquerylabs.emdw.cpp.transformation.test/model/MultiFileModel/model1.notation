@@ -24,7 +24,7 @@
             <styles xmi:type="notation:FilteringStyle" xmi:id="_I2N1rvo8EeSpnsHyI6QRfw"/>
             <layoutConstraint xmi:type="notation:Bounds" xmi:id="_I2N1r_o8EeSpnsHyI6QRfw"/>
           </children>
-          <element xmi:type="uml:Class" href="model.uml#_I2LZYPo8EeSpnsHyI6QRfw"/>
+          <element xmi:type="uml:Class" href="model1.uml#_I2LZYPo8EeSpnsHyI6QRfw"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_I2NOkfo8EeSpnsHyI6QRfw" x="777" y="120"/>
         </children>
         <styles xmi:type="notation:TitleStyle" xmi:id="_RcOpMvo8EeSpnsHyI6QRfw"/>
@@ -44,15 +44,15 @@
         <styles xmi:type="notation:FilteringStyle" xmi:id="_RcOpPvo8EeSpnsHyI6QRfw"/>
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOpP_o8EeSpnsHyI6QRfw"/>
       </children>
-      <element xmi:type="uml:Component" href="model.uml#_RcK-0Po8EeSpnsHyI6QRfw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOCIfo8EeSpnsHyI6QRfw" x="243" y="58" width="208" height="230"/>
+      <element xmi:type="uml:Component" href="model1.uml#_RcK-0Po8EeSpnsHyI6QRfw"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOCIfo8EeSpnsHyI6QRfw" x="232" y="57" width="208" height="230"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_ckKR0fo6EeSpnsHyI6QRfw" name="diagram_compatibility_version" stringValue="1.0.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_ckKR0vo6EeSpnsHyI6QRfw"/>
     <styles xmi:type="style:PapyrusViewStyle" xmi:id="_ckKR0_o6EeSpnsHyI6QRfw">
-      <owner xmi:type="uml:Model" href="model.uml#_ckIcoPo6EeSpnsHyI6QRfw"/>
+      <owner xmi:type="uml:Model" href="model1.uml#_ckIcoPo6EeSpnsHyI6QRfw"/>
     </styles>
-    <element xmi:type="uml:Model" href="model.uml#_ckIcoPo6EeSpnsHyI6QRfw"/>
+    <element xmi:type="uml:Model" href="model1.uml#_ckIcoPo6EeSpnsHyI6QRfw"/>
   </notation:Diagram>
   <css:ModelStyleSheets xmi:id="_yQyrcPo8EeSpnsHyI6QRfw"/>
 </xmi:XMI>

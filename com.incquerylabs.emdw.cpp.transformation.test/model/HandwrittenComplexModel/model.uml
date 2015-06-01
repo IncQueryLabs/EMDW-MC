@@ -21,9 +21,6 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YLCOEPo9EeSpnsHyI6QRfw" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YLC1IPo9EeSpnsHyI6QRfw" value="*"/>
       </ownedAttribute>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_ZZAdEPo9EeSpnsHyI6QRfw" name="myNatural">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#UnlimitedNatural"/>
-      </ownedAttribute>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_M9AkgPo_EeSpnsHyI6QRfw" name="myStateMachine">
         <region xmi:type="uml:Region" xmi:id="_OUqT8Po_EeSpnsHyI6QRfw" name="myRegion">
           <transition xmi:type="uml:Transition" xmi:id="_Mu5akPpAEeSpnsHyI6QRfw" name="myTI1" source="_r5Wg4Po_EeSpnsHyI6QRfw" target="_zN5FgPo_EeSpnsHyI6QRfw">

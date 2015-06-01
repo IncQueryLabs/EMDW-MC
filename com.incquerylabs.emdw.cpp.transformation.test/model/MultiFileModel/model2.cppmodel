@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<cpp:CPPModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" cppName="myModel2">
+<cpp:CPPModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml">
   <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-    <commonNamedElement xsi:type="common:Model" href="mymodel2.xtuml#/"/>
+    <commonNamedElement xsi:type="common:Model" href="model2.xtuml#/"/>
   </ooplNameProvider>
-  <subElements xsi:type="cpp:CPPComponent" cppName="myComponent2">
+  <subElements xsi:type="cpp:CPPComponent">
     <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-      <commonNamedElement xsi:type="xtuml:XTComponent" href="mymodel2.xtuml#//@entities.0"/>
+      <commonNamedElement xsi:type="xtuml:XTComponent" href="model2.xtuml#//@entities.0"/>
     </ooplNameProvider>
-    <subElements xsi:type="cpp:CPPClass" cppName="myClass2">
+    <subElements xsi:type="cpp:CPPClass">
       <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-        <commonNamedElement xsi:type="xtuml:XTClass" href="mymodel2.xtuml#//@entities.0/@entities.0"/>
+        <commonNamedElement xsi:type="xtuml:XTClass" href="model2.xtuml#//@entities.0/@entities.0"/>
       </ooplNameProvider>
-      <xtClass href="mymodel2.xtuml#//@entities.0/@entities.0"/>
-      <headerFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.4"/>
-      <bodyFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.5"/>
+      <xtClass href="model2.xtuml#//@entities.0/@entities.0"/>
+      <headerFile href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0/@files.4"/>
+      <bodyFile href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0/@files.5"/>
     </subElements>
-    <xtComponent href="mymodel2.xtuml#//@entities.0"/>
-    <mainHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.3"/>
-    <mainBodyFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.1"/>
-    <declarationHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.0"/>
-    <definitionHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0/@files.2"/>
-    <headerDirectory href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0"/>
-    <bodyDirectory href="mymodel3.cppmodel#//@subDirectories.1/@subDirectories.0"/>
+    <xtComponent href="model2.xtuml#//@entities.0"/>
+    <mainHeaderFile href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0/@files.3"/>
+    <mainBodyFile href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0/@files.1"/>
+    <declarationHeaderFile href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0/@files.0"/>
+    <definitionHeaderFile href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0/@files.2"/>
+    <headerDirectory href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0"/>
+    <bodyDirectory href="directorymodel.cppmodel#//@subDirectories.1/@subDirectories.0"/>
   </subElements>
-  <commonModel href="mymodel2.xtuml#/"/>
-  <bodyFile href="mymodel3.cppmodel#//@subDirectories.1/@files.0"/>
-  <declarationHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@files.2"/>
-  <definitionHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@files.3"/>
-  <apiHeaderFile href="mymodel3.cppmodel#//@subDirectories.1/@files.1"/>
-  <headerDir href="mymodel3.cppmodel#//@subDirectories.1"/>
-  <bodyDir href="mymodel3.cppmodel#//@subDirectories.1"/>
+  <commonModel href="model2.xtuml#/"/>
+  <bodyFile href="directorymodel.cppmodel#//@subDirectories.1/@files.0"/>
+  <declarationHeaderFile href="directorymodel.cppmodel#//@subDirectories.1/@files.2"/>
+  <definitionHeaderFile href="directorymodel.cppmodel#//@subDirectories.1/@files.3"/>
+  <apiHeaderFile href="directorymodel.cppmodel#//@subDirectories.1/@files.1"/>
+  <headerDir href="directorymodel.cppmodel#//@subDirectories.1"/>
+  <bodyDir href="directorymodel.cppmodel#//@subDirectories.1"/>
 </cpp:CPPModel>

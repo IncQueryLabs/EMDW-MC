@@ -1,0 +1,53 @@
+package com.ericsson.xtumlrt.oopl.cppmodel.derived
+
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+
+@QueryBasedFeature(feature = "type")
+pattern cppAttributeType(
+	source : CPPAttribute,
+	target : OOPLType
+) {
+	find cppAttributeUnnamedSequenceType(source, cppSequence);
+	find cppSequenceType(cppSequence, target);
+} or {
+	CPPAttribute.commonAttribute.type(source, commonType);
+	OOPLType.commonType(target, commonType);
+	neg find cppAttributeUnnamedSequenceType(source, _sequence);
+}
+
+@QueryBasedFeature(feature = "type")
+pattern cppFormalParameterType(
+	source : CPPFormalParameter,
+	target : OOPLType
+) {
+	find cppFormalParameterUnnamedSequenceType(source, cppSequence);
+	find cppSequenceType(cppSequence, target);
+} or {
+	CPPFormalParameter.commonParameter.type(source, commonType);
+	OOPLType.commonType(target, commonType);
+	neg find cppFormalParameterUnnamedSequenceType(source, _sequence);
+}
+
+pattern cppSequenceType(
+	cppSequence : CPPSequence,
+	ooplType : OOPLType
+) {
+	CPPSequence.commonType(cppSequence, commonType);
+	OOPLType.commonType(ooplType, commonType);
+}
+
+pattern cppAttributeUnnamedSequenceType(
+	cppAttribute : CPPAttribute,
+	cppSequence : CPPSequence
+) {
+	CPPAttribute.unnamedSequenceType(cppAttribute, cppSequence);
+}
+
+pattern cppFormalParameterUnnamedSequenceType(
+	cppFormalParameter : CPPFormalParameter,
+	cppSequence : CPPSequence
+) {
+	CPPFormalParameter.unnamedSequenceType(cppFormalParameter, cppSequence);
+}

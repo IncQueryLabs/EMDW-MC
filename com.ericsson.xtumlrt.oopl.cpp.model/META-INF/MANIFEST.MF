@@ -6,13 +6,18 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.ericsson.xtumlrt.oopl.cppmodel,
+ com.ericsson.xtumlrt.oopl.cppmodel.derived,
+ com.ericsson.xtumlrt.oopl.cppmodel.derived.util,
  com.ericsson.xtumlrt.oopl.cppmodel.impl,
  com.ericsson.xtumlrt.oopl.cppmodel.util
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- com.ericsson.xtumlrt.oopl.model;bundle-version="0.4.0";visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.common.model;bundle-version="0.5.0";visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="0.5.0";visibility:=reexport
+Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ com.ericsson.xtumlrt.oopl.model,
+ org.eclipse.papyrusrt.xtumlrt.common.model,
+ org.eclipse.papyrusrt.xtumlrt.xtuml.model,
+ org.eclipse.incquery.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j

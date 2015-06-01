@@ -9,10 +9,11 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.xtend.lib,
  org.eclipse.incquery.runtime;bundle-version="1.0.0",
  org.eclipse.core.resources,
- com.ericsson.xtumlrt.oopl.cpp.model;bundle-version="1.0.0",
+ com.ericsson.xtumlrt.oopl.cpp.model,
  org.eclipse.core.expressions,
  com.incquerylabs.emdw.cpp.transformation;bundle-version="1.0.0",
- com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0"
+ com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0",
+ com.ericsson.xtumlrt.oopl.model
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IncQuery Labs Ltd.
 Import-Package: org.apache.log4j;version="1.2.15"

@@ -7,7 +7,14 @@
 	<artifactId>com.ericsson.xtumlrt.oopl.cpp.model</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
-
+	
+	<pluginRepositories>
+		<pluginRepository>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
 	<parent>
 		<groupId>com.incquerylabs.emdw</groupId>
 		<artifactId>com.incquerylabs.emdw</artifactId>
@@ -26,7 +33,16 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src</directory>
+							<directory>src-gen</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
+						</fileset>
+						<fileset>
+							<directory>emf-gen</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -72,7 +88,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}/src</outputDirectory>
+							<outputDirectory>${project.basedir}/emf-gen</outputDirectory>
 							<resources>          
 								<resource>
 									<directory>target/generated/emf/src</directory>
@@ -81,6 +97,53 @@
 						</configuration>            
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.incquery</groupId>
+				<artifactId>incquery-maven-plugin</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>src-gen</outputDirectory>
+					<metamodels>
+						<metamodel>
+							<packageClass>org.eclipse.papyrusrt.xtumlrt.common.CommonPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.OoplPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage</packageClass>
+						</metamodel>
+					</metamodels>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.papyrusrt</groupId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
+						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.papyrusrt</groupId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
+						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

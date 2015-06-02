@@ -3,10 +3,12 @@ package com.incquerylabs.emdw.umlintegration.papyrus
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
+import java.util.HashMap
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.apache.log4j.RollingFileAppender
 import org.apache.log4j.SimpleLayout
+import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -16,7 +18,8 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
-import org.eclipse.uml2.uml.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
 
 class ModelSetSnippet implements IModelSetSnippet {
@@ -40,12 +43,13 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
 		
 		ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
-			if (!resource.contents.filter(Model).empty) {
+			if (!resource.contents.filter(org.eclipse.uml2.uml.Model).empty) {
 				createMapping(resource, modelSet, resourceSet)
 			}
 		]
 		
-		transformation.initialize(engine)
+		val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
+		transformation.initialize(engine, primitiveTypeMapping)
 		transformation.execute
 	}
 
@@ -55,7 +59,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		createResource(umlResource, "xtuml", xtumlrtModel, modelSet, resourceSet)
 
 		val mapping = TraceFactory.eINSTANCE.createRootMapping => [
-			umlRoot = umlResource.contents.filter(Model).head
+			umlRoot = umlResource.contents.filter(org.eclipse.uml2.uml.Model).head
 			xtumlrtRoot = xtumlrtModel
 		]
 		createResource(umlResource, "trace", mapping, modelSet, resourceSet)
@@ -74,6 +78,32 @@ class ModelSetSnippet implements IModelSetSnippet {
 
 	override dispose(ModelSet modelsManager) {
 		transformation.dispose
+	}
+	
+	def createPrimitiveTypeMapping(AdvancedIncQueryEngine engine, ResourceSet rs, ModelSet modelSet){
+		val primitiveTypeMapping = new HashMap<org.eclipse.uml2.uml.Type, Type>();
+			
+		val commonTypesPath = "org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
+		val commonTypesURI = URI.createPlatformPluginURI(commonTypesPath,true)
+		val commonTypesResource = rs.getResource(commonTypesURI,true);
+		
+		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
+		val commonTypes = commonTypesModel.packages.head.typedefinitions.map[td|td.type]
+
+		val umlTypesURI = URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI)
+		val umlTypesResource = modelSet.getResource(umlTypesURI, true)
+		
+		val model = umlTypesResource.contents.filter(org.eclipse.uml2.uml.Model).head
+		val umlTypes = model.packagedElements.filter(PrimitiveType)
+		
+		commonTypes.forEach[type|
+			val umlType = umlTypes.filter[umlType | umlType.name.equals(type.name)].head
+			if(umlType != null){
+				primitiveTypeMapping.put(umlType, type)
+			}
+		]
+
+		primitiveTypeMapping
 	}
 
 }

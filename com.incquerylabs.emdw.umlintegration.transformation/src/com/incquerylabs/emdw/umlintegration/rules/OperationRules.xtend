@@ -54,9 +54,14 @@ class OperationMapping extends AbstractObjectMapping<OperationMatch, org.eclipse
 	override updateXtumlrtObject(Operation xtumlrtObject, OperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
-			Type: xtumlrtObject.returnType = type 
+		if(umlObject.type != null){
+			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
+				Type: xtumlrtObject.returnType = type 
+			}
+		} else {
+			// TODO set to Void
 		}
+		
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}

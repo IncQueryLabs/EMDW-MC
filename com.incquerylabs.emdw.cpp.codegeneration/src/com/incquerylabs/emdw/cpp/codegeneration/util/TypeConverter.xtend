@@ -68,7 +68,8 @@ class TypeConverter {
 	def convertType(Type type) {
 		
 		if(type == null){
-			return "UNNAMED_TYPE"
+			// TODO should return UNKNOWN_TYPE if Operation.returnType is correctly set to Void
+			return "void"
 		}
 		
 		switch(type.name) {

@@ -51,7 +51,7 @@ class XTAssociationMapping extends AbstractObjectMapping<XtAssociationMatch, Pro
 	override updateXtumlrtObject(XTAssociation xtumlrtObject, XtAssociationMatch match) {
 		xtumlrtObject.source = match.sourceEnd.xtumlrtObjectOfType
 		xtumlrtObject.target = match.targetEnd.xtumlrtObjectOfType
-		xtumlrtObject.name = '''«match.association.name»_«match.sourceEnd.name»'''
+		xtumlrtObject.name = '''«match.association.name»_«match.targetEnd.name»'''
 		
 		xtumlrtObject.upperBound = match.targetEnd.upper
 		xtumlrtObject.lowerBound = match.targetEnd.lower

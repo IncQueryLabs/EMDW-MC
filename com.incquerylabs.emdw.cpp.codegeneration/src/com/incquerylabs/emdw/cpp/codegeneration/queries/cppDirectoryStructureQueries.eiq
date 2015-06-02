@@ -1,0 +1,26 @@
+package com.incquerylabs.emdw.cpp.codegeneration.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+// CPPModel -> Project directory
+pattern cppModel(cppModel : CPPModel) {
+	CPPModel(cppModel);
+}
+
+// CPPDirectory -> Root directories
+pattern cppRootDirectory(dir : CPPDirectory) {
+	neg find cppSubDirectory(dir);
+}
+
+// CPPDirectory -> Sub directories
+pattern cppSubDirectory(dir : CPPDirectory) {
+	CPPDirectory(parent);
+	find subDirectory(parent, dir);
+}
+
+pattern subDirectory(parent : CPPDirectory, child : CPPDirectory) {
+	CPPDirectory.subDirectories(parent, child);
+}

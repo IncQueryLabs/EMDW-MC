@@ -58,6 +58,11 @@ class ParameterMapping extends AbstractObjectMapping<ParameterMatch, org.eclipse
 			}
 		}
 		xtumlrtObject.direction = TransformationUtil.transform(umlObject.direction)
+		
+		xtumlrtObject.upperBound = umlObject.upper
+		xtumlrtObject.lowerBound = umlObject.lower
+		xtumlrtObject.ordered = umlObject.isOrdered
+		xtumlrtObject.unique = umlObject.isUnique
 	}
 
 	override protected insertXtumlrtObject(Parameter xtumlrtObject, ParameterMatch match) {

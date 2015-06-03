@@ -5,8 +5,14 @@ import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrap
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import com.incquerylabs.emdw.cpp.codegeneration.DirectoryStructureGeneration
+import org.eclipse.core.resources.IProject
 
 class DirectoryStructureWrapper extends TransformationWrapper {
+	
+	val IProject rootProject
+	new(IProject rootProject) {
+		this.rootProject = rootProject
+	}
 	
 	AdvancedIncQueryEngine engine
 	DirectoryStructureGeneration dirStructGen
@@ -14,7 +20,7 @@ class DirectoryStructureWrapper extends TransformationWrapper {
 	override initializeTransformation(CPPModel cppmodel) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppmodel.eResource.resourceSet))
 		dirStructGen = new DirectoryStructureGeneration
-		dirStructGen.initialize(cppmodel, engine)
+		dirStructGen.initialize(cppmodel, rootProject, engine)
 	}
 	
 	override executeTransformation() {

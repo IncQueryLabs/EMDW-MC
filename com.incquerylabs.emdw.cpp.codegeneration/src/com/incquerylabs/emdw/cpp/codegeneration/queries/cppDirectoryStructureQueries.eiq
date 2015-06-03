@@ -15,12 +15,24 @@ pattern cppRootDirectory(dir : CPPDirectory) {
 	neg find cppSubDirectory(dir);
 }
 
+// CPPDirectory -> Leaf directories
+pattern cppLeafDirectory(dir : CPPDirectory) {
+	neg find cppParentDirectory(dir);
+}
+
+// CPPDirectory -> Parent directories
+pattern cppParentDirectory(dir: CPPDirectory) {
+	CPPDirectory(child);
+	find subDirectory(dir, child);
+}
+
 // CPPDirectory -> Sub directories
 pattern cppSubDirectory(dir : CPPDirectory) {
 	CPPDirectory(parent);
 	find subDirectory(parent, dir);
 }
 
+// CPPDirectory -> Sub directory parent => child
 pattern subDirectory(parent : CPPDirectory, child : CPPDirectory) {
 	CPPDirectory.subDirectories(parent, child);
 }

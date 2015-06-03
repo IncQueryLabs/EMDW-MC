@@ -6,6 +6,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQue
 import com.incquerylabs.emdw.cpp.codegeneration.util.DirectoryRuleProvider
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
+import org.eclipse.core.resources.IProject
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
@@ -24,10 +25,10 @@ class DirectoryStructureGeneration {
 	IncQueryEngine engine
 	DirectoryRuleProvider ruleProvider
 	CPPModel cppModel
-
+	
 	extension BatchTransformationStatements statements
 
-	def initialize(CPPModel cppModel, IncQueryEngine engine) {
+	def initialize(CPPModel cppModel, IProject rootProject, IncQueryEngine engine) {
 		checkArgument(cppModel != null, "CPP Model cannot be null!")
 		checkArgument(engine != null, "Engine cannot be null!")
 		
@@ -43,7 +44,7 @@ class DirectoryStructureGeneration {
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
-			ruleProvider = new DirectoryRuleProvider(engine)
+			ruleProvider = new DirectoryRuleProvider(engine, rootProject)
 			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
@@ -55,7 +56,6 @@ class DirectoryStructureGeneration {
 	def execute() {
 		info('''Executing transformation on «cppModel.commonModel.name»''')
 		val watch = Stopwatch.createStarted
-		fireAllCurrent(ruleProvider.cppModelRule)
 		fireAllCurrent(ruleProvider.cppRootDirectoryRule)
 		fireAllCurrent(ruleProvider.cppSubDirectoryRule)
 		info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')

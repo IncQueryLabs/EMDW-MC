@@ -3,8 +3,6 @@ package com.incquerylabs.emdw.cpp.codegeneration.util
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries
 import org.apache.log4j.Logger
 import org.eclipse.core.resources.IProject
-import org.eclipse.core.resources.IWorkspaceRoot
-import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
@@ -17,36 +15,28 @@ class DirectoryRuleProvider {
 	
 	IncQueryEngine engine
 	DirectoryCreator dirCreator = new DirectoryCreator
-	IWorkspaceRoot workspaceRoot = ResourcesPlugin.workspace.root
-	IProject cppModelProject
-	new(IncQueryEngine engine) {
+
+	IProject rootProject
+	new(IncQueryEngine engine, IProject rootProject) {
 		this.engine = engine;
+		this.rootProject = rootProject;
+		if(!this.rootProject.exists) {
+			this.rootProject.create(null)
+		}
+		this.rootProject.open(null)
 	}
-	
-	public val cppModelRule = createRule.precondition(cppModel).action[match | 
-		val cppModel = match.cppModel
-		cppModelProject = workspaceRoot.getProject(cppModel.commonModel.name)
-		
-		dirCreator.createDir(cppModelProject)
-		
-		debug(
-			'''
-				CPPModelRule fired!
-			'''
-		)
-		
-	].build
-	
+
 	public val cppRootDirectoryRule = createRule.precondition(cppRootDirectory).action[match | 
 		val cppDir = match.dir
-		
-		val folder = cppModelProject.getFolder(cppDir.name);
+		val folder = rootProject.getFolder(cppDir.name);
 		
 		dirCreator.createDir(folder) 
 		
+		dirCreator.synchronizeSubDirectories(cppDir, folder)
+		
 		debug(
 			'''
-				CPPRootDirectoryRule fired!
+				CPPRootDirectoryRule fired => «cppDir.name»
 			'''
 		)
 		
@@ -54,26 +44,22 @@ class DirectoryRuleProvider {
 	
 	public val cppSubDirectoryRule = createRule.precondition(cppSubDirectory).action[match | 
 		val cppDir = match.dir
+		val folder = rootProject.getFolder(cppDir.path);
 		
-		val folder = cppModelProject.getFolder(cppDir.path);
+		dirCreator.createDir(folder)
 		
-		dirCreator.createDir(folder) 
+		dirCreator.synchronizeSubDirectories(cppDir, folder)
 		
 		debug(
 			'''
-				CPPSubDirectoryRule fired!
+				CPPSubDirectoryRule fired => «cppDir.path»
 			'''
 		)
 		
 	].build
 	
-	public def getCppModelProject() {
-		cppModelProject
-	}
-	
 	public def addRules(BatchTransformation transformation) {
 		val rules = new BatchTransformationRuleGroup(
-			cppModelRule,
 			cppRootDirectoryRule,
 			cppSubDirectoryRule
 		)

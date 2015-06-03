@@ -4,13 +4,49 @@
     <!-- @generated cppmodel -->
     <package class="com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage" genModel="model/cppmodel.genmodel" uri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
-  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppAttributeType" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
-    <wellbehaving-derived-feature classifier-name="CPPAttribute" feature-name="type" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
-  </extension>
   <extension id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures"/>
   </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppAttributeType" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPAttribute" feature-name="type" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppHeaderFileIncludeName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPHeaderFile" feature-name="includeName" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppHeaderFileIncludeDirectory" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPHeaderFile" feature-name="includeDirectory" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppSourceFileGenerationPath" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPSourceFile" feature-name="generationPath" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryParentDirectory" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPDirectory" feature-name="parentDirectory" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppNamedElementCppName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPNamedElement" feature-name="cppName" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppSourceFileGenerationDirectory" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPSourceFile" feature-name="generationDirectory" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppHeaderFileIncludePath" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPHeaderFile" feature-name="includePath" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppSourceFileGenerationName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPSourceFile" feature-name="generationName" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppQualifiedNamedElementCppQualifiedName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPQualifiedNamedElement" feature-name="cppQualifiedName" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryPath" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPDirectory" feature-name="path" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppQualifiedNamedElementCppPrefix" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPQualifiedNamedElement" feature-name="cppPrefix" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppFormalParameterType" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPFormalParameter" feature-name="type" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPDirectory" feature-name="name" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
 </plugin>

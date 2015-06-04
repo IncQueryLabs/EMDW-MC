@@ -21,13 +21,15 @@ import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.incquery.runtime.exception.IncQueryException
 
 class ModelSetSnippet implements IModelSetSnippet {
 
 	val transformation = new TransformationQrt
-
+	val Logger logger
+	
 	new(){
-		val logger = Logger.getLogger(TransformationQrt.package.name)
+		logger = Logger.getLogger(TransformationQrt.package.name)
 		if(logger.level != Level.TRACE){
 			logger.level = Level.TRACE
 			val layout = new SimpleLayout()
@@ -39,18 +41,26 @@ class ModelSetSnippet implements IModelSetSnippet {
 	}
 
 	override start(ModelSet modelSet) {
-		val resourceSet = new ResourceSetImpl
-		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
-		
-		ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
-			if (!resource.contents.filter(org.eclipse.uml2.uml.Model).empty) {
-				createMapping(resource, modelSet, resourceSet)
-			}
-		]
-		
-		val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
-		transformation.initialize(engine, primitiveTypeMapping)
-		transformation.execute
+		try{
+			val resourceSet = new ResourceSetImpl
+			val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
+			
+			ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
+				if (!resource.contents.filter(org.eclipse.uml2.uml.Model).empty) {
+					createMapping(resource, modelSet, resourceSet)
+				}
+			]
+			val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
+			
+			transformation.initialize(engine, primitiveTypeMapping)
+			logger.debug("Initialized UML integration transformation")
+			transformation.execute
+			logger.debug("First execution of UML integration transformation finished")
+		} catch (IncQueryException e) {
+			logger.error("Could not setup UML integration transformation!", e)
+		} catch (IllegalStateException e) {
+			logger.error("Could not setup UML integration transformation!", e)
+		}
 	}
 
 	def createMapping(Resource umlResource, ModelSet modelSet, ResourceSet resourceSet) {
@@ -61,7 +71,9 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val mapping = TraceFactory.eINSTANCE.createRootMapping => [
 			umlRoot = umlResource.contents.filter(org.eclipse.uml2.uml.Model).head
 			xtumlrtRoot = xtumlrtModel
+			logger.debug("Created root mapping for tracing UML model " + umlRoot.qualifiedName)
 		]
+		
 		createResource(umlResource, "trace", mapping, modelSet, resourceSet)
 		
 		mapping
@@ -102,6 +114,8 @@ class ModelSetSnippet implements IModelSetSnippet {
 				primitiveTypeMapping.put(umlType, type)
 			}
 		]
+		
+		logger.debug("Created primitive type mapping")
 
 		primitiveTypeMapping
 	}

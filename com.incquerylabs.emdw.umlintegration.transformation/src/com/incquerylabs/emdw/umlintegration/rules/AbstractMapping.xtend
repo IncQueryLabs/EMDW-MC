@@ -50,7 +50,7 @@ abstract class AbstractMapping<Match extends IPatternMatch> {
 	 */
 	protected def getRootMapping() {
 		val matcher = engine.rootMapping
-		checkState(matcher.countMatches == 1, "Incorrect number of mappings!")
+		checkState(matcher.countMatches == 1, "Incorrect number of mappings! (found " + matcher.countMatches + ")")
 		matcher.oneArbitraryMatch.rootMapping
 	}
 

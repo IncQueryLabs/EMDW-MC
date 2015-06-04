@@ -16,6 +16,16 @@
                </reference>
             </visibleWhen>
          </command>
+         <command
+               commandId="com.incquerylabs.emdw.cpp.ui.toolchain"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="com.incquerylabs.emdw.cpp.ui.umlmodeldef">
+               </reference>
+            </visibleWhen>
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -32,6 +42,18 @@
             </iterate>
          </with>
       </definition>
+      <definition
+            id="com.incquerylabs.emdw.cpp.ui.umlmodeldef">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false">
+               <adapt
+                     type="org.eclipse.uml2.uml.Model">
+               </adapt>
+            </iterate>
+         </with>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -39,6 +61,11 @@
             defaultHandler="com.incquerylabs.emdw.cpp.ui.CPPHandler"
             id="com.incquerylabs.emdw.cpp.ui.generate"
             name="Generate CPP code for selected XTComponent">
+      </command>
+      <command
+            defaultHandler="com.incquerylabs.emdw.cpp.ui.UmlHandler"
+            id="com.incquerylabs.emdw.cpp.ui.toolchain"
+            name="Generate CPP code for selected UML model">
       </command>
    </extension>
 

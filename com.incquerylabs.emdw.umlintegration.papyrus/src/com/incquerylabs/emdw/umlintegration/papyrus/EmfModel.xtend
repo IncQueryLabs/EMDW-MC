@@ -13,6 +13,10 @@ class EmfModel extends AbstractModel {
 	new(Resource resource) {
 		this.resource = resource
 	}
+	
+	def getResource(){
+		resource
+	}
 
 	override saveModel() throws IOException {
 		resource.save(#{})

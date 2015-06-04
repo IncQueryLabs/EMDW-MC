@@ -291,7 +291,35 @@ pattern cppHeaderFileIncludePath(
 	find cppSourceFileGenerationPath(source, target);
 }
 
+@QueryBasedFeature(feature = "cppContainer")
+pattern cppClassRefSimpleCollectionCppContainer(
+	source : CPPClassRefSimpleCollection,
+	target
+) {
+	CPPClassRefSimpleCollection.kind(source, kind);
+	kind == SimpleCollectionKind::INDEXED_ARRAY;
+	target == eval("std::array");
+} or {
+	CPPClassRefSimpleCollection.kind(source, kind);
+	kind == SimpleCollectionKind::SIMPLY_LINKED_LIST;
+	find simplyLinkedListType(target);
+} or {
+	CPPClassRefSimpleCollection.kind(source, kind);
+	kind == SimpleCollectionKind::DOUBLY_LINKED_LIST;
+	target == eval("std::list");
+} or {
+	CPPClassRefSimpleCollection.kind(source, kind);
+	kind == SimpleCollectionKind::DOUBLE_ENDED_QUEUE;
+	target == eval("std::deque");
+}
 
+// this pattern is for selecting between C++03 and C++11 version of the list depending on the target platform
+pattern simplyLinkedListType(
+	cppContainer
+) {
+	// TODO: select between std::list and std::forward_list depending on platform
+	cppContainer == eval("std::list");
+}
 
 pattern cppSequenceType(
 	cppSequence : CPPSequence,

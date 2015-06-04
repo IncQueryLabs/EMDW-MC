@@ -49,10 +49,11 @@ pattern cppQualifiedNamedElementCppPrefix(
 	target
 ) {
 	find cppQualifiedNamedElementParentChild(parent, source);
-	CPPQualifiedNamedElement.cppQualifiedName(parent, target);
+	find cppQualifiedNamedElementCppQualifiedName(parent, parentQN);
+	target == eval(parentQN + "::");
 } or {
 	neg find cppQualifiedNamedElementParentChild(_, source);
-	target == eval("");
+	target == eval("::");
 }
 
 @QueryBasedFeature(feature = "cppQualifiedName")
@@ -61,12 +62,13 @@ pattern cppQualifiedNamedElementCppQualifiedName(
 	target
 ) {
 	find cppQualifiedNamedElementParentChild(parent, source);
-	find cppQualifiedNamedElementCppQualifiedName(parent, prefix);
+	find cppQualifiedNamedElementCppQualifiedName(parent, parentQN);
 	find cppNamedElementCppName(source, name);
-	target == eval(prefix + "::" + name);
+	target == eval(parentQN + "::" + name);
 } or {
 	neg find cppQualifiedNamedElementParentChild(_, source);
-	find cppNamedElementCppName(source, target);
+	find cppNamedElementCppName(source, name);
+	target == eval("::" + name);
 }
 
 pattern cppQualifiedNamedElementParentChild(
@@ -156,67 +158,94 @@ pattern cppSourceFileGenerationName(
 ) {
 	find cppNamedElementCppName(class, cppName);
 	CPPClass.headerFile(class, source);
-	target == eval(cppName + ".hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
 } or {
 	find cppNamedElementCppName(class, cppName);
 	CPPClass.bodyFile(class, source);
-	target == eval(cppName + ".cc");	
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);	
 } or {
 	find cppNamedElementCppName(component, cppName);
 	CPPComponent.mainHeaderFile(component, source);
-	target == eval(cppName + "_main.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_main" + ext);
 } or {
 	find cppNamedElementCppName(component, cppName);
 	CPPComponent.declarationHeaderFile(component, source);
-	target == eval(cppName + "_decl.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_decl" + ext);
 } or {
 	find cppNamedElementCppName(component, cppName);
 	CPPComponent.definitionHeaderFile(component, source);
-	target == eval(cppName +"_def.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName +"_def" + ext);
 } or {
 	find cppNamedElementCppName(component, cppName);
 	CPPComponent.mainBodyFile(component, source);
-	target == eval(cppName+ "_main.cc");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName+ "_main" + ext);
 } or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.declarationHeaderFile(model, source);
-	target == eval(cppName + "_decl.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_decl" + ext);
 } or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.definitionHeaderFile(model, source);
-	target == eval(cppName + "_def.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_def" + ext);
 } or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.apiHeaderFile(model, source);
-	target == eval(cppName + "_api.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_api" + ext);
 } or {
 	find cppNamedElementCppName(pack, cppName);
 	CPPPackage.headerFile(pack, source);
-	target == eval(cppName + ".hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
 } or {
 	find cppNamedElementCppName(pack, cppName);
 	CPPPackage.bodyFile(pack, source);
-	target == eval(cppName + ".cc");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
 } or {
 	find cppNamedElementCppName(port, cppName);
 	CPPPort.headerFile(port, source);
-	target == eval(cppName + ".hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
 } or {
 	find cppNamedElementCppName(port, cppName);
 	CPPPort.externalHeaderFile(port, source);
-	target == eval(cppName + "_impl.hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_impl" + ext);
 } or {
 	find cppNamedElementCppName(port, cppName);
 	CPPPort.bodyFile(port, source);
-	target == eval(cppName + ".cc");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
 } or {
 	find cppNamedElementCppName(port, cppName);
 	CPPPort.externalBodySkeletonFile(port, source);
-	target == eval(cppName + "_impl.cc_skel");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + "_impl" + ext + "_skel");
 } or {
 	find cppNamedElementCppName(protocol, cppName);
 	CPPProtocol.headerFile(protocol, source);
-	target == eval(cppName + ".hh");
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
+}
+
+pattern cppSourceFileExtension(
+	source : CPPSourceFile,
+	ext
+) {
+	CPPHeaderFile(source);
+	ext == eval(".hh");
+} or {
+	CPPBodyFile(source);
+	ext == eval(".cc");
 }
 
 @QueryBasedFeature(feature = "generationDirectory")

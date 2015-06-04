@@ -33,14 +33,23 @@ pattern cppFormalParameterType(
 @QueryBasedFeature(feature = "cppName")
 pattern cppNamedElementCppName(
 	source : CPPNamedElement,
-	target : EString
+	target
 ) {
 	CPPNamedElement.ooplNameProvider(source, provider);
 	OOPLExistingNameProvider.commonNamedElement(provider, element);
-	NamedElement.name(element, target);
+	find namedElementPurifiedName(element, target);
 } or {
 	CPPNamedElement.ooplNameProvider(source, provider);
-	OOPLDerivedNameProvider.name(provider, target);
+	OOPLDerivedNameProvider.name(provider, name);
+	target == eval (name.replace(' ', '_'));
+}
+
+pattern namedElementPurifiedName(
+	namedElement : NamedElement,
+	purifiedName
+) {
+	NamedElement.name(namedElement, name);
+	purifiedName == eval (name.replace(' ', '_'));
 }
 
 @QueryBasedFeature(feature = "cppPrefix")
@@ -53,7 +62,7 @@ pattern cppQualifiedNamedElementCppPrefix(
 	target == eval(parentQN + "::");
 } or {
 	neg find cppQualifiedNamedElementParentChild(_, source);
-	target == eval("::");
+	target == "::";
 }
 
 @QueryBasedFeature(feature = "cppQualifiedName")
@@ -127,7 +136,7 @@ pattern cppDirectoryParentDirectory(
 	CPPDirectory.name(parent, target);
 } or {
 	neg find cppDirectoryParentChild(parent, source);
-	target == eval("");
+	target == "";
 }
 
 @QueryBasedFeature(feature = "path")
@@ -242,10 +251,10 @@ pattern cppSourceFileExtension(
 	ext
 ) {
 	CPPHeaderFile(source);
-	ext == eval(".hh");
+	ext == ".hh";
 } or {
 	CPPBodyFile(source);
-	ext == eval(".cc");
+	ext == ".cc";
 }
 
 @QueryBasedFeature(feature = "generationDirectory")
@@ -298,7 +307,7 @@ pattern cppClassRefSimpleCollectionCppContainer(
 ) {
 	CPPClassRefSimpleCollection.kind(source, kind);
 	kind == SimpleCollectionKind::INDEXED_ARRAY;
-	target == eval("std::array");
+	target == "std::array";
 } or {
 	CPPClassRefSimpleCollection.kind(source, kind);
 	kind == SimpleCollectionKind::SIMPLY_LINKED_LIST;
@@ -306,11 +315,11 @@ pattern cppClassRefSimpleCollectionCppContainer(
 } or {
 	CPPClassRefSimpleCollection.kind(source, kind);
 	kind == SimpleCollectionKind::DOUBLY_LINKED_LIST;
-	target == eval("std::list");
+	target == "std::list";
 } or {
 	CPPClassRefSimpleCollection.kind(source, kind);
 	kind == SimpleCollectionKind::DOUBLE_ENDED_QUEUE;
-	target == eval("std::deque");
+	target == "std::deque";
 }
 
 // this pattern is for selecting between C++03 and C++11 version of the list depending on the target platform
@@ -318,7 +327,7 @@ pattern simplyLinkedListType(
 	cppContainer
 ) {
 	// TODO: select between std::list and std::forward_list depending on platform
-	cppContainer == eval("std::list");
+	cppContainer == "std::list";
 }
 
 pattern cppSequenceType(

@@ -16,6 +16,7 @@ import static com.google.common.base.Preconditions.*
 import java.util.Map
 import org.eclipse.uml2.uml.Type
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 
 class TransformationQrt {
 
@@ -45,20 +46,24 @@ class TransformationQrt {
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing external type mapping.")
-			// TODO extract to method and clean up
-			externalTypeMap.forEach[ umlType, xtumlType |
-				val traces = tracePatterns.getTrace(engine).getAllValuesOftrace(null, umlType, null)
-				if (traces.empty) {
-					val matcher = tracePatterns.getRootMapping(engine)
-					checkState(matcher.countMatches == 1, "Incorrect number of mappings!")
-					val rootMapping = matcher.oneArbitraryMatch.rootMapping
-					TransformationUtil.createTrace(rootMapping, umlType, xtumlType)
-					logger.trace('''Created new trace for «xtumlType»''')
-				} else {
-					traces.head.xtumlrtElements += xtumlType
-					logger.trace('''Added «xtumlType» to existing trace''')
-				}
-			]
+			val matcher = tracePatterns.getRootMapping(engine)
+			if(matcher.countMatches == 1) {
+				val rootMapping = matcher.oneArbitraryMatch.rootMapping
+				// TODO extract to method and clean up
+				externalTypeMap.forEach[ umlType, xtumlType |
+					val traces = tracePatterns.getTrace(engine).getAllValuesOftrace(null, umlType, null)
+					if (traces.empty) {
+						TransformationUtil.createTrace(rootMapping, umlType, xtumlType)
+						logger.trace('''Created new trace for external type «xtumlType»''')
+					} else {
+						traces.head.xtumlrtElements += xtumlType
+						logger.trace('''Added «xtumlType» to existing trace''')
+					}
+				]
+			} else {
+				logger.debug("Incorrect number of mappings, cannot map external types! (found " + matcher.countMatches + ")")
+			}
+			
 			
 			debug("Preparing transformation rules.")
 			val builder = EventDrivenTransformation.forEngine(engine)

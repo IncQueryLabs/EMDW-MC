@@ -45,17 +45,20 @@ class ModelSetSnippet implements IModelSetSnippet {
 			val resourceSet = new ResourceSetImpl
 			val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
 			
+			val mappings = newHashSet()
 			ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
 				if (!resource.contents.filter(org.eclipse.uml2.uml.Model).empty) {
-					createMapping(resource, modelSet, resourceSet)
+					mappings += createMapping(resource, modelSet, resourceSet)
 				}
 			]
-			val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
 			
-			transformation.initialize(engine, primitiveTypeMapping)
-			logger.debug("Initialized UML integration transformation")
-			transformation.execute
-			logger.debug("First execution of UML integration transformation finished")
+			if(mappings.size == 1) {
+				val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
+				transformation.initialize(engine, primitiveTypeMapping)
+				logger.debug("Initialized UML integration transformation")
+				transformation.execute
+				logger.debug("First execution of UML integration transformation finished")
+			}
 		} catch (IncQueryException e) {
 			logger.error("Could not setup UML integration transformation!", e)
 		} catch (IllegalStateException e) {

@@ -6,17 +6,19 @@ import com.incquerylabs.emdw.umlintegration.queries.Structure
 import com.incquerylabs.emdw.umlintegration.queries.Trace
 import com.incquerylabs.emdw.umlintegration.util.PerJobFixedPriorityConflictResolver
 import com.incquerylabs.emdw.umlintegration.util.RuleProvider
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
+import java.util.Map
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.evm.api.Scheduler.ISchedulerFactory
+import org.eclipse.incquery.runtime.evm.specific.Schedulers
+import org.eclipse.uml2.uml.Type
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation
+import org.eclipse.viatra.emf.runtime.transformation.eventdriven.ExecutionSchemaBuilder
 
 import static com.google.common.base.Preconditions.*
-import java.util.Map
-import org.eclipse.uml2.uml.Type
-import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 
 class TransformationQrt {
 
@@ -31,10 +33,10 @@ class TransformationQrt {
 	IncQueryEngine engine
 
 	def initialize(IncQueryEngine engine) {
-		initialize(engine, #{})
+		initialize(engine, Schedulers.getIQEngineSchedulerFactory(engine), #{})
 	}
 
-	def initialize(IncQueryEngine engine, Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> externalTypeMap) {
+	def initialize(IncQueryEngine engine, ISchedulerFactory schedulerFactory, Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> externalTypeMap) {
 		checkArgument(engine != null, "Engine cannot be null!")
 		if (!initialized) {
 			this.engine = engine
@@ -66,14 +68,21 @@ class TransformationQrt {
 			
 			
 			debug("Preparing transformation rules.")
-			val builder = EventDrivenTransformation.forEngine(engine)
+			val transformationBuilder = EventDrivenTransformation.forEngine(engine)
 			ruleProvider = new RuleProvider(engine)
 			initRules
 			val fixedPriorityResolver = new PerJobFixedPriorityConflictResolver
 			fixedPriorityResolver.setPriorities
-			builder.setConflictResolver(fixedPriorityResolver)
-			builder.addRules
-			transform = builder.build
+			
+			val executionSchemaBuilder = new ExecutionSchemaBuilder();
+			executionSchemaBuilder.engine = engine
+			executionSchemaBuilder.scheduler = schedulerFactory
+			executionSchemaBuilder.conflictResolver = fixedPriorityResolver
+			val executionSchema = executionSchemaBuilder.build
+			
+			transformationBuilder.schema = executionSchema
+			transformationBuilder.addRules
+			transform = transformationBuilder.build
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true

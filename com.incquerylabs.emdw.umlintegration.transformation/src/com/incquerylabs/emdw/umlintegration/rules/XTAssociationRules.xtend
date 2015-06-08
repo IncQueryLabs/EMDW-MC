@@ -41,7 +41,7 @@ class XTAssociationMapping extends AbstractObjectMapping<XtAssociationMatch, Pro
 	}
 
 	override getUmlObject(XtAssociationMatch match) {
-		match.sourceEnd
+		match.targetEnd
 	}
 
 	override createXtumlrtObject() {

@@ -35,9 +35,10 @@ class XTAssociationMappingTest extends TransformationTest<Property, XTAssociatio
 		val association = model.createAssociation(sourceClass, targetClass)
 		
 		val associationSourceEnd = association.memberEnds.filter[it.type == sourceClass].head
+		val associationTargetEnd = association.memberEnds.filter[it.type == targetClass].head
 		associationSourceEnd.setMultiplicity(0, -1)
 		
-		associationSourceEnd
+		associationTargetEnd
 	}
 
 	override protected getXtumlrtObjects(Model xtumlrtRoot) {

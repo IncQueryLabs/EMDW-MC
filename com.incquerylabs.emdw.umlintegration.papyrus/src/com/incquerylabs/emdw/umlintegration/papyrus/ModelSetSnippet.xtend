@@ -22,6 +22,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.incquery.runtime.exception.IncQueryException
+import org.eclipse.incquery.runtime.evm.specific.TransactionalSchedulers
 
 class ModelSetSnippet implements IModelSetSnippet {
 
@@ -54,7 +55,10 @@ class ModelSetSnippet implements IModelSetSnippet {
 			
 			if(mappings.size == 1) {
 				val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
-				transformation.initialize(engine, primitiveTypeMapping)
+				
+				val domain = modelSet.transactionalEditingDomain
+				val schedulerFactory = TransactionalSchedulers.getTransactionSchedulerFactory(domain)
+				transformation.initialize(engine, schedulerFactory, primitiveTypeMapping)
 				logger.debug("Initialized UML integration transformation")
 				transformation.execute
 				logger.debug("First execution of UML integration transformation finished")

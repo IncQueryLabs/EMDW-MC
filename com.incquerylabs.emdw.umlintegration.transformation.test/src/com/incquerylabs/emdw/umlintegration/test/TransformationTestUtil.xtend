@@ -321,5 +321,10 @@ class TransformationTestUtil {
 		assertEquals("Transition source vertex", sourceVertex, xtumlrtObject.sourceVertex)
 		assertEquals("Transition target vertex", targetVertex, xtumlrtObject.targetVertex)
 	}
+	
+	static def setMultiplicity(org.eclipse.uml2.uml.MultiplicityElement multiplicityElement, int lower, int upper){
+		multiplicityElement.lower = lower
+		multiplicityElement.upper = upper
+	}
 
 }

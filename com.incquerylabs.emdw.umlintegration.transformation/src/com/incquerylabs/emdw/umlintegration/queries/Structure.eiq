@@ -128,6 +128,13 @@ pattern attribute(umlClass: Class, property: Property) {
 	Class.ownedAttribute(umlClass, property);
 }
 
+// MultiplicityElement
+
+pattern multiplicityElement(multiplicityElement: MultiplicityElement, lowerValue: ValueSpecification, upperValue: ValueSpecification) {
+	MultiplicityElement.lowerValue(multiplicityElement, lowerValue);
+	MultiplicityElement.upperValue(multiplicityElement, upperValue);
+}
+
 // Parameter
 
 pattern parameter(parameter) {

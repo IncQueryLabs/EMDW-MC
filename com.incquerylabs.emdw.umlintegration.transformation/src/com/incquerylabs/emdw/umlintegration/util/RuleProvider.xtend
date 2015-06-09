@@ -17,6 +17,7 @@ import com.incquerylabs.emdw.umlintegration.rules.ExitPointRules
 import com.incquerylabs.emdw.umlintegration.rules.GuardRules
 import com.incquerylabs.emdw.umlintegration.rules.InitialPointRules
 import com.incquerylabs.emdw.umlintegration.rules.JunctionPointRules
+import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementRules
 import com.incquerylabs.emdw.umlintegration.rules.OperationRules
 import com.incquerylabs.emdw.umlintegration.rules.ParameterRules
 import com.incquerylabs.emdw.umlintegration.rules.PrimitiveTypeRules
@@ -34,7 +35,6 @@ import com.incquerylabs.emdw.umlintegration.rules.XTEventTriggerRules
 import com.incquerylabs.emdw.umlintegration.rules.XTGeneralizationRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPackageRules
 import com.incquerylabs.emdw.umlintegration.rules.XTPortRules
-import com.incquerylabs.emdw.umlintegration.rules.XTSignalEventRules
 import java.util.Collections
 import java.util.Comparator
 import java.util.Map
@@ -48,8 +48,9 @@ import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLife
 import org.eclipse.incquery.runtime.evm.specific.resolver.FixedPriorityConflictResolver
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
-import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
+import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementMapping
+import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -84,6 +85,7 @@ class RuleProvider {
 		GuardRules.getRules(engine).initRules
 		InitialPointRules.getRules(engine).initRules
 		JunctionPointRules.getRules(engine).initRules
+		MultiplicityElementRules.getRules(engine).initRules
 		OperationRules.getRules(engine).initRules
 		ParameterRules.getRules(engine).initRules
 		PrimitiveTypeRules.getRules(engine).initRules
@@ -174,6 +176,16 @@ class RuleProvider {
 			rule.appeared(match)
 		].action(IncQueryActivationStateEnum.DISAPPEARED) [ match |
 			rule.disappeared(match)
+		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
+		rulemap.put(eventDrivenRule, rule);
+	}
+	
+	private def dispatch initRule(MultiplicityElementMapping rule) {
+		val eventDrivenRule = createRule.precondition(rule.querySpecification as IQuerySpecification<IncQueryMatcher<IPatternMatch>>).action(
+			IncQueryActivationStateEnum.APPEARED) [ match |
+			rule.appeared(match as MultiplicityElementMatch)
+		].action(IncQueryActivationStateEnum.UPDATED) [ match |
+			rule.updated(match as MultiplicityElementMatch)
 		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
 		rulemap.put(eventDrivenRule, rule);
 	}

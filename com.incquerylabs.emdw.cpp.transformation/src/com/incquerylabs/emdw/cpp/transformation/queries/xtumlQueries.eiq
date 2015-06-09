@@ -277,3 +277,15 @@ pattern cppClassStateMachineEvents(
 	Transition.triggers(transition, trigger);
 	XTEventTrigger.signal(trigger, event);
 }
+
+pattern cppClassAssociations(
+	xtClass: XTClass,
+	cppClass: CPPClass,
+	cppTargetClass: CPPClass,
+	association: XTAssociation
+) {
+	find cppClasses(xtClass, cppClass);
+	XTClass.relations(xtClass, association);
+	XTAssociation.target(association, xtTargetClass);
+	find cppClasses(xtTargetClass, cppTargetClass);
+}

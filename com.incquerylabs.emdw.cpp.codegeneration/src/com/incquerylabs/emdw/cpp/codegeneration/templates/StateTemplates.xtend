@@ -193,10 +193,12 @@ class StateTemplates {
 		// separate transitions with trigger and without trigger		
 		compositeState.transitions.filter[sourceVertex == commonState].forEach[transition |
 			val match = cppTransitionInfoMatcher.getOneArbitraryMatch(null, transition, cppState, null)
-			if(transition.triggers.empty){
-				transitionsWithNoTrigger += match
-			} else {
-				transitionsWithTrigger += match
+			if(match != null){
+				if(transition.triggers.empty){
+					transitionsWithNoTrigger += match
+				} else {
+					transitionsWithTrigger += match
+				}
 			}
 		]
 		

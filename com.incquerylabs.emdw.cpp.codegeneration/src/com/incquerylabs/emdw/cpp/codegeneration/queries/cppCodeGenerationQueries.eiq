@@ -22,6 +22,14 @@ pattern cppClassAttributes(
 	Attribute.visibility(attribute, visibility);
 }
 
+pattern cppClassClassReferenceStorages(
+	cppClass : CPPClass,
+	cppClassReferenceStorage : CPPClassReferenceStorage
+) {
+	CPPClass.subElements(cppClass, cppRelation);
+	find cppRelationReferenceStorage(cppRelation, cppClassReferenceStorage);
+}
+
 pattern cppClassOperations(
 	cppClass : CPPClass,
 	cppOperation : CPPOperation,
@@ -31,6 +39,14 @@ pattern cppClassOperations(
 	CPPOperation.commonOperation(cppOperation, operation);
 	Operation.visibility(operation, visibility);
 }
+
+pattern cppRelationReferenceStorage(
+	cppRelation: CPPRelation,
+	cppReferenceStorage: CPPClassReferenceStorage
+){
+	CPPRelation.referenceStorage(cppRelation, cppReferenceStorage);
+}
+
 
 pattern classStateMachine(
 	xtClass : XTClass,

@@ -9,6 +9,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 
 class ClassTemplates {
 	
@@ -21,6 +22,7 @@ class ClassTemplates {
 
 	OperationTemplates operationTemplates 
 	AttributeTemplates attributeTemplates
+	AssociationTemplates associationTemplates
 	StateTemplates stateTemplates 
 	EventTemplates eventTemplates
 	ActionCodeTemplates actionCodeTemplates
@@ -32,6 +34,7 @@ class ClassTemplates {
 		
 		operationTemplates = new OperationTemplates(engine)
 		attributeTemplates = new AttributeTemplates(engine)
+		associationTemplates = new AssociationTemplates(engine)
 		stateTemplates = new StateTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
@@ -108,6 +111,7 @@ class ClassTemplates {
 		}
 		
 		«attributesInClassHeader(cppClass, VisibilityKind.PRIVATE)»
+		«associationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
@@ -127,6 +131,19 @@ class ClassTemplates {
 		«FOR attribute : cppClass.subElements.filter(CPPAttribute).sortBy[commonAttribute.name]»
 			«IF cppAttrMatcher.hasMatch(cppClass, attribute, visibility)»
 				«attributeTemplates.attributeDeclarationInClassHeader(attribute)»
+			«ENDIF»
+		«ENDFOR»
+		'''
+	}
+	
+	def associationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+		val cppAssocMatcher = codeGenQueries.getCppClassClassReferenceStorages(engine)
+		
+		'''
+		// Associations
+		«FOR association : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[type.commonType.name]»
+			«IF cppAssocMatcher.hasMatch(cppClass, association)»
+				«associationTemplates.associationDeclarationInClassHeader(association)»
 			«ENDIF»
 		«ENDFOR»
 		'''

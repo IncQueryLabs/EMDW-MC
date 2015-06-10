@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.incquerylabs.emdw</groupId>
+	<artifactId>com.incquerylabs.emdw</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<!-- Metamodels -->
+		<module>../com.ericsson.xtumlrt.oopl.model</module>
+		<module>../com.ericsson.xtumlrt.oopl.cpp.model</module>
+		<module>../com.ericsson.xtumlrt.oopl.java.model</module>
+		
+		<!-- UML integration -->
+		<module>../com.incquerylabs.emdw.umlintegration.trace</module>
+		<module>../com.incquerylabs.emdw.umlintegration.transformation</module>
+		<module>../com.incquerylabs.emdw.umlintegration.transformation.test</module>
+		<module>../com.incquerylabs.emdw.umlintegration.papyrus</module>
+
+		<!-- XTUML-CPP transformation -->
+		<module>../com.incquerylabs.emdw.cpp.transformation</module>
+		<!-- Ignored tests because they are incomplete and failing
+		<module>../com.incquerylabs.emdw.cpp.transformation.test</module>
+		-->
+		
+		<!-- CPP code generation -->
+		<module>../com.incquerylabs.emdw.cpp.codegeneration</module>
+		<module>../com.incquerylabs.emdw.cpp.ui</module>
+		<!-- Ignored tests because they are incomplete and failing
+		<module>../com.incquerylabs.emdw.cpp.codegeneration.test</module>
+		-->
+		
+		
+		<!--  Releng -->
+		<module>../releng/com.ericsson.xtumlrt.oopl.metamodels.feature</module>
+		<module>../releng/com.incquerylabs.emdw.cpp.generator.feature</module>
+		<module>../releng/com.incquerylabs.emdw.papyrus.feature</module>
+		<module>../releng/com.incquerylabs.emdw.update</module>
+		
+	</modules>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<tycho.version>0.21.0</tycho.version>
+		<luna-repo.url>http://download.eclipse.org/releases/luna</luna-repo.url>
+		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
+		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
+		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
+		<xtumlrt.repository.url>https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-metamodels-maven/lastSuccessfulBuild/artifact/org.eclipse.papyrusrt.xtumlrt.releng/target/repository</xtumlrt.repository.url>
+		<org.eclipse.papyrusrt.version>0.5.0-SNAPSHOT</org.eclipse.papyrusrt.version>
+	</properties>
+	<repositories>
+		<repository>
+			<id>luna</id>
+			<url>${luna-repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>papyrus</id>
+			<url>${papyrus-repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>emf-incquery</id>
+			<url>${incquery.repository.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>viatra.update</id>
+			<layout>p2</layout>
+			<url>${viatra.repository.url}</url>
+		</repository>
+		<repository>
+			<id>xtumlrt.update</id>
+			<layout>p2</layout>
+			<url>${xtumlrt.repository.url}</url>
+		</repository>
+		<repository>
+			<id>xtext</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
+		</repository>
+	</repositories>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.xtend</groupId>
+					<artifactId>xtend-maven-plugin</artifactId>
+					<version>2.8.0</version>
+					<executions>
+						<execution>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>compile</goal>
+								<goal>testCompile</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/xtend-gen</outputDirectory>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>

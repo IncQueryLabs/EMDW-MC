@@ -15,11 +15,13 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import com.ericsson.xtumlrt.oopl.OoplFactory
 
 class CodeGenerator {
 		
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	def generateCodeFromXtComponents(Iterable<XTComponent> xtComponents) {
 		xtComponents.forEach[ xtComponent |
@@ -75,9 +77,17 @@ class CodeGenerator {
 		var CPPModel cppModel = null
 		if(modelMatcher.hasMatch(xtmodel, null)){
 			cppModel = modelMatcher.getOneArbitraryMatch(xtmodel, null).cppModel
+			if (cppModel.ooplNameProvider == null) {
+				cppModel.ooplNameProvider = createOOPLExistingNameProvider => [
+					commonNamedElement = xtmodel
+				]
+			}
 		} else {
 			cppModel = createCPPModel => [
 				commonModel = xtmodel
+				ooplNameProvider = createOOPLExistingNameProvider => [
+					commonNamedElement = xtmodel
+				]
 			]
 			
 			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension

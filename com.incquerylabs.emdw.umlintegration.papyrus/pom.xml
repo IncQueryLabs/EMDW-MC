@@ -6,6 +6,7 @@
 	<parent>
 		<groupId>com.incquerylabs.emdw</groupId>
 		<artifactId>com.incquerylabs.emdw</artifactId>
+		<relativePath>../releng/com.incquerylabs.emdw.parent</relativePath>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>com.incquerylabs.emdw.umlintegration.papyrus</artifactId>

@@ -44,7 +44,7 @@
 		<module>../com.incquerylabs.emdw.update</module>
 		
 		<!-- Maven plugins -->
-		<module>../maven/emdw-metamodels</module>
+		<module>../../maven/emdw-metamodels</module>
 		
 	</modules>
 

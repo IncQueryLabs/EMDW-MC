@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<common:Model
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common"
+    name="UMLPrimitiveTypes"
+    description="">
+  <packages
+      name="PrimitiveTypes"
+      description="">
+    <typedefinitions
+        name="">
+      <type
+          xsi:type="common:PrimitiveType"
+          name="Boolean"/>
+    </typedefinitions>
+    <typedefinitions
+        name="">
+      <type
+          xsi:type="common:PrimitiveType"
+          name="Integer"/>
+    </typedefinitions>
+    <typedefinitions
+        name="">
+      <type
+          xsi:type="common:PrimitiveType"
+          name="Real"/>
+    </typedefinitions>
+    <typedefinitions>
+      <type
+          xsi:type="common:PrimitiveType"
+          name="String"/>
+    </typedefinitions>
+    <typedefinitions>
+      <type
+          xsi:type="common:PrimitiveType"
+          name="Void"/>
+    </typedefinitions>
+  </packages>
+</common:Model>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="xtuml" nsURI="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+    nsPrefix="xtuml">
+  <eClassifiers xsi:type="ecore:EClass" name="XTClass" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Entity">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relations" upperBound="-1"
+        eType="#//XTRelation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
+        eType="#//XTEvent" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTGeneralization" eSuperTypes="#//XTRelation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="super" eType="#//XTClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sub" eType="#//XTClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTRelation" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//MultiplicityElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTAssociation" eSuperTypes="#//XTRelation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="#//XTAssociation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" eType="#//XTClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//XTClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTAssociationClass" eSuperTypes="#//XTAssociation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="associationClass" lowerBound="1"
+        eType="#//XTClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTEvent" abstract="true" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTClassEvent" eSuperTypes="#//XTEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTProtocol" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Protocol"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTEventTrigger" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Trigger">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signal" eType="#//XTEvent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTPolimorphicEvent" eSuperTypes="#//XTClassEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="definingEvent" eType="#//XTClassEvent"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTSignalEvent" eSuperTypes="#//XTEvent #//XTSignalRealization"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTProtocolOperationDefinition" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//OperationSignature ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//ProtocolBehaviourFeature"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTProtocolOperationImplementation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implements" eType="#//XTProtocolOperationDefinition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocolOperationImplementationAction"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//ActionCode"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTSignalRealization" abstract="true">
+    <eAnnotations source="http://www.obeo.fr/dsl/dnc/archetype">
+      <details key="archetype" value="Description"/>
+    </eAnnotations>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementedSignal" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Signal"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="port" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Port"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTSignalImplementation" eSuperTypes="#//XTSignalRealization">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="signalImplementationAction"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//ActionCode"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTPort" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Port">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizedOperations" upperBound="-1"
+        eType="#//XTProtocolOperationImplementation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="realizedSignal" upperBound="-1"
+        eType="#//XTSignalImplementation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTComponent" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Capsule ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//EntityContainer"/>
+</ecore:EPackage>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model/src"
+    editDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit/src" editorDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor/src"
+    modelPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model" modelName="xtuml" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
+    editPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit" editorPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor"
+    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>xtuml.ecore</foreignModel>
+  <genPackages prefix="Xtuml" basePackage="org.eclipse.papyrusrt.xtumlrt" disposableProviderFactory="true"
+      ecorePackage="xtuml.ecore#/">
+    <genClasses ecoreClass="xtuml.ecore#//XTClass">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClass/relations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClass/events"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTGeneralization">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTGeneralization/super"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTGeneralization/sub"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTRelation"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTAssociation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAssociation/opposite"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAssociation/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAssociation/target"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTAssociationClass">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAssociationClass/associationClass"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xtuml.ecore#//XTEvent"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTClassEvent"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTProtocol"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTEventTrigger">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTEventTrigger/signal"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTPolimorphicEvent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTPolimorphicEvent/definingEvent"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTSignalEvent"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTProtocolOperationDefinition"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTProtocolOperationImplementation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTProtocolOperationImplementation/implements"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTProtocolOperationImplementation/protocolOperationImplementationAction"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="xtuml.ecore#//XTSignalRealization">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTSignalRealization/implementedSignal"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTSignalRealization/port"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTSignalImplementation">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTSignalImplementation/signalImplementationAction"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTPort">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTPort/realizedOperations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTPort/realizedSignal"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTComponent"/>
+  </genPackages>
+</genmodel:GenModel>

@@ -9,5 +9,8 @@
    <feature url="features/com.incquerylabs.emdw.cpp.generator.feature_1.0.0.qualifier.jar" id="com.incquerylabs.emdw.cpp.generator.feature" version="1.0.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>
+   <feature url="features/org.eclipse.papyrusrt.xtumlrt-feature_1.0.0.qualifier.jar" id="org.eclipse.papyrusrt.xtumlrt-feature" version="1.0.0.qualifier">
+      <category name="com.incquerylabs.emdw.update"/>
+   </feature>
    <category-def name="com.incquerylabs.emdw.update" label="EMDW"/>
 </site>

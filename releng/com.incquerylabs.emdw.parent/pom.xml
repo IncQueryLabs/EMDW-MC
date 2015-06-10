@@ -10,6 +10,8 @@
 
 	<modules>
 		<!-- Metamodels -->
+		<module>../../org.eclipse.papyrusrt.xtumlrt.common.model</module>
+		<module>../../org.eclipse.papyrusrt.xtumlrt.xtuml.model</module>
 		<module>../../com.ericsson.xtumlrt.oopl.model</module>
 		<module>../../com.ericsson.xtumlrt.oopl.cpp.model</module>
 		<module>../../com.ericsson.xtumlrt.oopl.java.model</module>
@@ -35,6 +37,7 @@
 		
 		
 		<!--  Releng -->
+		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
 		<module>../com.incquerylabs.emdw.papyrus.feature</module>
@@ -49,8 +52,7 @@
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
-		<xtumlrt.repository.url>https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-metamodels-maven/lastSuccessfulBuild/artifact/org.eclipse.papyrusrt.xtumlrt.releng/target/repository</xtumlrt.repository.url>
-		<org.eclipse.papyrusrt.version>0.5.0-SNAPSHOT</org.eclipse.papyrusrt.version>
+		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 	</properties>
 	<repositories>
 		<repository>
@@ -72,11 +74,6 @@
 			<id>viatra.update</id>
 			<layout>p2</layout>
 			<url>${viatra.repository.url}</url>
-		</repository>
-		<repository>
-			<id>xtumlrt.update</id>
-			<layout>p2</layout>
-			<url>${xtumlrt.repository.url}</url>
 		</repository>
 		<repository>
 			<id>xtext</id>

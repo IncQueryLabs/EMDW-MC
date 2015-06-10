@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated xtuml -->
+      <package
+            uri="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+            class="org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage"
+            genModel="model/xtuml.genmodel"/>
+   </extension>
+
+</plugin>

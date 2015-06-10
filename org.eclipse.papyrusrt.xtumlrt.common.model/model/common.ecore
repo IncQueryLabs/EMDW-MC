@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="common" nsURI="http://www.eclipse.org/papyrusrt/xtumlrt/common"
+    nsPrefix="common">
+  <eClassifiers xsi:type="ecore:EClass" name="ActionChain" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
+        eType="#//ActionCode" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCode" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Annotation" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//AnnotationParameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnnotationParameter" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//MultiplicityElement #//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//VisibilityKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Capsule" eSuperTypes="#//Entity #//RedefinableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parts" upperBound="-1"
+        eType="#//CapsulePart" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ports" upperBound="-1"
+        eType="#//Port" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connectors" upperBound="-1"
+        eType="#//Connector" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="CapsuleKind">
+    <eLiterals name="FIXED" literal="FIXED"/>
+    <eLiterals name="OPTIONAL" value="1"/>
+    <eLiterals name="PLUGIN" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CapsulePart" eSuperTypes="#//RedefinableElement #//MultiplicityElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Capsule"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//CapsuleKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ChoicePoint" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeState" eSuperTypes="#//State">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="initial" eType="#//InitialPoint"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="deepHistory" eType="#//DeepHistory"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="junctionPoints" upperBound="-1"
+        eType="#//JunctionPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="choicePoints" upperBound="-1"
+        eType="#//ChoicePoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="substates" upperBound="-1"
+        eType="#//State" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="transitions" upperBound="-1"
+        eType="#//Transition" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="vertices" upperBound="-1"
+        eType="#//Vertex" derived="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="terminatepoint" eType="#//TerminatePoint"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Connector" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ends" lowerBound="2" upperBound="2"
+        eType="#//ConnectorEnd" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectorEnd">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="role" lowerBound="1" eType="#//Port"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="partWithPort" eType="#//CapsulePart"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DeepHistory" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EEnum" name="DirectionKind">
+    <eLiterals name="IN"/>
+    <eLiterals name="OUT" value="1"/>
+    <eLiterals name="IN_OUT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Entity" abstract="true" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
+        eType="#//Operation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="behaviour" eType="#//StateMachine"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntryPoint" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExitPoint" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Guard" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//ActionCode"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InitialPoint" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="JunctionPoint" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElement #//ProtocolContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="localScopeTemporaryTypes"
+        upperBound="-1" eType="#//Type" containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Validation: only non-Entity Types can be stored in this EReference"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MultiplicityElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+        eType="#//Annotation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//OperationSignature #//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//ActionCode"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OperationSignature" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="returnType" lowerBound="1"
+        eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//VisibilityKind"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//NamedElement #//ProtocolContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="typedefinitions" upperBound="-1"
+        eType="#//TypeDefinition" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//MultiplicityElement #//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" eType="#//DirectionKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Port" eSuperTypes="#//RedefinableElement #//MultiplicityElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="conjugate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Protocol"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//VisibilityKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PrimitiveType" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Protocol" eSuperTypes="#//RedefinableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocolBehaviourFeatures"
+        upperBound="-1" eType="#//ProtocolBehaviourFeature" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ProtocolBehaviourFeature" abstract="true"
+      eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" eType="#//ProtocolBehaviourFeatureKind"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="ProtocolBehaviourFeatureKind">
+    <eLiterals name="IN"/>
+    <eLiterals name="OUT" value="1"/>
+    <eLiterals name="INOUT" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pseudostate" abstract="true" eSuperTypes="#//Vertex"/>
+  <eClassifiers xsi:type="ecore:EClass" name="RedefinableElement" abstract="true"
+      eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="redefines" eType="#//RedefinableElement"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Signal" eSuperTypes="#//ProtocolBehaviourFeature">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
+        eType="#//Parameter" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleState" eSuperTypes="#//State"/>
+  <eClassifiers xsi:type="ecore:EClass" name="State" abstract="true" eSuperTypes="#//Vertex #//RedefinableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entryAction" eType="#//ActionCode"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exitAction" eType="#//ActionCode"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exitPoints" upperBound="-1"
+        eType="#//ExitPoint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entryPoints" upperBound="-1"
+        eType="#//EntryPoint" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StateMachine" eSuperTypes="#//RedefinableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="top" lowerBound="1" eType="#//CompositeState"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StructMember">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="StructType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="structMembers" upperBound="-1"
+        eType="#//StructMember" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//RedefinableElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sourceVertex" lowerBound="1"
+        eType="#//Vertex" eOpposite="#//Vertex/outgoingTransitions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="targetVertex" lowerBound="1"
+        eType="#//Vertex" eOpposite="#//Vertex/incomingTransitions"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="triggers" upperBound="-1"
+        eType="#//Trigger" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//Guard"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="actionChain" eType="#//ActionChain"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Trigger" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" interface="true"
+      eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeDefinition" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Vertex" abstract="true" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="incomingTransitions" upperBound="-1"
+        eType="#//Transition" eOpposite="#//Transition/targetVertex"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outgoingTransitions" upperBound="-1"
+        eType="#//Transition" eOpposite="#//Transition/sourceVertex"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="VisibilityKind">
+    <eLiterals name="PUBLIC"/>
+    <eLiterals name="PROTECTED" value="1"/>
+    <eLiterals name="PRIVATE" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EntityContainer" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
+        eType="#//Package" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+        eType="#//Entity" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TerminatePoint" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Enumeration" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="literals" upperBound="-1"
+        eType="#//EnumerationLiteral" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="defaultValue" eType="#//EnumerationLiteral"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EnumerationLiteral" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UserDefinedType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
+        eType="#//TypeConstraint" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" eType="#//Type">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="Validation: The reference can only point to PrimitiveTypes and other UserDefinedTypes."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ExternalType" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="TypeConstraint"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ProtocolContainer" abstract="true" eSuperTypes="#//EntityContainer">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="protocols" upperBound="-1"
+        eType="#//Protocol" containment="true"/>
+  </eClassifiers>
+</ecore:EPackage>

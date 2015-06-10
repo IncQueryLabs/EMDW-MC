@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.incquerylabs.emdw</artifactId>
+		<relativePath>../releng/com.incquerylabs.emdw.parent</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+  <artifactId>emdw-metamodels</artifactId>
+  <name>EMDW Model Compiler related metamodels</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.eclipse.papyrusrt</groupId>
+  		<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.eclipse.papyrusrt</groupId>
+  		<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+		<version>${project.version</version>
+	</dependency>
+	<dependency>
+		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.ericsson.xtumlrt.oopl.cpp.model</artifactId>
+		<version>${project.version</version>
+	</dependency>
+  </dependencies>
+</project>

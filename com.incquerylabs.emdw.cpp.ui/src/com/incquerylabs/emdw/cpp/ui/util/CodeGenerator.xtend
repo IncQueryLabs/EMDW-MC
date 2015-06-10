@@ -41,7 +41,8 @@ class CodeGenerator {
 			loadCPPBasicTypes(xtResourceSet)
 	
 			// Create the CPPComponent with its directories if it does not exist
-			// The incremental part of the m2m transformation should provide the cppComponent in the future
+			// The incremental part of the m2m transformation should provide 
+			// the cppComponent (and its name provider) in the future
 			if(!cppComponentMatcher.hasMatch(xtComponent, null)){
 				val componentHeaderDir = cppFactory.createCPPDirectory
 				cppResource.contents += componentHeaderDir
@@ -51,8 +52,18 @@ class CodeGenerator {
 					it.xtComponent = xtComponent
 					it.headerDirectory = componentHeaderDir
 					it.bodyDirectory = componentBodyDir
+					it.ooplNameProvider = createOOPLExistingNameProvider => [
+						commonNamedElement = xtComponent
+					]
 				]
 				cppModel.subElements += cppComponent
+			} else {
+				val cppComponent = cppComponentMatcher.getAllValuesOfcppComponent(xtComponent).head
+				if (cppComponent.ooplNameProvider == null) {
+					cppComponent.ooplNameProvider = createOOPLExistingNameProvider => [
+						commonNamedElement = xtComponent
+					]
+				}
 			}
 			
 			Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.DEBUG

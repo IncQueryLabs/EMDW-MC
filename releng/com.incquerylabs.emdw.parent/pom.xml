@@ -10,35 +10,35 @@
 
 	<modules>
 		<!-- Metamodels -->
-		<module>../com.ericsson.xtumlrt.oopl.model</module>
-		<module>../com.ericsson.xtumlrt.oopl.cpp.model</module>
-		<module>../com.ericsson.xtumlrt.oopl.java.model</module>
+		<module>../../com.ericsson.xtumlrt.oopl.model</module>
+		<module>../../com.ericsson.xtumlrt.oopl.cpp.model</module>
+		<module>../../com.ericsson.xtumlrt.oopl.java.model</module>
 		
 		<!-- UML integration -->
-		<module>../com.incquerylabs.emdw.umlintegration.trace</module>
-		<module>../com.incquerylabs.emdw.umlintegration.transformation</module>
-		<module>../com.incquerylabs.emdw.umlintegration.transformation.test</module>
-		<module>../com.incquerylabs.emdw.umlintegration.papyrus</module>
+		<module>../../com.incquerylabs.emdw.umlintegration.trace</module>
+		<module>../../com.incquerylabs.emdw.umlintegration.transformation</module>
+		<module>../../com.incquerylabs.emdw.umlintegration.transformation.test</module>
+		<module>../../com.incquerylabs.emdw.umlintegration.papyrus</module>
 
 		<!-- XTUML-CPP transformation -->
-		<module>../com.incquerylabs.emdw.cpp.transformation</module>
+		<module>../../com.incquerylabs.emdw.cpp.transformation</module>
 		<!-- Ignored tests because they are incomplete and failing
-		<module>../com.incquerylabs.emdw.cpp.transformation.test</module>
+		<module>../../com.incquerylabs.emdw.cpp.transformation.test</module>
 		-->
 		
 		<!-- CPP code generation -->
-		<module>../com.incquerylabs.emdw.cpp.codegeneration</module>
-		<module>../com.incquerylabs.emdw.cpp.ui</module>
+		<module>../../com.incquerylabs.emdw.cpp.codegeneration</module>
+		<module>../../com.incquerylabs.emdw.cpp.ui</module>
 		<!-- Ignored tests because they are incomplete and failing
-		<module>../com.incquerylabs.emdw.cpp.codegeneration.test</module>
+		<module>../../com.incquerylabs.emdw.cpp.codegeneration.test</module>
 		-->
 		
 		
 		<!--  Releng -->
-		<module>../releng/com.ericsson.xtumlrt.oopl.metamodels.feature</module>
-		<module>../releng/com.incquerylabs.emdw.cpp.generator.feature</module>
-		<module>../releng/com.incquerylabs.emdw.papyrus.feature</module>
-		<module>../releng/com.incquerylabs.emdw.update</module>
+		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
+		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
+		<module>../com.incquerylabs.emdw.papyrus.feature</module>
+		<module>../com.incquerylabs.emdw.update</module>
 		
 	</modules>
 

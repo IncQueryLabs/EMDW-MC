@@ -57,6 +57,7 @@
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 	</properties>
+	
 	<repositories>
 		<repository>
 			<id>luna</id>
@@ -84,6 +85,20 @@
 			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
 		</repository>
 	</repositories>
+	
+	<distributionManagement>
+		<repository>
+			<id>nexus</id>
+			<name>EMDW Project Repository - Releases</name>
+			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>EMDW Project Repository - Snapshots</name>
+			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 	<build>
 		<plugins>
 			<plugin>

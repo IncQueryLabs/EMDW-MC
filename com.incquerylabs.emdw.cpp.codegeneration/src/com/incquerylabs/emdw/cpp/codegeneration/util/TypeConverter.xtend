@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.util
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
@@ -11,15 +12,19 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 class TypeConverter {
 	
 	def dispatch String convertType(CPPClassReference classReference){
-		return '''«classReference.cppQualifiedName»*'''
+		return '''«convertType(classReference.class_)»*'''
 	}
 	
 	def dispatch String convertType(CPPClassRefSimpleCollection classReferenceSimpleCollection){
-		return '''«classReferenceSimpleCollection.cppContainer»< «classReferenceSimpleCollection.cppQualifiedName»* >'''
+		return '''«classReferenceSimpleCollection.cppContainer»< «convertType(classReferenceSimpleCollection.class_)»* >'''
 	}
 	
 	def dispatch String convertType(OOPLType type) {
 		return convertType(type.commonType)
+	}
+	
+	def dispatch String convertType(CPPClass ^class) {
+		return ^class.cppQualifiedName
 	}
 	
 	def dispatch String convertType(CPPSequence sequence) {

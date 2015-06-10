@@ -6,10 +6,10 @@ import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
 
 class CPPTemplates {
 	
-	public static val GENERATE_TRACING_CODE = true
+	public static boolean GENERATE_TRACING_CODE = true
 	
 	// TODO @Inject
-	val generateTracingCode = GENERATE_TRACING_CODE
+	boolean generateTracingCode = GENERATE_TRACING_CODE
 	val IncQueryEngine engine
 	val ClassTemplates classTemplates
 	val TypeIdentifierGenerator typeIdGenerator

@@ -25,7 +25,7 @@ class AttributeTemplates {
 	def attributeDeclarationInClassHeader(CPPAttribute attribute) {
 		val commonAttr = attribute.commonAttribute
 		'''
-		«IF commonAttr.static»static «ENDIF»«generateCPPAttributeType(attribute)» «commonAttr.name»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
+		«IF commonAttr.static»static «ENDIF»«generateCPPAttributeType(attribute)» «attribute.cppName»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
 		'''
 	}
 	

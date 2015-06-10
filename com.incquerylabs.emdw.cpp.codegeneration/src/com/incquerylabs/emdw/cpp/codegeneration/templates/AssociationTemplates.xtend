@@ -22,12 +22,10 @@ class AssociationTemplates {
 	}
 	
 	def associationDeclarationInClassHeader(CPPClassReferenceStorage cppClassReferenceStorage) {
-		val cppRefStorageMatcher = codeGenQueries.getCppRelationReferenceStorage(engine)
-		
-		val cppRelation = cppRefStorageMatcher.getAllValuesOfcppRelation(cppClassReferenceStorage).head
-		val xtAssociation = cppRelation.xtRelation
+		val cppReferenceStorageType = generateCPPReferenceStorageType(cppClassReferenceStorage)
+		val cppReferenceStorageName = cppClassReferenceStorage.cppName  
 		'''
-		«generateCPPReferenceStorageType(cppClassReferenceStorage)» «xtAssociation.name»;
+		«cppReferenceStorageType» «cppReferenceStorageName»;
 		'''
 	}
 	

@@ -26,9 +26,9 @@ class RuleProvider {
 	
 	public val xtClassRule = createRule.precondition(cppClasses).action[ match |
 		val cppClass = match.cppClass
-		trace('''Generating code for «cppClass.xtClass.name» CPPClass''')
+		trace('''Generating code for «cppClass.cppName» CPPClass''')
 		val header = classHeaderTemplate(cppClass)
-		val className = cppClass.xtClass.name + "_statemachine_snippet"
+		val className = cppClass.cppName + "_statemachine_snippet"
 		generatedFiles.put('''«className».hh''', header.toString)
 		debug(
 		'''
@@ -44,7 +44,7 @@ class RuleProvider {
 			
 			«body»
 		''')
-		trace('''Generated code for «cppClass.xtClass.name» CPPClass''')
+		trace('''Generated code for «cppClass.cppName» CPPClass''')
 	].build
 	
 	public def addRules(BatchTransformation transformation) {

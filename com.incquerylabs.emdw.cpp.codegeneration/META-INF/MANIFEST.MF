@@ -6,7 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
 Export-Package: com.incquerylabs.emdw.cpp.codegeneration,
  com.incquerylabs.emdw.cpp.codegeneration.queries,
- com.incquerylabs.emdw.cpp.codegeneration.queries.util
+ com.incquerylabs.emdw.cpp.codegeneration.queries.util,
+ com.incquerylabs.emdw.cpp.codegeneration.directory,
+ com.incquerylabs.emdw.cpp.codegeneration.directory.impl
 Require-Bundle: com.ericsson.xtumlrt.oopl.cpp.model,
  com.google.guava,
  org.eclipse.xtend.lib,

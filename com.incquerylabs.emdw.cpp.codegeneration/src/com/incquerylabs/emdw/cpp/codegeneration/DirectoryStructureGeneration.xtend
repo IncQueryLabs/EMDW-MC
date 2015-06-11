@@ -1,12 +1,11 @@
 package com.incquerylabs.emdw.cpp.codegeneration
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.google.common.base.Stopwatch
+import com.incquerylabs.emdw.cpp.codegeneration.directory.IDirectoryCreator
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.DirectoryRuleProvider
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
-import org.eclipse.core.resources.IProject
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
@@ -24,16 +23,14 @@ class DirectoryStructureGeneration {
 	BatchTransformation transform
 	IncQueryEngine engine
 	DirectoryRuleProvider ruleProvider
-	CPPModel cppModel
+	
 	
 	extension BatchTransformationStatements statements
 
-	def initialize(CPPModel cppModel, IProject rootProject, IncQueryEngine engine) {
-		checkArgument(cppModel != null, "CPP Model cannot be null!")
+	def initialize(IncQueryEngine engine, IDirectoryCreator directoryCreator) {
 		checkArgument(engine != null, "Engine cannot be null!")
 		
 		if (!initialized) {
-			this.cppModel = cppModel
 			this.engine = engine
 
 			debug("Preparing queries on engine.")
@@ -44,7 +41,7 @@ class DirectoryStructureGeneration {
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
-			ruleProvider = new DirectoryRuleProvider(engine, rootProject)
+			ruleProvider = new DirectoryRuleProvider(engine, directoryCreator)
 			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
@@ -54,11 +51,11 @@ class DirectoryStructureGeneration {
 	}
 	
 	def execute() {
-		info('''Executing transformation on «cppModel.commonModel.name»''')
 		val watch = Stopwatch.createStarted
+		info('''Directory structure generation started''')
 		fireAllCurrent(ruleProvider.cppRootDirectoryRule)
 		fireAllCurrent(ruleProvider.cppSubDirectoryRule)
-		info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+		info('''Directory structure generation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
 	def dispose() {

@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.cpp.codegeneration.util
 
+import com.incquerylabs.emdw.cpp.codegeneration.directory.IDirectoryCreator
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries
 import org.apache.log4j.Logger
-import org.eclipse.core.resources.IProject
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
@@ -14,25 +14,19 @@ class DirectoryRuleProvider {
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	
 	IncQueryEngine engine
-	DirectoryCreator dirCreator = new DirectoryCreator
+	IDirectoryCreator directoryCreator
 
-	IProject rootProject
-	new(IncQueryEngine engine, IProject rootProject) {
+	new(IncQueryEngine engine, IDirectoryCreator directoryCreator) {
 		this.engine = engine;
-		this.rootProject = rootProject;
-		if(!this.rootProject.exists) {
-			this.rootProject.create(null)
-		}
-		this.rootProject.open(null)
+		this.directoryCreator = directoryCreator
 	}
 
 	public val cppRootDirectoryRule = createRule.precondition(cppRootDirectory).action[match | 
 		val cppDir = match.dir
-		val folder = rootProject.getFolder(cppDir.name);
 		
-		dirCreator.createDir(folder) 
+		directoryCreator.createDirectory(cppDir.path) 
 		
-		dirCreator.synchronizeSubDirectories(cppDir, folder)
+		DirectoryCreationUtil.synchronizeSubDirectories(cppDir, directoryCreator)
 		
 		debug(
 			'''
@@ -44,11 +38,10 @@ class DirectoryRuleProvider {
 	
 	public val cppSubDirectoryRule = createRule.precondition(cppSubDirectory).action[match | 
 		val cppDir = match.dir
-		val folder = rootProject.getFolder(cppDir.path);
 		
-		dirCreator.createDir(folder)
+		directoryCreator.createDirectory(cppDir.path) 
 		
-		dirCreator.synchronizeSubDirectories(cppDir, folder)
+		DirectoryCreationUtil.synchronizeSubDirectories(cppDir, directoryCreator)
 		
 		debug(
 			'''

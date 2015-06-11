@@ -1,30 +1,44 @@
 package com.incquerylabs.uml.ralf.ui;
 
+import java.util.Set;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.incquery.runtime.api.IncQueryEngine;
+import org.eclipse.incquery.runtime.base.api.NavigationHelper;
+import org.eclipse.incquery.runtime.emf.EMFScope;
+import org.eclipse.incquery.runtime.exception.IncQueryException;
+import org.eclipse.papyrus.infra.core.resource.ModelSet;
+import org.eclipse.papyrus.infra.core.services.ServiceException;
+import org.eclipse.papyrus.infra.core.services.ServicesRegistry;
+import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet;
 import org.eclipse.papyrus.uml.xtext.integration.DefaultXtextDirectEditorConfiguration;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.eclipse.xtext.util.Modules2;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.incquerylabs.emdw.umlintegration.papyrus.IncQueryEngineService;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
@@ -81,10 +95,21 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		@Override
 		public Iterable<Class> getKnownClasses() {
 			final Model model = getModel();
-			if (model == null) {
-				return Lists.newArrayList();
+			try {
+				if (model != null) {
+					ModelSet modelSet = (ModelSet)model.eResource().getResourceSet();
+					final ServicesRegistry registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
+					IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
+					IncQueryEngine engine = service.getEngine(modelSet);
+					NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
+					Set<EObject> instances = index.getAllInstances(UMLPackage.Literals.CLASS);
+					return Iterables.filter(instances, Class.class);
+				}
+			} catch (ServiceException | IncQueryException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-			return EcoreUtil2.eAllOfType(model, Class.class);
+			return Lists.newArrayList();
 		}
 		
 	}

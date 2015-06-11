@@ -13,16 +13,17 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.evm.specific.TransactionalSchedulers
+import org.eclipse.incquery.runtime.exception.IncQueryException
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
+import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
-import org.eclipse.incquery.runtime.exception.IncQueryException
-import org.eclipse.incquery.runtime.evm.specific.TransactionalSchedulers
 
 class ModelSetSnippet implements IModelSetSnippet {
 
@@ -41,14 +42,23 @@ class ModelSetSnippet implements IModelSetSnippet {
 		}
 	}
 
+    private def getEngineManager(ModelSet modelSet) {
+        val registry = ServiceUtilsForResourceSet.instance.getServiceRegistry(modelSet)
+        val service = new IncQueryEngineService
+        registry.add(IncQueryEngineService, 1, service)
+        //registry.getService(IncQueryEngineService)
+        service
+    }
+
 	override start(ModelSet modelSet) {
 		try{
 			val resourceSet = new ResourceSetImpl
-			val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
+			val engine = getEngineManager(modelSet).initializeEngine(modelSet, resourceSet) 
+			//AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
 			
 			val mappings = newHashSet()
 			ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
-				if (!resource.contents.filter(org.eclipse.uml2.uml.Model).empty) {
+				if (!resource.contents.filter(Model).empty) {
 					mappings += createMapping(resource, modelSet, resourceSet)
 				}
 			]
@@ -77,7 +87,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		createResource(umlResource, "xtuml", xtumlrtModel, modelSet, resourceSet)
 
 		val mapping = TraceFactory.eINSTANCE.createRootMapping => [
-			umlRoot = umlResource.contents.filter(org.eclipse.uml2.uml.Model).head
+			umlRoot = umlResource.contents.filter(Model).head
 			xtumlrtRoot = xtumlrtModel
 			logger.debug("Created root mapping for tracing UML model " + umlRoot.qualifiedName)
 		]
@@ -100,7 +110,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		transformation.dispose
 	}
 	
-	def createPrimitiveTypeMapping(AdvancedIncQueryEngine engine, ResourceSet rs, ModelSet modelSet){
+	def createPrimitiveTypeMapping(IncQueryEngine engine, ResourceSet rs, ModelSet modelSet){
 		val primitiveTypeMapping = new HashMap<org.eclipse.uml2.uml.Type, Type>();
 			
 		val commonTypesPath = "org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
@@ -113,7 +123,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val umlTypesURI = URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI)
 		val umlTypesResource = modelSet.getResource(umlTypesURI, true)
 		
-		val model = umlTypesResource.contents.filter(org.eclipse.uml2.uml.Model).head
+		val model = umlTypesResource.contents.filter(Model).head
 		val umlTypes = model.packagedElements.filter(PrimitiveType)
 		
 		commonTypes.forEach[type|

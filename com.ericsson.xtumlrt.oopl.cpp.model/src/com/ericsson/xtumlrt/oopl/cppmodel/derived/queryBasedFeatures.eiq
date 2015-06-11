@@ -322,6 +322,28 @@ pattern cppClassRefSimpleCollectionCppContainer(
 	target == "std::deque";
 }
 
+@QueryBasedFeature(feature = "cppContainer")
+pattern cppSequenceCppContainer(
+	source : CPPSequence,
+	target
+) {
+	CPPSequence.orderedness(source, orderedness); 
+	orderedness == SequenceOrderednessKind::UNORDERED;
+	CPPSequence.uniqueness(source, uniqueness);
+	uniqueness == SequenceUniquenessKind::NON_UNIQUE;
+	target == "std::multiset";
+} or {
+	CPPSequence.orderedness(source, orderedness); 
+	orderedness == SequenceOrderednessKind::UNORDERED;
+	CPPSequence.uniqueness(source, uniqueness);
+	uniqueness == SequenceUniquenessKind::UNIQUE;
+	target == "std::set";
+} or {
+	CPPSequence.orderedness(source, orderedness); 
+	orderedness == SequenceOrderednessKind::ORDERED;
+	target == "std::vector";
+}
+
 // this pattern is for selecting between C++03 and C++11 version of the list depending on the target platform
 pattern simplyLinkedListType(
 	cppContainer

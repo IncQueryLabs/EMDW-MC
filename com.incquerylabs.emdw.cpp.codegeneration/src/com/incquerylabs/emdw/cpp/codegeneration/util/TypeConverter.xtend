@@ -1,8 +1,6 @@
 package com.incquerylabs.emdw.cpp.codegeneration.util
 
 import com.ericsson.xtumlrt.oopl.OOPLType
-import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
-import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
@@ -12,11 +10,20 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 class TypeConverter {
 	
 	def dispatch String convertType(CPPClassReference classReference){
-		return '''«convertType(classReference.class_)»*'''
+		val cppType = convertType(classReference.class_)
+		return '''«cppType»*'''
 	}
 	
 	def dispatch String convertType(CPPClassRefSimpleCollection classReferenceSimpleCollection){
-		return '''«classReferenceSimpleCollection.cppContainer»< «convertType(classReferenceSimpleCollection.class_)»* >'''
+		val cppContainer = classReferenceSimpleCollection.cppContainer
+		val cppType = convertType(classReferenceSimpleCollection.class_)
+		return '''«cppContainer»< «cppType»* >'''
+	}
+	
+	def dispatch String convertType(CPPSequence sequence) {
+		val cppContainer = sequence.cppContainer
+		val cppType = convertType(sequence.elementType)
+		return '''«cppContainer»< «cppType» >''' 
 	}
 	
 	def dispatch String convertType(OOPLType type) {
@@ -25,23 +32,6 @@ class TypeConverter {
 	
 	def dispatch String convertType(CPPClass ^class) {
 		return ^class.cppQualifiedName
-	}
-	
-	def dispatch String convertType(CPPSequence sequence) {
-		val orderedness = sequence.orderedness
-		val uniqueness = sequence.uniqueness
-		
-		var cppSequenceElementType = sequence.elementType.convertType
-		// TODO: Use CPPSequence.cppContainer derived feature when implemented
-		if(orderedness == SequenceOrderednessKind.UNORDERED){
-			if(uniqueness == SequenceUniquenessKind.UNIQUE){
-				return '''std::set< «cppSequenceElementType» >'''
-			} else {
-				return '''std::multiset< «cppSequenceElementType» >'''
-			}
-		} else {
-				return '''std::vector< «cppSequenceElementType» >'''
-		}
 	}
 	
 	def dispatch convertType(Type type) {
@@ -62,32 +52,5 @@ class TypeConverter {
 	
 	def dispatch String convertType(Void type) {
 		return "UNKNOWN_TYPE"
-	}	
-	/*
-		{
-			!CPPFeatures.unorderedAssociativeContainers;
-			cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;
-			cppSequence.uniqueness==SequenceOrderednessKind==NON_UNIQUE;
-			cppClassRefSimpleCollection.cppContainer=="std::multiset";
-		} or {
-			CPPFeatures.unorderedAssociativeContainers;
-			cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;
-			cppSequence.uniqueness==SequenceOrderednessKind==NON_UNIQUE;
-			cppClassRefSimpleCollection.cppContainer=="std::unordered_multiset";
-		{
-			!CPPFeatures.unorderedAssociativeContainers;
-			cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;
-			cppSequence.uniqueness==SequenceOrderednessKind==UNIQUE;
-			cppClassRefSimpleCollection.cppContainer=="std::set";
-		} or {
-			CPPFeatures.unorderedAssociativeContainers;
-			cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;
-			cppSequence.uniqueness==SequenceOrderednessKind==UNIQUE;
-			cppClassRefSimpleCollection.cppContainer=="std::unordered_set";
-		} or {
-			cppSequence.orderedness==SequenceOrderednessKind==ORDERED;
-			cppClassRefSimpleCollection.cppContainer=="std::vector";
-		}
-	 */
-	
+	}
 }

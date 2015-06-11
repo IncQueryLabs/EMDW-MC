@@ -15,10 +15,15 @@ Require-Bundle: com.incquerylabs.uml.ralf;visibility:=reexport,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtext.common.types.ui,
  org.eclipse.xtext.ui.codetemplates.ui,
- org.eclipse.compare
+ org.eclipse.compare,
+ org.eclipse.papyrus.uml.xtext.integration.ui;bundle-version="1.0.2",
+ org.eclipse.gmf.runtime.common.core,
+ org.eclipse.gmf.runtime.common.ui;bundle-version="1.8.1",
+ org.eclipse.gmf.runtime.common.ui.services;bundle-version="1.9.0"
 Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: com.incquerylabs.uml.ralf.ui.contentassist,
+Export-Package: com.incquerylabs.uml.ralf.ui,
+ com.incquerylabs.uml.ralf.ui.contentassist,
  com.incquerylabs.uml.ralf.ui.contentassist.antlr,
  com.incquerylabs.uml.ralf.ui.internal,
  com.incquerylabs.uml.ralf.ui.quickfix

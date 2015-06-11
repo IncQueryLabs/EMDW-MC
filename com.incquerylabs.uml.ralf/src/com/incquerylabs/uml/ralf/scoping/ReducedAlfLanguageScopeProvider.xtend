@@ -3,18 +3,17 @@
  */
 package com.incquerylabs.uml.ralf.scoping
 
-import org.eclipse.emf.ecore.EClass
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
-import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import org.eclipse.xtext.util.PolymorphicDispatcher
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
-import org.eclipse.xtext.EcoreUtil2
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
+import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import com.google.inject.Inject
+import com.google.inject.Injector
 
 /**
  * This class contains custom scoping description.
@@ -25,6 +24,10 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
  */
 class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
+    @Inject(optional = true)
+    IUMLContextProvider umlContext;
+    @Inject
+    Injector injector;
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
@@ -37,6 +40,15 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 //        println(methodName)
 //        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
 //    }
+    
+    def IScope scope_Class(EObject context, EReference reference) {
+        val umlContext2 = injector.getInstance(IUMLContextProvider)
+        if (umlContext2 == null) {
+            IScope.NULLSCOPE
+        } else {
+               Scopes.scopeFor(umlContext2.knownClasses)
+        }
+    }
     
     def scope_Variable(Expression context, EReference reference) {
         val scope = scope_Variable(context)

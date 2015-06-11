@@ -10,11 +10,23 @@ import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.papyrus.uml.xtext.integration.DefaultXtextDirectEditorConfiguration;
+import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Element;
+import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
+import org.eclipse.xtext.ui.shared.SharedStateModule;
+import org.eclipse.xtext.util.Modules2;
 
+import com.google.common.collect.Lists;
+import com.google.inject.Binder;
+import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
+import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
 
 public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEditorConfiguration {
@@ -52,11 +64,46 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		
 	}
 	
+	private class EditorContext implements IUMLContextProvider {
+
+		public EditorContext() {
+			super();
+		}
+
+		private Model getModel() {
+			Object contextObject = getObjectToEdit();
+			if (contextObject instanceof Element) {
+				return EcoreUtil2.getContainerOfType(((Element)contextObject).eContainer(), Model.class);
+			}
+			return null;
+		}
+		
+		@Override
+		public Iterable<Class> getKnownClasses() {
+			final Model model = getModel();
+			if (model == null) {
+				return Lists.newArrayList();
+			}
+			return EcoreUtil2.eAllOfType(model, Class.class);
+		}
+		
+	}
 	
 	@Override
 	public Injector getInjector() {
-		return ReducedAlfLanguageActivator.getInstance()
-				.getInjector(ReducedAlfLanguageActivator.COM_INCQUERYLABS_UML_RALF_REDUCEDALFLANGUAGE);
+		Module runtimeModule = (Module) new ReducedAlfLanguageRuntimeModule();
+		Module sharedModule = new SharedStateModule();
+		Module uiModule = (Module) new ReducedAlfLanguageUiModule(ReducedAlfLanguageActivator.getInstance());
+		Module ralfIntegrationModule = new Module() {
+			
+			@Override
+			public void configure(Binder binder) {
+				binder.bind(IUMLContextProvider.class).toInstance(new EditorContext());
+			}
+		};
+		Module mergedModule = Modules2.mixin(runtimeModule, sharedModule, uiModule, ralfIntegrationModule);
+		
+		return Guice.createInjector(mergedModule);
 	}
 
 	@Override

@@ -426,9 +426,12 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppContainer" ordered="false"
         unique="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" derived="true">
+        changeable="false" volatile="true" transient="true" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="{&#xD;&#xA;&#x9;!CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==NON_UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::multiset&quot;;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==NON_UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::unordered_multiset&quot;;&#xD;&#xA;{&#xD;&#xA;&#x9;!CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::set&quot;;&#xD;&#xA;} or {&#xD;&#xA;&#x9;CPPFeatures.unorderedAssociativeContainers;&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==UNORDERED;&#xD;&#xA;&#x9;cppSequence.uniqueness==SequenceOrderednessKind==UNIQUE;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::unordered_set&quot;;&#xD;&#xA;} or {&#xD;&#xA;&#x9;cppSequence.orderedness==SequenceOrderednessKind==ORDERED;&#xD;&#xA;&#x9;cppClassRefSimpleCollection.cppContainer==&quot;std::vector&quot;;&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.cppmodel.derived.cppSequenceCppContainer"/>
       </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementation" lowerBound="1"

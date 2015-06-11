@@ -73,6 +73,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 	def createMapping(Resource umlResource, ModelSet modelSet, ResourceSet resourceSet) {
 		
 		val xtumlrtModel = CommonFactory.eINSTANCE.createModel
+		xtumlrtModel.name = umlResource.contents.filter(org.eclipse.uml2.uml.Model).head.name
 		createResource(umlResource, "xtuml", xtumlrtModel, modelSet, resourceSet)
 
 		val mapping = TraceFactory.eINSTANCE.createRootMapping => [

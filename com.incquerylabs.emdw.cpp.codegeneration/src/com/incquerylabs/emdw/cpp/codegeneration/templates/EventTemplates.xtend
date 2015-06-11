@@ -15,11 +15,11 @@ class EventTemplates {
 	}
 
 	def enumInClassHeader(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name
+		val cppClassName = cppClass.cppName
 		'''
 		enum «cppClassName»_event {
-			«FOR event : cppClass.subElements.filter(CPPEvent).sortBy[xtEvent.name] SEPARATOR ","»
-				«cppClassName»_EVENT_«event.xtEvent.name»
+			«FOR event : cppClass.subElements.filter(CPPEvent).sortBy[cppName] SEPARATOR ","»
+				«cppClassName»_EVENT_«event.cppName»
 			«ENDFOR»
 		};
 		'''

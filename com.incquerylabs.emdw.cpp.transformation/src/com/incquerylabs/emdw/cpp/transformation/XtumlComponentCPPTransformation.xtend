@@ -15,6 +15,7 @@ import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
 import com.incquerylabs.emdw.cpp.transformation.rules.EntityRules
 import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
+import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
 
 class XtumlComponentCPPTransformation {
 
@@ -31,6 +32,7 @@ class XtumlComponentCPPTransformation {
 	val entityRules = new EntityRules
 	val componentRules = new ComponentRules
 	val classRules = new ClassRules
+	val associationRules = new AssociationRules
 	
 
 	def initialize(Model xtUmlModel, IncQueryEngine engine) {
@@ -52,6 +54,7 @@ class XtumlComponentCPPTransformation {
 			packageRules.addRules(transform)
 			classRules.addRules(transform)
 			entityRules.addRules(transform)
+			associationRules.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
@@ -73,6 +76,7 @@ class XtumlComponentCPPTransformation {
 			statements.fireAllCurrent(entityRules.entityAttributeRule)
 			statements.fireAllCurrent(entityRules.entityOperationRule)
 			statements.fireAllCurrent(entityRules.cppSequenceTypeRule)
+			statements.fireAllCurrent(associationRules.associationRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

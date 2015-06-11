@@ -5,6 +5,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 
 class TransitionTemplates {
 	
@@ -20,9 +21,10 @@ class TransitionTemplates {
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 	}
 	
-	def generatedTransitionCondition(Transition transition, String cppClassName, String stateCppName, String target) {
+	def generatedTransitionCondition(CPPTransition cppTransition, String cppClassName, String stateCppName, String target) {
+		val transition = cppTransition.commonTransition
 		var condition = transition.generateEventMatchingCondition(cppClassName)
-		val guardCall = '''evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content)'''
+		val guardCall = '''evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(event_id, event_content)'''
 		if(condition.length > 0 && transition.guard != null){
 			condition = condition + " && "
 		}
@@ -45,8 +47,10 @@ class TransitionTemplates {
 	}
 	
 	def getEventId(Trigger trigger) {
+		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
 		val xttrigger = trigger as XTEventTrigger
-		xttrigger.signal.name
+		val cppEvent = cppEventMatcher.getAllValuesOfcppEvent(xttrigger.signal).head
+		cppEvent.cppName
 	}
 	
 }

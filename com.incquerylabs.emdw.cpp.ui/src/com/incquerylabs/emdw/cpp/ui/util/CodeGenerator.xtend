@@ -15,11 +15,13 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import com.ericsson.xtumlrt.oopl.OoplFactory
 
 class CodeGenerator {
 		
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	def generateCodeFromXtComponents(Iterable<XTComponent> xtComponents) {
 		xtComponents.forEach[ xtComponent |
@@ -39,7 +41,8 @@ class CodeGenerator {
 			loadCPPBasicTypes(xtResourceSet)
 	
 			// Create the CPPComponent with its directories if it does not exist
-			// The incremental part of the m2m transformation should provide the cppComponent in the future
+			// The incremental part of the m2m transformation should provide 
+			// the cppComponent (and its name provider) in the future
 			if(!cppComponentMatcher.hasMatch(xtComponent, null)){
 				val componentHeaderDir = cppFactory.createCPPDirectory
 				cppResource.contents += componentHeaderDir
@@ -49,8 +52,18 @@ class CodeGenerator {
 					it.xtComponent = xtComponent
 					it.headerDirectory = componentHeaderDir
 					it.bodyDirectory = componentBodyDir
+					it.ooplNameProvider = createOOPLExistingNameProvider => [
+						commonNamedElement = xtComponent
+					]
 				]
 				cppModel.subElements += cppComponent
+			} else {
+				val cppComponent = cppComponentMatcher.getAllValuesOfcppComponent(xtComponent).head
+				if (cppComponent.ooplNameProvider == null) {
+					cppComponent.ooplNameProvider = createOOPLExistingNameProvider => [
+						commonNamedElement = xtComponent
+					]
+				}
 			}
 			
 			Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.DEBUG
@@ -75,9 +88,17 @@ class CodeGenerator {
 		var CPPModel cppModel = null
 		if(modelMatcher.hasMatch(xtmodel, null)){
 			cppModel = modelMatcher.getOneArbitraryMatch(xtmodel, null).cppModel
+			if (cppModel.ooplNameProvider == null) {
+				cppModel.ooplNameProvider = createOOPLExistingNameProvider => [
+					commonNamedElement = xtmodel
+				]
+			}
 		} else {
 			cppModel = createCPPModel => [
 				commonModel = xtmodel
+				ooplNameProvider = createOOPLExistingNameProvider => [
+					commonNamedElement = xtmodel
+				]
 			]
 			
 			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension

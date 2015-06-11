@@ -9,6 +9,7 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 
 class StateTemplates {
 	
@@ -25,18 +26,18 @@ class StateTemplates {
 	}
 	
 	def enumInClassHeader(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name
+		val cppClassName = cppClass.cppName
 		'''
 		enum «cppClassName»_state {
-			«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name] SEPARATOR ","»
-				«cppClassName»_STATE_«state.commonState.name»
+			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName] SEPARATOR ","»
+				«cppClassName»_STATE_«state.cppName»
 			«ENDFOR»
 		};
 		'''
 	}
 	
 	def methodDeclarationsInClassHeader(CPPState state, boolean isFinalState) {
-		val stateCppName = state.commonState.name
+		val stateCppName = state.cppName
 		'''
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
@@ -48,13 +49,14 @@ class StateTemplates {
 		«ENDIF»
 		
 		«FOR transitionInfo : state.orderTransitions»
-			«val target = transitionInfo.cppTarget.commonState.name»
+			«val target = transitionInfo.cppTarget.cppName»
 			«val transition = transitionInfo.transition»
+			«val cppTransition = transitionInfo.cppTransition»
 			«IF transition.guard != null»
-				bool evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
+				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
 			«ENDIF»
 			«IF transition.actionChain != null»
-				void perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
+				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
 			«ENDIF»
 		«ENDFOR»
 		
@@ -65,11 +67,11 @@ class StateTemplates {
 	}
 	
 	def methodDefinitionsInClassBody(CPPState state, CPPClass cppClass, boolean isFinalState) {
-		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = '''::Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
+		val cppClassName = cppClass.cppName
+		val cppFQN = cppClass.cppQualifiedName
 		
 		'''
-		«val stateCppName = state.commonState.name»
+		«val stateCppName = state.cppName»
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
 			void «cppFQN»::perform_entry_action_for_«stateCppName»_state(int event_id, std::string event_content){
@@ -87,10 +89,11 @@ class StateTemplates {
 				«ENDIF»
 				«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
 					«val cppTarget = transitionInfo.cppTarget»
-					«val target = cppTarget.commonState.name»
+					«val target = cppTarget.cppName»
 					«val transition = transitionInfo.transition»
-					// «stateCppName» -«transition.name»-> «target» transition
-					if(«transition.generatedTransitionCondition(cppClassName, stateCppName, target)») {
+					«val cppTransition = transitionInfo.cppTransition»
+					// «stateCppName» -«cppTransition.cppName»-> «target» transition
+					if(«cppTransition.generatedTransitionCondition(cppClassName, stateCppName, target)») {
 						«IF state.commonState.exitAction != null»	
 							// exit action
 							perform_exit_action_for_«stateCppName»_state(event_id, event_content);
@@ -100,7 +103,7 @@ class StateTemplates {
 						
 						«IF transition.actionChain != null»
 							// transition action
-							perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
+							perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
 						«ELSE»
 							// no transition action
 						«ENDIF»
@@ -121,7 +124,7 @@ class StateTemplates {
 						«ELSE»
 							// no state change
 							«IF generateTracingCode»
-								cout << "    No state change on «transition.name»" << endl;
+								cout << "    No state change on «cppTransition.cppName»" << endl;
 							«ENDIF»
 						«ENDIF»
 					} «ENDFOR» 
@@ -136,11 +139,12 @@ class StateTemplates {
 		«ENDIF»
 		
 		«FOR transitionInfo : state.orderTransitions»
-			«val target = transitionInfo.cppTarget.commonState.name»
+			«val target = transitionInfo.cppTarget.cppName»
 			«val transition = transitionInfo.transition»
+			«val cppTransition = transitionInfo.cppTransition»
 			
 			«IF transition.guard != null»
-				bool «cppFQN»::evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
+				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
 					«IF generateTracingCode»
 						cout << "    [Guard: -> «target»]" << endl;
 					«ENDIF»
@@ -159,7 +163,7 @@ class StateTemplates {
 			«ENDIF»
 			
 			«IF transition.actionChain != null»
-				void «cppFQN»::perform_actions_on_«transition.name»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
+				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
 					«IF generateTracingCode»
 						cout << "    [Action: -> «target»]" << endl;
 					«ENDIF»
@@ -205,9 +209,10 @@ class StateTemplates {
 		transitionsWithTrigger
 	}
 	
-	def generatedTransitionCondition(Transition transition, String cppClassName, String stateCppName, String target) {
+	def generatedTransitionCondition(CPPTransition cppTransition, String cppClassName, String stateCppName, String target) {
+		val transition = cppTransition.commonTransition
 		var condition = transition.generateEventMatchingCondition(cppClassName)
-		val guardCall = '''evaluate_guard_on_«transition.name»_transition_from_«stateCppName»_to_«target»(event_id, event_content)'''
+		val guardCall = '''evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(event_id, event_content)'''
 
 		if(transition.guard != null){
 			if(condition.length > 0){
@@ -231,7 +236,9 @@ class StateTemplates {
 	}
 	
 	def getEventId(Trigger trigger) {
+		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
 		val xttrigger = trigger as XTEventTrigger
-		xttrigger.signal.name
+		val cppEvent = cppEventMatcher.getAllValuesOfcppEvent(xttrigger.signal).head
+		cppEvent.cppName
 	}
 }

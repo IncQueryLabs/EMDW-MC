@@ -9,6 +9,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 
 class ClassTemplates {
 	
@@ -21,6 +22,7 @@ class ClassTemplates {
 
 	OperationTemplates operationTemplates 
 	AttributeTemplates attributeTemplates
+	AssociationTemplates associationTemplates
 	StateTemplates stateTemplates 
 	EventTemplates eventTemplates
 	ActionCodeTemplates actionCodeTemplates
@@ -32,6 +34,7 @@ class ClassTemplates {
 		
 		operationTemplates = new OperationTemplates(engine)
 		attributeTemplates = new AttributeTemplates(engine)
+		associationTemplates = new AssociationTemplates(engine)
 		stateTemplates = new StateTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
@@ -39,7 +42,7 @@ class ClassTemplates {
 	}
 	
 	def classHeaderTemplate(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name
+		val cppClassName = cppClass.cppName
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
@@ -108,6 +111,7 @@ class ClassTemplates {
 		}
 		
 		«attributesInClassHeader(cppClass, VisibilityKind.PRIVATE)»
+		«associationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
@@ -124,9 +128,22 @@ class ClassTemplates {
 		
 		'''
 		// Attributes
-		«FOR attribute : cppClass.subElements.filter(CPPAttribute).sortBy[commonAttribute.name]»
+		«FOR attribute : cppClass.subElements.filter(CPPAttribute).sortBy[cppName]»
 			«IF cppAttrMatcher.hasMatch(cppClass, attribute, visibility)»
 				«attributeTemplates.attributeDeclarationInClassHeader(attribute)»
+			«ENDIF»
+		«ENDFOR»
+		'''
+	}
+	
+	def associationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+		val cppAssocMatcher = codeGenQueries.getCppClassClassReferenceStorages(engine)
+		
+		'''
+		// Associations
+		«FOR association : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
+			«IF cppAssocMatcher.hasMatch(cppClass, association)»
+				«associationTemplates.associationDeclarationInClassHeader(association)»
 			«ENDIF»
 		«ENDFOR»
 		'''
@@ -137,7 +154,7 @@ class ClassTemplates {
 		
 		'''
 		// Operation declarations
-		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[commonOperation.name]»
+		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[cppName]»
 			«IF cppOpMatcher.hasMatch(cppClass, operation, visibility)»
 				«operationTemplates.operationDeclarationInClassHeader(operation)»
 			«ENDIF»
@@ -146,7 +163,7 @@ class ClassTemplates {
 	}
 	
 	def publicStateMachineCodeInClassHeader(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name
+		val cppClassName = cppClass.cppName
 		'''
 		«stateTemplates.enumInClassHeader(cppClass)»
 		«eventTemplates.enumInClassHeader(cppClass)»
@@ -161,7 +178,7 @@ class ClassTemplates {
 	def privateStateMachineCodeInClassHeader(CPPClass cppClass) {
 		val finalStateMatcher = codeGenQueries.getCppClassFinalStates(engine)
 		'''
-		«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name]»
+		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
 			«stateTemplates.methodDeclarationsInClassHeader(state, finalStateMatcher.hasMatch(cppClass, state))»
 		«ENDFOR»
 
@@ -171,8 +188,8 @@ class ClassTemplates {
 	}
 	
 	def classBodyTemplate(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = cppClass.classFullyQualifiedName
+		val cppClassName = cppClass.cppName
+		val cppFQN = cppClass.cppQualifiedName
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
@@ -197,15 +214,15 @@ class ClassTemplates {
 	}
 	
 	def classConstructorDefinition(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = cppClass.classFullyQualifiedName
+		val cppClassName = cppClass.cppName
+		val cppFQN = cppClass.cppQualifiedName
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 		
 		var CharSequence fieldInitialization = ""
 		if(cppInitStateMatch != null){
-			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.commonState.name»)'''
+			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»)'''
 		}
 		'''
 		// Constructor
@@ -223,22 +240,22 @@ class ClassTemplates {
 		«IF !operations.empty»
 			// Operation definitions
 		«ENDIF»
-		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[commonOperation.name]»
+		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[cppName]»
 			«operationTemplates.operationDefinitionInClassBody(operation)»
 		«ENDFOR»
 		'''
 	}
 	
 	def performInitializationDefinition(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = cppClass.classFullyQualifiedName
+		val cppClassName = cppClass.cppName
+		val cppFQN = cppClass.cppQualifiedName
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 		
 		var CharSequence fieldInitialization = ""
 		if(cppInitStateMatch != null){
-			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.commonState.name»)'''
+			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»)'''
 		}
 		'''
 		void «cppFQN»::perform_initialization() {
@@ -258,8 +275,8 @@ class ClassTemplates {
 	}
 	
 	def stateMachineCodeInClassBody(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = cppClass.classFullyQualifiedName
+		val cppClassName = cppClass.cppName
+		val cppFQN = cppClass.cppQualifiedName
 		
 		val finalStateMatcher = codeGenQueries.getCppClassFinalStates(engine)
 		'''
@@ -269,17 +286,17 @@ class ClassTemplates {
 			«ENDIF»
 		
 			switch(current_state){
-			«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name].filter[!finalStateMatcher.hasMatch(cppClass, it)]»
-			case «cppClassName»_STATE_«state.commonState.name»:
-				process_event_in_«state.commonState.name»_state(event_id, event_content);
+			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName].filter[!finalStateMatcher.hasMatch(cppClass, it)]»
+			case «cppClassName»_STATE_«state.cppName»:
+				process_event_in_«state.cppName»_state(event_id, event_content);
 				break;
 			«ENDFOR»
 			}
 		
 			«IF finalStateMatcher.hasMatch(cppClass, null)»
 				switch(current_state){
-				«FOR finalState : finalStateMatcher.getAllValuesOfcppFinalState(cppClass).sortBy[commonState.name]»
-					case «cppClassName»_STATE_«finalState.commonState.name»:
+				«FOR finalState : finalStateMatcher.getAllValuesOfcppFinalState(cppClass).sortBy[cppName]»
+					case «cppClassName»_STATE_«finalState.cppName»:
 				«ENDFOR»
 					delete this;
 					break;
@@ -287,20 +304,9 @@ class ClassTemplates {
 			«ENDIF»
 		}
 		
-		«FOR state : cppClass.subElements.filter(CPPState).sortBy[commonState.name]»
+		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
 			«stateTemplates.methodDefinitionsInClassBody(state, cppClass, finalStateMatcher.hasMatch(cppClass, state))»
 		«ENDFOR»
 		'''
 	}
-	
-	def classFullyQualifiedName(CPPClass cppClass) {
-		'''::«cppClass.classQualifiedName»'''
-	}
-	
-	def classQualifiedName(CPPClass cppClass) {
-		val cppClassName = cppClass.xtClass.name // cppClass.cppName
-		val cppFQN = '''Test_FSM::Main_Package::Test_Component::Test_Package::«cppClassName»''' //cppClass.cppQualifiedName
-		cppFQN
-	}
-	
 }

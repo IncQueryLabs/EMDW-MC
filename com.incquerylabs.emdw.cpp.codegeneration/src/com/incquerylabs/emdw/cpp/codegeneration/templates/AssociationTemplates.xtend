@@ -3,11 +3,10 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 
-class AttributeTemplates {
-	
+class AssociationTemplates {
 	val codeGenQueries = CppCodeGenerationQueries.instance
 	val TypeConverter typeConverter
 	
@@ -22,16 +21,16 @@ class AttributeTemplates {
 		typeConverter = new TypeConverter
 	}
 	
-	def attributeDeclarationInClassHeader(CPPAttribute attribute) {
-		val commonAttr = attribute.commonAttribute
+	def associationDeclarationInClassHeader(CPPClassReferenceStorage cppClassReferenceStorage) {
+		val cppReferenceStorageType = generateCPPReferenceStorageType(cppClassReferenceStorage)
+		val cppReferenceStorageName = cppClassReferenceStorage.cppName  
 		'''
-		«IF commonAttr.static»static «ENDIF»«generateCPPAttributeType(attribute)» «attribute.cppName»«IF commonAttr.^default != null» = «commonAttr.^default»«ENDIF»;
+		«cppReferenceStorageType» «cppReferenceStorageName»;
 		'''
 	}
 	
-	def generateCPPAttributeType(CPPAttribute attribute){
-		val type = attribute.type
+	def generateCPPReferenceStorageType(CPPClassReferenceStorage cppClassReferenceStorage){
+		val type = cppClassReferenceStorage.type
 		typeConverter.convertType(type)
 	}
-	
 }

@@ -1,35 +1,33 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.wrappers
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.cpp.codegeneration.DirectoryStructureGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.directory.IDirectoryCreator
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import com.incquerylabs.emdw.cpp.codegeneration.DirectoryStructureGeneration
-import org.eclipse.core.resources.IProject
 
 class DirectoryStructureWrapper extends TransformationWrapper {
 	
-	val IProject rootProject
-	new(IProject rootProject) {
-		this.rootProject = rootProject
+	AdvancedIncQueryEngine engine
+	DirectoryStructureGeneration directoryStructureGeneration
+	
+	override initializeTransformation(CPPModel cppModel) {
+		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppModel.eResource.resourceSet))
+		directoryStructureGeneration = new DirectoryStructureGeneration
+		//dirStructGen.initialize(cppDirectory, directoryCreator, engine)
 	}
 	
-	AdvancedIncQueryEngine engine
-	DirectoryStructureGeneration dirStructGen
-	
-	override initializeTransformation(CPPModel cppmodel) {
-		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppmodel.eResource.resourceSet))
-		dirStructGen = new DirectoryStructureGeneration
-		dirStructGen.initialize(cppmodel, rootProject, engine)
+	def initializeDirectoryStructureGenerator(IDirectoryCreator directoryCreator) {
+		directoryStructureGeneration.initialize(engine, directoryCreator)
 	}
 	
 	override executeTransformation() {
-		dirStructGen.execute
+		directoryStructureGeneration.execute
 	}
 	
 	override cleanupTransformation() {
-		if (dirStructGen != null) {
-			dirStructGen.dispose
+		if (directoryStructureGeneration != null) {
+			directoryStructureGeneration.dispose
 		}
 		if (engine != null) {
 			engine.dispose

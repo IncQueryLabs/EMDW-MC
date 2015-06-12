@@ -35,10 +35,6 @@ class TypeConverter {
 	}
 	
 	def dispatch convertType(Type type) {
-		if(type == null){
-			// TODO should return UNKNOWN_TYPE if Operation.returnType is correctly set to Void
-			return "void"
-		}
 		switch(type.name) {
 			case null: "NULL_TYPE" 
 			case "Boolean":	"bool"

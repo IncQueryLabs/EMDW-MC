@@ -68,7 +68,9 @@ class ModelSetSnippet implements IModelSetSnippet {
 				
 				val domain = modelSet.transactionalEditingDomain
 				val schedulerFactory = TransactionalSchedulers.getTransactionSchedulerFactory(domain)
-				transformation.initialize(engine, schedulerFactory, primitiveTypeMapping)
+				transformation.schedulerFactory = schedulerFactory
+				transformation.externalTypeMap = primitiveTypeMapping
+				transformation.initialize(engine)
 				logger.debug("Initialized UML integration transformation")
 				transformation.execute
 				logger.debug("First execution of UML integration transformation finished")
@@ -127,10 +129,10 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val umlTypes = model.packagedElements.filter(PrimitiveType)
 		
 		commonTypes.forEach[type|
+			// Here the void xtUML type is put into the map with null key because 
+			// UML null types are mapped to void in xtUML as there is no void UML basic type.
 			val umlType = umlTypes.filter[umlType | umlType.name.equals(type.name)].head
-			if(umlType != null){
-				primitiveTypeMapping.put(umlType, type)
-			}
+			primitiveTypeMapping.put(umlType, type)
 		]
 		
 		logger.debug("Created primitive type mapping")

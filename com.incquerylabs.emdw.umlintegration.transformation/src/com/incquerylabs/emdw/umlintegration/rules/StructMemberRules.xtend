@@ -1,12 +1,12 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StructMemberMatch
-import org.eclipse.papyrusrt.xtumlrt.common.StructMember
-import org.eclipse.papyrusrt.xtumlrt.common.StructType
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.Property
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.uml2.uml.Property
 
 class StructMemberRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -19,14 +19,14 @@ class StructMemberRules{
 /**
  * Transforms Properties which are a DataType owned attribute to the transformed StructType's struct members.
  */
-class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Property, StructMember> {
+class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Property, Attribute> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
 	}
 
 	override getXtumlrtClass() {
-		StructMember
+		Attribute
 	}
 	
 	public static val PRIORITY = TypeDefinitionMapping.PRIORITY
@@ -44,19 +44,19 @@ class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Prope
 	}
 
 	override createXtumlrtObject() {
-		commonFactory.createStructMember
+		commonFactory.createAttribute
 	}
 
-	override updateXtumlrtObject(StructMember xtumlrtObject, StructMemberMatch match) {
+	override updateXtumlrtObject(Attribute xtumlrtObject, StructMemberMatch match) {
 		xtumlrtObject.type = match.member.type.findXtumlrtObject(Type)
 	}
 
 	def getXtumlrtContainer(StructMemberMatch match) {
-		match.structType.findXtumlrtObject(StructType)
+		match.structType.findXtumlrtObject(StructuredType)
 	}
 	
-	override protected insertXtumlrtObject(StructMember xtumlrtObject, StructMemberMatch match) {
-		match.xtumlrtContainer.structMembers += xtumlrtObject
+	override protected insertXtumlrtObject(Attribute xtumlrtObject, StructMemberMatch match) {
+		match.xtumlrtContainer.attributes += xtumlrtObject
 	}
 	
 }

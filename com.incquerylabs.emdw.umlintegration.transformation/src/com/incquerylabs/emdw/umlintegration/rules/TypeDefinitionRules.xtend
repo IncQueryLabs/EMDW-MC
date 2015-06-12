@@ -54,7 +54,7 @@ class TypeDefinitionMapping extends AbstractObjectMapping<TypeDefinitionMatch, T
 	}
 
 	override protected insertXtumlrtObject(TypeDefinition xtumlrtObject, TypeDefinitionMatch match) {
-		match.xtumlrtContainer.typedefinitions += xtumlrtObject
+		match.xtumlrtContainer.typeDefinitions += xtumlrtObject
 	}
 
 }

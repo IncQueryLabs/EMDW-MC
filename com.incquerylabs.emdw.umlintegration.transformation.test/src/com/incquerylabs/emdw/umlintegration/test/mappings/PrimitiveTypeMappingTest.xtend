@@ -23,7 +23,7 @@ class PrimitiveTypeMappingTest extends TransformationTest<org.eclipse.uml2.uml.P
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.packages.head.typedefinitions.map[type].filter(PrimitiveType)
+		xtumlrtRoot.packages.head.typeDefinitions.map[type].filter(PrimitiveType)
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.PrimitiveType umlObject, PrimitiveType xtumlrtObject) {

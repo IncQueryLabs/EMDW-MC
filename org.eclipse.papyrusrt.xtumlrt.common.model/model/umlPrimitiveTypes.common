@@ -9,33 +9,33 @@
   <packages
       name="PrimitiveTypes"
       description="">
-    <typedefinitions
+    <typeDefinitions
         name="">
       <type
           xsi:type="common:PrimitiveType"
           name="Boolean"/>
-    </typedefinitions>
-    <typedefinitions
+    </typeDefinitions>
+    <typeDefinitions
         name="">
       <type
           xsi:type="common:PrimitiveType"
           name="Integer"/>
-    </typedefinitions>
-    <typedefinitions
+    </typeDefinitions>
+    <typeDefinitions
         name="">
       <type
           xsi:type="common:PrimitiveType"
           name="Real"/>
-    </typedefinitions>
-    <typedefinitions>
+    </typeDefinitions>
+    <typeDefinitions>
       <type
           xsi:type="common:PrimitiveType"
           name="String"/>
-    </typedefinitions>
-    <typedefinitions>
+    </typeDefinitions>
+    <typeDefinitions>
       <type
           xsi:type="common:PrimitiveType"
           name="Void"/>
-    </typedefinitions>
+    </typeDefinitions>
   </packages>
 </common:Model>

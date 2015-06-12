@@ -48,7 +48,7 @@ class PrimitiveTypeMapping extends AbstractObjectMapping<PrimitiveTypeMatch, org
 	}
 
 	override protected insertXtumlrtObject(PrimitiveType xtumlrtObject, PrimitiveTypeMatch match) {
-		rootMapping.xtumlrtRoot.localScopeTemporaryTypes += xtumlrtObject
+		rootMapping.xtumlrtRoot.eResource.contents += xtumlrtObject
 	}
 	
 }

@@ -147,7 +147,7 @@
       <details key="documentation" value="Member of structure type ({@link com.ericsson.xtumlrt.oopl.OOPLStructType}) in OOP languages corresponding to ({@link org.eclipse.papyrusrt.xtumlrt.common.StructMember})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonMember" lowerBound="1"
-        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//StructMember"/>
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLType"
         changeable="false" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

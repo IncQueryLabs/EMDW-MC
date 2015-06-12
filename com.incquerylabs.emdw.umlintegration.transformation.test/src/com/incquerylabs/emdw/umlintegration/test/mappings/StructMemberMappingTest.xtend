@@ -3,8 +3,9 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import org.eclipse.papyrusrt.xtumlrt.common.StructMember
-import org.eclipse.papyrusrt.xtumlrt.common.StructType
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
+import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.uml2.uml.DataType
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Property
@@ -13,10 +14,9 @@ import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
-import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 
 @RunWith(Parameterized)
-class StructMemberMappingTest extends TransformationTest<Property, StructMember> {
+class StructMemberMappingTest extends TransformationTest<Property, Attribute> {
 	
 	new(TransformationWrapper wrapper, String wrapperProperty) {
 		super(wrapper, wrapperProperty)
@@ -28,15 +28,15 @@ class StructMemberMappingTest extends TransformationTest<Property, StructMember>
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.packages.head.typedefinitions.map[type].filter(StructType).head.structMembers
+		xtumlrtRoot.packages.head.typeDefinitions.map[type].filter(StructuredType).head.attributes
 	}
 	
-	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, StructMember xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, Attribute xtumlrtObject) {
 		assertEquals(getTypeOfStructMember(mapping), xtumlrtObject.type)
 	}
 	
 	protected def getTypeOfStructMember(RootMapping mapping) {
-		mapping.xtumlrtRoot.packages.head.typedefinitions.map[type].filter(PrimitiveType).head
+		mapping.xtumlrtRoot.packages.head.typeDefinitions.map[type].filter(PrimitiveType).head
 	}
 
 	override protected removeUmlObject(Property umlObject, RootMapping mapping) {

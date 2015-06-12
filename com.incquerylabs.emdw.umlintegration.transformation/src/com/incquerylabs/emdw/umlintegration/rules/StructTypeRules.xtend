@@ -1,9 +1,9 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StructTypeMatch
-import org.eclipse.papyrusrt.xtumlrt.common.StructType
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.uml2.uml.DataType
 
 class StructTypeRules{
@@ -17,14 +17,14 @@ class StructTypeRules{
 /**
  * Transforms DataTypes with at least one member which are a Package's packaged elements to the Model's local scope temporary types
  */
-class StructTypeMapping extends AbstractObjectMapping<StructTypeMatch, DataType, StructType> {
+class StructTypeMapping extends AbstractObjectMapping<StructTypeMatch, DataType, StructuredType> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
 	}
 
 	override getXtumlrtClass() {
-		StructType
+		StructuredType
 	}
 	
 	public static val PRIORITY = 1
@@ -42,14 +42,14 @@ class StructTypeMapping extends AbstractObjectMapping<StructTypeMatch, DataType,
 	}
 
 	override createXtumlrtObject() {
-		commonFactory.createStructType
+		commonFactory.createStructuredType
 	}
 
-	override updateXtumlrtObject(StructType xtumlrtObject, StructTypeMatch match) {
+	override updateXtumlrtObject(StructuredType xtumlrtObject, StructTypeMatch match) {
 	}
 
-	override protected insertXtumlrtObject(StructType xtumlrtObject, StructTypeMatch match) {
-		rootMapping.xtumlrtRoot.localScopeTemporaryTypes += xtumlrtObject
+	override protected insertXtumlrtObject(StructuredType xtumlrtObject, StructTypeMatch match) {
+		rootMapping.xtumlrtRoot.eResource.contents += xtumlrtObject
 	}
 	
 }

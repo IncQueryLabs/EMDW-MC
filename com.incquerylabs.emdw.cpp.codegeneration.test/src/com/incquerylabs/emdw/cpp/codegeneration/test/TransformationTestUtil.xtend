@@ -346,7 +346,7 @@ class TransformationTestUtil {
 			it.name = name
 			it.type = type
 		]
-		root.typedefinitions += typeDef
+		root.typeDefinitions += typeDef
 		typeDef
 	}
 
@@ -355,7 +355,7 @@ class TransformationTestUtil {
 			it.name = name
 			it.type = type
 		]
-		root.typedefinitions += typeDef
+		root.typeDefinitions += typeDef
 		typeDef
 	}
 
@@ -383,7 +383,9 @@ class TransformationTestUtil {
 			it.name = name
 			it.visibility = visibility
 			it.static = isStatic
-			it.returnType = returnType
+			it.returnType = commonFactory.createTypedMultiplicityElement => [
+				type = returnType
+			]
 			it.body = createActionCode(name, body)
 			it.parameters += parameter
 		]

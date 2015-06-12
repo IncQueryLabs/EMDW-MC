@@ -55,8 +55,10 @@ class OperationMapping extends AbstractObjectMapping<OperationMatch, org.eclipse
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
 		if(umlObject.type != null){
-			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
-				Type: xtumlrtObject.returnType = type 
+			switch xtType : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
+				Type: xtumlrtObject.returnType = commonFactory.createTypedMultiplicityElement => [
+					type = xtType 
+				]
 			}
 		} else {
 			// TODO set to Void

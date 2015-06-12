@@ -108,7 +108,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val commonTypesResource = rs.getResource(commonTypesURI,true);
 		
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
-		val commonTypes = commonTypesModel.packages.head.typedefinitions.map[td|td.type]
+		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 
 		val umlTypesURI = URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI)
 		val umlTypesResource = modelSet.getResource(umlTypesURI, true)

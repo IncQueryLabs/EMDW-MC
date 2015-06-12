@@ -58,7 +58,7 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
 		
-		createCPPBasicType(cppPackage, xtPackage.typedefinitions.head.type)
+		createCPPBasicType(cppPackage, xtPackage.typeDefinitions.head.type)
 		
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory

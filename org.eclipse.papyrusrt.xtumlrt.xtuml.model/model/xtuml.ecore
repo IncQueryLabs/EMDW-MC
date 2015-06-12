@@ -57,5 +57,5 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="realizedSignal" upperBound="-1"
         eType="#//XTSignalImplementation" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XTComponent" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Capsule ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//EntityContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTComponent" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Capsule ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//BaseContainer"/>
 </ecore:EPackage>

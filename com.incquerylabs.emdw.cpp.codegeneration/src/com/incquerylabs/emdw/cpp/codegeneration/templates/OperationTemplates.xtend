@@ -29,7 +29,7 @@ class OperationTemplates {
 		val returnType = commonOp.returnType
 		val parameters = operation.subElements.filter(CPPFormalParameter)
 						
-		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType)» «IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»(«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»)'''
+		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType.type)» «IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»(«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»)'''
 	}
 	
 	def operationDeclarationInClassHeader(CPPOperation operation) {

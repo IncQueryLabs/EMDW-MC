@@ -18,6 +18,10 @@ private pattern profile(it) {
 	Profile(it);
 }
 
+pattern namedDataType(dataType : DataType, name) {
+	DataType.name(dataType, name);
+}
+
 pattern xtPackageInModel(model: Model, umlPackage: Package) {
 	Model.packagedElement(model, umlPackage);
 	find xtPackage(umlPackage);

@@ -88,12 +88,12 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>nexus</id>
+			<id>nexus-emdw-snapshots</id>
 			<name>EMDW Project Repository - Releases</name>
 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-releases/</url>
 		</repository>
 		<snapshotRepository>
-			<id>nexus</id>
+			<id>nexus-emdw-snapshots</id>
 			<name>EMDW Project Repository - Snapshots</name>
 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-snapshots/</url>
 		</snapshotRepository>

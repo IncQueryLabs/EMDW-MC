@@ -152,6 +152,12 @@
         <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/plugins/.*"/>
+        <operand
+            xsi:type="predicates:NotPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="com\.incquerylabs\.emdw\.alf.*"/>
+        </operand>
       </predicate>
     </workingSet>
     <workingSet

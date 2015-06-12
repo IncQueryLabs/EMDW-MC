@@ -1,0 +1,35 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.incquerylabs.uml.ralf
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: com.incquerylabs.uml.ralf; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext;visibility:=reexport,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.common,
+ org.eclipse.xtext.xbase.lib,
+ org.antlr.runtime,
+ org.eclipse.xtext.common.types,
+ org.objectweb.asm;bundle-version="[5.0.1,6.0.0)";resolution:=optional,
+ org.eclipse.uml2.uml;bundle-version="5.1.0",
+ org.eclipse.uml2.codegen.ecore;bundle-version="2.1.0",
+ org.eclipse.emf.codegen.ecore;bundle-version="2.11.0",
+ org.eclipse.uml2.types;bundle-version="2.0.0"
+Import-Package: org.apache.log4j
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Export-Package: com.incquerylabs.uml.ralf,
+ com.incquerylabs.uml.ralf.formatting,
+ com.incquerylabs.uml.ralf.generator,
+ com.incquerylabs.uml.ralf.parser.antlr,
+ com.incquerylabs.uml.ralf.parser.antlr.internal,
+ com.incquerylabs.uml.ralf.reducedAlfLanguage,
+ com.incquerylabs.uml.ralf.reducedAlfLanguage.impl,
+ com.incquerylabs.uml.ralf.reducedAlfLanguage.util,
+ com.incquerylabs.uml.ralf.scoping,
+ com.incquerylabs.uml.ralf.serializer,
+ com.incquerylabs.uml.ralf.services,
+ com.incquerylabs.uml.ralf.validation
+

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_lMYw0OmwEeSJTqspLYV36Q" name="model">
+  <packagedElement xmi:type="uml:Package" xmi:id="_qRJrMOmwEeSJTqspLYV36Q" name="RootPackage">
+    <packagedElement xmi:type="uml:Component" xmi:id="_Hdb_MOmxEeSJTqspLYV36Q" name="Component" isFinalSpecialization="true">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_KNhH4Om2EeSJTqspLYV36Q" name="port" type="_5KqnsOmxEeSJTqspLYV36Q" aggregation="composite"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_MTquUOmxEeSJTqspLYV36Q" name="Class" classifierBehavior="_lGxM0Om3EeSJTqspLYV36Q">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_Ko97gOm7EeSD7JE_xtpv_Q" name="i" type="_GF9ZcOmyEeSJTqspLYV36Q"/>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_lGxM0Om3EeSJTqspLYV36Q" name="SM1">
+          <region xmi:type="uml:Region" xmi:id="_bzX5YOm4EeSD7JE_xtpv_Q" name="Region1">
+            <transition xmi:type="uml:Transition" xmi:id="_uFtBQOm4EeSD7JE_xtpv_Q" name="t1" source="_eBJ_kOm4EeSD7JE_xtpv_Q" target="_flNMQOm4EeSD7JE_xtpv_Q"/>
+            <transition xmi:type="uml:Transition" xmi:id="_ux-4cOm4EeSD7JE_xtpv_Q" name="t2" source="_flNMQOm4EeSD7JE_xtpv_Q" target="_g9HaYOm4EeSD7JE_xtpv_Q">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_syCkgOm5EeSD7JE_xtpv_Q" name="action1">
+                <language>C</language>
+                <body>//Transition action</body>
+              </effect>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_8-6RMOm4EeSD7JE_xtpv_Q" name="t3" guard="_68KrcOm6EeSD7JE_xtpv_Q" source="_g9HaYOm4EeSD7JE_xtpv_Q" target="_492PgOm4EeSD7JE_xtpv_Q">
+              <ownedRule xmi:type="uml:Constraint" xmi:id="_68KrcOm6EeSD7JE_xtpv_Q" name="t3guard" constrainedElement="_Ko97gOm7EeSD7JE_xtpv_Q">
+                <specification xmi:type="uml:OpaqueExpression" xmi:id="_mt-eYOm7EeSD7JE_xtpv_Q" name="guard">
+                  <language>C++</language>
+                  <body>i>10</body>
+                </specification>
+              </ownedRule>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_9quOUOm4EeSD7JE_xtpv_Q" name="t10" source="_flNMQOm4EeSD7JE_xtpv_Q" target="_niBR0Om4EeSD7JE_xtpv_Q"/>
+            <transition xmi:type="uml:Transition" xmi:id="_C8zL8Om5EeSD7JE_xtpv_Q" name="t11" source="_4C0KoOm4EeSD7JE_xtpv_Q" target="_6EBNYOm4EeSD7JE_xtpv_Q"/>
+            <transition xmi:type="uml:Transition" xmi:id="_EUSjUOm5EeSD7JE_xtpv_Q" name="t4" source="_492PgOm4EeSD7JE_xtpv_Q" target="_niBR0Om4EeSD7JE_xtpv_Q">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_xi2oIOm5EeSD7JE_xtpv_Q" name="action2">
+                <language>C++</language>
+                <body>//Transition action</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_25MIwOm7EeSD7JE_xtpv_Q" name="t4trigger" event="_kJJmoOm6EeSD7JE_xtpv_Q" port="_KNhH4Om2EeSJTqspLYV36Q"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_E1-UEOm5EeSD7JE_xtpv_Q" name="t5" guard="_ycsvUOm7EeSD7JE_xtpv_Q" source="_492PgOm4EeSD7JE_xtpv_Q" target="_6EBNYOm4EeSD7JE_xtpv_Q">
+              <ownedRule xmi:type="uml:Constraint" xmi:id="_ycsvUOm7EeSD7JE_xtpv_Q" name="t5guard" constrainedElement="_Ko97gOm7EeSD7JE_xtpv_Q">
+                <specification xmi:type="uml:OpaqueExpression" xmi:id="_ycsvUem7EeSD7JE_xtpv_Q" name="expr">
+                  <language>C++</language>
+                  <body>i>15</body>
+                </specification>
+              </ownedRule>
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_LVtQQOm8EeSD7JE_xtpv_Q" name="t5behavior">
+                <language>C++</language>
+                <body>//Transition behavior</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_9RDCsOm7EeSD7JE_xtpv_Q" name="t5trigger" event="_kJJmoOm6EeSD7JE_xtpv_Q" port="_KNhH4Om2EeSJTqspLYV36Q"/>
+            </transition>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_eBJ_kOm4EeSD7JE_xtpv_Q" name="init"/>
+            <subvertex xmi:type="uml:State" xmi:id="_flNMQOm4EeSD7JE_xtpv_Q" name="s1">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_bvzLgOm5EeSD7JE_xtpv_Q" name="entry1">
+                <language>C++</language>
+                <body>//Entry behavior</body>
+              </entry>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_g9HaYOm4EeSD7JE_xtpv_Q" name="s2"/>
+            <subvertex xmi:type="uml:State" xmi:id="_niBR0Om4EeSD7JE_xtpv_Q" name="s3">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_kr-cUOm5EeSD7JE_xtpv_Q" name="entry2">
+                <language>C</language>
+                <body>//Entry behavior</body>
+              </entry>
+              <exit xmi:type="uml:OpaqueBehavior" xmi:id="_gyzLUOm5EeSD7JE_xtpv_Q" name="exit1">
+                <language>C</language>
+                <body>//Exit behavior</body>
+              </exit>
+              <region xmi:type="uml:Region" xmi:id="_oBgqMum4EeSD7JE_xtpv_Q" name="Region1">
+                <transition xmi:type="uml:Transition" xmi:id="_AAhoEOm5EeSD7JE_xtpv_Q" name="t6" source="_xTnHsOm4EeSD7JE_xtpv_Q" target="_zQmY0Om4EeSD7JE_xtpv_Q"/>
+                <transition xmi:type="uml:Transition" xmi:id="_A8KJ4Om5EeSD7JE_xtpv_Q" name="t7" source="_zQmY0Om4EeSD7JE_xtpv_Q" target="_3FN58Om4EeSD7JE_xtpv_Q"/>
+                <transition xmi:type="uml:Transition" xmi:id="_BgqlIOm5EeSD7JE_xtpv_Q" name="t8" source="_zQmY0Om4EeSD7JE_xtpv_Q" target="_4C0KoOm4EeSD7JE_xtpv_Q">
+                  <trigger xmi:type="uml:Trigger" xmi:id="_GFCn4Om8EeSD7JE_xtpv_Q" name="t8trigger" event="_gX47gOm6EeSD7JE_xtpv_Q" port="_KNhH4Om2EeSJTqspLYV36Q"/>
+                </transition>
+                <transition xmi:type="uml:Transition" xmi:id="_CUAtoOm5EeSD7JE_xtpv_Q" name="t9" source="_3FN58Om4EeSD7JE_xtpv_Q" target="_4C0KoOm4EeSD7JE_xtpv_Q"/>
+                <subvertex xmi:type="uml:Pseudostate" xmi:id="_xTnHsOm4EeSD7JE_xtpv_Q" name="hist" kind="deepHistory"/>
+                <subvertex xmi:type="uml:State" xmi:id="_zQmY0Om4EeSD7JE_xtpv_Q" name="s31"/>
+                <subvertex xmi:type="uml:State" xmi:id="_3FN58Om4EeSD7JE_xtpv_Q" name="s32"/>
+                <subvertex xmi:type="uml:State" xmi:id="_4C0KoOm4EeSD7JE_xtpv_Q" name="s33"/>
+              </region>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_492PgOm4EeSD7JE_xtpv_Q" name="s4">
+              <exit xmi:type="uml:OpaqueBehavior" xmi:id="_ooBbIOm5EeSD7JE_xtpv_Q" name="exit2">
+                <language>C</language>
+                <body>//Exit behavior</body>
+              </exit>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_6EBNYOm4EeSD7JE_xtpv_Q" name="s5"/>
+          </region>
+        </ownedBehavior>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Ydai0Om7EeSD7JE_xtpv_Q" name="operation">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ydai0em7EeSD7JE_xtpv_Q" name="a" type="_LHL3oOmyEeSJTqspLYV36Q"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ydai0um7EeSD7JE_xtpv_Q" name="b" type="_YmkqYOmxEeSJTqspLYV36Q"/>
+        </ownedOperation>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Component" xmi:id="_y-dAQOm1EeSJTqspLYV36Q" name="Component2">
+      <ownedAttribute xmi:type="uml:Port" xmi:id="_OyaPYOm2EeSJTqspLYV36Q" name="port" type="_5KqnsOmxEeSJTqspLYV36Q" aggregation="composite"/>
+      <packagedElement xmi:type="uml:Class" xmi:id="_3GfMoOm1EeSJTqspLYV36Q" name="Class2" classifierBehavior="_w-K4oOm3EeSJTqspLYV36Q">
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_w-K4oOm3EeSJTqspLYV36Q" name="SM2">
+          <region xmi:type="uml:Region" xmi:id="_S-MEkOm8EeSD7JE_xtpv_Q" name="Region1">
+            <transition xmi:type="uml:Transition" xmi:id="_ZkUEAOm8EeSD7JE_xtpv_Q" name="t12" source="_TaHLkOm8EeSD7JE_xtpv_Q" target="_UpUwsOm8EeSD7JE_xtpv_Q"/>
+            <transition xmi:type="uml:Transition" xmi:id="_aYJ7wOm8EeSD7JE_xtpv_Q" name="t13" source="_UpUwsOm8EeSD7JE_xtpv_Q" target="_UpUwsOm8EeSD7JE_xtpv_Q">
+              <trigger xmi:type="uml:Trigger" xmi:id="_m3vo8Om8EeSD7JE_xtpv_Q" name="t13trigger" event="_kJJmoOm6EeSD7JE_xtpv_Q" port="_OyaPYOm2EeSJTqspLYV36Q"/>
+            </transition>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_TaHLkOm8EeSD7JE_xtpv_Q" name="init2"/>
+            <subvertex xmi:type="uml:State" xmi:id="_UpUwsOm8EeSD7JE_xtpv_Q" name="s6">
+              <exit xmi:type="uml:OpaqueBehavior" xmi:id="_g7uWcOm8EeSD7JE_xtpv_Q" name="exit3">
+                <language>C++</language>
+                <body>//Action exit behavior</body>
+              </exit>
+            </subvertex>
+          </region>
+        </ownedBehavior>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_U8VwIOm4EeSD7JE_xtpv_Q" name="Types">
+      <packagedElement xmi:type="uml:Class" xmi:id="_YmkqYOmxEeSJTqspLYV36Q" name="ParamClass"/>
+      <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_GF9ZcOmyEeSJTqspLYV36Q" name="Integer"/>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_LHL3oOmyEeSJTqspLYV36Q" name="UserDefinedType"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_VfzCgOm4EeSD7JE_xtpv_Q" name="Signals">
+      <packagedElement xmi:type="uml:Signal" xmi:id="_y4680OmxEeSJTqspLYV36Q" name="PrimitiveSignal">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_gSv2cOmyEeSJTqspLYV36Q" name="PrimitiveAttr" type="_GF9ZcOmyEeSJTqspLYV36Q"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_4sy_8OmxEeSJTqspLYV36Q" name="UserDefinedSignal">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_mBQ4cOmyEeSJTqspLYV36Q" name="UserDefinedAttr" type="_LHL3oOmyEeSJTqspLYV36Q"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Signal" xmi:id="_5KqnsOmxEeSJTqspLYV36Q" name="ClassSignal">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_qmZQgOmyEeSJTqspLYV36Q" name="ClassAttr" type="_YmkqYOmxEeSJTqspLYV36Q"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_HP_qAOm6EeSD7JE_xtpv_Q" name="Events">
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_gX47gOm6EeSD7JE_xtpv_Q" name="E2" signal="_4sy_8OmxEeSJTqspLYV36Q"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kJJmoOm6EeSD7JE_xtpv_Q" name="E3" signal="_5KqnsOmxEeSJTqspLYV36Q"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

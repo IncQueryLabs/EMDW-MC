@@ -10,42 +10,42 @@
 
 	<modules>
 		<!-- Metamodels -->
-		<module>../../org.eclipse.papyrusrt.xtumlrt.common.model</module>
-		<module>../../org.eclipse.papyrusrt.xtumlrt.xtuml.model</module>
-		<module>../../com.ericsson.xtumlrt.oopl.model</module>
-		<module>../../com.ericsson.xtumlrt.oopl.cpp.model</module>
-		<module>../../com.ericsson.xtumlrt.oopl.java.model</module>
-		
+		<module>../../plugins/org.eclipse.papyrusrt.xtumlrt.common.model</module>
+		<module>../../plugins/org.eclipse.papyrusrt.xtumlrt.xtuml.model</module>
+		<module>../../plugins/com.ericsson.xtumlrt.oopl.model</module>
+		<module>../../plugins/com.ericsson.xtumlrt.oopl.cpp.model</module>
+		<module>../../plugins/com.ericsson.xtumlrt.oopl.java.model</module>
+
 		<!-- UML integration -->
-		<module>../../com.incquerylabs.emdw.umlintegration.trace</module>
-		<module>../../com.incquerylabs.emdw.umlintegration.transformation</module>
-		<module>../../com.incquerylabs.emdw.umlintegration.transformation.test</module>
-		<module>../../com.incquerylabs.emdw.umlintegration.papyrus</module>
+		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
+		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
+		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
+		<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
 
 		<!-- XTUML-CPP transformation -->
-		<module>../../com.incquerylabs.emdw.cpp.transformation</module>
+		<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
 		<!-- Ignored tests because they are incomplete and failing
-		<module>../../com.incquerylabs.emdw.cpp.transformation.test</module>
+		<module>../../tests/com.incquerylabs.emdw.cpp.transformation.test</module>
 		-->
-		
+
 		<!-- CPP code generation -->
-		<module>../../com.incquerylabs.emdw.cpp.codegeneration</module>
-		<module>../../com.incquerylabs.emdw.cpp.ui</module>
+		<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
+		<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
 		<!-- Ignored tests because they are incomplete and failing
-		<module>../../com.incquerylabs.emdw.cpp.codegeneration.test</module>
+		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
 		-->
-		
-		
+
+
 		<!-- Releng -->
 		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
 		<module>../com.incquerylabs.emdw.papyrus.feature</module>
 		<module>../com.incquerylabs.emdw.update</module>
-		
+
 		<!-- Maven plugins -->
 		<module>../../maven/emdw-metamodels</module>
-		
+
 	</modules>
 
 	<properties>
@@ -57,7 +57,7 @@
 		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/nightly/luna</papyrus-repo.url>
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>luna</id>
@@ -85,7 +85,7 @@
 			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
 		</repository>
 	</repositories>
-	
+
 	<distributionManagement>
 		<repository>
 			<id>nexus-emdw-snapshots</id>
@@ -98,7 +98,7 @@
 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>

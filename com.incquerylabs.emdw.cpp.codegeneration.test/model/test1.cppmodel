@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl">
+  <cpp:CPPModel bodyDir="/1">
+    <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="Test model"/>
+    <subElements xsi:type="cpp:CPPComponent" bodyDirectory="/1/@subDirectories.0">
+      <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="component1"/>
+      <subElements xsi:type="cpp:CPPComponent" bodyDirectory="/1/@subDirectories.0/@subDirectories.0">
+        <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="component2"/>
+      </subElements>
+      <subElements xsi:type="cpp:CPPComponent" bodyDirectory="/1/@subDirectories.0/@subDirectories.1">
+        <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="component3"/>
+      </subElements>
+    </subElements>
+  </cpp:CPPModel>
+  <cpp:CPPDirectory>
+    <subDirectories>
+      <subDirectories/>
+      <subDirectories/>
+    </subDirectories>
+  </cpp:CPPDirectory>
+</xmi:XMI>

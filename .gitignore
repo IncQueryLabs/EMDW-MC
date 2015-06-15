@@ -13,18 +13,3 @@ hs_err_pid*
 
 target/
 bin/
-/com.ericsson.xtumlrt.oopl.cpp.model.edit/
-/com.ericsson.xtumlrt.oopl.cpp.model.editor/
-/com.ericsson.xtumlrt.oopl.java.model.edit/
-/com.ericsson.xtumlrt.oopl.java.model.editor/
-/com.ericsson.xtumlrt.oopl.model.edit/
-/com.ericsson.xtumlrt.oopl.model.editor/
-/com.ericsson.xtumlrt.platform.model.edit/
-/com.ericsson.xtumlrt.platform.model.editor/
-/org.eclipse.papyrusrt.xtumlrt.common.model.edit/
-/org.eclipse.papyrusrt.xtumlrt.common.model.editor/
-/org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit/
-/org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor/
-/com.ericsson.xtumlrt.oopl.cpp.model.edit/
-/com.incquerylabs.emdw.umlintegration.trace.edit/
-/com.incquerylabs.emdw.umlintegration.trace.editor/

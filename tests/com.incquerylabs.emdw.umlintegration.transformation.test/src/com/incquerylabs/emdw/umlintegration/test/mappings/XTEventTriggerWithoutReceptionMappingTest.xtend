@@ -8,6 +8,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.UMLFactory
+import org.junit.Assert
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
@@ -16,7 +17,7 @@ import static org.junit.Assert.assertEquals
 import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 
 @RunWith(Parameterized)
-class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
+class XTEventTriggerWithoutReceptionMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -36,10 +37,14 @@ class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigg
 		val transition = region.createTransition("myTransition", sourceState, targetState)
 		val trigger = transition.createTrigger("myTrigger")
 		val signal = umlRoot.createSignalAndSignalEvent(class, trigger) // this will become the trigger's event
-		val reception = class.createOwnedReception("myReception", null, null) => [
-			it.signal = signal
-		]
 		trigger
+	}
+	
+	override protected assertMapping(RootMapping mapping, Trigger umlObject){
+		val xtumlrtObjects = mapping.xtumlrtRoot.xtumlrtObjects
+		Assert.assertTrue("Object not transformed", xtumlrtObjects.empty)
+		val trace = mapping.traces.findFirst[umlElements.contains(umlObject)]
+		Assert.assertNull("Trace not created", trace)
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {

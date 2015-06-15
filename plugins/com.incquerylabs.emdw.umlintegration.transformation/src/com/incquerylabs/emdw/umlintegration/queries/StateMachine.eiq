@@ -198,12 +198,41 @@ private pattern transitionOfRegion(region: Region, transition: Transition, sourc
 	Transition.target(transition, targetState);
 }
 
-// Transition children
+//Triggers
 
 pattern xtEventTrigger(transition: Transition, trigger: Trigger) {
-	find transition(transition, _, _);
 	Transition.trigger(transition, trigger);
+	find triggerSignal(trigger, signal);
+	find signalWithReceptionInClass(signal, _reception, umlClass);
+	Class.classifierBehavior(umlClass, stateMachine);
+	find transitionInStateMachine(stateMachine, transition);
 }
+
+private pattern transitionInStateMachine(stateMachine: StateMachine, transition: Transition) {
+	StateMachine.region(stateMachine, toplevelRegion);
+	Region.transition(toplevelRegion, transition);
+} or {
+	StateMachine.region(stateMachine, toplevelRegion);
+	find subregion+(toplevelRegion, region);
+	Region.transition(region, transition);
+}
+
+private pattern subregion(parent: Region, child: Region) {
+	Region.subvertex(parent, state);
+	State.region(state, child);
+}
+
+private pattern triggerSignal(trigger: Trigger, signal: Signal){
+	Trigger.event(trigger, event);
+	SignalEvent.signal(event, signal);
+}
+
+pattern signalWithReceptionInClass(signal: Signal, reception: Reception, umlClass: Class) {
+	Class.ownedReception(umlClass, reception);
+	Reception.signal(reception, signal);
+}
+
+// Transition children
 
 pattern guard(transition: Transition, guard: Constraint) {
 	find transition(transition, _, _);
@@ -213,4 +242,16 @@ pattern guard(transition: Transition, guard: Constraint) {
 pattern actionChain(transition: Transition, effect: Behavior) {
 	find transition(transition, _, _);
 	Transition.effect(transition, effect);
+}
+
+// Events
+// FIXME Signal Event is related to protocol, so this is incorrect
+pattern xtSignalEvent(umlClass: Class, signal: Signal) {
+	Interface.nestedClassifier(_, signal);
+
+	Class.classifierBehavior(umlClass, stateMachine);
+	find transitionInStateMachine(stateMachine, transition);
+	Transition.trigger(transition, trigger);
+	Trigger.event(trigger, signalEvent);
+	SignalEvent.signal(signalEvent, signal);
 }

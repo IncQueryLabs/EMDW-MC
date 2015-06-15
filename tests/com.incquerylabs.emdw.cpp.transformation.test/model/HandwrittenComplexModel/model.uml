@@ -158,6 +158,9 @@ return false;</body>
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_TaEjAPpJEeSIULC1X3PCpw" name="mySignal3"/>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_W6RTUPpJEeSIULC1X3PCpw" name="mySignal2"/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_bSWu0BNsEeWBN_fGfsaQrQ" name="myReception1" signal="_dYn-MPpGEeSIULC1X3PCpw"/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_eH9C8BNsEeWBN_fGfsaQrQ" name="myReception2" signal="_W6RTUPpJEeSIULC1X3PCpw"/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_gV3E8BNsEeWBN_fGfsaQrQ" name="myReception3" signal="_TaEjAPpJEeSIULC1X3PCpw"/>
     </nestedClassifier>
   </packagedElement>
   <packagedElement xmi:type="uml:SignalEvent" xmi:id="_f4TQMPpHEeSIULC1X3PCpw" name="MySignalEvent1" signal="_dYn-MPpGEeSIULC1X3PCpw"/>

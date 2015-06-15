@@ -41,6 +41,18 @@
               <element xmi:type="uml:Operation" href="model.uml#_9H-a8Po9EeSpnsHyI6QRfw"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_9IDTcfo9EeSpnsHyI6QRfw"/>
             </children>
+            <children xmi:type="notation:Shape" xmi:id="_bTYCgBNsEeWBN_fGfsaQrQ" type="3011">
+              <element xmi:type="uml:Reception" href="model.uml#_bSWu0BNsEeWBN_fGfsaQrQ"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_bTYCgRNsEeWBN_fGfsaQrQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_eIAGQBNsEeWBN_fGfsaQrQ" type="3011">
+              <element xmi:type="uml:Reception" href="model.uml#_eH9C8BNsEeWBN_fGfsaQrQ"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_eIAGQRNsEeWBN_fGfsaQrQ"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_gV6IQBNsEeWBN_fGfsaQrQ" type="3011">
+              <element xmi:type="uml:Reception" href="model.uml#_gV3E8BNsEeWBN_fGfsaQrQ"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_gV6IQRNsEeWBN_fGfsaQrQ"/>
+            </children>
             <styles xmi:type="notation:TitleStyle" xmi:id="_I2N1p_o8EeSpnsHyI6QRfw"/>
             <styles xmi:type="notation:SortingStyle" xmi:id="_I2N1qPo8EeSpnsHyI6QRfw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_I2N1qfo8EeSpnsHyI6QRfw"/>
@@ -73,7 +85,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOpP_o8EeSpnsHyI6QRfw"/>
       </children>
       <element xmi:type="uml:Component" href="model.uml#_RcK-0Po8EeSpnsHyI6QRfw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOCIfo8EeSpnsHyI6QRfw" x="272" y="60" width="614" height="397"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOCIfo8EeSpnsHyI6QRfw" x="250" y="62" width="614" height="397"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_ckKR0fo6EeSpnsHyI6QRfw" name="diagram_compatibility_version" stringValue="1.0.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_ckKR0vo6EeSpnsHyI6QRfw"/>

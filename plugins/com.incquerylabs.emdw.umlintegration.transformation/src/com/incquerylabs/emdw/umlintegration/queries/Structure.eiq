@@ -186,31 +186,6 @@ pattern xtClassEvent(umlClass: Class, signal: Signal) {
 	
 }
 
-// FIXME Signal Event is related to protocol, so this is incorrect
-pattern xtSignalEvent(umlClass: Class, signal: Signal) {
-	Interface.nestedClassifier(_, signal);
-
-	Class.classifierBehavior(umlClass, stateMachine);
-	find transitionInStateMachine(stateMachine, transition);
-	Transition.trigger(transition, trigger);
-	Trigger.event(trigger, signalEvent);
-	SignalEvent.signal(signalEvent, signal);
-}
-
-private pattern transitionInStateMachine(stateMachine: StateMachine, transition: Transition) {
-	StateMachine.region(stateMachine, toplevelRegion);
-	Region.transition(toplevelRegion, transition);
-} or {
-	StateMachine.region(stateMachine, toplevelRegion);
-	find subregion+(toplevelRegion, region);
-	Region.transition(region, transition);
-}
-
-private pattern subregion(parent: Region, child: Region) {
-	Region.subvertex(parent, state);
-	State.region(state, child);
-}
-
 // Types
 
 pattern typeDefinition(umlPackage: Package, type: Type) {

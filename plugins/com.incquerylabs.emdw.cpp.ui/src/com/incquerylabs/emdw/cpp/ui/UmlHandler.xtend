@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.ui
 
 import com.incquerylabs.emdw.cpp.ui.util.CodeGenerator
 import com.incquerylabs.emdw.umlintegration.papyrus.EmfModel
+import java.util.List
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
@@ -9,6 +10,8 @@ import org.eclipse.core.runtime.IAdaptable
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.papyrus.infra.core.resource.ModelSet
+import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
@@ -31,7 +34,7 @@ class UmlHandler extends AbstractHandler {
 			if(emfModel instanceof EmfModel){
 				val xtumlResource = emfModel.resource
 				val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
-				val xtComponents = xtModel.entities.filter(XTComponent)
+				val xtComponents = xtModel.allSubComponents
 				generateCodeFromXtComponents(xtComponents)
 			}
 		}
@@ -50,6 +53,21 @@ class UmlHandler extends AbstractHandler {
 				model = adaptableElement.getAdapter(Model) as Model
 			}
 		}
+	}
+	
+	def getAllSubComponents(org.eclipse.papyrusrt.xtumlrt.common.Model xtModel){
+		val topLevelComponents = xtModel.entities.filter(XTComponent)
+		val subPackages = xtModel.subPackages
+		val subComponents = subPackages.map[entities].flatten.filter(XTComponent)
+		val allComponents = topLevelComponents + subComponents
+		return allComponents
+	}
+	
+	def List<Package> getSubPackages(BaseContainer baseContainer) {
+		val childPackages = baseContainer.packages
+		val subPackages = childPackages.map[subPackages].flatten
+		val result = (subPackages + childPackages).toList
+		return result
 	}
 	
 }

@@ -1,6 +1,6 @@
-package com.incquerylabs.emdw.cpp.codegeneration.directory
+package com.incquerylabs.emdw.cpp.codegeneration.fsa
 
-abstract class DirectoryCreator {
+abstract class FileManager implements IFileManager {
 	
 	protected String rootDirectory;
 	

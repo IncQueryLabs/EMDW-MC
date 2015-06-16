@@ -5,4 +5,7 @@
   <extension id="com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries" id="com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries"/>
   </extension>
+  <extension id="com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries" id="com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries"/>
+  </extension>
 </plugin>

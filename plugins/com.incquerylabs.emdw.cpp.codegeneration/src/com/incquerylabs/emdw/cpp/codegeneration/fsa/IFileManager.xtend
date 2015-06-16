@@ -1,9 +1,12 @@
-package com.incquerylabs.emdw.cpp.codegeneration.directory
+package com.incquerylabs.emdw.cpp.codegeneration.fsa
 
 import java.util.List
 
-interface IDirectoryCreator {
+interface IFileManager {
 	
+	/*
+	 * Methods to handle directory structure
+	 */
 	def boolean createDirectory(String path)
 	
 	def boolean deleteDirectory(String path)
@@ -11,5 +14,11 @@ interface IDirectoryCreator {
 	def boolean isDirectoryExists(String path)
 	
 	def List<String> getSubDirectoryNames(String path)
+	
+	/*
+	 * Methods to handle file printing
+	 */
+	 
+	 
 	
 }

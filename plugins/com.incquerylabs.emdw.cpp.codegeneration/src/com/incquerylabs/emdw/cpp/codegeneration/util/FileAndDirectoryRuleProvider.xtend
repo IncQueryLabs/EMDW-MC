@@ -1,32 +1,33 @@
 package com.incquerylabs.emdw.cpp.codegeneration.util
 
-import com.incquerylabs.emdw.cpp.codegeneration.directory.IDirectoryCreator
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
-class DirectoryRuleProvider {
-	static extension val CppDirectoryStructureQueries = CppDirectoryStructureQueries.instance
+class FileAndDirectoryRuleProvider {
+
+	static extension val CppFileAndDirectoryQueries = CppFileAndDirectoryQueries.instance
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	
 	IncQueryEngine engine
-	IDirectoryCreator directoryCreator
+	IFileManager fileManager
 
-	new(IncQueryEngine engine, IDirectoryCreator directoryCreator) {
+	new(IncQueryEngine engine, IFileManager fileManager) {
 		this.engine = engine;
-		this.directoryCreator = directoryCreator
+		this.fileManager = fileManager
 	}
 
 	public val cppRootDirectoryRule = createRule.precondition(cppRootDirectory).action[match | 
 		val cppDir = match.dir
 		
-		directoryCreator.createDirectory(cppDir.path) 
+		fileManager.createDirectory(cppDir.path) 
 		
-		DirectoryCreationUtil.synchronizeSubDirectories(cppDir, directoryCreator)
+		FileAndDirectoryGenerationUtil.synchronizeSubDirectories(cppDir, fileManager)
 		
 		debug(
 			'''
@@ -39,9 +40,9 @@ class DirectoryRuleProvider {
 	public val cppSubDirectoryRule = createRule.precondition(cppSubDirectory).action[match | 
 		val cppDir = match.dir
 		
-		directoryCreator.createDirectory(cppDir.path) 
+		fileManager.createDirectory(cppDir.path) 
 		
-		DirectoryCreationUtil.synchronizeSubDirectories(cppDir, directoryCreator)
+		FileAndDirectoryGenerationUtil.synchronizeSubDirectories(cppDir, fileManager)
 		
 		debug(
 			'''

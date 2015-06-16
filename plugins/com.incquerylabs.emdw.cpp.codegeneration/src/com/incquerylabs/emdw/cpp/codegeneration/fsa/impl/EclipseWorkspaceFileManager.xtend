@@ -1,7 +1,6 @@
-package com.incquerylabs.emdw.cpp.codegeneration.directory.impl
+package com.incquerylabs.emdw.cpp.codegeneration.fsa.impl
 
-import com.incquerylabs.emdw.cpp.codegeneration.directory.DirectoryCreator
-import com.incquerylabs.emdw.cpp.codegeneration.directory.IDirectoryCreator
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import java.util.ArrayList
 import org.apache.log4j.Logger
 import org.eclipse.core.resources.IFolder
@@ -11,7 +10,7 @@ import org.eclipse.core.resources.ResourcesPlugin
 
 import static com.google.common.base.Preconditions.*
 
-class EclipseWorkspaceDirectoryCreator extends DirectoryCreator implements IDirectoryCreator {
+class EclipseWorkspaceFileManager extends FileManager {
 
 	private IProject rootProject;
 

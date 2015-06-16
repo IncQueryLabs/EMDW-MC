@@ -1,9 +1,9 @@
 package com.incquerylabs.emdw.cpp.codegeneration
 
 import com.google.common.base.Stopwatch
-import com.incquerylabs.emdw.cpp.codegeneration.directory.IDirectoryCreator
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppDirectoryStructureQueries
-import com.incquerylabs.emdw.cpp.codegeneration.util.DirectoryRuleProvider
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
+import com.incquerylabs.emdw.cpp.codegeneration.util.FileAndDirectoryRuleProvider
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
@@ -13,21 +13,20 @@ import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
 
-class DirectoryStructureGeneration {
+class FileAndDirectoryGeneration {
 
 	extension val Logger logger = Logger.getLogger(class)
-	static val dirStructQueries = CppDirectoryStructureQueries.instance
+	static val queries = CppFileAndDirectoryQueries.instance
 
 	private var initialized = false;
 
 	BatchTransformation transform
 	IncQueryEngine engine
-	DirectoryRuleProvider ruleProvider
-	
+	FileAndDirectoryRuleProvider ruleProvider
 	
 	extension BatchTransformationStatements statements
 
-	def initialize(IncQueryEngine engine, IDirectoryCreator directoryCreator) {
+	def initialize(IncQueryEngine engine, IFileManager fileManager) {
 		checkArgument(engine != null, "Engine cannot be null!")
 		
 		if (!initialized) {
@@ -35,16 +34,16 @@ class DirectoryStructureGeneration {
 
 			debug("Preparing queries on engine.")
 			var watch = Stopwatch.createStarted
-			val queries = GenericPatternGroup.of(dirStructQueries)
+			val queries = GenericPatternGroup.of(queries)
 			queries.prepare(engine)
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
-			debug("Preparing transformation rules.")
+			debug("Preparing file and directory generation rules.")
 			transform = BatchTransformation.forEngine(engine)
-			ruleProvider = new DirectoryRuleProvider(engine, directoryCreator)
+			ruleProvider = new FileAndDirectoryRuleProvider(engine, fileManager)
 			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
-			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+			info('''Prepared file and directory generation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true
 		}
@@ -52,10 +51,10 @@ class DirectoryStructureGeneration {
 	
 	def execute() {
 		val watch = Stopwatch.createStarted
-		info('''Directory structure generation started''')
+		info('''File and directory generation started''')
 		fireAllCurrent(ruleProvider.cppRootDirectoryRule)
 		fireAllCurrent(ruleProvider.cppSubDirectoryRule)
-		info('''Directory structure generation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+		info('''File and directory generation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
 	def dispose() {

@@ -12,5 +12,33 @@
    <feature url="features/org.eclipse.papyrusrt.xtumlrt-feature_1.0.0.qualifier.jar" id="org.eclipse.papyrusrt.xtumlrt-feature" version="1.0.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>
+   <feature url="features/org.eclipse.papyrus.sdk.feature_1.0.2.qualifier.jar" id="org.eclipse.papyrus.sdk.feature" version="1.0.2.qualifier">
+      <category name="thirdparty"/>
+   </feature>
+   <feature url="features/org.eclipse.incquery.sdk.feature_1.0.0.qualifier.jar" id="org.eclipse.incquery.sdk.feature" version="1.0.0.qualifier">
+      <category name="thirdparty"/>
+   </feature>
+   <feature url="features/org.eclipse.viatra.emf.runtime.feature_0.7.0.qualifier.jar" id="org.eclipse.viatra.emf.runtime.feature" version="0.7.0.qualifier">
+      <category name="thirdparty"/>
+   </feature>
+   <feature url="features/org.eclipse.xtext.sdk_2.8.0.qualifier.jar" id="org.eclipse.xtext.sdk" version="2.8.0.qualifier">
+      <category name="thirdparty"/>
+   </feature>
+   <feature url="features/org.eclipse.emf.ecore.xcore.sdk_1.2.2.qualifier.jar" id="org.eclipse.emf.ecore.xcore.sdk" version="1.2.2.qualifier">
+      <category name="thirdparty"/>
+   </feature>
+   <feature url="features/org.eclipse.xtend.sdk_2.8.0.qualifier.jar" id="org.eclipse.xtend.sdk" version="2.8.0.qualifier">
+      <category name="thirdparty"/>
+   </feature>
+   <bundle id="com.google.inject.multibindings" version="3.0.0.qualifier">
+      <category name="thirdparty"/>
+   </bundle>
+   <bundle id="org.apache.log4j" version="1.2.15.qualifier">
+      <category name="thirdparty"/>
+   </bundle>
+   <bundle id="com.google.inject" version="3.0.0.qualifier">
+	  <category name="thirdparty"/>
+   </bundle>
    <category-def name="com.incquerylabs.emdw.update" label="EMDW"/>
+   <category-def name="thirdparty" label="Third Party Features"/>
 </site>

@@ -1,6 +1,8 @@
 package com.incquerylabs.emdw.cpp.codegeneration.fsa.impl
 
+import com.google.common.io.Files
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
+import java.io.ByteArrayInputStream
 import java.util.ArrayList
 import org.apache.log4j.Logger
 import org.eclipse.core.resources.IFolder
@@ -16,14 +18,15 @@ class EclipseWorkspaceFileManager extends FileManager {
 
 	new(String projectName, String rootDirectory) {
 		super(rootDirectory)
-		
+
 		rootProject = ResourcesPlugin.workspace.root.getProject(projectName)
 		if(!rootProject.exists) rootProject.create(null)
 		rootProject.open(null)
 	}
-
+	
 	extension val Logger logger = Logger.getLogger(class)
-
+	
+	// Implementation specific methods
 	private def String addRootDirectory(String path) {
 		rootDirectory + path
 	}
@@ -47,6 +50,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		}
 	}
 
+	// Directory management methods
 	override createDirectory(String path) {
 		checkArgument(path != null && !path.equals(""), "Directory path cannot be null!")
 		try {
@@ -82,9 +86,56 @@ class EclipseWorkspaceFileManager extends FileManager {
 		else
 			return new ArrayList<String>
 	}
-	
+
 	override isDirectoryExists(String path) {
 		return path.folder.exists
 	}
 
+	/*
+	 * File management methods
+	 */ 
+	override boolean createFile(String directoryPath, String filename, CharSequence content) {
+		if (!isDirectoryExists(directoryPath)) {
+			warn('''File directory does not exists: «directoryPath»''')
+			return false
+		}
+		try {
+			val file = directoryPath.folder.getFile(filename)
+			if (file.exists)
+				file.delete(true, null)
+			file.create(new ByteArrayInputStream(content.toString.bytes), true, null)
+		} catch (Exception e) {
+			error('''Error occured during file creation: «directoryPath»/«filename»''', e)
+			return false
+		}
+		return true
+	}
+
+	override boolean deleteFile(String directoryPath, String filename) {
+		if (!isDirectoryExists(directoryPath)) {
+			warn('''File directory doesn't exists: «directoryPath»''')
+			return false
+		}
+		try {
+			directoryPath.folder.getFile(filename).delete(true, null)
+		} catch (Exception e) {
+			warn('''Error occured during file deletion: «directoryPath»/«filename»''', e)
+			return false
+		}
+		return true
+	}
+
+	override byte[] getFileContent(String directoryPath, String filename) {
+		if (!isDirectoryExists(directoryPath)) {
+			info('''File directory doesn't exists: «directoryPath»''')
+			return null
+		} else {
+			val file = directoryPath.folder.getFile(filename)
+			if(!file.exists) {
+				warn('''File doesn't exists: «directoryPath»/«filename»''')
+				return null
+			}
+			Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
+		}
+	}
 }

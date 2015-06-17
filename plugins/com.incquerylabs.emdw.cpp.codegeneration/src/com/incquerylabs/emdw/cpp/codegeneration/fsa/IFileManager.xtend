@@ -5,7 +5,7 @@ import java.util.List
 interface IFileManager {
 	
 	/*
-	 * Methods to handle directory structure
+	 * Directory management methods
 	 */
 	def boolean createDirectory(String path)
 	
@@ -16,9 +16,12 @@ interface IFileManager {
 	def List<String> getSubDirectoryNames(String path)
 	
 	/*
-	 * Methods to handle file printing
+	 * File management methods
 	 */
-	 
-	 
+	def boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache)
+	
+	def boolean deleteFile(String directoryPath, String filename)
+	
+	def byte[] getFileContent(String directoryPath, String filename)
 	
 }

@@ -58,6 +58,7 @@ class EntityRules {
 			commonOperation = operation
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = operation ]
 		]
+		cppElement.subElements += cppOperation
 		operation.parameters.forEach[ param |
 			val cppFormalParameter = createCPPFormalParameter => [
 				commonParameter = param
@@ -68,7 +69,6 @@ class EntityRules {
 			]
 			cppOperation.subElements += cppFormalParameter
 		]
-		cppElement.subElements += cppOperation
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
 	].build
 	

@@ -22,6 +22,8 @@ interface IFileManager {
 	
 	def boolean deleteFile(String directoryPath, String filename)
 	
-	def byte[] getFileContent(String directoryPath, String filename)
-	
+	/*
+	 * Cache management methods
+	 */
+	def void clearFileCache()
 }

@@ -3,14 +3,10 @@ package com.incquerylabs.emdw.cpp.codegeneration.fsa.impl
 import com.google.common.io.Files
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import java.io.ByteArrayInputStream
-import java.util.ArrayList
-import org.apache.log4j.Logger
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
-
-import static com.google.common.base.Preconditions.*
 
 class EclipseWorkspaceFileManager extends FileManager {
 
@@ -24,13 +20,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		rootProject.open(null)
 	}
 	
-	extension val Logger logger = Logger.getLogger(class)
-	
 	// Implementation specific methods
-	private def String addRootDirectory(String path) {
-		rootDirectory + path
-	}
-
 	private def IFolder getFolder(String path) {
 		rootProject.getFolder(path.addRootDirectory)
 	}
@@ -50,92 +40,43 @@ class EclipseWorkspaceFileManager extends FileManager {
 		}
 	}
 
-	// Directory management methods
-	override createDirectory(String path) {
-		checkArgument(path != null && !path.equals(""), "Directory path cannot be null!")
-		try {
-			if (!path.folder.exists) {
-				path.folder.createFolder
-			} else
-				info("Directory already exists: " + path.addRootDirectory)
-			return true
-		} catch (Exception e) {
-			error("Error occurred during folder creation: " + path, e)
-			return false
-		}
+	/*
+	 * Directory management methods
+	 */ 
+	override void performDirectoryCreation(String path) {
+		path.folder.createFolder
 	}
 
-	override deleteDirectory(String path) {
-		checkArgument(path != null && !path.equals(""), "Directory path cannot be null!")
-		try {
-			if (path.folder.exists)
-				path.folder.delete(true, null)
-			else
-				info("Directory does not exists: " + path.addRootDirectory)
-			return true
-		} catch (Exception e) {
-			error("Error occurred during folder deletion: " + path, e)
-			return false
-		}
+	override void performDirectoryDeletion(String path) {
+		path.folder.delete(true, null)
+	}
+	
+	// XXX Is it OK to filter to IFolders - what about inner projects?
+	override readSubDirectoryNames(String path) {
+		path.folder.members.filter[f|f instanceof IFolder].map[f|f.name].toList
 	}
 
-	override getSubDirectoryNames(String path) {
-		checkArgument(path != null && !path.equals(""), "Directory path cannot be null!")
-		if (path.folder.exists)
-			path.folder.members.filter[f|f instanceof IFolder].map[f|f.name].toList
-		else
-			return new ArrayList<String>
-	}
-
-	override isDirectoryExists(String path) {
+	override directoryExists(String path) {
 		return path.folder.exists
 	}
 
 	/*
 	 * File management methods
-	 */ 
-	override boolean createFile(String directoryPath, String filename, CharSequence content) {
-		if (!isDirectoryExists(directoryPath)) {
-			warn('''File directory does not exists: «directoryPath»''')
-			return false
-		}
-		try {
-			val file = directoryPath.folder.getFile(filename)
-			if (file.exists)
-				file.delete(true, null)
-			file.create(new ByteArrayInputStream(content.toString.bytes), true, null)
-		} catch (Exception e) {
-			error('''Error occured during file creation: «directoryPath»/«filename»''', e)
-			return false
-		}
-		return true
+	 */
+	override void performFileCreation(String directoryPath, String filename, CharSequence content) {
+		directoryPath.folder.getFile(filename).create(new ByteArrayInputStream(content.toString.bytes), true, null)
 	}
 
-	override boolean deleteFile(String directoryPath, String filename) {
-		if (!isDirectoryExists(directoryPath)) {
-			warn('''File directory doesn't exists: «directoryPath»''')
-			return false
-		}
-		try {
-			directoryPath.folder.getFile(filename).delete(true, null)
-		} catch (Exception e) {
-			warn('''Error occured during file deletion: «directoryPath»/«filename»''', e)
-			return false
-		}
-		return true
+	override void performFileDeletion(String directoryPath, String filename) {
+		directoryPath.folder.getFile(filename).delete(true, null)
 	}
-
-	override byte[] getFileContent(String directoryPath, String filename) {
-		if (!isDirectoryExists(directoryPath)) {
-			info('''File directory doesn't exists: «directoryPath»''')
-			return null
-		} else {
-			val file = directoryPath.folder.getFile(filename)
-			if(!file.exists) {
-				warn('''File doesn't exists: «directoryPath»/«filename»''')
-				return null
-			}
-			Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
-		}
+	
+	override boolean fileExists(String directoryPath, String filename) {
+		directoryPath.folder.getFile(filename).exists
+	}
+	
+	override byte[] readFileContent(String directoryPath, String filename) {
+		val file = directoryPath.folder.getFile(filename)
+		Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
 	}
 }

@@ -2,8 +2,6 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.fsa
 
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import java.text.MessageFormat
 import java.util.List
 import org.apache.log4j.AppenderSkeleton
@@ -17,13 +15,13 @@ import org.junit.Test
 
 import static org.junit.Assert.*
 
-class FileManagerTest {
+abstract class FileManagerBaseTest<T extends FileManager> {
 
 	protected extension Logger logger = Logger.getLogger(class)
 
-	private IFileManager fileManager
+	private T fileManager
 
-	private final String directoryPath = "test directory"
+	private final String directoryPath = "test_directory"
 
 	private final String fileName = "testfile.txt"
 	private final CharSequence fileContent1 = "File manager test content 1"
@@ -31,48 +29,52 @@ class FileManagerTest {
 	
 	private TestAppender testAppender
 	
+	new(T fileManager) {
+		this.fileManager = fileManager
+	}
+	
 	@BeforeClass
 	def static setupLogger() {
 		Logger.getLogger(FileAndDirectoryGeneration.package.name).level = Level.DEBUG
 	}
-
+	
 	@Before
 	public def void initialize() {
-		fileManager = new EclipseWorkspaceFileManager("FileManagerTest", "/")
+		fileManager.deleteDirectory(directoryPath)
 		fileManager.createDirectory(directoryPath)
 		testAppender = new TestAppender
 		Logger.getRootLogger().addAppender(testAppender);
 	}
-
+	
 	@Test
 	public def void fileCreationWithoutCache_test() {
-		fileManager.createFile(directoryPath, fileName, fileContent1, false, false)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
-		fileManager.createFile(directoryPath, fileName, fileContent1, false, false)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, fileName))
 	}
-
+	
 	@Test
 	public def void fileCreationWithCache_test() {
-		fileManager.createFile(directoryPath, fileName, fileContent1, false, true)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
-		fileManager.createFile(directoryPath, fileName, fileContent1, false, true)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, fileName))
 	}
-
+	
 	@Test
 	public def void fileUpdate_test() {
-		fileManager.createFile(directoryPath, fileName, fileContent1, false, true)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
-		fileManager.createFile(directoryPath, fileName, fileContent2, false, true)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent2, false, false))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_UPDATED, directoryPath, fileName))
 	}
-
+	
 	@Test
 	public def void fileDelete_test() {
-		fileManager.createFile(directoryPath, fileName, fileContent1, false, true)
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
-		fileManager.deleteFile(directoryPath, fileName)
+		assertTrue(fileManager.deleteFile(directoryPath, fileName))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, fileName))
 	}
 

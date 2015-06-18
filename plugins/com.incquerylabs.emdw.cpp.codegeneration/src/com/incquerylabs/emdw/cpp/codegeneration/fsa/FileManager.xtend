@@ -159,6 +159,11 @@ abstract class FileManager implements IFileManager {
 		return true
 	}
 	
+	override boolean checkFileContent(String directoryPath, String filename, CharSequence content) {
+		val expectedCheckSum = calculateHash(content)
+		return existsInFileSystem(directoryPath, filename, expectedCheckSum)
+	}
+	
 	private def byte[] getFileContent(String directoryPath, String filename) {
 		checkDirectoryPathAndFileName(directoryPath, filename)
 		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))

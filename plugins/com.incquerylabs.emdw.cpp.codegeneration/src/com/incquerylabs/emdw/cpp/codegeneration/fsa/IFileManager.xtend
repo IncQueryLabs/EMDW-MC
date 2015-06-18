@@ -24,6 +24,8 @@ interface IFileManager {
 	
 	def boolean deleteFile(String directoryPath, String filename)
 	
+	def boolean checkFileContent(String directoryPath, String filename, CharSequence content)
+
 	/*
 	 * Cache management methods
 	 */

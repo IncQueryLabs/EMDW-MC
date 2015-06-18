@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
+import java.util.zip.Adler32
 
 class EclipseWorkspaceFileManager extends FileManager {
 
@@ -83,5 +84,12 @@ class EclipseWorkspaceFileManager extends FileManager {
 	override byte[] readFileContent(String directoryPath, String filename) {
 		val file = directoryPath.folder.getFile(filename)
 		Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
+	}
+	
+	// Use Adler32 to calculate file checksum
+	override def String calculateHash(byte[] content) {
+		val adler32 = new Adler32()
+		adler32.update(content)
+		adler32.value.toString
 	}
 }

@@ -206,6 +206,14 @@ abstract class FileManager implements IFileManager {
 			<String>newArrayList()
 	}
 	
+	override List<String> getContainedFileNames(String path) {
+		checkStringArgument(path, "Directory path")
+		if(isDirectoryExists(path))
+			readContainedFileNames(path)
+		else
+			<String>newArrayList()
+	}
+	
 	override boolean isDirectoryExists(String path) {
 		checkStringArgument(path, "Directory path")
 		directoryExists(path)
@@ -216,6 +224,8 @@ abstract class FileManager implements IFileManager {
 	abstract def void performDirectoryDeletion(String path)
 	
 	abstract def List<String> readSubDirectoryNames(String path)
+	
+	abstract def List<String> readContainedFileNames(String path)
 	
 	abstract def boolean directoryExists(String path)
 	

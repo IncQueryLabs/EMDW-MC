@@ -36,3 +36,18 @@ pattern cppSubDirectory(dir : CPPDirectory) {
 pattern subDirectory(parent : CPPDirectory, child : CPPDirectory) {
 	CPPDirectory.subDirectories(parent, child);
 }
+
+// CPPDirectory -> files
+pattern cppDirectoryFiles(cppDir : CPPDirectory, cppSourceFile : CPPSourceFile) {
+	CPPDirectory.files(cppDir, cppSourceFile);
+}
+
+// CPPClass -> CPPHeaderFile
+pattern cppClassHeaderFile(cppClass : CPPClass, headerFile : CPPHeaderFile) {
+	CPPClass.headerFile(cppClass, headerFile);
+}
+
+// CPPClass -> CPPBodyFile
+pattern cppClassBodyFile(cppClass : CPPClass, bodyFile : CPPBodyFile) {
+	CPPClass.bodyFile(cppClass, bodyFile);
+}

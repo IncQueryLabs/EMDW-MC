@@ -4,10 +4,10 @@ import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.templates.CPPTemplates
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.viatra.emf.runtime.rules.TransformationRuleGroup
+import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
-import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 
 class RuleProvider {
 	static extension val CppCodeGenerationQueries codeGenQueries = CppCodeGenerationQueries.instance
@@ -18,6 +18,7 @@ class RuleProvider {
 	
 	IncQueryEngine engine
 	public val generatedFiles = <String, String>newHashMap
+	public val generatedCPPSourceFiles = <CPPSourceFile, CharSequence>newHashMap()
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
@@ -30,6 +31,7 @@ class RuleProvider {
 		val header = classHeaderTemplate(cppClass)
 		val className = cppClass.cppName + "_statemachine_snippet"
 		generatedFiles.put('''«className».hh''', header.toString)
+		generatedCPPSourceFiles.put(cppClass.headerFile, header)
 		debug(
 		'''
 			«className».hh
@@ -38,6 +40,7 @@ class RuleProvider {
 		''')
 		val body = classBodyTemplate(cppClass)
 		generatedFiles.put('''«className».cc''', body.toString)
+		generatedCPPSourceFiles.put(cppClass.bodyFile, body)
 		debug(
 		'''
 			«className».cc

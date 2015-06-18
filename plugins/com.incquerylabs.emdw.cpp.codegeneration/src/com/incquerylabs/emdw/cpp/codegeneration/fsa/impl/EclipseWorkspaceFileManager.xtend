@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.fsa.impl
 import com.google.common.io.Files
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import java.io.ByteArrayInputStream
+import org.eclipse.core.resources.IFile
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
@@ -55,7 +56,11 @@ class EclipseWorkspaceFileManager extends FileManager {
 	override readSubDirectoryNames(String path) {
 		path.folder.members.filter[f|f instanceof IFolder].map[f|f.name].toList
 	}
-
+	
+	override readContainedFileNames(String path) {
+		path.folder.members.filter[f|f instanceof IFile].map[f|f.name].toList
+	}
+	
 	override directoryExists(String path) {
 		return path.folder.exists
 	}

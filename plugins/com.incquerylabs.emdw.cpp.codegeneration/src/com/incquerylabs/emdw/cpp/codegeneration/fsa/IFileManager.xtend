@@ -15,6 +15,8 @@ interface IFileManager {
 	
 	def List<String> getSubDirectoryNames(String path)
 	
+	def List<String> getContainedFileNames(String path)
+	
 	/*
 	 * File management methods
 	 */

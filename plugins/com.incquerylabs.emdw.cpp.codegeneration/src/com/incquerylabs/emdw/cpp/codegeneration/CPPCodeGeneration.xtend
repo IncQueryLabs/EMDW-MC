@@ -26,7 +26,6 @@ class CPPCodeGeneration {
 	CPPModel cppModel
 	
 	extension BatchTransformationStatements statements
-	
 
 	def initialize(CPPModel cppModel, IncQueryEngine engine) {
 		checkArgument(cppModel != null, "CPP Model cannot be null!")
@@ -61,6 +60,10 @@ class CPPCodeGeneration {
 	
 	def getGeneratedFiles() {
 		return ImmutableMap.copyOf(ruleProvider.generatedFiles)
+	}
+	
+	def getGeneratedCPPSourceFiles() {
+		return ImmutableMap.copyOf(ruleProvider.generatedCPPSourceFiles)
 	}
 
 	def dispose() {

@@ -1,22 +1,27 @@
 package com.incquerylabs.emdw.cpp.codegeneration.fsa
 
+import com.google.common.base.Charsets
 import java.io.ByteArrayInputStream
+import java.nio.charset.Charset
 import java.security.DigestInputStream
 import java.security.MessageDigest
+import java.text.MessageFormat
 import java.util.HashMap
 import java.util.List
 import javax.xml.bind.DatatypeConverter
 import org.apache.log4j.Logger
 
 import static com.google.common.base.Preconditions.*
-import java.text.MessageFormat
 
 abstract class FileManager implements IFileManager {
 	
 	protected String rootDirectory;
 	
 	protected HashMap<String, String> fileHashCache;
+	
 	private final static String HASH_METHOD = "MD5"
+	
+	protected final static Charset DEFAULT_CHARSET = Charsets.UTF_8
 	
 	new(String rootDirectory) {
 		this.rootDirectory = rootDirectory
@@ -173,7 +178,7 @@ abstract class FileManager implements IFileManager {
 		return null
 	}
 	
-	abstract def void performFileCreation(String directoryPath, String fileame, CharSequence content)
+	abstract def void performFileCreation(String directoryPath, String filename, CharSequence content)
 	
 	abstract def void performFileDeletion(String directoryPath, String filename)
 	
@@ -187,9 +192,10 @@ abstract class FileManager implements IFileManager {
 	override boolean createDirectory(String path) {
 		if(isDirectoryExists(path)) {
 			info(MessageFormat.format(FileManager.messages.DIRECTORY_ALREADY_EXIST, path))
-		} else
+		} else {
 			performDirectoryCreation(path)
 			info(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, path))
+		}
 		return true
 	}
 	
@@ -197,9 +203,10 @@ abstract class FileManager implements IFileManager {
 		checkStringArgument(path, "Directory path")
 		if(!isDirectoryExists(path)) {
 			info(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, path))
-		} else 
+		} else {
 			performDirectoryDeletion(path)
 			info(MessageFormat.format(FileManager.messages.DIRECTORY_DELETED, path))
+		}
 		return true
 	}
 	

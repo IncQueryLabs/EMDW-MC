@@ -35,12 +35,13 @@ class MultiplicityElementMapping extends AbstractMapping<MultiplicityElementMatc
 	}
 	
 	protected def updateXtumlrtObject(MultiplicityElementMatch match) {
+		val multiplicityElement = match.multiplicityElement
 		val xtMultiplicityElement = findXtumlrtObject(match.multiplicityElement, MultiplicityElement)
 		if(xtMultiplicityElement == null){
 			return
 		}
-		xtMultiplicityElement.lowerBound = match.lowerValue.integerValue
-		xtMultiplicityElement.upperBound = match.upperValue.unlimitedValue
+		xtMultiplicityElement.lowerBound = multiplicityElement.lower
+		xtMultiplicityElement.upperBound = multiplicityElement.upper
 	}
 	
 	override getQuerySpecification() {

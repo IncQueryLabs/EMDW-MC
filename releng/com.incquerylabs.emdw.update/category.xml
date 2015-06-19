@@ -12,5 +12,15 @@
    <feature url="features/org.eclipse.papyrusrt.xtumlrt-feature_1.0.0.qualifier.jar" id="org.eclipse.papyrusrt.xtumlrt-feature" version="1.0.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>
+   <feature url="features/org.eclipse.papyrus.sdk.feature_1.0.2.qualifier.jar" id="org.eclipse.papyrus.sdk.feature" version="1.0.2.qualifier">
+      <category name="com.incquerylabs.emdw.update"/>
+   </feature>
+   <feature url="features/org.eclipse.incquery.sdk.feature_1.0.0.qualifier.jar" id="org.eclipse.incquery.sdk.feature" version="1.0.0.qualifier">
+      <category name="com.incquerylabs.emdw.update.developer"/>
+   </feature>
+   <feature url="features/org.eclipse.viatra.emf.runtime.feature_0.7.0.qualifier.jar" id="org.eclipse.viatra.emf.runtime.feature" version="0.7.0.qualifier">
+      <category name="com.incquerylabs.emdw.update.developer"/>
+   </feature>
    <category-def name="com.incquerylabs.emdw.update" label="EMDW"/>
+   <category-def name="com.incquerylabs.emdw.update.developer" label="EMDW Developer Features"/>
 </site>

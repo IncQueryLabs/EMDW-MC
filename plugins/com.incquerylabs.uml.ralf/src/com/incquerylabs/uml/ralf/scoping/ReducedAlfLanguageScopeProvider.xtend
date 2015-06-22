@@ -41,12 +41,19 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 //        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
 //    }
     
-    def IScope scope_Class(EObject context, EReference reference) {
-        val umlContext2 = injector.getInstance(IUMLContextProvider)
-        if (umlContext2 == null) {
+    def IScope scope_Type(EObject context, EReference reference) {
+        if (umlContext == null) {
             IScope.NULLSCOPE
         } else {
-               Scopes.scopeFor(umlContext2.knownClasses)
+               Scopes.scopeFor(umlContext.knownTypes)
+        }
+    }
+    
+    def IScope scope_Class(EObject context, EReference reference) {
+        if (umlContext == null) {
+            IScope.NULLSCOPE
+        } else {
+               Scopes.scopeFor(umlContext.knownClasses)
         }
     }
     

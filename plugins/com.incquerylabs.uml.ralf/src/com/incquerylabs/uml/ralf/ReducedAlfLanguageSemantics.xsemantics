@@ -1,0 +1,236 @@
+system com.incquerylabs.uml.ralf.ReducedAlfSystem
+
+validatorExtends AbstractReducedAlfLanguageValidator
+
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
+import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+
+inject extension IUMLContextProvider umlContext
+val REAL    = IUMLContextProvider.REAL_TYPE
+val INTEGER = IUMLContextProvider.INTEGER_TYPE
+val BOOLEAN = IUMLContextProvider.BOOLEAN_TYPE
+val STRING  = IUMLContextProvider.STRING_TYPE
+
+
+judgments {
+    type |- EObject expression : output Type
+        error "Cannot type " + stringRep(expression)
+        source expression        
+}
+
+axiom BooleanLiteral
+    G |- BooleanLiteralExpression bool :
+        BOOLEAN.primitiveType
+        
+axiom NaturalLiteral
+    G |- NaturalLiteralExpression natural :
+        INTEGER.primitiveType
+        
+axiom StringLiteral
+    G |- StringLiteralExpression string :
+        STRING.primitiveType
+
+axiom VariableDeclaration
+    G |- Variable variable : 
+        variable.type
+      
+
+  
+rule NumericUnaryExpression
+    G |- NumericUnaryExpression ex : Type result
+from {
+    ex.operand.type.value == INTEGER.primitiveType
+    result = INTEGER.primitiveType
+}
+
+rule ArithmeticExpression
+    G |- ArithmeticExpression ex : Type result
+from {
+   G |- ex.operand1 : var Type type1
+   G |- ex.operand2 : var Type type2  
+   { 
+       ex.operator == "+"
+       type1 == STRING.primitiveType
+       type2 == STRING.primitiveType
+       result = STRING.primitiveType
+   } or {
+       ex.operator == "+"
+       type1 == REAL.primitiveType
+       type2 == REAL.primitiveType || type2 == INTEGER.primitiveType
+       result = REAL.primitiveType
+   } or {
+       ex.operator == "+"
+       type1 == REAL.primitiveType
+       type2 == REAL.primitiveType || type2 == INTEGER.primitiveType
+       result = REAL.primitiveType
+   } or {
+       ex.operator == "+"
+       type1 == REAL.primitiveType || type1 == INTEGER.primitiveType
+       type2 == REAL.primitiveType
+       result = REAL.primitiveType
+   } or {
+       type1 == REAL.primitiveType
+       type2 == INTEGER.primitiveType || type2 == REAL.primitiveType
+       result = REAL.primitiveType
+   } or {
+       type1 == INTEGER.primitiveType || type1 == REAL.primitiveType
+       type2 == REAL.primitiveType
+       result = REAL.primitiveType
+   } or {
+       //All operations
+       type1 == INTEGER.primitiveType
+       type2 == INTEGER.primitiveType
+       result = INTEGER.primitiveType
+   }
+} 
+
+rule NameExpression
+    G |- NameExpression ex : Type result
+from {
+    G |- ex.reference : var Type varType
+    result = varType
+}
+
+rule AssignmentExpression
+    G |- AssignmentExpression ex : Type result
+from {
+    G |- ex.leftHandSide : var Type leftType
+    G |- ex.rightHandSide : var Type rightType
+    leftType = rightType
+    result = rightType
+}
+
+rule PrefixExpression
+    G |- PrefixExpression ex : Type result
+from {
+    G |- ex.operand : var Type opType
+    opType == INTEGER.primitiveType
+    result = INTEGER.primitiveType
+}
+
+rule PostfixExpression
+    G |- PostfixExpression ex : Type result
+from {
+    G |- ex.operand : var Type opType
+    opType == INTEGER.primitiveType
+    result = INTEGER.primitiveType    
+}
+
+rule ShiftExpression
+    G |- ShiftExpression ex : Type result
+from {
+   G |- ex.operand1 : var Type op1Type 
+   G |- ex.operand2 : var Type op2Type
+   op1Type == INTEGER.primitiveType 
+   op2Type == INTEGER.primitiveType
+   result   = INTEGER.primitiveType 
+}
+
+rule EqualityExpression
+    G |- EqualityExpression ex : Type result
+from {
+    G |- ex.operand1 : var Type op1Type 
+    G |- ex.operand2 : var Type op2Type
+    op1Type == op2Type //TODO check subtyping
+    result = BOOLEAN.primitiveType
+}
+
+rule RelationalExpression
+    G |- RelationalExpression ex : Type result
+from {
+    G |- ex.operand1 : var Type op1Type 
+    G |- ex.operand2 : var Type op2Type
+    op1Type == INTEGER.primitiveType || op1Type == REAL.primitiveType 
+    op2Type == INTEGER.primitiveType || op2Type == REAL.primitiveType
+    op1Type == op2Type 
+    result = BOOLEAN.primitiveType
+}
+
+rule LogicalExpression
+    G |- LogicalExpression ex : Type result
+from {
+    G |- ex.operand1 : var Type op1Type 
+    G |- ex.operand2 : var Type op2Type
+    {
+        op1Type == BOOLEAN.primitiveType
+        op2Type == BOOLEAN.primitiveType
+        result = BOOLEAN.primitiveType
+    } or {
+        op1Type == INTEGER.primitiveType
+        op2Type == INTEGER.primitiveType
+        result = INTEGER.primitiveType
+    }
+}
+
+rule ConditionalLogicalExpression
+    G |- ConditionalLogicalExpression ex : Type result
+from {
+    G |- ex.operand1 : var Type op1Type 
+    G |- ex.operand2 : var Type op2Type
+    op1Type == BOOLEAN.primitiveType
+    op2Type == BOOLEAN.primitiveType
+    result = BOOLEAN.primitiveType
+}
+
+rule ConditionalTestExpression
+    G |- ConditionalTestExpression ex : Type result
+from {
+    G |- ex.operand1 : var Type condType
+    G |- ex.operand2 : var Type trueType
+    G |- ex.operand3 : var Type falseType
+    condType == BOOLEAN.primitiveType
+    trueType == falseType //TODO check subtyping
+    result = trueType
+}
+
+rule FeatureLeftHandSide
+    G |- FeatureLeftHandSide lhs : Type result
+from {
+    G |- lhs.expression : var Type exType
+     result = exType
+}
+
+rule NameLeftHandSide
+    G |- NameLeftHandSide lhs : Type result
+from {
+    {
+        lhs.index == null
+        G |- lhs.target : var Type varType
+        result = varType
+    } or {
+        //TODO indexed access
+    }
+}
+
+checkrule CheckExpressionType for
+    Expression ex
+from {
+    empty |- ex : var Type type
+}
+
+checkrule VariableType for
+    Variable ^var
+from {
+    empty |- ^var : var Type type
+}

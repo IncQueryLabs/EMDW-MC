@@ -1,12 +1,13 @@
 package com.incquerylabs.uml.ralf.ui;
 
+import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -25,6 +26,7 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
@@ -40,6 +42,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.emdw.umlintegration.papyrus.IncQueryEngineService;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
+import com.incquerylabs.uml.ralf.scoping.AbstractUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
 
@@ -47,6 +50,7 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 
 	private static class UpdatedOpaqueBehaviorCommand extends AbstractTransactionalCommand {
 
+		private static final String LANGUAGE_NAME = "rALF";
 		private OpaqueBehavior behavior;
 		private String newText;
 
@@ -61,24 +65,27 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 				throws ExecutionException {
 			int indexOfRALFBody = -1;
 			for (int i = 0; i < behavior.getLanguages().size() && indexOfRALFBody == -1; i++) {
-				if (behavior.getLanguages().get(i).equals("rALF")) {
+				if (behavior.getLanguages().get(i).equals(LANGUAGE_NAME)) {
 					indexOfRALFBody = i;
 				}
 			}
+			EList<String> bodies = behavior.getBodies();
 			if (indexOfRALFBody == -1) {
-				behavior.getLanguages().add("rALF");
-				behavior.getBodies().add(newText);
-			} else if (indexOfRALFBody < behavior.getBodies().size()) { // might not be true, if body list is not synchronized with language list
-				behavior.getBodies().set(indexOfRALFBody, newText);
+				behavior.getLanguages().add(LANGUAGE_NAME);
+				bodies.add(newText);
+			} else if (indexOfRALFBody < bodies.size()) { // might not be true, if body list is not synchronized with language list
+				if (!Objects.equals(newText, bodies.get(indexOfRALFBody))) {
+					bodies.set(indexOfRALFBody, newText);
+				}
 			} else {
-				behavior.getBodies().add(newText);
+				bodies.add(newText);
 			}
 			return CommandResult.newOKCommandResult(behavior);
 		}
 		
 	}
 	
-	private class EditorContext implements IUMLContextProvider {
+	private class EditorContext extends AbstractUMLContextProvider {
 
 		public EditorContext() {
 			super();
@@ -92,18 +99,39 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			return null;
 		}
 		
+		private IncQueryEngine getEngine(Model model) throws ServiceException {
+			ModelSet modelSet = (ModelSet)model.eResource().getResourceSet();
+			final ServicesRegistry registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
+			IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
+			return service.getEngine(modelSet);
+		}
+		
 		@Override
 		public Iterable<Class> getKnownClasses() {
 			final Model model = getModel();
 			try {
 				if (model != null) {
-					ModelSet modelSet = (ModelSet)model.eResource().getResourceSet();
-					final ServicesRegistry registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
-					IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
-					IncQueryEngine engine = service.getEngine(modelSet);
+					IncQueryEngine engine = getEngine(model);
 					NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
 					Set<EObject> instances = index.getAllInstances(UMLPackage.Literals.CLASS);
 					return Iterables.filter(instances, Class.class);
+				}
+			} catch (ServiceException | IncQueryException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return Lists.newArrayList();
+		}
+
+		@Override
+		public Iterable<Type> getKnownTypes() {
+			final Model model = getModel();
+			try {
+				if (model != null) {
+					IncQueryEngine engine = getEngine(model);
+					NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
+					Set<EObject> instances = index.getAllInstances(UMLPackage.Literals.TYPE);
+					return Iterables.filter(instances, Type.class);
 				}
 			} catch (ServiceException | IncQueryException e) {
 				// TODO Auto-generated catch block
@@ -135,15 +163,12 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 	protected ICommand getParseCommand(EObject umlObject, EObject xtextObject) {
 		if (umlObject instanceof OpaqueBehavior) {
 			OpaqueBehavior context = (OpaqueBehavior) umlObject;
-			int index = context.getLanguages().indexOf("rALF");
 			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(umlObject);
 			
 			ICompositeNode node = NodeModelUtils.getNode(xtextObject);
 			String text = (node == null) ? "" : node.getText(); 
 			
 			return new UpdatedOpaqueBehaviorCommand(editingDomain, context, text);
-			
-//			return EMFtoGMFCommandWrapper.wrap(SetCommand.create(editingDomain, context, UMLPackage.Literals.OPAQUE_BEHAVIOR__BODY, text, index));			
 		}
 		return null;
 	}

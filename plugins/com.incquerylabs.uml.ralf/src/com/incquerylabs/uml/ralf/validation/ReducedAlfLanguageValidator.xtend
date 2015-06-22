@@ -10,7 +10,7 @@ package com.incquerylabs.uml.ralf.validation
  *
  * See https://www.eclipse.org/Xtext/documentation/303_runtime_concepts.html#validation
  */
-class ReducedAlfLanguageValidator extends AbstractReducedAlfLanguageValidator {
+class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 
 //  public static val INVALID_NAME = 'invalidName'
 //

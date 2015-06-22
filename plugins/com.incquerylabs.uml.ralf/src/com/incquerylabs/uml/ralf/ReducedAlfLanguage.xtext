@@ -21,36 +21,7 @@ import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
  * TOP LEVEL ELEMENT
  */
 Statements :
-    //(^import += ImportDeclaration )* 
-    ( statement += AnnotatedStatement )*
-;
-
-ImportDeclaration returns ImportReference : 
-    ( PackageImportReference | ElementImportReference ) ';' 
-;
-
-ElementImportReference :
-  visibility = ImportVisibilityIndicator 'import' referentName = QualifiedName ('as' alias = Name)?
-;
-
-PackageImportReference :
-  visibility = ImportVisibilityIndicator 'import' referentName = PackageImportQualifiedName
-//  ( 
-//    referentName = UnqualifiedName ('::' | '.') '*' |
-//    referentName = ColonQualifiedName '::' '*' | 
-//    referentName = DotQualifiedName '.' '*'
-//  )
-;
-
-PackageImportQualifiedName returns QualifiedName :
-  nameBinding += NameBinding 
-  (
-    ('::' nameBinding += NameBinding)* '::' '*'
-  )
-;
-
-ImportVisibilityIndicator : 
-    'public' | 'private'
+    ( statement += Statement )*
 ;
 
 /***************
@@ -61,62 +32,12 @@ Name :
 ;
 
 QualifiedName :
-//    UnqualifiedName ( '::' nameBinding += NameBinding )*
     Name ( '::' Name )*
 ;
-    
-//PotentiallyAmbiguousQualifiedName returns QualifiedName :
-//  UnqualifiedName 
-//  ( ( '::' nameBinding += NameBinding )+ |
-//    isAmbiguous ?= '.' nameBinding += NameBinding ( '.' nameBinding += NameBinding )*
-//  )?
-//;
-
-//ColonQualifiedName returns QualifiedName : 
-//    UnqualifiedName ( '::' nameBinding += NameBinding )+
-//;
-//
-//DotQualifiedName returns QualifiedName : 
-//    UnqualifiedName ( '.' nameBinding += NameBinding )+
-//;
-
-//UnqualifiedName returns QualifiedName : 
-//    nameBinding += NameBinding
-//; 
 
 NameBinding : 
-    name = Name //( binding = TemplateBinding )?  
+    name = Name  
 ;
-
-/*
-QualifiedNameWithoutBinding :
-    // unqualified = UnqualifiedName (nameCompletion = (ColonQualifiedNameCompletion | DotQualifiedNameCompletion))?
-    unqualified = Name (nameCompletion = (ColonQualifiedNameCompletionWithoutBinding))?
-;
-*/
-    
-/*
-ColonQualifiedNameCompletionWithoutBinding : 
-    ( '::' names+=Name)+
-;
-*/
-
-/* Unbounded lookahead required here */
-//TemplateBinding : 
-//    '<' ( NamedTemplateBinding | PositionalTemplateBinding ) '>'
-//;
-
-//PositionalTemplateBinding : 
-//    argumentName += QualifiedName ( ',' argumentName += QualifiedName )*
-//;
-
-//NamedTemplateBinding : 
-//    substitution += TemplateParameterSubstitution ( ',' substitution += TemplateParameterSubstitution )*
-//;
-
-//TemplateParameterSubstitution :
-//    parameterName = Name "=>" argumentName = QualifiedName
-//;
 
 /***************
 * EXPRESSIONS *
@@ -131,13 +52,12 @@ PrimaryExpression returns Expression :
   BaseExpression
     // CHANGE: Made FeatureReference and ExtentOrExpression subtypes of Expression.
   ( {FeatureReference.expression = current} '.' nameBinding = NameBinding {FeatureInvocationExpression.target = current} tuple = Tuple |
-    {FeatureReference.expression = current} '.' nameBinding = NameBinding {PropertyAccessExpression.featureReference = current} | 
-    {ExtentOrExpression.nonNameExpression = current} '->' 
-      ( {SequenceOperationExpression.primary = current} operation = QualifiedName tuple = Tuple
-      | {SequenceReductionExpression.primary = current} 'reduce' ( isOrdered ?= 'ordered' )? behaviorName = QualifiedName
-      // CHANGE: Made SequenceExpansionExpression concrete.
-      | {SequenceExpansionExpression.primary = current} operation = ID variable = Name '(' argument = Expression ')'
-      ) | 
+    {FeatureReference.expression = current} '.' property = [uml::Property|Name] {PropertyAccessExpression.featureReference = current} | 
+//    {ExtentOrExpression.nonNameExpression = current} '->' 
+//      ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple
+//      // CHANGE: Made SequenceExpansionExpression concrete.
+//      | {SequenceExpansionExpression.primary = current} operation = ID variable = Name '(' argument = Expression ')'
+//      ) | 
     {SequenceAccessExpression.primary = current} index = Index
   )*
 ;
@@ -147,21 +67,21 @@ BaseExpression returns Expression :
     ThisExpression |
     SuperInvocationExpression |
     InstanceCreationOrSequenceConstructionExpression |
-  ClassExtentExpression |
-  LinkOperationExpression |
-  SequenceConstructionExpression |
-  SequenceOperationOrReductionOrExpansionExpression |
-  BehaviorInvocationExpression |
-  NameExpression |
-  ParenthesizedExpression
+    ClassExtentExpression |
+    LinkOperationExpression |
+    SequenceConstructionExpression |
+//  SequenceOperationOrReductionOrExpansionExpression |
+    BehaviorInvocationExpression |
+    NameExpression |
+    ParenthesizedExpression
 ;
 
 /* LITERAL EXPRESSIONS */
 LiteralExpression returns LiteralExpression :
-  BooleanLiteralExpression |
-  NaturalLiteralExpression |
-  UnboundedLiteralExpression |
-  StringLiteralExpression
+    BooleanLiteralExpression |
+    NaturalLiteralExpression |
+    UnboundedLiteralExpression |
+    StringLiteralExpression
 ;
 
 BooleanLiteralExpression :
@@ -182,7 +102,7 @@ StringLiteralExpression :
 
 /* Name EXPRESSIONS */
 NameExpression :
-  reference = [Variable|/*PotentiallyAmbiguous*/QualifiedName]
+    reference = [Variable|QualifiedName]
 ;
 
 /* THIS EXPRESSIONS */
@@ -212,7 +132,7 @@ ParenthesizedExpression returns Expression :
 /* INVOCATION EXPRESSIONS */
 
 BehaviorInvocationExpression :
-  target = /*PotentiallyAmbiguous*/QualifiedName tuple = Tuple
+  target = [uml::Behavior|QualifiedName] tuple = Tuple
 ;
 
 Tuple : 
@@ -233,21 +153,17 @@ NamedExpression :
 ;
 
 SuperInvocationExpression :
-    'super' ( '.' target = QualifiedName)? tuple = Tuple
+    'super' ( '.' target = [uml::Operation|QualifiedName])? tuple = Tuple
 ;
 
 /* INSTANCE CREATION EXPRESSIONS */
 InstanceCreationOrSequenceConstructionExpression returns Expression : 
-    'new' 
-    ( 
-      {SequenceConstructionExpression} typeName = QualifiedName ( hasMultiplicity ?= MultiplicityIndicator )? '{' ( elements = SequenceElements )? '}' | 
-      {InstanceCreationExpression} constructor = QualifiedName tuple = Tuple
-    )
+    {InstanceCreationExpression} 'new' instance = [uml::Class|QualifiedName] tuple = Tuple
 ;
 
 /* LINK OPERATION EXPRESSIONS */
 LinkOperationExpression :
-  associationName = /*PotentiallyAmbiguous*/QualifiedName '.' operation = LinkOperation tuple = LinkOperationTuple
+  associationName = QualifiedName '.' operation = LinkOperation tuple = LinkOperationTuple
 ;
 
 LinkOperation :
@@ -268,7 +184,7 @@ IndexedNamedExpression returns NamedExpression :
 
 /* CLASS EXTENT EXPRESSIONS */
 ClassExtentExpression :
-  className = /*PotentiallyAmbiguous*/QualifiedName '.' 'allInstances' '(' ')'
+  class = [uml::Class|QualifiedName] '::' 'instances' '(' ')'
 ;
 
 /* SEQUENCE CONSTRUCTION EXPRESSIONS */
@@ -311,19 +227,19 @@ Index returns Expression :
 
 /* SEQUENCE OPERATION, REDUCTION AND EXPANSION EXPRESSIONS */
 // NOTE: This only covers the case when the primary is a class extent shorthand.
-SequenceOperationOrReductionOrExpansionExpression returns Expression :
-  {ExtentOrExpression} name = /*PotentiallyAmbiguous*/QualifiedName '->' 
-    ( {SequenceOperationExpression.primary = current} operation = QualifiedName tuple = Tuple
-    | {SequenceReductionExpression.primary = current} 'reduce' ( isOrdered ?= 'ordered' )? behaviorName = QualifiedName 
-    // CHANGE: Made SequenceExpansionExpression concrete.
-    | {SequenceExpansionExpression.primary = current} operation = ID variable = Name '(' argument = Expression ')'
-    )
-;
+//SequenceOperationOrReductionOrExpansionExpression returns Expression :
+//  {ExtentOrExpression} name = /*PotentiallyAmbiguous*/QualifiedName '->' 
+//    ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple 
+//    // CHANGE: Made SequenceExpansionExpression concrete.
+//    | {SequenceExpansionExpression.primary = current} operation = ID variable = Name '(' argument = Expression ')'
+//    )
+//;
     
 /* INCREMENT OR DECREMENT EXPRESSIONS */
-PrefixExpression returns IncrementOrDecrementExpression : 
+PrefixExpression returns Expression : 
   // CHANGE: Added operator to IncrementOrDecrementExpression in the metamodel.
-    operator = AffixOperator operand = LeftHandSide // isPrefix ?= ''
+    {PrefixExpression}
+    operator = AffixOperator operand = LeftHandSide
 ;
 
 AffixOperator :
@@ -339,7 +255,8 @@ PostfixOrCastExpression returns Expression :
   PostfixExpression | CastExpression | PrimaryExpression
 ;
 
-PostfixExpression returns IncrementOrDecrementExpression :
+PostfixExpression returns Expression :
+  {PostfixExpression}
   operand = LeftHandSide operator = AffixOperator
 ;
 
@@ -491,7 +408,7 @@ LeftHandSide :
 
 NameLeftHandSide :
   // CHANGE: Moved the index property from LeftHandSide down to just NameLeftHandSide.
-  target = /*PotentiallyAmbiguous*/[Variable|QualifiedName] ( index = Index )? 
+  target = [Variable|QualifiedName] ( index = Index )? 
 ;
 
 FeatureLeftHandSide :
@@ -502,14 +419,10 @@ FeatureLeftHandSide :
 AssignmentOperator : 
     '=' | '+=' | '-='   | '*='| '/=' | '%=' | '&=' | '|='   | '^=' | '<<=' | '>>=' | '>>>=' ;
 
-
-
-
 /**************
  * STATEMENTS *
  **************/
 Statement : 
-//    InLineStatement |
     BlockStatement |
     EmptyStatement |
     LocalNameDeclarationStatement |
@@ -520,38 +433,14 @@ Statement :
     ForStatement |
     DoStatement |
     BreakStatement |
-    ReturnStatement //|
-//    AcceptStatement //|
-//    ClassifyStatement
+    ReturnStatement |
+    ClassifyStatement
 ;
 
 /* BLOCK */
 Block : 
-    {Block} '{' ( statement += AnnotatedStatement )* '}'
+    {Block} '{' ( statement += Statement )* '}'
 ;
-
-/* ANNOTATED STATEMENTS */
-AnnotatedStatement : 
-  //( documentation += DOCUMENTATION_COMMENT )?
-  // CHANGE: Include text line in annotation statement.
-//  ( annotation += STATEMENT_ANNOTATION )*
-  // ( '//@' annotation += Annotation ( '@' annotation += Annotation )+ '\r'? '\n' )*
-//    statement = Statement
-    Statement
-;
-
-/*
-Annotation : 
-    identifier = ID ( '(' argument += Name ( ',' argument += Name )* ')' )?
-;
-*/
-
-/* IN-LINE STATEMENTS */
-//InLineStatement : 
-//  // CHANGE: Include all text lexically in one attribute of InLineStatement.
-//  code = INLINE_STATEMENT
-//    //'/*@' 'inline' '(' language = Name ')' '*/'
-//;
 
 /* BLOCK STATEMENTS */
 BlockStatement :
@@ -566,8 +455,8 @@ EmptyStatement :
 
 VariableDeclaration returns Variable: 
   // CHANGE: Added isAny attribute to localNameDeclarationStatement in order to allow Xtext serialization.
-   name = Name ':' ( isAny ?= 'any' | type = [uml::Class|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? |
-   ( isAny ?= 'any' | type = [uml::Class|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? name = Name     
+   name = Name ':' ( isAny ?= 'any' | type = [uml::Type|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? |
+   ( isAny ?= 'any' | type = [uml::Type|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? name = Name     
 ;
 
 /* LOCAL NAME DECLARATION STATEMENTS */
@@ -625,7 +514,7 @@ SwitchDefaultClause returns Block :
 ;
 
 NonEmptyStatementSequence returns Block : 
-    ( statement += AnnotatedStatement )+
+    ( statement += Statement )+
 ;
 
 /* WHILE STATEMENTS */
@@ -667,23 +556,8 @@ ReturnStatement :
     'return' ( expression = Expression )? ';'
 ;
 
-/* ACCEPT STATEMENTS */
-/*AcceptStatement : 
-    ( acceptBlock += AcceptClause ';' | 
-    acceptBlock += AcceptBlock ( 'or' acceptBlock += AcceptBlock )* 
-  )
-;
-
-AcceptBlock : 
-    AcceptClause block = Block
-;
-
-AcceptClause returns AcceptBlock : 
-    'accept' '(' ( name = Name ':' )? signalNames = QualifiedNameList ')'
-;*/
-
 /* CLASSIFY STATEMENTS */
-/*ClassifyStatement :
+ClassifyStatement :
     'classify' expression = Expression 
    (
      fromList = ClassificationFromClause ( toList = ClassificationToClause )? |
@@ -702,11 +576,11 @@ ClassificationToClause returns QualifiedNameList :
 
 ReclassifyAllClause : 
     'from' '*'
-;*/
+;
 
-//QualifiedNameList : 
-//    name += QualifiedName ( ',' name += QualifiedName )*
-//;
+QualifiedNameList : 
+    name += QualifiedName ( ',' name += QualifiedName )*
+;
 
 
 /****************
@@ -725,13 +599,6 @@ terminal ID : ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')* ;
 terminal UNRESTRICTED_NAME : '\'' ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|'\'') )* '\'' ;
 
 terminal STRING : '"' ( '\\' ('b'|'t'|'n'|'f'|'r'|'"'|"'"|'\\') | !('\\'|'"') )* '"' ;
-
-terminal DOCUMENTATION_COMMENT : '/**' -> '*/' ;
-terminal STATEMENT_ANNOTATION : '//@' -> '\n'
-//  '//@' WS? ID (WS? '(' WS? (ID | UNRESTRICTED_NAME) (WS? ',' WS? (ID | UNRESTRICTED_NAME))* WS? ')')? 
-//  (WS? '@' WS? ID (WS? '(' WS? (ID | UNRESTRICTED_NAME) (WS? ',' WS? (ID | UNRESTRICTED_NAME))* WS? ')')?)* (' '|'\t')* ('\r'? '\n')
-;
-//terminal INLINE_STATEMENT : '/*@inline(' (ID | UNRESTRICTED_NAME) ')' -> '*/';
 
 terminal ML_COMMENT : '/*' !('*' | '@') -> '*/';
 terminal SL_COMMENT : '//' (!('@'|'\n'|'\r') !('\n'|'\r')*)? ('\r'? '\n')?;

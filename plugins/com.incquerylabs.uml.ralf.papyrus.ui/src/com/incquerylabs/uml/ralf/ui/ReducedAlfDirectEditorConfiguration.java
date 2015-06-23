@@ -7,7 +7,11 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -26,8 +30,10 @@ import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.xtext.EcoreUtil2;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
@@ -139,6 +145,18 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			}
 			return Lists.newArrayList();
 		}
+
+        @Override
+        public Resource getContainerResource() {
+            return getModel().eResource();
+        }
+
+        @Override
+        public Package getPrimitivePackage() {
+            ResourceSet set = getModel().eResource().getResourceSet();
+            Resource resource = set.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true);
+            return (Package)(EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE));
+        }
 		
 	}
 	

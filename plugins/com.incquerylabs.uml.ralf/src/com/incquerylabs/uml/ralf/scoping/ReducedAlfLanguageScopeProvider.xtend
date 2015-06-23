@@ -49,11 +49,29 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         }
     }
     
+    def IScope scope_Classifier(EObject context, EReference reference) {
+        if (umlContext == null) {
+            IScope.NULLSCOPE
+        } else {
+               Scopes.scopeFor(umlContext.knownClasses,
+                    Scopes.scopeFor(umlContext.knownSignals)
+               )
+        }
+    }
+    
     def IScope scope_Class(EObject context, EReference reference) {
         if (umlContext == null) {
             IScope.NULLSCOPE
         } else {
                Scopes.scopeFor(umlContext.knownClasses)
+        }
+    }
+    
+    def IScope scope_Signal(EObject context, EReference reference) {
+        if (umlContext == null) {
+            IScope.NULLSCOPE
+        } else {
+               Scopes.scopeFor(umlContext.knownSignals)
         }
     }
     

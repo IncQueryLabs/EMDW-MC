@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -31,6 +32,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -80,9 +82,7 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 				behavior.getLanguages().add(LANGUAGE_NAME);
 				bodies.add(newText);
 			} else if (indexOfRALFBody < bodies.size()) { // might not be true, if body list is not synchronized with language list
-				if (!Objects.equals(newText, bodies.get(indexOfRALFBody))) {
-					bodies.set(indexOfRALFBody, newText);
-				}
+				bodies.set(indexOfRALFBody, newText);
 			} else {
 				bodies.add(newText);
 			}
@@ -112,16 +112,21 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			return service.getEngine(modelSet);
 		}
 		
+		private <T extends EObject> Iterable<T> getModelElementsByType(EClass eClass, java.lang.Class<T> clazz) throws ServiceException, IncQueryException {
+			final Model model = getModel();
+			if (model != null) {
+				IncQueryEngine engine = getEngine(model);
+				NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
+				Set<EObject> instances = index.getAllInstances(eClass);
+				return Iterables.filter(instances, clazz);
+			}
+			return Lists.newArrayList();
+		}
+		
 		@Override
 		public Iterable<Class> getKnownClasses() {
-			final Model model = getModel();
 			try {
-				if (model != null) {
-					IncQueryEngine engine = getEngine(model);
-					NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
-					Set<EObject> instances = index.getAllInstances(UMLPackage.Literals.CLASS);
-					return Iterables.filter(instances, Class.class);
-				}
+				return getModelElementsByType(UMLPackage.Literals.CLASS, Class.class);
 			} catch (ServiceException | IncQueryException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -131,14 +136,19 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 
 		@Override
 		public Iterable<Type> getKnownTypes() {
-			final Model model = getModel();
 			try {
-				if (model != null) {
-					IncQueryEngine engine = getEngine(model);
-					NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
-					Set<EObject> instances = index.getAllInstances(UMLPackage.Literals.TYPE);
-					return Iterables.filter(instances, Type.class);
-				}
+				return getModelElementsByType(UMLPackage.Literals.TYPE, Type.class);
+			} catch (ServiceException | IncQueryException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return Lists.newArrayList();
+		}
+		
+		@Override
+		public Iterable<Signal> getKnownSignals() {
+			try {
+				return getModelElementsByType(UMLPackage.Literals.SIGNAL, Signal.class);
 			} catch (ServiceException | IncQueryException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -137,6 +137,8 @@ BehaviorInvocationExpression :
 
 Tuple : 
     /* {Tuple}'(' ( namedTupleExpressionList = NamedTupleExpressionList | ( positionalTupleExpressionList = PositionalTupleExpressionList )? ) ')' */
+    {PositionalTuple} '(' ')'
+    |
     '(' ( NamedTupleExpressionList | PositionalTupleExpressionList ) ')'
 ;
 
@@ -158,7 +160,7 @@ SuperInvocationExpression :
 
 /* INSTANCE CREATION EXPRESSIONS */
 InstanceCreationOrSequenceConstructionExpression returns Expression : 
-    {InstanceCreationExpression} 'new' instance = [uml::Class|QualifiedName] tuple = Tuple
+    {InstanceCreationExpression} 'new' instance = [uml::Classifier|QualifiedName] tuple = Tuple
 ;
 
 /* LINK OPERATION EXPRESSIONS */
@@ -426,7 +428,7 @@ Statement :
     BlockStatement |
     EmptyStatement |
     LocalNameDeclarationStatement |
-  ExpressionStatement |
+    ExpressionStatement |
     IfStatement |
     SwitchStatement |
     WhileStatement |
@@ -434,7 +436,8 @@ Statement :
     DoStatement |
     BreakStatement |
     ReturnStatement |
-    ClassifyStatement
+    ClassifyStatement |
+    SendSignalStatement
 ;
 
 /* BLOCK */
@@ -580,6 +583,14 @@ ReclassifyAllClause :
 
 QualifiedNameList : 
     name += QualifiedName ( ',' name += QualifiedName )*
+;
+
+/****************
+* Send statement
+*****************/
+SendSignalStatement:
+    {SendSignalStatement}
+    'send' signal = Expression '=>' target = Expression
 ;
 
 

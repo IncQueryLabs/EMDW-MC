@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.Signal
 
 abstract class AbstractUMLContextProvider implements IUMLContextProvider {
     
@@ -35,5 +36,9 @@ abstract class AbstractUMLContextProvider implements IUMLContextProvider {
     
     override getKnownClasses() {
         containerResource.allContents.filter(typeof(Class)).toSet
+    }
+    
+    override getKnownSignals() {
+        containerResource.allContents.filter(typeof(Signal)).toSet
     }
 }

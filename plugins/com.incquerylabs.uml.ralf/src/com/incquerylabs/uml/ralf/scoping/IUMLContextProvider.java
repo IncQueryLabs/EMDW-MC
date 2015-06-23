@@ -1,6 +1,7 @@
 package com.incquerylabs.uml.ralf.scoping;
 
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Type;
 
 public interface IUMLContextProvider {
@@ -13,6 +14,7 @@ public interface IUMLContextProvider {
 	
 	Iterable<Type> getKnownTypes();
 	Iterable<Class> getKnownClasses();
+	Iterable<Signal> getKnownSignals();
 
 	Type getPrimitiveType(String name);
 }

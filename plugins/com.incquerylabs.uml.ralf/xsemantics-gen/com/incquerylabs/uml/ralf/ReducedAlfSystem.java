@@ -11,7 +11,9 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide;
@@ -30,13 +32,18 @@ import it.xsemantics.runtime.RuleApplicationTrace;
 import it.xsemantics.runtime.RuleEnvironment;
 import it.xsemantics.runtime.RuleFailedException;
 import it.xsemantics.runtime.XsemanticsRuntimeSystem;
+import java.util.List;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.xtext.util.PolymorphicDispatcher;
 import org.eclipse.xtext.xbase.lib.Extension;
 
 @SuppressWarnings("all")
 public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
+  public final static String SUPERCLASSLIST = "com.incquerylabs.uml.ralf.SuperClassList";
+  
   public final static String BOOLEANLITERAL = "com.incquerylabs.uml.ralf.BooleanLiteral";
   
   public final static String NATURALLITERAL = "com.incquerylabs.uml.ralf.NaturalLiteral";
@@ -44,6 +51,14 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String STRINGLITERAL = "com.incquerylabs.uml.ralf.StringLiteral";
   
   public final static String VARIABLEDECLARATION = "com.incquerylabs.uml.ralf.VariableDeclaration";
+  
+  public final static String GENERALSUBTYPING = "com.incquerylabs.uml.ralf.GeneralSubtyping";
+  
+  public final static String EQUALSPRIMITIVESUBTYPING = "com.incquerylabs.uml.ralf.EqualsPrimitiveSubtyping";
+  
+  public final static String CLASSSUBTYPING = "com.incquerylabs.uml.ralf.ClassSubtyping";
+  
+  public final static String EXPRESSIONASSIGNABLETOTYPE = "com.incquerylabs.uml.ralf.ExpressionAssignableToType";
   
   public final static String NUMERICUNARYEXPRESSION = "com.incquerylabs.uml.ralf.NumericUnaryExpression";
   
@@ -69,9 +84,13 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   public final static String CONDITIONALTESTEXPRESSION = "com.incquerylabs.uml.ralf.ConditionalTestExpression";
   
+  public final static String INSTANCECREATIONEXPRESSION = "com.incquerylabs.uml.ralf.InstanceCreationExpression";
+  
   public final static String FEATURELEFTHANDSIDE = "com.incquerylabs.uml.ralf.FeatureLeftHandSide";
   
   public final static String NAMELEFTHANDSIDE = "com.incquerylabs.uml.ralf.NameLeftHandSide";
+  
+  public final static String VARIABLEVALUEDECLARATION = "com.incquerylabs.uml.ralf.VariableValueDeclaration";
   
   @Extension
   @Inject
@@ -85,7 +104,13 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   private final String STRING = IUMLContextProvider.STRING_TYPE;
   
+  private PolymorphicDispatcher<List<org.eclipse.uml2.uml.Class>> superClassListDispatcher;
+  
   private PolymorphicDispatcher<Result<Type>> typeDispatcher;
+  
+  private PolymorphicDispatcher<Result<Boolean>> subtypeOrEqualDispatcher;
+  
+  private PolymorphicDispatcher<Result<Boolean>> assignableDispatcher;
   
   public ReducedAlfSystem() {
     init();
@@ -94,6 +119,12 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public void init() {
     typeDispatcher = buildPolymorphicDispatcher1(
     	"typeImpl", 3, "|-", ":");
+    subtypeOrEqualDispatcher = buildPolymorphicDispatcher1(
+    	"subtypeOrEqualImpl", 4, "|-", "<:");
+    assignableDispatcher = buildPolymorphicDispatcher1(
+    	"assignableImpl", 4, "|-", "|>");
+    superClassListDispatcher = buildPolymorphicDispatcher(
+    	"superClassListImpl", 2);
   }
   
   public IUMLContextProvider getUmlContext() {
@@ -120,6 +151,18 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return this.STRING;
   }
   
+  public List<org.eclipse.uml2.uml.Class> superClassList(final org.eclipse.uml2.uml.Class cl) throws RuleFailedException {
+    return superClassList(null, cl);
+  }
+  
+  public List<org.eclipse.uml2.uml.Class> superClassList(final RuleApplicationTrace _trace_, final org.eclipse.uml2.uml.Class cl) throws RuleFailedException {
+    try {
+    	return superClassListInternal(_trace_, cl);
+    } catch (Exception _e_superClassList) {
+    	throw extractRuleFailedException(_e_superClassList);
+    }
+  }
+  
   public Result<Type> type(final EObject expression) {
     return type(new RuleEnvironment(), null, expression);
   }
@@ -133,6 +176,72 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     	return typeInternal(_environment_, _trace_, expression);
     } catch (Exception _e_type) {
     	return resultForFailure(_e_type);
+    }
+  }
+  
+  public Result<Boolean> subtypeOrEqual(final Type left, final Type right) {
+    return subtypeOrEqual(new RuleEnvironment(), null, left, right);
+  }
+  
+  public Result<Boolean> subtypeOrEqual(final RuleEnvironment _environment_, final Type left, final Type right) {
+    return subtypeOrEqual(_environment_, null, left, right);
+  }
+  
+  public Result<Boolean> subtypeOrEqual(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final Type left, final Type right) {
+    try {
+    	return subtypeOrEqualInternal(_environment_, _trace_, left, right);
+    } catch (Exception _e_subtypeOrEqual) {
+    	return resultForFailure(_e_subtypeOrEqual);
+    }
+  }
+  
+  public Boolean subtypeOrEqualSucceeded(final Type left, final Type right) {
+    return subtypeOrEqualSucceeded(new RuleEnvironment(), null, left, right);
+  }
+  
+  public Boolean subtypeOrEqualSucceeded(final RuleEnvironment _environment_, final Type left, final Type right) {
+    return subtypeOrEqualSucceeded(_environment_, null, left, right);
+  }
+  
+  public Boolean subtypeOrEqualSucceeded(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final Type left, final Type right) {
+    try {
+    	subtypeOrEqualInternal(_environment_, _trace_, left, right);
+    	return true;
+    } catch (Exception _e_subtypeOrEqual) {
+    	return false;
+    }
+  }
+  
+  public Result<Boolean> assignable(final Expression expression, final Type target) {
+    return assignable(new RuleEnvironment(), null, expression, target);
+  }
+  
+  public Result<Boolean> assignable(final RuleEnvironment _environment_, final Expression expression, final Type target) {
+    return assignable(_environment_, null, expression, target);
+  }
+  
+  public Result<Boolean> assignable(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final Expression expression, final Type target) {
+    try {
+    	return assignableInternal(_environment_, _trace_, expression, target);
+    } catch (Exception _e_assignable) {
+    	return resultForFailure(_e_assignable);
+    }
+  }
+  
+  public Boolean assignableSucceeded(final Expression expression, final Type target) {
+    return assignableSucceeded(new RuleEnvironment(), null, expression, target);
+  }
+  
+  public Boolean assignableSucceeded(final RuleEnvironment _environment_, final Expression expression, final Type target) {
+    return assignableSucceeded(_environment_, null, expression, target);
+  }
+  
+  public Boolean assignableSucceeded(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final Expression expression, final Type target) {
+    try {
+    	assignableInternal(_environment_, _trace_, expression, target);
+    	return true;
+    } catch (Exception _e_assignable) {
+    	return false;
     }
   }
   
@@ -180,6 +289,20 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<Boolean>(true);
   }
   
+  protected List<org.eclipse.uml2.uml.Class> superClassListInternal(final RuleApplicationTrace _trace_, final org.eclipse.uml2.uml.Class cl) {
+    try {
+    	checkParamsNotNull(cl);
+    	return superClassListDispatcher.invoke(_trace_, cl);
+    } catch (Exception _e_superClassList) {
+    	sneakyThrowRuleFailedException(_e_superClassList);
+    	return null;
+    }
+  }
+  
+  protected void superClassListThrowException(final String _error, final String _issue, final Exception _ex, final org.eclipse.uml2.uml.Class cl, final ErrorInformation[] _errorInformations) throws RuleFailedException {
+    throwRuleFailedException(_error, _issue, _ex, _errorInformations);
+  }
+  
   protected Result<Type> typeInternal(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final EObject expression) {
     try {
     	checkParamsNotNull(expression);
@@ -197,6 +320,70 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     EObject source = expression;
     throwRuleFailedException(error,
     	_issue, _ex, new ErrorInformation(source, null));
+  }
+  
+  protected Result<Boolean> subtypeOrEqualInternal(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final Type left, final Type right) {
+    try {
+    	checkParamsNotNull(left, right);
+    	return subtypeOrEqualDispatcher.invoke(_environment_, _trace_, left, right);
+    } catch (Exception _e_subtypeOrEqual) {
+    	sneakyThrowRuleFailedException(_e_subtypeOrEqual);
+    	return null;
+    }
+  }
+  
+  protected void subtypeOrEqualThrowException(final String _error, final String _issue, final Exception _ex, final Type left, final Type right, final ErrorInformation[] _errorInformations) throws RuleFailedException {
+    String _stringRep = this.stringRep(left);
+    String _plus = (_stringRep + " is not a subtype of  ");
+    String _stringRep_1 = this.stringRep(right);
+    String _plus_1 = (_plus + _stringRep_1);
+    String error = _plus_1;
+    throwRuleFailedException(error,
+    	_issue, _ex, new ErrorInformation(null, null));
+  }
+  
+  protected Result<Boolean> assignableInternal(final RuleEnvironment _environment_, final RuleApplicationTrace _trace_, final Expression expression, final Type target) {
+    try {
+    	checkParamsNotNull(expression, target);
+    	return assignableDispatcher.invoke(_environment_, _trace_, expression, target);
+    } catch (Exception _e_assignable) {
+    	sneakyThrowRuleFailedException(_e_assignable);
+    	return null;
+    }
+  }
+  
+  protected void assignableThrowException(final String _error, final String _issue, final Exception _ex, final Expression expression, final Type target, final ErrorInformation[] _errorInformations) throws RuleFailedException {
+    String _stringRep = this.stringRep(expression);
+    String _plus = (_stringRep + " is not assignable for type ");
+    String _stringRep_1 = this.stringRep(target);
+    String _plus_1 = (_plus + _stringRep_1);
+    String error = _plus_1;
+    EObject source = expression;
+    throwRuleFailedException(error,
+    	_issue, _ex, new ErrorInformation(source, null));
+  }
+  
+  protected List<org.eclipse.uml2.uml.Class> superClassListImpl(final RuleApplicationTrace _trace_, final org.eclipse.uml2.uml.Class cl) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final List<org.eclipse.uml2.uml.Class> _result_ = applyAuxFunSuperClassList(_subtrace_, cl);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return auxFunName("superClassList") + "(" + stringRep(cl)+ ")" + " = " + stringRep(_result_);
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyAuxFunSuperClassList) {
+    	superClassListThrowException(auxFunName("superClassList") + "(" + stringRep(cl)+ ")",
+    		SUPERCLASSLIST,
+    		e_applyAuxFunSuperClassList, cl, new ErrorInformation[] {new ErrorInformation(cl)});
+    	return null;
+    }
+  }
+  
+  protected List<org.eclipse.uml2.uml.Class> applyAuxFunSuperClassList(final RuleApplicationTrace _trace_, final org.eclipse.uml2.uml.Class cl) throws RuleFailedException {
+    return cl.getSuperClasses();
   }
   
   protected Result<Type> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final BooleanLiteralExpression bool) throws RuleFailedException {
@@ -313,6 +500,153 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   private Type _applyRuleVariableDeclaration_1(final RuleEnvironment G, final Variable variable) throws RuleFailedException {
     Type _type = variable.getType();
     return _type;
+  }
+  
+  protected Result<Boolean> subtypeOrEqualImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Type left, final Type right) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Boolean> _result_ = applyRuleGeneralSubtyping(G, _subtrace_, left, right);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("GeneralSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right);
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleGeneralSubtyping) {
+    	generalSubtypingThrowException(e_applyRuleGeneralSubtyping, left, right);
+    	return null;
+    }
+  }
+  
+  protected Result<Boolean> applyRuleGeneralSubtyping(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Type left, final Type right) throws RuleFailedException {
+    /* fail */
+    throwForExplicitFail();
+    return new Result<Boolean>(true);
+  }
+  
+  private void generalSubtypingThrowException(final Exception e_applyRuleGeneralSubtyping, final Type left, final Type right) throws RuleFailedException {
+    String _stringRep = this.stringRep(left);
+    String _plus = ("The type " + _stringRep);
+    String _plus_1 = (_plus + " is not compatible with the type ");
+    String _stringRep_1 = this.stringRep(right);
+    String _plus_2 = (_plus_1 + _stringRep_1);
+    String error = _plus_2;
+    throwRuleFailedException(error,
+    	GENERALSUBTYPING, e_applyRuleGeneralSubtyping, new ErrorInformation(null, null));
+  }
+  
+  protected Result<Boolean> subtypeOrEqualImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final PrimitiveType left, final PrimitiveType right) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Boolean> _result_ = applyRuleEqualsPrimitiveSubtyping(G, _subtrace_, left, right);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("EqualsPrimitiveSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right);
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleEqualsPrimitiveSubtyping) {
+    	subtypeOrEqualThrowException(ruleName("EqualsPrimitiveSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right),
+    		EQUALSPRIMITIVESUBTYPING,
+    		e_applyRuleEqualsPrimitiveSubtyping, left, right, new ErrorInformation[] {new ErrorInformation(left), new ErrorInformation(right)});
+    	return null;
+    }
+  }
+  
+  protected Result<Boolean> applyRuleEqualsPrimitiveSubtyping(final RuleEnvironment G, final RuleApplicationTrace _trace_, final PrimitiveType left, final PrimitiveType right) throws RuleFailedException {
+    /* left == right */
+    if (!Objects.equal(left, right)) {
+      sneakyThrowRuleFailedException("left == right");
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  protected Result<Boolean> subtypeOrEqualImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final org.eclipse.uml2.uml.Class left, final org.eclipse.uml2.uml.Class right) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Boolean> _result_ = applyRuleClassSubtyping(G, _subtrace_, left, right);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("ClassSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right);
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleClassSubtyping) {
+    	subtypeOrEqualThrowException(ruleName("ClassSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right),
+    		CLASSSUBTYPING,
+    		e_applyRuleClassSubtyping, left, right, new ErrorInformation[] {new ErrorInformation(left), new ErrorInformation(right)});
+    	return null;
+    }
+  }
+  
+  protected Result<Boolean> applyRuleClassSubtyping(final RuleEnvironment G, final RuleApplicationTrace _trace_, final org.eclipse.uml2.uml.Class left, final org.eclipse.uml2.uml.Class right) throws RuleFailedException {
+    /* left == right or right.name == "Object" or superClassList(left).contains(right) */
+    {
+      RuleFailedException previousFailure = null;
+      try {
+        boolean _equals = Objects.equal(left, right);
+        /* left == right */
+        if (!_equals) {
+          sneakyThrowRuleFailedException("left == right");
+        }
+      } catch (Exception e) {
+        previousFailure = extractRuleFailedException(e);
+        /* right.name == "Object" or superClassList(left).contains(right) */
+        {
+          try {
+            String _name = right.getName();
+            boolean _equals_1 = Objects.equal(_name, "Object");
+            /* right.name == "Object" */
+            if (!_equals_1) {
+              sneakyThrowRuleFailedException("right.name == \"Object\"");
+            }
+          } catch (Exception e_1) {
+            previousFailure = extractRuleFailedException(e_1);
+            List<org.eclipse.uml2.uml.Class> _superClassList = this.superClassListInternal(_trace_, left);
+            boolean _contains = _superClassList.contains(right);
+            /* superClassList(left).contains(right) */
+            if (!_contains) {
+              sneakyThrowRuleFailedException("superClassList(left).contains(right)");
+            }
+          }
+        }
+      }
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  protected Result<Boolean> assignableImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Expression ex, final Type target) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Boolean> _result_ = applyRuleExpressionAssignableToType(G, _subtrace_, ex, target);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("ExpressionAssignableToType") + stringRepForEnv(G) + " |- " + stringRep(ex) + " |> " + stringRep(target);
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleExpressionAssignableToType) {
+    	assignableThrowException(ruleName("ExpressionAssignableToType") + stringRepForEnv(G) + " |- " + stringRep(ex) + " |> " + stringRep(target),
+    		EXPRESSIONASSIGNABLETOTYPE,
+    		e_applyRuleExpressionAssignableToType, ex, target, new ErrorInformation[] {new ErrorInformation(ex), new ErrorInformation(target)});
+    	return null;
+    }
+  }
+  
+  protected Result<Boolean> applyRuleExpressionAssignableToType(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Expression ex, final Type target) throws RuleFailedException {
+    /* G |- ex : var Type expressionType */
+    Type expressionType = null;
+    Result<Type> result = typeInternal(G, _trace_, ex);
+    checkAssignableTo(result.getFirst(), Type.class);
+    expressionType = (Type) result.getFirst();
+    
+    /* G |- expressionType <: target */
+    subtypeOrEqualInternal(G, _trace_, expressionType, target);
+    return new Result<Boolean>(true);
   }
   
   protected Result<Type> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final NumericUnaryExpression ex) throws RuleFailedException {
@@ -830,11 +1164,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result_2.getFirst(), Type.class);
     op2Type = (Type) result_2.getFirst();
     
-    boolean _equals = Objects.equal(op1Type, op2Type);
-    /* op1Type == op2Type */
-    if (!_equals) {
-      sneakyThrowRuleFailedException("op1Type == op2Type");
-    }
+    /* G |- op1Type <: op2Type */
+    subtypeOrEqualInternal(G, _trace_, op1Type, op2Type);
     Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
     result = _primitiveType;
     return new Result<Type>(result);
@@ -1081,18 +1412,46 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result_3.getFirst(), Type.class);
     falseType = (Type) result_3.getFirst();
     
+    /* G |- trueType <: falseType */
+    subtypeOrEqualInternal(G, _trace_, trueType, falseType);
     Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
     boolean _equals = Objects.equal(condType, _primitiveType);
     /* condType == BOOLEAN.primitiveType */
     if (!_equals) {
       sneakyThrowRuleFailedException("condType == BOOLEAN.primitiveType");
     }
-    boolean _equals_1 = Objects.equal(trueType, falseType);
-    /* trueType == falseType */
-    if (!_equals_1) {
-      sneakyThrowRuleFailedException("trueType == falseType");
-    }
     result = trueType;
+    return new Result<Type>(result);
+  }
+  
+  protected Result<Type> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final InstanceCreationExpression ex) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Type> _result_ = applyRuleInstanceCreationExpression(G, _subtrace_, ex);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("InstanceCreationExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleInstanceCreationExpression) {
+    	typeThrowException(ruleName("InstanceCreationExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + "Type",
+    		INSTANCECREATIONEXPRESSION,
+    		e_applyRuleInstanceCreationExpression, ex, new ErrorInformation[] {new ErrorInformation(ex)});
+    	return null;
+    }
+  }
+  
+  protected Result<Type> applyRuleInstanceCreationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final InstanceCreationExpression ex) throws RuleFailedException {
+    Type result = null; // output parameter
+    Classifier _instance = ex.getInstance();
+    /* !(ex.instance instanceof PrimitiveType) */
+    if (!(!(_instance instanceof PrimitiveType))) {
+      sneakyThrowRuleFailedException("!(ex.instance instanceof PrimitiveType)");
+    }
+    Classifier _instance_1 = ex.getInstance();
+    result = _instance_1;
     return new Result<Type>(result);
   }
   
@@ -1170,6 +1529,50 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
       } catch (Exception e) {
         previousFailure = extractRuleFailedException(e);
       }
+    }
+    return new Result<Type>(result);
+  }
+  
+  protected Result<Type> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Type> _result_ = applyRuleVariableValueDeclaration(G, _subtrace_, st);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("VariableValueDeclaration") + stringRepForEnv(G) + " |- " + stringRep(st) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleVariableValueDeclaration) {
+    	typeThrowException(ruleName("VariableValueDeclaration") + stringRepForEnv(G) + " |- " + stringRep(st) + " : " + "Type",
+    		VARIABLEVALUEDECLARATION,
+    		e_applyRuleVariableValueDeclaration, st, new ErrorInformation[] {new ErrorInformation(st)});
+    	return null;
+    }
+  }
+  
+  protected Result<Type> applyRuleVariableValueDeclaration(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
+    Type result = null; // output parameter
+    /* G |- st.variable : var Type varType */
+    Variable _variable = st.getVariable();
+    Type varType = null;
+    Result<Type> result_1 = typeInternal(G, _trace_, _variable);
+    checkAssignableTo(result_1.getFirst(), Type.class);
+    varType = (Type) result_1.getFirst();
+    
+    /* G |- st.expression : var Type valueType */
+    Expression _expression = st.getExpression();
+    Type valueType = null;
+    Result<Type> result_2 = typeInternal(G, _trace_, _expression);
+    checkAssignableTo(result_2.getFirst(), Type.class);
+    valueType = (Type) result_2.getFirst();
+    
+    /* G |- varType <: valueType */
+    subtypeOrEqualInternal(G, _trace_, varType, valueType);
+    /* result == varType */
+    if (!Objects.equal(result, varType)) {
+      sneakyThrowRuleFailedException("result == varType");
     }
     return new Result<Type>(result);
   }

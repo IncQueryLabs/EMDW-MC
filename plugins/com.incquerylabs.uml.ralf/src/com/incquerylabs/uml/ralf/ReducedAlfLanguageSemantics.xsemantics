@@ -25,6 +25,10 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
+import org.eclipse.uml2.uml.PrimitiveType
+import java.util.List
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -32,11 +36,24 @@ val INTEGER = IUMLContextProvider.INTEGER_TYPE
 val BOOLEAN = IUMLContextProvider.BOOLEAN_TYPE
 val STRING  = IUMLContextProvider.STRING_TYPE
 
+auxiliary {
+    superClassList(org.eclipse.uml2.uml.Class cl) : List<org.eclipse.uml2.uml.Class>
+//    isPrimitive(Type type) : Boolean
+}
 
 judgments {
     type |- EObject expression : output Type
         error "Cannot type " + stringRep(expression)
+        source expression
+    subtypeOrEqual |- Type left <: Type right
+        error stringRep(left) + " is not a subtype of  " + stringRep(right)
+    assignable |- Expression expression |> Type target
+        error stringRep(expression) + " is not assignable for type " + stringRep(target)
         source expression        
+}
+
+auxiliary superClassList(org.eclipse.uml2.uml.Class cl) {
+    cl.superClasses
 }
 
 axiom BooleanLiteral
@@ -56,7 +73,44 @@ axiom VariableDeclaration
         variable.type
       
 
-  
+
+/**
+ * Subtyping and assignability
+ */
+rule GeneralSubtyping
+    derives G |- Type left <: Type right
+    error "The type " + stringRep(left) + " is not compatible with the type " + stringRep(right)
+from {
+    //More specific cases are not matched, fail here
+    fail
+} 
+
+rule EqualsPrimitiveSubtyping
+    derives G |- PrimitiveType left <: PrimitiveType right
+from {
+    left == right
+} 
+
+rule ClassSubtyping
+    derives G |- org.eclipse.uml2.uml.Class left <: org.eclipse.uml2.uml.Class right
+from {
+    left == right
+    or
+    right.name == "Object"
+    or
+    superClassList(left).contains(right)
+} 
+
+rule ExpressionAssignableToType
+    G |- Expression ex |> Type target
+from {
+    G |- ex : var Type expressionType
+    G |- expressionType <: target 
+}
+
+/**
+ * Expressions
+ */  
 rule NumericUnaryExpression
     G |- NumericUnaryExpression ex : Type result
 from {
@@ -152,7 +206,7 @@ rule EqualityExpression
 from {
     G |- ex.operand1 : var Type op1Type 
     G |- ex.operand2 : var Type op2Type
-    op1Type == op2Type //TODO check subtyping
+    G |- op1Type <: op2Type 
     result = BOOLEAN.primitiveType
 }
 
@@ -199,9 +253,17 @@ from {
     G |- ex.operand1 : var Type condType
     G |- ex.operand2 : var Type trueType
     G |- ex.operand3 : var Type falseType
+    G |- trueType <: falseType 
     condType == BOOLEAN.primitiveType
-    trueType == falseType //TODO check subtyping
     result = trueType
+}
+
+
+rule InstanceCreationExpression
+    G |- InstanceCreationExpression ex : Type result
+from {
+    !(ex.instance instanceof PrimitiveType)
+    result = ex.instance
 }
 
 rule FeatureLeftHandSide
@@ -221,6 +283,15 @@ from {
     } or {
         //TODO indexed access
     }
+}
+
+rule VariableValueDeclaration
+    G |- LocalNameDeclarationStatement st : Type result
+from {
+    G |- st.variable : var Type varType
+    G |- st.expression : var Type valueType
+    G |- varType <: valueType
+    result == varType
 }
 
 checkrule CheckExpressionType for

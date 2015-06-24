@@ -30,6 +30,7 @@ import org.eclipse.uml2.uml.PrimitiveType
 import java.util.List
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import org.eclipse.uml2.uml.Classifier
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -225,6 +226,14 @@ from {
     op1Type == INTEGER.primitiveType || op1Type == REAL.primitiveType 
     op2Type == INTEGER.primitiveType || op2Type == REAL.primitiveType
     op1Type == op2Type 
+    result = BOOLEAN.primitiveType
+}
+
+rule LogicalUnaryExpression
+    G |- BooleanUnaryExpression ex : Type result
+from {
+    G |- ex.operand : var Type opType
+    opType == BOOLEAN.primitiveType
     result = BOOLEAN.primitiveType
 }
 

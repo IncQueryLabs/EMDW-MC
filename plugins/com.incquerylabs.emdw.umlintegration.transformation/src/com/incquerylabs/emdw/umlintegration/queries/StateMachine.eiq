@@ -30,6 +30,26 @@ private pattern pseudostateOfRegion(region: Region, pseudostate: Pseudostate, ki
 	Pseudostate.kind(pseudostate, kind);
 }
 
+// Terminate point
+
+pattern terminatePoint(pseudostate: Pseudostate) {
+	find toplevelTerminatePoint(_, pseudostate);
+} or {
+	find childTerminatePoint(_, pseudostate);
+}
+
+pattern toplevelTerminatePoint(stateMachine: StateMachine, pseudostate: Pseudostate) {
+	find stateMachine(_, stateMachine);
+	StateMachine.region(stateMachine, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::terminate);
+}
+
+pattern childTerminatePoint(state: State, pseudostate: Pseudostate) {
+	State.region(state, region);
+	find pseudostateOfRegion(region, pseudostate, PseudostateKind::terminate);
+}
+
+
 // Choice point
 
 pattern choicePoint(pseudostate: Pseudostate) {

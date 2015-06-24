@@ -51,6 +51,7 @@ import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformatio
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
 import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementMapping
 import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
+import com.incquerylabs.emdw.umlintegration.rules.TerminatePointRules
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -84,6 +85,7 @@ class RuleProvider {
 		ExitPointRules.getRules(engine).initRules
 		GuardRules.getRules(engine).initRules
 		InitialPointRules.getRules(engine).initRules
+		TerminatePointRules.getRules(engine).initRules
 		JunctionPointRules.getRules(engine).initRules
 		MultiplicityElementRules.getRules(engine).initRules
 		OperationRules.getRules(engine).initRules

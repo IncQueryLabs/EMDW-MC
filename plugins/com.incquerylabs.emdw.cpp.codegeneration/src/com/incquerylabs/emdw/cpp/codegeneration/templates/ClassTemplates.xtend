@@ -1,15 +1,15 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
+import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 
 class ClassTemplates {
 	
@@ -176,10 +176,9 @@ class ClassTemplates {
 	}
 	
 	def privateStateMachineCodeInClassHeader(CPPClass cppClass) {
-		val finalStateMatcher = codeGenQueries.getCppClassFinalStates(engine)
 		'''
 		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
-			«stateTemplates.methodDeclarationsInClassHeader(state, finalStateMatcher.hasMatch(cppClass, state))»
+			«stateTemplates.methodDeclarationsInClassHeader(state)»
 		«ENDFOR»
 
 		// State machine
@@ -278,7 +277,9 @@ class ClassTemplates {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		
-		val finalStateMatcher = codeGenQueries.getCppClassFinalStates(engine)
+		val terminatePointMatcher = codeGenQueries.getCppClassTerminatePoints(engine)
+		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
+		
 		'''
 		void «cppFQN»::process_event(int event_id, std::string event_content) {
 			«IF generateTracingCode»
@@ -286,26 +287,21 @@ class ClassTemplates {
 			«ENDIF»
 		
 			switch(current_state){
-			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName].filter[!finalStateMatcher.hasMatch(cppClass, it)]»
-			case «cppClassName»_STATE_«state.cppName»:
-				process_event_in_«state.cppName»_state(event_id, event_content);
-				break;
+			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
+				case «cppClassName»_STATE_«state.cppName»:
+					process_event_in_«state.cppName»_state(event_id, event_content);
+					break;
 			«ENDFOR»
 			}
-		
-			«IF finalStateMatcher.hasMatch(cppClass, null)»
-				switch(current_state){
-				«FOR finalState : finalStateMatcher.getAllValuesOfcppFinalState(cppClass).sortBy[cppName]»
-					case «cppClassName»_STATE_«finalState.cppName»:
-				«ENDFOR»
+			«IF terminatePointCount > 0»
+				if(current_state == «cppClassName»_STATE_«StateTemplates.TERMINATE_POSTFIX»){
 					delete this;
-					break;
 				}
 			«ENDIF»
 		}
 		
 		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
-			«stateTemplates.methodDefinitionsInClassBody(state, cppClass, finalStateMatcher.hasMatch(cppClass, state))»
+			«stateTemplates.methodDefinitionsInClassBody(state, cppClass)»
 		«ENDFOR»
 		'''
 	}

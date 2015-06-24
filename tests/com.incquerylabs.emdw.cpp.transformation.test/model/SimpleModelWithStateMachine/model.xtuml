@@ -1,77 +1,81 @@
 <?xml version="1.0" encoding="ASCII"?>
-<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="model">
-  <entities xsi:type="xtuml:XTComponent" name="myComponent">
-    <entities xsi:type="xtuml:XTClass" name="myClass">
-      <attributes name="myInt" unique="true" upperBound="1">
-        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
-      </attributes>
-      <behaviour name="myStateMachine">
-        <top>
-          <initial name="myInitialPoint" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
-          <substates xsi:type="common:SimpleState" name="myState4" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.4 //@entities.0/@entities.0/@behaviour/@top/@transitions.6" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.5"/>
-          <substates xsi:type="common:SimpleState" name="myFinalState" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.5 //@entities.0/@entities.0/@behaviour/@top/@transitions.2"/>
-          <substates xsi:type="common:SimpleState" name="myState1" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.8 //@entities.0/@entities.0/@behaviour/@top/@transitions.3">
-            <entryAction source="std::cout &lt;&lt; &quot;This is the entry action for myState1&quot; &lt;&lt; std::endl;"/>
-          </substates>
-          <substates xsi:type="common:SimpleState" name="myState3" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1 //@entities.0/@entities.0/@behaviour/@top/@transitions.3" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1 //@entities.0/@entities.0/@behaviour/@top/@transitions.7 //@entities.0/@entities.0/@behaviour/@top/@transitions.4">
-            <exitAction source="std::cout &lt;&lt; &quot;This is the exit action for myState3&quot; &lt;&lt; std::endl;"/>
-          </substates>
-          <substates xsi:type="common:SimpleState" name="myState5" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.7" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.2">
-            <entryAction source="std::cout &lt;&lt; &quot;This is the entry action for myState5&quot; &lt;&lt; std::endl;"/>
-          </substates>
-          <substates xsi:type="common:SimpleState" name="myState2" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.8" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.6">
-            <entryAction source="std::cout &lt;&lt; &quot;This is the entry action for myState2&quot; &lt;&lt; std::endl;"/>
-            <exitAction source="std::cout &lt;&lt; &quot;This is the exit action for myState2&quot; &lt;&lt; std::endl;"/>
-          </substates>
-          <transitions name="myTI1" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2">
-            <actionChain>
-              <actions source="std::cout &lt;&lt; &quot;myTransitionI1 happened&quot; &lt;&lt; std::endl;"/>
-            </actionChain>
-          </transitions>
-          <transitions name="myT33" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger33" signal="//@entities.0/@entities.0/@events.0"/>
-          </transitions>
-          <transitions name="myT5F" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.4" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger 5F" signal="//@entities.0/@entities.0/@events.2"/>
-            <actionChain name="myT5FAction">
-              <actions source="std::cout &lt;&lt; &quot;myTransition5F happened&quot; &lt;&lt; std::endl;"/>
-            </actionChain>
-          </transitions>
-          <transitions name="myT13" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger13" signal="//@entities.0/@entities.0/@events.2"/>
-            <actionChain name="myT13Action">
-              <actions source="std::cout &lt;&lt; &quot;myTransition13 happened&quot; &lt;&lt; std::endl;"/>
-            </actionChain>
-          </transitions>
-          <transitions name="myT34" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger34" signal="//@entities.0/@entities.0/@events.0"/>
-            <guard name="myConstraint">
-              <body source="myInt&lt;42"/>
-            </guard>
-          </transitions>
-          <transitions name="myT4F" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger4F" signal="//@entities.0/@entities.0/@events.0"/>
-          </transitions>
-          <transitions name="myT24" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.5" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger24" signal="//@entities.0/@entities.0/@events.1"/>
-            <actionChain name="myT24Action">
-              <actions source="std::cout &lt;&lt; &quot;myTransition24 happened&quot; &lt;&lt; std::endl;"/>
-            </actionChain>
-          </transitions>
-          <transitions name="myT35" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.4">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger35" signal="//@entities.0/@entities.0/@events.1"/>
-            <actionChain name="myT35Action">
-              <actions source="std::cout &lt;&lt; &quot;myTransition35 happened&quot; &lt;&lt; std::endl;"/>
-            </actionChain>
-          </transitions>
-          <transitions name="myT12" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.5">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger12" signal="//@entities.0/@entities.0/@events.0"/>
-          </transitions>
-        </top>
-      </behaviour>
-      <events xsi:type="xtuml:XTClassEvent" name="mySignal1"/>
-      <events xsi:type="xtuml:XTClassEvent" name="mySignal3"/>
-      <events xsi:type="xtuml:XTClassEvent" name="mySignal2"/>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="Test_FSM">
+  <packages name="Main_Package">
+    <entities xsi:type="xtuml:XTComponent" name="Test_Component">
+      <packages name="Test_Package">
+        <entities xsi:type="xtuml:XTClass" name="TEST">
+          <attributes name="myInt" unique="true" upperBound="1">
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+          </attributes>
+          <behaviour name="myStateMachine">
+            <top>
+              <initial name="myInitialPoint" outgoingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.5"/>
+              <substates xsi:type="common:SimpleState" name="myState3" incomingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.4 //@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.1" outgoingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.6 //@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.8 //@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.1">
+                <exitAction source="std::cout &lt;&lt; &quot;This is the exit action for myState3&quot; &lt;&lt; std::endl;"/>
+              </substates>
+              <substates xsi:type="common:SimpleState" name="myState1" incomingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.5" outgoingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.4 //@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.2">
+                <entryAction source="std::cout &lt;&lt; &quot;This is the entry action for myState1&quot; &lt;&lt; std::endl;"/>
+              </substates>
+              <substates xsi:type="common:SimpleState" name="myState2" incomingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.2" outgoingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.0">
+                <entryAction source="std::cout &lt;&lt; &quot;This is the entry action for myState2&quot; &lt;&lt; std::endl;"/>
+                <exitAction source="std::cout &lt;&lt; &quot;This is the exit action for myState2&quot; &lt;&lt; std::endl;"/>
+              </substates>
+              <substates xsi:type="common:SimpleState" name="myState5" incomingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.8" outgoingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.3">
+                <entryAction source="std::cout &lt;&lt; &quot;This is the entry action for myState5&quot; &lt;&lt; std::endl;"/>
+              </substates>
+              <substates xsi:type="common:SimpleState" name="myState4" incomingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.6 //@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.0" outgoingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.7"/>
+              <transitions name="myT24" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.2" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.4">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger24" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.1"/>
+                <actionChain name="myT24Action">
+                  <actions source="std::cout &lt;&lt; &quot;myTransition24 happened&quot; &lt;&lt; std::endl;"/>
+                </actionChain>
+              </transitions>
+              <transitions name="myT33" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.0">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger33" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.2"/>
+              </transitions>
+              <transitions name="myT12" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.2">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger12" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.2"/>
+              </transitions>
+              <transitions name="myT5F" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@terminatepoint">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger 5F" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.0"/>
+                <actionChain name="myT5FAction">
+                  <actions source="std::cout &lt;&lt; &quot;myTransition5F happened&quot; &lt;&lt; std::endl;"/>
+                </actionChain>
+              </transitions>
+              <transitions name="myT13" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.0">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger13" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.0"/>
+                <actionChain name="myT13Action">
+                  <actions source="std::cout &lt;&lt; &quot;myTransition13 happened&quot; &lt;&lt; std::endl;"/>
+                </actionChain>
+              </transitions>
+              <transitions name="myTI1" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.1">
+                <actionChain>
+                  <actions source="std::cout &lt;&lt; &quot;myTransitionI1 happened&quot; &lt;&lt; std::endl;"/>
+                </actionChain>
+              </transitions>
+              <transitions name="myT34" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.4">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger34" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.2"/>
+                <guard name="myConstraint">
+                  <body source="myInt&lt;42"/>
+                </guard>
+              </transitions>
+              <transitions name="myT4F" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.4" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@terminatepoint">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger4F" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.2"/>
+              </transitions>
+              <transitions name="myT35" sourceVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@substates.3">
+                <triggers xsi:type="xtuml:XTEventTrigger" name="myTrigger35" signal="//@packages.0/@entities.0/@packages.0/@entities.0/@events.1"/>
+                <actionChain name="myT35Action">
+                  <actions source="std::cout &lt;&lt; &quot;myTransition35 happened&quot; &lt;&lt; std::endl;"/>
+                </actionChain>
+              </transitions>
+              <terminatepoint name="myTerminate" incomingTransitions="//@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.7 //@packages.0/@entities.0/@packages.0/@entities.0/@behaviour/@top/@transitions.3"/>
+            </top>
+          </behaviour>
+          <events xsi:type="xtuml:XTClassEvent" name="mySignal2"/>
+          <events xsi:type="xtuml:XTClassEvent" name="mySignal3"/>
+          <events xsi:type="xtuml:XTClassEvent" name="mySignal1"/>
+        </entities>
+      </packages>
     </entities>
-  </entities>
+  </packages>
 </common:Model>

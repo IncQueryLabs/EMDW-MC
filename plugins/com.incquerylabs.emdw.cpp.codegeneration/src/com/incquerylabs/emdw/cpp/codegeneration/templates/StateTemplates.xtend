@@ -2,16 +2,19 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionInfoMatch
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionToTerminateMatch
+import com.incquerylabs.emdw.cpp.codegeneration.util.TransitionInfo
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 
 class StateTemplates {
+	public static val TERMINATE_POSTFIX = "TERMINATE"
 	
 	val codeGenQueries = CppCodeGenerationQueries.instance
 	
@@ -26,37 +29,43 @@ class StateTemplates {
 	}
 	
 	def enumInClassHeader(CPPClass cppClass) {
+		val terminatePointMatcher = codeGenQueries.getCppClassTerminatePoints(engine)
+		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
 		val cppClassName = cppClass.cppName
+		val cppStates = cppClass.subElements.filter(CPPState).sortBy[cppName]
 		'''
 		enum «cppClassName»_state {
-			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName] SEPARATOR ","»
+«««			Create exctly one terminate point state if there is at least one TerminatePoint in the xtUML model
+			«IF terminatePointCount > 0 »
+				«cppClassName»_STATE_«TERMINATE_POSTFIX»«IF cppStates.length > 0»,«ENDIF»
+			«ENDIF»
+			«FOR state : cppStates SEPARATOR ","»
 				«cppClassName»_STATE_«state.cppName»
 			«ENDFOR»
 		};
 		'''
 	}
 	
-	def methodDeclarationsInClassHeader(CPPState state, boolean isFinalState) {
+	def methodDeclarationsInClassHeader(CPPState state) {
 		val stateCppName = state.cppName
 		'''
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
 			void perform_entry_action_for_«stateCppName»_state(int event_id, std::string event_content);
 		«ENDIF»
-		
-		«IF !isFinalState»
-			void process_event_in_«stateCppName»_state(int event_id, std::string event_content);
-		«ENDIF»
-		
+
+		void process_event_in_«stateCppName»_state(int event_id, std::string event_content);
+
 		«FOR transitionInfo : state.orderTransitions»
-			«val target = transitionInfo.cppTarget.cppName»
+			«val targetState = transitionInfo.cppTarget»
+			«val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX»
 			«val transition = transitionInfo.transition»
 			«val cppTransition = transitionInfo.cppTransition»
 			«IF transition.guard != null»
-				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
+				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content);
 			«ENDIF»
 			«IF transition.actionChain != null»
-				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content);
+				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content);
 			«ENDIF»
 		«ENDFOR»
 		
@@ -66,7 +75,7 @@ class StateTemplates {
 		'''
 	}
 	
-	def methodDefinitionsInClassBody(CPPState state, CPPClass cppClass, boolean isFinalState) {
+	def methodDefinitionsInClassBody(CPPState state, CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		
@@ -82,71 +91,72 @@ class StateTemplates {
 			}
 		«ENDIF»
 		
-		«IF !isFinalState»
-			void «cppFQN»::process_event_in_«stateCppName»_state(int event_id, std::string event_content){
-				«IF generateTracingCode»
-					cout << "  [State: «stateCppName»] Processing event" << endl;
-				«ENDIF»
-				«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
-					«val cppTarget = transitionInfo.cppTarget»
-					«val target = cppTarget.cppName»
-					«val transition = transitionInfo.transition»
-					«val cppTransition = transitionInfo.cppTransition»
-					// «stateCppName» -«cppTransition.cppName»-> «target» transition
-					if(«cppTransition.generatedTransitionCondition(cppClassName, stateCppName, target)») {
-						«IF state.commonState.exitAction != null»	
-							// exit action
-							perform_exit_action_for_«stateCppName»_state(event_id, event_content);
-						«ELSE»
-							// no exit action
-						«ENDIF»
-						
-						«IF transition.actionChain != null»
-							// transition action
-							perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(event_id, event_content);
-						«ELSE»
-							// no transition action
-						«ENDIF»
-						
-						«IF cppTarget.commonState.entryAction != null»
-							// entry action
-							perform_entry_action_for_«target»_state(event_id, event_content);
-						«ELSE»
-							// no entry action
-						«ENDIF»
-						
-						«IF state != cppTarget»
-							// state change
-							current_state = «cppClassName»_STATE_«target»;
-							«IF generateTracingCode»
-								cout << "    State changed to «target»" << endl;
-							«ENDIF»
-						«ELSE»
-							// no state change
-							«IF generateTracingCode»
-								cout << "    No state change on «cppTransition.cppName»" << endl;
-							«ENDIF»
-						«ENDIF»
-					} «ENDFOR» 
-				{
-					// event not processed in state
-					«IF generateTracingCode»
-						cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+		void «cppFQN»::process_event_in_«stateCppName»_state(int event_id, std::string event_content){
+			«IF generateTracingCode»
+				cout << "  [State: «stateCppName»] Processing event" << endl;
+			«ENDIF»
+			«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
+				«val targetState = transitionInfo.cppTarget»
+				«val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX»
+				«val transition = transitionInfo.transition»
+				«val cppTransition = transitionInfo.cppTransition»
+				// «stateCppName» -«cppTransition.cppName»-> «targetStateCppName» transition
+				if(«cppTransition.generatedTransitionCondition(cppClassName, stateCppName, targetStateCppName)») {
+					«IF state.commonState.exitAction != null»	
+						// exit action
+						perform_exit_action_for_«stateCppName»_state(event_id, event_content);
+					«ELSE»
+						// no exit action
 					«ENDIF»
-				}
-				return;
+					
+					«IF transition.actionChain != null»
+						// transition action
+						perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(event_id, event_content);
+					«ELSE»
+						// no transition action
+					«ENDIF»
+					
+					«IF targetState == null»
+«««						no entry action for Terminate state
+					«ELSEIF targetState.commonState.entryAction != null»
+						// entry action
+						perform_entry_action_for_«targetStateCppName»_state(event_id, event_content);
+					«ELSE»
+						// no entry action
+					«ENDIF»
+					
+					«IF state != targetState»
+						// state change
+						current_state = «cppClassName»_STATE_«targetStateCppName»;
+						«IF generateTracingCode»
+							cout << "    State changed to «targetStateCppName»" << endl;
+						«ENDIF»
+					«ELSE»
+						// no state change
+						«IF generateTracingCode»
+							cout << "    No state change on «cppTransition.cppName»" << endl;
+						«ENDIF»
+					«ENDIF»
+				} «ENDFOR» 
+			{
+				// event not processed in state
+				«IF generateTracingCode»
+					cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+				«ENDIF»
 			}
-		«ENDIF»
+			return;
+		}
 		
 		«FOR transitionInfo : state.orderTransitions»
-			«val target = transitionInfo.cppTarget.cppName»
+			«val targetState = transitionInfo.cppTarget»
+			«val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX»
 			«val transition = transitionInfo.transition»
 			«val cppTransition = transitionInfo.cppTransition»
 			
 			«IF transition.guard != null»
-				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
+				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content){
 					«IF generateTracingCode»
-						cout << "    [Guard: -> «target»]" << endl;
+						cout << "    [Guard: -> «targetStateCppName»]" << endl;
 					«ENDIF»
 					«actionCodeTemplates.generateActionCode(transition.guard.body)»
 					
@@ -163,9 +173,9 @@ class StateTemplates {
 			«ENDIF»
 			
 			«IF transition.actionChain != null»
-				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(int event_id, std::string event_content){
+				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content){
 					«IF generateTracingCode»
-						cout << "    [Action: -> «target»]" << endl;
+						cout << "    [Action: -> «targetStateCppName»]" << endl;
 					«ENDIF»
 					«actionCodeTemplates.generateActionCode(transition.actionChain)»
 				}
@@ -187,26 +197,42 @@ class StateTemplates {
 	def orderTransitions(CPPState cppState) {
 		val compositeStateMatcher = codeGenQueries.getCompositeStateSubStates(engine)
 		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
+		val cppTransitionToTerminateMatcher = codeGenQueries.getCppTransitionToTerminate(engine)
 		
 		val commonState = cppState.commonState
 		val compositeState = compositeStateMatcher.getOneArbitraryMatch(null, commonState).compositeState
 		
-		val List<CppTransitionInfoMatch> transitionsWithTrigger = newArrayList
-		val List<CppTransitionInfoMatch> transitionsWithNoTrigger = newArrayList
+		val List<TransitionInfo> transitionsWithTrigger = newArrayList
+		val List<TransitionInfo> transitionsWithNoTrigger = newArrayList
 		
 		// separate transitions with trigger and without trigger		
 		compositeState.transitions.filter[sourceVertex == commonState].forEach[transition |
-			val match = cppTransitionInfoMatcher.getOneArbitraryMatch(null, transition, cppState, null)
-			if(match != null){
+			val transitionToStateMatch = cppTransitionInfoMatcher.getOneArbitraryMatch(null, transition, cppState, null)
+			val transitionToTerminateMatch = cppTransitionToTerminateMatcher.getOneArbitraryMatch(null, transition, cppState)
+			if(transitionToStateMatch != null){
 				if(transition.triggers.empty){
-					transitionsWithNoTrigger += match
+					transitionsWithNoTrigger += transitionToStateMatch.createTransitionInfo
 				} else {
-					transitionsWithTrigger += match
+					transitionsWithTrigger += transitionToStateMatch.createTransitionInfo
+				}
+			} else if(transitionToTerminateMatch != null) {
+				if(transition.triggers.empty){
+					transitionsWithNoTrigger += transitionToTerminateMatch.createTransitionInfo
+				} else {
+					transitionsWithTrigger += transitionToTerminateMatch.createTransitionInfo
 				}
 			}
 		]
 		
 		transitionsWithTrigger
+	}
+	
+	def createTransitionInfo(CppTransitionInfoMatch match){
+		new TransitionInfo(match.cppTransition, match.transition, match.cppSource, match.cppTarget)
+	}
+	
+	def createTransitionInfo(CppTransitionToTerminateMatch match){
+		new TransitionInfo(match.cppTransition, match.transition, match.cppSource, null)
 	}
 	
 	def generatedTransitionCondition(CPPTransition cppTransition, String cppClassName, String stateCppName, String target) {

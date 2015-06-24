@@ -12,6 +12,15 @@ pattern cppClasses(
 	CPPClass.xtClass(cppClass, xtClass);
 }
 
+pattern cppClassStateMachine(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	statemachine : StateMachine
+) {
+	XTClass.behaviour(xtClass, statemachine);
+	find cppClasses(xtClass, cppClass);
+}
+
 pattern cppClassAttributes(
 	cppClass : CPPClass,
 	cppAttribute : CPPAttribute,
@@ -120,6 +129,18 @@ pattern cppTransitionInfo(
 	Transition.targetVertex(transition, target);
 }
 
+pattern cppTransitionToTerminate(
+	cppTransition : CPPTransition,
+	transition : Transition,
+	cppSource : CPPState
+) {
+	CPPTransition.commonTransition(cppTransition, transition);
+	CPPState.commonState(cppSource, source);
+	TerminatePoint(terminatePoint);
+	Transition.sourceVertex(transition, source);
+	Transition.targetVertex(transition, terminatePoint);
+}
+
 pattern cppClassInitState(
 	cppClass : CPPClass,
 	cppInitState : CPPState,
@@ -138,4 +159,24 @@ pattern cppClassFinalStates(
 ) {
 	CPPClass.subElements(cppClass, cppFinalState);
 	neg find cppTransitionInfo(_, _, cppFinalState, _);
+}
+
+pattern cppClassTerminatePoints(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	terminatePoint : TerminatePoint
+) {
+	find cppClassStateMachine(xtClass, cppClass, stateMachine);
+	find stateMachineTerminatePoints(stateMachine, terminatePoint);
+}
+
+pattern stateMachineTerminatePoints(
+	stateMachine : StateMachine,
+	terminatePoint : TerminatePoint
+) {
+	StateMachine.top(stateMachine, top);
+	CompositeState.terminatepoint(top, terminatePoint);
+} or {
+	find stateMachineStates(stateMachine, compositeState);
+	CompositeState.terminatepoint(compositeState, terminatePoint);
 }

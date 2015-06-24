@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests;
+package com.incquerylabs.uml.ralf.tests.util;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;

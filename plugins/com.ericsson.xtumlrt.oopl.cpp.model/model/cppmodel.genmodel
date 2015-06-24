@@ -207,22 +207,22 @@
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="cppmodel.ecore#//BaseContainerImplementation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/anyTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/clearTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/cloneTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containsTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containsAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/countOfTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/elementAtIndexTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/insertElementAtIndexTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/isEmptyTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/removeTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/removeAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/retainAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/sizeTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/anyTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/clearTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/cloneTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containsTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containsAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/countOfTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/elementAtIndexTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/insertElementAtIndexTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/isEmptyTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/removeTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/removeAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/retainAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/sizeTemplate"/>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateAdd">
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/value"/>

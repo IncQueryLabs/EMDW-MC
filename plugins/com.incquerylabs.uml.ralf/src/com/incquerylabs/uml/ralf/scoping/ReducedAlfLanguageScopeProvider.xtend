@@ -14,6 +14,7 @@ import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import com.google.inject.Inject
 import com.google.inject.Injector
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 
 /**
  * This class contains custom scoping description.
@@ -26,8 +27,6 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
     @Inject(optional = true)
     IUMLContextProvider umlContext;
-    @Inject
-    Injector injector;
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
@@ -99,6 +98,10 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         switch (container) {
           Block:  
             container.statement.
+                takeWhile[it != until].
+                map[eContents.filter(Variable)].
+                flatten
+          Statements: container.statement.
                 takeWhile[it != until].
                 map[eContents.filter(Variable)].
                 flatten

@@ -1,36 +1,60 @@
 <?xml version="1.0" encoding="ASCII"?>
-<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="model">
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="myModel">
   <entities xsi:type="xtuml:XTComponent" name="myComponent">
     <entities xsi:type="xtuml:XTClass" name="myClass">
-      <operations name="myGetterOperation">
+      <operations visibility="PRIVATE" name="myClass">
         <returnType>
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
         </returnType>
-        <body source="return &quot;my returned string&quot;;"/>
+        <parameters name="privateConstructorParam" ordered="true" upperBound="-1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </parameters>
+        <body source="// This is my private constructor action code"/>
       </operations>
       <operations name="myVoidOperation">
         <returnType>
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
         </returnType>
         <parameters name="toPrintParameter" unique="true" lowerBound="1" upperBound="1">
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
         </parameters>
         <body source="std::cout &lt;&lt; toPrintParameter &lt;&lt; std::endl;"/>
       </operations>
+      <operations name="~myClass">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="// This is my Destructor action code"/>
+      </operations>
       <operations name="myMultiParamOperation">
         <returnType>
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
         </returnType>
-        <parameters name="myOutParam" unique="true" lowerBound="1" upperBound="1" direction="OUT">
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
-        </parameters>
         <parameters name="myInOutParam" unique="true" lowerBound="1" upperBound="1" direction="IN_OUT">
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+        </parameters>
+        <parameters name="myOutParam" unique="true" lowerBound="1" upperBound="1" direction="OUT">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
         </parameters>
         <parameters name="myInParam" unique="true" lowerBound="1" upperBound="1">
-          <type xsi:type="common:PrimitiveType" href="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
         </parameters>
         <body source="myOutParam = true;&#xD;&#xA;if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;&#xA;{&#xD;&#xA;&#x9;myOutParam = false;&#xD;&#xA;&#x9;myInOutParam += 2;&#xD;&#xA;&#x9;return true;&#xD;&#xA;}&#xD;&#xA;return false;"/>
+      </operations>
+      <operations name="myClass">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <parameters name="myInjectedDependency" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+        </parameters>
+        <body source="// This is my custom Constructor action code"/>
+      </operations>
+      <operations name="myGetterOperation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+        </returnType>
+        <body source="return &quot;my returned string&quot;;"/>
       </operations>
     </entities>
   </entities>

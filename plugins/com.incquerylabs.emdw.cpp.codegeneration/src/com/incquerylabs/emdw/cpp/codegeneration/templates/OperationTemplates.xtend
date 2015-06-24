@@ -1,11 +1,10 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class OperationTemplates {
 	
@@ -23,25 +22,50 @@ class OperationTemplates {
 		typeConverter = new TypeConverter
 	}
 	
-	def operationSignature(CPPOperation operation, boolean useQualifiedName) {
+	def operationSignature(CPPOperation operation, boolean useQualifiedName, boolean hasReturnType, boolean isVirtual, boolean isStatic) {
 		
 		val commonOp = operation.commonOperation
 		val returnType = commonOp.returnType
 		val parameters = operation.subElements.filter(CPPFormalParameter)
-						
-		'''«IF commonOp.static»static «ENDIF»«typeConverter.convertType(returnType.type)» «IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»(«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»)'''
-	}
-	
-	def operationDeclarationInClassHeader(CPPOperation operation) {
 		
-		'''«operationSignature(operation, false)»;'''
+		val staticKeyword = '''«IF isStatic»static «ENDIF»'''
+		val virtualKeyword = '''«IF isVirtual»virtual «ENDIF»'''
+		val returnTypeString = '''«IF hasReturnType»«typeConverter.convertType(returnType.type)» «ENDIF»'''
+		val operationName = '''«IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»'''
+		val operationParameters = '''«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»'''
+						
+		'''«virtualKeyword»«staticKeyword»«returnTypeString»«operationName»(«operationParameters»)'''
 	}
 	
-	def operationDefinitionInClassBody(CPPOperation operation) {
+	def operationDeclarationInClassHeader(CPPOperation operation, boolean withReturnType, boolean isVirtual) {
+		val commonOp = operation.commonOperation
+		val isStatic = commonOp.static
+		'''«operationSignature(operation, true, withReturnType, isVirtual, isStatic)»;'''
+	}
+	
+	def operationDefinitionInClassBody(CPPOperation operation, boolean withReturnType) {
 		
 		'''
-			«operationSignature(operation, true)» {
+			«operationSignature(operation, true, withReturnType, false, false)» {
 				«actionCodeTemplates.generateActionCode(operation.commonOperation.body)»
+			}
+		'''
+	}
+	
+	def constructorDefinitionInClassBody(CPPOperation constructor, String fieldInitialization) {		
+		'''
+			«operationSignature(constructor, true, false, false, false)»«fieldInitialization» {
+				_instances.push_back(this);
+				«actionCodeTemplates.generateActionCode(constructor.commonOperation.body)»
+			}
+		'''
+	}
+	
+	def destructorDefinitionInClassBody(CPPOperation destructor) {		
+		'''
+			«operationSignature(destructor, true, false, false, false)» {
+				«actionCodeTemplates.generateActionCode(destructor.commonOperation.body)»
+				_instances.erase(std::find(_instances.begin(), _instances.end(), this));
 			}
 		'''
 	}

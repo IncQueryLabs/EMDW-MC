@@ -8,6 +8,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
+import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 
@@ -67,12 +68,10 @@ class ClassTemplates {
 	
 	def publicContentInClassHeader(CPPClass cppClass, String cppClassName, boolean hasStateMachine) {
 		'''
-
-		// Constructor
-		«cppClassName»();
 		
-		// Destructor
-		virtual ~«cppClassName»();
+		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
+		
+		«destructorDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 		
 		void perform_initialization();
 		
@@ -88,6 +87,10 @@ class ClassTemplates {
 	
 	def protectedContentInClassHeader(CPPClass cppClass, String cppClassName) {
 		'''
+		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PROTECTED)»
+		
+		«destructorDeclarationsInClassHeader(cppClass, VisibilityKind.PROTECTED)»
+		
 		«attributesInClassHeader(cppClass, VisibilityKind.PROTECTED)»
 
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PROTECTED)»
@@ -109,6 +112,10 @@ class ClassTemplates {
 		virtual unsigned short get_type_id() const {
 			return type_id;
 		}
+		
+		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
+		
+		«destructorDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
 		«attributesInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		«associationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
@@ -149,14 +156,60 @@ class ClassTemplates {
 		'''
 	}
 	
+	def constructorDeclarationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+		val cppClassName = cppClass.cppName
+		val constructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == cppClass.cppName].sortBy[cppName]
+		
+		'''
+		// Constructors
+		«IF constructors.size == 0 && visibility == VisibilityKind.PUBLIC»
+		«cppClassName»();
+		«ENDIF»
+		«operationDeclarations(cppClass, visibility, constructors, false)»
+		'''
+	}
+	
+	def destructorDeclarationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+		val cppClassName = cppClass.cppName
+		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~"+cppClass.cppName].sortBy[cppName]
+		'''
+		// Destructor
+		«IF destructors.size == 0 && visibility == VisibilityKind.PUBLIC»
+		virtual ~«cppClassName»();
+		«ENDIF»
+		«destructodDeclarations(cppClass, visibility, destructors, false)»
+		'''
+	}
+	
 	def operationDeclarationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
-		val cppOpMatcher = codeGenQueries.getCppClassOperations(engine)
+		val operations = cppClass.subElements.filter(CPPOperation).filter[
+			it.cppName != cppClass.cppName && 
+			it.cppName != "~"+cppClass.cppName
+		].sortBy[cppName]
 		
 		'''
 		// Operation declarations
-		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[cppName]»
+		«operationDeclarations(cppClass, visibility, operations, true)»
+		'''
+	}
+	
+	def operationDeclarations(CPPClass cppClass, VisibilityKind visibility, List<CPPOperation> operations, boolean hasReturnType){
+		val cppOpMatcher = codeGenQueries.getCppClassOperations(engine)
+		'''
+		«FOR operation : operations»
 			«IF cppOpMatcher.hasMatch(cppClass, operation, visibility)»
-				«operationTemplates.operationDeclarationInClassHeader(operation)»
+				«operationTemplates.operationDeclarationInClassHeader(operation, hasReturnType, false)»
+			«ENDIF»
+		«ENDFOR»
+		'''
+	}
+	
+	def destructodDeclarations(CPPClass cppClass, VisibilityKind visibility, List<CPPOperation> operations, boolean hasReturnType){
+		val cppOpMatcher = codeGenQueries.getCppClassOperations(engine)
+		'''
+		«FOR operation : operations»
+			«IF cppOpMatcher.hasMatch(cppClass, operation, visibility)»
+				«operationTemplates.operationDeclarationInClassHeader(operation, hasReturnType, true)»
 			«ENDIF»
 		«ENDFOR»
 		'''
@@ -187,19 +240,15 @@ class ClassTemplates {
 	}
 	
 	def classBodyTemplate(CPPClass cppClass) {
-		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
 		std::vector< «cppFQN»*> («cppFQN»::_instances);
 		
-		«cppClass.classConstructorDefinition»
+		«cppClass.constructorDefinitionsInClassBody»
 		
-		// Destructor
-		«cppFQN»::~«cppClassName»() {
-			_instances.erase(std::find(_instances.begin(), _instances.end(), this));
-		}
+		«cppClass.destructorDefinitionsInClassBody»
 		
 		«cppClass.performInitializationDefinition»
 		
@@ -212,35 +261,64 @@ class ClassTemplates {
 		'''
 	}
 	
-	def classConstructorDefinition(CPPClass cppClass) {
+	def constructorDefinitionsInClassBody(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
+		val constructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == cppClass.cppName].sortBy[cppName]
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 		
-		var CharSequence fieldInitialization = ""
+		var initStateName = ""
+		var fieldInitialization = ""
 		if(cppInitStateMatch != null){
-			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»)'''
+			 initStateName = '''«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»'''
+			 fieldInitialization = ''': current_state(«initStateName»)'''
 		}
-		'''
-		// Constructor
-		«cppFQN»::«cppClassName»()«fieldInitialization» {
-			_instances.push_back(this);
-		}
-		'''
 		
+		'''
+		// Constructors
+		«IF constructors.size == 0»
+			«cppFQN»::«cppClassName»()«fieldInitialization» {
+				_instances.push_back(this);
+			}
+		«ENDIF»
+		«FOR constructor : constructors»
+			«operationTemplates.constructorDefinitionInClassBody(constructor, fieldInitialization)»
+		«ENDFOR»
+		'''
+	}
+	
+	def destructorDefinitionsInClassBody(CPPClass cppClass) {
+		val cppClassName = cppClass.cppName
+		val cppFQN = cppClass.cppQualifiedName
+		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~" + cppClass.cppName].sortBy[cppName]
+		
+		'''
+		// Destructor
+		«IF destructors.size == 0»
+			«cppFQN»::~«cppClassName»() {
+				_instances.erase(std::find(_instances.begin(), _instances.end(), this));
+			}
+		«ENDIF»
+		«FOR destructor : destructors»
+			«operationTemplates.destructorDefinitionInClassBody(destructor)»
+		«ENDFOR»
+		'''
 	}
 	
 	def operationDefinitions(CPPClass cppClass) {
 		
-		val operations = cppClass.subElements.filter(CPPOperation)
+		val operations = cppClass.subElements.filter(CPPOperation).filter[
+			it.cppName != cppClass.cppName && 
+			it.cppName != "~"+cppClass.cppName
+		].sortBy[cppName]
 		'''
 		«IF !operations.empty»
 			// Operation definitions
 		«ENDIF»
-		«FOR operation : cppClass.subElements.filter(CPPOperation).sortBy[cppName]»
-			«operationTemplates.operationDefinitionInClassBody(operation)»
+		«FOR operation : operations»
+			«operationTemplates.operationDefinitionInClassBody(operation,true)»
 		«ENDFOR»
 		'''
 	}

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="model">
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="myModel">
   <packagedElement xmi:type="uml:Component" xmi:id="_RcK-0Po8EeSpnsHyI6QRfw" name="myComponent">
     <nestedClassifier xmi:type="uml:Class" xmi:id="_I2LZYPo8EeSpnsHyI6QRfw" name="myClass" isActive="true">
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_IS8MYPrfEeS4YfcvM01t0Q" name="voidOperationOpaqueBehavior" specification="_iH7VAPo9EeSpnsHyI6QRfw">
@@ -20,6 +20,18 @@ if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;
 	return true;&#xD;
 }&#xD;
 return false;</body>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_-PkUoBs4EeWj4Pc_Ym9a1g" name="myDestructorBehavior" specification="_QOkUEBp5EeWofYcfE8DB7g">
+        <language>C++</language>
+        <body>// This is my Destructor action code</body>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_KCTi4Bs5EeWj4Pc_Ym9a1g" name="myConstructorBehavior" specification="_5rpgwBp4EeWofYcfE8DB7g">
+        <language>C++</language>
+        <body>// This is my custom Constructor action code</body>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_WnUioBs5EeWj4Pc_Ym9a1g" name="myPrivateConstructorBehavior" specification="_MLCJ8Bs5EeWj4Pc_Ym9a1g">
+        <language>C++</language>
+        <body>// This is my private constructor action code</body>
       </ownedBehavior>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_iH7VAPo9EeSpnsHyI6QRfw" name="myVoidOperation" method="_IS8MYPrfEeS4YfcvM01t0Q">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_ttzzAPo9EeSpnsHyI6QRfw" name="toPrintParameter">
@@ -43,6 +55,19 @@ return false;</body>
         </ownedParameter>
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_DDfhsPo_EeSpnsHyI6QRfw" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_5rpgwBp4EeWofYcfE8DB7g" name="myClass" method="_KCTi4Bs5EeWj4Pc_Ym9a1g">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_H7Xu0Bp5EeWofYcfE8DB7g" name="myInjectedDependency">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_QOkUEBp5EeWofYcfE8DB7g" name="~myClass" method="_-PkUoBs4EeWj4Pc_Ym9a1g"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_MLCJ8Bs5EeWj4Pc_Ym9a1g" name="myClass" visibility="private" method="_WnUioBs5EeWj4Pc_Ym9a1g">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_cAiDABs5EeWj4Pc_Ym9a1g" name="privateConstructorParam" isOrdered="true" isUnique="false">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dUtAoBs5EeWj4Pc_Ym9a1g"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dUtnsBs5EeWj4Pc_Ym9a1g" value="*"/>
         </ownedParameter>
       </ownedOperation>
     </nestedClassifier>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><plugin>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.transitionTriggerWithoutSignal" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.transitionTriggerWithoutSignal">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
+</plugin>

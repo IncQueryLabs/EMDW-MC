@@ -1,0 +1,18 @@
+package com.incquerylabs.emdw.xtuml.incquery
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+
+@Constraint(
+	key = {"trigger"},
+	message = "Transition $transition$ has a trigger $trigger$ without signal",
+	severity = "error"
+)
+pattern transitionTriggerWithoutSignal(transition : Transition, trigger : Trigger) {
+	Transition.triggers(transition, trigger);
+	neg find eventTriggerSignal(trigger, _);
+}
+
+pattern eventTriggerSignal(trigger : XTEventTrigger, signal : XTClassEvent) {
+	XTEventTrigger.signal(trigger, signal);
+}

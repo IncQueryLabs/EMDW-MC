@@ -22,6 +22,11 @@
 		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
 
+		<!-- Validation -->
+		<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery</module>
+		<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery.validation</module>
+		
+
 		<!-- XTUML-CPP transformation -->
 		<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
 		<!-- Ignored tests because they are incomplete and failing

@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: com.incquerylabs.emdw.xtuml.incquery.validation
+Bundle-SymbolicName: com.incquerylabs.emdw.xtuml.incquery.validation;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: com.incquerylabs.emdw.xtuml.incquery,
+ org.eclipse.papyrusrt.xtumlrt.common.model,
+ com.google.guava,
+ org.eclipse.incquery.runtime,
+ org.eclipse.incquery.validation.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -23,17 +23,15 @@ class CodeGenerator {
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
-	def generateCodeFromXtComponents(Iterable<XTComponent> xtComponents) {
+	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents) {
+		
+    	val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+    	
+    	xtumlQueries.prepare(engine)
+    	val modelToEntityMatcher = getXtModelEntities(engine)
+    	val cppComponentMatcher = getCppComponents(engine)
+		
 		xtComponents.forEach[ xtComponent |
-	    	val xtResource = xtComponent.eResource
-            val xtResourceSet = xtResource.resourceSet
-            
-	    	val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
-	    	xtumlQueries.prepare(engine)
-	    	
-	    	val modelToEntityMatcher = getXtModelEntities(engine)
-	    	val cppComponentMatcher = getCppComponents(engine)
-	    	
 			val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponent).head
 			val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
 			val cppResource = cppModel.eResource
@@ -70,6 +68,7 @@ class CodeGenerator {
 			val xform = new XtumlComponentCPPTransformation
 			xform.initialize(xtModel, engine)
 			xform.execute
+			xform.dispose
 			cppResource.save(null)
 			
 			Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
@@ -78,9 +77,12 @@ class CodeGenerator {
 			codegen.execute
 			val generatedFiles = codegen.generatedFiles
 			generatedFiles.forEach[ fileName, content |
-				GeneratorHelper.createFileNextToWorkspaceResource(xtResource, fileName, true, content)
+				GeneratorHelper.createFileNextToWorkspaceResource(xtComponent.eResource, fileName, true, content)
 			]
+			codegen.dispose
 	    ]
+	    
+	    engine.dispose
 	}
 	
 	def getOrCreateCPPModel(Model xtmodel, IncQueryEngine engine, ResourceSet rs) {

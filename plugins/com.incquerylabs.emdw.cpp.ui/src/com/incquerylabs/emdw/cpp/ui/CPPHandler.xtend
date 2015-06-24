@@ -15,8 +15,8 @@ class CPPHandler extends AbstractHandler {
 		val selection = HandlerUtil.getCurrentSelection(event);
 
         if (selection instanceof IStructuredSelection) {
-            val xtComponents = selection.toList.filter(XTComponent)          
-            generateCodeFromXtComponents(xtComponents)
+            val xtComponents = selection.toList.filter(XTComponent)
+            generateCodeFromXtComponents(xtComponents.head.eResource.resourceSet, xtComponents)
        	}
        	
        	return null

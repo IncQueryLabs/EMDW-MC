@@ -35,7 +35,7 @@ class UmlHandler extends AbstractHandler {
 				val xtumlResource = emfModel.resource
 				val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
 				val xtComponents = xtModel.allSubComponents
-				generateCodeFromXtComponents(xtComponents)
+				generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents)
 			}
 		}
 		

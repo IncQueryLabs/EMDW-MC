@@ -29,6 +29,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import org.eclipse.uml2.uml.PrimitiveType
 import java.util.List
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
+import org.eclipse.uml2.uml.Classifier
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -89,7 +90,13 @@ rule EqualsPrimitiveSubtyping
     derives G |- PrimitiveType left <: PrimitiveType right
 from {
     left == right
-} 
+}
+
+rule EqualsClassifierSubtyping
+    derives G |- Classifier left <: Classifier right
+from {
+    left == right
+}
 
 rule ClassSubtyping
     derives G |- org.eclipse.uml2.uml.Class left <: org.eclipse.uml2.uml.Class right
@@ -285,15 +292,6 @@ from {
     }
 }
 
-rule VariableValueDeclaration
-    G |- LocalNameDeclarationStatement st : Type result
-from {
-    G |- st.variable : var Type varType
-    G |- st.expression : var Type valueType
-    G |- varType <: valueType
-    result == varType
-}
-
 checkrule CheckExpressionType for
     Expression ex
 from {
@@ -304,4 +302,12 @@ checkrule VariableType for
     Variable ^var
 from {
     empty |- ^var : var Type type
+}
+
+checkrule LocalNameDeclarationStatement for
+    LocalNameDeclarationStatement st
+from {
+    empty |- st.variable : var Type varType
+    empty |- st.expression : var Type valueType
+    empty |- varType <: valueType
 }

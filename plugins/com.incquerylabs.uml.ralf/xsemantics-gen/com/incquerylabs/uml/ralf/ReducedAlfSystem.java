@@ -56,6 +56,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   public final static String EQUALSPRIMITIVESUBTYPING = "com.incquerylabs.uml.ralf.EqualsPrimitiveSubtyping";
   
+  public final static String EQUALSCLASSIFIERSUBTYPING = "com.incquerylabs.uml.ralf.EqualsClassifierSubtyping";
+  
   public final static String CLASSSUBTYPING = "com.incquerylabs.uml.ralf.ClassSubtyping";
   
   public final static String EXPRESSIONASSIGNABLETOTYPE = "com.incquerylabs.uml.ralf.ExpressionAssignableToType";
@@ -89,8 +91,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String FEATURELEFTHANDSIDE = "com.incquerylabs.uml.ralf.FeatureLeftHandSide";
   
   public final static String NAMELEFTHANDSIDE = "com.incquerylabs.uml.ralf.NameLeftHandSide";
-  
-  public final static String VARIABLEVALUEDECLARATION = "com.incquerylabs.uml.ralf.VariableValueDeclaration";
   
   @Extension
   @Inject
@@ -286,6 +286,38 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result.getFirst(), Type.class);
     type = (Type) result.getFirst();
     
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> localNameDeclarationStatement(final LocalNameDeclarationStatement st) {
+    return localNameDeclarationStatement(null, st);
+  }
+  
+  public Result<Boolean> localNameDeclarationStatement(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) {
+    try {
+    	return localNameDeclarationStatementInternal(_trace_, st);
+    } catch (Exception _e_LocalNameDeclarationStatement) {
+    	return resultForFailure(_e_LocalNameDeclarationStatement);
+    }
+  }
+  
+  protected Result<Boolean> localNameDeclarationStatementInternal(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
+    /* empty |- st.variable : var Type varType */
+    Variable _variable = st.getVariable();
+    Type varType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _variable);
+    checkAssignableTo(result.getFirst(), Type.class);
+    varType = (Type) result.getFirst();
+    
+    /* empty |- st.expression : var Type valueType */
+    Expression _expression = st.getExpression();
+    Type valueType = null;
+    Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression);
+    checkAssignableTo(result_1.getFirst(), Type.class);
+    valueType = (Type) result_1.getFirst();
+    
+    /* empty |- varType <: valueType */
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, varType, valueType);
     return new Result<Boolean>(true);
   }
   
@@ -556,6 +588,33 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   }
   
   protected Result<Boolean> applyRuleEqualsPrimitiveSubtyping(final RuleEnvironment G, final RuleApplicationTrace _trace_, final PrimitiveType left, final PrimitiveType right) throws RuleFailedException {
+    /* left == right */
+    if (!Objects.equal(left, right)) {
+      sneakyThrowRuleFailedException("left == right");
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  protected Result<Boolean> subtypeOrEqualImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Classifier left, final Classifier right) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<Boolean> _result_ = applyRuleEqualsClassifierSubtyping(G, _subtrace_, left, right);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("EqualsClassifierSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right);
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleEqualsClassifierSubtyping) {
+    	subtypeOrEqualThrowException(ruleName("EqualsClassifierSubtyping") + stringRepForEnv(G) + " |- " + stringRep(left) + " <: " + stringRep(right),
+    		EQUALSCLASSIFIERSUBTYPING,
+    		e_applyRuleEqualsClassifierSubtyping, left, right, new ErrorInformation[] {new ErrorInformation(left), new ErrorInformation(right)});
+    	return null;
+    }
+  }
+  
+  protected Result<Boolean> applyRuleEqualsClassifierSubtyping(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Classifier left, final Classifier right) throws RuleFailedException {
     /* left == right */
     if (!Objects.equal(left, right)) {
       sneakyThrowRuleFailedException("left == right");
@@ -994,7 +1053,11 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result_2.getFirst(), Type.class);
     rightType = (Type) result_2.getFirst();
     
-    leftType = rightType;
+    boolean _equals = Objects.equal(leftType, rightType);
+    /* leftType == rightType */
+    if (!_equals) {
+      sneakyThrowRuleFailedException("leftType == rightType");
+    }
     result = rightType;
     return new Result<Type>(result);
   }
@@ -1529,50 +1592,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
       } catch (Exception e) {
         previousFailure = extractRuleFailedException(e);
       }
-    }
-    return new Result<Type>(result);
-  }
-  
-  protected Result<Type> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
-    try {
-    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
-    	final Result<Type> _result_ = applyRuleVariableValueDeclaration(G, _subtrace_, st);
-    	addToTrace(_trace_, new Provider<Object>() {
-    		public Object get() {
-    			return ruleName("VariableValueDeclaration") + stringRepForEnv(G) + " |- " + stringRep(st) + " : " + stringRep(_result_.getFirst());
-    		}
-    	});
-    	addAsSubtrace(_trace_, _subtrace_);
-    	return _result_;
-    } catch (Exception e_applyRuleVariableValueDeclaration) {
-    	typeThrowException(ruleName("VariableValueDeclaration") + stringRepForEnv(G) + " |- " + stringRep(st) + " : " + "Type",
-    		VARIABLEVALUEDECLARATION,
-    		e_applyRuleVariableValueDeclaration, st, new ErrorInformation[] {new ErrorInformation(st)});
-    	return null;
-    }
-  }
-  
-  protected Result<Type> applyRuleVariableValueDeclaration(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
-    Type result = null; // output parameter
-    /* G |- st.variable : var Type varType */
-    Variable _variable = st.getVariable();
-    Type varType = null;
-    Result<Type> result_1 = typeInternal(G, _trace_, _variable);
-    checkAssignableTo(result_1.getFirst(), Type.class);
-    varType = (Type) result_1.getFirst();
-    
-    /* G |- st.expression : var Type valueType */
-    Expression _expression = st.getExpression();
-    Type valueType = null;
-    Result<Type> result_2 = typeInternal(G, _trace_, _expression);
-    checkAssignableTo(result_2.getFirst(), Type.class);
-    valueType = (Type) result_2.getFirst();
-    
-    /* G |- varType <: valueType */
-    subtypeOrEqualInternal(G, _trace_, varType, valueType);
-    /* result == varType */
-    if (!Objects.equal(result, varType)) {
-      sneakyThrowRuleFailedException("result == varType");
     }
     return new Result<Type>(result);
   }

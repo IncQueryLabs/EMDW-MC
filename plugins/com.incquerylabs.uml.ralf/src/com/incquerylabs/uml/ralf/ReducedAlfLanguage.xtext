@@ -457,14 +457,12 @@ EmptyStatement :
 ;
 
 VariableDeclaration returns Variable: 
-  // CHANGE: Added isAny attribute to localNameDeclarationStatement in order to allow Xtext serialization.
-   name = Name ':' ( isAny ?= 'any' | type = [uml::Type|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? |
    ( isAny ?= 'any' | type = [uml::Type|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? name = Name     
 ;
 
 /* LOCAL NAME DECLARATION STATEMENTS */
 LocalNameDeclarationStatement : 
-    'let' variable = VariableDeclaration '=' expression = InitializationExpression ';'
+    variable = VariableDeclaration '=' expression = InitializationExpression ';'
 ;
 
 InitializationExpression returns Expression :

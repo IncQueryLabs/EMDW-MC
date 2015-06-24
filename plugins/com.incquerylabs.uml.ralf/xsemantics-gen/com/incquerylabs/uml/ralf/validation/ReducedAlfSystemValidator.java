@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.validation;
 import com.google.inject.Inject;
 import com.incquerylabs.uml.ralf.ReducedAlfSystem;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable;
 import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator;
 import it.xsemantics.runtime.validation.XsemanticsValidatorErrorGenerator;
@@ -32,5 +33,12 @@ public class ReducedAlfSystemValidator extends AbstractReducedAlfLanguageValidat
     errorGenerator.generateErrors(this,
     	getXsemanticsSystem().variableType(var),
     		var);
+  }
+  
+  @Check
+  public void localNameDeclarationStatement(final LocalNameDeclarationStatement st) {
+    errorGenerator.generateErrors(this,
+    	getXsemanticsSystem().localNameDeclarationStatement(st),
+    		st);
   }
 }

@@ -178,7 +178,7 @@ rule AssignmentExpression
 from {
     G |- ex.leftHandSide : var Type leftType
     G |- ex.rightHandSide : var Type rightType
-    leftType = rightType
+    leftType == rightType //TODO subtyping
     result = rightType
 }
 

@@ -32,98 +32,98 @@ class StatementsValidatorTest {
 	
 	@Test
 	def localVariableSimple() {
-		val model = parseHelper.parse('''let x : Integer = 1;''')
+		val model = parseHelper.parse('''Integer x = 1;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableAdditive() {
-		val model = parseHelper.parse('''let x : Integer = 1+2;''')
+		val model = parseHelper.parse('''Integer x = 1+2;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableMultiplicative() {
-		val model = parseHelper.parse('''let x : Integer = 1*2;''')
+		val model = parseHelper.parse('''Integer x = 1*2;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableNumericUnary() {
-		val model = parseHelper.parse('''let x : Integer = -1;''')
+		val model = parseHelper.parse('''Integer x = -1;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableShift() {
-		val model = parseHelper.parse('''let x : Integer = 1>>2;''')
+		val model = parseHelper.parse('''Integer x = 1>>2;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableRelation() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableEquality() {
-		val model = parseHelper.parse('''let x : Boolean = 1 == 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 == 2;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableBooleanUnary() {
-		val model = parseHelper.parse('''let x : Boolean = !(1 < 2);''')
+		val model = parseHelper.parse('''Boolean x = !(1 < 2);''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableBooleanXor() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2 ^ false;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2 ^ false;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableBooleanOr() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2 | false;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2 | false;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableBooleanAnd() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2 & false;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2 & false;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableBooleanConditionalAnd() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2 && false;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2 && false;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableBooleanConditionalOr() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2 || false;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2 || false;''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def localVariableConditionalTest() {
-		val model = parseHelper.parse('''let x : String = (1 != 2) ? "test" : "test2";''')
+		val model = parseHelper.parse('''String x = (1 != 2) ? "test" : "test2";''')
 		model.assertNoErrors
 		tester.validate(model).assertOK
 	}
@@ -132,8 +132,8 @@ class StatementsValidatorTest {
 	def localVariableReference() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1 + 2;
-		let y : Integer = x + 2;
+		Integer x = 1 + 2;
+		Integer y = x + 2;
 		'''
 		)
 		model.assertNoErrors
@@ -144,7 +144,7 @@ class StatementsValidatorTest {
 	def localVariableDifferentType() {
 		val model = parseHelper.parse(
 		'''
-		let y : Integer = "String";
+		Integer y = "String";
 		'''
 		)
 		tester.validate(model).assertError(0)

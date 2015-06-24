@@ -42,8 +42,8 @@ class ReducedALFParserTest {
 	def multipleAdditions() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1 + 2;
-		let y : Integer = 1 + 2;
+		Integer x = 1 + 2;
+		Integer y = 1 + 2;
 		'''
 		)
 		tester.validate(model).assertOK
@@ -51,13 +51,13 @@ class ReducedALFParserTest {
 	
 	@Test
 	def chainedAddition() {
-		val model = parseHelper.parse('''let x : Integer = 1 + 2 + 3 + 4;''')
+		val model = parseHelper.parse('''Integer x = 1 + 2 + 3 + 4;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def parenthesedAddition() {
-		val model = parseHelper.parse('''let x : Integer = (1 * (2 + 3)) + 4;''')
+		val model = parseHelper.parse('''Integer x = (1 * (2 + 3)) + 4;''')
 		tester.validate(model).assertOK
 	}
 	
@@ -65,8 +65,8 @@ class ReducedALFParserTest {
 	def localVariableReference() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1 + 2;
-		let y : Integer = x + 2;
+		Integer x = 1 + 2;
+		Integer y = x + 2;
 		'''
 		)
 		tester.validate(model).assertOK
@@ -76,7 +76,7 @@ class ReducedALFParserTest {
 	def incrementOperation() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1;
+		Integer x = 1;
 		x++;
 		'''
 		)
@@ -87,7 +87,7 @@ class ReducedALFParserTest {
 	def incrementOperationPrefix() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1;
+		Integer x = 1;
 		++x;
 		'''
 		)
@@ -98,7 +98,7 @@ class ReducedALFParserTest {
 	def decrementOperation() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1;
+		Integer x = 1;
 		x--;
 		'''
 		)
@@ -109,7 +109,7 @@ class ReducedALFParserTest {
 	def decrementOperationPrefix() {
 		val model = parseHelper.parse(
 		'''
-		let x : Integer = 1;
+		Integer x = 1;
 		--x;
 		'''
 		)
@@ -120,8 +120,8 @@ class ReducedALFParserTest {
 	def leftShift() {
 		val model = parseHelper.parse(
 		'''
-        let x : Integer = 1;
-        let y : Integer = x << 1;
+        Integer x = 1;
+        Integer y= x << 1;
 		'''
 		)
 		tester.validate(model).assertOK
@@ -131,8 +131,8 @@ class ReducedALFParserTest {
 	def rightShift() {
 		val model = parseHelper.parse(
 		'''
-        let x : Integer = 1;
-        let y : Integer = x >> 1;
+        Integer x= 1;
+        Integer y = x >> 1;
 		'''
 		)
 		tester.validate(model).assertOK
@@ -140,79 +140,79 @@ class ReducedALFParserTest {
 	
 	@Test
 	def shiftPrecedence() {
-		val model = parseHelper.parse('''let x : Integer = 1 + (2 >> 3);''')
+		val model = parseHelper.parse('''Integer x = 1 + (2 >> 3);''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def comparisonLesserThan() {
-		val model = parseHelper.parse('''let x : Boolean = 1 < 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 < 2;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def comparisonLesserOrEquals() {
-		val model = parseHelper.parse('''let x : Boolean = 1 <= 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 <= 2;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def comparisonGreaterThan() {
-		val model = parseHelper.parse('''let x : Boolean = 1 > 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 > 2;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def comparisonGreaterOrEquals() {
-		val model = parseHelper.parse('''let x : Boolean = 1 >= 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 >= 2;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def equality() {
-		val model = parseHelper.parse('''let x : Boolean = 1 == 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 == 2;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def inEquality() {
-		val model = parseHelper.parse('''let x : Boolean = 1 == 2;''')
+		val model = parseHelper.parse('''Boolean x = 1 == 2;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def logicalBitwiseAnd() {
-		val model = parseHelper.parse('''let x : Boolean = 1 != 2 & false;''')
+		val model = parseHelper.parse('''Boolean x = 1 != 2 & false;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def logicalBitwiseOr() {
-		val model = parseHelper.parse('''let x : Boolean = 1 != 2 ^ false;''')
+		val model = parseHelper.parse('''Boolean x  = 1 != 2 ^ false;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def logicalNot() {
-		val model = parseHelper.parse('''let x : Boolean = 1 != 2 | false;''')
+		val model = parseHelper.parse('''Boolean x = 1 != 2 | false;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def logicalAnd() {
-		val model = parseHelper.parse('''let x : Boolean = 1 != 2 && true;''')
+		val model = parseHelper.parse('''Boolean x = 1 != 2 && true;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def logicalOr() {
-		val model = parseHelper.parse('''let x : Boolean = 1 != 2 || true;''')
+		val model = parseHelper.parse('''Boolean x = 1 != 2 || true;''')
 		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def conditionalTestOperation() {
-		val model = parseHelper.parse('''let x : String = (1 != 2) ? "test" : "test2";''')
+		val model = parseHelper.parse('''String x = (1 != 2) ? "test" : "test2";''')
 		tester.validate(model).assertOK
 	}
 	

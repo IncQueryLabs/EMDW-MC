@@ -65,10 +65,10 @@
             </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_j3HkQPpJEeSIULC1X3PCpw" name="myTrigger35" event="_TlODEPpJEeSIULC1X3PCpw"/>
           </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_lH_FUPpAEeSpnsHyI6QRfw" name="myT4F" source="_z-2BUPo_EeSpnsHyI6QRfw" target="_vLtpgPo_EeSpnsHyI6QRfw">
+          <transition xmi:type="uml:Transition" xmi:id="_lH_FUPpAEeSpnsHyI6QRfw" name="myT4F" source="_z-2BUPo_EeSpnsHyI6QRfw" target="_WVd6gBpxEeWRo5oItMj_5w">
             <trigger xmi:type="uml:Trigger" xmi:id="_vqwxcPpJEeSIULC1X3PCpw" name="myTrigger4F" event="_f4TQMPpHEeSIULC1X3PCpw"/>
           </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_lkKD8PpAEeSpnsHyI6QRfw" name="myT5F" source="_xcTMEPo_EeSpnsHyI6QRfw" target="_vLtpgPo_EeSpnsHyI6QRfw">
+          <transition xmi:type="uml:Transition" xmi:id="_lkKD8PpAEeSpnsHyI6QRfw" name="myT5F" source="_xcTMEPo_EeSpnsHyI6QRfw" target="_WVd6gBpxEeWRo5oItMj_5w">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aHHXcP02EeSIg42JIh_SpA" name="myT5FAction">
               <language>C++</language>
               <body>std::cout &lt;&lt; &quot;myTransition5F happened&quot; &lt;&lt; std::endl;</body>
@@ -76,7 +76,6 @@
             <trigger xmi:type="uml:Trigger" xmi:id="_nAM1EPpJEeSIULC1X3PCpw" name="myTrigger 5F" event="_CllSIPpJEeSIULC1X3PCpw"/>
           </transition>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_r5Wg4Po_EeSpnsHyI6QRfw" name="myInitialPoint"/>
-          <subvertex xmi:type="uml:FinalState" xmi:id="_vLtpgPo_EeSpnsHyI6QRfw" name="myFinalState"/>
           <subvertex xmi:type="uml:State" xmi:id="_zN5FgPo_EeSpnsHyI6QRfw" name="myState1">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_uobrYPpBEeSpnsHyI6QRfw" name="myEntry1">
               <language>C++</language>
@@ -106,6 +105,7 @@
               <body>std::cout &lt;&lt; &quot;This is the entry action for myState5&quot; &lt;&lt; std::endl;</body>
             </entry>
           </subvertex>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_WVd6gBpxEeWRo5oItMj_5w" name="myTerminate" kind="terminate"/>
         </region>
       </ownedBehavior>
       <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_IS8MYPrfEeS4YfcvM01t0Q" name="voidOperationOpaqueBehavior" specification="_iH7VAPo9EeSpnsHyI6QRfw">

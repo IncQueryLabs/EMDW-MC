@@ -124,6 +124,17 @@ pattern compositeStateSubStates(
 	CompositeState.substates(compositeState, subState);
 }
 
+pattern stateMachineTerminatePoints(
+	stateMachine : StateMachine,
+	terminatePoint : TerminatePoint
+) {
+	StateMachine.top(stateMachine, top);
+	CompositeState.terminatepoint(top, terminatePoint);
+} or {
+	find stateMachineStates(stateMachine, compositeState);
+	CompositeState.terminatepoint(compositeState, terminatePoint);
+}
+
 /**
  * CPP Model queries
  */
@@ -256,6 +267,15 @@ pattern cppClassStateMachineStates(
 ) {
 	find cppClassStateMachine(xtClass, cppClass, statemachine);
 	find stateMachineStates(statemachine, state);
+}
+
+pattern cppClassStateMachineTerminatePoints(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	terminatePoint : TerminatePoint
+) {
+	find cppClassStateMachine(xtClass, cppClass, stateMachine);
+	find stateMachineTerminatePoints(stateMachine, terminatePoint);
 }
 
 pattern cppClassStateMachineTransitions(

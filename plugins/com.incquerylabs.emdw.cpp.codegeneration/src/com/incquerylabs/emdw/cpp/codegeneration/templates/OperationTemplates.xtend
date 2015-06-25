@@ -65,7 +65,7 @@ class OperationTemplates {
 		'''
 			«operationSignature(destructor, true, false, false, false)» {
 				«actionCodeTemplates.generateActionCode(destructor.commonOperation.body)»
-				_instances.erase(std::find(_instances.begin(), _instances.end(), this));
+				_instances.erase(std::remove(_instances.begin(), _instances.end(), this), _instances.end());
 			}
 		'''
 	}

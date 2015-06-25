@@ -298,7 +298,7 @@ class ClassTemplates {
 		// Destructor
 		«IF destructors.size == 0»
 			«cppFQN»::~«cppClassName»() {
-				_instances.erase(std::find(_instances.begin(), _instances.end(), this));
+				_instances.erase(std::remove(_instances.begin(), _instances.end(), this), _instances.end());
 			}
 		«ENDIF»
 		«FOR destructor : destructors»

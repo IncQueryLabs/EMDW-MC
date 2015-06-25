@@ -9,15 +9,20 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileMan
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.ui.GeneratorHelper
+import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
+import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.incquery.validation.core.ValidationEngine
+import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.ui.handlers.HandlerUtil
 
 class CodeGenerator {
 
@@ -25,33 +30,66 @@ class CodeGenerator {
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 
-	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents) {
+	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {
 
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+		
+		val validXtumlModel = validateXtumlModel(engine, event)
+		if(validXtumlModel){
+			performCodeGeneration(engine, xtComponents, xtResourceSet)
+    	}
 
+		engine.dispose
+	}
+	
+	def validateXtumlModel(AdvancedIncQueryEngine engine, ExecutionEvent event) {
+		val validationEngine = ValidationEngine.builder.setEngine(engine).build
+		val constraintSpecifications = #{
+			new TransitionTriggerWithoutSignalConstraint0()
+		}
+		constraintSpecifications.forEach[
+			validationEngine.addConstraintSpecification(it)
+		]
+    	validationEngine.initialize
+    	val allViolations = validationEngine.constraints.map[listViolations].flatten 
+    	val validXtumlModel = allViolations.empty
+		if(!validXtumlModel){
+    		MessageDialog.openError(HandlerUtil.getActiveShell(event),
+    			 "Invalid xtUML model",
+    			'''
+    			The following problems were found in the xtUML model, please correct and re-run code generation:
+    			«FOR violation : allViolations»
+    			  - «violation.message»
+    			«ENDFOR»
+    			'''
+    		)
+    	}
+		validationEngine.dispose   
+		validXtumlModel
+	}
+	
+	def performCodeGeneration(AdvancedIncQueryEngine engine, Iterable<XTComponent> xtComponents, ResourceSet xtResourceSet) {
 		xtumlQueries.prepare(engine)
 		val modelToEntityMatcher = getXtModelEntities(engine)
 		val cppComponentMatcher = getCppComponents(engine)
-
+			
 		xtComponents.forEach [ xtComponent |
 			val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponent).head
 			val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
 			val cppResource = cppModel.eResource
-
+			
 			loadCPPBasicTypes(xtResourceSet)
-
+			
 			// Create the CPPComponent with its directories if it does not exist
 			// The incremental part of the m2m transformation should provide 
 			// the cppComponent (and its name provider) in the future
 			if (!cppComponentMatcher.hasMatch(xtComponent, null)) {
-				val componentHeaderDir = cppFactory.createCPPDirectory
-				cppResource.contents += componentHeaderDir
-				val componentBodyDir = cppFactory.createCPPDirectory
-				cppResource.contents += componentBodyDir
+				val componentDir = cppFactory.createCPPDirectory
+				cppResource.contents += componentDir
 				val cppComponent = createCPPComponent => [
 					it.xtComponent = xtComponent
-					it.headerDirectory = componentHeaderDir
-					it.bodyDirectory = componentBodyDir
+					it.headerDirectory = componentDir
+					it.bodyDirectory = componentDir
 					it.ooplNameProvider = createOOPLExistingNameProvider => [
 						commonNamedElement = xtComponent
 					]
@@ -65,35 +103,30 @@ class CodeGenerator {
 					]
 				}
 			}
-
+			
 			Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.DEBUG
 			val xform = new XtumlComponentCPPTransformation
 			xform.initialize(xtModel, engine)
 			xform.execute
 			xform.dispose
 			cppResource.save(null)
-
+			
 			Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
 			val codegen = new CPPCodeGeneration
 			codegen.initialize(cppModel, engine)
 			codegen.execute
-
+			
 			val generatedCPPSourceFiles = codegen.generatedCPPSourceFiles
+			
 			val filegen = new FileAndDirectoryGeneration
-			
 			val targetFolder = GeneratorHelper.getTargetFolder(xtComponent.eResource)
-			
 			val fileManager = new EclipseWorkspaceFileManager(targetFolder)
-
 			//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
-			
 			filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
-			
 			filegen.execute
+
 			codegen.dispose
 		]
-
-		engine.dispose
 	}
 
 	def getOrCreateCPPModel(Model xtmodel, IncQueryEngine engine, ResourceSet rs) {

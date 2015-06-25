@@ -16,7 +16,9 @@ Require-Bundle: org.eclipse.ui,
  com.ericsson.xtumlrt.oopl.model,
  org.eclipse.uml2.uml;bundle-version="5.0.2",
  org.eclipse.papyrus.infra.core;bundle-version="1.0.0",
- com.incquerylabs.emdw.umlintegration.papyrus;bundle-version="1.0.0"
+ com.incquerylabs.emdw.umlintegration.papyrus;bundle-version="1.0.0",
+ com.incquerylabs.emdw.xtuml.incquery.validation;bundle-version="1.0.0",
+ org.eclipse.incquery.validation.core;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IncQuery Labs Ltd.
 Import-Package: org.apache.log4j;version="1.2.15"

@@ -9,3 +9,4 @@ Require-Bundle: com.incquerylabs.emdw.xtuml.incquery,
  org.eclipse.incquery.runtime,
  org.eclipse.incquery.validation.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.incquerylabs.emdw.xtuml.incquery

@@ -17,7 +17,7 @@ import org.junit.runners.MethodSorters
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
-class ArithmeticalExpressionValidatorTest {
+class AdditiveExpressionValidatorTest {
 	
 	@Inject
 	ParseHelper<Statements> parseHelper
@@ -132,5 +132,112 @@ class ArithmeticalExpressionValidatorTest {
 		val model = parseHelper.parse('''false + true;''')
 		tester.validate(model).assertError(0)
 	}
+	
+	//Subtraction
+	//Exprected: OK
+	
+	@Test
+	def subtractionExpressionInteger() {
+		val model = parseHelper.parse('''1 - 2;''')
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+	
+	@Test
+	def subtractionExpressionReal() {
+		val model = parseHelper.parse('''1.3 - 2.3;''')
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+	
+	@Test
+	def subtractionExpressionRealInteger() {
+		val model = parseHelper.parse('''1.3 - 2;''')
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+	
+	@Test
+	def subtractionExpressionIntegerReal() {
+		val model = parseHelper.parse('''1 - 2.3;''')
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+		
+		//Expected: Validation ERROR
+		
+		
+	@Test
+	def subtractionExpressionString() {
+		val model = parseHelper.parse('''"1" - "2";''')
+		tester.validate(model).assertError(0)
+	}
+		
+	@Test
+	def subtractionExpressionIntegerString() {
+		val model = parseHelper.parse('''1 - "2";''')
+		tester.validate(model).assertError(0)		
+	}
+	
+	@Test
+	def subtractionExpressionRealString() {
+		val model = parseHelper.parse('''1.3 - "2";''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionStringInteger() {
+		val model = parseHelper.parse('''"1" - 2;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionStringReal() {
+		val model = parseHelper.parse('''"1" - 2.3;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionBooleanReal() {
+		val model = parseHelper.parse('''true - 2.3;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionBooleanInteger() {
+		val model = parseHelper.parse('''true - 2;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionBooleanString() {
+		val model = parseHelper.parse('''true - "2";''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionStringBoolean() {
+		val model = parseHelper.parse('''"1" - true;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionRealBoolean() {
+		val model = parseHelper.parse('''1.3 - true;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionIntegerBoolean() {
+		val model = parseHelper.parse('''1 - true;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def subtractionExpressionBoolean() {
+		val model = parseHelper.parse('''false - true;''')
+		tester.validate(model).assertError(0)
+	}
+	
 
 }

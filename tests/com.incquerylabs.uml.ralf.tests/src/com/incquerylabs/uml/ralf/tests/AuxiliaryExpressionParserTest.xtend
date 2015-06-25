@@ -16,7 +16,7 @@ import static org.junit.Assert.*
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
-class AuxiliaryExpressionValidatorTest {
+class AuxiliaryExpressionParserTest {
 	
 	@Inject
 	ParseHelper<Statements> parseHelper

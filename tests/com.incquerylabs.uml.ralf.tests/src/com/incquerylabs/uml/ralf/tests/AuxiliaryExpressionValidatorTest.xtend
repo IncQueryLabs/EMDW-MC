@@ -19,7 +19,7 @@ import static org.junit.Assert.*
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
-class AuxiliaryExpressionParserTest {
+class AuxiliaryExpressionValidatorTest {
 	
 	@Inject
 	ParseHelper<Statements> parseHelper
@@ -29,32 +29,152 @@ class AuxiliaryExpressionParserTest {
 	
 	@Inject extension ValidationTestHelper
 	
-	@Test
-	def notImplemented() {
-		fail("not implemented")
-	}
-	
-	
-	//Multiplicative expressions
-	//TODO
-	
-	
 	
 	//Parentheses
-	//TODO
 	
+	@Test
+	def parenthesisInteger() {
+		val model = parseHelper.parse('''(1);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
+	@Test
+	def parenthesisBoolean() {
+		val model = parseHelper.parse('''(true);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
-	//Prefix increment/decrement
-	//TODO
+	@Test
+	def parenthesisString() {
+		val model = parseHelper.parse('''("String");''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
+	@Test
+	def parenthesisReal() {
+		val model = parseHelper.parse('''(1.1);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
-	//Postfix increment/decrement
-	//TODO
+	@Test
+	def parenthesisAdditive() {
+		val model = parseHelper.parse('''(1+2);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
+	@Test
+	def parenthesisMultiplicative() {
+		val model = parseHelper.parse('''(1*2);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisParenthesis() {
+		val model = parseHelper.parse('''((1));''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisShift() {
+		val model = parseHelper.parse('''(1>>2);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisRelation() {
+		val model = parseHelper.parse('''(1 < 2);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisEquality() {
+		val model = parseHelper.parse('''(1 == 2);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisBooleanUnary() {
+		val model = parseHelper.parse('''(!true);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisBooleanXor() {
+		val model = parseHelper.parse('''(true ^ false);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisBooleanOr() {
+		val model = parseHelper.parse('''(true | false);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisBooleanAnd() {
+		val model = parseHelper.parse('''(true & false);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisBooleanConditionalAnd() {
+		val model = parseHelper.parse('''(true && false);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisBooleanConditionalOr() {
+		val model = parseHelper.parse('''(true || false);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisAssignment() {
+		val model = parseHelper.parse('''
+		Integer x = 1;
+		(x = 2);
+		''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisName() {
+		val model = parseHelper.parse('''
+		Integer x = 1;
+		(x);
+		''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def parenthesisConditionalTest() {
+		val model = parseHelper.parse('''(true ? "test" : "test2");''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
 	//Unary numeric
-	//TODO
+	
+	
+	
 	
 	//Boolean Unary
 	//TODO

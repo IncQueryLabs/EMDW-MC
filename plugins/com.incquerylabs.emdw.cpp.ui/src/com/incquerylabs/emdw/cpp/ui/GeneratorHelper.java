@@ -28,7 +28,10 @@ import com.google.common.io.Files;
  * 
  */
 public class GeneratorHelper {
-
+	
+	private final static String generationDirectoryName = "emdw-cpp-gen";
+	private final static String generationProjectName = "com.ericsson.emdw.cpp.generated.code";
+	
 	/**
 	 * Creates a file into the project that the parameter
 	 * <code>nextTo</code> is in. The file is placed into the folder named
@@ -61,29 +64,31 @@ public class GeneratorHelper {
 	 */
 	public static IFile createFileNextToWorkspaceResource(Resource nextTo, String name,
 			Boolean derived, CharSequence content) throws CoreException, IOException {
-		// Getting the project from the name described in the URI of the
-		// resource
+		IFolder targetFolder = getTargetFolder(nextTo);
+		// At the end a new file is created in the target folder.
+		return createFile(targetFolder, name, derived, content, false);
+	}
+	
+	public static IFolder getTargetFolder(Resource resource) throws CoreException, IOException {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
-		URI resourceUri = nextTo.getURI();
+		URI resourceUri = resource.getURI();
 		IFile resourceFile = workspaceRoot.getFile(new Path(resourceUri.toPlatformString(true)));
 		IContainer parent;
 		if(resourceFile != null){
 			parent = resourceFile.getParent();
 		} else {
-			parent = getOrCreateProject("com.ericsson.emdw.cpp.generated.code");
+			parent = getOrCreateProject(generationProjectName);
 		}
 		IFolder targetFolder = null;
 		if(parent instanceof IFolder){
 			IFolder resourceFolder = (IFolder) parent;
-			targetFolder = getOrCreateFolder(resourceFolder, "emdw-cpp-gen");
+			targetFolder = getOrCreateFolder(resourceFolder, generationDirectoryName);
 		} else if (parent instanceof IProject){
-			targetFolder = getOrCreateFolder((IProject) parent, "emdw-cpp-gen");
+			targetFolder = getOrCreateFolder((IProject) parent, generationDirectoryName);
 		}
-		// At the end a new file is created in the target folder.
-		return createFile(targetFolder, name, derived, content, false);
-		
+		return targetFolder;
 	}
-
+	
 	private static IFolder getOrCreateFolder(IProject project, String folderName)
 			throws CoreException {
 		IFolder folder = project.getFolder(folderName);

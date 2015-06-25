@@ -1,8 +1,11 @@
 package com.incquerylabs.emdw.cpp.ui.util
 
+import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.ui.GeneratorHelper
@@ -15,33 +18,32 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import com.ericsson.xtumlrt.oopl.OoplFactory
 
 class CodeGenerator {
-		
+
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
-	
+
 	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents) {
-		
-    	val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
-    	
-    	xtumlQueries.prepare(engine)
-    	val modelToEntityMatcher = getXtModelEntities(engine)
-    	val cppComponentMatcher = getCppComponents(engine)
-		
-		xtComponents.forEach[ xtComponent |
+
+		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+
+		xtumlQueries.prepare(engine)
+		val modelToEntityMatcher = getXtModelEntities(engine)
+		val cppComponentMatcher = getCppComponents(engine)
+
+		xtComponents.forEach [ xtComponent |
 			val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponent).head
 			val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
 			val cppResource = cppModel.eResource
-			
+
 			loadCPPBasicTypes(xtResourceSet)
-	
+
 			// Create the CPPComponent with its directories if it does not exist
 			// The incremental part of the m2m transformation should provide 
 			// the cppComponent (and its name provider) in the future
-			if(!cppComponentMatcher.hasMatch(xtComponent, null)){
+			if (!cppComponentMatcher.hasMatch(xtComponent, null)) {
 				val componentHeaderDir = cppFactory.createCPPDirectory
 				cppResource.contents += componentHeaderDir
 				val componentBodyDir = cppFactory.createCPPDirectory
@@ -63,32 +65,41 @@ class CodeGenerator {
 					]
 				}
 			}
-			
+
 			Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.DEBUG
 			val xform = new XtumlComponentCPPTransformation
 			xform.initialize(xtModel, engine)
 			xform.execute
 			xform.dispose
 			cppResource.save(null)
-			
+
 			Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
 			val codegen = new CPPCodeGeneration
 			codegen.initialize(cppModel, engine)
 			codegen.execute
-			val generatedFiles = codegen.generatedFiles
-			generatedFiles.forEach[ fileName, content |
-				GeneratorHelper.createFileNextToWorkspaceResource(xtComponent.eResource, fileName, true, content)
-			]
+
+			val generatedCPPSourceFiles = codegen.generatedCPPSourceFiles
+			val filegen = new FileAndDirectoryGeneration
+			
+			val targetFolder = GeneratorHelper.getTargetFolder(xtComponent.eResource)
+			
+			val fileManager = new EclipseWorkspaceFileManager(targetFolder)
+
+			//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
+			
+			filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
+			
+			filegen.execute
 			codegen.dispose
-	    ]
-	    
-	    engine.dispose
+		]
+
+		engine.dispose
 	}
-	
+
 	def getOrCreateCPPModel(Model xtmodel, IncQueryEngine engine, ResourceSet rs) {
-		val modelMatcher = getXtModelToCppModel(engine)  
+		val modelMatcher = getXtModelToCppModel(engine)
 		var CPPModel cppModel = null
-		if(modelMatcher.hasMatch(xtmodel, null)){
+		if (modelMatcher.hasMatch(xtmodel, null)) {
 			cppModel = modelMatcher.getOneArbitraryMatch(xtmodel, null).cppModel
 			if (cppModel.ooplNameProvider == null) {
 				cppModel.ooplNameProvider = createOOPLExistingNameProvider => [
@@ -102,7 +113,7 @@ class CodeGenerator {
 					commonNamedElement = xtmodel
 				]
 			]
-			
+
 			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension
 			val uri = uriWithoutExtension.appendFileExtension("cppmodel")
 			val cppResource = rs.createResource(uri)
@@ -110,8 +121,10 @@ class CodeGenerator {
 		}
 		return cppModel
 	}
-	
+
 	def loadCPPBasicTypes(ResourceSet rs) {
-		rs.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true), true)
+		rs.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),
+			true)
+		}
 	}
-}

@@ -32,13 +32,13 @@ abstract class FileManager implements IFileManager {
 	
 	public static class messages {
 		
-		public final static String FILE_NOT_CHANGED = "File not written ({0}/{1}) because it is not changed!"
+		public final static String FILE_NOT_CHANGED = "File was not written ({0}/{1}) because it has not changed!"
 		public final static String FILE_CREATED = "File successfully created ({0}/{1})"
 		public final static String FILE_UPDATED = "File successfully updated ({0}/{1})"
 		public final static String FILE_DELETED = "File successfully deleted ({0}/{1})"
-		public final static String FILE_NOT_EXIST = "File not exists ({0}/{1})"
+		public final static String FILE_NOT_EXIST = "File does not exists ({0}/{1})"
 		
-		public final static String DIRECTORY_NOT_EXIST = "Directory not exists ({0})"
+		public final static String DIRECTORY_NOT_EXIST = "Directory does not exists ({0})"
 		public final static String DIRECTORY_CREATED = "Directory successfully created ({0})"
 		public final static String DIRECTORY_DELETED = "Directory successfully deleted ({0})"
 		public final static String DIRECTORY_ALREADY_EXIST = "Directory already exists ({0})"
@@ -245,7 +245,7 @@ abstract class FileManager implements IFileManager {
 	 * Helper methods
 	 */
 	private def checkStringArgument(String argument, String name) {
-		checkArgument(argument != null && !argument.equals(""), MessageFormat.format(FileManager.messages.ARG_NOT_NULL, name))
+		checkArgument(!argument.isNullOrEmpty, MessageFormat.format(FileManager.messages.ARG_NOT_NULL, name))
 	}
 	
 }

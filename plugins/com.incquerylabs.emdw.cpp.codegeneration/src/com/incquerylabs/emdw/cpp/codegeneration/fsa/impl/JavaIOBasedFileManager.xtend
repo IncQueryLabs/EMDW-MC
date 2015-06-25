@@ -56,7 +56,7 @@ class JavaIOBasedFileManager extends FileManager {
 		new File(path.addRootDirectory).exists
 	}
 
-	private def deleteDirectory(File _file) {
+	private def boolean deleteDirectory(File _file) {
 		val file = _file as File
 		if (file.directory) {
 			for(File child : file.listFiles)

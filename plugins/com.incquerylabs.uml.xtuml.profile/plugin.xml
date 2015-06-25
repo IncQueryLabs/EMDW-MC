@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated xtUML.profile -->
+      <package
+            uri="http://Papyrus/xtUMLProfile"
+            class="com.ericsson.executablemodeling.xtuml.profile.xtumlprofile.xtUMLProfilePackage"
+            genModel="model/xtUML.profile.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated xtUML.profile -->
+      <package
+            uri="http://Papyrus/ExecutableModelingProfile"
+            class="com.ericsson.executablemodeling.xtuml.profile.executablemodelingprofile.ExecutableModelingProfilePackage"
+            genModel="model/xtUML.profile.genmodel"/>
+   </extension>
+   <extension
+         point="org.eclipse.papyrus.uml.extensionpoints.UMLProfile">
+      <profile
+            name="xtUML"
+            path="platform:/plugin/com.incquerylabs.uml.xtuml.profile/model/xtUML.profile.uml">
+      </profile>
+      <profile
+            name="Executable Modeling"
+            path="platform:/plugin/com.incquerylabs.uml.xtuml.profile/model/ExecutableModeling.profile.uml">
+      </profile>
+   </extension>
+   <extension
+         point="org.eclipse.uml2.uml.generated_package">
+      <profile
+            location="platform:/plugin/com.incquerylabs.uml.xtuml.profile/model/xtUML.profile.uml#_Z0b9YHtgEeShuaetve0aIQ"
+            uri="http://Papyrus/xtUMLProfile">
+      </profile>
+      <profile
+            location="platform:/plugin/com.incquerylabs.uml.xtuml.profile/model/ExecutableModeling.profile.uml#_k5L5sHtfEeShuaetve0aIQ"
+            uri="http://Papyrus/ExecutableModelingProfile">
+      </profile>
+   </extension>
+
+</plugin>

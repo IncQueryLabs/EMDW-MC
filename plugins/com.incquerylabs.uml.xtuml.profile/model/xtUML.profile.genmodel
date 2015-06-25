@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/uml2/2.2.0/GenModel"
+    modelDirectory="/com.incquerylabs.uml.xtuml.profile/src" modelPluginID="com.incquerylabs.uml.xtuml.profile"
+    modelName="XtUML" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.uml2.uml.ecore.importer" complianceLevel="8.0" copyrightFields="false"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.uml2.types/model/Types.genmodel#//types ../../org.eclipse.uml2.uml/model/UML.genmodel#//uml"
+    operationReflection="true" importOrganizing="true">
+  <genAnnotations source="http://www.eclipse.org/emf/2002/GenModel/importer/org.eclipse.uml2.uml.ecore.importer">
+    <details key="OPPOSITE_ROLE_NAMES" value="IGNORE"/>
+    <details key="DUPLICATE_FEATURES" value="DISCARD"/>
+    <details key="ANNOTATION_DETAILS" value="PROCESS"/>
+    <details key="PROPERTY_DEFAULT_EXPRESSIONS" value="IGNORE"/>
+    <details key="DUPLICATE_FEATURE_INHERITANCE" value="DISCARD"/>
+    <details key="COMMENTS" value="PROCESS"/>
+    <details key="DERIVED_FEATURES" value="PROCESS"/>
+    <details key="SUPER_CLASS_ORDER" value="PROCESS"/>
+    <details key="DUPLICATE_OPERATION_INHERITANCE" value="DISCARD"/>
+    <details key="REDEFINING_OPERATIONS" value="REPORT"/>
+    <details key="INVARIANT_CONSTRAINTS" value="PROCESS"/>
+    <details key="UNION_PROPERTIES" value="REPORT"/>
+    <details key="DUPLICATE_OPERATIONS" value="DISCARD"/>
+    <details key="NON_API_INVARIANTS" value="IGNORE"/>
+    <details key="CAMEL_CASE_NAMES" value="IGNORE"/>
+    <details key="SUBSETTING_PROPERTIES" value="REPORT"/>
+    <details key="OPERATION_BODIES" value="IGNORE"/>
+    <details key="ECORE_TAGGED_VALUES" value="PROCESS"/>
+    <details key="UNTYPED_PROPERTIES" value="REPORT"/>
+    <details key="REDEFINING_PROPERTIES" value="REPORT"/>
+    <details key="INVOCATION_DELEGATES" value="IGNORE"/>
+    <details key="VALIDATION_DELEGATES" value="IGNORE"/>
+  </genAnnotations>
+  <foreignModel>xtUML.profile.uml</foreignModel>
+  <genPackages xsi:type="genmodel:GenPackage" prefix="xtUMLProfile" basePackage="com.ericsson.executablemodeling.xtuml.profile"
+      disposableProviderFactory="true" ecorePackage="xtumlprofile.ecore#/">
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtConnectorEnd">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtConnectorEnd/xtConnectorEndRole">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtConnectorEnd/xtConnectorEndRole/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtConnectorEnd/xtConnectorEndRole/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtProperty">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference xtumlprofile.ecore#//XtProperty/derivation"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtProperty/xtPropertyAggregation">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProperty/xtPropertyAggregation/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProperty/xtPropertyAggregation/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtProperty/xtPropertyRedefinition">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProperty/xtPropertyRedefinition/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProperty/xtPropertyRedefinition/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtProperty/xtPropertyDerivation">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProperty/xtPropertyDerivation/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProperty/xtPropertyDerivation/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtComponent">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference xtumlprofile.ecore#//XtComponent/base_Component"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtComponent/xtComponentAttributes">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentAttributes/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentAttributes/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtComponent/xtComponentBehavioralFeatures">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentBehavioralFeatures/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentBehavioralFeatures/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtComponent/xtComponentOwnedBehaviors">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentOwnedBehaviors/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentOwnedBehaviors/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtComponent/xtComponentNestedClassifiers">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentNestedClassifiers/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentNestedClassifiers/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtComponent/xtComponentParts">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentParts/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentParts/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtComponent/xtComponentGeneralization">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentGeneralization/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtComponent/xtComponentGeneralization/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtOperation"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtParameter"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtReception"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtPart">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPart/xtPartType">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPart/xtPartType/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPart/xtPartType/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPart/xtPartComposition">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPart/xtPartComposition/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPart/xtPartComposition/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPart/xtPartVisibility">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPart/xtPartVisibility/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPart/xtPartVisibility/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtPort">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPort/xtPortVisibility">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPort/xtPortVisibility/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPort/xtPortVisibility/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPort/xtConnectorVisibility">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPort/xtConnectorVisibility/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPort/xtConnectorVisibility/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPort/xtPortBehaviorPort">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPort/xtPortBehaviorPort/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPort/xtPortBehaviorPort/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtConnector">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtConnector/xtConnectorConnectorEnds">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtConnector/xtConnectorConnectorEnds/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtConnector/xtConnectorConnectorEnds/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtProtocolContainer"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtProtocol">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference xtumlprofile.ecore#//XtProtocol/base_Class"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtProtocol/xtProtocolNestedClassifiers">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProtocol/xtProtocolNestedClassifiers/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProtocol/xtProtocolNestedClassifiers/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtProtocol/xtProtocolBehaviors">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProtocol/xtProtocolBehaviors/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtProtocol/xtProtocolBehaviors/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtMessageSet">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtMessageSet/xtMessageSetNestedClassifiers">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtMessageSet/xtMessageSetNestedClassifiers/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtMessageSet/xtMessageSetNestedClassifiers/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtMessageSet/xtMessageSetAttributes">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtMessageSet/xtMessageSetAttributes/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtMessageSet/xtMessageSetAttributes/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtSignal"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtDataType"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtEnumeration"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtAssociation">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtAssociation/xtAssociationEndOwnership">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationEndOwnership/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationEndOwnership/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtAssociation/xtAssociationEnds">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationEnds/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationEnds/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtAssociation/xtAssociationEndType">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationEndType/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationEndType/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtAssociation/xtAssociationGeneralization">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationGeneralization/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtAssociation/xtAssociationGeneralization/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtAssociationClass"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtTrigger">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtTrigger/xtTriggerEvent">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtTrigger/xtTriggerEvent/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtTrigger/xtTriggerEvent/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtStateMachine"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtRegion"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtPseudoState">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtPseudoState/xtPseudostateKind">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPseudoState/xtPseudostateKind/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtPseudoState/xtPseudostateKind/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtTransition">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtTransition/xtTransitionNoGuard">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtTransition/xtTransitionNoGuard/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtTransition/xtTransitionNoGuard/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtState">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtState/xStateNotComposite">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtState/xStateNotComposite/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtState/xStateNotComposite/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtActivity">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtActivity/xtActivityTextualRepresentation">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtActivity/xtActivityTextualRepresentation/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtActivity/xtActivityTextualRepresentation/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtConstraint"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtClass">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtClass/xtClassConstructors">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassConstructors/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassConstructors/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtClass/xtClassClassifierBehavior">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassClassifierBehavior/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassClassifierBehavior/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtClass/xtClassVisibility">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassVisibility/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassVisibility/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtClass/xtClassGeneralizationSets">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassGeneralizationSets/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtClass/xtClassGeneralizationSets/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtConstrainedType"/>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtOpaqueBehavior">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtOpaqueBehavior/xtOpaqueBehaviorLanguage">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtOpaqueBehavior/xtOpaqueBehaviorLanguage/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtOpaqueBehavior/xtOpaqueBehaviorLanguage/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtGeneralization">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtGeneralization/xtGeneralizationGeneralizationSet">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtGeneralization/xtGeneralizationGeneralizationSet/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtGeneralization/xtGeneralizationGeneralizationSet/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" ecoreClass="xtumlprofile.ecore#//XtGeneralizationSet">
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="xtumlprofile.ecore#//XtGeneralizationSet/xtGeneralizationSet">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtGeneralizationSet/xtGeneralizationSet/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="xtumlprofile.ecore#//XtGeneralizationSet/xtGeneralizationSet/context"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+  <genPackages xsi:type="genmodel:GenPackage" prefix="ExecutableModelingProfile" basePackage="com.ericsson.executablemodeling.xtuml.profile"
+      disposableProviderFactory="true" ecorePackage="executablemodelingprofile.ecore#/">
+    <genEnums xsi:type="genmodel:GenEnum" typeSafeEnumCompatible="false" ecoreEnum="executablemodelingprofile.ecore#//XMessageKind">
+      <genEnumLiterals xsi:type="genmodel:GenEnumLiteral" ecoreEnumLiteral="executablemodelingprofile.ecore#//XMessageKind/in"/>
+      <genEnumLiterals xsi:type="genmodel:GenEnumLiteral" ecoreEnumLiteral="executablemodelingprofile.ecore#//XMessageKind/out"/>
+      <genEnumLiterals xsi:type="genmodel:GenEnumLiteral" ecoreEnumLiteral="executablemodelingprofile.ecore#//XMessageKind/inout"/>
+    </genEnums>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XOperation">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XOperation/base_Operation"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOperation/xOperationParameters">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationParameters/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationParameters/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOperation/xOperationOneMethod">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationOneMethod/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationOneMethod/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOperation/xOperationImports">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationImports/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationImports/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOperation/xOperationOwnedRules">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationOwnedRules/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationOwnedRules/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOperation/xOperationMethods">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationMethods/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationMethods/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOperation/xOperationConstraints">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationConstraints/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOperation/xOperationConstraints/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XNamespace">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XNamespace/base_Namespace"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XNamedElement">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XNamedElement/base_NamedElement"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XNamedElement/xNamedElementName">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XNamedElement/xNamedElementName/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XNamedElement/xNamedElementName/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XFeature">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XFeature/base_Feature"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XFeature/xFeatureClassifier">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XFeature/xFeatureClassifier/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XFeature/xFeatureClassifier/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XAssociation">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XAssociation/base_Association"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XAssociation/xAssociationIsBinary">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XAssociation/xAssociationIsBinary/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XAssociation/xAssociationIsBinary/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XClassifier">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XClassifier/base_Classifier"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClassifier/xClassifierFeatures">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierFeatures/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierFeatures/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClassifier/xClassifierNestedClassifiers">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierNestedClassifiers/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierNestedClassifiers/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClassifier/xClassifierGenerals">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierGenerals/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierGenerals/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClassifier/xClassifierConstraints">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierConstraints/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClassifier/xClassifierConstraints/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XBehavior">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XBehavior/base_Behavior"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XBehavior/xBehaviorNoParameterSets">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XBehavior/xBehaviorNoParameterSets/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XBehavior/xBehaviorNoParameterSets/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XEncapsulatedClassifier">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XEncapsulatedClassifier/base_EncapsulatedClassifier"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XEncapsulatedClassifier/isExternal"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierPorts">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierPorts/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierPorts/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierconnectors">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierconnectors/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierconnectors/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierExternal">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierExternal/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEncapsulatedClassifier/xEncapsulatedClassifierExternal/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XProtocol">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XProtocol/base_BehavioredClassifier"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XProtocol/xProtocolIncomingInterface">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolIncomingInterface/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolIncomingInterface/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XProtocol/xProtocolProtocolContainer">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolProtocolContainer/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolProtocolContainer/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XProtocol/xProtocolOutgoingInterface">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolOutgoingInterface/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolOutgoingInterface/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XProtocol/xProtocolSymmetricInterface">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolSymmetricInterface/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocol/xProtocolSymmetricInterface/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XSignal">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XSignal/base_Signal"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XSignal/xSignalVisibility">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XSignal/xSignalVisibility/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XSignal/xSignalVisibility/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XDataType">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XDataType/base_DataType"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XDataType/xDataTypeOperations">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XDataType/xDataTypeOperations/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XDataType/xDataTypeOperations/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XParameter">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XParameter/base_Parameter"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XTypedElement">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XTypedElement/base_TypedElement"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTypedElement/xTypedElementType">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTypedElement/xTypedElementType/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTypedElement/xTypedElementType/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XProperty">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XProperty/base_Property"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XMultiplicityElement">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XMultiplicityElement/base_MultiplicityElement"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XMultiplicityElement/isOrderedByValue"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XMultiplicityElement/key"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XMultiplicityElement/isDescending"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XMultiplicityElement/xMultiplicityElementIsOrderedByValue">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMultiplicityElement/xMultiplicityElementIsOrderedByValue/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMultiplicityElement/xMultiplicityElementIsOrderedByValue/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XMultiplicityElement/xMultiplicityElementKeys">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMultiplicityElement/xMultiplicityElementKeys/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMultiplicityElement/xMultiplicityElementKeys/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XReception">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XReception/base_Reception"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XReception/xReceptionSignal">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XReception/xReceptionSignal/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XReception/xReceptionSignal/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XPart">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XPart/base_Property"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPart/xPartClassifier">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPart/xPartClassifier/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPart/xPartClassifier/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XPort">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XPort/base_Port"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPort/xPortClassifier">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortClassifier/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortClassifier/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPort/xPortOrderingUniqueness">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortOrderingUniqueness/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortOrderingUniqueness/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPort/xPortType">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortType/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortType/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPort/xPortBehaviorPort">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortBehaviorPort/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortBehaviorPort/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPort/xPortVisibility">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortVisibility/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPort/xPortVisibility/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XConnector">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XConnector/base_Connector"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConnector/xConnectorClassifier">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnector/xConnectorClassifier/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnector/xConnectorClassifier/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConnector/xConnectorEnds">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnector/xConnectorEnds/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnector/xConnectorEnds/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConnector/xtConnectorType">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnector/xtConnectorType/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnector/xtConnectorType/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XProtocolContainer">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XProtocolContainer/base_Package"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XProtocolContainer/xProtocolContainerProtocol">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocolContainer/xProtocolContainerProtocol/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XProtocolContainer/xProtocolContainerProtocol/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XMessageSet">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XMessageSet/base_Interface"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XMessageSet/messageKind"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XMessageSet/xMessageSetIncoming">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMessageSet/xMessageSetIncoming/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMessageSet/xMessageSetIncoming/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XMessageSet/xMessageSetOutgoing">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMessageSet/xMessageSetOutgoing/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMessageSet/xMessageSetOutgoing/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XMessageSet/xMessageSetSymmetric">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMessageSet/xMessageSetSymmetric/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XMessageSet/xMessageSetSymmetric/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XEnumeration">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XEnumeration/base_Enumeration"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XEnumeration/xEnumerationAttributes">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEnumeration/xEnumerationAttributes/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XEnumeration/xEnumerationAttributes/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XAssociationClass">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XAssociationClass/base_AssociationClass"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XTrigger">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XTrigger/base_Trigger"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTrigger/xTriggerSignalReception">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTrigger/xTriggerSignalReception/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTrigger/xTriggerSignalReception/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTrigger/xTriggerEvents">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTrigger/xTriggerEvents/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTrigger/xTriggerEvents/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTrigger/xTriggerCalledOperation">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTrigger/xTriggerCalledOperation/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTrigger/xTriggerCalledOperation/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XStateMachine">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XStateMachine/base_StateMachine"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XStateMachine/xStateMachineOneRegion">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineOneRegion/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineOneRegion/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XStateMachine/xStateMachineInitialState">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineInitialState/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineInitialState/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XStateMachine/xStateMachineContext">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineContext/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineContext/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XStateMachine/xStateMachineNoParameters">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineNoParameters/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineNoParameters/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XStateMachine/xStateMachineRegions">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineRegions/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XStateMachine/xStateMachineRegions/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XRegion">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XRegion/base_Region"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XRegion/xRegionSubvertexes">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XRegion/xRegionSubvertexes/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XRegion/xRegionSubvertexes/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XRegion/xRegionTransitions">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XRegion/xRegionTransitions/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XRegion/xRegionTransitions/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XState">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XState/base_State"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XState/xStateBehaviors">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateBehaviors/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateBehaviors/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XState/xStateNoDoActivity">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateNoDoActivity/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateNoDoActivity/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XState/xStateOneRegion">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateOneRegion/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateOneRegion/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XState/xStateNoSubmachine">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateNoSubmachine/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateNoSubmachine/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XState/xStateRegions">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateRegions/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XState/xStateRegions/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XVertex">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XVertex/base_Vertex"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XPseudostate">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XPseudostate/base_Pseudostate"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XPseudostate/xPsuedostateKind">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPseudostate/xPsuedostateKind/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XPseudostate/xPsuedostateKind/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XTransition">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XTransition/base_Transition"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTransition/xTransitionTrigger">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTransition/xTransitionTrigger/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTransition/xTransitionTrigger/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTransition/xTransitionGuard">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTransition/xTransitionGuard/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTransition/xTransitionGuard/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XTransition/xTransitionEffect">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTransition/xTransitionEffect/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XTransition/xTransitionEffect/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XActivity">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XActivity/base_Activity"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XActivity/xActivityParameters">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XActivity/xActivityParameters/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XActivity/xActivityParameters/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XActivity/xActivityTextualRepresentation">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XActivity/xActivityTextualRepresentation/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XActivity/xActivityTextualRepresentation/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XActionBehavior"/>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XConstraint">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XConstraint/base_Constraint"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConstraint/xConstraintSpecification">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstraint/xConstraintSpecification/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstraint/xConstraintSpecification/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConstraint/xConstraintBehavior">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstraint/xConstraintBehavior/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstraint/xConstraintBehavior/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XOpaqueBehavior">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XOpaqueBehavior/base_OpaqueBehavior"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XOpaqueBehavior/isExternal"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XOpaqueBehavior/xOpaqueBehaviorExternal">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOpaqueBehavior/xOpaqueBehaviorExternal/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XOpaqueBehavior/xOpaqueBehaviorExternal/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XConstrainedType">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XConstrainedType/base_PrimitiveType"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XConstrainedType/lowerBound"/>
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XConstrainedType/upperBound"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XConstrainedType/isLowerBoundExclusive"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XConstrainedType/isUpperBoundExclusive"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConstrainedType/xConstrainedTypePrimitiveType">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstrainedType/xConstrainedTypePrimitiveType/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstrainedType/xConstrainedTypePrimitiveType/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConstrainedType/xConstrainedTypeBounds">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstrainedType/xConstrainedTypeBounds/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConstrainedType/xConstrainedTypeBounds/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XGeneralization">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XGeneralization/base_Generalization"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XGeneralization/xGeneralizationClassifiers">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XGeneralization/xGeneralizationClassifiers/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XGeneralization/xGeneralizationClassifiers/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XGeneralization/xGeneralizationGeneralizationSet">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XGeneralization/xGeneralizationGeneralizationSet/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XGeneralization/xGeneralizationGeneralizationSet/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XGeneralizationSet">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XGeneralizationSet/base_GeneralizationSet"/>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XClass">
+      <genFeatures xsi:type="genmodel:GenFeature" property="None" children="true"
+          createChild="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XClass/base_Class"/>
+      <genFeatures xsi:type="genmodel:GenFeature" createChild="false" ecoreFeature="ecore:EAttribute executablemodelingprofile.ecore#//XClass/isExternal"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClass/xClassMetaclass">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClass/xClassMetaclass/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClass/xClassMetaclass/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClass/xClassNestedClassifiers">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClass/xClassNestedClassifiers/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClass/xClassNestedClassifiers/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XClass/xClassExternal">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClass/xClassExternal/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XClass/xClassExternal/context"/>
+      </genOperations>
+    </genClasses>
+    <genClasses xsi:type="genmodel:GenClass" image="false" ecoreClass="executablemodelingprofile.ecore#//XConnectorEnd">
+      <genFeatures xsi:type="genmodel:GenFeature" notify="false" createChild="false"
+          propertySortChoices="true" ecoreFeature="ecore:EReference executablemodelingprofile.ecore#//XConnectorEnd/base_ConnectorEnd"/>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndConnector">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndConnector/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndConnector/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndRole">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndRole/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndRole/context"/>
+      </genOperations>
+      <genOperations xsi:type="genmodel:GenOperation" ecoreOperation="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndUniqueness">
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndUniqueness/diagnostics"/>
+        <genParameters xsi:type="genmodel:GenParameter" ecoreParameter="executablemodelingprofile.ecore#//XConnectorEnd/xConnectorEndUniqueness/context"/>
+      </genOperations>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

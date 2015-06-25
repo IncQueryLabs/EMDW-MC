@@ -85,19 +85,19 @@ LiteralExpression returns LiteralExpression :
 ;
 
 BooleanLiteralExpression :
-    image = BOOLEAN_VALUE
+    value = BOOLEAN_VALUE
 ;
 
 NaturalLiteralExpression :
-    image = NATURAL_VALUE
+    value = NATURAL_VALUE
 ;
 
 UnboundedLiteralExpression :
-    {UnboundedLiteralExpression} '*'
+    {UnboundedLiteralExpression} value = '*'
 ;
 
 StringLiteralExpression :
-    image = STRING
+    value = STRING
 ;
 
 /* Name EXPRESSIONS */

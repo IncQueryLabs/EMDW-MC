@@ -22,6 +22,11 @@ class EclipseWorkspaceFileManager extends FileManager {
 		rootProject.open(null)
 	}
 	
+	new(IFolder targetFolder) {
+		super(targetFolder.projectRelativePath.toString)
+		rootProject = targetFolder.project
+	}
+	
 	// Implementation specific methods
 	private def IFolder getFolder(String path) {
 		rootProject.getFolder(path.addRootDirectory)

@@ -78,17 +78,15 @@ class CodeGenerator {
 			codegen.initialize(cppModel, engine)
 			codegen.execute
 
-			// TODO: delete this if not necessary
-			val generatedFiles = codegen.generatedFiles
-			generatedFiles.forEach [ fileName, content |
-				GeneratorHelper.createFileNextToWorkspaceResource(xtComponent.eResource, fileName, true, content)
-			]
-
 			val generatedCPPSourceFiles = codegen.generatedCPPSourceFiles
 			val filegen = new FileAndDirectoryGeneration
+			
+			val targetFolder = GeneratorHelper.getTargetFolder(xtComponent.eResource)
+			
+			val fileManager = new EclipseWorkspaceFileManager(targetFolder)
 
-			// TODO: where to generate structure and which file manager implementation use?
-			val fileManager = new EclipseWorkspaceFileManager(xtModel.name, "/")
+			//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
+			
 			filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
 			
 			filegen.execute

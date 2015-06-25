@@ -25,7 +25,7 @@ return false;</body>
         <language>C++</language>
         <body>// This is my Destructor action code</body>
       </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_KCTi4Bs5EeWj4Pc_Ym9a1g" name="myConstructorBehavior" specification="_5rpgwBp4EeWofYcfE8DB7g">
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_KCTi4Bs5EeWj4Pc_Ym9a1g" name="myConstructorBehavior">
         <language>C++</language>
         <body>// This is my custom Constructor action code</body>
       </ownedBehavior>
@@ -55,11 +55,6 @@ return false;</body>
         </ownedParameter>
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_DDfhsPo_EeSpnsHyI6QRfw" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_5rpgwBp4EeWofYcfE8DB7g" name="myClass" method="_KCTi4Bs5EeWj4Pc_Ym9a1g">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_H7Xu0Bp5EeWofYcfE8DB7g" name="myInjectedDependency">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_QOkUEBp5EeWofYcfE8DB7g" name="~myClass" method="_-PkUoBs4EeWj4Pc_Ym9a1g"/>

@@ -3,893 +3,211 @@ package com.incquerylabs.uml.ralf.tests
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.impl.ExpressionStatementImpl
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageCustomInjectorProvider
-import com.incquerylabs.uml.ralf.tests.util.parameterized.Generator
-import com.incquerylabs.uml.ralf.tests.util.parameterized.ListGenerator
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.junit.FixMethodOrder
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
-import static java.util.Arrays.asList
 import static org.junit.Assert.*
-
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
 class AdditiveExpressionParserTest {
-	
-	@Rule
-    public Generator<Parameter> params =
-        new ListGenerator(asList(
-        new Parameter('''1 + 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1","1")
-        ));
-	
+		
 	@Inject
 	ParseHelper<Statements> parseHelper
 
 	//Addition Expression
-		//Expected: OK
-	
+	//OK input
 	@Test
 	def additionExpressionInteger() {
-		val model = parseHelper.parse(params.value.code)
-		
-		//check statements size
-		assertEquals(params.value.numberOfStatements, model.statement.size) 
-		
-		//check is first statement is an expression
-		assertEquals(params.value.numberOfExpressions, model.statement.filter(ExpressionStatementImpl).size) 
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1.class.equals(params.value.operand1Class)) 
-		assertTrue(arithemticExpression.operand2.class.equals(params.value.operand2Class))
-		
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression) 
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals(params.value.operator, arithemticExpression.operator); 
-		assertEquals(params.value.operand1Image, operand1.image);					
-		assertEquals(params.value.operand2Image, operand2.image);					
+		additionExpression('''1 + 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1","2")
 	}
 	
 	@Test
 	def additionExpressionReal() {
-		val model = parseHelper.parse('''1.3 + 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''1.3 + 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1.3","2.3")
 	}
 	
 	@Test
 	def additionExpressionRealInteger() {
-		val model = parseHelper.parse('''1.3 + 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''1.3 + 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1.3","2")
 	}
 	
 	@Test
 	def additionExpressionIntegerReal() {
-		val model = parseHelper.parse('''1 + 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''1 + 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1","2.3")
 	}
 	
 	@Test
 	def additionExpressionString() {
-		val model = parseHelper.parse('''"1" + "2";''')
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''"1" + "2";''', 1,1,StringLiteralExpression, StringLiteralExpression, "+", "1","2")
 	}
 		
-		//Expected: Validation ERROR
+	//Erroneous Input
 		
 	@Test
 	def additionExpressionIntegerString() {
-		val model = parseHelper.parse('''1 + "2";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);		
+		additionExpression('''1 + "2";''', 1,1,NaturalLiteralExpression, StringLiteralExpression, "+", "1","2")	
 	}
 	
 	@Test
 	def additionExpressionRealString() {
-		val model = parseHelper.parse('''1.3 + "2";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''1.3 + "2";''', 1,1,NaturalLiteralExpression, StringLiteralExpression, "+", "1.3","2")
 	}
 	
 	@Test
 	def additionExpressionStringInteger() {
-		val model = parseHelper.parse('''"1" + 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''"1" + 2;''', 1,1,StringLiteralExpression, NaturalLiteralExpression, "+", "1","2")
 	}
 	
 	@Test
 	def additionExpressionStringReal() {
-		val model = parseHelper.parse('''"1" + 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''"1" + 2.3;''', 1,1,StringLiteralExpression, NaturalLiteralExpression, "+", "1","2.3")
 	}
 	
 	@Test
 	def additionExpressionBooleanReal() {
-		val model = parseHelper.parse('''true + 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("true", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''true + 2.3;''', 1,1,BooleanLiteralExpression, NaturalLiteralExpression, "+", "true","2.3")
 	}
 	
 	@Test
 	def additionExpressionBooleanInteger() {
-		val model = parseHelper.parse('''true + 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("true", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''true + 2;''', 1,1,BooleanLiteralExpression, NaturalLiteralExpression, "+", "true","2")
 	}
 	
 	@Test
 	def additionExpressionBooleanString() {
-		val model = parseHelper.parse('''true + "2";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("true", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''true + "2";''', 1,1,BooleanLiteralExpression, StringLiteralExpression, "+", "true","2")
 	}
 	
 	@Test
 	def additionExpressionStringBoolean() {
-		val model = parseHelper.parse('''"1" + true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''"1" + true;''', 1,1,StringLiteralExpression, BooleanLiteralExpression, "+", "1","true")
 	}
 	
 	@Test
 	def additionExpressionRealBoolean() {
-		val model = parseHelper.parse('''1.3 + true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''1.3 + true;''', 1,1,NaturalLiteralExpression, BooleanLiteralExpression, "+", "1.3","true")
 	}
 	
 	@Test
 	def additionExpressionIntegerBoolean() {
-		val model = parseHelper.parse('''1 + true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''1 + true;''', 1,1,NaturalLiteralExpression, BooleanLiteralExpression, "+", "1","true")
 	}
 	
 	@Test
 	def additionExpressionBoolean() {
-		val model = parseHelper.parse('''false + true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("+", arithemticExpression.operator);
-		assertEquals("false", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''false + true;''', 1,1,BooleanLiteralExpression, BooleanLiteralExpression, "+", "false","true")
 	}
 	
 	
 	//Subtraction Expression
-	
+	//OK input
 	@Test
 	def subtractionExpressionInteger() {
-		val model = parseHelper.parse('''1 - 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''1 - 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1","2")
 	}
 	
 	@Test
 	def subtractionExpressionReal() {
-		val model = parseHelper.parse('''1.3 - 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''1.3 - 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1.3","2.3")
 	}
 	
 	@Test
 	def subtractionExpressionRealInteger() {
-		val model = parseHelper.parse('''1.3 - 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''1.3 - 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1.3","2")
 	}
 	
 	@Test
 	def subtractionExpressionIntegerReal() {
-		val model = parseHelper.parse('''1 - 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check is first statement is an expression
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''1 - 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1","2.3")
 	}
+	
+	//Erroneous input
 	
 	@Test
 	def subtractionExpressionString() {
-		val model = parseHelper.parse('''"1" - "2";''')
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''"1" - "2";''', 1,1,StringLiteralExpression, StringLiteralExpression, "-", "1","2")
 	}
 		
 	@Test
 	def subtractionExpressionIntegerString() {
-		val model = parseHelper.parse('''1 - "2";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);		
+		additionExpression('''1 - "2";''', 1,1,NaturalLiteralExpression, StringLiteralExpression, "-", "1","2")		
 	}
 	
 	@Test
 	def subtractionExpressionRealString() {
-		val model = parseHelper.parse('''1.3 - "2";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''1.3 - "2";''', 1,1,NaturalLiteralExpression, StringLiteralExpression, "-", "1.3","2")
 	}
 	
 	@Test
 	def subtractionExpressionStringInteger() {
-		val model = parseHelper.parse('''"1" - 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''"1" - 2;''', 1,1,StringLiteralExpression, NaturalLiteralExpression, "-", "1","2")
 	}
 	
 	@Test
 	def subtractionExpressionStringReal() {
-		val model = parseHelper.parse('''"1" - 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''"1" - 2.3;''', 1,1,StringLiteralExpression, NaturalLiteralExpression, "-", "1","2.3")
 	}
 	
 	@Test
 	def subtractionExpressionBooleanReal() {
-		val model = parseHelper.parse('''true - 2.3;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("true", operand1.image);
-		assertEquals("2.3", operand2.image);
+		additionExpression('''true - 2.3;''', 1,1,BooleanLiteralExpression, NaturalLiteralExpression, "-", "true","2.3")
 	}
 	
 	@Test
 	def subtractionExpressionBooleanInteger() {
-		val model = parseHelper.parse('''true - 2;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof NaturalLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as NaturalLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("true", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''true - 2;''', 1,1,BooleanLiteralExpression, NaturalLiteralExpression, "-", "true","2")
 	}
 	
 	@Test
 	def subtractionExpressionBooleanString() {
-		val model = parseHelper.parse('''true - "2";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof StringLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as StringLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("true", operand1.image);
-		assertEquals("2", operand2.image);
+		additionExpression('''true - "2";''', 1,1,BooleanLiteralExpression, StringLiteralExpression, "-", "true","2")
 	}
 	
 	@Test
 	def subtractionExpressionStringBoolean() {
-		val model = parseHelper.parse('''"1" - true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof StringLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as StringLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''"1" - true;''', 1,1,StringLiteralExpression, BooleanLiteralExpression, "-", "1","true")
 	}
 	
 	@Test
 	def subtractionExpressionRealBoolean() {
-		val model = parseHelper.parse('''1.3 - true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1.3", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''1.3 - true;''', 1,1,NaturalLiteralExpression, BooleanLiteralExpression, "-", "1.3","true")
 	}
 	
 	@Test
 	def subtractionExpressionIntegerBoolean() {
-		val model = parseHelper.parse('''1 - true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//arithmetic expression is contained
-		assertTrue(expressionStatement.expression instanceof ArithmeticExpression)
-		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
-		
-		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof NaturalLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as NaturalLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
-		
-		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("1", operand1.image);
-		assertEquals("true", operand2.image);
+		additionExpression('''1 - true;''', 1,1,NaturalLiteralExpression, BooleanLiteralExpression, "-", "1","true")
 	}
 	
 	@Test
 	def subtractionExpressionBoolean() {
-		val model = parseHelper.parse('''false - true;''')
+		additionExpression('''false - true;''', 1,1,BooleanLiteralExpression, BooleanLiteralExpression, "-", "false","true")
+	}
+	
+	
+	private def additionExpression(String code, int numberOfStatements, 
+		int numberOfExpressions, Class<?> operand1Class,
+		Class<?> operand2Class, String operator, String operand1value, String operand2value
+	) {
+		val model = parseHelper.parse(code)
 		
 		//check statements size
-		assertEquals(1, model.statement.size)
+		assertEquals(numberOfStatements, model.statement.size) 
 		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
+		//check is first statement is an expression
+		assertEquals(numberOfExpressions, model.statement.filter(ExpressionStatementImpl).size) 
 		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
 		
 		//arithmetic expression is contained
@@ -897,66 +215,16 @@ class AdditiveExpressionParserTest {
 		val arithemticExpression = (expressionStatement.expression as ArithmeticExpression)
 		
 		//Operands properly typed
-		assertTrue(arithemticExpression.operand1 instanceof BooleanLiteralExpression)
-		assertTrue(arithemticExpression.operand2 instanceof BooleanLiteralExpression)
-		val operand1 = (arithemticExpression.operand1 as BooleanLiteralExpression)
-		val operand2 = (arithemticExpression.operand2 as BooleanLiteralExpression)
+		assertTrue(operand1Class.isAssignableFrom(arithemticExpression.operand1.class)) 
+		assertTrue(operand2Class.isAssignableFrom(arithemticExpression.operand2.class))
+		
+		val operand1 = (arithemticExpression.operand1 as LiteralExpression) 
+		val operand2 = (arithemticExpression.operand2 as LiteralExpression)
 		
 		//Operand and operator values
-		assertEquals("-", arithemticExpression.operator);
-		assertEquals("false", operand1.image);
-		assertEquals("true", operand2.image);
+		assertEquals(operator, arithemticExpression.operator); 
+		assertEquals(operand1value, operand1.value);					
+		assertEquals(operand2value, operand2.value);					
 	}
 	
 }
-
-class Parameter {
-    String code
-    int numberOfStatements
-    int numberOfExpressions
-    Class<?> operand1Class
-    Class<?> operand2Class
-    String operator
-    String operand1Image
-    String operand2Image
-    
-    new(String code, int numberOfStatements, int numberOfExpressions
-        , Class<?> operand1Class, Class<?> operand2Class, String operator
-        , String operator1Image, String operator2Image
-    ) {
-        this.code = code
-        this.numberOfStatements = numberOfStatements
-        this.numberOfExpressions = numberOfExpressions
-        this.operand1Class = operand1Class
-        this.operand2Class = operand2Class
-        this.operator = operator
-        this.operand1Image = operand1Image
-        this.operand2Image = operator2Image
-    }
-    def String getCode() {
-        return code;
-    }
-    def int getNumberOfStatements() {
-        return numberOfStatements;
-    }
-    def int getNumberOfExpressions() {
-        return numberOfExpressions;
-    }
-    def Class<?> getOperand1Class() {
-        return operand1Class;
-    }
-    def Class<?> getOperand2Class() {
-        return operand2Class;
-    }
-    def String getOperator() {
-        return operator;
-    }
-    def String getOperand1Image() {
-        return operand1Image;
-    }
-    def String getOperand2Image() {
-        return operand2Image;
-    }
-    
-}
-

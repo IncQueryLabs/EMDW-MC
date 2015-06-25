@@ -14,8 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
-import static org.junit.Assert.*
-
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
@@ -172,12 +170,161 @@ class AuxiliaryExpressionValidatorTest {
 	}
 	
 	//Unary numeric
+	@Test
+	def unaryNumericInteger() {
+		val model = parseHelper.parse('''-1;''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+		
+	@Test
+	def unaryNumericReal() {
+		val model = parseHelper.parse('''-1.1;''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+		
+	@Test
+	def unaryNumericParenthesisInt() {
+		val model = parseHelper.parse('''-(1);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
+	@Test
+	def unaryNumericNameInteger() {
+		val model = parseHelper.parse('''
+		Integer x = 1;
+		-x;
+		''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
 	
+	@Test
+	def unaryNumericNegativeAffixIncrement() {
+		val model = parseHelper.parse('''-++1;''')
+		tester.validate(model).assertError(0)
+	}
 	
+	@Test
+	def unaryNumericNegativeAffixDecrement() {
+		val model = parseHelper.parse('''---1;''')
+		tester.validate(model).assertError(0)
+	}
 	
-	//Boolean Unary
-	//TODO
+	@Test
+	def unaryNumericPositiveAffixIncrement() {
+		val model = parseHelper.parse('''+++1;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryNumericPositiveAffixDecrement() {
+		val model = parseHelper.parse('''+--1;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryNumericBooleanUnary() {
+		val model = parseHelper.parse('''-!true;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryNumericBoolean() {
+		val model = parseHelper.parse('''-true;''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryNumericString() {
+		val model = parseHelper.parse('''-"String";''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryNumericParenthesisString() {
+		val model = parseHelper.parse('''-("1");''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryNumericNameString() {
+		val model = parseHelper.parse('''
+		String x = "1";
+		-x;
+		''')
+		tester.validate(model).assertError(0)
+	}
+	
+
+	
+
+	//Boolean Unary		
+	@Test
+	def unaryBooleanParenthesis() {
+		val model = parseHelper.parse('''!(true);''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+		
+	@Test
+	def unaryBooleanName() {
+		val model = parseHelper.parse('''
+		Boolean x = true;
+		!x;
+		''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def unaryBooleanBooleanNot() {
+		val model = parseHelper.parse('''!!true;''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def unaryBooleanBoolean() {
+		val model = parseHelper.parse('''!true;''')
+		model.assertNoErrors
+		tester.validate(model).assertOK
+	}
+	
+	@Test
+	def unaryBooleanString() {
+		val model = parseHelper.parse('''!"String";''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryBooleanParenthesisInvalid() {
+		val model = parseHelper.parse('''!("1");''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryBooleanNameInvalid() {
+		val model = parseHelper.parse('''
+		String x = "1";
+		!x;
+		''')
+		tester.validate(model).assertError(0)
+	}
+	
+	@Test
+	def unaryBooleanInteger() {
+		val model = parseHelper.parse('''!1;''')
+		tester.validate(model).assertError(0)
+	}
+		
+	@Test
+	def unaryBooleanReal() {
+		val model = parseHelper.parse('''!1.1;''')
+		tester.validate(model).assertError(0)
+	}
 	
 	
 	

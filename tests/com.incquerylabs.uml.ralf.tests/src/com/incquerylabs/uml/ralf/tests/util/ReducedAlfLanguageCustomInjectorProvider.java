@@ -27,7 +27,6 @@ public class ReducedAlfLanguageCustomInjectorProvider extends ReducedAlfLanguage
         if (!EPackage.Registry.INSTANCE.containsKey(org.eclipse.xtext.XtextPackage.eNS_URI))
             EPackage.Registry.INSTANCE.put(org.eclipse.xtext.XtextPackage.eNS_URI,
                     org.eclipse.xtext.XtextPackage.eINSTANCE);
-
         Module runtimeModule = (Module) new com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule();
 
         Module customizations = new Module() {

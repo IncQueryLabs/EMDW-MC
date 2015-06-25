@@ -16,6 +16,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -28,106 +29,33 @@ class LiteralExpressionParserTest {
 	
 	@Test
 	def booleanLiteralExpressionTrue() {
-		val model = parseHelper.parse('''true;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//boolean expression is contained
-		assertTrue(expressionStatement.expression instanceof BooleanLiteralExpression)
-		val expression = (expressionStatement.expression as BooleanLiteralExpression)
-		
-		
-		assertEquals("true", expression.image)
+		literalExpression('''true;''', 1 , BooleanLiteralExpression, "true")
 	}
 	
 	@Test
 	def booleanLiteralExpressionFalse() {
-		val model = parseHelper.parse('''false;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//boolean expression is contained
-		assertTrue(expressionStatement.expression instanceof BooleanLiteralExpression)
-		val expression = (expressionStatement.expression as BooleanLiteralExpression)
-		
-		assertEquals("false", expression.image)
+		literalExpression('''false;''', 1 , BooleanLiteralExpression, "false")
 	}
 
 	
 	@Test
 	def naturalLiteralExpressionDecimal() {
-		val model = parseHelper.parse('''123;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//natural expression is contained
-		assertTrue(expressionStatement.expression instanceof NaturalLiteralExpression)
-		val expression = (expressionStatement.expression as NaturalLiteralExpression)
-		
-		assertEquals("123", expression.image)
+		literalExpression('''123;''', 1 , NaturalLiteralExpression, "123")
 	}
 	
 	@Test
 	def naturalLiteralExpressionBinary() {
-		val model = parseHelper.parse('''0b010101010101;''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//natural expression is contained
-		assertTrue(expressionStatement.expression instanceof NaturalLiteralExpression)
-		val expression = (expressionStatement.expression as NaturalLiteralExpression)
-		
-		assertEquals("0b010101010101", expression.image)
+		literalExpression('''0b010101010101;''', 1 , NaturalLiteralExpression, "0b010101010101")
 	}
 	
 	@Test
 	def naturalLiteralExpressionHex() {
-		val model = parseHelper.parse('''0xAE10;''')
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//natural expression is contained
-		assertTrue(expressionStatement.expression instanceof NaturalLiteralExpression)
-		val expression = (expressionStatement.expression as NaturalLiteralExpression)
-		
-		assertEquals("0xAE10", expression.image)
+		literalExpression('''0xAE10;''', 1 , NaturalLiteralExpression, "0xAE10")
 	}
 	
 	@Test
 	def naturalLiteralExpressionUnderscore() {
-		val model = parseHelper.parse('''123_456;''')
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//natural expression is contained
-		assertTrue(expressionStatement.expression instanceof NaturalLiteralExpression)
-		val expression = (expressionStatement.expression as NaturalLiteralExpression)
-		
-		assertEquals("123_456", expression.image)
+		literalExpression('''123_456;''', 1 , NaturalLiteralExpression, "123_456")
 	}
 	
 	@Test
@@ -137,38 +65,27 @@ class LiteralExpressionParserTest {
 	
 	@Test
 	def stringLiteralExpression() {
-		val model = parseHelper.parse('''"ABC";''')
-		
-		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
-		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
-		
-		//natural expression is contained
-		assertTrue(expressionStatement.expression instanceof StringLiteralExpression)
-		val expression = (expressionStatement.expression as StringLiteralExpression)
-		
-		assertEquals("ABC", expression.image)
+		literalExpression('''"ABC";''', 1 , StringLiteralExpression, "ABC")
 	}
 	
 	@Test
 	def stringLiteralExpressionBreak() {
-		val model = parseHelper.parse('''"AB\\C";''')
+		literalExpression('''"AB\\C";''', 1 , StringLiteralExpression, "AB\\C")
+	}
+	
+	private def literalExpression(String code, int numberOfStatements,
+		 Class<?> literalClass, String literalValue
+	) {
+		val model = parseHelper.parse(code)
 		
 		//check statements size
-		assertEquals(1, model.statement.size)
-		
-		//check expression statements
-		assertEquals(1, model.statement.filter(ExpressionStatementImpl).size)
+		assertEquals(numberOfStatements, model.statement.size)
 		val expressionStatement = (model.statement.filter(ExpressionStatementImpl).head as ExpressionStatementImpl)
 		
-		//natural expression is contained
-		assertTrue(expressionStatement.expression instanceof StringLiteralExpression)
-		val expression = (expressionStatement.expression as StringLiteralExpression)
+		assertTrue(literalClass.isAssignableFrom(expressionStatement.expression.class))
+		val expression = (expressionStatement.expression as LiteralExpression)
 		
-		assertEquals("AB\\C", expression.image)
+		assertEquals(literalValue, expression.value)					
 	}
 		
 	

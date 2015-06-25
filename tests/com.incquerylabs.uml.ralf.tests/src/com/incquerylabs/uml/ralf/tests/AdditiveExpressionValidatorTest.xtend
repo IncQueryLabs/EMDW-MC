@@ -13,6 +13,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -239,5 +240,14 @@ class AdditiveExpressionValidatorTest {
 		tester.validate(model).assertError(0)
 	}
 	
-
+	private def additiveExpressionOK(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+	
+	private def additiveExpressionError(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertError(ArithmeticExpression.name)
+	}
 }

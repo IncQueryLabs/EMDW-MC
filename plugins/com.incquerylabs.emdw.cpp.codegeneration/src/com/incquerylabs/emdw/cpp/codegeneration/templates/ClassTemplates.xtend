@@ -45,10 +45,16 @@ class ClassTemplates {
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
+		var namespaces = cppClass.cppQualifiedName.split("::")
+		namespaces = namespaces.take(namespaces.size-1).tail
 		
 		'''
+		«FOR namespace : namespaces»
+			namespace «namespace»{
+		«ENDFOR»
+		
 		class «cppClassName» {
-			
+		
 		public:
 		
 			«publicContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
@@ -61,6 +67,9 @@ class ClassTemplates {
 		
 			«privateContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
 		};
+		«FOR namespace : namespaces»
+		}
+		«ENDFOR»
 		
 		'''
 		

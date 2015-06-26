@@ -218,7 +218,10 @@ class ReducedALFParserTest {
 	
 	@Test
 	def assignment() {
-		val model = parseHelper.parse(''' y = 2;''')
+		val model = parseHelper.parse('''
+		   Integer y = 0;
+		   y = 2;
+		''')
 		tester.validate(model).assertOK
 	}
 

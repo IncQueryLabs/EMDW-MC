@@ -128,7 +128,7 @@ class VariableDeclarationValidatorTest {
 	
 	private def localVariableError(String code){
 		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.EQUALSPRIMITIVESUBTYPING)
+		tester.validate(model).assertError(ReducedAlfSystem.PRIMITIVESUBTYPING)
 	}
 	
 }

@@ -210,7 +210,7 @@ class MultiplicativeExpressionValidatorTest {
 		
 	@Test
 	def divisionExpressionZero() {
-		multiplicativeExpressionError('''1 / 0;''')
+		multiplicativeExpressionOK('''1 / 0;''')
 	}
 	
 	@Test

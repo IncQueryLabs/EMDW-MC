@@ -18,6 +18,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -36,17 +37,17 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def additionExpressionReal() {
-		additionExpression('''1.3 + 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1.3","2.3")
+		additionExpression('''1.3 + 2.3;''', 1,1,RealLiteralExpression, RealLiteralExpression, "+", "1.3","2.3")
 	}
 	
 	@Test
 	def additionExpressionRealInteger() {
-		additionExpression('''1.3 + 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1.3","2")
+		additionExpression('''1.3 + 2;''', 1,1,RealLiteralExpression, NaturalLiteralExpression, "+", "1.3","2")
 	}
 	
 	@Test
 	def additionExpressionIntegerReal() {
-		additionExpression('''1 + 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "+", "1","2.3")
+		additionExpression('''1 + 2.3;''', 1,1,NaturalLiteralExpression, RealLiteralExpression, "+", "1","2.3")
 	}
 	
 	@Test
@@ -63,7 +64,7 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def additionExpressionRealString() {
-		additionExpression('''1.3 + "2";''', 1,1,NaturalLiteralExpression, StringLiteralExpression, "+", "1.3","2")
+		additionExpression('''1.3 + "2";''', 1,1,RealLiteralExpression, StringLiteralExpression, "+", "1.3","2")
 	}
 	
 	@Test
@@ -73,12 +74,12 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def additionExpressionStringReal() {
-		additionExpression('''"1" + 2.3;''', 1,1,StringLiteralExpression, NaturalLiteralExpression, "+", "1","2.3")
+		additionExpression('''"1" + 2.3;''', 1,1,StringLiteralExpression, RealLiteralExpression, "+", "1","2.3")
 	}
 	
 	@Test
 	def additionExpressionBooleanReal() {
-		additionExpression('''true + 2.3;''', 1,1,BooleanLiteralExpression, NaturalLiteralExpression, "+", "true","2.3")
+		additionExpression('''true + 2.3;''', 1,1,BooleanLiteralExpression, RealLiteralExpression, "+", "true","2.3")
 	}
 	
 	@Test
@@ -98,7 +99,7 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def additionExpressionRealBoolean() {
-		additionExpression('''1.3 + true;''', 1,1,NaturalLiteralExpression, BooleanLiteralExpression, "+", "1.3","true")
+		additionExpression('''1.3 + true;''', 1,1,RealLiteralExpression, BooleanLiteralExpression, "+", "1.3","true")
 	}
 	
 	@Test
@@ -121,17 +122,17 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def subtractionExpressionReal() {
-		additionExpression('''1.3 - 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1.3","2.3")
+		additionExpression('''1.3 - 2.3;''', 1,1,RealLiteralExpression, RealLiteralExpression, "-", "1.3","2.3")
 	}
 	
 	@Test
 	def subtractionExpressionRealInteger() {
-		additionExpression('''1.3 - 2;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1.3","2")
+		additionExpression('''1.3 - 2;''', 1,1,RealLiteralExpression, NaturalLiteralExpression, "-", "1.3","2")
 	}
 	
 	@Test
 	def subtractionExpressionIntegerReal() {
-		additionExpression('''1 - 2.3;''', 1,1,NaturalLiteralExpression, NaturalLiteralExpression, "-", "1","2.3")
+		additionExpression('''1 - 2.3;''', 1,1,NaturalLiteralExpression, RealLiteralExpression, "-", "1","2.3")
 	}
 	
 	//Erroneous input
@@ -148,7 +149,7 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def subtractionExpressionRealString() {
-		additionExpression('''1.3 - "2";''', 1,1,NaturalLiteralExpression, StringLiteralExpression, "-", "1.3","2")
+		additionExpression('''1.3 - "2";''', 1,1,RealLiteralExpression, StringLiteralExpression, "-", "1.3","2")
 	}
 	
 	@Test
@@ -158,12 +159,12 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def subtractionExpressionStringReal() {
-		additionExpression('''"1" - 2.3;''', 1,1,StringLiteralExpression, NaturalLiteralExpression, "-", "1","2.3")
+		additionExpression('''"1" - 2.3;''', 1,1,StringLiteralExpression, RealLiteralExpression, "-", "1","2.3")
 	}
 	
 	@Test
 	def subtractionExpressionBooleanReal() {
-		additionExpression('''true - 2.3;''', 1,1,BooleanLiteralExpression, NaturalLiteralExpression, "-", "true","2.3")
+		additionExpression('''true - 2.3;''', 1,1,BooleanLiteralExpression, RealLiteralExpression, "-", "true","2.3")
 	}
 	
 	@Test
@@ -183,7 +184,7 @@ class AdditiveExpressionParserTest {
 	
 	@Test
 	def subtractionExpressionRealBoolean() {
-		additionExpression('''1.3 - true;''', 1,1,NaturalLiteralExpression, BooleanLiteralExpression, "-", "1.3","true")
+		additionExpression('''1.3 - true;''', 1,1,RealLiteralExpression, BooleanLiteralExpression, "-", "1.3","true")
 	}
 	
 	@Test

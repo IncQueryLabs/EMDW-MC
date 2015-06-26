@@ -104,10 +104,15 @@ class ShiftExpressionValidatorTest {
 	}
 	
 	@Test
+	def shiftExpressionMultiplicativeIntegerDivision() {
+		shiftExpressionOK('''1 >> 1/2;''')
+	}
+	
+	@Test
 	def shiftExpressionMultiplicativeReal() {
-		shiftExpressionError('''1 >> 1/2;''')
-	}	
-		
+		shiftExpressionError('''1 >> 1/2.5;''')
+	}
+	
 	@Test
 	def shiftExpressionIntegerString() {
 		shiftExpressionError('''1 >> "2";''')		

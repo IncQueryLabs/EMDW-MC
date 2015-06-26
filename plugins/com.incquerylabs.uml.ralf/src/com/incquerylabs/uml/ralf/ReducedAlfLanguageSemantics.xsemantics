@@ -31,6 +31,7 @@ import java.util.List
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import org.eclipse.uml2.uml.Classifier
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -66,6 +67,10 @@ axiom NaturalLiteral
     G |- NaturalLiteralExpression natural :
         INTEGER.primitiveType
         
+axiom RealLiteral
+    G |- RealLiteralExpression real :
+        REAL.primitiveType
+        
 axiom StringLiteral
     G |- StringLiteralExpression string :
         STRING.primitiveType
@@ -87,10 +92,15 @@ from {
     fail
 } 
 
-rule EqualsPrimitiveSubtyping
+rule PrimitiveSubtyping
     derives G |- PrimitiveType left <: PrimitiveType right
 from {
-    left == right
+    {
+        left == right
+    } or {
+        left == INTEGER.primitiveType
+        right == REAL.primitiveType
+    }
 }
 
 rule EqualsClassifierSubtyping
@@ -122,8 +132,13 @@ from {
 rule NumericUnaryExpression
     G |- NumericUnaryExpression ex : Type result
 from {
-    ex.operand.type.value == INTEGER.primitiveType
-    result = INTEGER.primitiveType
+    {
+        ex.operand.type.value == INTEGER.primitiveType
+        result = INTEGER.primitiveType
+    } or {
+        ex.operand.type.value == REAL.primitiveType
+        result = REAL.primitiveType
+    }
 }
 
 rule ArithmeticExpression
@@ -214,7 +229,11 @@ rule EqualityExpression
 from {
     G |- ex.operand1 : var Type op1Type 
     G |- ex.operand2 : var Type op2Type
-    G |- op1Type <: op2Type 
+    {
+        G |- op1Type <: op2Type
+        or
+        G |- op2Type <: op1Type
+    } 
     result = BOOLEAN.primitiveType
 }
 
@@ -225,7 +244,6 @@ from {
     G |- ex.operand2 : var Type op2Type
     op1Type == INTEGER.primitiveType || op1Type == REAL.primitiveType 
     op2Type == INTEGER.primitiveType || op2Type == REAL.primitiveType
-    op1Type == op2Type 
     result = BOOLEAN.primitiveType
 }
 

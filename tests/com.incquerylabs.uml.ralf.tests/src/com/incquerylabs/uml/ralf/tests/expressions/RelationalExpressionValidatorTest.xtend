@@ -14,6 +14,9 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.eclipse.xtext.diagnostics.Diagnostic
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage
+import org.junit.Assert
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -107,7 +110,9 @@ class RelationalExpressionValidatorTest {
 		
 	@Test
 	def relationalExpressionMultiple() {
-		relationalExpressionError('''1 > 2 > 3;''')
+		val model = parseHelper.parse('''1 > 2 > 3;''')
+		Assert.assertEquals(Diagnostic.SYNTAX_DIAGNOSTIC, model.validate.get(0).code)
+        tester.validate(model).assertOK
 	}
 	
 	@Test

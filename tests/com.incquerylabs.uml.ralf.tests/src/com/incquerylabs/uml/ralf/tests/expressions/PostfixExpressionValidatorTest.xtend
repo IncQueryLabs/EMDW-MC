@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.expressions
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
@@ -13,6 +13,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -30,94 +31,90 @@ class PostfixExpressionValidatorTest {
 	
 	@Test
 	def postfixIncrementInteger() {
-		val model = parseHelper.parse('''1++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''1++;''')
 	}
 		
 	@Test
 	def postfixIncrementReal() {
-		val model = parseHelper.parse('''1.1++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''1.1++;''')
 	}
 		
 	@Test
 	def postfixIncrementParenthesisInt() {
-		val model = parseHelper.parse('''(1)++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''(1)++;''')
 	}
 	
 	@Test
 	def postfixIncrementParenthesisReal() {
-		val model = parseHelper.parse('''(1.1)++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''(1.1)++;''')
 	}
 	
 	@Test
 	def postfixIncrementNameInteger() {
-		val model = parseHelper.parse('''
+		postfixIncrementExpressionOK('''
 		Integer x = 1;
 		x++;
 		''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def postfixIncrementBooleanUnary() {
-		val model = parseHelper.parse('''!true++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''!true++;''')
 	}
 	
 	@Test
 	def postfixIncrementBoolean() {
-		val model = parseHelper.parse('''true++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''true++;''')
 	}
 	
 	@Test
 	def postfixIncrementString() {
-		val model = parseHelper.parse('''"String"++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''"String"++;''')
 	}
 	
 	@Test
 	def postfixIncrementParenthesisInvalidType() {
-		val model = parseHelper.parse('''("1")++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''("1")++;''')
 	}
 	
 	@Test
 	def postfixIncrementNumericUnaryNegative() {
-		val model = parseHelper.parse('''-1++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''-1++;''')
 	}
 	
 	@Test
 	def postfixIncrementNumericUnaryPositive() {
-		val model = parseHelper.parse('''+1++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''+1++;''')
 	}
 	
 	@Test
 	def postfixIncrementpostfixIncrement() {
 		
-		val model = parseHelper.parse('''++1++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''++1++;''')
 	}
 	
 	@Test
 	def postfixIncrementpostfixDecrement() {
-		val model = parseHelper.parse('''--1++;''')
-		tester.validate(model).assertError(0)
+		postfixIncrementExpressionError('''--1++;''')
 		
 	}
 	
 	@Test
 	def postfixIncrementVariableInvalidType() {
-		val model = parseHelper.parse('''
+		postfixIncrementExpressionError('''
 		String x = "1";
 		x++;
 		''')
-		tester.validate(model).assertError(0)
+	}
+	
+	private def postfixIncrementExpressionOK(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+	
+	private def postfixIncrementExpressionError(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertError(ReducedAlfSystem.POSTFIXEXPRESSION)
 	}
 }

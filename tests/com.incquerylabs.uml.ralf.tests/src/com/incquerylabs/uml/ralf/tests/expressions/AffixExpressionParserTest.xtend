@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.expressions
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
@@ -16,39 +16,13 @@ import static org.junit.Assert.*
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
-class AuxiliaryExpressionParserTest {
-	
+class AffixExpressionParserTest {
+		
 	@Inject
 	ParseHelper<Statements> parseHelper
 	
 	@Test
-	def notImplemented() {
-		fail("not implemented")
-	}
-	//Multiplicative expressions
-	//TODO
-	
-	
-	
-	//Parentheses
-	//TODO
-	
-	
-	
-	//Prefix increment/decrement
-	//TODO
-	
-	
-	
-	//Postfix increment/decrement
-	//TODO
-	
-	
-	
-	//Unary numeric
-	//TODO
-	
-	
-	
-	
+	def notImplemented(){
+		fail("Not implemented")
+	}	
 }

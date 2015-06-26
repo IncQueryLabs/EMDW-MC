@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.expressions
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
@@ -32,46 +32,34 @@ class LiteralExpressionValidatorTest {
 	
 	@Test
 	def booleanLiteralExpressionTrue() {
-		val model = parseHelper.parse('''true;''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''true;''')
 	}
 	
 	@Test
 	def booleanLiteralExpressionFalse() {
-		val model = parseHelper.parse('''false;''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''false;''')
 	}
 
 	
 	@Test
 	def naturalLiteralExpressionDecimal() {
-		val model = parseHelper.parse('''123;''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''123;''')
 		
 	}
 	
 	@Test
 	def naturalLiteralExpressionBinary() {
-		val model = parseHelper.parse('''0b010101010101;''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''0b010101010101;''')
 	}
 	
 	@Test
 	def naturalLiteralExpressionHex() {
-		val model = parseHelper.parse('''0xAE10;''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''0xAE10;''')
 	}
 	
 	@Test
 	def naturalLiteralExpressionUnderscore() {
-		val model = parseHelper.parse('''123_456;''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''123_456;''')
 	}
 	
 	@Test
@@ -81,24 +69,24 @@ class LiteralExpressionValidatorTest {
 	
 	@Test
 	def stringLiteralExpression() {
-		val model = parseHelper.parse('''"ABC";''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''"ABC";''')
 	}
 	
 	@Test
 	def stringLiteralExpressionBreak() {
-		val model = parseHelper.parse('''"AB\\C";''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
+		literalExpressionOK('''"AB\\C";''')
 	}
 	
 	@Test
 	def stringLiteralExpressionInvalid() {
 		val model = parseHelper.parse('''ABC";''')
 		tester.validate(model).assertError(0)
-		
 	}
 	
+	private def literalExpressionOK(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
 	
 }

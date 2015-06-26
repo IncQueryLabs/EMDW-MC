@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.expressions
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
@@ -13,6 +13,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -31,94 +32,90 @@ class AffixExpressionValidatorTest {
 	
 	@Test
 	def affixIncrementInteger() {
-		val model = parseHelper.parse('''++1;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++1;''')
 	}
 		
 	@Test
 	def affixIncrementReal() {
-		val model = parseHelper.parse('''++1.1;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++1.1;''')
 	}
 		
 	@Test
 	def affixIncrementParenthesisInt() {
-		val model = parseHelper.parse('''++(1);''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++(1);''')
 	}
 	
 	@Test
 	def affixIncrementParenthesisReal() {
-		val model = parseHelper.parse('''++(1.1);''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++(1.1);''')
 	}
 	
 	@Test
 	def affixIncrementNameInteger() {
-		val model = parseHelper.parse('''
+		affixIncrementExpressionOK('''
 		Integer x = 1;
 		++x;
 		''')
-		model.assertNoErrors
-		tester.validate(model).assertOK
 	}
 	
 	@Test
 	def affixIncrementBooleanUnary() {
-		val model = parseHelper.parse('''++!true;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++!true;''')
 	}
 	
 	@Test
 	def affixIncrementBoolean() {
-		val model = parseHelper.parse('''++true;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++true;''')
 	}
 	
 	@Test
 	def affixIncrementString() {
-		val model = parseHelper.parse('''++"String";''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++"String";''')
 	}
 	
 	@Test
 	def affixIncrementParenthesisInvalidType() {
-		val model = parseHelper.parse('''++("1");''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++("1");''')
 	}
 	
 	@Test
 	def affixIncrementNumericUnaryNegative() {
-		val model = parseHelper.parse('''++-1;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++-1;''')
 	}
 	
 	@Test
 	def affixIncrementNumericUnaryPositive() {
-		val model = parseHelper.parse('''+++1;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''+++1;''')
 	}
 	
 	@Test
 	def affixIncrementAffixIncrement() {
 		
-		val model = parseHelper.parse('''++++1;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++++1;''')
 	}
 	
 	@Test
 	def affixIncrementAffixDecrement() {
-		val model = parseHelper.parse('''++--1;''')
-		tester.validate(model).assertError(0)
+		affixIncrementExpressionError('''++--1;''')
 		
 	}
 	
 	@Test
 	def affixIncrementVariableInvalidType() {
-		val model = parseHelper.parse('''
+		affixIncrementExpressionError('''
 		String x = "1";
 		++x;
 		''')
-		tester.validate(model).assertError(0)
+	}
+	
+	private def affixIncrementExpressionOK(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertOK
+		model.assertNoErrors
+	}
+	
+	private def affixIncrementExpressionError(String code){
+		val model = parseHelper.parse(code)
+		tester.validate(model).assertError(ReducedAlfSystem.PREFIXEXPRESSION)
 	}
 }

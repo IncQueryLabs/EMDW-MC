@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.statements
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
@@ -16,7 +16,7 @@ import static org.junit.Assert.*
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
-class StatementsParserTest {
+class VariableDeclarationParserTest {
 	
 	@Inject
 	ParseHelper<Statements> parseHelper

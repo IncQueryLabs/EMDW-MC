@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -21,6 +22,7 @@ class AuxiliaryExpressionParserTest {
 	@Inject
 	ParseHelper<Statements> parseHelper
 	
+	@Ignore
 	@Test
 	def notImplemented() {
 		fail("not implemented")

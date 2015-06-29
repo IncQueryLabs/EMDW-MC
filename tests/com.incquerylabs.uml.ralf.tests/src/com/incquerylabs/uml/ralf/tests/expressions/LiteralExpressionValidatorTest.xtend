@@ -10,13 +10,12 @@ import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.eclipse.xtext.junit4.validation.ValidatorTester
 import org.junit.FixMethodOrder
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
-import org.junit.Assert
-import org.eclipse.xtext.diagnostics.Diagnostic
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -64,6 +63,7 @@ class LiteralExpressionValidatorTest {
 		literalExpressionOK('''123_456;''')
 	}
 	
+	@Ignore
 	@Test
 	def unboundedLiteralExpression() {
 		fail("Not yet implemented")

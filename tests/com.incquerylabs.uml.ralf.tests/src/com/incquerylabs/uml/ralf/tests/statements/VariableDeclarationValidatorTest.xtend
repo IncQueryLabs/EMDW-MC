@@ -120,6 +120,41 @@ class VariableDeclarationValidatorTest {
 		)
 	}
 	
+	@Test
+	def localVariableSameName() {
+		localVariableError(
+		'''
+		Integer x = 1;
+		Integer x = 1;
+		'''
+		)
+	}
+	
+	@Test
+	def localVariableSameNameAfterBlock() {
+		localVariableOK(
+		'''
+		{
+			String z = "1";
+		}
+		String z = "2";
+		'''
+		)
+	}
+	
+	@Test
+	def localVariableSameNameBeforeBlock() {
+		localVariableError(
+		'''
+		String z = "2";
+		{
+			String z = "1";
+		}
+		
+		'''
+		)
+	}
+
 	private def localVariableOK(String code){
 		val model = parseHelper.parse(code)
 		tester.validate(model).assertOK

@@ -158,22 +158,34 @@ class AuxiliaryExpressionValidatorTest {
 	
 	@Test
 	def unaryNumericNegativeAffixIncrement() {
-		unaryNumericExpressionError('''-++1;''')
+		unaryNumericExpressionError('''
+		Integer x = 1;
+		-++x;
+		''')
 	}
 	
 	@Test
 	def unaryNumericNegativeAffixDecrement() {
-		unaryNumericExpressionError('''---1;''')
+		unaryNumericExpressionError('''
+		Integer x = 1;
+		---x;
+		''')
 	}
 	
 	@Test
 	def unaryNumericPositiveAffixIncrement() {
-		unaryNumericExpressionError('''+++1;''')
+		unaryNumericExpressionError('''
+		Integer x= 1;
+		+++x;
+		''')
 	}
 	
 	@Test
 	def unaryNumericPositiveAffixDecrement() {
-		unaryNumericExpressionError('''+--1;''')
+		unaryNumericExpressionError('''
+		Integer x = 1;
+		+--x;
+		''')
 	}
 	
 	@Test

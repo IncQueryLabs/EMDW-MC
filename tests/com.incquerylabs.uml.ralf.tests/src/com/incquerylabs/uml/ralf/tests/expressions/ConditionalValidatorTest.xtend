@@ -251,6 +251,11 @@ class ConditionalValidatorTest {
 	}
 	
 	@Test
+	def condTestExpressionCondTest() {
+		conditionalExpressionOK('''(true) ? (true) ? true : false : true;''');
+	}
+	
+	@Test
 	def condTestExpressionConditionBooleanUnary() {
 		conditionalExpressionOK('''(!true) ? 1 : 2;''');
 	}

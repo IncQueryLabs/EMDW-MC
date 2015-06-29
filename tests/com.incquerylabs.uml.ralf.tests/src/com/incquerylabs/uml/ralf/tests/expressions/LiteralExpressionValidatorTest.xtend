@@ -15,6 +15,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import org.junit.Assert
+import org.eclipse.xtext.diagnostics.Diagnostic
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -75,12 +77,6 @@ class LiteralExpressionValidatorTest {
 	@Test
 	def stringLiteralExpressionBreak() {
 		literalExpressionOK('''"AB\\C";''')
-	}
-	
-	@Test
-	def stringLiteralExpressionInvalid() {
-		val model = parseHelper.parse('''ABC";''')
-		tester.validate(model).assertError(0)
 	}
 	
 	private def literalExpressionOK(String code){

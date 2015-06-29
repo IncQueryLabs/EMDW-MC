@@ -56,12 +56,7 @@ class PostfixExpressionValidatorTest {
 		x++;
 		''')
 	}
-	
-	@Test
-	def postfixIncrementBooleanUnary() {
-		postfixIncrementExpressionError('''!true++;''')
-	}
-	
+		
 	@Test
 	def postfixIncrementBoolean() {
 		postfixIncrementExpressionError('''true++;''')

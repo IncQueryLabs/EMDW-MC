@@ -118,7 +118,7 @@ class ClassTemplates {
 		// Deny copy of the class using assignment
 		«cppClassName»& operator=(const «cppClassName»&);
 		
-		static std::vector< «cppClassName»* > _instances;
+		static std::list< «cppClassName»* > _instances;
 		
 		static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
 		
@@ -284,7 +284,7 @@ class ClassTemplates {
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
-		std::vector< «cppFQN»*> («cppFQN»::_instances);
+		std::list< «cppFQN»*> («cppFQN»::_instances);
 		
 		«cppClass.constructorDefinitionsInClassBody»
 		
@@ -364,7 +364,7 @@ class ClassTemplates {
 		// Destructor
 		«IF destructors.size == 0»
 			«cppFQN»::~«cppClassName»() {
-				_instances.erase(std::remove(_instances.begin(), _instances.end(), this), _instances.end());
+				_instances.remove(this);
 			}
 		«ENDIF»
 		«FOR destructor : destructors»

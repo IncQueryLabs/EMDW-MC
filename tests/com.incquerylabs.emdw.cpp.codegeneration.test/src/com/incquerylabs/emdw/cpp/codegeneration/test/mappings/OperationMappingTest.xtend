@@ -51,17 +51,21 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
 		val wrapper = xform as CPPCodeGenerationWrapper
-		if(wrapper!=null) {
-			val files = wrapper.codegen.generatedCPPSourceFiles
-			val classHeader = files.get(cppObject.headerFile).toString
-			assertTrue(classHeader.contains("TEST::myOp("))
-			assertTrue(classHeader.contains("bool myParam"))
-			assertTrue(classHeader.contains("set< bool > myParam2"))
-			val classBody = files.get(cppObject.bodyFile).toString
-			assertTrue(classBody.contains("TEST::myOp("))
-			assertTrue(classBody.contains("bool myParam"))
-			assertTrue(classBody.contains("set< bool > myParam2"))
-		}
+
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		
+		val classHeader = files.get(cppObject.headerFile).toString
+		// check operation signature in declaration
+		assertTrue(classHeader.contains("TEST::myOp("))
+		assertTrue(classHeader.contains("bool myParam"))
+		assertTrue(classHeader.contains("set< bool > myParam2"))
+		
+		val classBody = files.get(cppObject.bodyFile).toString
+		// check operation signature in definition
+		assertTrue(classBody.contains("TEST::myOp("))
+		assertTrue(classBody.contains("bool myParam"))
+		assertTrue(classBody.contains("set< bool > myParam2"))
+		
 	}
 	
 }

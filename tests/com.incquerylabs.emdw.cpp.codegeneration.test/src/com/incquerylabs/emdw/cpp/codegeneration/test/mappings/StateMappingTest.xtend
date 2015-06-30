@@ -50,20 +50,21 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
 		val wrapper = xform as CPPCodeGenerationWrapper
-		if(wrapper!=null) {
-			val files = wrapper.codegen.generatedCPPSourceFiles
-			val classHeader = files.get(cppObject.headerFile).toString
-			assertTrue(classHeader.contains("enum TEST_state"))
-			assertTrue(classHeader.contains("TEST_STATE_s1"))
-			assertTrue(classHeader.contains("TEST_STATE_s2"))
-			
-			assertTrue(classHeader.contains("enum TEST_event"))
-			assertTrue(classHeader.contains("TEST_EVENT_ClassEvent"))
-			
-			assertTrue(classHeader.contains("process_event_in_s1_state"))
-			assertTrue(classHeader.contains("perform_actions_on_t2_transition_from_s1_to_s2"))
-			assertTrue(classHeader.contains("process_event_in_s2_state"))
-		}
+
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		val classHeader = files.get(cppObject.headerFile).toString
+		assertTrue(classHeader.contains("enum TEST_state"))
+		assertTrue(classHeader.contains("TEST_STATE_s1"))
+		assertTrue(classHeader.contains("TEST_STATE_s2"))
+		
+		assertTrue(classHeader.contains("enum TEST_event"))
+		assertTrue(classHeader.contains("TEST_EVENT_ClassEvent"))
+		
+		// check state and transition operations in declaration
+		assertTrue(classHeader.contains("process_event_in_s1_state"))
+		assertTrue(classHeader.contains("perform_actions_on_t2_transition_from_s1_to_s2"))
+		assertTrue(classHeader.contains("process_event_in_s2_state"))
+		
 	}
 	
 }

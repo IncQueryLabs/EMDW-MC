@@ -37,19 +37,26 @@ class AssociationMappingTest extends TransformationTest<State, CPPClass> {
 		val cppClass2Header = createCPPHeaderFile(cppComponent.headerDirectory)
 		val cppClass2Body = createCPPBodyFile(cppComponent.bodyDirectory)
 		val cppClass2 = createCPPClass(cppComponent, xtClass2, cppClass2Header, cppClass2Body)
-		createCPPAssociation(cppClass1, xtAssoc1, cppClass2)
-		createCPPAssociation(cppClass2, xtAssoc2, cppClass1)
+		createCPPRelation(cppClass1, xtAssoc1, 
+			createCPPClassReferenceStorage(xtAssoc1, 
+				createCPPClassReference(xtAssoc1, cppClass2)
+			)
+		)
+		createCPPRelation(cppClass2, xtAssoc2, 
+			createCPPClassReferenceStorage(xtAssoc2, 
+				createCPPClassReference(xtAssoc2, cppClass1)
+			)
+		)
 		
 		cppClass1
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
 		val wrapper = xform as CPPCodeGenerationWrapper
-		if(wrapper!=null) {
-			val files = wrapper.codegen.generatedCPPSourceFiles
-			val classHeader = files.get(cppObject.headerFile).toString
-			assertTrue(classHeader.contains("TEST2* test2"))
-		}
+		
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		val classHeader = files.get(cppObject.headerFile).toString
+		assertTrue(classHeader.contains("TEST2* test2"))
 	}
 	
 }

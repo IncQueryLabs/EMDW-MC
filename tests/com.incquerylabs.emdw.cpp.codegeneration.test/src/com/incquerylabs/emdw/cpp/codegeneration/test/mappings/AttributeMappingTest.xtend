@@ -48,12 +48,12 @@ class AttributeMappingTest extends TransformationTest<State, CPPClass> {
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
 		val wrapper = xform as CPPCodeGenerationWrapper
-		if(wrapper!=null) {
-			val files = wrapper.codegen.generatedCPPSourceFiles
-			val classHeader = files.get(cppObject.headerFile).toString
-			assertTrue(classHeader.contains("bool myBool;"))
-			assertTrue(classHeader.contains("set< bool > myBools;"))
-		}
+		
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		val classHeader = files.get(cppObject.headerFile).toString
+		assertTrue(classHeader.contains("bool myBool;"))
+		assertTrue(classHeader.contains("set< bool > myBools;"))
+		
 	}
 	
 }

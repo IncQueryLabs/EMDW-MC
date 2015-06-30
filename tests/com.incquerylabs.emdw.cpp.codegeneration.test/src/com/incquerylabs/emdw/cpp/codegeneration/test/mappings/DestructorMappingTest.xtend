@@ -41,11 +41,12 @@ class DestructorMappingTest extends TransformationTest<State, CPPClass> {
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
 		val wrapper = xform as CPPCodeGenerationWrapper
-		if(wrapper!=null) {
-			val files = wrapper.codegen.generatedCPPSourceFiles
-			val classBody = files.get(cppObject.bodyFile).toString
-			assertTrue(classBody.contains("TEST_CLASS::~TEST_CLASS()"))
-		}
+
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		val classBody = files.get(cppObject.bodyFile).toString
+		// check destructor in definition
+		assertTrue(classBody.contains("TEST_CLASS::~TEST_CLASS()"))
+		
 	}
 	
 }

@@ -54,6 +54,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -409,9 +410,9 @@ class TransformationTestUtil {
 		return assoc
 	}
 	
-	static def createBidirectionalAssociation(XTClass source, XTClass target, String name1, String name2) {
-		val assoc1 = createAssociation(source, target, name1)
-		val assoc2 = createAssociation(target, source, name2)
+	static def createBidirectionalAssociation(XTClass source, XTClass target, String sourceToTargetAssociationName, String targetToSourceAssociationName) {
+		val assoc1 = createAssociation(source, target, sourceToTargetAssociationName)
+		val assoc2 = createAssociation(target, source, targetToSourceAssociationName)
 		assoc1.opposite = assoc2
 		assoc2.opposite = assoc1
 		return assoc1
@@ -639,38 +640,7 @@ class TransformationTestUtil {
 		cppAttr
 	}
 	
-	static def CPPRelation createCPPAssociation(CPPClass root, XTAssociation xtAssoc, CPPClass cppTargetClass) {
-		val xtTargetClass = xtAssoc.target
-		
-		var OOPLType referenceType
-		if (xtAssoc.upperBound != 1){
-			referenceType = createCPPClassRefSimpleCollection => [
-				it.commonType = xtTargetClass
-				it.class = cppTargetClass
-				it.ooplNameProvider = createOOPLExistingNameProvider =>[
-					commonNamedElement = xtTargetClass
-				]
-			]
-		} else {
-			referenceType = createCPPClassReference => [
-				it.commonType = xtTargetClass
-				it.class = cppTargetClass
-				it.ooplNameProvider = createOOPLExistingNameProvider =>[
-					commonNamedElement = xtTargetClass
-				]
-			]	
-		}
-		
-		val cppClassReference = referenceType
-		
-		val cppReferenceStorage = createCPPClassReferenceStorage => [
-			it.type = cppClassReference
-			it.ooplNameProvider = createOOPLExistingNameProvider => [
-				commonNamedElement = xtAssoc
-			]
-			it.subElements += cppClassReference as CPPQualifiedNamedElement
-		]
-		
+	static def CPPRelation createCPPRelation(CPPClass root, XTAssociation xtAssoc, CPPClassReferenceStorage cppReferenceStorage) {
 		val cppAssoc = createCPPRelation => [
 			it.xtRelation = xtAssoc
 			it.referenceStorage += cppReferenceStorage
@@ -682,6 +652,42 @@ class TransformationTestUtil {
 		root.referenceStorage += cppReferenceStorage
 		root.subElements += cppAssoc
 		cppAssoc
+	}
+	
+	static def CPPClassReferenceStorage createCPPClassReferenceStorage(XTAssociation xtAssoc, OOPLType cppClassReference) {
+		createCPPClassReferenceStorage => [
+			it.type = cppClassReference
+			it.ooplNameProvider = createOOPLExistingNameProvider => [
+				commonNamedElement = xtAssoc
+			]
+			it.subElements += cppClassReference as CPPQualifiedNamedElement
+		]
+	}
+	
+	static def OOPLType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass) {
+		val xtTargetClass = xtAssoc.target
+		
+		val referenceType = createCPPClassRefSimpleCollection => [
+			it.commonType = xtTargetClass
+			it.class = cppTargetClass
+			it.ooplNameProvider = createOOPLExistingNameProvider =>[
+				commonNamedElement = xtTargetClass
+			]
+		]
+		return referenceType
+	}
+	
+	static def OOPLType createCPPClassReference(XTAssociation xtAssoc, CPPClass cppTargetClass) {
+		val xtTargetClass = xtAssoc.target
+		
+		val referenceType = createCPPClassReference => [
+			it.commonType = xtTargetClass
+			it.class = cppTargetClass
+			it.ooplNameProvider = createOOPLExistingNameProvider =>[
+				commonNamedElement = xtTargetClass
+			]
+		]
+		return referenceType
 	}
 
 	static def CPPComponent createCPPComponent(CPPQualifiedNamedElement root, XTComponent xtcomponent,
@@ -702,6 +708,7 @@ class TransformationTestUtil {
 	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, XTComponent xtcomponent,
 		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
+		val dir = cppFactory.createCPPDirectory
 		val cppComponent = cppFactory.createCPPComponent => [
 			it.xtComponent = xtcomponent
 			it.mainHeaderFile = mainheader
@@ -709,8 +716,8 @@ class TransformationTestUtil {
 			it.declarationHeaderFile = defheader
 			it.declarationHeaderFile = declheader
 			it.ooplNameProvider = provider
-			it.headerDirectory = cppFactory.createCPPDirectory
-			it.bodyDirectory = cppFactory.createCPPDirectory
+			it.headerDirectory = dir
+			it.bodyDirectory = dir
 		]
 		root.subElements += cppComponent
 		cppComponent	

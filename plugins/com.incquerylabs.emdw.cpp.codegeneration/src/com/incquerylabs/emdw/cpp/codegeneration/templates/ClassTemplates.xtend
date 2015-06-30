@@ -68,9 +68,9 @@ class ClassTemplates {
 		private:
 		
 			«privateContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
-		};
+		}; /* class «cppClassName» */
 		«FOR namespace : namespaces»
-		}
+		} /* namespace «namespace» */
 		«ENDFOR»
 		
 		'''

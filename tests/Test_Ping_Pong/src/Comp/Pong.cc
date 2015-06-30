@@ -15,36 +15,36 @@
 using namespace std;
 
 
+/******************************* GENERATED CODE *******************************/
 std::vector< ::model::Comp::Pong*> (::model::Comp::Pong::_instances);
 
-// Constructor
+// Constructors
 ::model::Comp::Pong::Pong(): current_state(Pong_STATE_s1) {
     _instances.push_back(this);
 }
 
 // Destructor
 ::model::Comp::Pong::~Pong() {
-    _instances.erase(std::find(_instances.begin(), _instances.end(), this));
+    _instances.erase(std::remove(_instances.begin(), _instances.end(), this), _instances.end());
 }
 
 void ::model::Comp::Pong::perform_initialization() {
     cout << "[Pong] Initialization" << endl;
     // execute actions
-
 }
 
-void model::Comp::Pong::generateEvent(const Event* e) {
+void ::model::Comp::Pong::generateEvent(const Event* e) {
     if(e->_isInternal) {
         _internalEvents.push(e);
     } else {
         _externalEvents.push(e);
     }
-    if(_internalEvents.size()+_externalEvents.size() == 1) {
+    if(_internalEvents.size() + _externalEvents.size() == 1) {
         _comp->schedule(this);
     }
 }
 
-void model::Comp::Pong::process() {
+void ::model::Comp::Pong::process() {
     const Event* evt;
     if(!_internalEvents.empty()) {
         evt = _internalEvents.front();
@@ -59,6 +59,7 @@ void model::Comp::Pong::process() {
     process_event(evt);
 }
 
+
 void ::model::Comp::Pong::process_event(const Event* event) {
     cout << "[Pong] Event " << event->_id << " received." << endl;
 
@@ -70,7 +71,6 @@ void ::model::Comp::Pong::process_event(const Event* event) {
         process_event_in_s2_state(event);
         break;
     }
-
 }
 
 // s1 state
@@ -82,8 +82,8 @@ void ::model::Comp::Pong::process_event_in_s1_state(const Event* event){
         // no exit action
 
         // no transition action
-
-        // no entry action
+        
+        // entry action
         perform_entry_action_for_s2_state(event);
 
         // state change
@@ -97,17 +97,10 @@ void ::model::Comp::Pong::process_event_in_s1_state(const Event* event){
     return;
 }
 
-
-
-
 // s2 state
-
-void model::Comp::Pong::perform_entry_action_for_s2_state(const Event* event) {
+void ::model::Comp::Pong::perform_entry_action_for_s2_state(const Event* event){
     cout << "    [Entry: INIT]" << endl;
-    /* Original  action code source:
-        pi.generateEvent(new PongEvent(false));
-    */
-    R1_ping->generateEvent(new PongEvent(false));
+    R1_ping->generateEvent(new Ping::pong_sEvent(false));
 }
 
 void ::model::Comp::Pong::process_event_in_s2_state(const Event* event){
@@ -132,14 +125,14 @@ void ::model::Comp::Pong::process_event_in_s2_state(const Event* event){
     return;
 }
 
-void model::Comp::Pong::perform_actions_on_e2_transition_from_s2_to_s1(const Event* event) {
+void ::model::Comp::Pong::perform_actions_on_e2_transition_from_s2_to_s1(const Event* event){
     cout << "    [Action: -> s1]" << endl;
-    /* Original  action code source:
-        pi.generateEvent(new PongEvent(false));
-    */
-    R1_ping->generateEvent(new PongEvent(false));
+    R1_ping->generateEvent(new Ping::pong_sEvent(false));
 }
 
-model::Comp::Pong::PongEvent::PongEvent(bool isInternal) :
-    Event(Ping::Ping_EVENT_pong_s, isInternal){
+::model::Comp::Pong::ping_sEvent::ping_sEvent(bool isInternal) : 
+    Event(Pong_EVENT_ping_s, isInternal){
 }
+
+
+/******************************* GENERATED CODE *******************************/

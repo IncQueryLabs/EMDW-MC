@@ -76,7 +76,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_U_D3bxmkEeWkDIIs2OLK7g"/>
       </children>
       <element xmi:type="uml:Component" href="model.uml#_U_BbIBmkEeWkDIIs2OLK7g"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_U_DQURmkEeWkDIIs2OLK7g" x="90" y="100" width="217" height="249"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_U_DQURmkEeWkDIIs2OLK7g" x="113" y="112" width="217" height="249"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_IJCnMRmkEeWkDIIs2OLK7g" name="diagram_compatibility_version" stringValue="1.0.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_IJCnMhmkEeWkDIIs2OLK7g"/>

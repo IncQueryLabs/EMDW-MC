@@ -4,11 +4,11 @@
     <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
       <commonNamedElement xsi:type="common:Model" href="model.xtuml#/"/>
     </ooplNameProvider>
-    <subElements xsi:type="cpp:CPPComponent" headerDirectory="/1" bodyDirectory="/2">
+    <subElements xsi:type="cpp:CPPComponent" headerDirectory="/1" bodyDirectory="/1">
       <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
         <commonNamedElement xsi:type="xtuml:XTComponent" href="model.xtuml#//@entities.0"/>
       </ooplNameProvider>
-      <subElements xsi:type="cpp:CPPClass" referenceStorage="/0/@subElements.0/@subElements.0/@subElements.6/@subElements.0" headerFile="/1/@files.0" bodyFile="/2/@files.0">
+      <subElements xsi:type="cpp:CPPClass" referenceStorage="/0/@subElements.0/@subElements.0/@subElements.6/@subElements.0" headerFile="/1/@files.1" bodyFile="/1/@files.0">
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
           <commonNamedElement xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.1"/>
         </ooplNameProvider>
@@ -26,12 +26,6 @@
         </subElements>
         <subElements xsi:type="cpp:CPPTransition">
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.1"/>
-          </ooplNameProvider>
-          <commonTransition href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.1"/>
-        </subElements>
-        <subElements xsi:type="cpp:CPPTransition">
-          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
             <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.2"/>
           </ooplNameProvider>
           <commonTransition href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.2"/>
@@ -41,6 +35,12 @@
             <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.0"/>
           </ooplNameProvider>
           <commonTransition href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.0"/>
+        </subElements>
+        <subElements xsi:type="cpp:CPPTransition">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.1"/>
+          </ooplNameProvider>
+          <commonTransition href="model.xtuml#//@entities.0/@entities.1/@behaviour/@top/@transitions.1"/>
         </subElements>
         <subElements xsi:type="cpp:CPPEvent">
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
@@ -67,7 +67,7 @@
         </subElements>
         <xtClass href="model.xtuml#//@entities.0/@entities.1"/>
       </subElements>
-      <subElements xsi:type="cpp:CPPClass" referenceStorage="/0/@subElements.0/@subElements.1/@subElements.6/@subElements.0" headerFile="/1/@files.1" bodyFile="/2/@files.1">
+      <subElements xsi:type="cpp:CPPClass" referenceStorage="/0/@subElements.0/@subElements.1/@subElements.6/@subElements.0" headerFile="/1/@files.3" bodyFile="/1/@files.2">
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
           <commonNamedElement xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
         </ooplNameProvider>
@@ -85,9 +85,9 @@
         </subElements>
         <subElements xsi:type="cpp:CPPTransition">
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
+            <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.2"/>
           </ooplNameProvider>
-          <commonTransition href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
+          <commonTransition href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.2"/>
         </subElements>
         <subElements xsi:type="cpp:CPPTransition">
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
@@ -97,9 +97,9 @@
         </subElements>
         <subElements xsi:type="cpp:CPPTransition">
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.2"/>
+            <commonNamedElement xsi:type="common:Transition" href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
           </ooplNameProvider>
-          <commonTransition href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.2"/>
+          <commonTransition href="model.xtuml#//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
         </subElements>
         <subElements xsi:type="cpp:CPPEvent">
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
@@ -131,11 +131,9 @@
     <commonModel href="model.xtuml#/"/>
   </cpp:CPPModel>
   <cpp:CPPDirectory>
-    <files xsi:type="cpp:CPPHeaderFile"/>
-    <files xsi:type="cpp:CPPHeaderFile"/>
-  </cpp:CPPDirectory>
-  <cpp:CPPDirectory>
     <files xsi:type="cpp:CPPBodyFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPBodyFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
   </cpp:CPPDirectory>
 </xmi:XMI>

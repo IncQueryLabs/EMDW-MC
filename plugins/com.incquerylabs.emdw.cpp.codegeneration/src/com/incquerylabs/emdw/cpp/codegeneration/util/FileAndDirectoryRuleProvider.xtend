@@ -56,7 +56,12 @@ class FileAndDirectoryRuleProvider {
 		val cppDirectory = match.cppDir
 		val cppSourceFile = match.cppSourceFile
 		
-		fileManager.createFile(cppDirectory.path, cppSourceFile.generationName, sourceFileContents.get(cppSourceFile), false, true)
+		val fileContent = sourceFileContents.get(cppSourceFile)
+		if (fileContent != null){
+			fileManager.createFile(cppDirectory.path, cppSourceFile.generationName, fileContent, false, true)
+		} else {
+			warn('''The contents of the CPPSourceFile «cppSourceFile.generationName» was null.''');
+		}
 		
 	].build
 	

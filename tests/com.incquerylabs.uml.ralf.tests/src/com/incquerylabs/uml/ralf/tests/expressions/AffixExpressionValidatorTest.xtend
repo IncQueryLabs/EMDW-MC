@@ -31,27 +31,27 @@ class AffixExpressionValidatorTest {
 	//Affix increment operator
 	
 	@Test
-	def affixIncrementInteger() {
+	def affixIncrementIntegerLiteral() {
 		affixIncrementExpressionError('''++1;''')
 	}
 		
 	@Test
-	def affixIncrementReal() {
+	def affixIncrementRealLiteral() {
 		affixIncrementExpressionError('''++1.1;''')
 	}
 		
 	@Test
-	def affixIncrementParenthesisInt() {
+	def affixIncrementParenthesisIntLiteral() {
 		affixIncrementExpressionError('''++(1);''')
 	}
 	
 	@Test
-	def affixIncrementParenthesisReal() {
+	def affixIncrementParenthesisRealLiteral() {
 		affixIncrementExpressionError('''++(1.1);''')
 	}
 	
 	@Test
-	def affixIncrementNameInteger() {
+	def affixIncrementIntegerVariable() {
 		affixIncrementExpressionOK('''
 		Integer x = 1;
 		++x;
@@ -64,12 +64,12 @@ class AffixExpressionValidatorTest {
 	}
 	
 	@Test
-	def affixIncrementBoolean() {
+	def affixIncrementBooleanLiteral() {
 		affixIncrementExpressionError('''++true;''')
 	}
 	
 	@Test
-	def affixIncrementString() {
+	def affixIncrementStringLiteral() {
 		affixIncrementExpressionError('''++"String";''')
 	}
 	
@@ -101,7 +101,7 @@ class AffixExpressionValidatorTest {
 	}
 	
 	@Test
-	def affixIncrementVariableInvalidType() {
+	def affixIncrementInvalidTypeVariable() {
 		affixIncrementExpressionError('''
 		String x = "1";
 		++x;

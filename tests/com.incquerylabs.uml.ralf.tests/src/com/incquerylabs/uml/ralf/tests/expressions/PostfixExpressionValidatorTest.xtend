@@ -30,27 +30,27 @@ class PostfixExpressionValidatorTest {
 	//postfix increment operator
 	
 	@Test
-	def postfixIncrementInteger() {
+	def postfixIncrementIntegerLiteral() {
 		postfixIncrementExpressionError('''1++;''')
 	}
 		
 	@Test
-	def postfixIncrementReal() {
+	def postfixIncrementReaLiteral() {
 		postfixIncrementExpressionError('''1.1++;''')
 	}
 		
 	@Test
-	def postfixIncrementParenthesisInt() {
+	def postfixIncrementParenthesisIntLiteral() {
 		postfixIncrementExpressionError('''(1)++;''')
 	}
 	
 	@Test
-	def postfixIncrementParenthesisReal() {
+	def postfixIncrementParenthesisRealLiteral() {
 		postfixIncrementExpressionError('''(1.1)++;''')
 	}
 	
 	@Test
-	def postfixIncrementNameInteger() {
+	def postfixIncrementIntegerVariable() {
 		postfixIncrementExpressionOK('''
 		Integer x = 1;
 		x++;
@@ -58,12 +58,12 @@ class PostfixExpressionValidatorTest {
 	}
 		
 	@Test
-	def postfixIncrementBoolean() {
+	def postfixIncrementBooleanLiteral() {
 		postfixIncrementExpressionError('''true++;''')
 	}
 	
 	@Test
-	def postfixIncrementString() {
+	def postfixIncrementStringLiteral() {
 		postfixIncrementExpressionError('''"String"++;''')
 	}
 	
@@ -83,13 +83,13 @@ class PostfixExpressionValidatorTest {
 	}
 	
 	@Test
-	def postfixIncrementpostfixIncrement() {
+	def postfixIncrementAffixIncrement() {
 		
 		postfixIncrementExpressionError('''++1++;''')
 	}
 	
 	@Test
-	def postfixIncrementpostfixDecrement() {
+	def postfixIncrementAffixDecrement() {
 		postfixIncrementExpressionError('''--1++;''')
 		
 	}

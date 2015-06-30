@@ -209,7 +209,7 @@ class AuxiliaryExpressionValidatorTest {
 	}
 	
 	@Test
-	def unaryNumericNameString() {
+	def unaryNumericStringVariable() {
 		unaryNumericExpressionError('''
 		String x = "1";
 		-x;

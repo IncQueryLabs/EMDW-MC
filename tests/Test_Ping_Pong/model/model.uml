@@ -11,7 +11,7 @@
           <transition xmi:type="uml:Transition" xmi:id="_kKvFcBmmEeWkDIIs2OLK7g" name="e2" source="_d8s14BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_MmBIkBpDEeWJmP2mki6rxQ" name="sendPong">
               <language>C++</language>
-              <body>pi.generateEvent(new PongEvent(false));</body>
+              <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
             </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_f6aKYBpDEeWgOeVNG9guWg" name="ping_t" event="_iBpxsBmpEeW8avfFxjlgXw"/>
           </transition>
@@ -19,7 +19,7 @@
           <subvertex xmi:type="uml:State" xmi:id="_d8s14BmmEeWkDIIs2OLK7g" name="s2">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_Dxv2kBpDEeWJmP2mki6rxQ" name="sendPong">
               <language>C++</language>
-              <body>pi.generateEvent(new PongEvent(false));</body>
+              <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
@@ -41,13 +41,13 @@
           <subvertex xmi:type="uml:State" xmi:id="_oUtdcBmkEeWkDIIs2OLK7g" name="s1">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_hi5noBpCEeWFcpFo2w2ToQ" name="sendPing">
               <language>C++</language>
-              <body>po.generateEvent(new PingEvent(false));</body>
+              <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:State" xmi:id="_oolbsBmkEeWkDIIs2OLK7g" name="s2">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_AiVCkBmmEeWkDIIs2OLK7g" name="sendPing">
               <language>C++</language>
-              <body>po.generateEvent(new PingEvent(false));</body>
+              <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_rax2gBmkEeWkDIIs2OLK7g" name="initial"/>

@@ -16,13 +16,37 @@ class EventTemplates {
 
 	def enumInClassHeader(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
+		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
 		enum «cppClassName»_event {
-			«FOR event : cppClass.subElements.filter(CPPEvent).sortBy[cppName] SEPARATOR ","»
+			«FOR event : classEvents SEPARATOR ","»
 				«cppClassName»_EVENT_«event.cppName»
 			«ENDFOR»
 		};
 		'''
 	}
 	
+	def innerClassesInClassHeader(CPPClass cppClass) {
+		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
+		'''
+		«FOR event : classEvents»
+			class «event.cppName»_event : public «ClassTemplates.EventFQN» {
+				public:
+					«event.cppName»_event(bool isInternal);
+			};
+		«ENDFOR»
+		'''
+	}
+	
+	def innerClassesInClassBody(CPPClass cppClass) {
+		val cppClassName = cppClass.cppName
+		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
+		'''
+		«FOR event : classEvents»
+			«event.cppQualifiedName»_event::«event.cppName»_event(bool isInternal) : 
+				«ClassTemplates.EventFQN»(«cppClassName»_EVENT_«event.cppName», isInternal){
+			}
+		«ENDFOR»
+		'''
+	}
 }

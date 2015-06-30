@@ -20,6 +20,8 @@ class ClassTemplates {
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val TypeConverter typeConverter
 	val TypeIdentifierGenerator typeIdGenerator
+	public static val StatefulClassFQN = "::StatefulClass"
+	public static val EventFQN = "::Event"
 
 	OperationTemplates operationTemplates 
 	AttributeTemplates attributeTemplates
@@ -53,7 +55,7 @@ class ClassTemplates {
 			namespace «namespace»{
 		«ENDFOR»
 		
-		class «cppClassName» {
+		class «cppClassName»«IF hasStateMachine» : public «StatefulClassFQN»«ENDIF» {
 		
 		public:
 		
@@ -66,9 +68,9 @@ class ClassTemplates {
 		private:
 		
 			«privateContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
-		};
+		}; /* class «cppClassName» */
 		«FOR namespace : namespaces»
-		}
+		} /* namespace «namespace» */
 		«ENDFOR»
 		
 		'''
@@ -85,6 +87,12 @@ class ClassTemplates {
 		void perform_initialization();
 		
 		«attributesInClassHeader(cppClass, VisibilityKind.PUBLIC)»
+		
+		«associationsInClassHeader(cppClass)»
+		
+		«val cppComponent = codeGenQueries.getCppClassInComponent(engine).getAllValuesOfcppComponent(cppClass).head»
+		// Component reference
+		«cppComponent.cppQualifiedName»::CompMain* _comp;
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 
@@ -114,7 +122,7 @@ class ClassTemplates {
 		// Deny copy of the class using assignment
 		«cppClassName»& operator=(const «cppClassName»&);
 		
-		static std::vector< «cppClassName»* > _instances;
+		static ::std::list< «cppClassName»* > _instances;
 		
 		static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
 		
@@ -127,7 +135,6 @@ class ClassTemplates {
 		«destructorDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
 		«attributesInClassHeader(cppClass, VisibilityKind.PRIVATE)»
-		«associationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
@@ -152,7 +159,7 @@ class ClassTemplates {
 		'''
 	}
 	
-	def associationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
+	def associationsInClassHeader(CPPClass cppClass) {
 		val cppAssocMatcher = codeGenQueries.getCppClassClassReferenceStorages(engine)
 		
 		'''
@@ -228,12 +235,18 @@ class ClassTemplates {
 		val cppClassName = cppClass.cppName
 		'''
 		«stateTemplates.enumInClassHeader(cppClass)»
+		
 		«eventTemplates.enumInClassHeader(cppClass)»
+		
+		«eventTemplates.innerClassesInClassHeader(cppClass)»
+		
 
 		«cppClassName»_state current_state;
 
-		// int instead of «cppClassName»_event since we probably have no idea it is an event we can process
-		void process_event(int event_id, std::string event_content);
+		virtual void generate_event(const «EventFQN»* e);
+		virtual void process();
+		
+		void process_event(const «EventFQN»* event);
 		'''
 	}
 	
@@ -242,9 +255,8 @@ class ClassTemplates {
 		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
 			«stateTemplates.methodDeclarationsInClassHeader(state)»
 		«ENDFOR»
-
-		// State machine
-		void generate_event(int event_id, std::string event_content);
+		// State queues
+		::std::queue<const «EventFQN»*> _internalEvents, _externalEvents;
 		'''
 	}
 	
@@ -253,13 +265,39 @@ class ClassTemplates {
 		val hasStateMachine = codeGenQueries.getClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
-		std::vector< «cppFQN»*> («cppFQN»::_instances);
+		::std::list< «cppFQN»*> («cppFQN»::_instances);
 		
 		«cppClass.constructorDefinitionsInClassBody»
 		
 		«cppClass.destructorDefinitionsInClassBody»
 		
 		«cppClass.performInitializationDefinition»
+		
+		void «cppFQN»::generate_event(const «EventFQN»* e) {
+			if(e->_isInternal) {
+				_internalEvents.push(e);
+			} else {
+				_externalEvents.push(e);
+			}
+			if(_internalEvents.size() + _externalEvents.size() == 1) {
+				_comp->schedule(this);
+			}
+		}
+		
+		void «cppFQN»::process() {
+			const «EventFQN»* evt;
+			if(!_internalEvents.empty()) {
+				evt = _internalEvents.front();
+				_internalEvents.pop();
+			} else {
+				evt = _externalEvents.front();
+				_externalEvents.pop();
+			}
+			if(!_internalEvents.empty() or !_externalEvents.empty()) {
+				_comp->schedule(this);
+			}
+			process_event(evt);
+		}
 		
 		«operationDefinitions(cppClass)»
 		
@@ -307,7 +345,7 @@ class ClassTemplates {
 		// Destructor
 		«IF destructors.size == 0»
 			«cppFQN»::~«cppClassName»() {
-				_instances.erase(std::remove(_instances.begin(), _instances.end(), this), _instances.end());
+				_instances.remove(this);
 			}
 		«ENDIF»
 		«FOR destructor : destructors»
@@ -346,7 +384,7 @@ class ClassTemplates {
 		'''
 		void «cppFQN»::perform_initialization() {
 			«IF generateTracingCode»
-				cout << "[«cppClassName»] Initialization" << endl;
+				::std::cout << "[«cppClassName»] Initialization" << endl;
 			«ENDIF»
 			«IF cppInitStateMatch != null»
 				// execute actions
@@ -368,15 +406,15 @@ class ClassTemplates {
 		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
 		
 		'''
-		void «cppFQN»::process_event(int event_id, std::string event_content) {
+		void «cppFQN»::process_event(const «EventFQN»* event) {
 			«IF generateTracingCode»
-				cout << "[«cppClassName»] Event " << event_id << " received with content: " << event_content << endl;
+				::std::cout << "[«cppClassName»] Event " << event->_id << " received." << endl;
 			«ENDIF»
 		
 			switch(current_state){
 			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
 				case «cppClassName»_STATE_«state.cppName»:
-					process_event_in_«state.cppName»_state(event_id, event_content);
+					process_event_in_«state.cppName»_state(event);
 					break;
 			«ENDFOR»
 			}
@@ -390,6 +428,8 @@ class ClassTemplates {
 		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
 			«stateTemplates.methodDefinitionsInClassBody(state, cppClass)»
 		«ENDFOR»
+		
+		«eventTemplates.innerClassesInClassBody(cppClass)»
 		'''
 	}
 }

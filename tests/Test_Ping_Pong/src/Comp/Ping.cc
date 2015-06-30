@@ -14,28 +14,26 @@
 
 using namespace std;
 
+/******************************* GENERATED CODE *******************************/
 std::vector< ::model::Comp::Ping*> (::model::Comp::Ping::_instances);
 
-// Constructor
+// Constructors
 ::model::Comp::Ping::Ping(): current_state(Ping_STATE_s1) {
     _instances.push_back(this);
 }
 
 // Destructor
 ::model::Comp::Ping::~Ping() {
-    _instances.erase(std::find(_instances.begin(), _instances.end(), this));
+    _instances.erase(std::remove(_instances.begin(), _instances.end(), this), _instances.end());
 }
 
 void ::model::Comp::Ping::perform_initialization() {
     cout << "[Ping] Initialization" << endl;
     // execute actions
-    /* Original  action code source:
-        po.generateEvent(new PingEvent(false));
-    */
-    R1_pong->generateEvent(new PingEvent(false));
+    R1_pong->generateEvent(new Pong::ping_sEvent(false));
 }
 
-void model::Comp::Ping::generateEvent(const Event* e) {
+void ::model::Comp::Ping::generateEvent(const Event* e) {
     if(e->_isInternal) {
         _internalEvents.push(e);
     } else {
@@ -46,7 +44,7 @@ void model::Comp::Ping::generateEvent(const Event* e) {
     }
 }
 
-void model::Comp::Ping::process() {
+void ::model::Comp::Ping::process() {
     const Event* evt;
     if(!_internalEvents.empty()) {
         evt = _internalEvents.front();
@@ -73,30 +71,25 @@ void ::model::Comp::Ping::process_event(const Event* event) {
         process_event_in_s2_state(event);
         break;
     }
-
 }
 
 // s1 state
-
 void ::model::Comp::Ping::perform_entry_action_for_s1_state(const Event* event){
     cout << "    [Entry: INIT]" << endl;
-    /* Original  action code source:
-        po.generateEvent(new PingEvent(false));
-    */
-    R1_pong->generateEvent(new PingEvent(false));
+    R1_pong->generateEvent(new Pong::ping_sEvent(false));
 }
 
 void ::model::Comp::Ping::process_event_in_s1_state(const Event* event){
     cout << "  [State: s1] Processing event" << endl;
-    // s1 -pong-> s2 transition
+    // s1 -e1-> s2 transition
     if(event->_id == Ping_EVENT_pong_s) {
         // no exit action
-
+        
         // no transition action
-
-        // no entry action
+        
+        // entry action
         perform_entry_action_for_s2_state(event);
-
+        
         // state change
         current_state = Ping_STATE_s2;
         cout << "    State changed to s2" << endl;
@@ -108,28 +101,23 @@ void ::model::Comp::Ping::process_event_in_s1_state(const Event* event){
     return;
 }
 
-
 // s2 state
-
 void ::model::Comp::Ping::perform_entry_action_for_s2_state(const Event* event){
     cout << "    [Entry: INIT]" << endl;
-    /* Original  action code source:
-        po.generateEvent(new PingEvent(false));
-    */
-    R1_pong->generateEvent(new PingEvent(false));
+    R1_pong->generateEvent(new Pong::ping_sEvent(false));
 }
 
 void ::model::Comp::Ping::process_event_in_s2_state(const Event* event){
     cout << "  [State: s2] Processing event" << endl;
-    // s2 -pong-> s1 transition
+    // s2 -e2-> s1 transition
     if(event->_id == Ping_EVENT_pong_s) {
         // no exit action
-
+        
         // no transition action
-
-        // no entry action
+        
+        // entry action
         perform_entry_action_for_s1_state(event);
-
+        
         // state change
         current_state = Ping_STATE_s1;
         cout << "    State changed to s1" << endl;
@@ -141,6 +129,7 @@ void ::model::Comp::Ping::process_event_in_s2_state(const Event* event){
     return;
 }
 
-model::Comp::Ping::PingEvent::PingEvent(bool isInternal) :
-    Event(Pong::Pong_EVENT_ping_s, isInternal){
+
+::model::Comp::Ping::pong_sEvent::pong_sEvent(bool isInternal) : 
+    Event(Ping_EVENT_pong_s, isInternal){
 }

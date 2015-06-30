@@ -21,8 +21,8 @@ int main(int , char **) {
     pi->R1_pong = po;
     po->R1_ping = pi;
 
-    pi->setComponent(comp);
-    po->setComponent(comp);
+    pi->_comp = comp;
+    po->_comp = comp;
 
     pi->perform_initialization();
     po->perform_initialization();

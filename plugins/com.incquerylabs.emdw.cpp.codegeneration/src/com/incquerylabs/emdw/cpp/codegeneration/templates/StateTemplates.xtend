@@ -51,10 +51,10 @@ class StateTemplates {
 		'''
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
-			void perform_entry_action_for_«stateCppName»_state(const Event* event);
+			void perform_entry_action_for_«stateCppName»_state(const «ClassTemplates.EventFQN»* event);
 		«ENDIF»
 
-		void process_event_in_«stateCppName»_state(const Event* event);
+		void process_event_in_«stateCppName»_state(const «ClassTemplates.EventFQN»* event);
 
 		«FOR transitionInfo : state.orderTransitions»
 			«val targetState = transitionInfo.cppTarget»
@@ -62,14 +62,14 @@ class StateTemplates {
 			«val transition = transitionInfo.transition»
 			«val cppTransition = transitionInfo.cppTransition»
 			«IF transition.guard != null»
-				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event);
+				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const «ClassTemplates.EventFQN»* event);
 			«ENDIF»
 			«IF transition.actionChain != null»
-				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event);
+				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const «ClassTemplates.EventFQN»* event);
 			«ENDIF»
 		«ENDFOR»
 		«IF state.commonState.exitAction != null»
-			void perform_exit_action_for_«stateCppName»_state(const Event* event);
+			void perform_exit_action_for_«stateCppName»_state(const «ClassTemplates.EventFQN»* event);
 		«ENDIF»
 		'''
 	}
@@ -82,17 +82,17 @@ class StateTemplates {
 		«val stateCppName = state.cppName»
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
-			void «cppFQN»::perform_entry_action_for_«stateCppName»_state(const Event* event){
+			void «cppFQN»::perform_entry_action_for_«stateCppName»_state(const «ClassTemplates.EventFQN»* event){
 				«IF generateTracingCode»
-					std::cout << "    [Entry: INIT]" << endl;
+					::std::cout << "    [Entry: INIT]" << endl;
 				«ENDIF»
 				«actionCodeTemplates.generateActionCode(state.commonState.entryAction)»
 			}
 		«ENDIF»
 		
-		void «cppFQN»::process_event_in_«stateCppName»_state(const Event* event){
+		void «cppFQN»::process_event_in_«stateCppName»_state(const «ClassTemplates.EventFQN»* event){
 			«IF generateTracingCode»
-				std::cout << "  [State: «stateCppName»] Processing event" << endl;
+				::std::cout << "  [State: «stateCppName»] Processing event" << endl;
 			«ENDIF»
 			«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
 				«val targetState = transitionInfo.cppTarget»
@@ -128,19 +128,19 @@ class StateTemplates {
 						// state change
 						current_state = «cppClassName»_STATE_«targetStateCppName»;
 						«IF generateTracingCode»
-							std::cout << "    State changed to «targetStateCppName»" << endl;
+							::std::cout << "    State changed to «targetStateCppName»" << endl;
 						«ENDIF»
 					«ELSE»
 						// no state change
 						«IF generateTracingCode»
-							std::cout << "    No state change on «cppTransition.cppName»" << endl;
+							::std::cout << "    No state change on «cppTransition.cppName»" << endl;
 						«ENDIF»
 					«ENDIF»
 				} «ENDFOR» 
 			{
 				// event not processed in state
 				«IF generateTracingCode»
-					std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+					::std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
 				«ENDIF»
 			}
 			return;
@@ -152,35 +152,34 @@ class StateTemplates {
 			«val transition = transitionInfo.transition»
 			«val cppTransition = transitionInfo.cppTransition»
 			«IF transition.guard != null»
-				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event){
+				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const «ClassTemplates.EventFQN»* event){
 					«IF generateTracingCode»
-						std::cout << "    [Guard: -> «targetStateCppName»]" << endl;
+						::std::cout << "    [Guard: -> «targetStateCppName»]" << endl;
 					«ENDIF»
 					
-					// DUMMY GUARD
 					if(«actionCodeTemplates.generateActionCode(transition.guard.body)») {
 						return true;
 					} else {
 						«IF generateTracingCode»
-						std::cout << "    Guard false" << endl;
+						::std::cout << "    Guard false" << endl;
 						«ENDIF»
 						return false;
 					}
 				}
 			«ENDIF»
 			«IF transition.actionChain != null»
-				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event){
+				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const «ClassTemplates.EventFQN»* event){
 					«IF generateTracingCode»
-						std::cout << "    [Action: -> «targetStateCppName»]" << endl;
+						::std::cout << "    [Action: -> «targetStateCppName»]" << endl;
 					«ENDIF»
 					«actionCodeTemplates.generateActionCode(transition.actionChain)»
 				}
 			«ENDIF»
 		«ENDFOR»
 		«IF state.commonState.exitAction != null»	
-			void «cppFQN»::perform_exit_action_for_«stateCppName»_state(const Event* event){
+			void «cppFQN»::perform_exit_action_for_«stateCppName»_state(const «ClassTemplates.EventFQN»* event){
 				«IF generateTracingCode»
-					std::cout << "    [Exit]" << endl;
+					::std::cout << "    [Exit]" << endl;
 				«ENDIF»
 				«actionCodeTemplates.generateActionCode(state.commonState.exitAction)»
 			}

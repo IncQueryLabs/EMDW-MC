@@ -12,6 +12,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
@@ -27,6 +28,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Entity
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import org.eclipse.papyrusrt.xtumlrt.common.Port
 import org.eclipse.papyrusrt.xtumlrt.common.Protocol
@@ -39,6 +41,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 import org.eclipse.papyrusrt.xtumlrt.common.Vertex
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
@@ -86,7 +89,7 @@ class TransformationTestUtil {
 		pack
 	}
 
-	static def createPackage(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createPackage(Package root, String name) {
 		var pack = commonFactory.createPackage => [
 			it.name = name
 		]
@@ -102,7 +105,7 @@ class TransformationTestUtil {
 		pack
 	}
 
-	static def createXtComponent(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createXtComponent(Package root, String name) {
 		var comp = xtumlFactory.createXTComponent => [
 			it.name = name
 		]
@@ -118,7 +121,7 @@ class TransformationTestUtil {
 		xtclass
 	}
 	
-	static def createXtClass(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createXtClass(Package root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
 		]
@@ -134,7 +137,7 @@ class TransformationTestUtil {
 		sm
 	}
 
-	static def createXtProtocol(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createXtProtocol(Package root, String name) {
 		var protocol = xtumlFactory.createXTProtocol => [
 			it.name = name
 		]
@@ -341,7 +344,7 @@ class TransformationTestUtil {
 		parameter
 	}
 
-	static def createTypeDefinition(org.eclipse.papyrusrt.xtumlrt.common.Package root, Type type, String name) {
+	static def createTypeDefinition(Package root, Type type, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -350,7 +353,7 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createTypeDefinition(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createTypeDefinition(Package root, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -391,6 +394,27 @@ class TransformationTestUtil {
 		]
 		root.operations += op
 		op
+	}
+	
+	static def createAssociation(XTClass source, XTClass target, String name) {
+		val assoc = xtumlFactory.createXTAssociation => [
+			it.source = source
+			it.target = target
+			it.name = name
+			it.unique = false
+			it.lowerBound = 1
+			it.upperBound = 1
+		]
+		source.relations += assoc
+		return assoc
+	}
+	
+	static def createBidirectionalAssociation(XTClass source, XTClass target, String name1, String name2) {
+		val assoc1 = createAssociation(source, target, name1)
+		val assoc2 = createAssociation(target, source, name2)
+		assoc1.opposite = assoc2
+		assoc2.opposite = assoc1
+		return assoc1
 	}
 
 	static def createSingleAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
@@ -485,7 +509,7 @@ class TransformationTestUtil {
 		cppBody
 	}
 
-	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, org.eclipse.papyrusrt.xtumlrt.common.Package xtpackage) {
+	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, Package xtpackage) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.commonPackage = xtpackage
@@ -614,6 +638,51 @@ class TransformationTestUtil {
 		root.subElements += cppAttr
 		cppAttr
 	}
+	
+	static def CPPRelation createCPPAssociation(CPPClass root, XTAssociation xtAssoc, CPPClass cppTargetClass) {
+		val xtTargetClass = xtAssoc.target
+		
+		var OOPLType referenceType
+		if (xtAssoc.upperBound != 1){
+			referenceType = createCPPClassRefSimpleCollection => [
+				it.commonType = xtTargetClass
+				it.class = cppTargetClass
+				it.ooplNameProvider = createOOPLExistingNameProvider =>[
+					commonNamedElement = xtTargetClass
+				]
+			]
+		} else {
+			referenceType = createCPPClassReference => [
+				it.commonType = xtTargetClass
+				it.class = cppTargetClass
+				it.ooplNameProvider = createOOPLExistingNameProvider =>[
+					commonNamedElement = xtTargetClass
+				]
+			]	
+		}
+		
+		val cppClassReference = referenceType
+		
+		val cppReferenceStorage = createCPPClassReferenceStorage => [
+			it.type = cppClassReference
+			it.ooplNameProvider = createOOPLExistingNameProvider => [
+				commonNamedElement = xtAssoc
+			]
+			it.subElements += cppClassReference as CPPQualifiedNamedElement
+		]
+		
+		val cppAssoc = createCPPRelation => [
+			it.xtRelation = xtAssoc
+			it.referenceStorage += cppReferenceStorage
+			it.subElements += cppReferenceStorage
+			it.ooplNameProvider = createOOPLExistingNameProvider =>[
+				commonNamedElement = xtAssoc
+			]
+		]
+		root.referenceStorage += cppReferenceStorage
+		root.subElements += cppAssoc
+		cppAssoc
+	}
 
 	static def CPPComponent createCPPComponent(CPPQualifiedNamedElement root, XTComponent xtcomponent,
 		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
@@ -629,6 +698,23 @@ class TransformationTestUtil {
 		root.subElements += cppComponent
 		cppComponent	
 	}
+
+	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, XTComponent xtcomponent,
+		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
+		val cppComponent = cppFactory.createCPPComponent => [
+			it.xtComponent = xtcomponent
+			it.mainHeaderFile = mainheader
+			it.mainBodyFile = mainbody
+			it.declarationHeaderFile = defheader
+			it.declarationHeaderFile = declheader
+			it.ooplNameProvider = provider
+			it.headerDirectory = cppFactory.createCPPDirectory
+			it.bodyDirectory = cppFactory.createCPPDirectory
+		]
+		root.subElements += cppComponent
+		cppComponent	
+	}
 	
 	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body ) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtclass ]
@@ -640,5 +726,17 @@ class TransformationTestUtil {
 		]
 		root.subElements += cppClass
 		cppClass	
+	}
+	
+	static def CPPHeaderFile createCPPHeaderFile(CPPDirectory root) {
+		val headerFile = cppFactory.createCPPHeaderFile
+		root.files += headerFile
+		return headerFile
+	}
+	
+	static def CPPBodyFile createCPPBodyFile(CPPDirectory root) {
+		val bodyFile = cppFactory.createCPPBodyFile
+		root.files += bodyFile
+		return bodyFile
 	}
 }

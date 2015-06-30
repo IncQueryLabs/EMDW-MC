@@ -29,4 +29,8 @@ class CPPCodeGenerationWrapper extends TransformationWrapper {
 		}
 	}
 	
+	def getCodegen() {
+		return this.codegen
+	}
+	
 }

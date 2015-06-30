@@ -18,8 +18,8 @@ int main(int , char **) {
     Pong* po = new Pong();
     CompMain* comp = new CompMain();
 
-    pi->setR1Pong(po);
-    po->setR1Ping(pi);
+    pi->R1_pong = po;
+    po->R1_ping = pi;
 
     pi->setComponent(comp);
     po->setComponent(comp);

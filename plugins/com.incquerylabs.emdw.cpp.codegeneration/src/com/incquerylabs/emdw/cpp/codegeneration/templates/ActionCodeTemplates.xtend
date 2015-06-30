@@ -30,11 +30,7 @@ class ActionCodeTemplates {
 	
 	def generateActionCode(ActionCode action) {
 		if(action?.source != null){
-			'''
-			/* Original «action.name» action code source: 
-				«action.source»
-			*/
-			'''	
+			'''«action.source»'''	
 		}
 	}
 }

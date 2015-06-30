@@ -12,6 +12,33 @@ pattern cppClasses(
 	CPPClass.xtClass(cppClass, xtClass);
 }
 
+pattern cppClassInComponent(
+	cppClass : CPPClass,
+	cppComponent : CPPComponent
+) {
+	CPPComponent.subElements(cppComponent, cppClass);
+} or {
+	CPPComponent.subElements(cppComponent, cppPackage);
+	find cppClassInPackage(cppClass, cppPackage);
+}
+
+pattern cppClassInPackage(
+	cppClass : CPPClass,
+	cppPackage : CPPPackage
+) {
+	CPPPackage.subElements(cppPackage, cppClass);
+} or {
+	find cppPackageInPackage+(cppPackage, subPackage);
+	CPPPackage.subElements(subPackage, cppClass);
+}
+
+pattern cppPackageInPackage(
+	outerPackage : CPPPackage,
+	innerPackage : CPPPackage
+) {
+	CPPPackage.subElements(outerPackage, innerPackage);
+}
+
 pattern cppClassStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,

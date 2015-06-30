@@ -14,7 +14,7 @@ class StatefulClass {
 public:
     virtual ~StatefulClass() {}
 
-    virtual void generateEvent(const Event* e) = 0;
+    virtual void generate_event(const Event* e) = 0;
     virtual void process() = 0;
 
 private:

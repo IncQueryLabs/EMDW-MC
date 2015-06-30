@@ -51,10 +51,10 @@ class StateTemplates {
 		'''
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
-			void perform_entry_action_for_«stateCppName»_state(int event_id, std::string event_content);
+			void perform_entry_action_for_«stateCppName»_state(const Event* event);
 		«ENDIF»
 
-		void process_event_in_«stateCppName»_state(int event_id, std::string event_content);
+		void process_event_in_«stateCppName»_state(const Event* event);
 
 		«FOR transitionInfo : state.orderTransitions»
 			«val targetState = transitionInfo.cppTarget»
@@ -62,15 +62,14 @@ class StateTemplates {
 			«val transition = transitionInfo.transition»
 			«val cppTransition = transitionInfo.cppTransition»
 			«IF transition.guard != null»
-				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content);
+				bool evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event);
 			«ENDIF»
 			«IF transition.actionChain != null»
-				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content);
+				void perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event);
 			«ENDIF»
 		«ENDFOR»
-		
 		«IF state.commonState.exitAction != null»
-			void perform_exit_action_for_«stateCppName»_state(int event_id, std::string event_content);
+			void perform_exit_action_for_«stateCppName»_state(const Event* event);
 		«ENDIF»
 		'''
 	}
@@ -83,17 +82,17 @@ class StateTemplates {
 		«val stateCppName = state.cppName»
 		// «stateCppName» state
 		«IF state.commonState.entryAction != null»
-			void «cppFQN»::perform_entry_action_for_«stateCppName»_state(int event_id, std::string event_content){
+			void «cppFQN»::perform_entry_action_for_«stateCppName»_state(const Event* event){
 				«IF generateTracingCode»
-					cout << "    [Entry: INIT]" << endl;
+					std::cout << "    [Entry: INIT]" << endl;
 				«ENDIF»
 				«actionCodeTemplates.generateActionCode(state.commonState.entryAction)»
 			}
 		«ENDIF»
 		
-		void «cppFQN»::process_event_in_«stateCppName»_state(int event_id, std::string event_content){
+		void «cppFQN»::process_event_in_«stateCppName»_state(const Event* event){
 			«IF generateTracingCode»
-				cout << "  [State: «stateCppName»] Processing event" << endl;
+				std::cout << "  [State: «stateCppName»] Processing event" << endl;
 			«ENDIF»
 			«FOR transitionInfo : state.orderTransitions SEPARATOR '''else''' AFTER '''else'''»
 				«val targetState = transitionInfo.cppTarget»
@@ -104,14 +103,14 @@ class StateTemplates {
 				if(«cppTransition.generatedTransitionCondition(cppClassName, stateCppName, targetStateCppName)») {
 					«IF state.commonState.exitAction != null»	
 						// exit action
-						perform_exit_action_for_«stateCppName»_state(event_id, event_content);
+						perform_exit_action_for_«stateCppName»_state(event);
 					«ELSE»
 						// no exit action
 					«ENDIF»
 					
 					«IF transition.actionChain != null»
 						// transition action
-						perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(event_id, event_content);
+						perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(event);
 					«ELSE»
 						// no transition action
 					«ENDIF»
@@ -120,7 +119,7 @@ class StateTemplates {
 «««						no entry action for Terminate state
 					«ELSEIF targetState.commonState.entryAction != null»
 						// entry action
-						perform_entry_action_for_«targetStateCppName»_state(event_id, event_content);
+						perform_entry_action_for_«targetStateCppName»_state(event);
 					«ELSE»
 						// no entry action
 					«ENDIF»
@@ -129,19 +128,19 @@ class StateTemplates {
 						// state change
 						current_state = «cppClassName»_STATE_«targetStateCppName»;
 						«IF generateTracingCode»
-							cout << "    State changed to «targetStateCppName»" << endl;
+							std::cout << "    State changed to «targetStateCppName»" << endl;
 						«ENDIF»
 					«ELSE»
 						// no state change
 						«IF generateTracingCode»
-							cout << "    No state change on «cppTransition.cppName»" << endl;
+							std::cout << "    No state change on «cppTransition.cppName»" << endl;
 						«ENDIF»
 					«ENDIF»
 				} «ENDFOR» 
 			{
 				// event not processed in state
 				«IF generateTracingCode»
-					cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+					std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
 				«ENDIF»
 			}
 			return;
@@ -152,40 +151,36 @@ class StateTemplates {
 			«val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX»
 			«val transition = transitionInfo.transition»
 			«val cppTransition = transitionInfo.cppTransition»
-			
 			«IF transition.guard != null»
-				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content){
+				bool «cppFQN»::evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event){
 					«IF generateTracingCode»
-						cout << "    [Guard: -> «targetStateCppName»]" << endl;
+						std::cout << "    [Guard: -> «targetStateCppName»]" << endl;
 					«ENDIF»
-					«actionCodeTemplates.generateActionCode(transition.guard.body)»
 					
 					// DUMMY GUARD
-					if(event_content == "valid") {
+					if(«actionCodeTemplates.generateActionCode(transition.guard.body)») {
 						return true;
 					} else {
 						«IF generateTracingCode»
-						cout << "    Invalid content, guard false" << endl;
+						std::cout << "    Guard false" << endl;
 						«ENDIF»
 						return false;
 					}
 				}
 			«ENDIF»
-			
 			«IF transition.actionChain != null»
-				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(int event_id, std::string event_content){
+				void «cppFQN»::perform_actions_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«targetStateCppName»(const Event* event){
 					«IF generateTracingCode»
-						cout << "    [Action: -> «targetStateCppName»]" << endl;
+						std::cout << "    [Action: -> «targetStateCppName»]" << endl;
 					«ENDIF»
 					«actionCodeTemplates.generateActionCode(transition.actionChain)»
 				}
 			«ENDIF»
 		«ENDFOR»
-		
 		«IF state.commonState.exitAction != null»	
-			void «cppFQN»::perform_exit_action_for_«stateCppName»_state(int event_id, std::string event_content){
+			void «cppFQN»::perform_exit_action_for_«stateCppName»_state(const Event* event){
 				«IF generateTracingCode»
-					cout << "    [Exit]" << endl;
+					std::cout << "    [Exit]" << endl;
 				«ENDIF»
 				«actionCodeTemplates.generateActionCode(state.commonState.exitAction)»
 			}
@@ -238,7 +233,7 @@ class StateTemplates {
 	def generatedTransitionCondition(CPPTransition cppTransition, String cppClassName, String stateCppName, String target) {
 		val transition = cppTransition.commonTransition
 		var condition = transition.generateEventMatchingCondition(cppClassName)
-		val guardCall = '''evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(event_id, event_content)'''
+		val guardCall = '''evaluate_guard_on_«cppTransition.cppName»_transition_from_«stateCppName»_to_«target»(event)'''
 
 		if(transition.guard != null){
 			if(condition.length > 0){
@@ -254,10 +249,10 @@ class StateTemplates {
 		if(triggers.empty) {
 			''''''
 		} else if(triggers.size == 1){
-			'''event_id == «cppClassName»_EVENT_«triggers.head.getEventId»'''
+			'''event->_id == «cppClassName»_EVENT_«triggers.head.getEventId»'''
 		} else {
 			'''
-			(«FOR trigger : triggers SEPARATOR " || "»event_id == «trigger.getEventId»«ENDFOR»)'''
+			(«FOR trigger : triggers SEPARATOR " || "»event->_id == «trigger.getEventId»«ENDFOR»)'''
 		}
 	}
 	

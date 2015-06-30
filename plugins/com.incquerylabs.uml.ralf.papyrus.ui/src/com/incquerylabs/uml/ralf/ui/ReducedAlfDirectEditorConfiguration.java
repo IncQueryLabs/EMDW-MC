@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.ui;
 
-import java.util.Objects;
 import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -32,6 +31,7 @@ import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Package;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
@@ -53,6 +53,8 @@ import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
 import com.incquerylabs.uml.ralf.scoping.AbstractUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
+import com.incquerylabs.uml.ralf.ui.queries.AttributesOfClassMatcher;
+import com.incquerylabs.uml.ralf.ui.queries.XtClassMatcher;
 
 public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEditorConfiguration {
 
@@ -93,23 +95,31 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 	
 	private class EditorContext extends AbstractUMLContextProvider {
 
+		private IncQueryEngine engine;
+		private Model model;
+
 		public EditorContext() {
 			super();
 		}
 
 		private Model getModel() {
-			Object contextObject = getObjectToEdit();
-			if (contextObject instanceof Element) {
-				return EcoreUtil2.getContainerOfType(((Element)contextObject).eContainer(), Model.class);
+			if (model == null) {
+				Object contextObject = getObjectToEdit();
+				if (contextObject instanceof Element) {
+					model = EcoreUtil2.getContainerOfType(((Element)contextObject).eContainer(), Model.class);
+				}
 			}
-			return null;
+			return model;
 		}
 		
 		private IncQueryEngine getEngine(Model model) throws ServiceException {
-			ModelSet modelSet = (ModelSet)model.eResource().getResourceSet();
-			final ServicesRegistry registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
-			IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
-			return service.getEngine(modelSet);
+			if (engine == null) {
+				ModelSet modelSet = (ModelSet) model.eResource().getResourceSet();
+				final ServicesRegistry registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
+				IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
+				engine = service.getEngine(modelSet);
+			}
+			return engine;
 		}
 		
 		private <T extends EObject> Iterable<T> getModelElementsByType(EClass eClass, java.lang.Class<T> clazz) throws ServiceException, IncQueryException {
@@ -126,7 +136,12 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		@Override
 		public Iterable<Class> getKnownClasses() {
 			try {
-				return getModelElementsByType(UMLPackage.Literals.CLASS, Class.class);
+				XtClassMatcher matcher = XtClassMatcher.on(getEngine(getModel()));
+				if (matcher.countMatches() > 0) {
+					return matcher.getAllValuesOfcl();
+				} else {
+					return getModelElementsByType(UMLPackage.Literals.CLASS, Class.class);
+				}
 			} catch (ServiceException | IncQueryException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -167,6 +182,28 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
             Resource resource = set.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true);
             return (Package)(EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE));
         }
+
+		@Override
+		public Iterable<Property> getPropertiesOfClass(Class cl) {
+			AttributesOfClassMatcher matcher;
+			try {
+				matcher = AttributesOfClassMatcher.on(getEngine(getModel()));
+				return matcher.getAllValuesOfattribute(cl);
+			} catch (IncQueryException | ServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return super.getPropertiesOfClass(cl);
+		}
+
+		@Override
+		public Class getThisType() {
+			Object contextObject = getObjectToEdit();
+			if (contextObject instanceof Element) {
+				return EcoreUtil2.getContainerOfType(((Element)contextObject).eContainer(), Class.class);
+			}
+			return null;
+		}
 		
 	}
 	

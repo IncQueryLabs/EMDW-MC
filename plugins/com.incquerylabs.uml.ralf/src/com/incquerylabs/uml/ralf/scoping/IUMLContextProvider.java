@@ -1,6 +1,7 @@
 package com.incquerylabs.uml.ralf.scoping;
 
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Type;
 
@@ -17,4 +18,13 @@ public interface IUMLContextProvider {
 	Iterable<Signal> getKnownSignals();
 
 	Type getPrimitiveType(String name);
+	
+	Iterable<Property> getPropertiesOfClass(Class cl);
+	
+	/**
+	 * Returns the type of the this expression. If no container can be calculated, might return null.
+	 * 
+	 * @return
+	 */
+	Class getThisType();
 }

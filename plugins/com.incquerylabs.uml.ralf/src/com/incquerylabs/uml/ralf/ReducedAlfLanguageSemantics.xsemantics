@@ -5,33 +5,36 @@ validatorExtends AbstractReducedAlfLanguageValidator
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator
-import org.eclipse.emf.ecore.EObject
-import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
-import org.eclipse.uml2.uml.PrimitiveType
 import java.util.List
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Classifier
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
+import org.eclipse.uml2.uml.PrimitiveType
+import org.eclipse.uml2.uml.Type
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -40,7 +43,7 @@ val BOOLEAN = IUMLContextProvider.BOOLEAN_TYPE
 val STRING  = IUMLContextProvider.STRING_TYPE
 
 auxiliary {
-    superClassList(org.eclipse.uml2.uml.Class cl) : List<org.eclipse.uml2.uml.Class>
+    superClassList(Class cl) : List<Class>
 //    isPrimitive(Type type) : Boolean
 }
 
@@ -55,7 +58,7 @@ judgments {
         source expression        
 }
 
-auxiliary superClassList(org.eclipse.uml2.uml.Class cl) {
+auxiliary superClassList(Class cl) {
     cl.superClasses
 }
 
@@ -78,8 +81,6 @@ axiom StringLiteral
 axiom VariableDeclaration
     G |- Variable variable : 
         variable.type
-      
-
 
 /**
  * Subtyping and assignability
@@ -110,7 +111,7 @@ from {
 }
 
 rule ClassSubtyping
-    derives G |- org.eclipse.uml2.uml.Class left <: org.eclipse.uml2.uml.Class right
+    derives G |- Class left <: Class right
 from {
     left == right
     or
@@ -298,6 +299,18 @@ rule InstanceCreationExpression
 from {
     !(ex.instance instanceof PrimitiveType)
     result = ex.instance
+}
+
+rule ThisExpression
+    G |- ThisExpression ex : Type result
+from {
+    result = umlContext.thisType
+}
+
+rule PropertyAccessExpression
+    G |- PropertyAccessExpression ex : Type result
+from {
+    result = ex.property.getType()
 }
 
 rule FeatureLeftHandSide

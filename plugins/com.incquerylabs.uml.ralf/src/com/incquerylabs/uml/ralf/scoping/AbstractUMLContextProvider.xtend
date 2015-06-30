@@ -41,4 +41,13 @@ abstract class AbstractUMLContextProvider implements IUMLContextProvider {
     override getKnownSignals() {
         containerResource.allContents.filter(typeof(Signal)).toSet
     }
+    
+    override getPropertiesOfClass(Class cl) {
+        return newArrayList
+    }
+    
+    override getThisType() {
+        return null
+    }
+    
 }

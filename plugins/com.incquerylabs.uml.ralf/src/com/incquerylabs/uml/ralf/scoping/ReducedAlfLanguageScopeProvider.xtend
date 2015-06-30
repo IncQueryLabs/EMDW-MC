@@ -3,18 +3,21 @@
  */
 package com.incquerylabs.uml.ralf.scoping
 
+import com.google.inject.Inject
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import com.google.inject.Inject
-import com.google.inject.Injector
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
+import org.eclipse.xtext.util.PolymorphicDispatcher
 
 /**
  * This class contains custom scoping description.
@@ -25,18 +28,20 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
  */
 class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
-    @Inject(optional = true)
+    @Inject
     IUMLContextProvider umlContext;
+    @Inject
+    ReducedAlfSystem system;
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
-//        println(methodName)
+//        println(methodName + " with context " + context.eClass.name)
 //        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
 //    }
 //
 //    override getPredicate(EObject context, EReference reference) {
 //        val methodName = "scope_" + reference.EContainingClass.name + "_" + reference.name
-//        println(methodName)
+//        println(methodName + " with context " + context.eClass.name)
 //        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
 //    }
     
@@ -114,4 +119,24 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         }
     }
     
+    def IScope scope_PropertyAccessExpression_property(PropertyAccessExpression ctx, EReference ref) {
+        if (ctx.context != null && !(ctx.context.eIsProxy)) {
+            scope_PropertyAccessExpression_property(ctx.context, ref)
+        } else {
+            null
+        }
+    }
+    
+    def IScope scope_PropertyAccessExpression_property(Expression ctx, EReference ref) {
+        val typeResult = system.type(ctx)
+        if (typeResult.failed) {
+            return null
+        }
+        val type = typeResult.value
+        if (type instanceof org.eclipse.uml2.uml.Class) {
+            Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
+        } else {
+            null
+        }
+    }
 }

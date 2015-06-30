@@ -50,9 +50,8 @@ Expression :
 
 PrimaryExpression returns Expression :
   BaseExpression
-    // CHANGE: Made FeatureReference and ExtentOrExpression subtypes of Expression.
-  ( {FeatureReference.expression = current} '.' nameBinding = NameBinding {FeatureInvocationExpression.target = current} tuple = Tuple |
-    {FeatureReference.expression = current} '.' property = [uml::Property|Name] {PropertyAccessExpression.featureReference = current} | 
+  ( {FeatureInvocationExpression.context = current} '.' operation = [uml::Operation|Name] parameters = Tuple |
+    {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
 //      ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple
 //      // CHANGE: Made SequenceExpansionExpression concrete.
@@ -535,7 +534,7 @@ DoStatement :
 
 /* FOR STATEMENTS */
 ForStatement : 
-    'for' '(' variableDefinition += LoopVariableDefinition ( ',' variableDefinition += LoopVariableDefinition )* ')' 
+    'for' '(' variableDefinition += LoopVariableDefinition')' 
     body = Block
 ;
 

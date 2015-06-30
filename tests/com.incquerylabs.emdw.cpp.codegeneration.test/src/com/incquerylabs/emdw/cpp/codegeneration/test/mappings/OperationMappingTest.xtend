@@ -8,9 +8,12 @@ import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
+import static org.junit.Assert.*
+
 import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
+import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.CPPCodeGenerationWrapper
 
 // TODO static, visibility, param directions
 
@@ -34,8 +37,10 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "PSEUDO_CODE", xtPar, xtPar2)
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent, null, null, null, null)
+		val cppClassHeader = createCPPHeaderFile(cppComponent.headerDirectory)
+		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
+		val cppClass = createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)
 		val cppOp = createCPPOperation(cppClass, xtOp)
 		val cppType = createCPPBasicType(cppPackage, xtType)
 		createCPPFormalParameter(cppOp, xtPar, cppType, false)
@@ -45,6 +50,18 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
+		val wrapper = xform as CPPCodeGenerationWrapper
+		if(wrapper!=null) {
+			val files = wrapper.codegen.generatedCPPSourceFiles
+			val classHeader = files.get(cppObject.headerFile).toString
+			assertTrue(classHeader.contains("TEST::myOp("))
+			assertTrue(classHeader.contains("bool myParam"))
+			assertTrue(classHeader.contains("set< bool > myParam2"))
+			val classBody = files.get(cppObject.bodyFile).toString
+			assertTrue(classBody.contains("TEST::myOp("))
+			assertTrue(classBody.contains("bool myParam"))
+			assertTrue(classBody.contains("set< bool > myParam2"))
+		}
 	}
 	
 }

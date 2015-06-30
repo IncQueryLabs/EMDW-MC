@@ -8,7 +8,10 @@ import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
+import static org.junit.Assert.*
+
 import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.CPPCodeGenerationWrapper
 
 @RunWith(Parameterized)
 class StateMappingTest extends TransformationTest<State, CPPClass> {
@@ -33,8 +36,10 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 		t.createXTEventTrigger(classEvent, "Trigger")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent, null, null, null, null)
+		val cppClassHeader = createCPPHeaderFile(cppComponent.headerDirectory)
+		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
+		val cppClass = createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)
 		cppClass.createCPPEvent(classEvent)
 		cppClass.createCPPState(s1)
 		cppClass.createCPPState(s2)
@@ -44,6 +49,22 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
+		val wrapper = xform as CPPCodeGenerationWrapper
+
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		val classHeader = files.get(cppObject.headerFile).toString
+		assertTrue(classHeader.contains("enum TEST_state"))
+		assertTrue(classHeader.contains("TEST_STATE_s1"))
+		assertTrue(classHeader.contains("TEST_STATE_s2"))
+		
+		assertTrue(classHeader.contains("enum TEST_event"))
+		assertTrue(classHeader.contains("TEST_EVENT_ClassEvent"))
+		
+		// check state and transition operations in declaration
+		assertTrue(classHeader.contains("process_event_in_s1_state"))
+		assertTrue(classHeader.contains("perform_actions_on_t2_transition_from_s1_to_s2"))
+		assertTrue(classHeader.contains("process_event_in_s2_state"))
+		
 	}
 	
 }

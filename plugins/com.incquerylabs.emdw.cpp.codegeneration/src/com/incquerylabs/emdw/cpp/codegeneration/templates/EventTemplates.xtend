@@ -30,9 +30,9 @@ class EventTemplates {
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
 		«FOR event : classEvents»
-			class «event.cppName»Event : public Event {
+			class «event.cppName»_event : public Event {
 				public:
-					«event.cppName»Event(bool isInternal);
+					«event.cppName»_event(bool isInternal);
 			};
 		«ENDFOR»
 		'''
@@ -43,7 +43,7 @@ class EventTemplates {
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
 		«FOR event : classEvents»
-			«event.cppQualifiedName»Event::«event.cppName»Event(bool isInternal) : 
+			«event.cppQualifiedName»_event::«event.cppName»_event(bool isInternal) : 
 				Event(«cppClassName»_EVENT_«event.cppName», isInternal){
 			}
 		«ENDFOR»

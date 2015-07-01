@@ -47,7 +47,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		assertCppModelCreation(xtModel, incQueryEngine)
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObject(xtObject, incQueryEngine)
+		checkCppObjectCreated(xtObject, incQueryEngine)
 		
 		removeXtumlObject(xtModel as XtumlObject)
 		assertCppModelDeletion(incQueryEngine)
@@ -67,9 +67,10 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		xtModel.name = "updated_name"
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObject(xtObject, incQueryEngine)
+		checkCppObjectCreated(xtObject, incQueryEngine)
 		
 		xtObject?.removeXtumlObject;
+		checkCppObjectRemoved(xtObject, incQueryEngine)
 		
 		(xtModel as XtumlObject)?.removeXtumlObject
 		assertCppModelDeletion(incQueryEngine)
@@ -93,7 +94,9 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		assertEquals(cppModel.countMatches, 0)
 	}
 	
-	protected def void checkCppObject(XtumlObject xtObject, IncQueryEngine engine)
+	protected def void checkCppObjectCreated(XtumlObject xtObject, IncQueryEngine engine)
+	
+	protected def void checkCppObjectRemoved(XtumlObject xtObject, IncQueryEngine engine)
 	
 	protected def XtumlObject createXtumlObject(Model modelRoot)
 	

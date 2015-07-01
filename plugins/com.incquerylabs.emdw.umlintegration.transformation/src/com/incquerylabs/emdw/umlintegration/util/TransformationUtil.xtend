@@ -14,6 +14,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.State
+import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 
 class TransformationUtil {
 
@@ -58,7 +59,7 @@ class TransformationUtil {
 		trace
 	}
 	
-	static def getCommonType(org.eclipse.uml2.uml.Type umlType, IncQueryEngine engine) {
+	static def TypedMultiplicityElement getCommonType(org.eclipse.uml2.uml.Type umlType, IncQueryEngine engine) {
 		extension val Trace tracePatterns = Trace.instance
 		val Structure structurePatterns = Structure.instance
 		val voidDummyTypeMatcher = structurePatterns.getNamedDataType(engine)

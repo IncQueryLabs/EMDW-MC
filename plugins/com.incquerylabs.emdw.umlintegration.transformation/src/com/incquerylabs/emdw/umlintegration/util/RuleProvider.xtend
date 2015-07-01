@@ -52,6 +52,7 @@ import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTran
 import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementMapping
 import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
 import com.incquerylabs.emdw.umlintegration.rules.TerminatePointRules
+import org.eclipse.incquery.runtime.evm.specific.Lifecycles
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -158,7 +159,7 @@ class RuleProvider {
 			rule.updated(match)
 		].action(IncQueryActivationStateEnum.DISAPPEARED) [ match |
 			rule.disappeared(match)
-		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rulemap.put(eventDrivenRule, rule);
 	}
 
@@ -168,7 +169,7 @@ class RuleProvider {
 			rule.appeared(match)
 		].action(IncQueryActivationStateEnum.DISAPPEARED) [ match |
 			rule.disappeared(match)
-		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rulemap.put(eventDrivenRule, rule);
 	}
 
@@ -178,7 +179,7 @@ class RuleProvider {
 			rule.appeared(match)
 		].action(IncQueryActivationStateEnum.DISAPPEARED) [ match |
 			rule.disappeared(match)
-		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rulemap.put(eventDrivenRule, rule);
 	}
 	
@@ -188,7 +189,7 @@ class RuleProvider {
 			rule.appeared(match as MultiplicityElementMatch)
 		].action(IncQueryActivationStateEnum.UPDATED) [ match |
 			rule.updated(match as MultiplicityElementMatch)
-		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rulemap.put(eventDrivenRule, rule);
 	}
 }

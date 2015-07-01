@@ -282,11 +282,6 @@ pattern stateExitBehavior(state: State, exit: Behavior) {
 	State.exit(state, exit);
 }
 
-pattern stateDoBehavior(state: State, doActivity: Behavior) {
-	find umlState(state);
-	State.doActivity(state, doActivity);
-}
-
 // Events
 // FIXME Signal Event is related to protocol, so this is incorrect
 pattern xtSignalEvent(umlClass: Class, signal: Signal) {

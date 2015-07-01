@@ -27,7 +27,7 @@ class StateEntryMapping extends AbstractObjectMapping<StateEntryBehaviorMatch, B
 	}
 	
 	override getRulePriority() {
-		SimpleStateMapping.PRIORITY + 1
+		CommonPriorities.ACTION_MAPPING_PRIORITY
 	}
 	
 	override getQuerySpecification() {

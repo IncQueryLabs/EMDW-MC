@@ -53,7 +53,6 @@ import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementMapping
 import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
 import com.incquerylabs.emdw.umlintegration.rules.TerminatePointRules
 import com.incquerylabs.emdw.umlintegration.rules.StateExitRules
-import com.incquerylabs.emdw.umlintegration.rules.StateDoActivityRules
 import com.incquerylabs.emdw.umlintegration.rules.StateEntryRules
 
 /**
@@ -95,7 +94,6 @@ class RuleProvider {
 		ParameterRules.getRules(engine).initRules
 		PrimitiveTypeRules.getRules(engine).initRules
 		SimpleStateRules.getRules(engine).initRules
-		StateDoActivityRules.getRules(engine).initRules
 		StateEntryRules.getRules(engine).initRules
 		StateExitRules.getRules(engine).initRules
 		StateMachineRules.getRules(engine).initRules

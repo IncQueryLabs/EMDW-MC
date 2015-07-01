@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ChildSimpleStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.SimpleStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelSimpleStateMatch
-import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.SimpleState
 import org.eclipse.papyrusrt.xtumlrt.common.State
@@ -35,10 +34,8 @@ class SimpleStateMapping extends AbstractObjectMapping<SimpleStateMatch, org.ecl
 		SimpleState
 	}
 	
-	public static val PRIORITY = CommonPriorities.VERTEX_MAPPING_PRIORITY
-	
 	override getRulePriority() {
-		PRIORITY
+		CommonPriorities.VERTEX_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {
@@ -54,7 +51,6 @@ class SimpleStateMapping extends AbstractObjectMapping<SimpleStateMatch, org.ecl
 	}
 
 	override updateXtumlrtObject(SimpleState xtumlrtObject, SimpleStateMatch match) {
-		TransformationUtil.updateState(xtumlrtObject, match.state)
 	}
 	
 	override insertXtumlrtObject(SimpleState xtumlrtObject, SimpleStateMatch match) {

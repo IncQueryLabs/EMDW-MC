@@ -27,7 +27,7 @@ class StateExitMapping extends AbstractObjectMapping<StateExitBehaviorMatch, Beh
 	}
 	
 	override getRulePriority() {
-		SimpleStateMapping.PRIORITY + 1
+		CommonPriorities.ACTION_MAPPING_PRIORITY
 	}
 	
 	override getQuerySpecification() {

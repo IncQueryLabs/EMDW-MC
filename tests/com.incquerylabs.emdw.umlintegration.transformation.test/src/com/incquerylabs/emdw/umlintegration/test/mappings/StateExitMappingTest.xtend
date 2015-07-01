@@ -30,6 +30,10 @@ class StateExitMappingTest extends TransformationTest<Behavior, ActionCode> {
 			name = "exit"
 		]
 		state.exit = effect
+		
+		effect.bodies.clear
+		effect.bodies += TEST_SIDE_EFFECT_2
+		
 		effect
 	}
 
@@ -40,7 +44,7 @@ class StateExitMappingTest extends TransformationTest<Behavior, ActionCode> {
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, ActionCode xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.source)
+		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.source)
 		assertEquals("exit", xtumlrtObject.name)
 	}
 

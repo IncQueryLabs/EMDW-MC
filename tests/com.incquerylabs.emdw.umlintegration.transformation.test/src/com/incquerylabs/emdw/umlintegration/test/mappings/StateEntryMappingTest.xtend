@@ -30,6 +30,10 @@ class StateEntryMappingTest extends TransformationTest<Behavior, ActionCode> {
 			name = "entry"
 		]
 		state.entry = effect
+		
+		effect.bodies.clear
+		effect.bodies += TEST_SIDE_EFFECT_2
+		
 		effect
 	}
 
@@ -40,7 +44,7 @@ class StateEntryMappingTest extends TransformationTest<Behavior, ActionCode> {
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, ActionCode xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.source)
+		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.source)
 		assertEquals("entry", xtumlrtObject.name)
 	}
 

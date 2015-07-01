@@ -35,8 +35,10 @@ class SimpleStateMapping extends AbstractObjectMapping<SimpleStateMatch, org.ecl
 		SimpleState
 	}
 	
+	public static val PRIORITY = CommonPriorities.VERTEX_MAPPING_PRIORITY
+	
 	override getRulePriority() {
-		CommonPriorities.VERTEX_MAPPING_PRIORITY
+		PRIORITY
 	}
 
 	override getQuerySpecification() {

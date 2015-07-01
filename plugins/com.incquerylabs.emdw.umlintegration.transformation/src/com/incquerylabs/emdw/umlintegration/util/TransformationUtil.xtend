@@ -16,16 +16,17 @@ class TransformationUtil {
 	static val traceFactory = TraceFactory.eINSTANCE
 
 	static def void updateState(org.eclipse.papyrusrt.xtumlrt.common.State it, State umlState) {
-		if (umlState.entry != null) {
-			entryAction = commonFactory.createActionCode => [
-				source = ModelUtil.getCppCode(umlState.entry)
-			]
-		}
-		if (umlState.exit != null) {
-			exitAction = commonFactory.createActionCode => [
-				source = ModelUtil.getCppCode(umlState.exit)
-			]
-		}
+		// TODO Unnecessary code (state entry and exit action code changes have separated rule)
+//		if (umlState.entry != null) {
+//			entryAction = commonFactory.createActionCode => [
+//				source = ModelUtil.getCppCode(umlState.entry)
+//			]
+//		}
+//		if (umlState.exit != null) {
+//			exitAction = commonFactory.createActionCode => [
+//				source = ModelUtil.getCppCode(umlState.exit)
+//			]
+//		}
 	}
 	
 	static def transform(org.eclipse.uml2.uml.VisibilityKind kind) {

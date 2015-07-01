@@ -61,6 +61,9 @@
 							<packageClass>org.eclipse.uml2.types.TypesPackage</packageClass>
 						</metamodel>
 						<metamodel>
+                            <packageClass>org.eclipse.uml2.uml.profile.standard.StandardPackage</packageClass>
+                        </metamodel>
+						<metamodel>
 							<packageClass>org.eclipse.papyrusrt.xtumlrt.common.CommonPackage</packageClass>
 						</metamodel>
 						<metamodel>

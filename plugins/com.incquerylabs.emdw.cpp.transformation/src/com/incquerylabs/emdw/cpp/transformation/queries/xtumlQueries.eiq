@@ -9,6 +9,11 @@ import "http://www.ericsson.com/xtumlrt/oopl"
  * XTUML queries
  */
 
+pattern xtModel(xtModel : Model) {
+	Model(xtModel);	
+	// TODO: Add model validation constraints (e.g. name not null)
+}
+
 pattern xtModelEntities(
 	xtModel : Model,
 	entity : Entity
@@ -63,6 +68,10 @@ pattern xtPackageXTClasses(
 	xtClass : XTClass
 ) {
 	Package.entities(xtPackage, xtClass);
+}
+
+pattern xtPackageInModel(xtPackage : Package, xtModel : Model) {
+	Model.packages(xtModel, xtPackage);
 }
 
 pattern allXTComponentsOfXTComponent(
@@ -138,7 +147,10 @@ pattern stateMachineTerminatePoints(
 /**
  * CPP Model queries
  */
- 
+pattern cppModel(cppModel : CPPModel) {
+	CPPModel(cppModel);
+}
+
 pattern typeToOOPLType(
 	commonType : Type,
 	ooplType : OOPLType

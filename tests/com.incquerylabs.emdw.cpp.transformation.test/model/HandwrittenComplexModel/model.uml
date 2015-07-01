@@ -1,124 +1,125 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="model">
-  <packagedElement xmi:type="uml:Component" xmi:id="_RcK-0Po8EeSpnsHyI6QRfw" name="myComponent">
-    <nestedClassifier xmi:type="uml:Class" xmi:id="_I2LZYPo8EeSpnsHyI6QRfw" name="myClass" classifierBehavior="_M9AkgPo_EeSpnsHyI6QRfw" isActive="true">
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_cqG24Po8EeSpnsHyI6QRfw" name="myInt" visibility="public">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fLsp4Po8EeSpnsHyI6QRfw"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fLt4APo8EeSpnsHyI6QRfw" value="1"/>
-      </ownedAttribute>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_8WAn8Po8EeSpnsHyI6QRfw" name="myStrings" visibility="public">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-OX3wPo8EeSpnsHyI6QRfw"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-OYe0Po8EeSpnsHyI6QRfw" value="*"/>
-        <defaultValue xmi:type="uml:LiteralString" xmi:id="_G7fY4Po9EeSpnsHyI6QRfw" name="myDefaultStringLiteral" value="This is my default string literal"/>
-      </ownedAttribute>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_MrV3oPo9EeSpnsHyI6QRfw" name="myBoolean">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-      </ownedAttribute>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_Uby8MPo9EeSpnsHyI6QRfw" name="myReals">
-        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YLCOEPo9EeSpnsHyI6QRfw" value="1"/>
-        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YLC1IPo9EeSpnsHyI6QRfw" value="*"/>
-      </ownedAttribute>
-      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_M9AkgPo_EeSpnsHyI6QRfw" name="myStateMachine">
-        <region xmi:type="uml:Region" xmi:id="_OUqT8Po_EeSpnsHyI6QRfw" name="myRegion">
-          <transition xmi:type="uml:Transition" xmi:id="_Mu5akPpAEeSpnsHyI6QRfw" name="myTI1" source="_r5Wg4Po_EeSpnsHyI6QRfw" target="_zN5FgPo_EeSpnsHyI6QRfw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_PaYvAP02EeSIg42JIh_SpA">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;myTransitionI1 happened&quot; &lt;&lt; std::endl;</body>
-            </effect>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_NXN-0PpAEeSpnsHyI6QRfw" name="myT12" source="_zN5FgPo_EeSpnsHyI6QRfw" target="_zZss4Po_EeSpnsHyI6QRfw">
-            <trigger xmi:type="uml:Trigger" xmi:id="_eLe-gPpGEeSIULC1X3PCpw" name="myTrigger12" event="_f4TQMPpHEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_NrzuwPpAEeSpnsHyI6QRfw" name="myT13" source="_zN5FgPo_EeSpnsHyI6QRfw" target="_zrhcsPo_EeSpnsHyI6QRfw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_TiCg4P02EeSIg42JIh_SpA" name="myT13Action">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;myTransition13 happened&quot; &lt;&lt; std::endl;</body>
-            </effect>
-            <trigger xmi:type="uml:Trigger" xmi:id="_DgATAPpJEeSIULC1X3PCpw" name="myTrigger13" event="_CllSIPpJEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_O9SkwPpAEeSpnsHyI6QRfw" name="myT24" source="_zZss4Po_EeSpnsHyI6QRfw" target="_z-2BUPo_EeSpnsHyI6QRfw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_c-3nsP02EeSIg42JIh_SpA" name="myT24Action">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;myTransition24 happened&quot; &lt;&lt; std::endl;</body>
-            </effect>
-            <trigger xmi:type="uml:Trigger" xmi:id="_T2qYYPpJEeSIULC1X3PCpw" name="myTrigger24" event="_TlODEPpJEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_ParEUPpAEeSpnsHyI6QRfw" name="myT34" guard="_yGis0PpIEeSIULC1X3PCpw" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_z-2BUPo_EeSpnsHyI6QRfw">
-            <ownedRule xmi:type="uml:Constraint" xmi:id="_yGis0PpIEeSIULC1X3PCpw" name="myConstraint" constrainedElement="_cqG24Po8EeSpnsHyI6QRfw">
-              <specification xmi:type="uml:OpaqueExpression" xmi:id="_yGis0fpIEeSIULC1X3PCpw" name="myGuardExpression">
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="model">
+    <packagedElement xmi:type="uml:Component" xmi:id="_RcK-0Po8EeSpnsHyI6QRfw" name="myComponent">
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_I2LZYPo8EeSpnsHyI6QRfw" name="myClass" classifierBehavior="_M9AkgPo_EeSpnsHyI6QRfw" isActive="true">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_cqG24Po8EeSpnsHyI6QRfw" name="myInt" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fLsp4Po8EeSpnsHyI6QRfw"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fLt4APo8EeSpnsHyI6QRfw" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_8WAn8Po8EeSpnsHyI6QRfw" name="myStrings" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-OX3wPo8EeSpnsHyI6QRfw"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-OYe0Po8EeSpnsHyI6QRfw" value="*"/>
+          <defaultValue xmi:type="uml:LiteralString" xmi:id="_G7fY4Po9EeSpnsHyI6QRfw" name="myDefaultStringLiteral" value="This is my default string literal"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_MrV3oPo9EeSpnsHyI6QRfw" name="myBoolean">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_Uby8MPo9EeSpnsHyI6QRfw" name="myReals">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_YLCOEPo9EeSpnsHyI6QRfw" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_YLC1IPo9EeSpnsHyI6QRfw" value="*"/>
+        </ownedAttribute>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_M9AkgPo_EeSpnsHyI6QRfw" name="myStateMachine">
+          <region xmi:type="uml:Region" xmi:id="_OUqT8Po_EeSpnsHyI6QRfw" name="myRegion">
+            <transition xmi:type="uml:Transition" xmi:id="_Mu5akPpAEeSpnsHyI6QRfw" name="myTI1" source="_r5Wg4Po_EeSpnsHyI6QRfw" target="_zN5FgPo_EeSpnsHyI6QRfw">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_PaYvAP02EeSIg42JIh_SpA">
                 <language>C++</language>
-                <body>myInt&lt;42</body>
-              </specification>
-            </ownedRule>
-            <trigger xmi:type="uml:Trigger" xmi:id="_qUa-4PpJEeSIULC1X3PCpw" name="myTrigger34" event="_f4TQMPpHEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_RITDwPpAEeSpnsHyI6QRfw" name="myT33" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_zrhcsPo_EeSpnsHyI6QRfw">
-            <trigger xmi:type="uml:Trigger" xmi:id="_fxfysPpJEeSIULC1X3PCpw" name="myTrigger33" event="_f4TQMPpHEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_kr3KAPpAEeSpnsHyI6QRfw" name="myT35" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_xcTMEPo_EeSpnsHyI6QRfw">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Xi1c0P02EeSIg42JIh_SpA" name="myT35Action">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;myTransition35 happened&quot; &lt;&lt; std::endl;</body>
-            </effect>
-            <trigger xmi:type="uml:Trigger" xmi:id="_j3HkQPpJEeSIULC1X3PCpw" name="myTrigger35" event="_TlODEPpJEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_lH_FUPpAEeSpnsHyI6QRfw" name="myT4F" source="_z-2BUPo_EeSpnsHyI6QRfw" target="_WVd6gBpxEeWRo5oItMj_5w">
-            <trigger xmi:type="uml:Trigger" xmi:id="_vqwxcPpJEeSIULC1X3PCpw" name="myTrigger4F" event="_f4TQMPpHEeSIULC1X3PCpw"/>
-          </transition>
-          <transition xmi:type="uml:Transition" xmi:id="_lkKD8PpAEeSpnsHyI6QRfw" name="myT5F" source="_xcTMEPo_EeSpnsHyI6QRfw" target="_WVd6gBpxEeWRo5oItMj_5w">
-            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aHHXcP02EeSIg42JIh_SpA" name="myT5FAction">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;myTransition5F happened&quot; &lt;&lt; std::endl;</body>
-            </effect>
-            <trigger xmi:type="uml:Trigger" xmi:id="_nAM1EPpJEeSIULC1X3PCpw" name="myTrigger 5F" event="_CllSIPpJEeSIULC1X3PCpw"/>
-          </transition>
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_r5Wg4Po_EeSpnsHyI6QRfw" name="myInitialPoint"/>
-          <subvertex xmi:type="uml:State" xmi:id="_zN5FgPo_EeSpnsHyI6QRfw" name="myState1">
-            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_uobrYPpBEeSpnsHyI6QRfw" name="myEntry1">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;This is the entry action for myState1&quot; &lt;&lt; std::endl;</body>
-            </entry>
-          </subvertex>
-          <subvertex xmi:type="uml:State" xmi:id="_zZss4Po_EeSpnsHyI6QRfw" name="myState2">
-            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_9ras8PpCEeSpnsHyI6QRfw" name="myEntry2">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;This is the entry action for myState2&quot; &lt;&lt; std::endl;</body>
-            </entry>
-            <exit xmi:type="uml:OpaqueBehavior" xmi:id="_XmvKAPpEEeSltZQHbpS8_Q" name="myExit2">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;This is the exit action for myState2&quot; &lt;&lt; std::endl;</body>
-            </exit>
-          </subvertex>
-          <subvertex xmi:type="uml:State" xmi:id="_zrhcsPo_EeSpnsHyI6QRfw" name="myState3">
-            <exit xmi:type="uml:OpaqueBehavior" xmi:id="_7l8jUPpEEeSIULC1X3PCpw" name="myExit3">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;This is the exit action for myState3&quot; &lt;&lt; std::endl;</body>
-            </exit>
-          </subvertex>
-          <subvertex xmi:type="uml:State" xmi:id="_z-2BUPo_EeSpnsHyI6QRfw" name="myState4"/>
-          <subvertex xmi:type="uml:State" xmi:id="_xcTMEPo_EeSpnsHyI6QRfw" name="myState5">
-            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_G9SPAPpFEeSIULC1X3PCpw" name="myEntry5">
-              <language>C++</language>
-              <body>std::cout &lt;&lt; &quot;This is the entry action for myState5&quot; &lt;&lt; std::endl;</body>
-            </entry>
-          </subvertex>
-          <subvertex xmi:type="uml:Pseudostate" xmi:id="_WVd6gBpxEeWRo5oItMj_5w" name="myTerminate" kind="terminate"/>
-        </region>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_IS8MYPrfEeS4YfcvM01t0Q" name="voidOperationOpaqueBehavior" specification="_iH7VAPo9EeSpnsHyI6QRfw">
-        <language>C++</language>
-        <body>std::cout &lt;&lt; toPrintParameter &lt;&lt; std::endl;</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_F8AegPsREeSpTK3KK0hlnw" name="myGetterOpaqueBehavior" specification="_zTdz8Po9EeSpnsHyI6QRfw">
-        <language>C++</language>
-        <body>return myStrings[0];</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_hXYOgPsREeSpTK3KK0hlnw" name="myMultiParamOpaqueBehavior" specification="_9H-a8Po9EeSpnsHyI6QRfw">
-        <language>C++</language>
-        <body>myOutParam = true;&#xD;
+                <body>std::cout &lt;&lt; &quot;myTransitionI1 happened&quot; &lt;&lt; std::endl;</body>
+              </effect>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_NXN-0PpAEeSpnsHyI6QRfw" name="myT12" source="_zN5FgPo_EeSpnsHyI6QRfw" target="_zZss4Po_EeSpnsHyI6QRfw">
+              <trigger xmi:type="uml:Trigger" xmi:id="_eLe-gPpGEeSIULC1X3PCpw" name="myTrigger12" event="_f4TQMPpHEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_NrzuwPpAEeSpnsHyI6QRfw" name="myT13" source="_zN5FgPo_EeSpnsHyI6QRfw" target="_zrhcsPo_EeSpnsHyI6QRfw">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_TiCg4P02EeSIg42JIh_SpA" name="myT13Action">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;myTransition13 happened&quot; &lt;&lt; std::endl;</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_DgATAPpJEeSIULC1X3PCpw" name="myTrigger13" event="_CllSIPpJEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_O9SkwPpAEeSpnsHyI6QRfw" name="myT24" source="_zZss4Po_EeSpnsHyI6QRfw" target="_z-2BUPo_EeSpnsHyI6QRfw">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_c-3nsP02EeSIg42JIh_SpA" name="myT24Action">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;myTransition24 happened&quot; &lt;&lt; std::endl;</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_T2qYYPpJEeSIULC1X3PCpw" name="myTrigger24" event="_TlODEPpJEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_ParEUPpAEeSpnsHyI6QRfw" name="myT34" guard="_yGis0PpIEeSIULC1X3PCpw" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_z-2BUPo_EeSpnsHyI6QRfw">
+              <ownedRule xmi:type="uml:Constraint" xmi:id="_yGis0PpIEeSIULC1X3PCpw" name="myConstraint" constrainedElement="_cqG24Po8EeSpnsHyI6QRfw">
+                <specification xmi:type="uml:OpaqueExpression" xmi:id="_yGis0fpIEeSIULC1X3PCpw" name="myGuardExpression">
+                  <language>C++</language>
+                  <body>myInt&lt;42</body>
+                </specification>
+              </ownedRule>
+              <trigger xmi:type="uml:Trigger" xmi:id="_qUa-4PpJEeSIULC1X3PCpw" name="myTrigger34" event="_f4TQMPpHEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_RITDwPpAEeSpnsHyI6QRfw" name="myT33" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_zrhcsPo_EeSpnsHyI6QRfw">
+              <trigger xmi:type="uml:Trigger" xmi:id="_fxfysPpJEeSIULC1X3PCpw" name="myTrigger33" event="_f4TQMPpHEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_kr3KAPpAEeSpnsHyI6QRfw" name="myT35" source="_zrhcsPo_EeSpnsHyI6QRfw" target="_xcTMEPo_EeSpnsHyI6QRfw">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_Xi1c0P02EeSIg42JIh_SpA" name="myT35Action">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;myTransition35 happened&quot; &lt;&lt; std::endl;</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_j3HkQPpJEeSIULC1X3PCpw" name="myTrigger35" event="_TlODEPpJEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_lH_FUPpAEeSpnsHyI6QRfw" name="myT4F" source="_z-2BUPo_EeSpnsHyI6QRfw" target="_WVd6gBpxEeWRo5oItMj_5w">
+              <trigger xmi:type="uml:Trigger" xmi:id="_vqwxcPpJEeSIULC1X3PCpw" name="myTrigger4F" event="_f4TQMPpHEeSIULC1X3PCpw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_lkKD8PpAEeSpnsHyI6QRfw" name="myT5F" source="_xcTMEPo_EeSpnsHyI6QRfw" target="_WVd6gBpxEeWRo5oItMj_5w">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aHHXcP02EeSIg42JIh_SpA" name="myT5FAction">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;myTransition5F happened&quot; &lt;&lt; std::endl;</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_nAM1EPpJEeSIULC1X3PCpw" name="myTrigger 5F" event="_CllSIPpJEeSIULC1X3PCpw"/>
+            </transition>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_r5Wg4Po_EeSpnsHyI6QRfw" name="myInitialPoint"/>
+            <subvertex xmi:type="uml:State" xmi:id="_zN5FgPo_EeSpnsHyI6QRfw" name="myState1">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_uobrYPpBEeSpnsHyI6QRfw" name="myEntry1">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;This is the entry action for myState1&quot; &lt;&lt; std::endl;</body>
+              </entry>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_zZss4Po_EeSpnsHyI6QRfw" name="myState2">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_9ras8PpCEeSpnsHyI6QRfw" name="myEntry2">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;This is the entry action for myState2&quot; &lt;&lt; std::endl;</body>
+              </entry>
+              <exit xmi:type="uml:OpaqueBehavior" xmi:id="_XmvKAPpEEeSltZQHbpS8_Q" name="myExit2">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;This is the exit action for myState2&quot; &lt;&lt; std::endl;</body>
+              </exit>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_zrhcsPo_EeSpnsHyI6QRfw" name="myState3">
+              <exit xmi:type="uml:OpaqueBehavior" xmi:id="_7l8jUPpEEeSIULC1X3PCpw" name="myExit3">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;This is the exit action for myState3&quot; &lt;&lt; std::endl;</body>
+              </exit>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_z-2BUPo_EeSpnsHyI6QRfw" name="myState4"/>
+            <subvertex xmi:type="uml:State" xmi:id="_xcTMEPo_EeSpnsHyI6QRfw" name="myState5">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_G9SPAPpFEeSIULC1X3PCpw" name="myEntry5">
+                <language>C++</language>
+                <body>std::cout &lt;&lt; &quot;This is the entry action for myState5&quot; &lt;&lt; std::endl;</body>
+              </entry>
+            </subvertex>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_WVd6gBpxEeWRo5oItMj_5w" name="myTerminate" kind="terminate"/>
+          </region>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_IS8MYPrfEeS4YfcvM01t0Q" name="voidOperationOpaqueBehavior" specification="_iH7VAPo9EeSpnsHyI6QRfw">
+          <language>C++</language>
+          <body>std::cout &lt;&lt; toPrintParameter &lt;&lt; std::endl;</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_F8AegPsREeSpTK3KK0hlnw" name="myGetterOpaqueBehavior" specification="_zTdz8Po9EeSpnsHyI6QRfw">
+          <language>C++</language>
+          <body>return myStrings[0];</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_hXYOgPsREeSpTK3KK0hlnw" name="myMultiParamOpaqueBehavior" specification="_9H-a8Po9EeSpnsHyI6QRfw">
+          <language>C++</language>
+          <body>myOutParam = true;&#xD;
 if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;
 {&#xD;
 	myOutParam = false;&#xD;
@@ -126,50 +127,73 @@ if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;
 	return true;&#xD;
 }&#xD;
 return false;</body>
-      </ownedBehavior>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_iH7VAPo9EeSpnsHyI6QRfw" name="myVoidOperation" method="_IS8MYPrfEeS4YfcvM01t0Q">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_ttzzAPo9EeSpnsHyI6QRfw" name="toPrintParameter">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_zTdz8Po9EeSpnsHyI6QRfw" name="myGetterOperation" method="_F8AegPsREeSpTK3KK0hlnw">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_7xVYIPo9EeSpnsHyI6QRfw" direction="return">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_9H-a8Po9EeSpnsHyI6QRfw" name="myMultiParamOperation" method="_hXYOgPsREeSpTK3KK0hlnw">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ber8gPo-EeSpnsHyI6QRfw" name="myInParam">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_IuWoMPo-EeSpnsHyI6QRfw" name="myInOutParam" direction="inout">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_MMUj4Po-EeSpnsHyI6QRfw" name="myOutParam" direction="out" effect="create">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_DDfhsPo_EeSpnsHyI6QRfw" direction="return">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-      </ownedOperation>
-      <nestedClassifier xmi:type="uml:Signal" xmi:id="_dYn-MPpGEeSIULC1X3PCpw" name="mySignal1">
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_dYn-MfpGEeSIULC1X3PCpw" name="mySignalPropertyInt">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedAttribute>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_ReI-wB_NEeWj0O6mXBLI5Q" name="myDestructorBehavior" specification="_FO2-cB_NEeWj0O6mXBLI5Q">
+          <language>C++</language>
+          <body>// This is my custom destructor code</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_cCtwwB_NEeWj0O6mXBLI5Q" name="myConstructorBehavior" specification="_R6sX4B_NEeWj0O6mXBLI5Q">
+          <language>C++</language>
+          <body>// This is my custom constructor code</body>
+        </ownedBehavior>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_iH7VAPo9EeSpnsHyI6QRfw" name="myVoidOperation" method="_IS8MYPrfEeS4YfcvM01t0Q">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ttzzAPo9EeSpnsHyI6QRfw" name="toPrintParameter">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_zTdz8Po9EeSpnsHyI6QRfw" name="myGetterOperation" method="_F8AegPsREeSpTK3KK0hlnw">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7xVYIPo9EeSpnsHyI6QRfw" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_9H-a8Po9EeSpnsHyI6QRfw" name="myMultiParamOperation" method="_hXYOgPsREeSpTK3KK0hlnw">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ber8gPo-EeSpnsHyI6QRfw" name="myInParam">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_IuWoMPo-EeSpnsHyI6QRfw" name="myInOutParam" direction="inout">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MMUj4Po-EeSpnsHyI6QRfw" name="myOutParam" direction="out" effect="create">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_DDfhsPo_EeSpnsHyI6QRfw" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_FO2-cB_NEeWj0O6mXBLI5Q" name="~myClass" method="_ReI-wB_NEeWj0O6mXBLI5Q"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_R6sX4B_NEeWj0O6mXBLI5Q" name="myClass" visibility="protected" method="_cCtwwB_NEeWj0O6mXBLI5Q">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_5dA2IB_OEeWcC4vkuamzRg" name="myConstructorParam" isOrdered="true" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+        </ownedOperation>
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_dYn-MPpGEeSIULC1X3PCpw" name="mySignal1">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_dYn-MfpGEeSIULC1X3PCpw" name="mySignalPropertyInt">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_TaEjAPpJEeSIULC1X3PCpw" name="mySignal3"/>
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_W6RTUPpJEeSIULC1X3PCpw" name="mySignal2"/>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_bSWu0BNsEeWBN_fGfsaQrQ" name="myReception1" signal="_dYn-MPpGEeSIULC1X3PCpw"/>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_eH9C8BNsEeWBN_fGfsaQrQ" name="myReception2" signal="_W6RTUPpJEeSIULC1X3PCpw"/>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_gV3E8BNsEeWBN_fGfsaQrQ" name="myReception3" signal="_TaEjAPpJEeSIULC1X3PCpw"/>
       </nestedClassifier>
-      <nestedClassifier xmi:type="uml:Signal" xmi:id="_TaEjAPpJEeSIULC1X3PCpw" name="mySignal3"/>
-      <nestedClassifier xmi:type="uml:Signal" xmi:id="_W6RTUPpJEeSIULC1X3PCpw" name="mySignal2"/>
-      <ownedReception xmi:type="uml:Reception" xmi:id="_bSWu0BNsEeWBN_fGfsaQrQ" name="myReception1" signal="_dYn-MPpGEeSIULC1X3PCpw"/>
-      <ownedReception xmi:type="uml:Reception" xmi:id="_eH9C8BNsEeWBN_fGfsaQrQ" name="myReception2" signal="_W6RTUPpJEeSIULC1X3PCpw"/>
-      <ownedReception xmi:type="uml:Reception" xmi:id="_gV3E8BNsEeWBN_fGfsaQrQ" name="myReception3" signal="_TaEjAPpJEeSIULC1X3PCpw"/>
-    </nestedClassifier>
-  </packagedElement>
-  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_f4TQMPpHEeSIULC1X3PCpw" name="MySignalEvent1" signal="_dYn-MPpGEeSIULC1X3PCpw"/>
-  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_CllSIPpJEeSIULC1X3PCpw" name="mySignalEvent2" signal="_W6RTUPpJEeSIULC1X3PCpw"/>
-  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_TlODEPpJEeSIULC1X3PCpw" name="mySignalEvent3" signal="_TaEjAPpJEeSIULC1X3PCpw"/>
-  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Ba2TcPpAEeSpnsHyI6QRfw">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BbPVAPpAEeSpnsHyI6QRfw" source="http://www.eclipse.org/uml2/2.0.0/UML">
-      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
-    </eAnnotations>
-    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
-  </profileApplication>
-</uml:Model>
+    </packagedElement>
+    <packagedElement xmi:type="uml:SignalEvent" xmi:id="_f4TQMPpHEeSIULC1X3PCpw" name="MySignalEvent1" signal="_dYn-MPpGEeSIULC1X3PCpw"/>
+    <packagedElement xmi:type="uml:SignalEvent" xmi:id="_CllSIPpJEeSIULC1X3PCpw" name="mySignalEvent2" signal="_W6RTUPpJEeSIULC1X3PCpw"/>
+    <packagedElement xmi:type="uml:SignalEvent" xmi:id="_TlODEPpJEeSIULC1X3PCpw" name="mySignalEvent3" signal="_TaEjAPpJEeSIULC1X3PCpw"/>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Ba2TcPpAEeSpnsHyI6QRfw">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BbPVAPpAEeSpnsHyI6QRfw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_3i7Z8B_MEeWj0O6mXBLI5Q">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_3jO78B_MEeWj0O6mXBLI5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <standard:Destroy xmi:id="_ID0ZYB_NEeWj0O6mXBLI5Q" base_BehavioralFeature="_FO2-cB_NEeWj0O6mXBLI5Q"/>
+  <standard:Create xmi:id="_ekmesB_NEeWj0O6mXBLI5Q" base_BehavioralFeature="_R6sX4B_NEeWj0O6mXBLI5Q"/>
+</xmi:XMI>

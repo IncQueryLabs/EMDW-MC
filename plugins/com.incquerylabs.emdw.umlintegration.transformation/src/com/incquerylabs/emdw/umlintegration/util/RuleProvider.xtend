@@ -1,5 +1,7 @@
 package com.incquerylabs.emdw.umlintegration.util
 
+import com.incquerylabs.emdw.umlintegration.queries.ModelMatch
+import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
 import com.incquerylabs.emdw.umlintegration.rules.AbstractContainmentMapping
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.rules.AbstractObjectMapping
@@ -17,6 +19,9 @@ import com.incquerylabs.emdw.umlintegration.rules.ExitPointRules
 import com.incquerylabs.emdw.umlintegration.rules.GuardRules
 import com.incquerylabs.emdw.umlintegration.rules.InitialPointRules
 import com.incquerylabs.emdw.umlintegration.rules.JunctionPointRules
+import com.incquerylabs.emdw.umlintegration.rules.ModelMapping
+import com.incquerylabs.emdw.umlintegration.rules.ModelRules
+import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementMapping
 import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementRules
 import com.incquerylabs.emdw.umlintegration.rules.OperationRules
 import com.incquerylabs.emdw.umlintegration.rules.ParameterRules
@@ -25,6 +30,7 @@ import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
 import com.incquerylabs.emdw.umlintegration.rules.StructMemberRules
 import com.incquerylabs.emdw.umlintegration.rules.StructTypeRules
+import com.incquerylabs.emdw.umlintegration.rules.TerminatePointRules
 import com.incquerylabs.emdw.umlintegration.rules.TransitionRules
 import com.incquerylabs.emdw.umlintegration.rules.TypeDefinitionRules
 import com.incquerylabs.emdw.umlintegration.rules.XTAssociationRules
@@ -49,9 +55,6 @@ import org.eclipse.incquery.runtime.evm.specific.resolver.FixedPriorityConflictR
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
-import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementMapping
-import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
-import com.incquerylabs.emdw.umlintegration.rules.TerminatePointRules
 import org.eclipse.incquery.runtime.evm.specific.Lifecycles
 
 /**
@@ -88,6 +91,7 @@ class RuleProvider {
 		InitialPointRules.getRules(engine).initRules
 		TerminatePointRules.getRules(engine).initRules
 		JunctionPointRules.getRules(engine).initRules
+		ModelRules.getRules(engine).initRules
 		MultiplicityElementRules.getRules(engine).initRules
 		OperationRules.getRules(engine).initRules
 		ParameterRules.getRules(engine).initRules
@@ -189,6 +193,17 @@ class RuleProvider {
 			rule.appeared(match as MultiplicityElementMatch)
 		].action(IncQueryActivationStateEnum.UPDATED) [ match |
 			rule.updated(match as MultiplicityElementMatch)
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
+		rulemap.put(eventDrivenRule, rule);
+	}
+	
+	private def dispatch initRule(ModelMapping rule) {
+		val eventDrivenRule = createRule.precondition(rule.querySpecification as IQuerySpecification<IncQueryMatcher<IPatternMatch>>).action(
+			IncQueryActivationStateEnum.APPEARED) [ match |
+			rule.appeared(match as ModelMatch)
+		].action(
+			IncQueryActivationStateEnum.UPDATED) [ match |
+			rule.updated(match as ModelMatch)
 		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rulemap.put(eventDrivenRule, rule);
 	}

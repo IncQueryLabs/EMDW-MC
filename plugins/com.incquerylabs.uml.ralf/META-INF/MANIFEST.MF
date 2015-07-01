@@ -34,5 +34,6 @@ Export-Package: com.incquerylabs.uml.ralf,
  com.incquerylabs.uml.ralf.scoping,
  com.incquerylabs.uml.ralf.serializer,
  com.incquerylabs.uml.ralf.services,
+ com.incquerylabs.uml.ralf.snippetcompiler,
  com.incquerylabs.uml.ralf.validation
 

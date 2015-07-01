@@ -18,6 +18,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.incquerylabs.uml.ralf.api.ISnippetManager;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
 
 public class SnippetManagerImpl implements ISnippetManager {
 
@@ -29,6 +30,9 @@ public class SnippetManagerImpl implements ISnippetManager {
     
     @Inject
     private FileExtensionProvider extensionProvider;
+    
+    @Inject
+    private ReducedAlfSnippetCompiler snippetCompiler;
     
     private String fileExtension;
     
@@ -58,8 +62,7 @@ public class SnippetManagerImpl implements ISnippetManager {
     protected CharSequence parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
         Resource resource = resource(in, uriToUse, options, resourceSet);
         final Statements root = (Statements) (resource.getContents().isEmpty() ? null : resource.getContents().get(0));
-        // Do snippet compiling here
-        String snippet = " ";
+        String snippet = snippetCompiler.visit(root);
         return snippet;
     }
     

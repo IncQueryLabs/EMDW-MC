@@ -77,7 +77,7 @@ class TransformationUtil {
 				type = commonType
 			]
 		} else {
-			throw new IllegalArgumentException("No common type found for the specified UML type.")
+			return null
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.queries.ConstructorOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.DestructorOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.RegularOperationMatch
@@ -10,7 +9,6 @@ import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Entity
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
-import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class OperationRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -59,21 +57,7 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 	override updateXtumlrtObject(Operation xtumlrtObject, RegularOperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		val voidDummyTypeMatcher = structurePatterns.getNamedDataType(engine)
-		val voidDummyType = voidDummyTypeMatcher.getAllValuesOfdataType(TransformationQrt.dummyVoidTypeName).head
-		
-		// Null types in UML are mapped to void types in xtUML!
-		// A dummy void type is used to handle this in the trace model.
-		var typeToConvert = umlObject.type
-		if (typeToConvert == null) {
-			 typeToConvert = voidDummyType
-		}
-		switch xtType : engine.trace.getAllValuesOfxtumlrtElement(null, null, typeToConvert).head {
-			Type: xtumlrtObject.returnType = commonFactory.createTypedMultiplicityElement => [
-				type = xtType 
-			]
-		}
-		
+		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -125,21 +109,7 @@ class ConstructorMapping extends AbstractObjectMapping<ConstructorOperationMatch
 	override updateXtumlrtObject(Operation xtumlrtObject, ConstructorOperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		val voidDummyTypeMatcher = structurePatterns.getNamedDataType(engine)
-		val voidDummyType = voidDummyTypeMatcher.getAllValuesOfdataType(TransformationQrt.dummyVoidTypeName).head
-		
-		// Null types in UML are mapped to void types in xtUML!
-		// A dummy void type is used to handle this in the trace model.
-		var typeToConvert = umlObject.type
-		if (typeToConvert == null) {
-			 typeToConvert = voidDummyType
-		}
-		switch xtType : engine.trace.getAllValuesOfxtumlrtElement(null, null, typeToConvert).head {
-			Type: xtumlrtObject.returnType = commonFactory.createTypedMultiplicityElement => [
-				type = xtType 
-			]
-		}
-		
+		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -191,21 +161,7 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 	override updateXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		val voidDummyTypeMatcher = structurePatterns.getNamedDataType(engine)
-		val voidDummyType = voidDummyTypeMatcher.getAllValuesOfdataType(TransformationQrt.dummyVoidTypeName).head
-		
-		// Null types in UML are mapped to void types in xtUML!
-		// A dummy void type is used to handle this in the trace model.
-		var typeToConvert = umlObject.type
-		if (typeToConvert == null) {
-			 typeToConvert = voidDummyType
-		}
-		switch xtType : engine.trace.getAllValuesOfxtumlrtElement(null, null, typeToConvert).head {
-			Type: xtumlrtObject.returnType = commonFactory.createTypedMultiplicityElement => [
-				type = xtType 
-			]
-		}
-		
+		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -217,5 +173,4 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 	override protected insertXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
 		match.xtumlrtContainer.operations += xtumlrtObject
 	}
-
 }

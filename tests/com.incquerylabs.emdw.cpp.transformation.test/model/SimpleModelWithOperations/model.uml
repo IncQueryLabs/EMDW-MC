@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="myModel">
-  <packagedElement xmi:type="uml:Component" xmi:id="_RcK-0Po8EeSpnsHyI6QRfw" name="myComponent">
-    <nestedClassifier xmi:type="uml:Class" xmi:id="_I2LZYPo8EeSpnsHyI6QRfw" name="myClass" isActive="true">
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_IS8MYPrfEeS4YfcvM01t0Q" name="voidOperationOpaqueBehavior" specification="_iH7VAPo9EeSpnsHyI6QRfw">
-        <language>C++</language>
-        <body>std::cout &lt;&lt; toPrintParameter &lt;&lt; std::endl;</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_F8AegPsREeSpTK3KK0hlnw" name="myGetterOpaqueBehavior" specification="_zTdz8Po9EeSpnsHyI6QRfw">
-        <language>C++</language>
-        <body>return &quot;my returned string&quot;;</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_hXYOgPsREeSpTK3KK0hlnw" name="myMultiParamOpaqueBehavior" specification="_9H-a8Po9EeSpnsHyI6QRfw">
-        <language>C++</language>
-        <body>myOutParam = true;&#xD;
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_ckIcoPo6EeSpnsHyI6QRfw" name="myModel">
+    <packagedElement xmi:type="uml:Component" xmi:id="_RcK-0Po8EeSpnsHyI6QRfw" name="myComponent">
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_I2LZYPo8EeSpnsHyI6QRfw" name="myClass" isActive="true">
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_IS8MYPrfEeS4YfcvM01t0Q" name="voidOperationOpaqueBehavior" specification="_iH7VAPo9EeSpnsHyI6QRfw">
+          <language>C++</language>
+          <body>std::cout &lt;&lt; toPrintParameter &lt;&lt; std::endl;</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_F8AegPsREeSpTK3KK0hlnw" name="myGetterOpaqueBehavior" specification="_zTdz8Po9EeSpnsHyI6QRfw">
+          <language>C++</language>
+          <body>return &quot;my returned string&quot;;</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_hXYOgPsREeSpTK3KK0hlnw" name="myMultiParamOpaqueBehavior" specification="_9H-a8Po9EeSpnsHyI6QRfw">
+          <language>C++</language>
+          <body>myOutParam = true;&#xD;
 if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;
 {&#xD;
 	myOutParam = false;&#xD;
@@ -20,57 +21,66 @@ if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;
 	return true;&#xD;
 }&#xD;
 return false;</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_-PkUoBs4EeWj4Pc_Ym9a1g" name="myDestructorBehavior" specification="_QOkUEBp5EeWofYcfE8DB7g">
-        <language>C++</language>
-        <body>// This is my Destructor action code</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_KCTi4Bs5EeWj4Pc_Ym9a1g" name="myConstructorBehavior">
-        <language>C++</language>
-        <body>// This is my custom Constructor action code</body>
-      </ownedBehavior>
-      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_WnUioBs5EeWj4Pc_Ym9a1g" name="myPrivateConstructorBehavior" specification="_MLCJ8Bs5EeWj4Pc_Ym9a1g">
-        <language>C++</language>
-        <body>// This is my private constructor action code</body>
-      </ownedBehavior>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_iH7VAPo9EeSpnsHyI6QRfw" name="myVoidOperation" method="_IS8MYPrfEeS4YfcvM01t0Q">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_ttzzAPo9EeSpnsHyI6QRfw" name="toPrintParameter">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_zTdz8Po9EeSpnsHyI6QRfw" name="myGetterOperation" method="_F8AegPsREeSpTK3KK0hlnw">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_7xVYIPo9EeSpnsHyI6QRfw" direction="return">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_9H-a8Po9EeSpnsHyI6QRfw" name="myMultiParamOperation" method="_hXYOgPsREeSpTK3KK0hlnw">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ber8gPo-EeSpnsHyI6QRfw" name="myInParam">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_IuWoMPo-EeSpnsHyI6QRfw" name="myInOutParam" direction="inout">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_MMUj4Po-EeSpnsHyI6QRfw" name="myOutParam" direction="out" effect="create">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_DDfhsPo_EeSpnsHyI6QRfw" direction="return">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
-        </ownedParameter>
-      </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_QOkUEBp5EeWofYcfE8DB7g" name="~myClass" method="_-PkUoBs4EeWj4Pc_Ym9a1g"/>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_MLCJ8Bs5EeWj4Pc_Ym9a1g" name="myClass" visibility="private" method="_WnUioBs5EeWj4Pc_Ym9a1g">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_cAiDABs5EeWj4Pc_Ym9a1g" name="privateConstructorParam" isOrdered="true" isUnique="false">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dUtAoBs5EeWj4Pc_Ym9a1g"/>
-          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dUtnsBs5EeWj4Pc_Ym9a1g" value="*"/>
-        </ownedParameter>
-      </ownedOperation>
-    </nestedClassifier>
-  </packagedElement>
-  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Ba2TcPpAEeSpnsHyI6QRfw">
-    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BbPVAPpAEeSpnsHyI6QRfw" source="http://www.eclipse.org/uml2/2.0.0/UML">
-      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
-    </eAnnotations>
-    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
-  </profileApplication>
-</uml:Model>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_-PkUoBs4EeWj4Pc_Ym9a1g" name="myDestructorBehavior" specification="_QOkUEBp5EeWofYcfE8DB7g">
+          <language>C++</language>
+          <body>// This is my Destructor action code</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_KCTi4Bs5EeWj4Pc_Ym9a1g" name="myConstructorBehavior">
+          <language>C++</language>
+          <body>// This is my custom Constructor action code</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_WnUioBs5EeWj4Pc_Ym9a1g" name="myPrivateConstructorBehavior" specification="_MLCJ8Bs5EeWj4Pc_Ym9a1g">
+          <language>C++</language>
+          <body>// This is my private constructor action code</body>
+        </ownedBehavior>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_iH7VAPo9EeSpnsHyI6QRfw" name="myVoidOperation" method="_IS8MYPrfEeS4YfcvM01t0Q">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_ttzzAPo9EeSpnsHyI6QRfw" name="toPrintParameter">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_zTdz8Po9EeSpnsHyI6QRfw" name="myGetterOperation" method="_F8AegPsREeSpTK3KK0hlnw">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_7xVYIPo9EeSpnsHyI6QRfw" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_9H-a8Po9EeSpnsHyI6QRfw" name="myMultiParamOperation" method="_hXYOgPsREeSpTK3KK0hlnw">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_Ber8gPo-EeSpnsHyI6QRfw" name="myInParam">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_IuWoMPo-EeSpnsHyI6QRfw" name="myInOutParam" direction="inout">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_MMUj4Po-EeSpnsHyI6QRfw" name="myOutParam" direction="out" effect="create">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_DDfhsPo_EeSpnsHyI6QRfw" direction="return">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_QOkUEBp5EeWofYcfE8DB7g" name="~myClass" method="_-PkUoBs4EeWj4Pc_Ym9a1g"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_MLCJ8Bs5EeWj4Pc_Ym9a1g" name="myClass" visibility="private" method="_WnUioBs5EeWj4Pc_Ym9a1g">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_cAiDABs5EeWj4Pc_Ym9a1g" name="privateConstructorParam" isOrdered="true" isUnique="false">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dUtAoBs5EeWj4Pc_Ym9a1g"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dUtnsBs5EeWj4Pc_Ym9a1g" value="*"/>
+          </ownedParameter>
+        </ownedOperation>
+      </nestedClassifier>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Ba2TcPpAEeSpnsHyI6QRfw">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_BbPVAPpAEeSpnsHyI6QRfw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_pNm6MB_MEeWj0O6mXBLI5Q">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_pN2x0B_MEeWj0O6mXBLI5Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <standard:Destroy xmi:id="_rxGKoB_MEeWj0O6mXBLI5Q" base_BehavioralFeature="_QOkUEBp5EeWofYcfE8DB7g"/>
+  <standard:Create xmi:id="_yYXZkB_MEeWj0O6mXBLI5Q" base_BehavioralFeature="_MLCJ8Bs5EeWj4Pc_Ym9a1g"/>
+</xmi:XMI>

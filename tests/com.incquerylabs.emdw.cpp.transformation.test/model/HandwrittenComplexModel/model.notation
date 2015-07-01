@@ -53,6 +53,28 @@
               <element xmi:type="uml:Reception" href="model.uml#_gV3E8BNsEeWBN_fGfsaQrQ"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_gV6IQRNsEeWBN_fGfsaQrQ"/>
             </children>
+            <children xmi:type="notation:Shape" xmi:id="_FPX70B_NEeWj0O6mXBLI5Q" type="3013">
+              <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ID548B_NEeWj0O6mXBLI5Q" source="Stereotype_Annotation">
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ID6gAB_NEeWj0O6mXBLI5Q" key="StereotypeWithQualifiedNameList" value=""/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ID6gAR_NEeWj0O6mXBLI5Q" key="StereotypeList" value="StandardProfile::Destroy"/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ID6gAh_NEeWj0O6mXBLI5Q" key="Stereotype_Presentation_Kind" value="HorizontalStereo"/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ID6gAx_NEeWj0O6mXBLI5Q" key="PropStereoDisplay" value=""/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ID6gBB_NEeWj0O6mXBLI5Q" key="StereotypePropertyLocation" value="Compartment"/>
+              </eAnnotations>
+              <element xmi:type="uml:Operation" href="model.uml#_FO2-cB_NEeWj0O6mXBLI5Q"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_FPX70R_NEeWj0O6mXBLI5Q"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_R6u0IB_NEeWj0O6mXBLI5Q" type="3013">
+              <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ekrXMB_NEeWj0O6mXBLI5Q" source="Stereotype_Annotation">
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ekrXMR_NEeWj0O6mXBLI5Q" key="StereotypeWithQualifiedNameList" value=""/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ekr-QB_NEeWj0O6mXBLI5Q" key="StereotypeList" value="StandardProfile::Create"/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ekr-QR_NEeWj0O6mXBLI5Q" key="Stereotype_Presentation_Kind" value="HorizontalStereo"/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ekr-Qh_NEeWj0O6mXBLI5Q" key="PropStereoDisplay" value=""/>
+                <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ekr-Qx_NEeWj0O6mXBLI5Q" key="StereotypePropertyLocation" value="Compartment"/>
+              </eAnnotations>
+              <element xmi:type="uml:Operation" href="model.uml#_R6sX4B_NEeWj0O6mXBLI5Q"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_R6u0IR_NEeWj0O6mXBLI5Q"/>
+            </children>
             <styles xmi:type="notation:TitleStyle" xmi:id="_I2N1p_o8EeSpnsHyI6QRfw"/>
             <styles xmi:type="notation:SortingStyle" xmi:id="_I2N1qPo8EeSpnsHyI6QRfw"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_I2N1qfo8EeSpnsHyI6QRfw"/>
@@ -85,7 +107,7 @@
         <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOpP_o8EeSpnsHyI6QRfw"/>
       </children>
       <element xmi:type="uml:Component" href="model.uml#_RcK-0Po8EeSpnsHyI6QRfw"/>
-      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOCIfo8EeSpnsHyI6QRfw" x="250" y="62" width="614" height="397"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcOCIfo8EeSpnsHyI6QRfw" x="241" y="59" width="614" height="397"/>
     </children>
     <styles xmi:type="notation:StringValueStyle" xmi:id="_ckKR0fo6EeSpnsHyI6QRfw" name="diagram_compatibility_version" stringValue="1.0.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_ckKR0vo6EeSpnsHyI6QRfw"/>

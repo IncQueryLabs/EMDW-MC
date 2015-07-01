@@ -1,6 +1,9 @@
 package com.incquerylabs.emdw.umlintegration.queries
 
-import "http://www.eclipse.org/uml2/5.0.0/UML"
+import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
+
+// disabled since there are issues with Maven compilation
+//import "http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" as standard
 
 // Package
 
@@ -10,8 +13,8 @@ pattern xtPackage(umlPackage) {
 	neg find profile(umlPackage);
 }
 
-private pattern model(it) {
-	Model(it);
+pattern model(model) {
+	Model(model);
 }
 
 private pattern profile(it) {
@@ -121,6 +124,40 @@ pattern operation(umlClass: Class, operation: Operation) {
 	Class.ownedOperation(umlClass, operation);
 }
 
+pattern regularOperation(umlClass: Class, operation: Operation) {
+	find entity(umlClass);
+	Class.ownedOperation(umlClass, operation);
+	neg find constructorByName(umlClass, operation);
+	neg find destructorByName(umlClass, operation);
+}
+
+pattern constructorOperation(umlClass: Class, operation: Operation) {
+// not checked since there are issues with Maven compilation
+//	standard::Create.base_BehavioralFeature(_, operation);
+	find constructorByName(umlClass, operation);
+}
+
+pattern destructorOperation(umlClass: Class, operation: Operation) {
+// not checked since there are issues with Maven compilation
+//	standard::Destroy.base_BehavioralFeature(_, operation);
+	find destructorByName(umlClass, operation);
+}
+
+pattern constructorByName(umlClass : Class, operation : Operation){
+	find entity(umlClass);
+	Class.ownedOperation(umlClass, operation);
+	Class.name(umlClass, name);
+	Operation.name(operation, name);
+}
+
+pattern destructorByName(umlClass : Class, operation : Operation){
+	find entity(umlClass);
+	Class.ownedOperation(umlClass, operation);
+	Class.name(umlClass, name);
+	Operation.name(operation, opName);
+	check ( opName == "~"+name );
+}
+
 private pattern entity(umlClass: Class) {
 	find xtClass(umlClass);
 } or {
@@ -188,12 +225,12 @@ pattern xtClassEvent(umlClass: Class, signal: Signal) {
 
 // Types
 
-pattern typeDefinition(umlPackage: Package, type: Type) {
+pattern typeDefinition(umlPackage: Package, type : uml::Type) {
 	find isTypeDefinition(type);
 	Package.packagedElement(umlPackage, type);
 }
 
-private pattern isTypeDefinition(type: Type) {
+private pattern isTypeDefinition(type: uml::Type) {
 	find primitiveType(_, type);
 } or {
 	find structType(_, type);

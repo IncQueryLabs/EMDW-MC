@@ -61,8 +61,8 @@
 							<packageClass>org.eclipse.uml2.types.TypesPackage</packageClass>
 						</metamodel>
 						<metamodel>
-                            <packageClass>org.eclipse.uml2.uml.profile.standard.StandardPackage</packageClass>
-                        </metamodel>
+							<packageClass>org.eclipse.uml2.uml.profile.standard.StandardPackage</packageClass>
+						</metamodel>
 						<metamodel>
 							<packageClass>org.eclipse.papyrusrt.xtumlrt.common.CommonPackage</packageClass>
 						</metamodel>
@@ -85,11 +85,13 @@
 						<artifactId>org.eclipse.uml2.types</artifactId>
 						<version>2.0.0.v20140910-1354</version>
 					</dependency>
+					<!-- Disabled for compatibility reasons
 					<dependency>
-   						<groupId>org.eclipse.uml2.uml.profile</groupId>
-					    <artifactId>standard</artifactId>
-    					<version>1.0.0-v20140602-0749</version>
+						<groupId>org.eclipse.uml2.uml.profile</groupId>
+						<artifactId>standard</artifactId>
+						<version>1.0.0-v20140602-0749</version>
 					</dependency>
+					-->
 					<dependency>
 						<groupId>org.eclipse.papyrusrt</groupId>
 						<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
@@ -104,21 +106,6 @@
 						<groupId>com.incquerylabs.emdw</groupId>
 						<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
 						<version>1.0.0-SNAPSHOT</version>
-					</dependency>
-					<dependency>
-   						<groupId>org.eclipse.emf</groupId>
-						<artifactId>org.eclipse.emf.ecore</artifactId>
-						<version>2.10.2-v20150123-0348</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.emf</groupId>
-						<artifactId>org.eclipse.emf.codegen.ecore</artifactId>
-						<version>2.10.2-v20150123-0452</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.emf</groupId>
-						<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-						<version>2.10.2-v20150123-0348</version>
 					</dependency>
 				</dependencies>
 			</plugin>

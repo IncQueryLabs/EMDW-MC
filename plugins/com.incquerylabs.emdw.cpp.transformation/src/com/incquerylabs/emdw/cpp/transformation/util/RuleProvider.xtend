@@ -17,8 +17,6 @@ import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformatio
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
 
-import static com.google.common.base.Preconditions.*
-
 class RuleProvider {
 	
 	// Create an EventDrivenTransformationRuleFactory instance
@@ -57,11 +55,11 @@ class RuleProvider {
 		traceMap
 	}
 	
-	private def initRules(Map<Class<?>, AbstractObjectMapping<?,?,?>> rules) {
-		rules.forEach[class, rule | 
-			rule.initRule
+	private def initRules(Multimap<Class<?>, AbstractObjectMapping<?,?,?>> rulesmm) {
+		rulesmm.asMap.forEach[ class, rules | 
+			rules.forEach[rule | rule.initRule
 			mappings.put(class, rule)
-		]
+		]]
 	}
 	
 	private def initRule(AbstractObjectMapping rule) {

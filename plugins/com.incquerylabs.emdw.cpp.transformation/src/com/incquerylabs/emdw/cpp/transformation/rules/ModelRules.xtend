@@ -1,16 +1,19 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.google.common.collect.LinkedListMultimap
+import com.google.common.collect.Multimap
 import com.incquerylabs.emdw.cpp.transformation.mappings.AbstractObjectMapping
 import com.incquerylabs.emdw.cpp.transformation.queries.XtModelMatch
-import java.util.Map
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 
 class ModelRules {
 	
-	static def Map<Class<?>, AbstractObjectMapping<?,?,?>> getRules(IncQueryEngine engine) {
-		val keyMap = <Class<?>, AbstractObjectMapping<?,?,?>>newHashMap()
+	static Multimap<Class<?>, AbstractObjectMapping<?,?,?>> keyMap;
+	
+	static def Multimap<Class<?>, AbstractObjectMapping<?,?,?>> getRules(IncQueryEngine engine) {
+		keyMap = LinkedListMultimap.create()
 		keyMap.put(CPPModel, new ModelMapping(engine))
 		keyMap
 	}

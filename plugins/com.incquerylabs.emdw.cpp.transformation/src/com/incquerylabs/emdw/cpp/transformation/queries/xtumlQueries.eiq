@@ -74,6 +74,20 @@ pattern xtPackageInModel(xtPackage : Package, xtModel : Model) {
 	Model.packages(xtModel, xtPackage);
 }
 
+pattern xtModelPackageInPackage(
+	xtModel : Model,
+	xtParentPackage : Package,
+	xtChildPackage : Package
+) {
+	find xtPackageInModel(xtParentPackage, xtModel);
+	find xtPackageSubPackages(xtParentPackage, xtChildPackage);
+} or {
+	find xtPackageInModel(xtPackage, xtModel);
+	find xtPackageSubPackages+(xtPackage, xtParentPackage);
+	find xtPackageSubPackages(xtParentPackage, xtChildPackage);
+}
+
+
 pattern allXTComponentsOfXTComponent(
 	xtComponent : XTComponent,
 	subComponent : XTComponent

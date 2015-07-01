@@ -86,9 +86,9 @@
 						<version>2.0.0.v20140910-1354</version>
 					</dependency>
 					<dependency>
-						<groupId>org.eclipse.uml2</groupId>
-						<artifactId>org.eclipse.uml2.common</artifactId>
-						<version>2.0.1.v20140910-1354</version>
+   						<groupId>org.eclipse.uml2.uml.profile</groupId>
+					    <artifactId>standard</artifactId>
+    					<version>1.0.0-v20140602-0749</version>
 					</dependency>
 					<dependency>
 						<groupId>org.eclipse.papyrusrt</groupId>

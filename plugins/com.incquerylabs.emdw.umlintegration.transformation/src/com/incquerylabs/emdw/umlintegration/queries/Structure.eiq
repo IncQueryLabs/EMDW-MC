@@ -13,8 +13,8 @@ pattern xtPackage(umlPackage) {
 	neg find profile(umlPackage);
 }
 
-private pattern model(it) {
-	Model(it);
+pattern model(model) {
+	Model(model);
 }
 
 private pattern profile(it) {

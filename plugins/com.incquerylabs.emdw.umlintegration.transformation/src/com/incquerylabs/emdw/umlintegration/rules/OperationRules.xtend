@@ -36,7 +36,7 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 		Operation
 	}
 	
-	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.OPERATION_MAPPING_PRIORITY
 
 	override getRulePriority() {
 		PRIORITY
@@ -102,7 +102,7 @@ class ConstructorMapping extends AbstractObjectMapping<ConstructorOperationMatch
 		Operation
 	}
 	
-	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.OPERATION_MAPPING_PRIORITY
 
 	override getRulePriority() {
 		PRIORITY
@@ -168,7 +168,7 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 		Operation
 	}
 	
-	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.OPERATION_MAPPING_PRIORITY
 
 	override getRulePriority() {
 		PRIORITY

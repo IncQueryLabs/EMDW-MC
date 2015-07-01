@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.mappings
 
+import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import java.util.Map
 import org.eclipse.emf.ecore.EObject
@@ -10,10 +11,15 @@ import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 
 abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject extends EObject, CppObject extends EObject> extends AbstractMapping<Match> {
 	
-	protected static val CppmodelFactory cppModelFactory = CppmodelFactory.eINSTANCE
+	protected extension val CppmodelFactory cppModelFactory = CppmodelFactory.eINSTANCE
+	protected extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	// TODO: fix handling mapping cache (trace)
 	Map<XtumlObject, CppObject> traceMap = newHashMap()
+	
+	public def Map<XtumlObject, CppObject> getTraceMap() {
+		return traceMap
+	}
 	
 	new(IncQueryEngine engine) {
 		super(engine)

@@ -27,4 +27,4 @@ Simply run `mvn clean install` in the repository root.
 
 ## Further information
 
-Read the [wiki](https://github.com/IncQueryLabs/EMDW-MC/wiki) for details
+Read the [wiki](https://github.com/IncQueryLabs/EMDW-MC/wiki) for details.

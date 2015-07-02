@@ -38,6 +38,10 @@ class ComponentRules {
 			headerDirectory.files.clear
 			headerDirectory.subDirectories.clear
 		}
+		bodyDirectory.files += cppComponent.mainBodyFile
+		headerDirectory.files += cppComponent.mainHeaderFile
+		headerDirectory.files += cppComponent.declarationHeaderFile
+		headerDirectory.files += cppComponent.definitionHeaderFile
 		
 		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
 	].build

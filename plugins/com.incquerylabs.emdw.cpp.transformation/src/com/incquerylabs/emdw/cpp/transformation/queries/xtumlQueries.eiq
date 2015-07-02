@@ -132,6 +132,26 @@ pattern xtComponents(
 	XTComponent(xtComponent);
 }
 
+pattern xtComponentInModel(
+	xtModel : Model,
+	xtComponent : XTComponent
+) {
+	Model.entities(xtModel, xtComponent);
+}
+
+pattern xtComponentInPackage (
+	xtModel : Model,
+	xtParentPackage : Package,
+	xtComponent : XTComponent
+) {
+	Model.packages(xtModel, xtParentPackage);
+	find xtPackageXTComponents(xtParentPackage, xtComponent);
+} or {
+	Model.packages(xtModel, xtPackage);
+	find xtPackageSubPackages+(xtPackage, xtParentPackage);
+	find xtPackageXTComponents(xtParentPackage, xtComponent);
+}
+
 pattern stateMachineStates(
 	stateMachine : StateMachine,
 	state : State

@@ -16,6 +16,7 @@ import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLife
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
+import com.incquerylabs.emdw.cpp.transformation.rules.ModelComponentRules
 
 class RuleProvider {
 	
@@ -41,6 +42,7 @@ class RuleProvider {
 	def initRules() {
 		ModelRules.getRules(engine).initRules
 		ModelPackageRules.getRules(engine, this).initRules
+		ModelComponentRules.getRules(engine, this).initRules
 	}
 	
 	def <T> Map<Object, T> findTraces(Class<T> type) {

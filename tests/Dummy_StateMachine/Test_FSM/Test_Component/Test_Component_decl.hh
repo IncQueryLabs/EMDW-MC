@@ -23,7 +23,7 @@
 #endif
 
 #include "Test_FSM/Test_FSM_decl.hh"
-#include "Test_FSM/Main_Package/Test_Component/Test_Package_decl.hh"
-#include "Test_FSM/Main_Package/Test_Component/Test_Component_main.hh"
+#include "Test_FSM/Test_Component/Test_Package_decl.hh"
+#include "Test_FSM/Test_Component/Test_Component_main.hh"
 
 #endif

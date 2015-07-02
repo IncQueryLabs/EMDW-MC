@@ -11,8 +11,11 @@ sp 		:= $(sp).x
 dirstack_$(sp)	:= $(d)
 d	:= $(dir)
 
-dir	:=	$(d)/Main_Package
+dir	:=	$(d)/Test_Component
 include	$(dir)/Rules.mk
+dir := $(d)/Runtime
+include	$(dir)/Rules.mk
+
 SOURCES_$(d)	:= $(wildcard $(d)/*.cc)
 OBJECTS_$(d)	:= $(SOURCES_$(d):%.cc=%.o)
 

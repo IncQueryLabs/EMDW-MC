@@ -35,16 +35,15 @@
 #endif
 #endif
 
-#include "Test_FSM/Main_Package/Test_Component/Test_Component_decl.hh"
+#include "Test_FSM/Runtime/ActiveComponent.hh"
+#include "Test_FSM/Test_Component/Test_Component_decl.hh"
 
 namespace Test_FSM {
-  namespace Main_Package {
-    namespace Test_Component {
-      class Test_Component_main {
-      public:
-        Test_Component_main() {}
-      };
-    }
+  namespace Test_Component {
+    class CompMain : public ActiveComponent {
+    public:
+  	  CompMain() {}
+    };
   }
 }
 

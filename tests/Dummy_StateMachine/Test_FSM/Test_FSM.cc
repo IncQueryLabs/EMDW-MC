@@ -16,16 +16,16 @@
 #include <iostream>
 using namespace std;
 
-#include "Test_FSM/Main_Package/Test_Component/TEST.hh"
+#include "Test_FSM/Test_Component/TEST.hh"
 
-::Test_FSM::Main_Package::Test_Component::Test_Package::TEST* testClass;
+::Test_FSM::Test_Component::Test_Package::TEST* testClass;
 bool initialized = false;
 
 int ::Test_FSM::init() {
   if(initialized) {
     return -1;
   }
-  testClass = new ::Test_FSM::Main_Package::Test_Component::Test_Package::TEST();
+  testClass = new ::Test_FSM::Test_Component::Test_Package::TEST();
   initialized = true;
   return 0;
 }
@@ -33,33 +33,27 @@ int ::Test_FSM::init() {
 void ::Test_FSM::run() {
 	 cout << "Running test" << endl;
 	 // send some events to statemachine
-	 testClass->processEvent(0 /* TEST_EVENT_WORK */ , "valid");
-	 if(testClass->current_state != 1) {
-		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of WORK)" << endl;
+	 testClass->process_event(new ::Test_FSM::Test_Component::Test_Package::TEST::mySignal2_event(false));
+	 if(testClass->current_state != 3) {
+		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of myState3)" << endl;
 		 return;
 	 }
 
-	 testClass->processEvent(2 /* TEST_EVENT_NOP */, "valid");
-	 if(testClass->current_state != 1) {
-		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of WORK)" << endl;
+	 testClass->process_event(new ::Test_FSM::Test_Component::Test_Package::TEST::mySignal2_event(false));
+	 if(testClass->current_state != 3) {
+		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of myState3)" << endl;
 		 return;
 	 }
 
-	 testClass->processEvent(1 /* TEST_EVENT_DONE */, "valid");
+	 testClass->process_event(new ::Test_FSM::Test_Component::Test_Package::TEST::mySignal1_event(false));
+	 if(testClass->current_state != 4) {
+		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of myState4)" << endl;
+		 return;
+	 }
+
+	 testClass->process_event(new ::Test_FSM::Test_Component::Test_Package::TEST::mySignal1_event(false));
 	 if(testClass->current_state != 0) {
-		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of INIT)" << endl;
-		 return;
-	 }
-
-	 testClass->processEvent(2 /* TEST_EVENT_NOP */, "valid");
-	 if(testClass->current_state != 0) {
-		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of INIT)" << endl;
-		 return;
-	 }
-
-	 testClass->processEvent(0 /* TEST_EVENT_WORK */, "invalid");
-	 if(testClass->current_state != 0) {
-		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of INIT)" << endl;
+		 cerr << "TEST is not in correct state (" << testClass->current_state << " instead of TERMINATE)" << endl;
 		 return;
 	 }
 }

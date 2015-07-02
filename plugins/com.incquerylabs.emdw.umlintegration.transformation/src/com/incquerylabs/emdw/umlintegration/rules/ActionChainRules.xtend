@@ -49,6 +49,7 @@ class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavio
 
 	override updateXtumlrtObject(ActionChain xtumlrtObject, ActionChainMatch match) {
 		xtumlrtObject.actions.head.source = ModelUtil.getCppCode(match.umlObject)
+		xtumlrtObject.actions.head.name =match.umlObject.name
 	}
 
 	def getXtumlrtContainer(ActionChainMatch match) {

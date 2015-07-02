@@ -56,6 +56,8 @@ import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformatio
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
 import org.eclipse.incquery.runtime.evm.specific.Lifecycles
+import com.incquerylabs.emdw.umlintegration.rules.StateExitRules
+import com.incquerylabs.emdw.umlintegration.rules.StateEntryRules
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -97,6 +99,8 @@ class RuleProvider {
 		ParameterRules.getRules(engine).initRules
 		PrimitiveTypeRules.getRules(engine).initRules
 		SimpleStateRules.getRules(engine).initRules
+		StateEntryRules.getRules(engine).initRules
+		StateExitRules.getRules(engine).initRules
 		StateMachineRules.getRules(engine).initRules
 		StructMemberRules.getRules(engine).initRules
 		StructTypeRules.getRules(engine).initRules

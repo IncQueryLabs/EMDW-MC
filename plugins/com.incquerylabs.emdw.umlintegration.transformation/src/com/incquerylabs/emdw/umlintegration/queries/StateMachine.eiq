@@ -264,6 +264,24 @@ pattern actionChain(transition: Transition, effect: Behavior) {
 	Transition.effect(transition, effect);
 }
 
+// State children
+
+pattern umlState(state: State) {
+	find simpleState(state);
+} or {
+	find compositeState(state);
+}
+
+pattern stateEntryBehavior(state: State, entry: Behavior) {
+	find umlState(state);
+	State.entry(state, entry);
+}
+
+pattern stateExitBehavior(state: State, exit: Behavior) {
+	find umlState(state);
+	State.exit(state, exit);
+}
+
 // Events
 // FIXME Signal Event is related to protocol, so this is incorrect
 pattern xtSignalEvent(umlClass: Class, signal: Signal) {

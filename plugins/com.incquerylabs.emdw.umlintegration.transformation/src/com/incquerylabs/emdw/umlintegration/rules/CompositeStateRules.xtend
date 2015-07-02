@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.umlintegration.rules
 import com.incquerylabs.emdw.umlintegration.queries.ChildCompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.CompositeStateMatch
 import com.incquerylabs.emdw.umlintegration.queries.ToplevelCompositeStateMatch
-import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
@@ -51,7 +50,6 @@ class CompositeStateMapping extends AbstractObjectMapping<CompositeStateMatch, o
 	}
 
 	override updateXtumlrtObject(CompositeState xtumlrtObject, CompositeStateMatch match) {
-		TransformationUtil.updateState(xtumlrtObject, match.state)
 	}
 	
 	override insertXtumlrtObject(CompositeState xtumlrtObject, CompositeStateMatch match) {

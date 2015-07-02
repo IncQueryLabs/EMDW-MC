@@ -86,10 +86,25 @@ class CodeGenerator {
 			if (!cppComponentMatcher.hasMatch(xtComponent, null)) {
 				val componentDir = cppFactory.createCPPDirectory
 				cppResource.contents += componentDir
+				val mainBodyFile = createCPPBodyFile
+				val mainHeaderFile = createCPPHeaderFile
+				val declHeaderFile = createCPPHeaderFile
+				val defHeaderFile = createCPPHeaderFile
+				componentDir.files += mainBodyFile
+				componentDir.files += mainHeaderFile
+				componentDir.files += declHeaderFile
+				componentDir.files += defHeaderFile
+				
 				val cppComponent = createCPPComponent => [
 					it.xtComponent = xtComponent
 					it.headerDirectory = componentDir
 					it.bodyDirectory = componentDir
+					
+					it.mainBodyFile = mainBodyFile
+					it.mainHeaderFile = mainHeaderFile
+					it.declarationHeaderFile = declHeaderFile
+					it.definitionHeaderFile = defHeaderFile
+					
 					it.ooplNameProvider = createOOPLExistingNameProvider => [
 						commonNamedElement = xtComponent
 					]

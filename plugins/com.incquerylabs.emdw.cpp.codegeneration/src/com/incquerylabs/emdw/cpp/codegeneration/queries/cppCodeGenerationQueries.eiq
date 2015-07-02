@@ -5,6 +5,13 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
+pattern cppComponents(
+	xtComponent : XTComponent,
+	cppComponent : CPPComponent
+) {
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+}
+
 pattern cppClasses(
 	xtClass : XTClass,
 	cppClass : CPPClass

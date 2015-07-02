@@ -25,6 +25,35 @@ class RuleProvider {
 		templates = new CPPTemplates(engine)
 	}
 	
+	public val cppComponentRule = createRule.precondition(cppComponents).action[ match |
+		val cppComponent = match.cppComponent
+		val componentName = cppComponent.cppName
+		val declHeaderName = '''«componentName»_decl.hh'''
+		val defHeaderName = '''«componentName»_def.hh'''
+		val mainHeaderName = '''«componentName»_main.hh'''
+		val mainBodyName = '''«componentName»_main.cc'''
+		
+		trace('''Generating code for «cppComponent.cppName» CPPComponent''')
+		
+		val declHeader = componentDeclHeaderTemplate(cppComponent)
+		val defHeader = componentDefHeaderTemplate(cppComponent)
+		val mainHeader = componentMainHeaderTemplate(cppComponent)
+		val mainBody = componentMainBodyTemplate(cppComponent)
+		generatedFiles.put(declHeaderName, declHeader.toString)
+		generatedFiles.put(defHeaderName, defHeader.toString)
+		generatedFiles.put(mainHeaderName, mainHeader.toString)
+		generatedFiles.put(mainBodyName, mainBody.toString)
+		generatedCPPSourceFiles.put(cppComponent.declarationHeaderFile, declHeader)
+		generatedCPPSourceFiles.put(cppComponent.definitionHeaderFile, defHeader)
+		generatedCPPSourceFiles.put(cppComponent.mainHeaderFile, mainHeader)
+		generatedCPPSourceFiles.put(cppComponent.mainBodyFile, mainBody)
+		
+		logGeneratedFiles()
+		
+		trace('''Generated code for «cppComponent.cppName» CPPComponent''')
+		trace('''Generating code for subelements of «cppComponent.cppName» CPPComponent''')
+	].build
+	
 	public val xtClassRule = createRule.precondition(cppClasses).action[ match |
 		val cppClass = match.cppClass
 		trace('''Generating code for «cppClass.cppName» CPPClass''')
@@ -50,17 +79,25 @@ class RuleProvider {
 		trace('''Generated code for «cppClass.cppName» CPPClass''')
 	].build
 	
+	def logGeneratedFiles(){
+		generatedFiles.forEach[fileName, fileContent|
+			debug(
+			'''
+				«fileName»
+				
+				«fileContent»
+			'''
+			)
+		]
+	}
+	
 	public def addRules(BatchTransformation transformation) {
 		
 		val rules = new BatchTransformationRuleGroup(
+			cppComponentRule,
 			xtClassRule
 		)
 		
 		transformation.addRules(rules)
 	}
-	
-//	
-//	private def initRule(AbstractObjectMapping rule) {
-//		val eventDrivenRule = createRule.precondition().action().build
-//	}
 }

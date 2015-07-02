@@ -1,6 +1,7 @@
 # EMDW-MC
 
-Ericsson Model Driven Workflow - Model Compiler
+Ericsson Model Driven Workflow - Model Compiler 
+[![Build Status](https://build.inf.mit.bme.hu/jenkins/buildStatus/icon?job=ericsson-emdw-modelcompiler)](https://build.inf.mit.bme.hu/jenkins/job/ericsson-emdw-modelcompiler)
 
 ## Repository structure
 

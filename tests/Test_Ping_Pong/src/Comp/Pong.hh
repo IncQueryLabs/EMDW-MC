@@ -10,126 +10,112 @@
 
 #include <string>
 #include <queue>
-#include <vector>
+#include <list>
 
 #include "../Runtime/StatefulClass.hh"
 #include "../Runtime/Event.hh"
 
 #include "Comp_decl.hh"
 
-/******************************* GENERATED CODE *******************************/
+// GENERATED CODE START
 namespace model{
 namespace Comp{
 
-class Pong : public StatefulClass {
+class Pong : public ::StatefulClass {
 
 public:
 
 
-    // Constructors
-    Pong();
+	// Constructors
+	Pong();
 
-    // Destructor
-    virtual ~Pong();
+	// Destructor
+	virtual ~Pong();
 
-    void perform_initialization();
+	void perform_initialization();
 
-    // Attributes
+	// Attributes
 
-    // Associations
-    ::model::Comp::Ping* R1_ping;
+	// Associations
+	::model::Comp::Ping* R1_ping;
 
-    // Operation declarations
+	// Component reference
+	::model::Comp::CompMain* _comp;
 
-    enum Pong_state {
-        Pong_STATE_s1,
-        Pong_STATE_s2
-    };
+	// Operation declarations
 
-    enum Pong_event {
-        Pong_EVENT_ping_s
-    };
+	enum Pong_state {
+		Pong_STATE_s1,
+		Pong_STATE_s2
+	};
 
-    class ping_sEvent : public Event {
-        public:
-            ping_sEvent(bool isInternal);
-    };
+	enum Pong_event {
+		Pong_EVENT_ping_s
+	};
 
-    Pong_state current_state;
+	class ping_s_event : public ::Event {
+		public:
+			ping_s_event(bool isInternal);
+	};
 
-    virtual void generateEvent(const Event* e);
-    virtual void process();
 
-    void process_event(const Event* event);
+	Pong_state current_state;
 
-    inline const ::model::Comp::Ping* getR1_ping() const {
-        return R1_ping;
-    }
+	virtual void generate_event(const ::Event* e);
+	virtual void process();
 
-    inline void setR1_ping(::model::Comp::Ping* toSet) {
-        R1_ping = toSet;
-    }
-
-    inline void setComponent(::model::Comp::CompMain* comp) {
-        this->_comp = comp;
-    }
+	void process_event(const ::Event* event);
 
 protected:
 
-    // Constructors
+	// Constructors
 
-    // Destructor
+	// Destructor
 
-    // Attributes
+	// Attributes
 
-    // Operation declarations
+	// Operation declarations
 
 private:
 
-    // Deny copy of the class using copy constructor
-    Pong(const Pong&);
+	// Deny copy of the class using copy constructor
+	Pong(const Pong&);
 
-    // Deny copy of the class using assignment
-    Pong& operator=(const Pong&);
+	// Deny copy of the class using assignment
+	Pong& operator=(const Pong&);
 
-    static std::vector< Pong* > _instances;
+	static ::std::list< Pong* > _instances;
 
-    static const unsigned short type_id = 2;
+	static const unsigned short type_id = 1;
 
-    virtual unsigned short get_type_id() const {
-        return type_id;
-    }
+	virtual unsigned short get_type_id() const {
+		return type_id;
+	}
 
-    // Constructors
+	// Constructors
 
-    // Destructor
+	// Destructor
 
-    // Attributes
+	// Attributes
 
-    // Operation declarations
+	// Operation declarations
 
-    // s1 state
+	// s1 state
 
-    void process_event_in_s1_state(const Event* event);
+	void process_event_in_s1_state(const ::Event* event);
 
-    // s2 state
-    void perform_entry_action_for_s2_state(const Event* event);
+	// s2 state
+	void perform_entry_action_for_s2_state(const ::Event* event);
 
-    void process_event_in_s2_state(const Event* event);
+	void process_event_in_s2_state(const ::Event* event);
 
-    void perform_actions_on_e2_transition_from_s2_to_s1(const Event* event);
-
-    // State queues
-    std::queue<const Event*> _internalEvents, _externalEvents;
-
-    // Component reference
-    ::model::Comp::CompMain* _comp;
-};
+	void perform_actions_on_e2_transition_from_s2_to_s1(const ::Event* event);
+	// State queues
+	::std::queue<const ::Event*> _internalEvents, _externalEvents;
+}; /* class Pong */
 } /* namespace Comp */
 } /* namespace model */
 
-
-/******************************* GENERATED CODE *******************************/
-
+// GENERATED CODE END
 
 #endif /* SRC_COMP_PONG_H_ */

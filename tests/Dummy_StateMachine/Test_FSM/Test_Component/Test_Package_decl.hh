@@ -21,14 +21,12 @@
 
 #include <string>
 
-#include "Test_FSM/Main_Package/Test_Component/Test_Component_decl.hh"
+#include "Test_FSM/Test_Component/Test_Component_decl.hh"
 
-namespace Test_FSM {
-  namespace Main_Package {
-    namespace Test_Component {
-      namespace Test_Package {
-        class TEST;
-      }
+namespace Test_FSM{
+namespace Test_Component{
+namespace Test_Package{
+      class TEST;
     }
   }
 }

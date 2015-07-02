@@ -35,8 +35,8 @@
 #endif
 #endif
 
-#include "Test_FSM/Main_Package/Test_Component/Test_Component_decl.hh"
+#include "Test_FSM/Test_Component/Test_Component_decl.hh"
 #include "Test_FSM/Test_FSM_def.hh"
-#include "Test_FSM/Main_Package/Test_Component/Test_Package_def.hh"
+#include "Test_FSM/Test_Component/Test_Package_def.hh"
 
 #endif

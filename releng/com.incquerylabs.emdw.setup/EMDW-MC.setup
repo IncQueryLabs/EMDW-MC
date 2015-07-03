@@ -33,11 +33,7 @@
   <setupTask
       xsi:type="setup.p2:P2Task">
     <requirement
-        name="org.eclipse.papyrus.sdk.sources.feature.feature.group"/>
-    <requirement
         name="org.eclipse.incquery.sdk.feature.source.feature.group"/>
-    <requirement
-        name="org.eclipse.incquery.testing.sdk.feature.feature.group"/>
     <requirement
         name="org.eclipse.viatra.emf.runtime.feature.feature.group"/>
     <requirement
@@ -48,16 +44,16 @@
         name="org.eclipse.uml2.sdk.feature.group"/>
     <requirement
         name="org.eclipse.emf.ecoretools.design.feature.group"/>
+    <requirement
+        name="org.eclipse.papyrus.sdk.feature.feature.group"/>
+    <requirement
+        name="org.eclipse.incquery.uml.feature.feature.group"/>
     <repository
-        url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/luna"/>
-    <repository
-        url="https://hudson.eclipse.org/incquery/job/incquery-master/lastSuccessfulBuild/artifact/update-site-extra/"/>
+        url="http://download.eclipse.org/incquery/updates-extra/release"/>
     <repository
         url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
     <repository
-        url="https://hudson.eclipse.org/viatra/job/viatra-master/lastSuccessfulBuild/artifact/releng/org.eclipse.viatra.update/target/repository"/>
-    <repository
-        url="http://download.eclipse.org/ecoretools/updates/releases/2.0.3/luna"/>
+        url="http://download.eclipse.org/viatra2/emf/updates/release"/>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -90,9 +86,10 @@
       xsi:type="setup.targlets:TargletTask">
     <targlet
         name="EMDW"
-        activeRepositoryList="Default">
+        activeRepositoryList="${eclipse.target.platform}">
       <requirement
-          name="org.eclipse.papyrus.sdk.sources.feature.feature.group"/>
+          name="org.eclipse.papyrus.sdk.sources.feature.feature.group"
+          optional="true"/>
       <requirement
           name="org.eclipse.incquery.sdk.feature.source.feature.group"/>
       <requirement
@@ -107,18 +104,36 @@
           name="org.eclipse.uml2.sdk.feature.group"/>
       <requirement
           name="org.eclipse.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.papyrus.sdk.feature.source.feature.group"
+          optional="true"/>
+      <requirement
+          name="org.eclipse.incquery.uml.feature.feature.group"/>
       <repositoryList
-          name="Default">
+          name="Luna">
         <repository
             url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/luna"/>
         <repository
-            url="https://hudson.eclipse.org/incquery/job/incquery-master/lastSuccessfulBuild/artifact/update-site-extra/"/>
+            url="http://download.eclipse.org/incquery/updates-extra/release"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
         <repository
-            url="https://hudson.eclipse.org/viatra/job/viatra-master/lastSuccessfulBuild/artifact/releng/org.eclipse.viatra.update/target/repository"/>
+            url="http://download.eclipse.org/viatra2/emf/updates/release"/>
         <repository
             url="http://download.eclipse.org/releases/luna"/>
+      </repositoryList>
+      <repositoryList
+          name="Mars">
+        <repository
+            url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars"/>
+        <repository
+            url="http://download.eclipse.org/incquery/updates-extra/release"/>
+        <repository
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+        <repository
+            url="http://download.eclipse.org/viatra2/emf/updates/release"/>
+        <repository
+            url="http://download.eclipse.org/releases/mars"/>
       </repositoryList>
     </targlet>
   </setupTask>

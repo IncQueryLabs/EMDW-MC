@@ -42,9 +42,9 @@ class CPPCodeGeneration {
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
-			ruleProvider = new RuleProvider(engine)
-			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
+			ruleProvider = new RuleProvider(engine, statements)
+			ruleProvider.addRules(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true
@@ -55,7 +55,6 @@ class CPPCodeGeneration {
 			info('''Executing transformation on «cppModel.cppName»''')
 			val watch = Stopwatch.createStarted
 			fireAllCurrent(ruleProvider.cppComponentRule)
-			fireAllCurrent(ruleProvider.xtClassRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	

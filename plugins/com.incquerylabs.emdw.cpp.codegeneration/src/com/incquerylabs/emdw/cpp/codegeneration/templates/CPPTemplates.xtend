@@ -1,9 +1,10 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
+import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class CPPTemplates {
 	
@@ -14,12 +15,14 @@ class CPPTemplates {
 	val IncQueryEngine engine
 	val ClassTemplates classTemplates
 	val ComponentTemplates componentTemplates
+	val PackageTemplates packageTemplates
 	val TypeIdentifierGenerator typeIdGenerator
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
 		typeIdGenerator = new TypeIdentifierGenerator
 		componentTemplates = new ComponentTemplates(engine)
+		packageTemplates = new PackageTemplates(engine)
 		classTemplates = new ClassTemplates(engine, typeIdGenerator)
 	}
 	
@@ -37,6 +40,14 @@ class CPPTemplates {
 	
 	def CharSequence componentMainBodyTemplate(CPPComponent cppComponent){
 		componentTemplates.componentMainBodyTemplate(cppComponent)
+	}
+	
+	def CharSequence packageMainHeaderTemplate(CPPPackage cppPackage){
+		packageTemplates.packageMainHeaderTemplate(cppPackage)
+	}
+	
+	def CharSequence packageMainBodyTemplate(CPPPackage cppPackage){
+		packageTemplates.packageMainBodyTemplate(cppPackage)
 	}
 	
 	def classHeaderTemplate(CPPClass cppClass) {

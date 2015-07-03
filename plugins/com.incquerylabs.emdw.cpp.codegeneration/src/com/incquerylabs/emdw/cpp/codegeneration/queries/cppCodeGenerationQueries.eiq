@@ -5,6 +5,14 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
+// xtUML to cppmodel mappings
+pattern cppComponents(
+	xtComponent : XTComponent,
+	cppComponent : CPPComponent
+) {
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+}
+
 pattern cppClasses(
 	xtClass : XTClass,
 	cppClass : CPPClass
@@ -12,33 +20,71 @@ pattern cppClasses(
 	CPPClass.xtClass(cppClass, xtClass);
 }
 
+// Elements directly in containers
+pattern cppClassInQualifiedNamedElement(
+	cppClass : CPPClass,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppClass);
+}
+
+pattern cppPackageInQualifiedNamedElement(
+	cppPackage : CPPPackage,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppPackage);
+}
+
 pattern cppClassInComponent(
 	cppClass : CPPClass,
 	cppComponent : CPPComponent
 ) {
-	CPPComponent.subElements(cppComponent, cppClass);
-} or {
-	CPPComponent.subElements(cppComponent, cppPackage);
-	find cppClassInPackage(cppClass, cppPackage);
+	find cppClassInQualifiedNamedElement(cppClass, cppComponent);
 }
 
 pattern cppClassInPackage(
 	cppClass : CPPClass,
 	cppPackage : CPPPackage
 ) {
-	CPPPackage.subElements(cppPackage, cppClass);
-} or {
-	find cppPackageInPackage+(cppPackage, subPackage);
-	CPPPackage.subElements(subPackage, cppClass);
+	find cppClassInQualifiedNamedElement(cppClass, cppPackage);
+}
+
+pattern cppPackageInComponent(
+	cppPackage : CPPPackage,
+	cppComponent : CPPComponent
+) {
+	find cppPackageInQualifiedNamedElement(cppPackage, cppComponent);
 }
 
 pattern cppPackageInPackage(
 	outerPackage : CPPPackage,
 	innerPackage : CPPPackage
 ) {
-	CPPPackage.subElements(outerPackage, innerPackage);
+	find cppPackageInQualifiedNamedElement(innerPackage, outerPackage);
 }
 
+// Elements in a package hierarchy
+pattern cppClassInComponentSubPackages(
+	cppClass : CPPClass,
+	cppComponent : CPPComponent
+) {
+	find cppClassInComponent(cppClass, cppComponent);
+} or {
+	find cppPackageInComponent(cppPackage, cppComponent);
+	find cppClassInPackageSubPackages(cppClass, cppPackage);
+}
+
+pattern cppClassInPackageSubPackages(
+	cppClass : CPPClass,
+	cppPackage : CPPPackage
+) {
+	find cppClassInPackage(cppClass, cppPackage);
+} or {
+	find cppPackageInPackage+(cppPackage, subPackage);
+	find cppClassInPackage(cppClass, subPackage);
+}
+
+// Elements of Classes
 pattern cppClassStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,
@@ -83,16 +129,7 @@ pattern cppRelationReferenceStorage(
 	CPPRelation.referenceStorage(cppRelation, cppReferenceStorage);
 }
 
-
-pattern classStateMachine(
-	xtClass : XTClass,
-	cppClass : CPPClass,
-	statemachine : StateMachine
-) {
-	XTClass.behaviour(xtClass, statemachine);
-	CPPClass.xtClass(cppClass, xtClass);
-}
-
+// Elements of StateMachines
 pattern stateMachineStates(
 	stateMachine : StateMachine,
 	state : State
@@ -113,7 +150,7 @@ pattern classStateMachineStates(
 	cppClass : CPPClass,
 	state : State
 ) {
-	find classStateMachine(xtClass, cppClass, statemachine);
+	find cppClassStateMachine(xtClass, cppClass, statemachine);
 	find stateMachineStates(statemachine, state);
 }
 
@@ -173,7 +210,7 @@ pattern cppClassInitState(
 	cppInitState : CPPState,
 	initTrans : Transition
 ) {
-	find classStateMachine(_, cppClass, statemachine);
+	find cppClassStateMachine(_, cppClass, statemachine);
 	StateMachine.top.initial(statemachine, initial);
 	Transition.sourceVertex(initTrans, initial);
 	Transition.targetVertex(initTrans, init);

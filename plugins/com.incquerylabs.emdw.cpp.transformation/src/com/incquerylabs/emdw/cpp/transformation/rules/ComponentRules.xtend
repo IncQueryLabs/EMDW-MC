@@ -38,10 +38,18 @@ class ComponentRules {
 			headerDirectory.files.clear
 			headerDirectory.subDirectories.clear
 		}
-		bodyDirectory.files += cppComponent.mainBodyFile
-		headerDirectory.files += cppComponent.mainHeaderFile
-		headerDirectory.files += cppComponent.declarationHeaderFile
-		headerDirectory.files += cppComponent.definitionHeaderFile
+		if(cppComponent.mainBodyFile != null){
+			bodyDirectory.files += cppComponent.mainBodyFile
+		}
+		if(cppComponent.mainHeaderFile != null){
+			headerDirectory.files += cppComponent.mainHeaderFile
+		}
+		if(cppComponent.declarationHeaderFile != null){
+			headerDirectory.files += cppComponent.declarationHeaderFile
+		}
+		if(cppComponent.definitionHeaderFile != null){
+			headerDirectory.files += cppComponent.definitionHeaderFile
+		}
 		
 		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
 	].build

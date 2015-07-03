@@ -210,11 +210,26 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			return super.getPropertiesOfClass(cl);
 		}
 
+		private boolean isRealClass(Class cls) {
+			//XXX this is ugly
+			return !(
+					cls instanceof Behavior ||
+					cls instanceof AssociationClass ||
+					cls instanceof Component ||
+					cls instanceof Node ||
+					cls instanceof Stereotype
+					);
+		}
+		
 		@Override
 		public Class getThisType() {
 			Object contextObject = getObjectToEdit();
 			if (contextObject instanceof Element) {
-				return EcoreUtil2.getContainerOfType(((Element)contextObject).eContainer(), Class.class);
+				Class containerClass = EcoreUtil2.getContainerOfType(((Element)contextObject), Class.class);
+				while (containerClass != null && !isRealClass(containerClass)) {
+					containerClass = EcoreUtil2.getContainerOfType(((Element)containerClass).eContainer(), Class.class);
+				}
+				return containerClass;
 			}
 			return null;
 		}

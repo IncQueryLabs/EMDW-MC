@@ -305,7 +305,7 @@ pattern cppClassAssociations(
 	association: XTAssociation
 ) {
 	find cppClasses(xtClass, cppClass);
-	XTClass.relations(xtClass, association);
+	XTAssociation.source(association, xtClass);
 	XTAssociation.target(association, xtTargetClass);
 	find cppClasses(xtTargetClass, cppTargetClass);
 }

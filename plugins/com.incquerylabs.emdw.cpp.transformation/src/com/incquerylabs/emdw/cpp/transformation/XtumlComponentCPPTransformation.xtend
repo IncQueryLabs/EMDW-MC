@@ -2,6 +2,11 @@ package com.incquerylabs.emdw.cpp.transformation
 
 import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
+import com.incquerylabs.emdw.cpp.transformation.rules.EntityRules
+import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
@@ -11,11 +16,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
-import com.incquerylabs.emdw.cpp.transformation.rules.EntityRules
-import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
-import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
 
 class XtumlComponentCPPTransformation {
 
@@ -31,7 +31,7 @@ class XtumlComponentCPPTransformation {
 	val packageRules = new PackageRules
 	val entityRules = new EntityRules
 	val componentRules = new ComponentRules
-	val classRules = new ClassRules
+	ClassRules classRules
 	val associationRules = new AssociationRules
 	
 
@@ -50,12 +50,14 @@ class XtumlComponentCPPTransformation {
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
+			statements = new BatchTransformationStatements(transform)
+			classRules = new ClassRules(engine, statements, associationRules)
+			
 			componentRules.addRules(transform)
 			packageRules.addRules(transform)
 			classRules.addRules(transform)
 			entityRules.addRules(transform)
 			associationRules.addRules(transform)
-			statements = new BatchTransformationStatements(transform)
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true
@@ -76,7 +78,6 @@ class XtumlComponentCPPTransformation {
 			statements.fireAllCurrent(entityRules.entityAttributeRule)
 			statements.fireAllCurrent(entityRules.entityOperationRule)
 			statements.fireAllCurrent(entityRules.cppSequenceTypeRule)
-			statements.fireAllCurrent(associationRules.associationRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

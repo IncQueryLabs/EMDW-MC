@@ -4,8 +4,10 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
 
@@ -16,6 +18,17 @@ class ClassRules {
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val BatchTransformationStatements statements
+	
+	val AssociationRules associationRules
+	
+	val IncQueryEngine engine
+	
+	new(IncQueryEngine engine, BatchTransformationStatements statements, AssociationRules associationRules) {
+		this.engine = engine
+		this.statements = statements
+		this.associationRules = associationRules
+	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
@@ -45,6 +58,8 @@ class ClassRules {
 		]
 		match.cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
+		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
+		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)
@@ -64,6 +79,8 @@ class ClassRules {
 		]
 		match.cppPackage.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in package «match.xtPackage.name» to CPPClass''')
+		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
+		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)

@@ -35,6 +35,9 @@ import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Classifier
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
+import org.eclipse.uml2.uml.Signal
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -313,6 +316,12 @@ from {
     result = ex.property.getType()
 }
 
+rule AssociationAccessExpression
+    G |- AssociationAccessExpression ex : Type result
+from {
+    result = ex.association.getType()
+}
+
 rule FeatureLeftHandSide
     G |- FeatureLeftHandSide lhs : Type result
 from {
@@ -350,4 +359,19 @@ from {
     empty |- st.variable : var Type varType
     empty |- st.expression : var Type valueType
     empty |- varType <: valueType
+}
+
+checkrule SendSignalStatement for
+    SendSignalStatement st
+from {
+    empty |- st.signal : var Type signalType
+    empty |- st.target : var Type targetType
+    if (!(signalType instanceof Signal)) {
+        fail
+        error "Invalid signal type " + signalType.name
+    }
+    if (!(targetType instanceof Class)) {
+        fail
+        error "Invalid signal target " + targetType.name
+    }
 }

@@ -5,19 +5,19 @@ package com.incquerylabs.uml.ralf.scoping
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
-import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
+import org.eclipse.uml2.uml.Class
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import org.eclipse.xtext.util.PolymorphicDispatcher
 
 /**
  * This class contains custom scoping description.
@@ -133,8 +133,29 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
             return null
         }
         val type = typeResult.value
-        if (type instanceof org.eclipse.uml2.uml.Class) {
+        if (type instanceof Class) {
             Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
+        } else {
+            null
+        }
+    }
+    
+    def IScope scope_AssociationAccessExpression_association(AssociationAccessExpression ctx, EReference ref) {
+        if (ctx.context != null && !(ctx.context.eIsProxy)) {
+            scope_AssociationAccessExpression_association(ctx.context, ref)
+        } else {
+            null
+        }
+    }
+    
+    def IScope scope_AssociationAccessExpression_association(Expression ctx, EReference ref) {
+        val typeResult = system.type(ctx)
+        if (typeResult.failed) {
+            return null
+        }
+        val type = typeResult.value
+        if (type instanceof Class) {
+            Scopes.scopeFor(umlContext.getAssociationsOfClass(type))
         } else {
             null
         }

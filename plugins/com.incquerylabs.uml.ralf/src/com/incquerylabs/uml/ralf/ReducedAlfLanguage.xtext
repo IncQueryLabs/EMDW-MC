@@ -52,6 +52,7 @@ PrimaryExpression returns Expression :
   BaseExpression
   ( {FeatureInvocationExpression.context = current} '.' operation = [uml::Operation|Name] parameters = Tuple |
     {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
+    {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
 //      ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple
 //      // CHANGE: Made SequenceExpansionExpression concrete.

@@ -4,19 +4,21 @@ import "http://www.eclipse.org/uml2/5.0.0/UML"
 import "http://Papyrus/xtUMLProfile"
 import "http://Papyrus/ExecutableModelingProfile"
 
-pattern xtClass(cl) {
+pattern xtClass(cl : Class) {
     XtClass.base_Class(_, cl);
 }
 
 pattern attributesOfClass(cl : Class, attribute : Property) {
 //    find xtClass(cl);
-    Property.type(sourceEnd, cl);
-    Association.ownedEnd(association, sourceEnd);
-    Association.ownedEnd(association, attribute);
-    sourceEnd != attribute;
-} or {
-//    find xtClass(cl);
     Class.ownedAttribute(cl, attribute);
+}
+
+pattern associationsOfClass(cl : Class, association : Property) {
+//    find xtClass(cl);
+    Property.type(sourceEnd, cl);
+    Association.ownedEnd(assoc, sourceEnd);
+    Association.ownedEnd(assoc, association);
+    sourceEnd != association;    
 }
 
 pattern propertyNames(cl : Class, name) {

@@ -46,6 +46,10 @@ abstract class AbstractUMLContextProvider implements IUMLContextProvider {
         return newArrayList
     }
     
+    override getAssociationsOfClass(Class cl) {
+        return newArrayList
+    }
+    
     override getThisType() {
         return null
     }

@@ -20,6 +20,7 @@ public interface IUMLContextProvider {
 	Type getPrimitiveType(String name);
 	
 	Iterable<Property> getPropertiesOfClass(Class cl);
+	Iterable<Property> getAssociationsOfClass(Class cl);
 	
 	/**
 	 * Returns the type of the this expression. If no container can be calculated, might return null.

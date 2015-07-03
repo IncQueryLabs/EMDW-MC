@@ -53,6 +53,7 @@ import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
 import com.incquerylabs.uml.ralf.scoping.AbstractUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
+import com.incquerylabs.uml.ralf.ui.queries.AssociationsOfClassMatcher;
 import com.incquerylabs.uml.ralf.ui.queries.AttributesOfClassMatcher;
 import com.incquerylabs.uml.ralf.ui.queries.XtClassMatcher;
 
@@ -189,6 +190,19 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			try {
 				matcher = AttributesOfClassMatcher.on(getEngine(getModel()));
 				return matcher.getAllValuesOfattribute(cl);
+			} catch (IncQueryException | ServiceException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return super.getPropertiesOfClass(cl);
+		}
+		
+		@Override
+		public Iterable<Property> getAssociationsOfClass(Class cl) {
+			AssociationsOfClassMatcher matcher;
+			try {
+				matcher = AssociationsOfClassMatcher.on(getEngine(getModel()));
+				return matcher.getAllValuesOfassociation(cl);
 			} catch (IncQueryException | ServiceException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

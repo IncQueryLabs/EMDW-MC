@@ -5,6 +5,7 @@ import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.Signal
+import org.eclipse.uml2.uml.Association
 
 abstract class AbstractUMLContextProvider implements IUMLContextProvider {
     
@@ -40,6 +41,10 @@ abstract class AbstractUMLContextProvider implements IUMLContextProvider {
     
     override getKnownSignals() {
         containerResource.allContents.filter(typeof(Signal)).toSet
+    }
+    
+    override getKnownAssociations() {
+        containerResource.allContents.filter(typeof(Association)).toSet
     }
     
     override getPropertiesOfClass(Class cl) {

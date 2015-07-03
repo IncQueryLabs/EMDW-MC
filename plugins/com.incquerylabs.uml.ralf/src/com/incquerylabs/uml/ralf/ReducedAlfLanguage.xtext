@@ -170,23 +170,15 @@ InstanceCreationOrSequenceConstructionExpression returns Expression :
 
 /* LINK OPERATION EXPRESSIONS */
 LinkOperationExpression :
-  associationName = QualifiedName '.' operation = LinkOperation tuple = LinkOperationTuple
+  association = [uml::Association|QualifiedName] '::' operation = LinkOperation tuple = LinkOperationTuple
 ;
 
-LinkOperation :
-'createLink' | 'destroyLink' | 'clearAssoc'
+enum LinkOperation :
+link = 'link' | unlink = 'unlink'
 ;
 
 LinkOperationTuple returns Tuple :
-'(' ( IndexedNamedTupleExpressionList | PositionalTupleExpressionList ) ')'
-;
-
-IndexedNamedTupleExpressionList returns NamedTuple :
-  namedExpression += IndexedNamedExpression (',' namedExpression += IndexedNamedExpression )*
-;
-
-IndexedNamedExpression returns NamedExpression : 
-    name = Name ( index = Index )? '=>' expression = Expression
+'(' ( NamedTupleExpressionList | PositionalTupleExpressionList ) ')'
 ;
 
 /* CLASS EXTENT EXPRESSIONS */

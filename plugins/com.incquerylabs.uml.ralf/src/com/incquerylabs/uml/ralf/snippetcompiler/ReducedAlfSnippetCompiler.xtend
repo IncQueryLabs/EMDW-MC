@@ -103,7 +103,7 @@ class ReducedAlfSnippetCompiler {
 	}
 	
 	def dispatch String visit(LinkOperationExpression ex){
-		'''«ex.associationName».«ex.operation»«ex.tuple.visit»'''
+		'''«ex.association.name».«ex.operation»«ex.tuple.visit»'''
 	}
 	
 	def dispatch String visit(PropertyAccessExpression ex){

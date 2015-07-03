@@ -4,6 +4,7 @@ validatorExtends AbstractReducedAlfLanguageValidator
 
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
@@ -12,6 +13,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
@@ -23,6 +26,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
@@ -33,11 +37,13 @@ import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Classifier
+import org.eclipse.uml2.uml.ConnectableElement
+import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.PrimitiveType
-import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import org.eclipse.uml2.uml.Signal
+import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -300,7 +306,13 @@ from {
 rule InstanceCreationExpression
     G |- InstanceCreationExpression ex : Type result
 from {
+    // Primitive types cannot be instantiated
     !(ex.instance instanceof PrimitiveType)
+    
+    // Parameter mapping
+    ex.tuple
+    
+    // Return typing
     result = ex.instance
 }
 
@@ -320,6 +332,17 @@ rule AssociationAccessExpression
     G |- AssociationAccessExpression ex : Type result
 from {
     result = ex.association.getType()
+}
+
+rule LinkOperationExpression
+    G |- LinkOperationExpression ex : Type result
+from {
+    {
+        ex.operation == LinkOperation.LINK
+        result = ex.association 
+    }  or {
+        result = null
+    } 
 }
 
 rule FeatureLeftHandSide

@@ -178,7 +178,20 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			return Lists.newArrayList();
 		}
 
+		
+		
         @Override
+		public Iterable<Association> getKnownAssociations() {
+        	try {
+				return getModelElementsByType(UMLPackage.Literals.ASSOCIATION, Association.class);
+			} catch (ServiceException | IncQueryException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return Lists.newArrayList();
+		}
+
+		@Override
         public Resource getContainerResource() {
             return getModel().eResource();
         }

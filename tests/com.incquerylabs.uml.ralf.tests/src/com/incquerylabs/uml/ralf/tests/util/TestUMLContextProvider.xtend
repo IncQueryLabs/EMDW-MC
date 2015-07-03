@@ -29,5 +29,4 @@ class TestUMLContextProvider extends AbstractUMLContextProvider {
 	override getContainerResource() {
 		resource
 	}
-
 }

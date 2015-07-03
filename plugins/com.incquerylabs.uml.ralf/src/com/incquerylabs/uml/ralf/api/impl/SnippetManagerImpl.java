@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
@@ -38,6 +40,7 @@ public class SnippetManagerImpl implements ISnippetManager {
     
     private Map<String, String> snippetMap;
     
+    private static final String LANGUAGE_NAME = "rALF";
     
     public SnippetManagerImpl() {
         snippetMap = Maps.newHashMap();
@@ -49,14 +52,34 @@ public class SnippetManagerImpl implements ISnippetManager {
     }
 
     @Override
+    public String getSnippet(OpaqueBehavior behavior) {
+        int indexOfRALFBody = -1;
+        String result = "";
+        for (int i = 0; i < behavior.getLanguages().size() && indexOfRALFBody == -1; i++) {
+            if (behavior.getLanguages().get(i).equals(LANGUAGE_NAME)) {
+                indexOfRALFBody = i;
+            }
+        }
+        EList<String> bodies = behavior.getBodies();
+        if (indexOfRALFBody >= 0) {
+            result = getSnippet(bodies.get(indexOfRALFBody));
+        }
+        return result;
+    }
+    
+    
+    @Override
     public String getSnippet(String behavior) {
         fileExtension = extensionProvider.getPrimaryFileExtension();
+        String result = "";
         try {
-            return (String) parse(behavior);
+            
+            result = (String) parse(behavior);
         } catch (Exception e) {
             e.printStackTrace();
-            return "";
         }
+        snippetMap.put(behavior, result);
+        return result;
     }
 
     protected CharSequence parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {

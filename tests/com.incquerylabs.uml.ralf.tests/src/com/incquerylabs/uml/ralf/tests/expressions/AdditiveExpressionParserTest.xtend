@@ -8,7 +8,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.impl.ExpressionStatementImpl
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageCustomInjectorProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.util.ParseHelper
@@ -19,10 +18,11 @@ import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
+import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageCustomInjectorProvider))
+@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
 class AdditiveExpressionParserTest {
 		
 	@Inject

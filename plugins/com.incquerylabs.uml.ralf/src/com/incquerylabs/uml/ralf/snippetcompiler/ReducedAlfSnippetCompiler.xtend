@@ -35,6 +35,11 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.UnboundedLiteralExpression
 import org.eclipse.emf.ecore.EObject
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 
 class ReducedAlfSnippetCompiler {
 
@@ -72,7 +77,7 @@ class ReducedAlfSnippetCompiler {
 	} 
 	
 	def dispatch String visit(LocalNameDeclarationStatement st){
-		'''«st.variable.type.name» «st.variable.name» = «st.expression.visit»;'''
+		'''«st.variable.type.qualifiedName» «st.variable.name» = «st.expression.visit»;'''
 	}
 	
 	def dispatch String visit(IfStatement st){
@@ -88,8 +93,19 @@ class ReducedAlfSnippetCompiler {
 		'''(«nfc.condition.visit») «nfc.body.visit»'''
 	}  	
 	
-	
+	def dispatch String visit(SendSignalStatement st){
+		'''«st.target.visit»->generate_event(«st.signal.visit»);'''
+	}
+		
 	//Expressions
+	def dispatch String visit(InstanceCreationExpression ex){
+		'''new «ex.instance.qualifiedName»«ex.tuple.visit»'''
+	}
+	
+	def dispatch String visit(LinkOperationExpression ex){
+		'''«ex.associationName».«ex.operation»«ex.tuple.visit»'''
+	}
+	
 	def dispatch String visit(PropertyAccessExpression ex){
 		'''«ex.context.visit».«ex.property.name»'''
 	}
@@ -101,6 +117,12 @@ class ReducedAlfSnippetCompiler {
 	def dispatch String visit(PositionalTuple tuple){
 		'''(«FOR expression : tuple.expression SEPARATOR ', '»«expression.visit»«ENDFOR»)'''
 	}
+	
+	def dispatch String visit(NamedTuple tuple){
+		'''(«FOR expression : tuple.namedExpression SEPARATOR ', '»«expression.visit»«ENDFOR»)'''
+	}
+	
+	
 	
 	def dispatch String visit(AssignmentExpression ex){
 		'''«ex.leftHandSide.visit» «ex.operator» «ex.rightHandSide.visit»''' 
@@ -169,6 +191,18 @@ class ReducedAlfSnippetCompiler {
 		'''«ex.reference.name»'''
 	}
 	
+	def dispatch String visit(NamedExpression ex){
+		'''«ex.name» => «ex.expression.visit»'''
+	}
+	
+	def dispatch String visit(NumericUnaryExpression ex){
+		'''«ex.operator»«ex.operand.visit»'''
+	}
+	
+	def dispatch String visit(BooleanUnaryExpression ex){
+		'''«ex.operator»«ex.operand.visit»'''
+	}
+	
 	def dispatch String visit(NaturalLiteralExpression ex) {
 	    ex.value.replace("_", "")
     }
@@ -225,6 +259,9 @@ class ReducedAlfSnippetCompiler {
 	private def dispatch parenthesisRequired(RelationalExpression ex) {
 	    if (ex.eContainer instanceof BooleanUnaryExpression) {
             return true
+        }
+        if(ex.eContainer instanceof ConditionalLogicalExpression){
+        	return true
         }
         return false
 	}

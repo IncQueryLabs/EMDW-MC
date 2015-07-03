@@ -8,9 +8,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageInjectorProvider;
+import com.incquerylabs.uml.ralf.api.ISnippetManager;
+import com.incquerylabs.uml.ralf.api.impl.SnippetManagerImpl;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
 
-public class ReducedAlfLanguageCustomInjectorProvider extends ReducedAlfLanguageInjectorProvider {
+public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageInjectorProvider {
 
     @Override
     protected Injector internalCreateInjector() {
@@ -33,6 +36,8 @@ public class ReducedAlfLanguageCustomInjectorProvider extends ReducedAlfLanguage
             @Override
             public void configure(Binder binder) {
                 binder.bind(IUMLContextProvider.class).toInstance(new TestUMLContextProvider());
+                binder.bind(ReducedAlfSnippetCompiler.class).toInstance(new ReducedAlfSnippetCompiler());
+                binder.bind(ISnippetManager.class).to(SnippetManagerImpl.class);
             }
         };
         return Guice.createInjector(runtimeModule, customizations);

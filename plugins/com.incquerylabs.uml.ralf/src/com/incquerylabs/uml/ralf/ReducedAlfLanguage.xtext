@@ -593,7 +593,7 @@ QualifiedNameList :
 *****************/
 SendSignalStatement:
     {SendSignalStatement}
-    'send' signal = Expression '=>' target = Expression
+    'send' signal = Expression '=>' target = Expression ';'
 ;
 
 

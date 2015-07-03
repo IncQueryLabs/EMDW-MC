@@ -12,6 +12,7 @@ class CPPTemplates {
 	
 	// TODO @Inject
 	boolean generateTracingCode = GENERATE_TRACING_CODE
+	val NamespaceTemplates namespaceTemplates
 	val IncQueryEngine engine
 	val ClassTemplates classTemplates
 	val ComponentTemplates componentTemplates
@@ -20,10 +21,11 @@ class CPPTemplates {
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
+		namespaceTemplates = new NamespaceTemplates
 		typeIdGenerator = new TypeIdentifierGenerator
-		componentTemplates = new ComponentTemplates(engine)
 		packageTemplates = new PackageTemplates(engine)
-		classTemplates = new ClassTemplates(engine, typeIdGenerator)
+		componentTemplates = new ComponentTemplates(engine, namespaceTemplates)
+		classTemplates = new ClassTemplates(engine, typeIdGenerator, namespaceTemplates)
 	}
 	
 	def CharSequence componentDeclHeaderTemplate(CPPComponent cppComponent){

@@ -23,6 +23,7 @@ class ClassTemplates {
 	public static val StatefulClassFQN = "::StatefulClass"
 	public static val EventFQN = "::Event"
 
+	extension NamespaceTemplates namespaceTemplates
 	OperationTemplates operationTemplates 
 	AttributeTemplates attributeTemplates
 	AssociationTemplates associationTemplates
@@ -31,10 +32,11 @@ class ClassTemplates {
 	ActionCodeTemplates actionCodeTemplates
 	IncQueryEngine engine
 	
-	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator) {
+	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator, NamespaceTemplates namespaceTemplates) {
 		this.engine = engine
 		this.typeIdGenerator = typeIdGenerator
 		
+		this.namespaceTemplates = namespaceTemplates
 		operationTemplates = new OperationTemplates(engine)
 		attributeTemplates = new AttributeTemplates(engine)
 		associationTemplates = new AssociationTemplates(engine)
@@ -47,13 +49,9 @@ class ClassTemplates {
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
-		var namespaces = cppClass.cppQualifiedName.split("::")
-		namespaces = namespaces.take(namespaces.size-1).tail
 		
 		'''
-		«FOR namespace : namespaces»
-			namespace «namespace»{
-		«ENDFOR»
+		«cppClass.namespaceOpenerTemplate»
 		
 		class «cppClassName»«IF hasStateMachine» : public «StatefulClassFQN»«ENDIF» {
 		
@@ -69,9 +67,7 @@ class ClassTemplates {
 		
 			«privateContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
 		}; /* class «cppClassName» */
-		«FOR namespace : namespaces.reverseView»
-		} /* namespace «namespace» */
-		«ENDFOR»
+		«cppClass.namespaceCloserTemplate»
 		
 		'''
 		

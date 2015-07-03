@@ -8,10 +8,10 @@ import org.eclipse.uml2.uml.Type;
 
 public interface IUMLContextProvider {
 
-	public static final String REAL_TYPE = "REAL";
-	public static final String INTEGER_TYPE = "INTEGER";
-	public static final String STRING_TYPE = "STRING";
-	public static final String BOOLEAN_TYPE = "BOOLEAN";
+	public static final String REAL_TYPE = "Real";
+	public static final String INTEGER_TYPE = "Integer";
+	public static final String STRING_TYPE = "String";
+	public static final String BOOLEAN_TYPE = "Boolean";
 	
 	
 	Iterable<Type> getKnownTypes();

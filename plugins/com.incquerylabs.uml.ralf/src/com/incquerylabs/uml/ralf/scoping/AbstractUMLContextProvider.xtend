@@ -18,17 +18,7 @@ abstract class AbstractUMLContextProvider implements IUMLContextProvider {
     	if (primitivePackage == null) {
     		primitivePackage = getPrimitivePackage()
     	}
-    	
-        switch (name) {
-            case INTEGER_TYPE:
-                primitivePackage.getOwnedType("Integer")
-            case REAL_TYPE:
-                primitivePackage.getOwnedType("Real")
-            case STRING_TYPE:
-                primitivePackage.getOwnedType("String")
-            case BOOLEAN_TYPE:
-                primitivePackage.getOwnedType("Boolean")
-        }
+    	primitivePackage.getOwnedType(name)
     }
     
     override getKnownTypes() {

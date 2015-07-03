@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.ui.queries
+package com.incquerylabs.uml.ralf.incquery
 
 import "http://www.eclipse.org/uml2/5.0.0/UML"
 import "http://Papyrus/xtUMLProfile"

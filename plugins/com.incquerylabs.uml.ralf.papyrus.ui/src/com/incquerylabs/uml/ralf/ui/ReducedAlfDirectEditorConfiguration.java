@@ -1,13 +1,10 @@
 package com.incquerylabs.uml.ralf.ui;
 
-import java.util.Set;
-
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -18,28 +15,15 @@ import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.common.core.command.ICommand;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
-import org.eclipse.incquery.runtime.base.api.NavigationHelper;
-import org.eclipse.incquery.runtime.emf.EMFScope;
-import org.eclipse.incquery.runtime.exception.IncQueryException;
 import org.eclipse.papyrus.infra.core.resource.ModelSet;
 import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.services.ServicesRegistry;
 import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet;
 import org.eclipse.papyrus.uml.xtext.integration.DefaultXtextDirectEditorConfiguration;
-import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.AssociationClass;
-import org.eclipse.uml2.uml.Behavior;
-import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Component;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
-import org.eclipse.uml2.uml.Node;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.uml2.uml.Package;
-import org.eclipse.uml2.uml.Property;
-import org.eclipse.uml2.uml.Signal;
-import org.eclipse.uml2.uml.Stereotype;
-import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.eclipse.xtext.EcoreUtil2;
@@ -48,20 +32,15 @@ import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.ui.shared.SharedStateModule;
 import org.eclipse.xtext.util.Modules2;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.emdw.umlintegration.papyrus.IncQueryEngineService;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
-import com.incquerylabs.uml.ralf.scoping.AbstractUMLContextProvider;
+import com.incquerylabs.uml.ralf.incquery.IncQueryBasedUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
-import com.incquerylabs.uml.ralf.ui.queries.AssociationsOfClassMatcher;
-import com.incquerylabs.uml.ralf.ui.queries.AttributesOfClassMatcher;
-import com.incquerylabs.uml.ralf.ui.queries.XtClassMatcher;
 
 public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEditorConfiguration {
 
@@ -100,14 +79,10 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		
 	}
 	
-	private class EditorContext extends AbstractUMLContextProvider {
+	private class EditorContext extends IncQueryBasedUMLContextProvider {
 
 		private IncQueryEngine engine;
 		private Model model;
-
-		public EditorContext() {
-			super();
-		}
 
 		private Model getModel() {
 			if (model == null) {
@@ -119,139 +94,33 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 			return model;
 		}
 		
-		private IncQueryEngine getEngine(Model model) throws ServiceException {
-			if (engine == null) {
-				ModelSet modelSet = (ModelSet) model.eResource().getResourceSet();
-				final ServicesRegistry registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
-				IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
-				engine = service.getEngine(modelSet);
-			}
-			return engine;
-		}
-		
-		private <T extends EObject> Iterable<T> getModelElementsByType(EClass eClass, java.lang.Class<T> clazz) throws ServiceException, IncQueryException {
-			final Model model = getModel();
-			if (model != null) {
-				IncQueryEngine engine = getEngine(model);
-				NavigationHelper index = EMFScope.extractUnderlyingEMFIndex(engine);
-				Set<EObject> instances = index.getAllInstances(eClass);
-				return Iterables.filter(instances, clazz);
-			}
-			return Lists.newArrayList();
-		}
-		
 		@Override
-		public Iterable<Class> getKnownClasses() {
+		protected IncQueryEngine getEngine() {
 			try {
-				XtClassMatcher matcher = XtClassMatcher.on(getEngine(getModel()));
-				if (matcher.countMatches() > 0) {
-					return matcher.getAllValuesOfcl();
-				} else {
-					return getModelElementsByType(UMLPackage.Literals.CLASS, Class.class);
+				if (engine == null) {
+					ModelSet modelSet = (ModelSet) getModel().eResource().getResourceSet();
+					ServicesRegistry registry;
+					registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
+					IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
+					engine = service.getEngine(modelSet);
 				}
-			} catch (ServiceException | IncQueryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				return engine;
+			} catch (ServiceException e) {
+				throw new RuntimeException("Error loading model: " + e.getMessage(), e);
 			}
-			return Lists.newArrayList();
 		}
 
 		@Override
-		public Iterable<Type> getKnownTypes() {
-			try {
-				return getModelElementsByType(UMLPackage.Literals.TYPE, Type.class);
-			} catch (ServiceException | IncQueryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return Lists.newArrayList();
+		protected Object getContextObject() {
+			return getObjectToEdit();
 		}
-		
-		@Override
-		public Iterable<Signal> getKnownSignals() {
-			try {
-				return getModelElementsByType(UMLPackage.Literals.SIGNAL, Signal.class);
-			} catch (ServiceException | IncQueryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return Lists.newArrayList();
-		}
-
-		
-		
-        @Override
-		public Iterable<Association> getKnownAssociations() {
-        	try {
-				return getModelElementsByType(UMLPackage.Literals.ASSOCIATION, Association.class);
-			} catch (ServiceException | IncQueryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return Lists.newArrayList();
-		}
-
-		@Override
-        public Resource getContainerResource() {
-            return getModel().eResource();
-        }
 
         @Override
-        public Package getPrimitivePackage() {
+        protected Package getPrimitivePackage() {
             ResourceSet set = getModel().eResource().getResourceSet();
             Resource resource = set.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true);
             return (Package)(EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE));
         }
-
-		@Override
-		public Iterable<Property> getPropertiesOfClass(Class cl) {
-			AttributesOfClassMatcher matcher;
-			try {
-				matcher = AttributesOfClassMatcher.on(getEngine(getModel()));
-				return matcher.getAllValuesOfattribute(cl);
-			} catch (IncQueryException | ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return super.getPropertiesOfClass(cl);
-		}
-		
-		@Override
-		public Iterable<Property> getAssociationsOfClass(Class cl) {
-			AssociationsOfClassMatcher matcher;
-			try {
-				matcher = AssociationsOfClassMatcher.on(getEngine(getModel()));
-				return matcher.getAllValuesOfassociation(cl);
-			} catch (IncQueryException | ServiceException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			return super.getPropertiesOfClass(cl);
-		}
-
-		private boolean isRealClass(Class cls) {
-			//XXX this is ugly
-			return !(
-					cls instanceof Behavior ||
-					cls instanceof AssociationClass ||
-					cls instanceof Component ||
-					cls instanceof Node ||
-					cls instanceof Stereotype
-					);
-		}
-		
-		@Override
-		public Class getThisType() {
-			Object contextObject = getObjectToEdit();
-			if (contextObject instanceof Element) {
-				Class containerClass = EcoreUtil2.getContainerOfType(((Element)contextObject), Class.class);
-				while (containerClass != null && !isRealClass(containerClass)) {
-					containerClass = EcoreUtil2.getContainerOfType(((Element)containerClass).eContainer(), Class.class);
-				}
-				return containerClass;
-			}
-			return null;
-		}
 		
 	}
 	

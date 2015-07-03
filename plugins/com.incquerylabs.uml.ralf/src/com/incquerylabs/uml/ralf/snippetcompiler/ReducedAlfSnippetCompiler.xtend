@@ -40,14 +40,14 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 
 class ReducedAlfSnippetCompiler {
 
 	def dispatch String visit(EObject o) 
 		'''«FOR c : o.eContents»«c.visit»«ENDFOR»'''
-	
-	//TODO: Add support for send signal expressions
-		
+			
 	//Statements
     def dispatch String visit(Statements st){
 		'''«FOR statement : st.statement SEPARATOR '\n'»«statement.visit»«ENDFOR»'''
@@ -102,12 +102,20 @@ class ReducedAlfSnippetCompiler {
 		'''new «ex.instance.qualifiedName»«ex.tuple.visit»'''
 	}
 	
+	def dispatch String visit(ThisExpression ex){
+		'''this'''
+	}
+	
 	def dispatch String visit(LinkOperationExpression ex){
 		'''«ex.association.name».«ex.operation»«ex.tuple.visit»'''
 	}
 	
 	def dispatch String visit(PropertyAccessExpression ex){
 		'''«ex.context.visit».«ex.property.name»'''
+	}
+	
+	def dispatch String visit(AssociationAccessExpression ex){
+		'''«ex.context.visit»->«ex.association.name»'''
 	}
 	
 	def dispatch String visit(FeatureInvocationExpression ex){

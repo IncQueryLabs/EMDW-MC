@@ -23,3 +23,11 @@ pattern propertyNames(cl : Class, name) {
     find attributesOfClass(cl, property);
     Property.name(property, name);
 }
+
+pattern associationsOfClass(cl : Class, association : Property) {
+//    find xtClass(cl);
+    Property.type(sourceEnd, cl);
+    Association.ownedEnd(assoc, sourceEnd);
+    Association.ownedEnd(assoc, association);
+    sourceEnd != association;    
+}

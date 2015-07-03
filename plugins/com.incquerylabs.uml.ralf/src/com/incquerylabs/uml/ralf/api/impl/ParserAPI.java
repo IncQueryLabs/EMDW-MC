@@ -15,14 +15,12 @@ import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.LazyStringInputStream;
 
-import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.incquerylabs.uml.ralf.api.ISnippetManager;
+import com.incquerylabs.uml.ralf.api.IParserAPI;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
-import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
 
-public class SnippetManagerImpl implements ISnippetManager {
+public class ParserAPI implements IParserAPI {
 
     @Inject
     private Provider<XtextResourceSet> resourceSetProvider;
@@ -32,29 +30,19 @@ public class SnippetManagerImpl implements ISnippetManager {
     
     @Inject
     private FileExtensionProvider extensionProvider;
+
+    private String fileExtension; 
+    private String LANGUAGE_NAME;
     
     @Inject
-    private ReducedAlfSnippetCompiler snippetCompiler;
-    
-    private String fileExtension;
-    
-    private Map<String, String> snippetMap;
-    
-    private static final String LANGUAGE_NAME = "rALF";
-    
-    public SnippetManagerImpl() {
-        snippetMap = Maps.newHashMap();
+    public ParserAPI(String langName) {
+        LANGUAGE_NAME = langName;
     }
 
     @Override
-    public Map<String, String> getSnippetMap() {
-        return snippetMap;
-    }
-
-    @Override
-    public String getSnippet(OpaqueBehavior behavior) {
+    public Statements parse(OpaqueBehavior behavior) {
         int indexOfRALFBody = -1;
-        String result = "";
+        Statements result = null;
         for (int i = 0; i < behavior.getLanguages().size() && indexOfRALFBody == -1; i++) {
             if (behavior.getLanguages().get(i).equals(LANGUAGE_NAME)) {
                 indexOfRALFBody = i;
@@ -62,42 +50,29 @@ public class SnippetManagerImpl implements ISnippetManager {
         }
         EList<String> bodies = behavior.getBodies();
         if (indexOfRALFBody >= 0) {
-            result = getSnippet(bodies.get(indexOfRALFBody));
+            result = parse(bodies.get(indexOfRALFBody));
         }
         return result;
     }
-    
     
     @Override
-    public String getSnippet(String behavior) {
+    public Statements parse(String text) {
         fileExtension = extensionProvider.getPrimaryFileExtension();
-        String result = "";
-        try {
-            
-            result = (String) parse(behavior);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        snippetMap.put(behavior, result);
-        return result;
-    }
-
-    protected CharSequence parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
-        Resource resource = resource(in, uriToUse, options, resourceSet);
-        final Statements root = (Statements) (resource.getContents().isEmpty() ? null : resource.getContents().get(0));
-        String snippet = snippetCompiler.visit(root);
-        return snippet;
-    }
-    
-    protected CharSequence parse(CharSequence text) throws Exception {
         return parse(text, createResourceSet());
     }
+
+    protected Statements parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
+        Resource resource = resource(in, uriToUse, options, resourceSet);
+        return (Statements) (resource.getContents().isEmpty() ? null : resource.getContents().get(0));
+    }
+   
+
     
-    protected CharSequence parse(CharSequence text, ResourceSet resourceSetToUse) throws Exception {
+    protected Statements parse(String text, ResourceSet resourceSetToUse){
         return parse(getAsStream(text), computeUnusedUri(resourceSetToUse), null, resourceSetToUse);
     }
 
-    protected CharSequence parse(CharSequence text, URI uriToUse, ResourceSet resourceSetToUse) throws Exception {
+    protected Statements parse(String text, URI uriToUse, ResourceSet resourceSetToUse){
         return parse(getAsStream(text), uriToUse, null, resourceSetToUse);
     }
     
@@ -129,5 +104,4 @@ public class SnippetManagerImpl implements ISnippetManager {
             throw new WrappedException(e);
         }
     }
-
 }

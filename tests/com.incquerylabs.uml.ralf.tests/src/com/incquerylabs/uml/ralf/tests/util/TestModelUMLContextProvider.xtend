@@ -2,6 +2,7 @@ package com.incquerylabs.uml.ralf.tests.util
 
 import com.google.inject.Singleton
 import com.incquerylabs.uml.ralf.scoping.AbstractUMLContextProvider
+import com.incquerylabs.uml.ralf.tests.util.queries.AssociationsOfClassMatcher
 import com.incquerylabs.uml.ralf.tests.util.queries.AttributesOfClassMatcher
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
@@ -22,6 +23,7 @@ class TestModelUMLContextProvider extends AbstractUMLContextProvider {
 	var IncQueryEngine engine
 	var Model model
 	var Resource resource
+	var String elementFQN
 
 	new(String location) {
 		val resourceSet = new ResourceSetImpl
@@ -39,6 +41,10 @@ class TestModelUMLContextProvider extends AbstractUMLContextProvider {
 			engine = IncQueryEngine.on(new EMFScope(model.eResource.resourceSet));
 		}
 		return engine;
+	}
+	
+	public def setElementFQN(String elementFQN) {
+		this.elementFQN = elementFQN;
 	}
 
 	override getPrimitivePackage() {
@@ -60,6 +66,17 @@ class TestModelUMLContextProvider extends AbstractUMLContextProvider {
 	}
 
 	override Class getThisType() {
-		return knownClasses.head;
+		val reducedClasses = knownClasses.filter[qualifiedName == elementFQN]
+		reducedClasses.head
+	}
+
+	override Iterable<Property> getAssociationsOfClass(Class cl) {
+		try {
+			val matcher = AssociationsOfClassMatcher.on(getEngine(model));
+			return matcher.getAllValuesOfassociation(cl);
+		} catch (IncQueryException e) {
+			e.printStackTrace();
+		}
+		return super.getPropertiesOfClass(cl);
 	}
 }

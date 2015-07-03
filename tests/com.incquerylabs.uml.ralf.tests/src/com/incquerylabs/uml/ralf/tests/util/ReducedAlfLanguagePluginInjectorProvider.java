@@ -8,13 +8,15 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageInjectorProvider;
-import com.incquerylabs.uml.ralf.api.ISnippetManager;
-import com.incquerylabs.uml.ralf.api.impl.SnippetManagerImpl;
+import com.incquerylabs.uml.ralf.api.IParserAPI;
+import com.incquerylabs.uml.ralf.api.ISnippetCompilerAPI;
+import com.incquerylabs.uml.ralf.api.impl.ParserAPI;
+import com.incquerylabs.uml.ralf.api.impl.SnippetCompilerAPI;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
-import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
 
 public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguageInjectorProvider {
-
+    private static final String LANGUAGE_NAME = "rALF";
+    
     @Override
     protected Injector internalCreateInjector() {
         // register default ePackages
@@ -35,9 +37,11 @@ public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguage
 
             @Override
             public void configure(Binder binder) {
-                binder.bind(IUMLContextProvider.class).toInstance(new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml"));
-                binder.bind(ReducedAlfSnippetCompiler.class).toInstance(new ReducedAlfSnippetCompiler());
-                binder.bind(ISnippetManager.class).to(SnippetManagerImpl.class);
+                TestModelUMLContextProvider provider = new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
+                binder.bind(IUMLContextProvider.class).toInstance(provider);
+                binder.bind(TestModelUMLContextProvider.class).toInstance(provider);
+                binder.bind(IParserAPI.class).toInstance(new ParserAPI(LANGUAGE_NAME));
+                binder.bind(ISnippetCompilerAPI.class).to(SnippetCompilerAPI.class);
             }
         };
         return Guice.createInjector(runtimeModule, customizations);

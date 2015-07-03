@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.tests
 
-import com.incquerylabs.uml.ralf.api.ISnippetManager
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 import javax.inject.Inject
 import org.eclipse.xtext.junit4.InjectWith
@@ -11,6 +10,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.api.ISnippetCompilerAPI
+import com.incquerylabs.uml.ralf.api.IParserAPI
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -18,7 +19,10 @@ import static org.junit.Assert.*
 class PrimitiveTypesSnippetTest {
 		
 	@Inject
-	ISnippetManager manager
+	ISnippetCompilerAPI compiler
+	
+	@Inject
+	IParserAPI parser
 	
 	
 	@Test
@@ -133,7 +137,7 @@ class PrimitiveTypesSnippetTest {
 	}
 	
 	def snippetCompilerTest(String input, String expected) {	
-		val snippet = manager.getSnippet(input)
+		val snippet = compiler.createSnippet(input, parser)
 		assertEquals("The created snippet does not match the expected result",expected,snippet)
 	}
 }

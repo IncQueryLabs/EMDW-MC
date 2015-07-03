@@ -87,7 +87,7 @@
       </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="derivation" ordered="false"
-        eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//OpaqueExpression"/>
+        eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//OpaqueExpression"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XtComponent" eSuperTypes="executablemodelingprofile.ecore#//XEncapsulatedClassifier">
     <eOperations name="xtComponentAttributes" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">
@@ -205,7 +205,7 @@
       </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="base_Component" ordered="false"
-        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Component"/>
+        lowerBound="1" eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Component"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XtOperation" eSuperTypes="executablemodelingprofile.ecore#//XOperation"/>
   <eClassifiers xsi:type="ecore:EClass" name="XtParameter" eSuperTypes="executablemodelingprofile.ecore#//XParameter"/>
@@ -390,7 +390,7 @@
       </eParameters>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="base_Class" ordered="false"
-        lowerBound="1" eType="ecore:EClass ../../org.eclipse.uml2.uml/model/UML.ecore#//Class"/>
+        lowerBound="1" eType="ecore:EClass http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XtMessageSet" eSuperTypes="executablemodelingprofile.ecore#//XMessageSet">
     <eOperations name="xtMessageSetNestedClassifiers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean">

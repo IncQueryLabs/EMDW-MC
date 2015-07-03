@@ -48,12 +48,18 @@
         name="org.eclipse.papyrus.sdk.feature.feature.group"/>
     <requirement
         name="org.eclipse.incquery.uml.feature.feature.group"/>
+    <requirement
+        name="it.xsemantics.sdk.source.feature.group"/>
+    <requirement
+        name="org.eclipse.xtext.sdk.feature.group"/>
     <repository
         url="http://download.eclipse.org/incquery/updates-extra/release"/>
     <repository
         url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
     <repository
         url="http://download.eclipse.org/viatra2/emf/updates/release"/>
+    <repository
+        url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.8"/>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -134,6 +140,21 @@
             url="http://download.eclipse.org/viatra2/emf/updates/release"/>
         <repository
             url="http://download.eclipse.org/releases/mars"/>
+      </repositoryList>
+    </targlet>
+    <targlet
+        name="rALF dependencies">
+      <requirement
+          name="it.xsemantics.runtime.feature.source.feature.group"/>
+      <requirement
+          name="it.xsemantics.sdk.source.feature.group"/>
+      <requirement
+          name="org.eclipse.xtext.sdk.feature.group"/>
+      <repositoryList>
+        <repository
+            url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.8"/>
+        <repository
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
       </repositoryList>
     </targlet>
   </setupTask>

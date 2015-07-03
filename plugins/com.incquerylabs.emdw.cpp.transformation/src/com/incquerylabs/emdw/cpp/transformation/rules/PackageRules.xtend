@@ -30,9 +30,8 @@ class PackageRules {
 	@Accessors(PUBLIC_GETTER)
 	val packageInComponentRule = createRule.precondition(cppComponentPackages).action[ match |
 		val xtPackage = match.xtPackage
-		val parentHeaderDir = match.cppComponent.headerDirectory
 		val parentBodyDir = match.cppComponent.bodyDirectory
-		val cppPackage = createCppPackage(xtPackage, parentHeaderDir, parentBodyDir)
+		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppComponent.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in component «match.xtComponent.name» to CPPPackage''')
 	].build
@@ -40,14 +39,13 @@ class PackageRules {
 	@Accessors(PUBLIC_GETTER)
 	val packageInPackageRule = createRule.precondition(cppPackagesInPackages).action[ match |
 		val xtPackage = match.xtPackage
-		val parentHeaderDir = match.cppParentPackage.headerDir
 		val parentBodyDir = match.cppParentPackage.bodyDir
-		val cppPackage = createCppPackage(xtPackage, parentHeaderDir, parentBodyDir)
+		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppParentPackage.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in package «match.xtParentPackage.name» to CPPPackage''')
 	].build
 	
-	protected def createCppPackage(Package xtPackage, CPPDirectory parentHeaderDir, CPPDirectory parentBodyDir){
+	protected def createCppPackage(Package xtPackage, CPPDirectory parentDir){
 		val cppPackage = createCPPPackage => [
 			// Setting name and common package
 			commonPackage = xtPackage
@@ -55,9 +53,8 @@ class PackageRules {
 
 			// Creating package directories
 			bodyDir = createCPPDirectory
-			parentBodyDir.subDirectories += bodyDir
-			headerDir = createCPPDirectory
-			parentHeaderDir.subDirectories += headerDir
+			headerDir = bodyDir
+			parentDir.subDirectories += bodyDir
 
 			// Creating package files
 			bodyFile = createCPPBodyFile

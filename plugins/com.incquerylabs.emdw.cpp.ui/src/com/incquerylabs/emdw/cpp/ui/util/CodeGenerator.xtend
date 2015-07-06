@@ -94,7 +94,7 @@ class CodeGenerator {
 		val cppCodeGeneration = new CPPCodeGeneration
 		performCodeGeneration(engine, cppCodeGeneration, cppComponent)
 		
-		val targetFolder = GeneratorHelper.getTargetFolder(cppResource)
+		val targetFolder = GeneratorHelper.getTargetFolder(cppResource, false)
 		performFileGeneration(engine, cppComponent, cppCodeGeneration, targetFolder)
 
 		cppCodeGeneration.dispose

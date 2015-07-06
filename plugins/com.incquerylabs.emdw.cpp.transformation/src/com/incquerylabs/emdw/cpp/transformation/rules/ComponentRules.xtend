@@ -19,11 +19,13 @@ class ComponentRules {
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
+	val PackageRules packageRules
 	val ClassRules classRules
 	val EntityRules entityRules
 	
-	new(BatchTransformationStatements statements, ClassRules classRules, EntityRules entityRules) {
+	new(BatchTransformationStatements statements, PackageRules packageRules, ClassRules classRules, EntityRules entityRules) {
 		this.statements = statements
+		this.packageRules = packageRules
 		this.classRules = classRules
 		this.entityRules = entityRules
 	}
@@ -73,6 +75,7 @@ class ComponentRules {
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
 		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppComponent])
+		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	].build
 	
 }

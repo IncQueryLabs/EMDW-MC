@@ -1,16 +1,15 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
-import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 
 class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -24,10 +23,8 @@ class ClassRules {
 	val AssociationRules associationRules
 	val EntityRules entityRules
 	
-	val IncQueryEngine engine
 	
-	new(IncQueryEngine engine, BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules) {
-		this.engine = engine
+	new(BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules) {
 		this.statements = statements
 		this.associationRules = associationRules
 		this.entityRules = entityRules

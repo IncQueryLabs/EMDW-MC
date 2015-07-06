@@ -57,8 +57,9 @@ class PackageRules {
 		transformSubElements(cppPackage)
 	].build
 	
-	def transformSubElements(CPPPackage cppPackage){
+	def void transformSubElements(CPPPackage cppPackage){
 		fireAllCurrent(classRules.classInPackageRule, [it.cppPackage == cppPackage])
+		fireAllCurrent(packageInPackageRule, [it.cppParentPackage == cppPackage])
 	}
 	
 	protected def createCppPackage(Package xtPackage, CPPDirectory parentDir){

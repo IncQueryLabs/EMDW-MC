@@ -32,7 +32,7 @@ class XtumlComponentCPPTransformation {
 	PackageRules packageRules
 	ClassRules classRules
 	EntityRules entityRules
-	val associationRules = new AssociationRules
+	AssociationRules associationRules
 	
 
 	def initialize(Model xtUmlModel, IncQueryEngine engine) {
@@ -51,10 +51,11 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			statements = new BatchTransformationStatements(transform)
+			associationRules = new AssociationRules
 			entityRules  = new EntityRules(statements)
-			classRules = new ClassRules(engine, statements, associationRules, entityRules)
+			classRules = new ClassRules(statements, associationRules, entityRules)
 			packageRules = new PackageRules(statements, classRules)
-			componentRules = new ComponentRules(statements, classRules, entityRules)
+			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules)
 			
 			componentRules.addRules(transform)
 			packageRules.addRules(transform)
@@ -72,8 +73,6 @@ class XtumlComponentCPPTransformation {
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
 			statements.fireAllCurrent(componentRules.componentRule)
-			statements.fireAllCurrent(packageRules.packageInComponentRule)
-			statements.fireWhilePossible(packageRules.packageInPackageRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

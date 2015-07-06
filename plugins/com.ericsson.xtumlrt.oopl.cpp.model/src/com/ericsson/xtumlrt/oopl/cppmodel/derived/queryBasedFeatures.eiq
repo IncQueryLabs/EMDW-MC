@@ -328,13 +328,13 @@ pattern cppSequenceCppContainer(
 	target
 ) {
 	CPPSequence.orderedness(source, orderedness); 
-	orderedness == SequenceOrderednessKind::UNORDERED;
+	find sortedOrUnorderedSequenceOrderednessKind(orderedness);
 	CPPSequence.uniqueness(source, uniqueness);
 	uniqueness == SequenceUniquenessKind::NON_UNIQUE;
 	target == "std::multiset";
 } or {
 	CPPSequence.orderedness(source, orderedness); 
-	orderedness == SequenceOrderednessKind::UNORDERED;
+	find sortedOrUnorderedSequenceOrderednessKind(orderedness);
 	CPPSequence.uniqueness(source, uniqueness);
 	uniqueness == SequenceUniquenessKind::UNIQUE;
 	target == "std::set";
@@ -343,6 +343,13 @@ pattern cppSequenceCppContainer(
 	orderedness == SequenceOrderednessKind::ORDERED;
 	target == "std::vector";
 }
+
+pattern sortedOrUnorderedSequenceOrderednessKind(orderedness) {
+	orderedness == SequenceOrderednessKind::UNORDERED;
+} or {
+	orderedness == SequenceOrderednessKind::SORTED;
+}
+
 
 // this pattern is for selecting between C++03 and C++11 version of the list depending on the target platform
 pattern simplyLinkedListType(

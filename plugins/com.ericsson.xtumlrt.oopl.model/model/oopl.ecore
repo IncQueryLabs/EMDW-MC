@@ -171,6 +171,7 @@
   <eClassifiers xsi:type="ecore:EEnum" name="SequenceOrderednessKind">
     <eLiterals name="UNORDERED"/>
     <eLiterals name="ORDERED" value="1"/>
+    <eLiterals name="SORTED" value="2" literal=""/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="SequenceUniquenessKind">
     <eLiterals name="NON_UNIQUE"/>

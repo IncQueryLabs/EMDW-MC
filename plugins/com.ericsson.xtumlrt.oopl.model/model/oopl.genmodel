@@ -27,6 +27,7 @@
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="oopl.ecore#//SequenceOrderednessKind">
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceOrderednessKind/UNORDERED"/>
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceOrderednessKind/ORDERED"/>
+      <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceOrderednessKind/SORTED"/>
     </genEnums>
     <genEnums typeSafeEnumCompatible="false" ecoreEnum="oopl.ecore#//SequenceUniquenessKind">
       <genEnumLiterals ecoreEnumLiteral="oopl.ecore#//SequenceUniquenessKind/NON_UNIQUE"/>

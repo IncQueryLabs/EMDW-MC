@@ -70,23 +70,26 @@ pattern xtPackageXTClasses(
 	Package.entities(xtPackage, xtClass);
 }
 
-pattern xtPackageInModel(xtPackage : Package, xtModel : Model) {
+pattern xtPackageInModel(xtPackage : Package, xtModel : Model, cppModel : CPPModel) {
 	Model.packages(xtModel, xtPackage);
+	find xtModelToCppModel(xtModel, cppModel);
 }
 
 pattern xtModelPackageInPackage(
 	xtModel : Model,
 	xtParentPackage : Package,
-	xtChildPackage : Package
+	xtChildPackage : Package,
+	cppParentPackage : CPPPackage
 ) {
-	find xtPackageInModel(xtParentPackage, xtModel);
+	Model.packages(xtModel, xtParentPackage);
 	find xtPackageSubPackages(xtParentPackage, xtChildPackage);
+	find cppPackages(xtParentPackage, cppParentPackage);
 } or {
-	find xtPackageInModel(xtPackage, xtModel);
+	Model.packages(xtModel, xtPackage);
 	find xtPackageSubPackages+(xtPackage, xtParentPackage);
 	find xtPackageSubPackages(xtParentPackage, xtChildPackage);
+	find cppPackages(xtParentPackage, cppParentPackage);
 }
-
 
 pattern allXTComponentsOfXTComponent(
 	xtComponent : XTComponent,
@@ -134,22 +137,27 @@ pattern xtComponents(
 
 pattern xtComponentInModel(
 	xtModel : Model,
+	cppModel : CPPModel,
 	xtComponent : XTComponent
 ) {
 	Model.entities(xtModel, xtComponent);
+	find xtModelToCppModel(xtModel, cppModel);
 }
 
 pattern xtComponentInPackage (
 	xtModel : Model,
 	xtParentPackage : Package,
-	xtComponent : XTComponent
+	xtComponent : XTComponent,
+	cppParentPackage : CPPPackage
 ) {
 	Model.packages(xtModel, xtParentPackage);
 	find xtPackageXTComponents(xtParentPackage, xtComponent);
+	find cppPackages(xtParentPackage, cppParentPackage);
 } or {
 	Model.packages(xtModel, xtPackage);
 	find xtPackageSubPackages+(xtPackage, xtParentPackage);
 	find xtPackageXTComponents(xtParentPackage, xtComponent);
+	find cppPackages(xtParentPackage, cppParentPackage);
 }
 
 pattern stateMachineStates(

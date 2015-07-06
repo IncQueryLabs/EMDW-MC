@@ -1,40 +1,36 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
-import com.google.common.collect.LinkedListMultimap
-import com.google.common.collect.Multimap
 import com.incquerylabs.emdw.cpp.transformation.mappings.AbstractObjectMapping
 import com.incquerylabs.emdw.cpp.transformation.queries.XtModelPackageInPackageMatch
 import com.incquerylabs.emdw.cpp.transformation.queries.XtPackageInModelMatch
-import com.incquerylabs.emdw.cpp.transformation.util.RuleProvider
+import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 
 class ModelPackageRules {
 	
-	static Multimap<Class<?>, AbstractObjectMapping<?,?,?>> keyMap;
-	
-	static def Multimap<Class<?>, AbstractObjectMapping<?,?,?>> getRules(IncQueryEngine engine, RuleProvider provider) {
-		keyMap = LinkedListMultimap.create()
-		keyMap.put(CPPPackage, new ModelPackageMapping(engine, provider))
-		keyMap.put(CPPPackage, new ModelPackageInPackageMapping(engine, provider))
-		keyMap
+	static def Set<AbstractObjectMapping<?, ?, ?>> getRules(IncQueryEngine engine) {
+		#{
+			new ModelPackageMapping(engine),
+			new ModelPackageInPackageMapping(engine)
+		}
 	}
 	
 }
 
 class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, Package, CPPPackage> {
 	
-	RuleProvider provider
-	
-	new(IncQueryEngine engine, RuleProvider provider) {
+	new(IncQueryEngine engine) {
 		super(engine)
-		this.provider = provider
 	}
 	
 	override protected getXtumlObject(XtPackageInModelMatch match) {
 		match.xtPackage
+	}
+	
+	override protected getCppObject(Package xtPackage) {
+		engine.cppPackages.getAllValuesOfcppPackage(xtPackage).head
 	}
 	
 	override protected createCppObject(XtPackageInModelMatch match) {
@@ -55,7 +51,7 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 	}
 	
 	override protected insertCppObject(CPPPackage cppPackage, XtPackageInModelMatch match) {
-		val parent = provider.findTraces(CPPModel).get(match.xtModel)
+		val parent = match.cppModel
 		parent.headerDir.subDirectories += cppPackage.headerDir
 		parent.bodyDir.subDirectories += cppPackage.bodyDir
 		parent.subElements += cppPackage
@@ -69,20 +65,22 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 	override getQuerySpecification() {
 		xtPackageInModel
 	}
+
 	
 }
 
 class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageInPackageMatch, Package, CPPPackage> {
 	
-	RuleProvider provider
-	
-	new(IncQueryEngine engine, RuleProvider provider) {
+	new(IncQueryEngine engine) {
 		super(engine)
-		this.provider = provider
 	}
 	
 	override protected getXtumlObject(XtModelPackageInPackageMatch match) {
 		match.xtChildPackage
+	}
+	
+	override protected getCppObject(Package xtPackage) {
+		engine.cppPackages.getAllValuesOfcppPackage(xtPackage).head
 	}
 	
 	override protected createCppObject(XtModelPackageInPackageMatch match) {
@@ -103,7 +101,7 @@ class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageI
 	}
 	
 	override protected insertCppObject(CPPPackage cppPackage, XtModelPackageInPackageMatch match) {
-		val parent = provider.findTraces(CPPPackage).get(match.xtParentPackage)
+		val parent = match.cppParentPackage
 		parent.headerDir.subDirectories += cppPackage.headerDir
 		parent.bodyDir.subDirectories += cppPackage.bodyDir
 		parent.subElements += cppPackage

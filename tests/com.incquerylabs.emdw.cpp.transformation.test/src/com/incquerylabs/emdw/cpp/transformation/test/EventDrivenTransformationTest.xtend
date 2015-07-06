@@ -1,10 +1,11 @@
 package com.incquerylabs.emdw.cpp.transformation.test
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.XtumlCPPTransformationQrtWrapper
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Model
@@ -15,13 +16,14 @@ import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUt
 import static org.junit.Assert.*
 
 abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObject extends EObject> extends TestWithoutParameters {
-	
-	protected extension XtumlCPPTransformationQrtWrapper xtCppwrapper
+
 	protected extension XtumlQueries xtumlQueries = XtumlQueries.instance
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
+	protected extension XtumlCPPTransformationQrtWrapper xtumlCPPWrapper
+	
+	new(XtumlCPPTransformationQrtWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
-		xtCppwrapper = wrapper as XtumlCPPTransformationQrtWrapper
+		this.xtumlCPPWrapper = wrapper
 	}
 	
 	@Parameters(name = "{index}: {1}")
@@ -41,16 +43,18 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val testId = "create_test"
 		startTest(testId)
 		val xtResource = createEmptyXtumlResource(testId)
-		xtResource.initializeTransformation
-		executeTransformation
 		val xtModel = createEmptyXtumlModel(xtResource, testId)
-		assertCppModelCreation(xtModel, incQueryEngine)
+		val cppResource = createCPPResource(xtModel)
+		val cppModel = prepareCppModel(cppResource, xtModel)
+		
+		cppModel.initializeTransformation
+		executeTransformation
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObjectCreated(xtObject, incQueryEngine)
+		checkCppObjectCreated(xtObject, engine)
 		
-		removeXtumlObject(xtModel as XtumlObject)
-		assertCppModelDeletion(incQueryEngine)
+		xtResource.contents.clear
+		
 		endTest(testId)
 	}
 	
@@ -59,24 +63,25 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val testId = "remove_test"
 		startTest(testId)
 		val xtResource = createEmptyXtumlResource(testId)
-		xtResource.initializeTransformation
-		executeTransformation
 		val xtModel = createEmptyXtumlModel(xtResource, testId)
-		assertCppModelCreation(xtModel, incQueryEngine)
+		val cppResource = createCPPResource(xtModel)
+		val cppModel = prepareCppModel(cppResource, xtModel)
+		
+		cppModel.initializeTransformation
+		executeTransformation
 		
 		xtModel.name = "updated_name"
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObjectCreated(xtObject, incQueryEngine)
+		checkCppObjectCreated(xtObject, engine)
 		
 		xtObject?.removeXtumlObject;
-		checkCppObjectRemoved(xtObject, incQueryEngine)
+		checkCppObjectRemoved(xtObject, engine)
 		
-		(xtModel as XtumlObject)?.removeXtumlObject
-		assertCppModelDeletion(incQueryEngine)
-
+		xtResource.contents.clear
+		
 		endTest(testId)
-		}
+	}
 	
 	/**
 	 * Assertions
@@ -91,7 +96,15 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 	
 	protected def void assertCppModelDeletion(IncQueryEngine engine) {
 		val cppModel = getCppModel(engine)
-		assertEquals(cppModel.countMatches, 0)
+		assertEquals(0, cppModel.countMatches)
+	}
+	
+	protected def CPPModel prepareCppModel(Resource resource, Model xtModel) {
+		val cppModel = createCPPModel(resource, xtModel)
+		val modelDir = createCPPDirectory(cppModel.eResource)
+		cppModel.headerDir = modelDir
+		cppModel.bodyDir = modelDir
+		cppModel
 	}
 	
 	protected def void checkCppObjectCreated(XtumlObject xtObject, IncQueryEngine engine)
@@ -99,8 +112,6 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 	protected def void checkCppObjectRemoved(XtumlObject xtObject, IncQueryEngine engine)
 	
 	protected def XtumlObject createXtumlObject(Model modelRoot)
-	
-
 	
 	protected def removeXtumlObject(XtumlObject xtObject) {
 		EcoreUtil.remove(xtObject)

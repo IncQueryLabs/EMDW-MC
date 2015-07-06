@@ -29,7 +29,18 @@ import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 
 public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProvider {
 
-	protected abstract IncQueryEngine getEngine();
+	private IncQueryEngine engine;
+	
+	protected IncQueryEngine getEngine() throws IncQueryException {
+		if (engine != null) {
+			engine = doGetEngine();
+			UMLScopeQueries.instance().prepare(engine);			
+		}
+		return engine;
+	}
+	
+	protected abstract IncQueryEngine doGetEngine();
+	
 	protected abstract Object getContextObject();
 	protected abstract Package getPrimitivePackage();
 	

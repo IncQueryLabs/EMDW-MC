@@ -12,13 +12,10 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.NamedElement
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.UMLPackage
-import org.eclipse.uml2.uml.Type
-import org.eclipse.uml2.uml.Signal
 
 @Singleton
 class TestModelUMLContextProvider extends IncQueryBasedUMLContextProvider {
 
-	var IncQueryEngine engine
 	var Model model
 	var Resource resource
 	var String elementFQN
@@ -50,19 +47,8 @@ class TestModelUMLContextProvider extends IncQueryBasedUMLContextProvider {
 		return null;
 	}
 	
-	override getKnownTypes() {
-        resource.allContents.filter(typeof(Type)).toSet
-    }
-    
-    override getKnownSignals() {
-        resource.allContents.filter(typeof(Signal)).toSet
-    }
-	
-	override protected getEngine() {
-		if (engine == null) {
-			engine = IncQueryEngine.on(new EMFScope(model.eResource.resourceSet));
-		}
-		return engine;
+	override protected doGetEngine() {
+        IncQueryEngine.on(new EMFScope(model.eResource.resourceSet));
 	}
 	
 }

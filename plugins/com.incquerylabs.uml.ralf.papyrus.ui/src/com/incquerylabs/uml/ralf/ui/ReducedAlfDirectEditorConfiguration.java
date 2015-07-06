@@ -81,7 +81,6 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 	
 	private class EditorContext extends IncQueryBasedUMLContextProvider {
 
-		private IncQueryEngine engine;
 		private Model model;
 
 		private Model getModel() {
@@ -95,16 +94,13 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		}
 		
 		@Override
-		protected IncQueryEngine getEngine() {
+		protected IncQueryEngine doGetEngine() {
 			try {
-				if (engine == null) {
-					ModelSet modelSet = (ModelSet) getModel().eResource().getResourceSet();
-					ServicesRegistry registry;
-					registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
-					IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
-					engine = service.getEngine(modelSet);
-				}
-				return engine;
+				ModelSet modelSet = (ModelSet) getModel().eResource().getResourceSet();
+				ServicesRegistry registry;
+				registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet);
+				IncQueryEngineService service = registry.getService(IncQueryEngineService.class);
+				return service.getEngine(modelSet);
 			} catch (ServiceException e) {
 				throw new RuntimeException("Error loading model: " + e.getMessage(), e);
 			}

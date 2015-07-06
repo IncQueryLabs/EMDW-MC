@@ -1,24 +1,22 @@
 package com.incquerylabs.uml.ralf.tests.util
 
 import com.google.inject.Singleton
-import com.incquerylabs.uml.ralf.scoping.AbstractUMLContextProvider
-import com.incquerylabs.uml.ralf.tests.util.queries.AssociationsOfClassMatcher
-import com.incquerylabs.uml.ralf.tests.util.queries.AttributesOfClassMatcher
+import com.incquerylabs.uml.ralf.incquery.IncQueryBasedUMLContextProvider
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import org.eclipse.incquery.runtime.exception.IncQueryException
-import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.NamedElement
 import org.eclipse.uml2.uml.Package
-import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.UMLPackage
+import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.Signal
 
 @Singleton
-class TestModelUMLContextProvider extends AbstractUMLContextProvider {
+class TestModelUMLContextProvider extends IncQueryBasedUMLContextProvider {
 
 	var IncQueryEngine engine
 	var Model model
@@ -35,48 +33,36 @@ class TestModelUMLContextProvider extends AbstractUMLContextProvider {
 		}
 
 	}
+	
+	public def setElementFQN(String elementFQN) {
+		this.elementFQN = elementFQN;
+	}
 
-	private def IncQueryEngine getEngine(Model model) {
+	override protected getPrimitivePackage() {
+		EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE) as Package
+	}
+	
+	override protected getContextObject() {
+		var elements = model.allOwnedElements.filter(NamedElement).filter[qualifiedName == elementFQN]
+		if(elements.size >0){
+			return elements.head
+		}
+		return null;
+	}
+	
+	override getKnownTypes() {
+        resource.allContents.filter(typeof(Type)).toSet
+    }
+    
+    override getKnownSignals() {
+        resource.allContents.filter(typeof(Signal)).toSet
+    }
+	
+	override protected getEngine() {
 		if (engine == null) {
 			engine = IncQueryEngine.on(new EMFScope(model.eResource.resourceSet));
 		}
 		return engine;
 	}
 	
-	public def setElementFQN(String elementFQN) {
-		this.elementFQN = elementFQN;
-	}
-
-	override getPrimitivePackage() {
-		EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE) as Package
-	}
-
-	override getContainerResource() {
-		resource
-	}
-
-	override Iterable<Property> getPropertiesOfClass(Class cl) {
-		try {
-			val matcher = AttributesOfClassMatcher.on(getEngine(model));
-			return matcher.getAllValuesOfattribute(cl);
-		} catch (IncQueryException e) {
-			e.printStackTrace();
-		}
-		return super.getPropertiesOfClass(cl);
-	}
-
-	override Class getThisType() {
-		val reducedClasses = knownClasses.filter[qualifiedName == elementFQN]
-		reducedClasses.head
-	}
-
-	override Iterable<Property> getAssociationsOfClass(Class cl) {
-		try {
-			val matcher = AssociationsOfClassMatcher.on(getEngine(model));
-			return matcher.getAllValuesOfassociation(cl);
-		} catch (IncQueryException e) {
-			e.printStackTrace();
-		}
-		return super.getPropertiesOfClass(cl);
-	}
 }

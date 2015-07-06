@@ -4,11 +4,8 @@ Bundle-Name: com.incquerylabs.uml.ralf.tests
 Bundle-SymbolicName: com.incquerylabs.uml.ralf.tests;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: My Company
-Export-Package: com.incquerylabs.uml.ralf,
- com.incquerylabs.uml.ralf.tests.util.queries,
- com.incquerylabs.uml.ralf.tests.util.queries.util
+Export-Package: com.incquerylabs.uml.ralf
 Require-Bundle: com.incquerylabs.uml.ralf,
- com.incquerylabs.uml.ralf.ui,
  org.eclipse.core.runtime,
  org.eclipse.xtext.junit4,
  org.eclipse.xtext.xbase.lib,
@@ -17,7 +14,9 @@ Require-Bundle: com.incquerylabs.uml.ralf,
  org.eclipse.uml2.uml;bundle-version="5.1.0",
  org.eclipse.uml2.uml.resources;bundle-version="5.1.0",
  org.junit;bundle-version="4.12.0",
- org.eclipse.incquery.runtime;bundle-version="1.1.0"
+ com.incquerylabs.uml.ralf.incquery;bundle-version="1.0.0",
+ org.eclipse.incquery.runtime;bundle-version="1.1.0",
+ com.incquerylabs.uml.ralf.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.log4j,
  org.hamcrest.core,

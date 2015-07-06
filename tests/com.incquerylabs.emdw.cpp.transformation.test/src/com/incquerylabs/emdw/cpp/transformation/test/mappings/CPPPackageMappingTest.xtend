@@ -53,7 +53,7 @@ class CPPPackageInComponentTest extends MappingBaseTest<XTComponent, CPPComponen
 		// Component and its directories
 		val cppComponent = cppModel.createCPPComponent(xtComponent, null,null,null,null)
 		val bodyDir = createCPPDirectory(rootDir.eResource)
-		val headerDir = createCPPDirectory(rootDir.eResource)
+		val headerDir = bodyDir
 		cppComponent.headerDirectory = headerDir
 		cppComponent.bodyDirectory = bodyDir
 		
@@ -79,8 +79,7 @@ class CPPPackageInComponentTest extends MappingBaseTest<XTComponent, CPPComponen
 			assertNotNull("Package header directory is not set.", package.headerDir)
 			assertNotNull("Package body directory is not set.", package.bodyDir)
 			// Assert files are created and set
-			assertEquals("Package header file is not created", 1, package.headerDir.files.size)
-			assertEquals("Package body file is not created", 1, package.bodyDir.files.size)
+			assertEquals("Package files are not created correctly", 2, package.headerDir.files.size)
 			assertNotNull("Package header file is not set.", package.headerFile)
 			assertNotNull("Package body file is not set.", package.bodyFile)
 		]
@@ -164,8 +163,7 @@ class CPPPackageInPackageTest extends MappingBaseTest<XTComponent, CPPComponent>
 			assertNotNull("Package header directory is not set.", package.headerDir)
 			assertNotNull("Package body directory is not set.", package.bodyDir)
 			// Assert files are created and set
-			assertEquals("Package header file is not created", 1, package.headerDir.files.size)
-			assertEquals("Package body file is not created", 1, package.bodyDir.files.size)
+			assertEquals("Package files are not created correctly", 2, package.headerDir.files.size)
 			assertNotNull("Package header file is not set.", package.headerFile)
 			assertNotNull("Package body file is not set.", package.bodyFile)
 		]
@@ -268,8 +266,7 @@ class CPPPackageHierarchyTest extends MappingBaseTest<XTComponent, CPPComponent>
 			assertNotNull("Package header directory is not set.", package.headerDir)
 			assertNotNull("Package body directory is not set.", package.bodyDir)
 			// Assert files are created and set
-			assertEquals("Package header file is not created", 1, package.headerDir.files.size)
-			assertEquals("Package body file is not created", 1, package.bodyDir.files.size)
+			assertEquals("Package files are not created correctly", 2, package.headerDir.files.size)
 			assertNotNull("Package header file is not set.", package.headerFile)
 			assertNotNull("Package body file is not set.", package.bodyFile)
 		]

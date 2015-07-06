@@ -1,5 +1,0 @@
-class SimpleTest {
-	activity test(out y : Integer) {
-		y = 2;
-	}
-}

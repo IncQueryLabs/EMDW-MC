@@ -32,7 +32,7 @@ public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProv
 	private IncQueryEngine engine;
 	
 	protected IncQueryEngine getEngine() throws IncQueryException {
-		if (engine != null) {
+		if (engine == null) {
 			engine = doGetEngine();
 			UMLScopeQueries.instance().prepare(engine);			
 		}

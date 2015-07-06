@@ -28,10 +28,10 @@ class XtumlComponentCPPTransformation {
 	BatchTransformation transform
 	extension BatchTransformationStatements statements
 	
+	ComponentRules componentRules
 	val packageRules = new PackageRules
-	val entityRules = new EntityRules
-	val componentRules = new ComponentRules
 	ClassRules classRules
+	EntityRules entityRules
 	val associationRules = new AssociationRules
 	
 
@@ -51,7 +51,9 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			statements = new BatchTransformationStatements(transform)
-			classRules = new ClassRules(engine, statements, associationRules)
+			entityRules  = new EntityRules(statements)
+			classRules = new ClassRules(engine, statements, associationRules, entityRules)
+			componentRules = new ComponentRules(statements, entityRules)
 			
 			componentRules.addRules(transform)
 			packageRules.addRules(transform)
@@ -68,6 +70,7 @@ class XtumlComponentCPPTransformation {
 			info('''Executing transformation on «xtUmlModel.name»''')
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
+			statements.fireAllCurrent(componentRules.componentRule)
 			statements.fireAllCurrent(packageRules.packageInComponentRule)
 			statements.fireWhilePossible(packageRules.packageInPackageRule)
 			statements.fireAllCurrent(classRules.classRule)
@@ -75,9 +78,6 @@ class XtumlComponentCPPTransformation {
 			statements.fireAllCurrent(classRules.stateRule)
 			statements.fireAllCurrent(classRules.transitionRule)
 			statements.fireAllCurrent(classRules.eventRule)
-			statements.fireAllCurrent(entityRules.entityAttributeRule)
-			statements.fireAllCurrent(entityRules.entityOperationRule)
-			statements.fireAllCurrent(entityRules.cppSequenceTypeRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

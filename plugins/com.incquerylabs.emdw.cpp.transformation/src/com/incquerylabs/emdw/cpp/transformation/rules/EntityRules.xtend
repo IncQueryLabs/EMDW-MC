@@ -9,6 +9,7 @@ import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
 
@@ -19,6 +20,11 @@ class EntityRules {
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val BatchTransformationStatements statements
+	
+	new(BatchTransformationStatements statements) {
+		this.statements = statements
+	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
@@ -42,6 +48,7 @@ class EntityRules {
 		]
 		cppElement.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in entity «match.xtEntity.name» to CPPAttribute''')
+		fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppAttribute])
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -68,6 +75,7 @@ class EntityRules {
 				}
 			]
 			cppOperation.subElements += cppFormalParameter
+			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
 		]
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
 	].build

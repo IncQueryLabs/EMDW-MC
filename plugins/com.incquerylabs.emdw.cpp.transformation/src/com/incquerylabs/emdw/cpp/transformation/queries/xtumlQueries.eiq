@@ -166,17 +166,18 @@ pattern cppEntityAttributes(
 }
 
 pattern cppSequenceType(
+	cppElement : CPPQualifiedNamedElement,
 	typedElement : NamedElement,
 	cppSequence : CPPSequence,
 	ooplType : OOPLType
 ) {
-	CPPAttribute.unnamedSequenceType(cppAttribute, cppSequence);
-	CPPAttribute.commonAttribute(cppAttribute, typedElement);
+	CPPAttribute.unnamedSequenceType(cppElement, cppSequence);
+	CPPAttribute.commonAttribute(cppElement, typedElement);
 	Attribute.type(typedElement, type);
 	find typeToOOPLType(type, ooplType);
 } or {
-	CPPFormalParameter.unnamedSequenceType(cppFP, cppSequence);
-	CPPFormalParameter.commonParameter(cppFP, typedElement);
+	CPPFormalParameter.unnamedSequenceType(cppElement, cppSequence);
+	CPPFormalParameter.commonParameter(cppElement, typedElement);
 	Parameter.type(typedElement, type);
 	find typeToOOPLType(type, ooplType);
 }

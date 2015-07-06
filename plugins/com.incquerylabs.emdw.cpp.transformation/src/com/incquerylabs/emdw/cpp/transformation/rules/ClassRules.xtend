@@ -21,13 +21,15 @@ class ClassRules {
 	extension val BatchTransformationStatements statements
 	
 	val AssociationRules associationRules
+	val EntityRules entityRules
 	
 	val IncQueryEngine engine
 	
-	new(IncQueryEngine engine, BatchTransformationStatements statements, AssociationRules associationRules) {
+	new(IncQueryEngine engine, BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules) {
 		this.engine = engine
 		this.statements = statements
 		this.associationRules = associationRules
+		this.entityRules = entityRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -60,6 +62,8 @@ class ClassRules {
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
 		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
+		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
+		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)
@@ -81,6 +85,8 @@ class ClassRules {
 		trace('''Mapped Class «xtCls.name» in package «match.xtPackage.name» to CPPClass''')
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
 		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
+		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
+		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)

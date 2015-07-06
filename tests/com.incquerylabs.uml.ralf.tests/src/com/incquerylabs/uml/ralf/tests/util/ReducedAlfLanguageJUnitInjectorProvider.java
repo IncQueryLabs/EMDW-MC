@@ -32,9 +32,10 @@ public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageI
         if (!EPackage.Registry.INSTANCE.containsKey(org.eclipse.xtext.XtextPackage.eNS_URI))
             EPackage.Registry.INSTANCE.put(org.eclipse.xtext.XtextPackage.eNS_URI,
                     org.eclipse.xtext.XtextPackage.eINSTANCE);
+        //Create the base rALF module
         Module runtimeModule = (Module) new com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule();
+        //create a new module that binds the API classes
         Module customizations = new Module() {
-
             @Override
             public void configure(Binder binder) {
                 binder.bind(IUMLContextProvider.class).toInstance(new TestUMLContextProvider());
@@ -43,6 +44,7 @@ public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageI
                 binder.bind(IReducedAlfParser.class).to(ReducedAlfParser.class);
             }
         };
+        //create a new injector based off the modules
         return Guice.createInjector(runtimeModule, customizations);
     }
 

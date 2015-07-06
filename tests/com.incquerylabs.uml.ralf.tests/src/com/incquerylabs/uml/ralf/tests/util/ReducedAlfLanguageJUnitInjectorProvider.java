@@ -9,7 +9,9 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageInjectorProvider;
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
+import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator;
+import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
 
@@ -38,6 +40,7 @@ public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageI
                 binder.bind(IUMLContextProvider.class).toInstance(new TestUMLContextProvider());
                 binder.bind(ReducedAlfSnippetCompiler.class).toInstance(new ReducedAlfSnippetCompiler());
                 binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
+                binder.bind(IReducedAlfParser.class).to(ReducedAlfParser.class);
             }
         };
         return Guice.createInjector(runtimeModule, customizations);

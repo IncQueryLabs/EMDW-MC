@@ -1,5 +1,7 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.example
 
+import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
+import com.incquerylabs.uml.ralf.api.IReducedAlfParser
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 import javax.inject.Inject
 import org.eclipse.xtext.junit4.InjectWith
@@ -10,8 +12,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
-import com.incquerylabs.uml.ralf.api.IParser
-import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -22,7 +22,7 @@ class PrimitiveTypesSnippetTest {
 	IReducedAlfGenerator compiler
 	
 	@Inject
-	IParser parser
+	IReducedAlfParser parser
 	
 	
 	@Test

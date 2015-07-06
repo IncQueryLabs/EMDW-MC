@@ -21,14 +21,16 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Reference type in OOP languages to store reference to the OOP representation of a model class ({@link com.ericsson.xtumlrt.oopl.OOPLClass})."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="class" lowerBound="1" eType="#//OOPLClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ooplClass" lowerBound="1"
+        eType="#//OOPLClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassReferenceCollection" abstract="true"
       eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Collection type in OOP languages to store references to the OOP representation of model classes ({@link com.ericsson.xtumlrt.oopl.OOPLClass})."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="class" lowerBound="1" eType="#//OOPLClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ooplClass" lowerBound="1"
+        eType="#//OOPLClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefSimpleCollection" abstract="true"
       eSuperTypes="#//OOPLClassReferenceCollection">

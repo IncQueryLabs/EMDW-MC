@@ -669,7 +669,7 @@ class TransformationTestUtil {
 		
 		val referenceType = createCPPClassRefSimpleCollection => [
 			it.commonType = xtTargetClass
-			it.class = cppTargetClass
+			it.ooplClass = cppTargetClass
 			it.ooplNameProvider = createOOPLExistingNameProvider =>[
 				commonNamedElement = xtTargetClass
 			]
@@ -682,7 +682,7 @@ class TransformationTestUtil {
 		
 		val referenceType = createCPPClassReference => [
 			it.commonType = xtTargetClass
-			it.class = cppTargetClass
+			it.ooplClass = cppTargetClass
 			it.ooplNameProvider = createOOPLExistingNameProvider =>[
 				commonNamedElement = xtTargetClass
 			]

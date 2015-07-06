@@ -10,13 +10,13 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 class TypeConverter {
 	
 	def dispatch String convertType(CPPClassReference classReference){
-		val cppType = convertType(classReference.class_)
+		val cppType = convertType(classReference.ooplClass)
 		return '''«cppType»*'''
 	}
 	
 	def dispatch String convertType(CPPClassRefSimpleCollection classReferenceSimpleCollection){
 		val cppContainer = classReferenceSimpleCollection.cppContainer
-		val cppType = convertType(classReferenceSimpleCollection.class_)
+		val cppType = convertType(classReferenceSimpleCollection.ooplClass)
 		return '''«cppContainer»< «cppType»* >'''
 	}
 	
@@ -30,8 +30,8 @@ class TypeConverter {
 		return convertType(type.commonType)
 	}
 	
-	def dispatch String convertType(CPPClass ^class) {
-		return ^class.cppQualifiedName
+	def dispatch String convertType(CPPClass ooplClass) {
+		return ooplClass.cppQualifiedName
 	}
 	
 	def dispatch convertType(Type type) {

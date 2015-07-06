@@ -39,7 +39,7 @@ class AssociationRules {
 		if (xtAssoc.upperBound != 1){
 			referenceType = createCPPClassRefSimpleCollection => [
 				it.commonType = xtTargetClass
-				it.class = cppTargetClass
+				it.ooplClass = cppTargetClass
 				it.ooplNameProvider = createOOPLExistingNameProvider =>[
 					commonNamedElement = xtTargetClass
 				]
@@ -47,7 +47,7 @@ class AssociationRules {
 		} else {
 			referenceType = createCPPClassReference => [
 				it.commonType = xtTargetClass
-				it.class = cppTargetClass
+				it.ooplClass = cppTargetClass
 				it.ooplNameProvider = createOOPLExistingNameProvider =>[
 					commonNamedElement = xtTargetClass
 				]

@@ -40,10 +40,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLType/commonType"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassReference">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReference/class"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReference/ooplClass"/>
     </genClasses>
     <genClasses image="false" ecoreClass="oopl.ecore#//OOPLClassReferenceCollection">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReferenceCollection/class"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReferenceCollection/ooplClass"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassRefSimpleCollection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefSimpleCollection/kind"/>

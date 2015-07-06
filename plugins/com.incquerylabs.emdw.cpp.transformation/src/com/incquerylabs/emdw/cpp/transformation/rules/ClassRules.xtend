@@ -10,6 +10,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 
 class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -46,8 +47,9 @@ class ClassRules {
 	@Accessors(PUBLIC_GETTER)
 	val classRule = createRule.precondition(cppComponentClasses).action[ match |
 		val xtCls = match.xtClass
-		val bodyDir = match.cppComponent.bodyDirectory
-		val headerDir = match.cppComponent.headerDirectory
+		val cppComponent = match.cppComponent
+		val bodyDir = cppComponent.bodyDirectory
+		val headerDir = cppComponent.headerDirectory
 		val cppClass = createCPPClass => [
 			xtClass = xtCls
 			bodyFile = createCPPBodyFile
@@ -58,19 +60,17 @@ class ClassRules {
 			
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtCls ]
 		]
-		match.cppComponent.subElements += cppClass
+		cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
-		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
-		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
-		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
-		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
+		transformSubElements(cppClass)
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)
 	val classInPackageRule = createRule.precondition(cppPackageClasses).action[ match |
 		val xtCls = match.xtClass
-		val bodyDir = match.cppPackage.bodyDir
-		val headerDir = match.cppPackage.headerDir
+		val cppPackage = match.cppPackage
+		val bodyDir = cppPackage.bodyDir
+		val headerDir = cppPackage.headerDir
 		val cppClass = createCPPClass => [
 			xtClass = xtCls
 			bodyFile = createCPPBodyFile
@@ -81,12 +81,9 @@ class ClassRules {
 			
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtCls ]
 		]
-		match.cppPackage.subElements += cppClass
+		cppPackage.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in package «match.xtPackage.name» to CPPClass''')
-		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
-		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
-		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
-		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
+		transformSubElements(cppClass)
 	].build	
 	
 	@Accessors(PUBLIC_GETTER)
@@ -122,4 +119,13 @@ class ClassRules {
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
 	].build
 
+	def transformSubElements(CPPClass cppClass){
+		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
+		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
+		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
+		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
+		fireAllCurrent(stateRule, [it.cppClass == cppClass])
+		fireAllCurrent(transitionRule, [it.cppClass == cppClass])
+		fireAllCurrent(eventRule, [it.cppClass == cppClass])
+	}
 }

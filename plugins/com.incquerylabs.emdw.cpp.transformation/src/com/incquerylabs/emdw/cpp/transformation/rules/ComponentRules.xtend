@@ -19,10 +19,12 @@ class ComponentRules {
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
+	val ClassRules classRules
 	val EntityRules entityRules
 	
-	new(BatchTransformationStatements statements, EntityRules entityRules) {
+	new(BatchTransformationStatements statements, ClassRules classRules, EntityRules entityRules) {
 		this.statements = statements
+		this.classRules = classRules
 		this.entityRules = entityRules
 	}
 	
@@ -68,6 +70,7 @@ class ComponentRules {
 	val componentRule = createRule.precondition(cppComponents).action[match |
 		val cppComponent = match.cppComponent
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
+		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
 		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppComponent])
 	].build

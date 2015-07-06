@@ -10,19 +10,18 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
-import com.incquerylabs.uml.ralf.api.ISnippetCompilerAPI
-import com.incquerylabs.uml.ralf.api.IParserAPI
 import com.incquerylabs.uml.ralf.tests.util.TestModelUMLContextProvider
+import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
 class UMLModelTypesSnippetTest {
 	@Inject
-	ISnippetCompilerAPI compiler
+	IReducedAlfGenerator compiler
 	
 	@Inject
-	IParserAPI parser
+	IParser parser
 	
 	@Inject
 	TestModelUMLContextProvider context

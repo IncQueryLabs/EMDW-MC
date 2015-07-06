@@ -10,8 +10,8 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
-import com.incquerylabs.uml.ralf.api.ISnippetCompilerAPI
-import com.incquerylabs.uml.ralf.api.IParserAPI
+import com.incquerylabs.uml.ralf.api.IParser
+import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -19,10 +19,10 @@ import com.incquerylabs.uml.ralf.api.IParserAPI
 class PrimitiveTypesSnippetTest {
 		
 	@Inject
-	ISnippetCompilerAPI compiler
+	IReducedAlfGenerator compiler
 	
 	@Inject
-	IParserAPI parser
+	IParser parser
 	
 	
 	@Test

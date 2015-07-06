@@ -17,10 +17,10 @@ import org.eclipse.xtext.util.LazyStringInputStream;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.incquerylabs.uml.ralf.api.IParserAPI;
+import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 
-public class ParserAPI implements IParserAPI {
+public class ReducedAlfParser implements IReducedAlfParser {
 
     @Inject
     private Provider<XtextResourceSet> resourceSetProvider;
@@ -35,7 +35,7 @@ public class ParserAPI implements IParserAPI {
     private String LANGUAGE_NAME;
     
     @Inject
-    public ParserAPI(String langName) {
+    public ReducedAlfParser(String langName) {
         LANGUAGE_NAME = langName;
     }
 

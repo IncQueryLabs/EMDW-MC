@@ -7,19 +7,19 @@ import org.eclipse.uml2.uml.OpaqueBehavior;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.incquerylabs.uml.ralf.api.IParserAPI;
-import com.incquerylabs.uml.ralf.api.ISnippetCompilerAPI;
+import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
+import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
 
-public class SnippetCompilerAPI implements ISnippetCompilerAPI {
+public class ReducedAlfGenerator implements IReducedAlfGenerator {
       
     private ReducedAlfSnippetCompiler snippetCompiler;
     
     private Map<String, String> snippetMap;
     
     @Inject
-    public SnippetCompilerAPI() {
+    public ReducedAlfGenerator() {
         snippetMap = Maps.newHashMap();
         snippetCompiler = new ReducedAlfSnippetCompiler();
     }
@@ -30,13 +30,13 @@ public class SnippetCompilerAPI implements ISnippetCompilerAPI {
     }
 
     @Override
-    public String createSnippet(OpaqueBehavior behavior, IParserAPI parser) {
+    public String createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) {
         Statements statements = parser.parse(behavior);
         return createSnippet(statements);
     }
     
     @Override
-    public String createSnippet(String behavior, IParserAPI parser) {
+    public String createSnippet(String behavior, IReducedAlfParser parser) {
         Statements statements = parser.parse(behavior);
         return createSnippet(statements);
     }

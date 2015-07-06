@@ -8,10 +8,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageInjectorProvider;
-import com.incquerylabs.uml.ralf.api.IParserAPI;
-import com.incquerylabs.uml.ralf.api.ISnippetCompilerAPI;
-import com.incquerylabs.uml.ralf.api.impl.ParserAPI;
-import com.incquerylabs.uml.ralf.api.impl.SnippetCompilerAPI;
+import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
+import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
+import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser;
+import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 
 public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguageInjectorProvider {
@@ -40,8 +40,8 @@ public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguage
                 TestModelUMLContextProvider provider = new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
                 binder.bind(IUMLContextProvider.class).toInstance(provider);
                 binder.bind(TestModelUMLContextProvider.class).toInstance(provider);
-                binder.bind(IParserAPI.class).toInstance(new ParserAPI(LANGUAGE_NAME));
-                binder.bind(ISnippetCompilerAPI.class).to(SnippetCompilerAPI.class);
+                binder.bind(IReducedAlfParser.class).toInstance(new ReducedAlfParser(LANGUAGE_NAME));
+                binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
             }
         };
         return Guice.createInjector(runtimeModule, customizations);

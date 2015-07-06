@@ -41,6 +41,12 @@
 		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
 		-->
 
+		<!-- rALF Language -->
+		<module>../../plugins/com.incquerylabs.uml.ralf</module>
+		<module>../../plugins/com.incquerylabs.uml.ralf.incquery</module>
+		<module>../../plugins/com.incquerylabs.uml.ralf.papyrus.ui</module>
+		<module>../../plugins/com.incquerylabs.uml.ralf.ui</module>
+		<module>../../tests/com.incquerylabs.uml.ralf.tests</module>
 
 		<!-- Releng -->
 		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
@@ -48,6 +54,7 @@
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
 		<module>../com.incquerylabs.emdw.papyrus.feature</module>
 		<module>../com.incquerylabs.emdw.update</module>
+		<module>../com.incquerylabs.uml.ralf.feature</module>
 
 		<!-- Maven plugins -->
 		<module>../../maven/emdw-metamodels</module>
@@ -94,6 +101,11 @@
 			<id>orbit</id>
 			<layout>p2</layout>
 			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
+		</repository>
+		<repository>
+			<id>xsemantics</id>
+			<layout>p2</layout>
+			<url>http://master.dl.sourceforge.net/project/xsemantics/updates/releases/1.8/</url>
 		</repository>
 	</repositories>
 

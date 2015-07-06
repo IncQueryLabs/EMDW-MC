@@ -57,22 +57,22 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
-		<mars-repo.url>http://download.eclipse.org/releases/mars</mars-repo.url>
+		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>
-		<papyrus-repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus-repo.url>
+		<papyrus.repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus.repo.url>
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 	</properties>
 
 	<repositories>
 		<repository>
-			<id>luna</id>
-			<url>${mars-repo.url}</url>
+			<id>mars</id>
+			<url>${mars.repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>
 			<id>papyrus</id>
-			<url>${papyrus-repo.url}</url>
+			<url>${papyrus.repo.url}</url>
 			<layout>p2</layout>
 		</repository>
 		<repository>

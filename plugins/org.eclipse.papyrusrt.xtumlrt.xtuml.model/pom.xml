@@ -44,8 +44,8 @@
 					</dependencies>
 					<repositories>
 						<repository>
-							<id>luna</id>
-							<url>${luna-repo.url}</url>
+							<id>mars</id>
+							<url>${mars.repo.url}</url>
 							<layout>p2</layout>
 						</repository>
 					</repositories>

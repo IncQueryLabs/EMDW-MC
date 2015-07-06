@@ -30,7 +30,7 @@ class AssociationMappingTest extends TransformationTest<State, CPPClass> {
 		val xtAssoc2 = xtAssoc1.opposite
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent, null, null, null, null)
+		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
 		val cppClass1Header = createCPPHeaderFile(cppComponent.headerDirectory)
 		val cppClass1Body = createCPPBodyFile(cppComponent.bodyDirectory)
 		val cppClass1 = createCPPClass(cppComponent, xtClass1, cppClass1Header, cppClass1Body)

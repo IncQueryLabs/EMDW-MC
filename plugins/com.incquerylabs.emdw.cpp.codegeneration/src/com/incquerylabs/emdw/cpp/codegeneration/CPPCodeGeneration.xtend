@@ -1,7 +1,8 @@
 package com.incquerylabs.emdw.cpp.codegeneration
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.google.common.base.Stopwatch
+import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.RuleProvider
 import java.util.concurrent.TimeUnit
@@ -12,7 +13,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.google.common.collect.ImmutableMap
 
 class CPPCodeGeneration {
 
@@ -23,15 +23,12 @@ class CPPCodeGeneration {
 	BatchTransformation transform
 	IncQueryEngine engine
 	RuleProvider ruleProvider
-	CPPModel cppModel
 	
 	extension BatchTransformationStatements statements
 
-	def initialize(CPPModel cppModel, IncQueryEngine engine) {
-		checkArgument(cppModel != null, "CPP Model cannot be null!")
+	def initialize(IncQueryEngine engine) {
 		checkArgument(engine != null, "Engine cannot be null!")
 		if (!initialized) {
-			this.cppModel = cppModel
 			this.engine = engine
 
 			debug("Preparing queries on engine.")
@@ -52,9 +49,17 @@ class CPPCodeGeneration {
 	}
 
 	def execute() {
-			info('''Executing transformation on «cppModel.cppName»''')
+			info('''Executing transformation on all components''')
 			val watch = Stopwatch.createStarted
 			fireAllCurrent(ruleProvider.cppComponentRule)
+			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+	}
+	
+	def execute(CPPComponent cppComponent) {
+			checkArgument(cppComponent != null, "CPP Component cannot be null!")
+			info('''Executing transformation on «cppComponent.cppName»''')
+			val watch = Stopwatch.createStarted
+			fireAllCurrent(ruleProvider.cppComponentRule, [it.cppComponent == cppComponent])
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	

@@ -13,7 +13,7 @@ class CPPCodeGenerationWrapper extends TransformationWrapper {
 	override initializeTransformation(CPPModel cppmodel) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppmodel.eResource.resourceSet))
 		codegen = new CPPCodeGeneration
-		codegen.initialize(cppmodel, engine)
+		codegen.initialize(engine)
 	}
 	
 	override executeTransformation() {

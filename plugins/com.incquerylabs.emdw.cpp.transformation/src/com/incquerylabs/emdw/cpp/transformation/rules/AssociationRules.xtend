@@ -1,6 +1,8 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
+import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.OoplFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
@@ -8,8 +10,6 @@ import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.ericsson.xtumlrt.oopl.OOPLType
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 
 class AssociationRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -29,7 +29,6 @@ class AssociationRules {
 	@Accessors(PUBLIC_GETTER)
 	val associationRule = createRule.precondition(cppClassAssociations).action[ match |
 		val xtClass = match.xtClass
-//		val cppClass = match.cppClass
 		val xtAssoc = match.association
 		
 		val xtTargetClass = xtAssoc.target

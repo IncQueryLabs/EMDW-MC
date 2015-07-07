@@ -26,6 +26,16 @@
                </reference>
             </visibleWhen>
          </command>
+         <command
+               commandId="com.incquerylabs.emdw.cpp.ui.componentgen"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <reference
+                     definitionId="com.incquerylabs.emdw.cpp.ui.umlcomponentdef">
+               </reference>
+            </visibleWhen>
+         </command>
       </menuContribution>
    </extension>
    <extension
@@ -54,6 +64,18 @@
             </iterate>
          </with>
       </definition>
+      <definition
+            id="com.incquerylabs.emdw.cpp.ui.umlcomponentdef">
+         <with
+               variable="selection">
+            <iterate
+                  ifEmpty="false">
+               <adapt
+                     type="org.eclipse.uml2.uml.Component">
+               </adapt>
+            </iterate>
+         </with>
+      </definition>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -66,6 +88,11 @@
             defaultHandler="com.incquerylabs.emdw.cpp.ui.UmlHandler"
             id="com.incquerylabs.emdw.cpp.ui.toolchain"
             name="Generate CPP code for selected UML model">
+      </command>
+      <command
+            defaultHandler="com.incquerylabs.emdw.cpp.ui.UmlComponentHandler"
+            id="com.incquerylabs.emdw.cpp.ui.componentgen"
+            name="Generate CPP code for selected UML component">
       </command>
    </extension>
 

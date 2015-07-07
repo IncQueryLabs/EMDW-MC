@@ -6,6 +6,7 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
 
@@ -16,10 +17,23 @@ class ComponentRules {
 	extension BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val BatchTransformationStatements statements
+	
+	val PackageRules packageRules
+	val ClassRules classRules
+	val EntityRules entityRules
+	
+	new(BatchTransformationStatements statements, PackageRules packageRules, ClassRules classRules, EntityRules entityRules) {
+		this.statements = statements
+		this.packageRules = packageRules
+		this.classRules = classRules
+		this.entityRules = entityRules
+	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
-			cleanComponentsRule
+			cleanComponentsRule,
+			componentRule
 		)
 		transformation.addRules(rules)
 	}
@@ -52,6 +66,16 @@ class ComponentRules {
 		}
 		
 		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val componentRule = createRule.precondition(cppComponents).action[match |
+		val cppComponent = match.cppComponent
+		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
+		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
+		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
+		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppComponent])
+		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	].build
 	
 }

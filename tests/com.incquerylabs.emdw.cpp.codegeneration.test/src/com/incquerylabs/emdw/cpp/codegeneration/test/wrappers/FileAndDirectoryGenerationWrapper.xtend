@@ -19,7 +19,7 @@ class FileAndDirectoryGenerationWrapper extends TransformationWrapper {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppModel.eResource.resourceSet))
 		fileAndDirGeneration = new FileAndDirectoryGeneration
 		cppCodeGeneration = new CPPCodeGeneration
-		cppCodeGeneration.initialize(cppModel, engine)
+		cppCodeGeneration.initialize(engine)
 	}
 	
 	def initializeFileAndDirectoryGenerator(IFileManager fileManager, ImmutableMap<CPPSourceFile, CharSequence> contents) {

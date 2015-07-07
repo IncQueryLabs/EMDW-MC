@@ -8,8 +8,10 @@ import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 
 class PackageRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -18,6 +20,14 @@ class PackageRules {
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val BatchTransformationStatements statements
+	
+	val ClassRules classRules
+	
+	new(BatchTransformationStatements statements, ClassRules classRules) {
+		this.statements = statements
+		this.classRules = classRules
+	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
@@ -34,6 +44,7 @@ class PackageRules {
 		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppComponent.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in component «match.xtComponent.name» to CPPPackage''')
+		transformSubElements(cppPackage)
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -43,7 +54,13 @@ class PackageRules {
 		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppParentPackage.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in package «match.xtParentPackage.name» to CPPPackage''')
+		transformSubElements(cppPackage)
 	].build
+	
+	def void transformSubElements(CPPPackage cppPackage){
+		fireAllCurrent(classRules.classInPackageRule, [it.cppPackage == cppPackage])
+		fireAllCurrent(packageInPackageRule, [it.cppParentPackage == cppPackage])
+	}
 	
 	protected def createCppPackage(Package xtPackage, CPPDirectory parentDir){
 		val cppPackage = createCPPPackage => [

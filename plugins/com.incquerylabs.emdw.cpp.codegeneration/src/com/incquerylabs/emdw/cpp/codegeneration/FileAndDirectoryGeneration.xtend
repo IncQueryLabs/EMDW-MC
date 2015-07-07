@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.codegeneration
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableMap
@@ -42,9 +43,9 @@ class FileAndDirectoryGeneration {
 			
 			debug("Preparing file and directory generation rules.")
 			transform = BatchTransformation.forEngine(engine)
-			ruleProvider = new FileAndDirectoryRuleProvider(engine, fileManager, contents)
-			ruleProvider.addRules(transform)
 			statements = new BatchTransformationStatements(transform)
+			ruleProvider = new FileAndDirectoryRuleProvider(engine, statements, fileManager, contents)
+			ruleProvider.addRules(transform)
 			info('''Prepared file and directory generation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true
@@ -54,11 +55,16 @@ class FileAndDirectoryGeneration {
 	def execute() {
 		val watch = Stopwatch.createStarted
 		info('''File and directory generation started''')
-		// Generate directory structure
+		// Generate directory structure and files
 		fireAllCurrent(ruleProvider.cppRootDirectoryRule)
-		fireAllCurrent(ruleProvider.cppSubDirectoryRule)
-		// Generate files and contents
-		fireAllCurrent(ruleProvider.cppDirectoryFilesRule)
+		info('''File and directory generation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+	}
+	
+	def execute(CPPDirectory cppDirectory) {
+		val watch = Stopwatch.createStarted
+		info('''File and directory generation started''')
+		// Generate directory structure
+		fireAllCurrent(ruleProvider.cppDirectoryRule, [it.cppDirectory == cppDirectory])
 		info('''File and directory generation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	

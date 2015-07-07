@@ -23,7 +23,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @SuiteClasses(#[
 	CPPClassInPackageTest,
 	CPPClassInModelTest,
-	CPPClassInComponentTest
+	CPPClassInComponentTest,
+	CPPClassSingleComponentTransformTest
 ])
 @RunWith(Suite)
 class CPPClassMappingTestSuite {}
@@ -194,6 +195,77 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 		assertEquals(0,cppClasses.size)
 		assertEquals(0,rootDir.countCppHeaderFiles)
 		assertEquals(0,rootDir.countCppBodyFiles)
+	}
+	
+}
+
+@RunWith(Parameterized)
+class CPPClassSingleComponentTransformTest extends SingleComponentTransformTest {
+	CPPDirectory rootDir;
+	
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+	
+	override protected prepareXtUmlModel(Model model) {
+		val pack = model.createPackage("RootPackage")
+		val component = pack.createXtComponent("Component")
+		val otherComponent = pack.createXtComponent("OtherComponent")
+		component.createXtClass("Class")
+		otherComponent.createXtClass("OtherClass")
+		
+		return component
+	}
+		
+	override protected prepareCppModel(CPPModel cppModel) {
+		val xtmodel = cppModel.commonModel
+		val xtPackage = xtmodel.packages.head as Package
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val xtComponent = xtPackage.entities.filter(XTComponent).filter[it.name=="Component"].head
+		val otherXtComponent = xtPackage.entities.filter(XTComponent).filter[it.name=="OtherComponent"].head
+		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
+		val otherCppComponent = cppPackage.createCPPComponent(otherXtComponent, null, null, null, null)
+		
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		cppComponent.headerDirectory = rootDir.createCPPSubDirectory
+		cppComponent.bodyDirectory = cppComponent.headerDirectory
+		otherCppComponent.headerDirectory = rootDir.createCPPSubDirectory
+		otherCppComponent.bodyDirectory = cppComponent.headerDirectory
+		
+		return cppComponent
+	}
+	
+	override protected assertResult(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+		val cppPackage = result.subElements.filter(CPPPackage).head
+		val cppComponents = cppPackage.subElements.filter(CPPComponent)
+		
+		val transformedCppComponent = cppComponents.filter[it.xtComponent.name == "Component"].head
+		val otherCppComponent = cppComponents.filter[it.xtComponent.name == "OtherComponent"].head
+		
+		val cppClasses = transformedCppComponent.subElements.filter(CPPClass)
+		val otherCppClasses = otherCppComponent.subElements.filter(CPPClass)
+		
+		assertEquals(1, cppClasses.size)
+		assertEquals(0, otherCppClasses.size)
+	}
+	
+	override protected clearXtUmlElement(XTComponent xtComponent) {
+		xtComponent.entities.clear
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+		val cppPackage = result.subElements.filter(CPPPackage).head
+		val cppComponents = cppPackage.subElements.filter(CPPComponent)
+		
+		val transformedCppComponent = cppComponents.filter[it.xtComponent.name == "Component"].head
+		val otherCppComponent = cppComponents.filter[it.xtComponent.name == "OtherComponent"].head
+		
+		val cppClasses = transformedCppComponent.subElements.filter(CPPClass)
+		val otherCppClasses = otherCppComponent.subElements.filter(CPPClass)
+		
+		assertEquals(0, cppClasses.size)
+		assertEquals(0, otherCppClasses.size)
 	}
 	
 }

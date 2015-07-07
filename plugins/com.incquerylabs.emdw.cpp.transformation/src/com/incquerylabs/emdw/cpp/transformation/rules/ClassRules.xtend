@@ -117,6 +117,8 @@ class ClassRules {
 	].build
 
 	def transformSubElements(CPPClass cppClass){
+		// Association rules only have matches if both source and target CPPClasses are already created
+		// After the creation of the second CPPClass both directions of the association have to be added
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
 		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])

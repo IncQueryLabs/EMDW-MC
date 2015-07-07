@@ -10,9 +10,14 @@ pattern cppModel(cppModel : CPPModel) {
 	CPPModel(cppModel);
 }
 
+// CPPDirectory -> Any directory
+pattern cppDirectory(cppDirectory : CPPDirectory){
+	CPPDirectory(cppDirectory);
+}
+
 // CPPDirectory -> Root directories
-pattern cppRootDirectory(dir : CPPDirectory) {
-	neg find cppSubDirectory(dir);
+pattern cppRootDirectory(cppDirectory : CPPDirectory) {
+	neg find cppSubDirectory(_, cppDirectory);
 }
 
 // CPPDirectory -> Leaf directories
@@ -27,9 +32,12 @@ pattern cppParentDirectory(dir: CPPDirectory) {
 }
 
 // CPPDirectory -> Sub directories
-pattern cppSubDirectory(dir : CPPDirectory) {
-	CPPDirectory(parent);
-	find subDirectory(parent, dir);
+pattern cppSubDirectory(
+	parentDirectory : CPPDirectory,
+	cppDirectory : CPPDirectory
+) {
+	CPPDirectory(parentDirectory);
+	find subDirectory(parentDirectory, cppDirectory);
 }
 
 // CPPDirectory -> Sub directory parent => child
@@ -38,8 +46,8 @@ pattern subDirectory(parent : CPPDirectory, child : CPPDirectory) {
 }
 
 // CPPDirectory -> files
-pattern cppDirectoryFiles(cppDir : CPPDirectory, cppSourceFile : CPPSourceFile) {
-	CPPDirectory.files(cppDir, cppSourceFile);
+pattern cppDirectoryFiles(cppDirectory : CPPDirectory, cppSourceFile : CPPSourceFile) {
+	CPPDirectory.files(cppDirectory, cppSourceFile);
 }
 
 // CPPClass -> CPPHeaderFile

@@ -17,6 +17,10 @@
       [Enter License Description here.]
    </license>
 
+   <includes
+         id="com.incquerylabs.emdw.papyrus.feature"
+         version="0.0.0"/>
+
    <plugin
          id="com.incquerylabs.uml.ralf"
          download-size="0"

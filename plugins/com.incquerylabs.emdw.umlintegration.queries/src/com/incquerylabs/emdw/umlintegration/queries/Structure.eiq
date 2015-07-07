@@ -2,6 +2,9 @@ package com.incquerylabs.emdw.umlintegration.queries
 
 import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
 
+//import "http://Papyrus/xtUMLProfile"
+//import "http://Papyrus/ExecutableModelingProfile"
+
 // disabled since there are issues with Maven compilation
 //import "http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" as standard
 
@@ -78,6 +81,10 @@ pattern connectorEnd(connector: Connector, connectorEnd: ConnectorEnd) {
 }
 
 // Class
+
+//pattern xtClass(cl : Class) {
+//    XtClass.base_Class(_, cl);
+//}
 
 pattern xtClass(umlClass: Class) {
 	Class(umlClass);

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.incquerylabs.emdw</artifactId>
+		<relativePath>../../releng/com.incquerylabs.emdw.parent</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>com.incquerylabs.emdw.umlintegration.queries</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>src-gen</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.incquery</groupId>
+				<artifactId>incquery-maven-plugin</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>src-gen</outputDirectory>
+					<metamodels>
+						<metamodel>
+							<packageClass>org.eclipse.uml2.uml.UMLPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>org.eclipse.uml2.types.TypesPackage</packageClass>
+						</metamodel>
+						<!-- <metamodel>
+							<packageClass>com.incquerylabs.uml.xtuml.profile.ExecutableModelingProfile</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.incquerylabs.uml.xtuml.profile.xtUMLProfile</packageClass>
+						</metamodel>-->
+					</metamodels>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.uml2</groupId>
+						<artifactId>org.eclipse.uml2.uml</artifactId>
+						<version>5.0.1.v20140910-1354</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.uml2</groupId>
+						<artifactId>org.eclipse.uml2.types</artifactId>
+						<version>2.0.0.v20140910-1354</version>
+					</dependency>
+					<!-- <dependency>
+						<groupId>com.incquerylabs.uml.xtuml</groupId>
+						<artifactId>com.incquerylabs.uml.xtuml.profile</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency> -->
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.xtend</groupId>
+				<artifactId>xtend-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

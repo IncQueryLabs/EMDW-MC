@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><plugin>
-  <extension id="com.incquerylabs.uml.ralf.incquery.UMLScopeQueries" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.uml.ralf.incquery.UMLScopeQueries" id="com.incquerylabs.uml.ralf.incquery.UMLScopeQueries"/>
-  </extension>
-</plugin>

@@ -18,6 +18,7 @@
 		<module>../../plugins/com.incquerylabs.uml.xtuml.profile</module>
 
 		<!-- UML integration -->
+		<module>../../plugins/com.incquerylabs.emdw.umlintegration.queries</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
 		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
@@ -109,6 +110,10 @@
 		</repository>
 	</repositories>
 	<pluginRepositories>
+        <pluginRepository>
+            <id>incquery</id>
+            <url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+        </pluginRepository>
 		<pluginRepository>
 			<id>emdw-p2-mirror</id>
 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>

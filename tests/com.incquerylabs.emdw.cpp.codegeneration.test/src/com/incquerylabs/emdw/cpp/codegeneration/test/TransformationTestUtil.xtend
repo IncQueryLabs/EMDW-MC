@@ -705,16 +705,15 @@ class TransformationTestUtil {
 		cppComponent	
 	}
 
-	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, XTComponent xtcomponent,
-		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
+	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, XTComponent xtcomponent) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
 		val dir = cppFactory.createCPPDirectory
 		val cppComponent = cppFactory.createCPPComponent => [
 			it.xtComponent = xtcomponent
-			it.mainHeaderFile = mainheader
-			it.mainBodyFile = mainbody
-			it.declarationHeaderFile = defheader
-			it.declarationHeaderFile = declheader
+			it.mainHeaderFile = createCPPHeaderFile(dir)
+			it.mainBodyFile = createCPPBodyFile(dir)
+			it.declarationHeaderFile = createCPPHeaderFile(dir)
+			it.definitionHeaderFile = createCPPHeaderFile(dir)
 			it.ooplNameProvider = provider
 			it.headerDirectory = dir
 			it.bodyDirectory = dir

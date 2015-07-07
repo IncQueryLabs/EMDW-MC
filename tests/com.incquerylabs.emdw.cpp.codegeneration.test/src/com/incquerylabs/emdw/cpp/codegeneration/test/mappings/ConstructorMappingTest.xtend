@@ -30,7 +30,7 @@ class ConstructorMappingTest extends TransformationTest<State, CPPClass> {
 		val xtConstructor = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtTypeVoid, "TEST_CLASS", "// body comment")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent, null, null, null, null)
+		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
 		val cppClassHeader = createCPPHeaderFile(cppComponent.headerDirectory)
 		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
 		val cppClass = createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)

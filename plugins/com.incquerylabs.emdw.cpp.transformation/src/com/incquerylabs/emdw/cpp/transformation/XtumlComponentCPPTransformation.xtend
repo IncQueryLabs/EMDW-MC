@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
@@ -23,7 +23,6 @@ class XtumlComponentCPPTransformation {
 	static val xtUmlQueries = XtumlQueries.instance
 	private var initialized = false;
 
-	Model xtUmlModel
 	IncQueryEngine engine
 	BatchTransformation transform
 	extension BatchTransformationStatements statements
@@ -35,11 +34,9 @@ class XtumlComponentCPPTransformation {
 	AssociationRules associationRules
 	
 
-	def initialize(Model xtUmlModel, IncQueryEngine engine) {
-		checkArgument(xtUmlModel != null, "XTUML Model cannot be null!")
+	def initialize(IncQueryEngine engine) {
 		checkArgument(engine != null, "Engine cannot be null!")
 		if (!initialized) {
-			this.xtUmlModel = xtUmlModel
 			this.engine = engine
 
 			debug("Preparing queries on engine.")
@@ -69,10 +66,19 @@ class XtumlComponentCPPTransformation {
 	}
 
 	def execute() {
-			info('''Executing transformation on «xtUmlModel.name»''')
+			info('''Executing transformation on all xtComponents''')
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
 			statements.fireAllCurrent(componentRules.componentRule)
+			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+	}
+
+	def execute(XTComponent xtComponent) {
+			checkArgument(xtComponent != null, "XTUML Component cannot be null!")
+			info('''Executing transformation on «xtComponent.name»''')
+			val watch = Stopwatch.createStarted
+			statements.fireAllCurrent(componentRules.cleanComponentsRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(componentRules.componentRule, [it.xtComponent == xtComponent])
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 

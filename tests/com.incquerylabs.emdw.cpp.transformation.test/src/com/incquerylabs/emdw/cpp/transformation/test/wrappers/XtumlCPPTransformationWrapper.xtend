@@ -13,7 +13,7 @@ class XtumlCPPTransformationWrapper extends TransformationWrapper {
 	override initializeTransformation(CPPModel cppmodel) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppmodel.eResource.resourceSet))
 		xform = new XtumlComponentCPPTransformation
-		xform.initialize(cppmodel.commonModel, engine)
+		xform.initialize(engine)
 	}
 	
 	override executeTransformation() {

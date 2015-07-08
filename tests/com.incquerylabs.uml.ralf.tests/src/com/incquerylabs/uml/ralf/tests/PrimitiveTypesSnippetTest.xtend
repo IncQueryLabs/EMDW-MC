@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests.example
+package com.incquerylabs.uml.ralf.tests
 
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser

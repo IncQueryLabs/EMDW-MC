@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests.example
+package com.incquerylabs.uml.ralf.tests.examples.junittests
 
 import com.google.inject.Injector
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
@@ -9,7 +9,7 @@ import org.junit.Test
 
 import static org.junit.Assert.*
 
-class ExampleTest {
+class JUnitPrimitiveTypeExampleTest {
 	// Injector that creates the parser and the generator
 	Injector injector;
 	IReducedAlfGenerator generator
@@ -24,32 +24,32 @@ class ExampleTest {
 		injector = provider.injector
 		generator = injector.getInstance(IReducedAlfGenerator)
 		parser = injector.getInstance(IReducedAlfParser)
-
 	}
 
 	@Test
 	def exampleTestCase() {
-		snippetCompilerTest(
-		'''
+		val input = '''
 		Integer x = (1 + 2) * 3 + -4;
 		++x;
 		Integer y = x;
 		y = x - 15;
 		if ((x > 3) && !(y < -5)) {
 			x--;
-		}''', '''
+		}'''
+		
+		val expected = '''
 		PrimitiveTypes::Integer x = (1 + 2) * 3 + -4;
 		++x;
 		PrimitiveTypes::Integer y = x;
 		y = x - 15;
 		if ((x > 3) && !(y < -5)) {
 			x--;
-		}''')
-	}
-
-	def snippetCompilerTest(String input, String expected) {
-		//the usage of the generator can be seen here.
-		val snippet = generator.createSnippet(input, parser)
+		}'''
+		
+		//create AST
+		val ast = parser.parse(input)
+		//generate snippet from AST
+		val snippet = generator.createSnippet(ast)
 		assertEquals("The created snippet does not match the expected result", expected, snippet)
 	}
 }

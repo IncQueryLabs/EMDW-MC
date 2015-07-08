@@ -16,11 +16,14 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
+import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 
 class XtumlComponentCPPTransformation {
 
 	extension val Logger logger = Logger.getLogger(class)
 	static val xtUmlQueries = XtumlQueries.instance
+	static val cppQueries = CppQueries.instance
 	private var initialized = false;
 
 	IncQueryEngine engine
@@ -32,6 +35,7 @@ class XtumlComponentCPPTransformation {
 	ClassRules classRules
 	EntityRules entityRules
 	AssociationRules associationRules
+	IncludeRules includeRules
 	
 
 	def initialize(IncQueryEngine engine) {
@@ -42,16 +46,19 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing queries on engine.")
 			var watch = Stopwatch.createStarted
 			val queries = GenericPatternGroup.of(xtUmlQueries)
+			val cppQueries = GenericPatternGroup.of(cppQueries)
 			queries.prepare(engine)
+			cppQueries.prepare(engine)
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			statements = new BatchTransformationStatements(transform)
+			includeRules = new IncludeRules
 			associationRules = new AssociationRules
 			entityRules  = new EntityRules(statements)
-			classRules = new ClassRules(statements, associationRules, entityRules)
-			packageRules = new PackageRules(statements, classRules)
+			classRules = new ClassRules(statements, associationRules, entityRules, includeRules)
+			packageRules = new PackageRules(statements, classRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules)
 			
 			componentRules.addRules(transform)

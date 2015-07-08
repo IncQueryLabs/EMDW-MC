@@ -2,9 +2,11 @@ package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
@@ -22,12 +24,13 @@ class ClassRules {
 	
 	val AssociationRules associationRules
 	val EntityRules entityRules
+	val IncludeRules includeRules
 	
-	
-	new(BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules) {
+	new(BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules, IncludeRules includeRules) {
 		this.statements = statements
 		this.associationRules = associationRules
 		this.entityRules = entityRules
+		this.includeRules = includeRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -47,18 +50,10 @@ class ClassRules {
 		val cppComponent = match.cppComponent
 		val bodyDir = cppComponent.bodyDirectory
 		val headerDir = cppComponent.headerDirectory
-		val cppClass = createCPPClass => [
-			xtClass = xtCls
-			bodyFile = createCPPBodyFile
-			bodyDir.files += bodyFile
-			
-			headerFile = createCPPHeaderFile
-			headerDir.files += headerFile
-			
-			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtCls ]
-		]
+		val cppClass = createCppClass(xtCls, headerDir, bodyDir)
 		cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
+		addIncludes(cppClass)
 		transformSubElements(cppClass)
 	].build	
 	
@@ -68,18 +63,10 @@ class ClassRules {
 		val cppPackage = match.cppPackage
 		val bodyDir = cppPackage.bodyDir
 		val headerDir = cppPackage.headerDir
-		val cppClass = createCPPClass => [
-			xtClass = xtCls
-			bodyFile = createCPPBodyFile
-			bodyDir.files += bodyFile
-			
-			headerFile = createCPPHeaderFile
-			headerDir.files += headerFile
-			
-			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtCls ]
-		]
+		val cppClass = createCppClass(xtCls, headerDir, bodyDir)
 		cppPackage.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in package «match.xtPackage.name» to CPPClass''')
+		addIncludes(cppClass)
 		transformSubElements(cppClass)
 	].build	
 	
@@ -115,6 +102,24 @@ class ClassRules {
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
 	].build
+	
+	def createCppClass(XTClass xtClass, CPPDirectory headerDir, CPPDirectory bodyDir){
+		createCPPClass => [
+			it.xtClass = xtClass
+			bodyFile = createCPPBodyFile
+			bodyDir.files += bodyFile
+			
+			headerFile = createCPPHeaderFile
+			headerDir.files += headerFile
+			bodyFile.includedHeaders += headerFile
+			
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtClass ]
+		]
+	}
+	
+	def addIncludes(CPPClass cppClass){
+		fireAllCurrent(includeRules.classComponentIncludeRule, [it.cppClass == cppClass])
+	}
 
 	def transformSubElements(CPPClass cppClass){
 		// Association rules only have matches if both source and target CPPClasses are already created

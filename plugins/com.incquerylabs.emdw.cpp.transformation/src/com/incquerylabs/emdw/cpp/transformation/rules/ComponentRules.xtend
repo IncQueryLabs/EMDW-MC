@@ -1,7 +1,8 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
-import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
@@ -15,8 +16,6 @@ class ComponentRules {
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
-	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
-	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
 	val PackageRules packageRules
@@ -71,6 +70,7 @@ class ComponentRules {
 	@Accessors(PUBLIC_GETTER)
 	val componentRule = createRule.precondition(cppComponents).action[match |
 		val cppComponent = match.cppComponent
+		cppComponent.addIncludesBetweenOwnFiles
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
@@ -78,4 +78,20 @@ class ComponentRules {
 		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	].build
 	
+	def addIncludesBetweenOwnFiles(CPPComponent cppComponent){
+		val mainHeader = cppComponent.mainHeaderFile
+		val mainBody = cppComponent.mainBodyFile
+		val declHeader = cppComponent.declarationHeaderFile
+		val defHeader = cppComponent.definitionHeaderFile
+		mainHeader.addInclude(declHeader)
+		mainBody.addInclude(mainHeader)
+		mainBody.addInclude(defHeader)
+		defHeader.addInclude(mainHeader)
+	}
+	
+	def addInclude(CPPSourceFile cppFile, CPPHeaderFile cppHeader){
+		if(!cppFile.includedHeaders.contains(cppHeader)){
+			cppFile.includedHeaders += cppHeader
+		}
+	}
 }

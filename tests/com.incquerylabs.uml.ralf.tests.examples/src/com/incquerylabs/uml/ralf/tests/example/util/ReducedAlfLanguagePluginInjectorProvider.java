@@ -15,7 +15,9 @@ import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.tests.example.util.TestModelUMLContextProvider;
 
-
+// This class is responsible for creating an injector for JUnit Plugin tests.
+// Instead of a primitive context provider, it uses a context provider that returns UML Classes, Types, signals, properties and associations 
+// based on a given UML model.
 public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguageInjectorProvider {
     private static final String LANGUAGE_NAME = "rALF";
     
@@ -34,7 +36,9 @@ public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguage
         if (!EPackage.Registry.INSTANCE.containsKey(org.eclipse.xtext.XtextPackage.eNS_URI))
             EPackage.Registry.INSTANCE.put(org.eclipse.xtext.XtextPackage.eNS_URI,
                     org.eclipse.xtext.XtextPackage.eINSTANCE);
+        //Create the base rALF module
         Module runtimeModule = (Module) new com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule();
+        //Create a new module that binds the API classes
         Module customizations = new Module() {
 
             @Override

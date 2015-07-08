@@ -12,6 +12,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class RuleProvider {
 	static extension val CppCodeGenerationQueries codeGenQueries = CppCodeGenerationQueries.instance
@@ -31,7 +32,8 @@ class RuleProvider {
 		this.statements = statements
 	}
 	
-	public val cppComponentRule = createRule.precondition(cppComponents).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val cppComponentRule = createRule.precondition(cppComponents).action[ match |
 		val cppComponent = match.cppComponent
 		val componentName = cppComponent.cppName
 		val declHeaderName = '''«componentName»_decl.hh'''
@@ -62,7 +64,8 @@ class RuleProvider {
 		logGeneratedFiles()
 	].build
 	
-	public val BatchTransformationRule<CppPackageInQualifiedNamedElementMatch, CppPackageInQualifiedNamedElementMatcher> cppPackageRule = 
+	@Accessors(PUBLIC_GETTER)
+	val BatchTransformationRule<CppPackageInQualifiedNamedElementMatch, CppPackageInQualifiedNamedElementMatcher> cppPackageRule = 
 	  createRule.precondition(cppPackageInQualifiedNamedElement).action[ match |
 		val cppPackage = match.cppPackage
 		val packageName = cppPackage.cppName
@@ -85,7 +88,8 @@ class RuleProvider {
 		fireAllCurrent(cppPackageRule, [it.container == cppPackage])
 	].build
 	
-	public val cppClassRule = createRule.precondition(cppClassInQualifiedNamedElement).action[ match |
+	@Accessors(PUBLIC_GETTER)
+	val cppClassRule = createRule.precondition(cppClassInQualifiedNamedElement).action[ match |
 		val cppClass = match.cppClass
 		trace('''Generating code for «cppClass.cppName» CPPClass''')
 		val header = classHeaderTemplate(cppClass)

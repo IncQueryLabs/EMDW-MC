@@ -24,7 +24,7 @@ class CPPTemplates {
 		namespaceTemplates = new NamespaceTemplates
 		typeIdGenerator = new TypeIdentifierGenerator
 		packageTemplates = new PackageTemplates(engine)
-		componentTemplates = new ComponentTemplates(engine, namespaceTemplates)
+		componentTemplates = new ComponentTemplates(engine)
 		classTemplates = new ClassTemplates(engine, typeIdGenerator, namespaceTemplates)
 	}
 	

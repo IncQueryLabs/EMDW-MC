@@ -3,12 +3,14 @@ package com.incquerylabs.uml.ralf.tests.examples.plugintests
 import com.google.inject.Injector
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguagePluginInjectorProvider
-import com.incquerylabs.uml.ralf.tests.util.TestModelUMLContextProvider
+
+
 import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.tests.example.util.ReducedAlfLanguagePluginInjectorProvider
+import com.incquerylabs.uml.ralf.tests.example.util.TestModelUMLContextProvider
 
 class PluginUMLTypeExampleTest {
 	// Injector that creates the parser, the generator and the UML context provider

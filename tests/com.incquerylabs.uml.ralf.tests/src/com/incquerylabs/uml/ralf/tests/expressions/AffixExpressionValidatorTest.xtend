@@ -31,23 +31,8 @@ class AffixExpressionValidatorTest {
 	//Affix increment operator
 	
 	@Test
-	def affixIncrementIntegerLiteral() {
-		affixIncrementExpressionError('''++1;''')
-	}
-		
-	@Test
-	def affixIncrementRealLiteral() {
-		affixIncrementExpressionError('''++1.1;''')
-	}
-		
-	@Test
-	def affixIncrementParenthesisIntLiteral() {
-		affixIncrementExpressionError('''++(1);''')
-	}
-	
-	@Test
-	def affixIncrementParenthesisRealLiteral() {
-		affixIncrementExpressionError('''++(1.1);''')
+	def affixIncrementBooleanUnary() {
+		affixIncrementExpressionError('''++!true;''')
 	}
 	
 	@Test
@@ -59,54 +44,13 @@ class AffixExpressionValidatorTest {
 	}
 	
 	@Test
-	def affixIncrementBooleanUnary() {
-		affixIncrementExpressionError('''++!true;''')
-	}
-	
-	@Test
-	def affixIncrementBooleanLiteral() {
-		affixIncrementExpressionError('''++true;''')
-	}
-	
-	@Test
-	def affixIncrementStringLiteral() {
-		affixIncrementExpressionError('''++"String";''')
-	}
-	
-	@Test
-	def affixIncrementParenthesisInvalidType() {
-		affixIncrementExpressionError('''++("1");''')
-	}
-	
-	@Test
-	def affixIncrementNumericUnaryNegative() {
-		affixIncrementExpressionError('''++-1;''')
-	}
-	
-	@Test
-	def affixIncrementNumericUnaryPositive() {
-		affixIncrementExpressionError('''+++1;''')
-	}
-	
-	@Test
-	def affixIncrementAffixIncrement() {
-		
-		affixIncrementExpressionError('''++++1;''')
-	}
-	
-	@Test
-	def affixIncrementAffixDecrement() {
-		affixIncrementExpressionError('''++--1;''')
-		
-	}
-	
-	@Test
 	def affixIncrementInvalidTypeVariable() {
 		affixIncrementExpressionError('''
 		String x = "1";
 		++x;
 		''')
 	}
+	
 	
 	private def affixIncrementExpressionOK(String code){
 		val model = parseHelper.parse(code)

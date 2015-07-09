@@ -1840,7 +1840,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   protected Result<Type> applyRuleFeatureLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureLeftHandSide lhs) throws RuleFailedException {
     Type result = null; // output parameter
     /* G |- lhs.expression : var Type exType */
-    Expression _expression = lhs.getExpression();
+    PropertyAccessExpression _expression = lhs.getExpression();
     Type exType = null;
     Result<Type> result_1 = typeInternal(G, _trace_, _expression);
     checkAssignableTo(result_1.getFirst(), Type.class);
@@ -1871,7 +1871,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   protected Result<Type> applyRuleNameLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final NameLeftHandSide lhs) throws RuleFailedException {
     Type result = null; // output parameter
-    /* { lhs.index == null G |- lhs.target : var Type varType result = varType } or { } */
+    /* { lhs.index == null G |- lhs.expression : var Type varType result = varType } or { } */
     {
       RuleFailedException previousFailure = null;
       try {
@@ -1881,10 +1881,10 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
         if (!_equals) {
           sneakyThrowRuleFailedException("lhs.index == null");
         }
-        /* G |- lhs.target : var Type varType */
-        Variable _target = lhs.getTarget();
+        /* G |- lhs.expression : var Type varType */
+        NameExpression _expression = lhs.getExpression();
         Type varType = null;
-        Result<Type> result_1 = typeInternal(G, _trace_, _target);
+        Result<Type> result_1 = typeInternal(G, _trace_, _expression);
         checkAssignableTo(result_1.getFirst(), Type.class);
         varType = (Type) result_1.getFirst();
         

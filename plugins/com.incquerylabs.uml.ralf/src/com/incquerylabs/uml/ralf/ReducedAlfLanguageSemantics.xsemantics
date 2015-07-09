@@ -357,7 +357,7 @@ rule NameLeftHandSide
 from {
     {
         lhs.index == null
-        G |- lhs.target : var Type varType
+        G |- lhs.expression : var Type varType
         result = varType
     } or {
         //TODO indexed access

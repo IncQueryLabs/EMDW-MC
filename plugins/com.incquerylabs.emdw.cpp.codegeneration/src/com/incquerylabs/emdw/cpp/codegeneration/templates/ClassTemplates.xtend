@@ -24,6 +24,7 @@ class ClassTemplates {
 	public static val EventFQN = "::Event"
 
 	extension NamespaceTemplates namespaceTemplates
+	extension val HeaderGuardTemplates headerGuardTemplates = new HeaderGuardTemplates
 	OperationTemplates operationTemplates 
 	AttributeTemplates attributeTemplates
 	AssociationTemplates associationTemplates
@@ -49,8 +50,11 @@ class ClassTemplates {
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val headerGuardPostfix = "HEADER"
 		
 		'''
+		«startHeaderGuard(cppClass, headerGuardPostfix)»
+		
 		«cppClass.namespaceOpenerTemplate»
 		
 		class «cppClassName»«IF hasStateMachine» : public «StatefulClassFQN»«ENDIF» {
@@ -69,6 +73,7 @@ class ClassTemplates {
 		}; /* class «cppClassName» */
 		«cppClass.namespaceCloserTemplate»
 		
+		«closeHeaderGuard(cppClass, headerGuardPostfix)»
 		'''
 		
 	}

@@ -116,9 +116,6 @@ class ComponentTemplates {
 		 *
 		 ******************************************************************************/
 		
-		«startHeaderGuard(cppComponent, headerGuardPostfix)»
-		
-		«closeHeaderGuard(cppComponent, headerGuardPostfix)»
 		'''
 	}
 	

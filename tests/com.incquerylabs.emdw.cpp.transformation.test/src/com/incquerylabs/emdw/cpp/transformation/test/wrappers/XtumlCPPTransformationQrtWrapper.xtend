@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 
 class XtumlCPPTransformationQrtWrapper extends TransformationWrapper {
 	
@@ -33,5 +34,7 @@ class XtumlCPPTransformationQrtWrapper extends TransformationWrapper {
 			engine.dispose
 		}
 	}
+	
+	override executeTransformation(XTComponent xtComponent) {}
 	
 }

@@ -7,13 +7,16 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
+import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.ui.GeneratorHelper
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
+import java.util.HashMap
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
+import org.eclipse.core.resources.IFolder
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -37,10 +40,37 @@ class CodeGenerator {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
-
+	
+	HashMap<ResourceSet, AdvancedIncQueryEngine> engineRegistry
+	HashMap<AdvancedIncQueryEngine, XtumlCPPTransformationQrt> cppTrRegistry
+	
+	new() {
+		engineRegistry = <ResourceSet, AdvancedIncQueryEngine>newHashMap()
+		cppTrRegistry = <AdvancedIncQueryEngine, XtumlCPPTransformationQrt>newHashMap()
+	}
+	
+	public def disposeCodeGeneration() {
+		engineRegistry.values.forEach[dispose]
+		cppTrRegistry.values.forEach[dispose]
+	}
+	
 	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {
-		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
 		
+		var incEngine = engineRegistry.get(xtResourceSet)
+		if(incEngine == null) {
+			incEngine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+			xtumlQueries.prepare(incEngine)
+			engineRegistry.put(xtResourceSet, incEngine)
+		}
+		var XtumlCPPTransformationQrt xformqrt = cppTrRegistry.get(incEngine)
+		if(xformqrt == null) {
+			xformqrt = new XtumlCPPTransformationQrt
+			xformqrt.initialize(incEngine)
+			xformqrt.execute
+			cppTrRegistry.put(incEngine, xformqrt)
+		}
+		
+		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
 		val validXtumlModel = validateXtumlModel(engine, event)
 		if(validXtumlModel){
 			xtComponents.forEach[ xtComponent |
@@ -91,7 +121,7 @@ class CodeGenerator {
 		// The incremental part of the m2m transformation should provide 
 		// the cppComponent (and its name provider) in the future
 		cppResource.createExternalLibrary
-		createOrUpdateCppComponent(engine, xtComponent, cppModel)
+		// createOrUpdateCppComponent(engine, xtComponent, cppModel)
 		
 		performCppTransformation(engine, xtComponent)
 		cppResource.save(null)
@@ -118,7 +148,7 @@ class CodeGenerator {
 		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
 		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
 		
-		performFileGeneration(cppComponent, filegen)
+		performFileGeneration(engine, cppComponent, cppCodeGeneration, targetFolder)
 		filegen.execute(mapperCppDir)
 
 		cppCodeGeneration.dispose
@@ -150,7 +180,13 @@ class CodeGenerator {
 		cppCodeGeneration.execute(cppComponent)
 	}
 	
-	def performFileGeneration(CPPComponent cppComponent, FileAndDirectoryGeneration filegen){
+	def performFileGeneration(AdvancedIncQueryEngine engine, CPPComponent cppComponent, CPPCodeGeneration cppCodeGeneration, IFolder targetFolder){
+		val generatedCPPSourceFiles = cppCodeGeneration.generatedCPPSourceFiles
+		
+		val filegen = new FileAndDirectoryGeneration
+		val fileManager = new EclipseWorkspaceFileManager(targetFolder)
+		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
+		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
 		filegen.execute(cppComponent.headerDirectory)
 		if(cppComponent.bodyDirectory != cppComponent.headerDirectory){
 			filegen.execute(cppComponent.bodyDirectory)
@@ -168,17 +204,21 @@ class CodeGenerator {
 				]
 			}
 		} else {
+			val rootDirectory = createCPPDirectory
 			cppModel = createCPPModel => [
 				commonModel = xtmodel
 				ooplNameProvider = createOOPLExistingNameProvider => [
 					commonNamedElement = xtmodel
 				]
+				headerDir = rootDirectory
+				bodyDir = rootDirectory
 			]
 			
 			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension
 			val uri = uriWithoutExtension.appendFileExtension("cppmodel")
 			val cppResource = rs.createResource(uri)
 			cppResource.contents += cppModel
+			cppResource.contents += rootDirectory
 		}
 		return cppModel
 	}

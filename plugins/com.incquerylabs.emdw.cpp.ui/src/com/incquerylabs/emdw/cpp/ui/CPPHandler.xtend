@@ -22,6 +22,8 @@ class CPPHandler extends AbstractHandler {
        	return null
 	}
 	
-	
-	
+	override void dispose() {
+		disposeCodeGeneration
+	}
+
 }

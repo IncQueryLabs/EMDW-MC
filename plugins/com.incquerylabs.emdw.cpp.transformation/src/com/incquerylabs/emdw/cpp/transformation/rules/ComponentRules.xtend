@@ -52,15 +52,19 @@ class ComponentRules {
 			headerDirectory.subDirectories.clear
 		}
 		if(cppComponent.mainBodyFile != null){
+			cppComponent.mainBodyFile.includedHeaders.clear
 			bodyDirectory.files += cppComponent.mainBodyFile
 		}
 		if(cppComponent.mainHeaderFile != null){
+			cppComponent.mainHeaderFile.includedHeaders.clear
 			headerDirectory.files += cppComponent.mainHeaderFile
 		}
 		if(cppComponent.declarationHeaderFile != null){
+			cppComponent.declarationHeaderFile.includedHeaders.clear
 			headerDirectory.files += cppComponent.declarationHeaderFile
 		}
 		if(cppComponent.definitionHeaderFile != null){
+			cppComponent.definitionHeaderFile.includedHeaders.clear
 			headerDirectory.files += cppComponent.definitionHeaderFile
 		}
 		

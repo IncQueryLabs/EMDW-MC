@@ -55,6 +55,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
+import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -114,7 +116,7 @@ class TransformationTestUtil {
 		comp
 	}
 
-	static def createXtClass(XTComponent root, String name) {
+	static def createXtClass(BaseContainer root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
 		]
@@ -474,11 +476,15 @@ class TransformationTestUtil {
 	
 	static def createCPPModel(Resource cppResource, Model xtModel) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
+		val dir = cppFactory.createCPPDirectory
 		val cppModel = cppFactory.createCPPModel => [
-			commonModel = xtModel
+			it.commonModel = xtModel
 			it.ooplNameProvider = provider
+			it.headerDir = dir
+			it.bodyDir = dir
 		]
 		cppResource.contents += cppModel
+		cppResource.contents += dir
 		cppModel
 	}
 
@@ -510,13 +516,25 @@ class TransformationTestUtil {
 		cppBody
 	}
 
-	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, Package xtpackage) {
+	static def CPPPackage createCPPPackage(CPPModel root, Package xtpackage) {
+		createCPPPackage(root, root.headerDir, xtpackage)
+	}
+
+	static def CPPPackage createCPPPackage(CPPComponent root, Package xtpackage) {
+		createCPPPackage(root, root.headerDirectory, xtpackage)
+	}
+
+	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, CPPDirectory rootDir, Package xtpackage) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
+		val dir = cppFactory.createCPPDirectory
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.commonPackage = xtpackage
 			it.ooplNameProvider = provider
+			it.headerDir = dir
+			it.bodyDir = dir
 		]
 		root.subElements += cppPackage
+		rootDir.subDirectories += dir
 		cppPackage
 	}
 
@@ -705,7 +723,11 @@ class TransformationTestUtil {
 		cppComponent	
 	}
 
-	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, XTComponent xtcomponent) {
+	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPPackage root, XTComponent xtcomponent) {
+		createCPPComponentWithDefaultDirectories(root, root.headerDir, xtcomponent)
+	}
+
+	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, CPPDirectory rootDir, XTComponent xtcomponent) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
 		val dir = cppFactory.createCPPDirectory
 		val cppComponent = cppFactory.createCPPComponent => [
@@ -719,6 +741,7 @@ class TransformationTestUtil {
 			it.bodyDirectory = dir
 		]
 		root.subElements += cppComponent
+		rootDir.subDirectories += dir
 		cppComponent	
 	}
 	

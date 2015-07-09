@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtComponentInPackageMatc
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class ModelComponentRules {
 	
@@ -33,18 +34,30 @@ class ComponentInModelMapping extends AbstractObjectMapping<XtComponentInModelMa
 	}
 	
 	override protected createCppObject(XtComponentInModelMatch match) {
+		val componentDir = createCPPDirectory
+		
+		val mainBodyFile = createCPPBodyFile
+		val mainHeaderFile = createCPPHeaderFile
+		val declHeaderFile = createCPPHeaderFile
+		val defHeaderFile = createCPPHeaderFile
+		
+		componentDir.files += mainBodyFile
+		componentDir.files += mainHeaderFile
+		componentDir.files += declHeaderFile
+		componentDir.files += defHeaderFile
+
 		createCPPComponent => [
-			xtComponent = match.xtComponent
-			ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = match.xtComponent]
+			it.xtComponent = match.xtComponent
+			it.ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = match.xtComponent]
 			
-			bodyDirectory = createCPPDirectory
-			headerDirectory = createCPPDirectory
+			it.bodyDirectory = componentDir
+			it.headerDirectory = componentDir
 			
-			mainHeaderFile = createCPPHeaderFile
-			headerDirectory.files += mainHeaderFile
+			it.mainHeaderFile = mainHeaderFile
+			it.mainBodyFile = mainBodyFile
 			
-			mainBodyFile = createCPPBodyFile
-			bodyDirectory.files += mainHeaderFile
+			it.declarationHeaderFile = declHeaderFile
+			it.definitionHeaderFile = defHeaderFile
 		]
 	}
 	
@@ -61,6 +74,16 @@ class ComponentInModelMapping extends AbstractObjectMapping<XtComponentInModelMa
 	
 	override getQuerySpecification() {
 		xtComponentInModel
+	}
+	
+	override protected removeCppObject(CPPComponent cppComponent, XtComponentInModelMatch match) {
+		val parent = match.cppModel
+		parent.subElements.remove(cppComponent)
+		
+		parent.headerDir.subDirectories.remove(cppComponent.headerDirectory)
+		EcoreUtil.remove(cppComponent.headerDirectory)
+		
+		EcoreUtil.remove(cppComponent)
 	}
 	
 }
@@ -80,18 +103,30 @@ class ComponentInPackageMapping extends AbstractObjectMapping<XtComponentInPacka
 	}
 	
 	override protected createCppObject(XtComponentInPackageMatch match) {
+		val componentDir = createCPPDirectory
+		
+		val mainBodyFile = createCPPBodyFile
+		val mainHeaderFile = createCPPHeaderFile
+		val declHeaderFile = createCPPHeaderFile
+		val defHeaderFile = createCPPHeaderFile
+		
+		componentDir.files += mainBodyFile
+		componentDir.files += mainHeaderFile
+		componentDir.files += declHeaderFile
+		componentDir.files += defHeaderFile
+
 		createCPPComponent => [
-			xtComponent = match.xtComponent
-			ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = match.xtComponent]
+			it.xtComponent = match.xtComponent
+			it.ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = match.xtComponent]
 			
-			bodyDirectory = createCPPDirectory
-			headerDirectory = createCPPDirectory
+			it.bodyDirectory = componentDir
+			it.headerDirectory = componentDir
 			
-			mainHeaderFile = createCPPHeaderFile
-			headerDirectory.files += mainHeaderFile
+			it.mainHeaderFile = mainHeaderFile
+			it.mainBodyFile = mainBodyFile
 			
-			mainBodyFile = createCPPBodyFile
-			bodyDirectory.files += mainHeaderFile
+			it.declarationHeaderFile = declHeaderFile
+			it.definitionHeaderFile = defHeaderFile
 		]
 	}
 	
@@ -108,6 +143,16 @@ class ComponentInPackageMapping extends AbstractObjectMapping<XtComponentInPacka
 	
 	override getQuerySpecification() {
 		xtComponentInPackage
+	}
+	
+	override protected removeCppObject(CPPComponent cppComponent, XtComponentInPackageMatch match) {
+		val parent = match.cppParentPackage
+		parent.subElements.remove(cppComponent)
+		
+		parent.headerDir.subDirectories.remove(cppComponent.headerDirectory)
+		EcoreUtil.remove(cppComponent.headerDirectory)
+		
+		EcoreUtil.remove(cppComponent)
 	}
 
 	

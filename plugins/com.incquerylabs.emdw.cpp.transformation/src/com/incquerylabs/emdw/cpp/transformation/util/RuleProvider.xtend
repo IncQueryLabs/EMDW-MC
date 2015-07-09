@@ -10,8 +10,8 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.api.IncQueryMatcher
+import org.eclipse.incquery.runtime.evm.specific.Lifecycles
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
-import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLifeCycle
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
@@ -55,7 +55,7 @@ class RuleProvider {
 			rule.updated(match)
 		].action(IncQueryActivationStateEnum.DISAPPEARED) [ match |
 			rule.disappeared(match)
-		].addLifeCycle(DefaultActivationLifeCycle.DEFAULT).build
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rules.add(eventDrivenRule)
 	}
 		

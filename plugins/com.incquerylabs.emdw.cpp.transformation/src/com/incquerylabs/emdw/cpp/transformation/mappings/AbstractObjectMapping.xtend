@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.transformation.mappings
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
@@ -37,7 +36,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject ex
 	override void disappeared(Match match) {
 		val xtumlObject = match.xtumlObject
 		val cppObject = xtumlObject.cppObject
-		cppObject?.removeCppObject
+		cppObject?.removeCppObject(match)
 		debug(''' xtUMLrt model element disappeared: «xtumlObject»''')
 	}
 	
@@ -66,8 +65,6 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject ex
 		}
 	}
 	
-	private def removeCppObject(CppObject cppObject) {
-		EcoreUtil.remove(cppObject)
-	}
+	protected def void removeCppObject(CppObject cppObject, Match match)
 	
 }

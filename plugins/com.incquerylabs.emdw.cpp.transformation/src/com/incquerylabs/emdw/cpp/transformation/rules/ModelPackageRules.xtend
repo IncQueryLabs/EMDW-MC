@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtPackageInModelMatch
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Package
+import org.eclipse.emf.ecore.util.EcoreUtil
 
 class ModelPackageRules {
 	
@@ -40,7 +41,7 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 
 			// Creating package directories
 			bodyDir = createCPPDirectory
-			headerDir = createCPPDirectory
+			headerDir = bodyDir
 
 			// Creating package files
 			bodyFile = createCPPBodyFile
@@ -64,6 +65,16 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 	
 	override getQuerySpecification() {
 		xtPackageInModel
+	}
+	
+	override protected removeCppObject(CPPPackage cppPackage, XtPackageInModelMatch match) {
+		val parent = match.cppModel
+		parent.subElements.remove(cppPackage)
+		
+		parent.headerDir.subDirectories.remove(cppPackage.headerDir)
+		EcoreUtil.remove(cppPackage.headerDir)
+		
+		EcoreUtil.remove(cppPackage)
 	}
 
 	
@@ -90,7 +101,7 @@ class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageI
 
 			// Creating package directories
 			bodyDir = createCPPDirectory
-			headerDir = createCPPDirectory
+			headerDir = bodyDir
 
 			// Creating package files
 			bodyFile = createCPPBodyFile
@@ -114,6 +125,15 @@ class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageI
 	
 	override getQuerySpecification() {
 		xtModelPackageInPackage
+	}
+	
+	override protected removeCppObject(CPPPackage cppPackage, XtModelPackageInPackageMatch match) {
+		val parent = match.cppParentPackage
+		parent.subElements.remove(cppPackage)
+		
+		parent.headerDir.subDirectories.remove(cppPackage.headerDir)
+		EcoreUtil.remove(cppPackage.headerDir)
+		EcoreUtil.remove(cppPackage)
 	}
 	
 }

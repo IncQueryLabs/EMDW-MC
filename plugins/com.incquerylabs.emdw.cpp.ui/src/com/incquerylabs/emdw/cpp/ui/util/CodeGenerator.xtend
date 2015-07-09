@@ -117,11 +117,7 @@ class CodeGenerator {
 		
 		loadCPPBasicTypes(xtResourceSet)
 		
-		// Create the CPPComponent with its directories if it does not exist
-		// The incremental part of the m2m transformation should provide 
-		// the cppComponent (and its name provider) in the future
 		cppResource.createExternalLibrary
-		// createOrUpdateCppComponent(engine, xtComponent, cppModel)
 		
 		performCppTransformation(engine, xtComponent)
 		cppResource.save(null)

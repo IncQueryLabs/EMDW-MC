@@ -22,18 +22,18 @@ abstract class MakeBaseTest<XtumlObject extends EObject, CPPObject extends EObje
 	
 	override protected transformCppModel(CPPModel cppModel) {
 		super.transformCppModel(cppModel)
-		makefileContent = generator.execute(cppModel)
-		rules.put(cppModel.headerDir, generator.execute(cppModel.headerDir))
+		makefileContent = generator.executeMakefile(cppModel, "Runtime")
+		rules.put(cppModel.headerDir, generator.executeRulesMk(cppModel.headerDir))
 		makeRulesForSubDirs(cppModel.headerDir)
 		if(cppModel.bodyDir != cppModel.headerDir) {
-			rules.put(cppModel.bodyDir, generator.execute(cppModel.bodyDir))
+			rules.put(cppModel.bodyDir, generator.executeRulesMk(cppModel.bodyDir))
 			makeRulesForSubDirs(cppModel.bodyDir)
 		}
 	}
 	
 	def void makeRulesForSubDirs(CPPDirectory dir) {
 		for(subDir : dir.subDirectories) {
-			rules.put(subDir, generator.execute(subDir))
+			rules.put(subDir, generator.executeRulesMk(subDir))
 			makeRulesForSubDirs(subDir)
 		}
 	}

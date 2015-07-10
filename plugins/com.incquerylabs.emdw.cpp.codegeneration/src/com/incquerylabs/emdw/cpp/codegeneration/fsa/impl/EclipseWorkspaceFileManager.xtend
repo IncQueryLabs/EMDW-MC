@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
 import java.util.zip.Adler32
+import java.nio.charset.Charset
 
 class EclipseWorkspaceFileManager extends FileManager {
 
@@ -89,6 +90,11 @@ class EclipseWorkspaceFileManager extends FileManager {
 	override byte[] readFileContent(String directoryPath, String filename) {
 		val file = directoryPath.folder.getFile(filename)
 		Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
+	}
+	
+	override String readFileContentAsString(String directoryPath, String filename) {
+		val file = directoryPath.folder.getFile(filename)
+		Files.toString(file.rawLocation.makeAbsolute.toFile, Charset.defaultCharset)
 	}
 	
 	// Use Adler32 to calculate file checksum

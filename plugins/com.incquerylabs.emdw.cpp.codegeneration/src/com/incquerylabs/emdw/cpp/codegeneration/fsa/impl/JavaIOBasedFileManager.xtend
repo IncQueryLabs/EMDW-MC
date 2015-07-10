@@ -26,7 +26,11 @@ class JavaIOBasedFileManager extends FileManager {
 	}
 
 	override readFileContent(String directoryPath, String filename) {
-		Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET).bytes
+		readFileContentAsString(directoryPath, filename).bytes
+	}
+
+	override readFileContentAsString(String directoryPath, String filename) {
+		Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
 	}
 
 	override fileExists(String directoryPath, String filename) {

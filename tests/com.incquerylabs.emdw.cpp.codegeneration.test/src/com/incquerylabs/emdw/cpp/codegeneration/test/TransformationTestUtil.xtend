@@ -57,6 +57,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.OOPLNameProvider
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -474,6 +475,23 @@ class TransformationTestUtil {
 		cppResource
 	}
 	
+	static def createEmptyCppModel(String packagename) {
+		val resourceSet = new ResourceSetImpl
+		val cppResource = resourceSet.createResource(URI.createURI("dummyCppUri"))
+
+		val provider = ooplFactory.createOOPLDerivedNameProvider=>[name = packagename]
+		val dir = cppFactory.createCPPDirectory
+		val cppPackage = cppFactory.createCPPPackage=>[
+			it.ooplNameProvider = provider
+			it.bodyDir = dir
+			it.headerDir = dir
+		]
+		cppResource.contents += dir
+		cppResource.contents += cppPackage
+		
+		cppPackage
+	}
+	
 	static def createCPPModel(Resource cppResource, Model xtModel) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
 		val dir = cppFactory.createCPPDirectory
@@ -747,6 +765,15 @@ class TransformationTestUtil {
 	
 	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body ) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtclass ]
+		createCPPClass(root, xtclass, header, body, provider)
+	}
+	
+	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, String classname, CPPHeaderFile header, CPPBodyFile body ) {
+		val provider = ooplFactory.createOOPLDerivedNameProvider=>[it.name = classname ]
+		createCPPClass(root, null, header, body, provider)
+	}
+	
+	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body, OOPLNameProvider provider) {
 		val cppClass = cppFactory.createCPPClass => [
 			it.xtClass = xtclass
 			it.headerFile = header

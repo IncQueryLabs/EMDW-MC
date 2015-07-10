@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -171,6 +172,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
+	@Ignore("At this point the for(i in 1..2) without whitespace characters is not supported")
 	def forStatementSyntaxB_LiteralNoSpace() {
 		forStatementOK('''
 		for(i in 1..5){

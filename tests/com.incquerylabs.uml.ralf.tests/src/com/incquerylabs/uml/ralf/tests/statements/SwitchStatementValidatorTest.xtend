@@ -31,9 +31,9 @@ class SwitchStatementValidatorTest {
 	def switchStatementNaturalLiteral() {
 		switchStatementOK('''
 		switch(1){
-			case 1 : { break; }
-			default : { break; }
-		};''');
+			case 1 : {}
+			default : {}
+		}''');
 	}
 	
 	def switchStatementNaturalLiteralNoBreak() {
@@ -41,7 +41,7 @@ class SwitchStatementValidatorTest {
 		switch(1){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ class SwitchStatementValidatorTest {
 		switch(1.1){
 			case 1.1 : {}
 			default : {}
-		};
+		}
 		''');
 	}
 	
@@ -60,7 +60,7 @@ class SwitchStatementValidatorTest {
 		switch(true){
 			case true : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ class SwitchStatementValidatorTest {
 		switch("1"){
 			case "1" : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ class SwitchStatementValidatorTest {
 		switch("1"){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 
 	@Test
@@ -86,9 +86,9 @@ class SwitchStatementValidatorTest {
 		switchStatementOK('''
 		String x = "";
 		switch(x){
-			case "1" : {}
+			case "1" : { break;}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -97,7 +97,7 @@ class SwitchStatementValidatorTest {
 		switch(1*1){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -106,7 +106,7 @@ class SwitchStatementValidatorTest {
 		switch(0.75 / 1){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -115,7 +115,7 @@ class SwitchStatementValidatorTest {
 		switch(1>>1){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -124,7 +124,7 @@ class SwitchStatementValidatorTest {
 		switch(1>1){
 			case true : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -133,7 +133,7 @@ class SwitchStatementValidatorTest {
 		switch(1==1){
 			case true : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -142,7 +142,7 @@ class SwitchStatementValidatorTest {
 		switch(1|1){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -151,7 +151,7 @@ class SwitchStatementValidatorTest {
 		switch(1&1){
 			case 1 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -178,7 +178,7 @@ class SwitchStatementValidatorTest {
 		switch(true || false){
 			case true : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -187,7 +187,7 @@ class SwitchStatementValidatorTest {
 		switch(!true){
 			case true : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	@Test
@@ -197,7 +197,7 @@ class SwitchStatementValidatorTest {
 		switch(x = 2){
 			case 2 : {}
 			default : {}
-		};''');
+		}''');
 	}
 	
 	private def switchStatementOK(String code){

@@ -6,22 +6,29 @@ import com.google.inject.Provider;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression;
@@ -30,9 +37,14 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import it.xsemantics.runtime.ErrorInformation;
 import it.xsemantics.runtime.Result;
@@ -41,6 +53,7 @@ import it.xsemantics.runtime.RuleEnvironment;
 import it.xsemantics.runtime.RuleFailedException;
 import it.xsemantics.runtime.XsemanticsRuntimeSystem;
 import java.util.List;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
@@ -312,19 +325,19 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<Boolean>(true);
   }
   
-  public Result<Boolean> localNameDeclarationStatement(final LocalNameDeclarationStatement st) {
-    return localNameDeclarationStatement(null, st);
+  public Result<Boolean> localNameDeclarationStatementType(final LocalNameDeclarationStatement st) {
+    return localNameDeclarationStatementType(null, st);
   }
   
-  public Result<Boolean> localNameDeclarationStatement(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) {
+  public Result<Boolean> localNameDeclarationStatementType(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) {
     try {
-    	return localNameDeclarationStatementInternal(_trace_, st);
-    } catch (Exception _e_LocalNameDeclarationStatement) {
-    	return resultForFailure(_e_LocalNameDeclarationStatement);
+    	return localNameDeclarationStatementTypeInternal(_trace_, st);
+    } catch (Exception _e_LocalNameDeclarationStatementType) {
+    	return resultForFailure(_e_LocalNameDeclarationStatementType);
     }
   }
   
-  protected Result<Boolean> localNameDeclarationStatementInternal(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
+  protected Result<Boolean> localNameDeclarationStatementTypeInternal(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
     /* empty |- st.variable : var Type varType */
     Variable _variable = st.getVariable();
     Type varType = null;
@@ -341,6 +354,335 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     
     /* empty |- varType <: valueType */
     subtypeOrEqualInternal(emptyEnvironment(), _trace_, varType, valueType);
+    EObject checkedContainer = st;
+    EObject container = st;
+    do {
+      EObject _eContainer = container.eContainer();
+      container = _eContainer;
+      boolean visitedContainer = false;
+      if ((container instanceof Block)) {
+        EList<Statement> _statement = ((Block)container).getStatement();
+        for (final Statement statement : _statement) {
+          if ((!visitedContainer)) {
+            boolean _equals = statement.equals(checkedContainer);
+            if (_equals) {
+              visitedContainer = true;
+            } else {
+              if ((statement instanceof LocalNameDeclarationStatement)) {
+                Variable _variable_1 = ((LocalNameDeclarationStatement)statement).getVariable();
+                String _name = _variable_1.getName();
+                Variable _variable_2 = st.getVariable();
+                String _name_1 = _variable_2.getName();
+                boolean _equals_1 = _name.equals(_name_1);
+                if (_equals_1) {
+                  /* fail error "Duplicate local variable name " source st */
+                  String error = "Duplicate local variable name ";
+                  EObject source = st;
+                  throwForExplicitFail(error, new ErrorInformation(source, null));
+                }
+              }
+            }
+          }
+        }
+      }
+      if ((container instanceof Statements)) {
+        EList<Statement> _statement_1 = ((Statements)container).getStatement();
+        for (final Statement statement_1 : _statement_1) {
+          if ((!visitedContainer)) {
+            boolean _equals_2 = statement_1.equals(checkedContainer);
+            if (_equals_2) {
+              visitedContainer = true;
+            } else {
+              if ((statement_1 instanceof LocalNameDeclarationStatement)) {
+                Variable _variable_3 = ((LocalNameDeclarationStatement)statement_1).getVariable();
+                String _name_2 = _variable_3.getName();
+                Variable _variable_4 = st.getVariable();
+                String _name_3 = _variable_4.getName();
+                boolean _equals_3 = _name_2.equals(_name_3);
+                if (_equals_3) {
+                  /* fail error "Duplicate local variable name " source st */
+                  String error_1 = "Duplicate local variable name ";
+                  EObject source_1 = st;
+                  throwForExplicitFail(error_1, new ErrorInformation(source_1, null));
+                }
+              }
+            }
+          }
+        }
+      }
+      checkedContainer = container;
+    } while((!(container instanceof Statements)));
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> nonFinalClause(final NonFinalClause cl) {
+    return nonFinalClause(null, cl);
+  }
+  
+  public Result<Boolean> nonFinalClause(final RuleApplicationTrace _trace_, final NonFinalClause cl) {
+    try {
+    	return nonFinalClauseInternal(_trace_, cl);
+    } catch (Exception _e_NonFinalClause) {
+    	return resultForFailure(_e_NonFinalClause);
+    }
+  }
+  
+  protected Result<Boolean> nonFinalClauseInternal(final RuleApplicationTrace _trace_, final NonFinalClause cl) throws RuleFailedException {
+    /* empty |- cl.^condition : var Type condType */
+    Expression _condition = cl.getCondition();
+    Type condType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), Type.class);
+    condType = (Type) result.getFirst();
+    
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
+    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(condType, _primitiveType);
+    boolean _failed = _subtypeOrEqual.failed();
+    if (_failed) {
+      /* fail error "Invalid if condition variable type " + condType.name source cl.^condition */
+      String _name = condType.getName();
+      String _plus = ("Invalid if condition variable type " + _name);
+      String error = _plus;
+      Expression _condition_1 = cl.getCondition();
+      EObject source = _condition_1;
+      throwForExplicitFail(error, new ErrorInformation(source, null));
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> breakStatement(final BreakStatement st) {
+    return breakStatement(null, st);
+  }
+  
+  public Result<Boolean> breakStatement(final RuleApplicationTrace _trace_, final BreakStatement st) {
+    try {
+    	return breakStatementInternal(_trace_, st);
+    } catch (Exception _e_BreakStatement) {
+    	return resultForFailure(_e_BreakStatement);
+    }
+  }
+  
+  protected Result<Boolean> breakStatementInternal(final RuleApplicationTrace _trace_, final BreakStatement st) throws RuleFailedException {
+    boolean invalid = true;
+    EObject container = st.eContainer();
+    while ((!(container instanceof Statements))) {
+      boolean _and = false;
+      if (!(container instanceof BlockStatement)) {
+        _and = false;
+      } else {
+        _and = ((((container.eContainer() instanceof WhileStatement) || 
+          (container.eContainer() instanceof DoStatement)) || 
+          (container.eContainer() instanceof ForStatement)) || 
+          (container.eContainer() instanceof SwitchClause));
+      }
+      if (_and) {
+        invalid = false;
+      }
+      EObject _eContainer = container.eContainer();
+      container = _eContainer;
+    }
+    if (invalid) {
+      /* fail error "Invalid break statement " source st */
+      String error = "Invalid break statement ";
+      EObject source = st;
+      throwForExplicitFail(error, new ErrorInformation(source, null));
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> forStatement(final ForStatement st) {
+    return forStatement(null, st);
+  }
+  
+  public Result<Boolean> forStatement(final RuleApplicationTrace _trace_, final ForStatement st) {
+    try {
+    	return forStatementInternal(_trace_, st);
+    } catch (Exception _e_ForStatement) {
+    	return resultForFailure(_e_ForStatement);
+    }
+  }
+  
+  protected Result<Boolean> forStatementInternal(final RuleApplicationTrace _trace_, final ForStatement st) throws RuleFailedException {
+    EList<Variable> _variableDefinition = st.getVariableDefinition();
+    for (final Variable variable : _variableDefinition) {
+      final LoopVariable loopVariable = ((LoopVariable) variable);
+      /* empty |- loopVariable.expression1 : var Type ex1Type */
+      Expression _expression1 = loopVariable.getExpression1();
+      Type ex1Type = null;
+      Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _expression1);
+      checkAssignableTo(result.getFirst(), Type.class);
+      ex1Type = (Type) result.getFirst();
+      
+      Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
+      Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(ex1Type, _primitiveType);
+      boolean _failed = _subtypeOrEqual.failed();
+      if (_failed) {
+        /* fail error "Invalid loop variable type " + ex1Type.name source loopVariable.expression1 */
+        String _name = ex1Type.getName();
+        String _plus = ("Invalid loop variable type " + _name);
+        String error = _plus;
+        Expression _expression1_1 = loopVariable.getExpression1();
+        EObject source = _expression1_1;
+        throwForExplicitFail(error, new ErrorInformation(source, null));
+      }
+      Expression _expression2 = loopVariable.getExpression2();
+      boolean _notEquals = (!Objects.equal(_expression2, null));
+      if (_notEquals) {
+        /* empty |- loopVariable.expression2 : var Type ex2Type */
+        Expression _expression2_1 = loopVariable.getExpression2();
+        Type ex2Type = null;
+        Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression2_1);
+        checkAssignableTo(result_1.getFirst(), Type.class);
+        ex2Type = (Type) result_1.getFirst();
+        
+        Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.INTEGER);
+        Result<Boolean> _subtypeOrEqual_1 = this.subtypeOrEqual(ex2Type, _primitiveType_1);
+        boolean _failed_1 = _subtypeOrEqual_1.failed();
+        if (_failed_1) {
+          /* fail error "Invalid loop variable type " + ex2Type.name source loopVariable.expression2 */
+          String _name_1 = ex2Type.getName();
+          String _plus_1 = ("Invalid loop variable type " + _name_1);
+          String error_1 = _plus_1;
+          Expression _expression2_2 = loopVariable.getExpression2();
+          EObject source_1 = _expression2_2;
+          throwForExplicitFail(error_1, new ErrorInformation(source_1, null));
+        }
+      }
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> whileStatement(final WhileStatement st) {
+    return whileStatement(null, st);
+  }
+  
+  public Result<Boolean> whileStatement(final RuleApplicationTrace _trace_, final WhileStatement st) {
+    try {
+    	return whileStatementInternal(_trace_, st);
+    } catch (Exception _e_WhileStatement) {
+    	return resultForFailure(_e_WhileStatement);
+    }
+  }
+  
+  protected Result<Boolean> whileStatementInternal(final RuleApplicationTrace _trace_, final WhileStatement st) throws RuleFailedException {
+    /* empty |- st.^condition : var Type condType */
+    Expression _condition = st.getCondition();
+    Type condType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), Type.class);
+    condType = (Type) result.getFirst();
+    
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
+    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(condType, _primitiveType);
+    boolean _failed = _subtypeOrEqual.failed();
+    if (_failed) {
+      /* fail error "Invalid while condition variable type " + condType.name source st */
+      String _name = condType.getName();
+      String _plus = ("Invalid while condition variable type " + _name);
+      String error = _plus;
+      EObject source = st;
+      throwForExplicitFail(error, new ErrorInformation(source, null));
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> doStatement(final DoStatement st) {
+    return doStatement(null, st);
+  }
+  
+  public Result<Boolean> doStatement(final RuleApplicationTrace _trace_, final DoStatement st) {
+    try {
+    	return doStatementInternal(_trace_, st);
+    } catch (Exception _e_DoStatement) {
+    	return resultForFailure(_e_DoStatement);
+    }
+  }
+  
+  protected Result<Boolean> doStatementInternal(final RuleApplicationTrace _trace_, final DoStatement st) throws RuleFailedException {
+    /* empty |- st.^condition : var Type condType */
+    Expression _condition = st.getCondition();
+    Type condType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), Type.class);
+    condType = (Type) result.getFirst();
+    
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
+    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(condType, _primitiveType);
+    boolean _failed = _subtypeOrEqual.failed();
+    if (_failed) {
+      /* fail error "Invalid do..while condition variable type " + condType.name source st */
+      String _name = condType.getName();
+      String _plus = ("Invalid do..while condition variable type " + _name);
+      String error = _plus;
+      EObject source = st;
+      throwForExplicitFail(error, new ErrorInformation(source, null));
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> switchStatement_(final SwitchStatement st) {
+    return switchStatement_(null, st);
+  }
+  
+  public Result<Boolean> switchStatement_(final RuleApplicationTrace _trace_, final SwitchStatement st) {
+    try {
+    	return switchStatement_Internal(_trace_, st);
+    } catch (Exception _e_SwitchStatement_) {
+    	return resultForFailure(_e_SwitchStatement_);
+    }
+  }
+  
+  protected Result<Boolean> switchStatement_Internal(final RuleApplicationTrace _trace_, final SwitchStatement st) throws RuleFailedException {
+    /* empty |- st.expression : var Type eType */
+    Expression _expression = st.getExpression();
+    Type eType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _expression);
+    checkAssignableTo(result.getFirst(), Type.class);
+    eType = (Type) result.getFirst();
+    
+    boolean _and = false;
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
+    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(eType, _primitiveType);
+    boolean _failed = _subtypeOrEqual.failed();
+    if (!_failed) {
+      _and = false;
+    } else {
+      Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.STRING);
+      Result<Boolean> _subtypeOrEqual_1 = this.subtypeOrEqual(eType, _primitiveType_1);
+      boolean _failed_1 = _subtypeOrEqual_1.failed();
+      _and = _failed_1;
+    }
+    if (_and) {
+      /* fail error "Invalid switch variable type " + eType.name source st */
+      String _name = eType.getName();
+      String _plus = ("Invalid switch variable type " + _name);
+      String error = _plus;
+      EObject source = st;
+      throwForExplicitFail(error, new ErrorInformation(source, null));
+    }
+    EList<SwitchClause> _nonDefaultClause = st.getNonDefaultClause();
+    for (final SwitchClause cl : _nonDefaultClause) {
+      EList<Expression> _case = cl.getCase();
+      for (final Expression ex : _case) {
+        /* empty |- ex : var Type caseType */
+        Type caseType = null;
+        Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, ex);
+        checkAssignableTo(result_1.getFirst(), Type.class);
+        caseType = (Type) result_1.getFirst();
+        
+        Expression _expression_1 = st.getExpression();
+        Result<Boolean> _assignable = this.assignable(_expression_1, caseType);
+        boolean _failed_2 = _assignable.failed();
+        if (_failed_2) {
+          /* fail error "Invalid switch case variable type " + caseType.name source cl */
+          String _name_1 = caseType.getName();
+          String _plus_1 = ("Invalid switch case variable type " + _name_1);
+          String error_1 = _plus_1;
+          EObject source_1 = cl;
+          throwForExplicitFail(error_1, new ErrorInformation(source_1, null));
+        }
+      }
+    }
     return new Result<Boolean>(true);
   }
   

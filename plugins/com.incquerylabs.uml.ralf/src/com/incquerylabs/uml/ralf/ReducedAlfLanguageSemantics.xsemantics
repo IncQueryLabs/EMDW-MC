@@ -5,21 +5,28 @@ validatorExtends AbstractReducedAlfLanguageValidator
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
@@ -28,22 +35,23 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Classifier
-import org.eclipse.uml2.uml.ConnectableElement
-import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -376,12 +384,160 @@ from {
     empty |- ^var : var Type type
 }
 
-checkrule LocalNameDeclarationStatement for
+checkrule LocalNameDeclarationStatementType for
     LocalNameDeclarationStatement st
 from {
     empty |- st.variable : var Type varType
     empty |- st.expression : var Type valueType
     empty |- varType <: valueType
+
+    var EObject checkedContainer = st;
+    var EObject container = st;
+    do{
+		container = container.eContainer
+		var visitedContainer = false
+		if(container instanceof Block){
+			for(Statement statement :container.statement){
+				if(!visitedContainer){
+					if(statement.equals(checkedContainer)){
+						visitedContainer = true
+					}else{
+						if(statement instanceof LocalNameDeclarationStatement){
+							if(statement.variable.name.equals(st.variable.name)){
+								fail
+        						error "Duplicate local variable name "
+        						source st
+							}
+						}
+					}
+					
+				}
+			}	
+		} 
+		if(container instanceof Statements){
+			for(Statement statement :container.statement){
+				if(!visitedContainer){
+					if(statement.equals(checkedContainer)){
+						visitedContainer = true
+					}else{
+						if(statement instanceof LocalNameDeclarationStatement){
+							if(statement.variable.name.equals(st.variable.name)){
+								fail
+        						error "Duplicate local variable name "
+        						source st
+							}
+						}
+					}
+					
+				}
+			}	
+		} 
+		checkedContainer = container
+	}while(!(container instanceof Statements));  	
+}
+
+checkrule NonFinalClause for
+    NonFinalClause cl
+from {
+	empty |- cl.^condition : var Type condType
+	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
+		fail
+        error "Invalid if condition variable type " + condType.name
+        source cl.^condition
+	}
+}
+
+checkrule BreakStatement for
+    BreakStatement st
+from {
+	var invalid = true;
+	var container = st.eContainer
+	while(!(container instanceof Statements)){
+		if(container instanceof BlockStatement && (
+			container.eContainer instanceof WhileStatement || 
+			container.eContainer instanceof DoStatement || 
+			container.eContainer instanceof ForStatement || 
+			container.eContainer instanceof SwitchClause ))
+		{
+			invalid = false;
+		}
+		container = container.eContainer
+	}
+	if(invalid){
+		fail
+        error "Invalid break statement "
+        source st
+	}
+}
+
+checkrule ForStatement for
+    ForStatement st
+from {
+	for(Variable variable : st.variableDefinition){
+		val loopVariable = variable as LoopVariable
+		empty |- loopVariable.expression1 : var Type ex1Type
+		if(subtypeOrEqual(ex1Type, INTEGER.primitiveType).failed /*TODO Collections*/){
+   			fail
+        	error "Invalid loop variable type " + ex1Type.name
+        	 source loopVariable.expression1
+   		}
+   		if(loopVariable.expression2 != null){
+   			empty |- loopVariable.expression2 : var Type ex2Type
+   			if(subtypeOrEqual(ex2Type, INTEGER.primitiveType).failed){
+   				fail
+        		error "Invalid loop variable type " + ex2Type.name
+        	 	source loopVariable.expression2
+   			}
+   		}
+   		
+	}
+}
+
+checkrule WhileStatement for
+    WhileStatement st
+from {
+	empty |- st.^condition : var Type condType
+	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
+		fail
+       	error "Invalid while condition variable type " + condType.name
+       	source st
+	}
+	
+}
+
+checkrule DoStatement for
+    DoStatement st
+from {
+	empty |- st.^condition : var Type condType
+	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
+		fail
+       	error "Invalid do..while condition variable type " + condType.name
+       	source st
+	}
+}
+
+checkrule SwitchStatement_ for
+    SwitchStatement st
+from {
+	//Proper type
+	empty |- st.expression : var Type eType
+	if(subtypeOrEqual(eType, INTEGER.primitiveType).failed && subtypeOrEqual(eType, STRING.primitiveType).failed){
+		fail
+       	error "Invalid switch variable type " + eType.name
+       	source st   	
+	}
+	//cases match the type
+	for(SwitchClause cl : st.nonDefaultClause){
+		for(Expression ex : cl.^case){
+			empty |- ex : var Type caseType
+	   		if(assignable(st.expression, caseType).failed){
+	   			fail
+	        	error "Invalid switch case variable type " + caseType.name
+	        	source cl
+	   		}
+		}
+	}
+	
 }
 
 checkrule SendSignalStatement for

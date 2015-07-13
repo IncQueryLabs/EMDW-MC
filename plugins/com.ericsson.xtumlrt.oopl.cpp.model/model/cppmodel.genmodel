@@ -208,6 +208,8 @@
       </genOperations>
     </genClasses>
     <genClasses image="false" ecoreClass="cppmodel.ecore#//BaseContainerImplementation">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerQualifiedName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerHeaderIncludes"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/anyTemplate"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addTemplate"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addAllTemplate"/>
@@ -224,8 +226,6 @@
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/retainAllTemplate"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/sizeTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerQualifiedName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerHeaderIncludes"/>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateAdd">
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/value"/>

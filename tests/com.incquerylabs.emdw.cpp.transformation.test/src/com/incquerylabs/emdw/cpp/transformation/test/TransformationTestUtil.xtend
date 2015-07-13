@@ -70,15 +70,22 @@ class TransformationTestUtil {
 
 	// XTUML UTIL
 	static def createEmptyXtumlModel(String modelname) {
+		val xtumlrtResource = createEmptyXtumlResource(modelname)
+		createEmptyXtumlModel(xtumlrtResource, modelname)
+	}
+	
+	static def createEmptyXtumlResource(String resourcename) {
 		val resourceSet = new ResourceSetImpl
-		val xtumlrtResource = resourceSet.createResource(URI.createURI("model/"+modelname+"/ref/test.xtuml"))
-
+		resourceSet.createResource(URI.createURI("model/"+resourcename+"/ref/test.xtuml"))
+	}
+	
+	static def createEmptyXtumlModel(Resource xtumlrtResource, String modelname) {
 		val xtumlrtModel = commonFactory.createModel=>[it.name = modelname]
 		xtumlrtResource.contents += xtumlrtModel
 		
 		xtumlrtModel
 	}
-
+	
 	static def createPackage(Model xtumlmodel, String name) {
 		var pack = commonFactory.createPackage => [
 			it.name = name

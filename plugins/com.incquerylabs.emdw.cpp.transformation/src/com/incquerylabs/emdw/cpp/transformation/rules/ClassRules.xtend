@@ -24,7 +24,7 @@ class ClassRules {
 	
 	val AssociationRules associationRules
 	val EntityRules entityRules
-	val IncludeRules includeRules
+	extension val IncludeRules includeRules
 	
 	new(BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules, IncludeRules includeRules) {
 		this.statements = statements
@@ -111,14 +111,26 @@ class ClassRules {
 			
 			headerFile = createCPPHeaderFile
 			headerDir.files += headerFile
-			bodyFile.includedHeaders += headerFile
 			
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtClass ]
 		]
 	}
 	
 	def addIncludes(CPPClass cppClass){
+		cppClass.addIncludesBetweenOwnFiles
 		fireAllCurrent(includeRules.classComponentIncludeRule, [it.cppClass == cppClass])
+		
+		// TODO: some of these should be generated based on action code
+		// External includes for model independent generated code
+		fireAllCurrent(includeRules.statemachineRuntimeIncludeRule, [it.cppClass == cppClass])
+		
+		val listExternalHeader = includeRules.getExternalHeader("list")
+		cppClass.headerFile.addInclude(listExternalHeader, "_instances")
+		val queueExternalHeader = includeRules.getExternalHeader("queue")
+		cppClass.headerFile.addInclude(queueExternalHeader, "event queues")
+		val iostreamExternalHeader = includeRules.getExternalHeader("iostream")
+		cppClass.headerFile.addInclude(iostreamExternalHeader, "standard io")
+		
 	}
 
 	def transformSubElements(CPPClass cppClass){

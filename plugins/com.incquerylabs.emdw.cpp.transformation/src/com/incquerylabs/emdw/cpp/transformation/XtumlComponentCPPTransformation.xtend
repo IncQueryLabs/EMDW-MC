@@ -54,12 +54,12 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			statements = new BatchTransformationStatements(transform)
-			includeRules = new IncludeRules
-			associationRules = new AssociationRules
-			entityRules  = new EntityRules(statements)
+			includeRules = new IncludeRules(engine, statements)
+			entityRules  = new EntityRules(statements, includeRules)
+			associationRules = new AssociationRules(statements, includeRules)
 			classRules = new ClassRules(statements, associationRules, entityRules, includeRules)
 			packageRules = new PackageRules(statements, classRules, includeRules)
-			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules)
+			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules, includeRules)
 			
 			componentRules.addRules(transform)
 			packageRules.addRules(transform)

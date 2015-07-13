@@ -1,8 +1,5 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
@@ -21,12 +18,14 @@ class ComponentRules {
 	val PackageRules packageRules
 	val ClassRules classRules
 	val EntityRules entityRules
+	extension val IncludeRules includeRules
 	
-	new(BatchTransformationStatements statements, PackageRules packageRules, ClassRules classRules, EntityRules entityRules) {
+	new(BatchTransformationStatements statements, PackageRules packageRules, ClassRules classRules, EntityRules entityRules, IncludeRules includeRules) {
 		this.statements = statements
 		this.packageRules = packageRules
 		this.classRules = classRules
 		this.entityRules = entityRules
+		this.includeRules = includeRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -75,6 +74,7 @@ class ComponentRules {
 	val componentRule = createRule.precondition(cppComponents).action[match |
 		val cppComponent = match.cppComponent
 		cppComponent.addIncludesBetweenOwnFiles
+		cppComponent.addComponentRuntimeIncludes
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
@@ -82,20 +82,4 @@ class ComponentRules {
 		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	].build
 	
-	def addIncludesBetweenOwnFiles(CPPComponent cppComponent){
-		val mainHeader = cppComponent.mainHeaderFile
-		val mainBody = cppComponent.mainBodyFile
-		val declHeader = cppComponent.declarationHeaderFile
-		val defHeader = cppComponent.definitionHeaderFile
-		mainHeader.addInclude(declHeader)
-		mainBody.addInclude(mainHeader)
-		mainBody.addInclude(defHeader)
-		defHeader.addInclude(mainHeader)
-	}
-	
-	def addInclude(CPPSourceFile cppFile, CPPHeaderFile cppHeader){
-		if(!cppFile.includedHeaders.contains(cppHeader)){
-			cppFile.includedHeaders += cppHeader
-		}
-	}
 }

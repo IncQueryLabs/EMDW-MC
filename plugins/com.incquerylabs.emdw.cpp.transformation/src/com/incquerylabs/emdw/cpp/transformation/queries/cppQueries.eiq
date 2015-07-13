@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.queries
 
+import "http://www.eclipse.org/emf/2002/Ecore"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
@@ -75,4 +76,42 @@ pattern cppPackageInComponentSubPackages(
 } or {
 	find cppPackageInComponent(parentPackage, cppComponent);
 	find cppPackageInPackage+(parentPackage, cppPackage);
+}
+
+// ExternalHeaders
+pattern cppExternalLibrary(
+	cppExternalLibrary : CPPExternalLibrary
+) {
+	CPPExternalLibrary(cppExternalLibrary);
+}
+
+pattern cppExternalHeader(
+	cppExternalLibrary : CPPExternalLibrary,
+	cppExternalHeader : CPPExternalHeader
+) {
+	CPPExternalLibrary.externalHeader(cppExternalLibrary, cppExternalHeader);
+}
+
+// ExternalType includes
+pattern cppAttributeOrParameterForInclude(
+	containerHeader : CPPSourceFile,
+	cppElement : CPPQualifiedNamedElement
+) {
+	find cppAttributeOrParameter(cppComponent, cppElement);
+	CPPComponent.mainHeaderFile(cppComponent, containerHeader);
+} or {
+	find cppAttributeOrParameter(cppClass, cppElement);
+	CPPClass.headerFile(cppClass, containerHeader);
+}
+
+pattern cppAttributeOrParameter(
+	containerElement : CPPQualifiedNamedElement,
+	cppElement : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(containerElement, cppElement);
+	CPPAttribute(cppElement);
+} or {
+	CPPQualifiedNamedElement.subElements(containerElement, cppOperation);
+	CPPOperation.subElements(cppOperation, cppElement);
+	CPPFormalParameter(cppElement);
 }

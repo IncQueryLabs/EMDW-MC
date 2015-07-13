@@ -22,8 +22,8 @@ class PackageRules {
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
+	extension val IncludeRules includeRules
 	val ClassRules classRules
-	val IncludeRules includeRules
 	
 	new(BatchTransformationStatements statements, ClassRules classRules, IncludeRules includeRules) {
 		this.statements = statements
@@ -62,6 +62,7 @@ class PackageRules {
 	].build
 	
 	def addIncludes(CPPPackage cppPackage){
+		cppPackage.addIncludesBetweenOwnFiles
 		fireAllCurrent(includeRules.packageComponentIncludeRule, [it.cppPackage == cppPackage])
 	}
 	
@@ -86,9 +87,6 @@ class PackageRules {
 			bodyDir.files += bodyFile
 			headerFile = createCPPHeaderFile
 			headerDir.files += headerFile
-			
-			// Adding includes between package files
-			bodyFile.includedHeaders += headerFile
 		]
 		
 		return cppPackage

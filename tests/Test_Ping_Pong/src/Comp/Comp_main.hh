@@ -16,12 +16,12 @@
 
 namespace model{
 namespace Comp{
-class CompMain : public ActiveComponent {
+class Comp : public ActiveComponent {
 public:
-    CompMain(){}
+    Comp(){}
 private:
-    CompMain(const CompMain&);
-    CompMain& operator=(const CompMain&);
+    Comp(const Comp&);
+    Comp& operator=(const Comp&);
 };
 } /* namespace Comp */
 } /* namespace model */

@@ -14,7 +14,7 @@
 
 namespace model{
 namespace Comp{
-class CompMain;
+class Comp;
 } /* namespace Comp */
 } /* namespace model */
 namespace model{

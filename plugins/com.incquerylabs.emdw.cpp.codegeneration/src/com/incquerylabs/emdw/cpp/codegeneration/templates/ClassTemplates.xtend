@@ -98,7 +98,7 @@ class ClassTemplates {
 		
 		«val cppComponent = codeGenQueries.getCppClassInComponentSubPackages(engine).getAllValuesOfcppComponent(cppClass).head»
 		// Component reference
-		«cppComponent.cppQualifiedName»::CompMain* _comp;
+		«cppComponent.cppQualifiedName»::«cppComponent.cppName»* _comp;
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 

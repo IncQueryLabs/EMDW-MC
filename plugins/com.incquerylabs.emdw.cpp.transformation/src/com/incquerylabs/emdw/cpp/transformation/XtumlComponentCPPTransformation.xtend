@@ -45,10 +45,8 @@ class XtumlComponentCPPTransformation {
 
 			debug("Preparing queries on engine.")
 			var watch = Stopwatch.createStarted
-			val queries = GenericPatternGroup.of(xtUmlQueries)
-			val cppQueries = GenericPatternGroup.of(cppQueries)
+			val queries = GenericPatternGroup.of(xtUmlQueries, cppQueries)
 			queries.prepare(engine)
-			cppQueries.prepare(engine)
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")

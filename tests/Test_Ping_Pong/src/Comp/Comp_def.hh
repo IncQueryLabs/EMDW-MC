@@ -12,7 +12,7 @@
 #define __MODEL__COMP_DEFINITION_HEADER
 
 #include "Comp_main.hh"
-#include "Ping.hh"
 #include "Pong.hh"
+#include "Ping.hh"
 
 #endif /* __MODEL__COMP_DEFINITION_HEADER */

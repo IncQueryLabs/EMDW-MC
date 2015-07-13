@@ -31,7 +31,7 @@ public:
 	::model::Comp::Ping* R1_ping;
 	
 	// Component reference
-	::model::Comp::CompMain* _comp;
+	::model::Comp::Comp* _comp;
 	
 	// Operation declarations
 	

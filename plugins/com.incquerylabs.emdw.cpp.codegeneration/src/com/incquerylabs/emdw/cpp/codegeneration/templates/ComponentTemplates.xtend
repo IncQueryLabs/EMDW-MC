@@ -45,7 +45,7 @@ class ComponentTemplates {
 		«cppComponent.declarationHeaderFile.inclusions»
 		
 		«cppComponent.namespaceOpenerTemplate»
-		class CompMain;
+		class «cppComponent.cppName»;
 		«cppComponent.namespaceCloserTemplate»
 		«cppComponent.classDeclarationsTemplate»
 		
@@ -98,13 +98,13 @@ class ComponentTemplates {
 		«cppComponent.mainHeaderFile.inclusions»
 		
 		«cppComponent.namespaceOpenerTemplate»
-		class CompMain : public ActiveComponent {
+		class «cppComponent.cppName» : public ActiveComponent {
 «««		TODO: Generate component code from cppmodel 
 		public:
-		    CompMain(){}
+		    «cppComponent.cppName»(){}
 		private:
-		    CompMain(const CompMain&);
-		    CompMain& operator=(const CompMain&);
+		    «cppComponent.cppName»(const «cppComponent.cppName»&);
+		    «cppComponent.cppName»& operator=(const «cppComponent.cppName»&);
 		};
 		«cppComponent.namespaceCloserTemplate»
 		

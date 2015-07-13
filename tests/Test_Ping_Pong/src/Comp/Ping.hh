@@ -31,7 +31,7 @@ public:
 	::model::Comp::Pong* R1_pong;
 	
 	// Component reference
-	::model::Comp::CompMain* _comp;
+	::model::Comp::Comp* _comp;
 	
 	// Operation declarations
 	

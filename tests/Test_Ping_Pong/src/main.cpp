@@ -12,7 +12,7 @@ int main(int , char **) {
 
     Ping* pi = new Ping();
     Pong* po = new Pong();
-    CompMain* comp = new CompMain();
+    Comp* comp = new Comp();
 
     pi->R1_pong = po;
     po->R1_ping = pi;

@@ -76,6 +76,7 @@
       <details key="documentation" value="Storage for references of a class ({@link com.ericsson.xtumlrt.oopl.OOPLClass}) for queries that are made directly on the class or for a relation ({@link com.ericsson.xtumlrt.oopl.OOPLRelation}) if queries are made across the relation. Storage may be a single reference (for signleton classes and x-to-one relations) or a collection of references (for all other classes and x-to-many relations). Multiple storages for the same class or relation are possible if different queries require different access to the references (e.g. maps with different keys)."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLRelation" abstract="true">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

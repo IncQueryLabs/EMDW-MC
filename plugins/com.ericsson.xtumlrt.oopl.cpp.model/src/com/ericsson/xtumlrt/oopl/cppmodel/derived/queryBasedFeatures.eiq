@@ -104,20 +104,32 @@ pattern cppDirectoryName(
 	find cppNamedElementCppName(component, target);
 	CPPComponent.externalBodySkeletonDirectory(component, source);
 } or {
+	find cppNamedElementCppName(model, target);
+	CPPModel.headerDir(model, source);
+	find sameModelDirectory(model);
+} or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.headerDir(model, source);
+	neg find sameModelDirectory(model);
 	target == eval("headers/" + cppName);
 } or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.bodyDir(model, source);
+	neg find sameModelDirectory(model);
 	target == eval("bodies/" + cppName);
+} or {
+	find cppNamedElementCppName(model, target);
+	CPPModel.externalHeaderDir(model, source);
+	find sameModelExternalDirectory(model);
 } or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.externalHeaderDir(model, source);
+	neg find sameModelExternalDirectory(model);
 	target == eval("headers/" + cppName);
 } or {
 	find cppNamedElementCppName(model, cppName);
 	CPPModel.externalBodySkeletonDir(model, source);
+	neg find sameModelExternalDirectory(model);
 	target == eval("headers/" + cppName);
 } or {
 	find cppNamedElementCppName(pack, target);
@@ -125,6 +137,16 @@ pattern cppDirectoryName(
 } or {
 	find cppNamedElementCppName(pack, target);
 	CPPPackage.bodyDir(pack, source);
+}
+
+private pattern sameModelDirectory(model : CPPModel) {
+	CPPModel.headerDir(model, dir);
+	CPPModel.bodyDir(model, dir);
+}
+
+private pattern sameModelExternalDirectory(model : CPPModel) {
+	CPPModel.externalHeaderDir(model, dir);
+	CPPModel.externalBodySkeletonDir(model, dir);
 }
 
 @QueryBasedFeature(feature = "parentDirectory")
@@ -244,6 +266,17 @@ pattern cppSourceFileGenerationName(
 	CPPProtocol.headerFile(protocol, source);
 	find cppSourceFileExtension(source, ext);
 	target == eval(cppName + ext);
+} or {
+	CPPMakeFile(source);
+	neg find directoryMakeRulesFile(source);
+	target == "Makefile";
+} or {
+	find directoryMakeRulesFile(source);
+	target == "Rules.mk";
+}
+
+private pattern directoryMakeRulesFile(makeFile : CPPMakeFile) {
+	CPPDirectory.makeRulesFile(directory, makeFile);
 }
 
 pattern cppSourceFileExtension(

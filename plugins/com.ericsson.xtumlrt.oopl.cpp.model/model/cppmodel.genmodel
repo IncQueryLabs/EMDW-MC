@@ -2,7 +2,7 @@
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.ericsson.xtumlrt.oopl.cpp.model/emf-gen" modelPluginID="com.ericsson.xtumlrt.oopl.cpp.model"
     modelName="Cppmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
     usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#//oopl ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
     operationReflection="true" importOrganizing="true">
   <foreignModel>cppmodel.ecore</foreignModel>
@@ -67,6 +67,7 @@
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/name"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/parentDirectory"/>
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPDirectory/path"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPDirectory/makeRulesFile"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPComponent">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/xtComponent"/>
@@ -223,6 +224,8 @@
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/retainAllTemplate"/>
       <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/sizeTemplate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerQualifiedName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerHeaderIncludes"/>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateAdd">
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/value"/>
@@ -264,5 +267,6 @@
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateSize/collection"/>
       </genOperations>
     </genClasses>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPMakeFile"/>
   </genPackages>
 </genmodel:GenModel>

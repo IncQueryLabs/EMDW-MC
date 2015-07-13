@@ -214,6 +214,7 @@
         <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryPath"/>
       </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="makeRulesFile" eType="#//CPPMakeFile"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPComponent" eSuperTypes="#//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -594,5 +595,10 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="retainAllTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sizeTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containerQualifiedName"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="containerHeaderIncludes"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPMakeFile" eSuperTypes="#//CPPSourceFile"/>
 </ecore:EPackage>

@@ -5,11 +5,7 @@
  *      Author: Robert Doczi
  */
 
-
-
-
-#include "Comp/Ping.hh"
-#include "Comp/Pong.hh"
+#include "Comp/Comp_def.hh"
 
 int main(int , char **) {
     using namespace model::Comp;

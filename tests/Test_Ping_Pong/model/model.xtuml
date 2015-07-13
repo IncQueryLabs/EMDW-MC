@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="ASCII"?>
 <common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="model">
   <entities xsi:type="xtuml:XTComponent" name="Comp">
-    <entities xsi:type="xtuml:XTClass" name="Pong">
-      <behaviour name="Pong_SM">
-        <top>
-          <initial name="initial" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.2"/>
-          <substates xsi:type="common:SimpleState" name="s1" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.2 //@entities.0/@entities.0/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
-          <substates xsi:type="common:SimpleState" name="s2" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1">
-            <entryAction source="R1_ping->generate_event(new Ping::pong_s_event(false));"/>
-          </substates>
-          <transitions name="e1" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="ping_t" signal="//@entities.0/@entities.0/@events.0"/>
-          </transitions>
-          <transitions name="e2" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="ping_t" signal="//@entities.0/@entities.0/@events.0"/>
-            <actionChain name="sendPong">
-              <actions source="R1_ping->generate_event(new Ping::pong_s_event(false));"/>
-            </actionChain>
-          </transitions>
-          <transitions name="i" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0"/>
-        </top>
-      </behaviour>
-      <relations xsi:type="xtuml:XTAssociation" name="R1_ping" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.1/@relations.0" source="//@entities.0/@entities.0" target="//@entities.0/@entities.1"/>
-      <events xsi:type="xtuml:XTClassEvent" name="ping_s"/>
-    </entities>
     <entities xsi:type="xtuml:XTClass" name="Ping">
       <behaviour name="Ping_SM">
         <top>
-          <initial name="initial" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0"/>
-          <substates xsi:type="common:SimpleState" name="s1" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0 //@entities.0/@entities.1/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1">
-            <entryAction source="R1_pong->generate_event(new Pong::ping_s_event(false));"/>
+          <initial name="initial" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
+          <substates xsi:type="common:SimpleState" name="s2" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.2">
+            <entryAction name="sendPing" source="R1_pong->generate_event(new Pong::ping_s_event(false));"/>
           </substates>
-          <substates xsi:type="common:SimpleState" name="s2" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.2">
-            <entryAction source="R1_pong->generate_event(new Pong::ping_s_event(false));"/>
+          <substates xsi:type="common:SimpleState" name="s1" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0 //@entities.0/@entities.0/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1">
+            <entryAction name="sendPing" source="R1_pong->generate_event(new Pong::ping_s_event(false));"/>
           </substates>
-          <transitions name="i" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0"/>
-          <transitions name="e1" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="pong_t" signal="//@entities.0/@entities.1/@events.0"/>
+          <transitions name="i" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1"/>
+          <transitions name="e1" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="pong_t" signal="//@entities.0/@entities.0/@events.0"/>
           </transitions>
-          <transitions name="e2" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0">
-            <triggers xsi:type="xtuml:XTEventTrigger" name="pong_t" signal="//@entities.0/@entities.1/@events.0"/>
+          <transitions name="e2" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="pong_t" signal="//@entities.0/@entities.0/@events.0"/>
           </transitions>
         </top>
       </behaviour>
-      <relations xsi:type="xtuml:XTAssociation" name="R1_pong" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.0/@relations.0" source="//@entities.0/@entities.1" target="//@entities.0/@entities.0"/>
+      <relations xsi:type="xtuml:XTAssociation" name="R1_pong" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.1/@relations.0" source="//@entities.0/@entities.0" target="//@entities.0/@entities.1"/>
       <events xsi:type="xtuml:XTClassEvent" name="pong_s"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="Pong">
+      <behaviour name="Pong_SM">
+        <top>
+          <initial name="initial" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.2"/>
+          <substates xsi:type="common:SimpleState" name="s2" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1">
+            <entryAction name="sendPong" source="R1_ping->generate_event(new Ping::pong_s_event(false));"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="s1" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1 //@entities.0/@entities.1/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0"/>
+          <transitions name="e1" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="ping_t" signal="//@entities.0/@entities.1/@events.0"/>
+          </transitions>
+          <transitions name="e2" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="ping_t" signal="//@entities.0/@entities.1/@events.0"/>
+            <actionChain name="sendPong">
+              <actions name="sendPong" source="R1_ping->generate_event(new Ping::pong_s_event(false));"/>
+            </actionChain>
+          </transitions>
+          <transitions name="i" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1"/>
+        </top>
+      </behaviour>
+      <relations xsi:type="xtuml:XTAssociation" name="R1_ping" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.0/@relations.0" source="//@entities.0/@entities.1" target="//@entities.0/@entities.0"/>
+      <events xsi:type="xtuml:XTClassEvent" name="ping_s"/>
     </entities>
   </entities>
 </common:Model>

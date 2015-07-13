@@ -80,7 +80,7 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPComponent/externalBodySkeletonDirectory"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPExternalHeader">
-      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPExternalHeader/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPExternalHeader/name"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPExternalHeaderInclusion">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalHeaderInclusion/externalHeader"/>

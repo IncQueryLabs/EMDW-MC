@@ -12,7 +12,6 @@ import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.ui.GeneratorHelper
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
-import java.util.HashMap
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
@@ -41,44 +40,23 @@ class CodeGenerator {
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
-	HashMap<ResourceSet, AdvancedIncQueryEngine> engineRegistry
-	HashMap<AdvancedIncQueryEngine, XtumlCPPTransformationQrt> cppTrRegistry
-	
-	new() {
-		engineRegistry = <ResourceSet, AdvancedIncQueryEngine>newHashMap()
-		cppTrRegistry = <AdvancedIncQueryEngine, XtumlCPPTransformationQrt>newHashMap()
-	}
-	
-	public def disposeCodeGeneration() {
-		engineRegistry.values.forEach[dispose]
-		cppTrRegistry.values.forEach[dispose]
-	}
-	
-	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {
-		
-		var incEngine = engineRegistry.get(xtResourceSet)
-		if(incEngine == null) {
-			incEngine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
-			xtumlQueries.prepare(incEngine)
-			engineRegistry.put(xtResourceSet, incEngine)
-		}
-		var XtumlCPPTransformationQrt xformqrt = cppTrRegistry.get(incEngine)
-		if(xformqrt == null) {
-			xformqrt = new XtumlCPPTransformationQrt
-			xformqrt.initialize(incEngine)
-			xformqrt.execute
-			cppTrRegistry.put(incEngine, xformqrt)
-		}
-		
+	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {		
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+		
+		var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
+		xformqrt.initialize(engine)
+		xformqrt.execute
+		
 		val validXtumlModel = validateXtumlModel(engine, event)
 		if(validXtumlModel){
 			xtComponents.forEach[ xtComponent |
 				performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
 			]
     	}
-
+		
+		clearCPPModel(engine, xtResourceSet)
 		engine.dispose
+		xformqrt.dispose
 	}
 	
 	def validateXtumlModel(AdvancedIncQueryEngine engine, ExecutionEvent event) {
@@ -269,7 +247,21 @@ class CodeGenerator {
 		]
 		return cppComponent
 	}
-
+	
+	// XXX 
+	def clearCPPModel(AdvancedIncQueryEngine engine, ResourceSet resourceSet) {
+		val modelToEntityMatcher = getXtModelEntities(engine)
+		
+		val xtModels = modelToEntityMatcher.getAllValuesOfxtModel
+		xtModels.forEach[ xtModel | 
+			val cppModel = getOrCreateCPPModel(xtModel, engine, resourceSet)
+			cppModel.subElements.clear
+			cppModel.bodyDir.subDirectories.clear
+			if(cppModel.bodyDir != cppModel.headerDir)
+				cppModel.headerDir.subDirectories.clear
+		]
+	}
+	
 	def loadCPPBasicTypes(ResourceSet rs) {
 		rs.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),

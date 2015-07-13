@@ -46,7 +46,7 @@ import com.google.common.io.Files;
 public class GeneratorHelper {
 	
 	private final static String generationDirectoryName = "src";
-	private final static String generationProjectName = "com.ericsson.emdw.cpp.generated.code.";
+	private final static String generationProjectPrefix = "com.ericsson.emdw.cpp.generated.code.";
 	
 	/**
 	 * Creates a file into the project that the parameter
@@ -100,10 +100,10 @@ public class GeneratorHelper {
 		        if(object instanceof Model) {
 		            name = ((Model)object).getName();
 		        }
-		        parent = getOrCreateProject(generationProjectName+name);
+		        parent = getOrCreateProject(generationProjectPrefix+name);
 		    }
 		} else {
-			parent = getOrCreateProject(generationProjectName);
+			parent = getOrCreateProject(generationProjectPrefix);
 		}
 		IFolder targetFolder = null;
 		if(parent instanceof IFolder){

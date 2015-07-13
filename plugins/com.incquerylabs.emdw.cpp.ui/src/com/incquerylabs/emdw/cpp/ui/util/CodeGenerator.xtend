@@ -14,7 +14,6 @@ import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstr
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
-import org.eclipse.core.resources.IFolder
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -29,7 +28,6 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.google.common.collect.ImmutableMap
-import org.eclipse.core.resources.IContainer
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 
 class CodeGenerator {
@@ -132,14 +130,6 @@ class CodeGenerator {
 				}
 			}
 		}
-		return null
-	}
-	
-	def IContainer getMapperTargetContainer() {
-//		val shell = Display.getCurrent().getActiveShell()
-//		val dialog = new ContainerSelectionDialog(shell, null, true, "Select source folder:")
-//		dialog.setTitle("EMDW-MC C++ Code generator")
-//		dialog.open()
 		return null
 	}
 	

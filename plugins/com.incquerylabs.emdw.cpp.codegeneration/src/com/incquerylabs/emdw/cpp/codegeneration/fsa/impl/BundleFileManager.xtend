@@ -5,7 +5,6 @@ import org.eclipse.core.runtime.Platform
 import org.eclipse.core.runtime.FileLocator
 import java.io.File
 import com.google.common.io.Files
-import java.nio.charset.Charset
 
 class BundleFileManager extends FileManager {
 	
@@ -42,7 +41,7 @@ class BundleFileManager extends FileManager {
 	
 	override readFileContentAsString(String directoryPath, String filename) {
 		val file = directoryPath.getFile(filename)
-		Files.toString(file, Charset.defaultCharset)
+		Files.toString(file, DEFAULT_CHARSET)
 	}
 	
 	override fileExists(String directoryPath, String filename) {
@@ -50,8 +49,7 @@ class BundleFileManager extends FileManager {
 	}
 	
 	override directoryExists(String path) {
-		//path.folder.isDirectory
-		return true
+		path.folder.isDirectory
 	}
 	
 	override readSubDirectoryNames(String path) {
@@ -68,19 +66,19 @@ class BundleFileManager extends FileManager {
 	
 	
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("Unsupported operation: cannot create file in a bundle")
 	}
 	
 	override performFileDeletion(String directoryPath, String filename) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("Unsupported operation: cannot delete file in a bundle")
 	}
 	
 	override performDirectoryCreation(String path) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("Unsupported operation: cannot create directory in a bundle")
 	}
 	
 	override performDirectoryDeletion(String path) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("Unsupported operation: cannot delete directory in a bundle")
 	}
 	
 }

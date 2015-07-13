@@ -29,6 +29,8 @@ import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
+import org.eclipse.emf.ecore.resource.Resource
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 
 class CodeGenerator {
 
@@ -88,6 +90,7 @@ class CodeGenerator {
 		// Create the CPPComponent with its directories if it does not exist
 		// The incremental part of the m2m transformation should provide 
 		// the cppComponent (and its name provider) in the future
+		cppResource.createExternalLibrary
 		createOrUpdateCppComponent(engine, xtComponent, cppModel)
 		
 		performCppTransformation(engine, xtComponent)
@@ -171,7 +174,7 @@ class CodeGenerator {
 					commonNamedElement = xtmodel
 				]
 			]
-
+			
 			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension
 			val uri = uriWithoutExtension.appendFileExtension("cppmodel")
 			val cppResource = rs.createResource(uri)
@@ -179,7 +182,13 @@ class CodeGenerator {
 		}
 		return cppModel
 	}
-		
+	
+	def createExternalLibrary(Resource cppResource){
+		if(cppResource.contents.filter(CPPExternalLibrary).isNullOrEmpty){
+			cppResource.contents += createCPPExternalLibrary
+		}
+	}
+	
 	def void createOrUpdateCppComponent(AdvancedIncQueryEngine engine, XTComponent xtComponent, CPPModel cppModel){
 		val cppResource = cppModel.eResource
 		val cppComponentMatcher = getCppComponents(engine)
@@ -238,6 +247,3 @@ class CodeGenerator {
 		)
 	}
 }
-	
-	
-	

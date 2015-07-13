@@ -1,18 +1,13 @@
 /******************************************************************************
  *
- * C O M P O N E N T   D E F I N I T I O N S
+ * C O M P O N E N T   M A I N   ( B O D Y )
  *
  * NAME: Comp
  *
  *
  *
  ******************************************************************************/
- 
-#ifndef __MODEL__COMP_DEFINITION_HEADER
-#define __MODEL__COMP_DEFINITION_HEADER
 
 #include "Comp_main.hh"
-#include "Pong.hh"
-#include "Ping.hh"
+#include "Comp_def.hh"
 
-#endif /* __MODEL__COMP_DEFINITION_HEADER */

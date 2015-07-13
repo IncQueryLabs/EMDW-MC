@@ -1,21 +1,6 @@
-/*
- * Pong.cpp
- *
- *  Created on: Jun 23, 2015
- *      Author: Robert Doczi
- */
-
 #include "Pong.hh"
-
-#include <algorithm>
-#include <iostream>
-
 #include "Comp_def.hh"
 
-using namespace std;
-
-
-// GENERATED CODE START
 ::std::list< ::model::Comp::Pong*> (::model::Comp::Pong::_instances);
 
 // Constructors
@@ -29,7 +14,7 @@ using namespace std;
 }
 
 void ::model::Comp::Pong::perform_initialization() {
-	::std::cout << "[Pong] Initialization" << endl;
+	::std::cout << "[Pong] Initialization" << ::std::endl;
 	// execute actions
 }
 
@@ -61,7 +46,7 @@ void ::model::Comp::Pong::process() {
 
 
 void ::model::Comp::Pong::process_event(const ::Event* event) {
-	::std::cout << "[Pong] Event " << event->_id << " received." << endl;
+	::std::cout << "[Pong] Event " << event->_id << " received." << ::std::endl;
 
 	switch(current_state){
 	case Pong_STATE_s1:
@@ -76,62 +61,61 @@ void ::model::Comp::Pong::process_event(const ::Event* event) {
 // s1 state
 
 void ::model::Comp::Pong::process_event_in_s1_state(const ::Event* event){
-	::std::cout << "  [State: s1] Processing event" << endl;
+	::std::cout << "  [State: s1] Processing event" << ::std::endl;
 	// s1 -e1-> s2 transition
 	if(event->_id == Pong_EVENT_ping_s) {
 		// no exit action
-
+		
 		// no transition action
-
+		
 		// entry action
 		perform_entry_action_for_s2_state(event);
-
+		
 		// state change
 		current_state = Pong_STATE_s2;
-		::std::cout << "    State changed to s2" << endl;
-	} else
+		::std::cout << "    State changed to s2" << ::std::endl;
+	} else 
 	{
 		// event not processed in state
-		::std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+		::std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << ::std::endl;
 	}
 	return;
 }
 
 // s2 state
 void ::model::Comp::Pong::perform_entry_action_for_s2_state(const ::Event* event){
-	::std::cout << "    [Entry: INIT]" << endl;
+	::std::cout << "    [Entry: INIT]" << ::std::endl;
 	R1_ping->generate_event(new Ping::pong_s_event(false));
 }
 
 void ::model::Comp::Pong::process_event_in_s2_state(const ::Event* event){
-	::std::cout << "  [State: s2] Processing event" << endl;
+	::std::cout << "  [State: s2] Processing event" << ::std::endl;
 	// s2 -e2-> s1 transition
 	if(event->_id == Pong_EVENT_ping_s) {
 		// no exit action
-
+		
 		// transition action
 		perform_actions_on_e2_transition_from_s2_to_s1(event);
-
+		
 		// no entry action
-
+		
 		// state change
 		current_state = Pong_STATE_s1;
-		::std::cout << "    State changed to s1" << endl;
-	} else
+		::std::cout << "    State changed to s1" << ::std::endl;
+	} else 
 	{
 		// event not processed in state
-		::std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << endl;
+		::std::cout << "    [UNPROCESSED] Event cannot be processed in this state" << ::std::endl;
 	}
 	return;
 }
 
 void ::model::Comp::Pong::perform_actions_on_e2_transition_from_s2_to_s1(const ::Event* event){
-	::std::cout << "    [Action: -> s1]" << endl;
+	::std::cout << "    [Action: -> s1]" << ::std::endl;
 	R1_ping->generate_event(new Ping::pong_s_event(false));
 }
 
-::model::Comp::Pong::ping_s_event::ping_s_event(bool isInternal) :
+::model::Comp::Pong::ping_s_event::ping_s_event(bool isInternal) : 
 	::Event(Pong_EVENT_ping_s, isInternal){
 }
 
-// GENERATED CODE END

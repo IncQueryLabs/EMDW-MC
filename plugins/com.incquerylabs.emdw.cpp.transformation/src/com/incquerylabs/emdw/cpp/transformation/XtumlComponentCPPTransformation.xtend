@@ -16,11 +16,14 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
+import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 
 class XtumlComponentCPPTransformation {
 
 	extension val Logger logger = Logger.getLogger(class)
 	static val xtUmlQueries = XtumlQueries.instance
+	static val cppQueries = CppQueries.instance
 	private var initialized = false;
 
 	IncQueryEngine engine
@@ -32,6 +35,7 @@ class XtumlComponentCPPTransformation {
 	ClassRules classRules
 	EntityRules entityRules
 	AssociationRules associationRules
+	IncludeRules includeRules
 	
 
 	def initialize(IncQueryEngine engine) {
@@ -41,18 +45,19 @@ class XtumlComponentCPPTransformation {
 
 			debug("Preparing queries on engine.")
 			var watch = Stopwatch.createStarted
-			val queries = GenericPatternGroup.of(xtUmlQueries)
+			val queries = GenericPatternGroup.of(xtUmlQueries, cppQueries)
 			queries.prepare(engine)
 			info('''Prepared queries on engine («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 			
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			statements = new BatchTransformationStatements(transform)
-			associationRules = new AssociationRules
-			entityRules  = new EntityRules(statements)
-			classRules = new ClassRules(statements, associationRules, entityRules)
-			packageRules = new PackageRules(statements, classRules)
-			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules)
+			includeRules = new IncludeRules(engine, statements)
+			entityRules  = new EntityRules(statements, includeRules)
+			associationRules = new AssociationRules(statements, includeRules)
+			classRules = new ClassRules(statements, associationRules, entityRules, includeRules)
+			packageRules = new PackageRules(statements, classRules, includeRules)
+			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules, includeRules)
 			
 			componentRules.addRules(transform)
 			packageRules.addRules(transform)

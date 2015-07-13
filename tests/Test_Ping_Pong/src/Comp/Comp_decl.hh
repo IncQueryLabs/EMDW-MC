@@ -1,24 +1,28 @@
-/*
- * Comp_decl.h
+/******************************************************************************
  *
- *  Created on: Jun 24, 2015
- *      Author: Robert Doczi
- */
+ * C O M P O N E N T   D E C L A R A T I O N S
+ *
+ * NAME: Comp
+ *
+ *
+ *
+ ******************************************************************************/
 
-#ifndef SRC_COMP_COMP_DECL_HH_
-#define SRC_COMP_COMP_DECL_HH_
-
-
-namespace model {
-namespace Comp {
-
-class Ping;
-class Pong;
-
-}  // namespace Comp
-}  // namespace model
-
-#include "Comp_main.hh"
+#ifndef __MODEL__COMP_DECLARATION_HEADER
+#define __MODEL__COMP_DECLARATION_HEADER
 
 
-#endif /* SRC_COMP_COMP_DECL_HH_ */
+namespace model{
+namespace Comp{
+class Comp;
+} /* namespace Comp */
+} /* namespace model */
+namespace model{
+namespace Comp{
+	class Ping;
+	class Pong;
+} /* namespace Comp */
+} /* namespace model */
+
+
+#endif /* __MODEL__COMP_DECLARATION_HEADER */

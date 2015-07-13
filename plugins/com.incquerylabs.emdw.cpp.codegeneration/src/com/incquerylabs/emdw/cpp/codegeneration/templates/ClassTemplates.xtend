@@ -23,7 +23,9 @@ class ClassTemplates {
 	public static val StatefulClassFQN = "::StatefulClass"
 	public static val EventFQN = "::Event"
 
-	extension NamespaceTemplates namespaceTemplates
+	extension val NamespaceTemplates namespaceTemplates
+	extension val HeaderGuardTemplates headerGuardTemplates
+	extension val IncludeTemplates includeTemplates
 	OperationTemplates operationTemplates 
 	AttributeTemplates attributeTemplates
 	AssociationTemplates associationTemplates
@@ -32,11 +34,13 @@ class ClassTemplates {
 	ActionCodeTemplates actionCodeTemplates
 	IncQueryEngine engine
 	
-	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator, NamespaceTemplates namespaceTemplates) {
+	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator) {
 		this.engine = engine
 		this.typeIdGenerator = typeIdGenerator
 		
-		this.namespaceTemplates = namespaceTemplates
+		namespaceTemplates = new NamespaceTemplates
+		headerGuardTemplates = new HeaderGuardTemplates
+		includeTemplates = new IncludeTemplates
 		operationTemplates = new OperationTemplates(engine)
 		attributeTemplates = new AttributeTemplates(engine)
 		associationTemplates = new AssociationTemplates(engine)
@@ -49,8 +53,13 @@ class ClassTemplates {
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val headerGuardPostfix = "HEADER"
 		
 		'''
+		«startHeaderGuard(cppClass, headerGuardPostfix)»
+		
+		«cppClass.headerFile.inclusions»
+		
 		«cppClass.namespaceOpenerTemplate»
 		
 		class «cppClassName»«IF hasStateMachine» : public «StatefulClassFQN»«ENDIF» {
@@ -69,6 +78,7 @@ class ClassTemplates {
 		}; /* class «cppClassName» */
 		«cppClass.namespaceCloserTemplate»
 		
+		«closeHeaderGuard(cppClass, headerGuardPostfix)»
 		'''
 		
 	}
@@ -88,7 +98,7 @@ class ClassTemplates {
 		
 		«val cppComponent = codeGenQueries.getCppClassInComponentSubPackages(engine).getAllValuesOfcppComponent(cppClass).head»
 		// Component reference
-		«cppComponent.cppQualifiedName»::CompMain* _comp;
+		«cppComponent.cppQualifiedName»::«cppComponent.cppName»* _comp;
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 
@@ -261,6 +271,8 @@ class ClassTemplates {
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
+		«cppClass.bodyFile.inclusions»
+		
 		::std::list< «cppFQN»*> («cppFQN»::_instances);
 		
 		«cppClass.constructorDefinitionsInClassBody»
@@ -380,7 +392,7 @@ class ClassTemplates {
 		'''
 		void «cppFQN»::perform_initialization() {
 			«IF generateTracingCode»
-				::std::cout << "[«cppClassName»] Initialization" << endl;
+				::std::cout << "[«cppClassName»] Initialization" << ::std::endl;
 			«ENDIF»
 			«IF cppInitStateMatch != null»
 				// execute actions
@@ -404,7 +416,7 @@ class ClassTemplates {
 		'''
 		void «cppFQN»::process_event(const «EventFQN»* event) {
 			«IF generateTracingCode»
-				::std::cout << "[«cppClassName»] Event " << event->_id << " received." << endl;
+				::std::cout << "[«cppClassName»] Event " << event->_id << " received." << ::std::endl;
 			«ENDIF»
 		
 			switch(current_state){

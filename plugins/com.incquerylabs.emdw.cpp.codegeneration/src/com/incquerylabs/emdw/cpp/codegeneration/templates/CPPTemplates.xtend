@@ -24,8 +24,8 @@ class CPPTemplates {
 		namespaceTemplates = new NamespaceTemplates
 		typeIdGenerator = new TypeIdentifierGenerator
 		packageTemplates = new PackageTemplates(engine)
-		componentTemplates = new ComponentTemplates(engine, namespaceTemplates)
-		classTemplates = new ClassTemplates(engine, typeIdGenerator, namespaceTemplates)
+		componentTemplates = new ComponentTemplates(engine)
+		classTemplates = new ClassTemplates(engine, typeIdGenerator)
 	}
 	
 	def CharSequence componentDeclHeaderTemplate(CPPComponent cppComponent){

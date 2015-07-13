@@ -1,24 +1,30 @@
-/*
- * Comp_main.h
+/******************************************************************************
  *
- *  Created on: Jun 24, 2015
- *      Author: Robert Doczi
- */
+ * C O M P O N E N T   M A I N   ( H E A D E R )
+ *
+ * NAME: Comp
+ *
+ *
+ *
+ ******************************************************************************/
 
+#ifndef __MODEL__COMP_MAIN_HEADER
+#define __MODEL__COMP_MAIN_HEADER
 
-#include "../Runtime/ActiveComponent.hh"
 #include "Comp_decl.hh"
+#include "../Runtime/ActiveComponent.hh"
 
-namespace model {
-namespace Comp {
-
-class CompMain : public ActiveComponent {
+namespace model{
+namespace Comp{
+class Comp : public ActiveComponent {
 public:
-    CompMain(){}
+    Comp(){}
 private:
-    CompMain(const CompMain&);
-    CompMain& operator=(const CompMain&);
+    Comp(const Comp&);
+    Comp& operator=(const Comp&);
 };
+} /* namespace Comp */
+} /* namespace model */
 
-}  // namespace Comp
-}  // namespace model
+#endif /* __MODEL__COMP_MAIN_HEADER */
+

@@ -5,18 +5,14 @@
  *      Author: Robert Doczi
  */
 
-
-
-
-#include "Comp/Ping.hh"
-#include "Comp/Pong.hh"
+#include "Comp/Comp_def.hh"
 
 int main(int , char **) {
     using namespace model::Comp;
 
     Ping* pi = new Ping();
     Pong* po = new Pong();
-    CompMain* comp = new CompMain();
+    Comp* comp = new Comp();
 
     pi->R1_pong = po;
     po->R1_ping = pi;

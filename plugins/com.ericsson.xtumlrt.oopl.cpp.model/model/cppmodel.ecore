@@ -241,8 +241,7 @@
       <details key="documentation" value="External C++ header file that must be included into another C++ source file. Such headerfiles contain type and functions that are defined in the handwritten code but are used by the model."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" ordered="false" unique="false"
-        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false"/>
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalHeaderInclusion">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

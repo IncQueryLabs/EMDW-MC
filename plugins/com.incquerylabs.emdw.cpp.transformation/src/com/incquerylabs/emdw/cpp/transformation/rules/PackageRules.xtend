@@ -22,11 +22,13 @@ class PackageRules {
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
+	extension val IncludeRules includeRules
 	val ClassRules classRules
 	
-	new(BatchTransformationStatements statements, ClassRules classRules) {
+	new(BatchTransformationStatements statements, ClassRules classRules, IncludeRules includeRules) {
 		this.statements = statements
 		this.classRules = classRules
+		this.includeRules = includeRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -44,6 +46,7 @@ class PackageRules {
 		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppComponent.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in component «match.xtComponent.name» to CPPPackage''')
+		addIncludes(cppPackage)
 		transformSubElements(cppPackage)
 	].build
 	
@@ -54,8 +57,14 @@ class PackageRules {
 		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppParentPackage.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in package «match.xtParentPackage.name» to CPPPackage''')
+		addIncludes(cppPackage)
 		transformSubElements(cppPackage)
 	].build
+	
+	def addIncludes(CPPPackage cppPackage){
+		cppPackage.addIncludesBetweenOwnFiles
+		fireAllCurrent(includeRules.packageComponentIncludeRule, [it.cppPackage == cppPackage])
+	}
 	
 	def void transformSubElements(CPPPackage cppPackage){
 		fireAllCurrent(classRules.classInPackageRule, [it.cppPackage == cppPackage])

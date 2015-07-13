@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.transformation.rules
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
@@ -21,9 +22,11 @@ class EntityRules {
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
+	extension val IncludeRules includeRules
 	
-	new(BatchTransformationStatements statements) {
+	new(BatchTransformationStatements statements, IncludeRules includeRules) {
 		this.statements = statements
+		this.includeRules = includeRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -49,6 +52,7 @@ class EntityRules {
 		cppElement.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in entity «match.xtEntity.name» to CPPAttribute''')
 		fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppAttribute])
+		addIncludes(cppAttribute)
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -76,9 +80,14 @@ class EntityRules {
 			]
 			cppOperation.subElements += cppFormalParameter
 			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
+			addIncludes(cppFormalParameter)
 		]
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
 	].build
+	
+	def addIncludes(CPPQualifiedNamedElement cppElement) {
+		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
+	}
 	
 	def isMultiValue(MultiplicityElement multiplicityElement) {
 		val upperBound = multiplicityElement.upperBound

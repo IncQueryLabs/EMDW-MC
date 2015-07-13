@@ -1,0 +1,117 @@
+package com.incquerylabs.emdw.cpp.transformation.queries
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+// Elements directly in containers
+pattern cppClassInQualifiedNamedElement(
+	cppClass : CPPClass,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppClass);
+}
+
+pattern cppPackageInQualifiedNamedElement(
+	cppPackage : CPPPackage,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppPackage);
+}
+
+pattern cppClassInComponent(
+	cppClass : CPPClass,
+	cppComponent : CPPComponent
+) {
+	find cppClassInQualifiedNamedElement(cppClass, cppComponent);
+}
+
+pattern cppClassInPackage(
+	cppClass : CPPClass,
+	cppPackage : CPPPackage
+) {
+	find cppClassInQualifiedNamedElement(cppClass, cppPackage);
+}
+
+pattern cppPackageInComponent(
+	cppPackage : CPPPackage,
+	cppComponent : CPPComponent
+) {
+	find cppPackageInQualifiedNamedElement(cppPackage, cppComponent);
+}
+
+pattern cppPackageInPackage(
+	outerPackage : CPPPackage,
+	innerPackage : CPPPackage
+) {
+	find cppPackageInQualifiedNamedElement(innerPackage, outerPackage);
+}
+
+// Elements in a package hierarchy
+pattern cppClassInComponentSubPackages(
+	cppClass : CPPClass,
+	cppComponent : CPPComponent
+) {
+	find cppClassInComponent(cppClass, cppComponent);
+} or {
+	find cppPackageInComponent(cppPackage, cppComponent);
+	find cppClassInPackageSubPackages(cppClass, cppPackage);
+}
+
+pattern cppClassInPackageSubPackages(
+	cppClass : CPPClass,
+	cppPackage : CPPPackage
+) {
+	find cppClassInPackage(cppClass, cppPackage);
+} or {
+	find cppPackageInPackage+(cppPackage, subPackage);
+	find cppClassInPackage(cppClass, subPackage);
+}
+
+pattern cppPackageInComponentSubPackages(
+	cppPackage : CPPPackage,
+	cppComponent : CPPComponent
+) {
+	find cppPackageInComponent(cppPackage, cppComponent);
+} or {
+	find cppPackageInComponent(parentPackage, cppComponent);
+	find cppPackageInPackage+(parentPackage, cppPackage);
+}
+
+// ExternalHeaders
+pattern cppExternalLibrary(
+	cppExternalLibrary : CPPExternalLibrary
+) {
+	CPPExternalLibrary(cppExternalLibrary);
+}
+
+pattern cppExternalHeader(
+	cppExternalLibrary : CPPExternalLibrary,
+	cppExternalHeader : CPPExternalHeader
+) {
+	CPPExternalLibrary.externalHeader(cppExternalLibrary, cppExternalHeader);
+}
+
+// ExternalType includes
+pattern cppAttributeOrParameterForInclude(
+	containerHeader : CPPSourceFile,
+	cppElement : CPPQualifiedNamedElement
+) {
+	find cppAttributeOrParameter(cppComponent, cppElement);
+	CPPComponent.mainHeaderFile(cppComponent, containerHeader);
+} or {
+	find cppAttributeOrParameter(cppClass, cppElement);
+	CPPClass.headerFile(cppClass, containerHeader);
+}
+
+pattern cppAttributeOrParameter(
+	containerElement : CPPQualifiedNamedElement,
+	cppElement : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(containerElement, cppElement);
+	CPPAttribute(cppElement);
+} or {
+	CPPQualifiedNamedElement.subElements(containerElement, cppOperation);
+	CPPOperation.subElements(cppOperation, cppElement);
+	CPPFormalParameter(cppElement);
+}

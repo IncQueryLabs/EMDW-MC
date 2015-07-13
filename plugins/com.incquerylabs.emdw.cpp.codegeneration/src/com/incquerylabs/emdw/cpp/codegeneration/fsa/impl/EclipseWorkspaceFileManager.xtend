@@ -91,6 +91,11 @@ class EclipseWorkspaceFileManager extends FileManager {
 		Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
 	}
 	
+	override String readFileContentAsString(String directoryPath, String filename) {
+		val file = directoryPath.folder.getFile(filename)
+		Files.toString(file.rawLocation.makeAbsolute.toFile, DEFAULT_CHARSET)
+	}
+	
 	// Use Adler32 to calculate file checksum
 	override def String calculateHash(byte[] content) {
 		val adler32 = new Adler32()

@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.codegeneration.test
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.google.common.collect.ImmutableList
 import org.eclipse.emf.ecore.EObject
-import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.Test
 import org.junit.runners.Parameterized.Parameters
 
@@ -46,11 +45,15 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val cppModel = createCPPModel(cppResource,xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		//transform to CPP
-		initializeTransformation(cppModel)
-		executeTransformation
+		transformCppModel(cppModel)
 		//Check result
 		assertResult(cppModel, cppObject)
 		endTest(testId)
+	}
+	
+	protected def void transformCppModel(CPPModel cppModel) {
+		initializeTransformation(cppModel)
+		executeTransformation
 	}
 	
 	//Additional alternatives can be added here

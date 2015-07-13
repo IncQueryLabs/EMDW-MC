@@ -169,6 +169,16 @@ abstract class FileManager implements IFileManager {
 		return existsInFileSystem(directoryPath, filename, expectedCheckSum)
 	}
 	
+	override String getFileContentAsString(String directoryPath, String filename) {
+		checkDirectoryPathAndFileName(directoryPath, filename)
+		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
+			return readFileContentAsString(directoryPath, filename)
+		else
+			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+		return null
+	}
+	
+	
 	private def byte[] getFileContent(String directoryPath, String filename) {
 		checkDirectoryPathAndFileName(directoryPath, filename)
 		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
@@ -183,6 +193,8 @@ abstract class FileManager implements IFileManager {
 	abstract def void performFileDeletion(String directoryPath, String filename)
 	
 	abstract def byte[] readFileContent(String directoryPath, String filename)
+	
+	abstract def String readFileContentAsString(String directoryPath, String filename)
 	
 	abstract def boolean fileExists(String directoryPath, String filename)
 	

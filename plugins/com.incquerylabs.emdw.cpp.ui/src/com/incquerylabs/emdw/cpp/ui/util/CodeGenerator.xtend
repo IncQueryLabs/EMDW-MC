@@ -14,7 +14,6 @@ import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstr
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
-import org.eclipse.core.resources.IFolder
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -26,6 +25,10 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.google.common.collect.ImmutableMap
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 
 class CodeGenerator {
 
@@ -94,10 +97,40 @@ class CodeGenerator {
 		val cppCodeGeneration = new CPPCodeGeneration
 		performCodeGeneration(engine, cppCodeGeneration, cppComponent)
 		
-		val targetFolder = GeneratorHelper.getTargetFolder(cppResource)
-		performFileGeneration(engine, cppComponent, cppCodeGeneration, targetFolder)
+		val generatedCppSourceFiles = <CPPSourceFile, CharSequence>newHashMap
+		val mapperCppDir = getMapperCppDir(cppResource.resourceSet)
+		if(mapperCppDir!=null) {
+			// Map static file sources
+			val mapperFileManager = new BundleFileManager("com.incquerylabs.emdw.cpp.codegeneration")
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, "model/runtime/"+mapperCppDir.name+"/")
+			mapper.execute
+			generatedCppSourceFiles.putAll(mapper.mappedSourceFiles)
+		}
+		generatedCppSourceFiles.putAll(cppCodeGeneration.generatedCPPSourceFiles)
+		val generatedCPPSourceFiles = ImmutableMap.copyOf(generatedCppSourceFiles)
+		
+		val targetFolder = GeneratorHelper.getTargetFolder(cppResource, false)
+		val filegen = new FileAndDirectoryGeneration
+		val fileManager = new EclipseWorkspaceFileManager(targetFolder)
+		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
+		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
+		
+		performFileGeneration(cppComponent, filegen)
+		filegen.execute(mapperCppDir)
 
 		cppCodeGeneration.dispose
+	}
+	
+	def CPPDirectory getMapperCppDir(ResourceSet rs) {
+		val resource = loadCPPRuntimeModelResource(rs)
+		if(resource!=null) {
+			for(obj : resource.contents) {
+				if(obj instanceof CPPDirectory) {
+					return obj
+				}
+			}
+		}
+		return null
 	}
 	
 	def performCppTransformation(AdvancedIncQueryEngine engine, XTComponent xtComponent){
@@ -114,13 +147,7 @@ class CodeGenerator {
 		cppCodeGeneration.execute(cppComponent)
 	}
 	
-	def performFileGeneration(AdvancedIncQueryEngine engine, CPPComponent cppComponent, CPPCodeGeneration cppCodeGeneration, IFolder targetFolder){
-		val generatedCPPSourceFiles = cppCodeGeneration.generatedCPPSourceFiles
-		
-		val filegen = new FileAndDirectoryGeneration
-		val fileManager = new EclipseWorkspaceFileManager(targetFolder)
-		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
-		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
+	def performFileGeneration(CPPComponent cppComponent, FileAndDirectoryGeneration filegen){
 		filegen.execute(cppComponent.headerDirectory)
 		if(cppComponent.bodyDirectory != cppComponent.headerDirectory){
 			filegen.execute(cppComponent.bodyDirectory)
@@ -202,5 +229,15 @@ class CodeGenerator {
 		rs.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),
 			true)
-		}
 	}
+	
+	def loadCPPRuntimeModelResource(ResourceSet rs) {
+		rs.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel", true), 
+			true
+		)
+	}
+}
+	
+	
+	

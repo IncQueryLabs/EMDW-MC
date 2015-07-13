@@ -9,8 +9,8 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -18,7 +18,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.papyrusrt.xtumlrt.common.Model;
 
 import com.google.common.io.Files;
 
@@ -29,8 +31,8 @@ import com.google.common.io.Files;
  */
 public class GeneratorHelper {
 	
-	private final static String generationDirectoryName = "emdw-cpp-gen";
-	private final static String generationProjectName = "com.ericsson.emdw.cpp.generated.code";
+	private final static String generationDirectoryName = "src";
+	private final static String generationProjectPrefix = "com.ericsson.emdw.cpp.generated.code.";
 	
 	/**
 	 * Creates a file into the project that the parameter
@@ -61,23 +63,33 @@ public class GeneratorHelper {
 	 *             If the folder named src doesn't exists or one of the folder
 	 *             or the java file itself can not be created.
 	 * @throws IOException 
+	 * @throws BuildException 
 	 */
 	public static IFile createFileNextToWorkspaceResource(Resource nextTo, String name,
 			Boolean derived, CharSequence content) throws CoreException, IOException {
-		IFolder targetFolder = getTargetFolder(nextTo);
+		IFolder targetFolder = getTargetFolder(nextTo, true);
 		// At the end a new file is created in the target folder.
 		return createFile(targetFolder, name, derived, content, false);
 	}
 	
-	public static IFolder getTargetFolder(Resource resource) throws CoreException, IOException {
+	public static IFolder getTargetFolder(Resource resource, boolean nextToWorkspaceResource) throws CoreException, IOException {
 		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
 		URI resourceUri = resource.getURI();
 		IFile resourceFile = workspaceRoot.getFile(new Path(resourceUri.toPlatformString(true)));
 		IContainer parent;
 		if(resourceFile != null){
-			parent = resourceFile.getParent();
+		    if(nextToWorkspaceResource) {
+		        parent = resourceFile.getParent();
+		    } else {
+		        String name = resourceFile.getName();
+		        EObject object = resource.getContents().get(0);
+		        if(object instanceof Model) {
+		            name = ((Model)object).getName();
+		        }
+		        parent = getOrCreateProject(generationProjectPrefix+name);
+		    }
 		} else {
-			parent = getOrCreateProject(generationProjectName);
+			parent = getOrCreateProject(generationProjectPrefix);
 		}
 		IFolder targetFolder = null;
 		if(parent instanceof IFolder){
@@ -218,21 +230,20 @@ public class GeneratorHelper {
 	}
 
 	public static IProject getOrCreateProject(String name) throws CoreException {
-		 // Referring a project in the workspace by it's name
-		 IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
-		
-		 // If the project is not exist it will be created.
-		 IProgressMonitor monitor = new NullProgressMonitor();
-		 if (!project.exists()) {
-			project.create(monitor);
-		}
-		
-		 // The project should be opened.
-		 project.open(IResource.BACKGROUND_REFRESH, monitor);
-		
-		 // Setting natures of the project
-		 IProjectDescription desc = project.getDescription();
-		 project.setDescription(desc, monitor);
-		 return project;
+        // Referring a project in the workspace by it's name
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IProject project = workspace.getRoot().getProject(name);
+
+        // If the project is not exist it will be created.
+        IProgressMonitor monitor = new NullProgressMonitor();
+        boolean isProjectExist = project.exists();
+        if (!isProjectExist) {
+            project.create(monitor);
+        }
+
+        // The project should be opened.
+        project.open(IResource.BACKGROUND_REFRESH, monitor);
+        
+        return project;
 	 }
 }

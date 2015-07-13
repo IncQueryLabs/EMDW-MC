@@ -28,7 +28,9 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAssociationClass/associationClass"/>
     </genClasses>
     <genClasses image="false" ecoreClass="xtuml.ecore#//XTEvent"/>
-    <genClasses ecoreClass="xtuml.ecore#//XTClassEvent"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTClassEvent">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClassEvent/attributes"/>
+    </genClasses>
     <genClasses ecoreClass="xtuml.ecore#//XTProtocol"/>
     <genClasses ecoreClass="xtuml.ecore#//XTEventTrigger">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTEventTrigger/signal"/>

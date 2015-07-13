@@ -22,8 +22,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="associationClass" lowerBound="1"
         eType="#//XTClass"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XTEvent" abstract="true" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="XTClassEvent" eSuperTypes="#//XTEvent"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTEvent" abstract="true" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//RedefinableElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTClassEvent" eSuperTypes="#//XTEvent">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTProtocol" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Protocol"/>
   <eClassifiers xsi:type="ecore:EClass" name="XTEventTrigger" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Trigger">
     <eStructuralFeatures xsi:type="ecore:EReference" name="signal" eType="#//XTEvent"/>

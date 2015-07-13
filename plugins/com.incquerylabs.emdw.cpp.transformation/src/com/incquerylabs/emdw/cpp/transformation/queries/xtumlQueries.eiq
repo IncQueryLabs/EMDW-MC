@@ -76,15 +76,16 @@ pattern xtPackageInModel(xtPackage : Package, xtModel : Model, cppModel : CPPMod
 }
 
 pattern xtModelPackageInPackage(
-	xtModel : Model,
 	xtParentPackage : Package,
 	xtChildPackage : Package,
 	cppParentPackage : CPPPackage
 ) {
+	Model(xtModel);
 	Model.packages(xtModel, xtParentPackage);
 	find xtPackageSubPackages(xtParentPackage, xtChildPackage);
 	find cppPackages(xtParentPackage, cppParentPackage);
 } or {
+	Model(xtModel);
 	Model.packages(xtModel, xtPackage);
 	find xtPackageSubPackages+(xtPackage, xtParentPackage);
 	find xtPackageSubPackages(xtParentPackage, xtChildPackage);
@@ -145,15 +146,16 @@ pattern xtComponentInModel(
 }
 
 pattern xtComponentInPackage (
-	xtModel : Model,
 	xtParentPackage : Package,
 	xtComponent : XTComponent,
 	cppParentPackage : CPPPackage
 ) {
+	Model(xtModel);
 	Model.packages(xtModel, xtParentPackage);
 	find xtPackageXTComponents(xtParentPackage, xtComponent);
 	find cppPackages(xtParentPackage, cppParentPackage);
 } or {
+	Model(xtModel);
 	Model.packages(xtModel, xtPackage);
 	find xtPackageSubPackages+(xtPackage, xtParentPackage);
 	find xtPackageXTComponents(xtParentPackage, xtComponent);

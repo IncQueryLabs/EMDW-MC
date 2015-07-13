@@ -38,23 +38,13 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 		createCPPPackage => [
 			commonPackage = match.xtPackage
 			ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = match.xtPackage]
-
-			// Creating package directories
-			bodyDir = createCPPDirectory
-			headerDir = bodyDir
-
-			// Creating package files
-			bodyFile = createCPPBodyFile
-			bodyDir.files += bodyFile
-			headerFile = createCPPHeaderFile
-			headerDir.files += headerFile
+			it.createPackageFiles
 		]
 	}
 	
 	override protected insertCppObject(CPPPackage cppPackage, XtPackageInModelMatch match) {
 		val parent = match.cppModel
-		parent.headerDir.subDirectories += cppPackage.headerDir
-		parent.bodyDir.subDirectories += cppPackage.bodyDir
+		cppPackage.createDirectories(parent)
 		parent.subElements += cppPackage
 		debug(''' CPPPackage parent: «parent»''')
 	}
@@ -70,13 +60,9 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 	override protected removeCppObject(CPPPackage cppPackage, XtPackageInModelMatch match) {
 		val parent = match.cppModel
 		parent.subElements.remove(cppPackage)
-		
-		parent.headerDir.subDirectories.remove(cppPackage.headerDir)
-		EcoreUtil.remove(cppPackage.headerDir)
-		
+		cppPackage.removeDirectories(parent)
 		EcoreUtil.remove(cppPackage)
 	}
-
 	
 }
 
@@ -98,23 +84,13 @@ class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageI
 		createCPPPackage => [
 			commonPackage = match.xtChildPackage
 			ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = match.xtChildPackage]
-
-			// Creating package directories
-			bodyDir = createCPPDirectory
-			headerDir = bodyDir
-
-			// Creating package files
-			bodyFile = createCPPBodyFile
-			bodyDir.files += bodyFile
-			headerFile = createCPPHeaderFile
-			headerDir.files += headerFile
+			it.createPackageFiles
 		]
 	}
 	
 	override protected insertCppObject(CPPPackage cppPackage, XtModelPackageInPackageMatch match) {
 		val parent = match.cppParentPackage
-		parent.headerDir.subDirectories += cppPackage.headerDir
-		parent.bodyDir.subDirectories += cppPackage.bodyDir
+		cppPackage.createDirectories(parent)
 		parent.subElements += cppPackage
 		debug(''' CPPPackage parent: «parent»''')
 	}
@@ -130,9 +106,7 @@ class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageI
 	override protected removeCppObject(CPPPackage cppPackage, XtModelPackageInPackageMatch match) {
 		val parent = match.cppParentPackage
 		parent.subElements.remove(cppPackage)
-		
-		parent.headerDir.subDirectories.remove(cppPackage.headerDir)
-		EcoreUtil.remove(cppPackage.headerDir)
+		cppPackage.removeDirectories(parent)
 		EcoreUtil.remove(cppPackage)
 	}
 	

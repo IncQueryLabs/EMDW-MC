@@ -6,11 +6,13 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
+import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 
 abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject extends EObject, CppObject extends EObject> extends AbstractMapping<Match> {
 	
 	protected extension val CppmodelFactory cppModelFactory = CppmodelFactory.eINSTANCE
 	protected extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	protected extension val CPPTransformationUtil util = new CPPTransformationUtil 
 	
 	new(IncQueryEngine engine) {
 		super(engine)

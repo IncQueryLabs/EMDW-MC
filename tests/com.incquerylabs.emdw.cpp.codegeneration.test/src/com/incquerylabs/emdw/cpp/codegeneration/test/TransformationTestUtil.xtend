@@ -492,7 +492,7 @@ class TransformationTestUtil {
 		cppPackage
 	}
 	
-	static def createCPPModel(Resource cppResource, Model xtModel) {
+	static def createCPPModelWithCommonDirectory(Resource cppResource, Model xtModel) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
 		val dir = createCPPDirectory
 		val cppModel = cppFactory.createCPPModel => [
@@ -503,6 +503,16 @@ class TransformationTestUtil {
 		]
 		cppResource.contents += cppModel
 		cppResource.contents += dir
+		cppModel
+	}
+	
+	static def createCPPModelWithoutDirectory(Resource cppResource, Model xtModel) {
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
+		val cppModel = cppFactory.createCPPModel => [
+			it.commonModel = xtModel
+			it.ooplNameProvider = provider
+		]
+		cppResource.contents += cppModel
 		cppModel
 	}
 
@@ -548,30 +558,40 @@ class TransformationTestUtil {
 	}
 
 	static def CPPPackage createCPPPackage(CPPModel root, Package xtpackage) {
-		createCPPPackage(root, root.headerDir, xtpackage, null, null)
+		createCPPPackage(root, root.bodyDir, root.headerDir, xtpackage, null, null)
 	}
 
 	static def CPPPackage createCPPPackage(CPPComponent root, Package xtpackage, 
 		CPPHeaderFile headerFile, CPPBodyFile bodyFile
 	) {
-		createCPPPackage(root, root.headerDirectory, xtpackage, headerFile, bodyFile)
+		createCPPPackage(root, root.bodyDirectory, root.headerDirectory, xtpackage, headerFile, bodyFile)
 	}
 
-	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, CPPDirectory rootDir, Package xtpackage, 
+	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, CPPDirectory rootBodyDir, CPPDirectory rootHeaderDir, Package xtpackage, 
 		CPPHeaderFile headerFile, CPPBodyFile bodyFile
 	) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
-		val dir = createCPPDirectoryWithMakeRules
+		val bodyDir = createCPPDirectoryWithMakeRules
+		var CPPDirectory other
+		if(rootBodyDir!=rootHeaderDir) {
+			other = createCPPDirectoryWithMakeRules
+		} else {
+			other = bodyDir
+		}
+		val headerDir = other
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.commonPackage = xtpackage
 			it.ooplNameProvider = provider
-			it.headerDir = dir
-			it.bodyDir = dir
+			it.headerDir = headerDir
+			it.bodyDir = bodyDir
 			it.headerFile = headerFile
 			it.bodyFile = bodyFile
 		]
 		root.subElements += cppPackage
-		rootDir.subDirectories += dir
+		rootBodyDir.subDirectories += bodyDir
+		if(rootBodyDir!=rootHeaderDir) {
+			rootHeaderDir.subDirectories += headerDir
+		}
 		cppPackage
 	}
 
@@ -745,40 +765,35 @@ class TransformationTestUtil {
 		return referenceType
 	}
 
-	static def CPPComponent createCPPComponent(CPPQualifiedNamedElement root, XTComponent xtcomponent,
-		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
-		val cppComponent = cppFactory.createCPPComponent => [
-			it.xtComponent = xtcomponent
-			it.mainHeaderFile = mainheader
-			it.mainBodyFile = mainbody
-			it.declarationHeaderFile = defheader
-			it.declarationHeaderFile = declheader
-			it.ooplNameProvider = provider
-		]
-		root.subElements += cppComponent
-		cppComponent	
-	}
-
 	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPPackage root, XTComponent xtcomponent) {
-		createCPPComponentWithDefaultDirectories(root, root.headerDir, xtcomponent)
+		createCPPComponentWithDefaultDirectories(root, root.bodyDir, root.headerDir, xtcomponent)
 	}
 
-	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, CPPDirectory rootDir, XTComponent xtcomponent) {
+	static def CPPComponent createCPPComponentWithDefaultDirectories(CPPQualifiedNamedElement root, CPPDirectory rootBodyDir, CPPDirectory rootHeaderDir, XTComponent xtcomponent) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
-		val dir = createCPPDirectoryWithMakeRules
+		val bodyDir = createCPPDirectoryWithMakeRules
+		var CPPDirectory other
+		if(rootBodyDir!=rootHeaderDir) {
+			other = createCPPDirectoryWithMakeRules
+		} else {
+			other = bodyDir
+		}
+		val headerDir = other
 		val cppComponent = cppFactory.createCPPComponent => [
 			it.xtComponent = xtcomponent
-			it.mainHeaderFile = createCPPHeaderFile(dir)
-			it.mainBodyFile = createCPPBodyFile(dir)
-			it.declarationHeaderFile = createCPPHeaderFile(dir)
-			it.definitionHeaderFile = createCPPHeaderFile(dir)
+			it.mainHeaderFile = createCPPHeaderFile(headerDir)
+			it.mainBodyFile = createCPPBodyFile(bodyDir)
+			it.declarationHeaderFile = createCPPHeaderFile(headerDir)
+			it.definitionHeaderFile = createCPPHeaderFile(headerDir)
 			it.ooplNameProvider = provider
-			it.headerDirectory = dir
-			it.bodyDirectory = dir
+			it.headerDirectory = headerDir
+			it.bodyDirectory = bodyDir
 		]
 		root.subElements += cppComponent
-		rootDir.subDirectories += dir
+		rootBodyDir.subDirectories += bodyDir
+		if(rootBodyDir!=rootHeaderDir) {
+			rootHeaderDir.subDirectories += headerDir
+		}
 		cppComponent	
 	}
 	

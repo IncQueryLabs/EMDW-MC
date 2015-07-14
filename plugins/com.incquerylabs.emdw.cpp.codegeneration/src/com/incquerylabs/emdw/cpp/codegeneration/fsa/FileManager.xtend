@@ -77,7 +77,7 @@ abstract class FileManager implements IFileManager {
 		existsInFileCache('''«directoryPath»/«filename»''', newContentHash) || existsInFileSystem(directoryPath, filename, newContentHash)	
 	}
 	
-	private def boolean fileNotChanged(String filename, CharSequence content) {
+	private def boolean isExistingFileWithContent(String filename, CharSequence content) {
 		val newContentHash = calculateHash(content)
 		existsInFileCache('''./«filename»''', newContentHash) || existsInFileSystem(filename, newContentHash)	
 	}
@@ -146,11 +146,26 @@ abstract class FileManager implements IFileManager {
 			return false
 		}
 		
-	 	if (!force && fileNotChanged(directoryPath, filename, content)) {
+		if (!force && fileNotChanged(directoryPath, filename, content)) {
 			info(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, filename))
 			return true
 		}
 		
+	 	return ceateFileInExistingDirectory(directoryPath, filename, content, force, useCache)
+	}
+	 
+	override boolean createFile(String filename, CharSequence content, boolean force, boolean useCache) {
+	 	checkFileName(filename)
+		
+	 	if (!force && isExistingFileWithContent(filename, content)) {
+			info(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, "", filename))
+			return true
+		}
+		
+		return ceateFileInExistingDirectory("", filename, content, force, useCache)
+	}
+	
+	private def ceateFileInExistingDirectory(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) {
 		if(fileExists(directoryPath, filename)) {
 			performFileDeletion(directoryPath, filename)
 			performFileCreation(directoryPath, filename, content)
@@ -161,28 +176,6 @@ abstract class FileManager implements IFileManager {
 		}
 		
 		if(useCache) cacheFile(directoryPath, filename, content)
-		
-		return true
-	}
-	 
-	override boolean createFile(String filename, CharSequence content, boolean force, boolean useCache) {
-	 	checkFileName(filename)
-		
-	 	if (!force && fileNotChanged(filename, content)) {
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, ".", filename))
-			return true
-		}
-		
-		if(fileExists("", filename)) {
-			performFileDeletion("", filename)
-			performFileCreation("", filename, content)
-			info(MessageFormat.format(FileManager.messages.FILE_UPDATED, ".", filename))
-		} else {
-			performFileCreation("", filename, content)
-			info(MessageFormat.format(FileManager.messages.FILE_CREATED, ".", filename))
-		}
-		
-		if(useCache) cacheFile(".", filename, content)
 		
 		return true
 	}

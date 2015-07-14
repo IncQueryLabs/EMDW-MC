@@ -55,8 +55,11 @@ class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass>
 		t4.createXTEventTrigger(classEvent, "Trigger4")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		val cppClass = createCPPClass(cppComponent, xtClass, null, null)
+		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
+		val cppClass = createCPPClass(cppComponent, xtClass, 
+			createCPPHeaderFile(cppComponent.headerDirectory), 
+			createCPPBodyFile(cppComponent.bodyDirectory)
+		)
 		cppClass.createCPPEvent(classEvent)
 		cppClass.createCPPEvent(classEvent2)
 		cppClass.createCPPState(s1)

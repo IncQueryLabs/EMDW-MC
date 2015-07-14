@@ -43,7 +43,7 @@ abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject e
 		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
 		//init cpp model
 		val cppResource = createCPPResource(xtModel)
-		val cppModel = createCPPModel(cppResource,xtModel)
+		val cppModel = createCPPModelWithoutDirectory(cppResource,xtModel)
 		val preparedCPPModel = prepareCPPModel1(cppModel)
 		// transform to CPP
 		val fileManager = new EclipseWorkspaceFileManager(cppModel.cppName, "/")
@@ -64,7 +64,7 @@ abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject e
 		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
 		//init cpp model
 		val cppResource = createCPPResource(xtModel)
-		val cppModel = createCPPModel(cppResource,xtModel)
+		val cppModel = createCPPModelWithoutDirectory(cppResource,xtModel)
 		val preparedCPPModel = prepareCPPModel2(cppModel)
 		// transform to CPP
 		val fileManager = new EclipseWorkspaceFileManager(cppModel.cppName, "/")

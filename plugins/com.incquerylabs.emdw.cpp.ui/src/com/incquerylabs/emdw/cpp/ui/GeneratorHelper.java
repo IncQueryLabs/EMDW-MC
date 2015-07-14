@@ -81,7 +81,7 @@ public class GeneratorHelper {
 		    if(nextToWorkspaceResource) {
 		        parent = resourceFile.getParent();
 		    } else {
-		        String name = resourceFile.getName();
+		        String name = resource.getURI().trimFileExtension().lastSegment();
 		        EObject object = resource.getContents().get(0);
 		        if(object instanceof Model) {
 		            name = ((Model)object).getName();

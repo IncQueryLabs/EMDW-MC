@@ -42,7 +42,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
 		//init cpp model
 		val cppResource = createCPPResource(xtModel)
-		val cppModel = createCPPModel(cppResource,xtModel)
+		val cppModel = createCPPModelWithCommonDirectory(cppResource,xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		//transform to CPP
 		transformCppModel(cppModel)

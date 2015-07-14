@@ -68,31 +68,12 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
-		val cppPackageBodyDirectory = createCPPDirectory(cppPackage.eResource)
-		val cppPackageHeaderDirectory = createCPPDirectory(cppPackage.eResource)
-		cppModelHeaderDirectory.subDirectories += cppPackageHeaderDirectory
-		cppModelBodyDirectory.subDirectories += cppPackageBodyDirectory
-		cppPackage.headerDir = cppPackageHeaderDirectory
-		cppPackage.bodyDir = cppPackageBodyDirectory
+		val cppComponent1 = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent1)
 		
-		val cppComponent1 = createCPPComponent(cppPackage, xtComponent1, null, null, null, null)
-		val cppComponent1HeaderDirectory = createCPPDirectory(cppComponent1.eResource)
-		val cppComponent1BodyDirectory = createCPPDirectory(cppComponent1.eResource)
-		cppPackageHeaderDirectory.subDirectories += cppComponent1HeaderDirectory
-		cppPackageBodyDirectory.subDirectories += cppComponent1BodyDirectory
-		cppComponent1.headerDirectory = cppComponent1HeaderDirectory
-		cppComponent1.bodyDirectory = cppComponent1BodyDirectory
+		createCPPComponentWithDefaultDirectories(cppPackage, xtComponent2)
 		
-		val cppComponent2 = createCPPComponent(cppPackage, xtComponent2, null, null, null, null)
-		val cppComponent2HeaderDirectory = createCPPDirectory(cppComponent2.eResource)
-		val cppComponent2BodyDirectory = createCPPDirectory(cppComponent2.eResource)
-		cppPackageHeaderDirectory.subDirectories += cppComponent2HeaderDirectory
-		cppPackageBodyDirectory.subDirectories += cppComponent2BodyDirectory
-		cppComponent2.headerDirectory = cppComponent2HeaderDirectory
-		cppComponent2.bodyDirectory = cppComponent2BodyDirectory
-		
-		val cppClassHeaderFile = createCPPHeaderFile(cppComponent1HeaderDirectory)
-		val cppClassBodyFile = createCPPBodyFile(cppComponent1BodyDirectory)
+		val cppClassHeaderFile = createCPPHeaderFile(cppComponent1.headerDirectory)
+		val cppClassBodyFile = createCPPBodyFile(cppComponent1.bodyDirectory)
 		
 		val cppClass = createCPPClass(cppComponent1, xtClass, cppClassHeaderFile, cppClassBodyFile)
 		cppClass.createCPPEvent(classEvent)
@@ -151,31 +132,12 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
-		val cppPackageBodyDirectory = createCPPDirectory(cppPackage.eResource)
-		val cppPackageHeaderDirectory = createCPPDirectory(cppPackage.eResource)
-		cppModelHeaderDirectory.subDirectories += cppPackageHeaderDirectory
-		cppModelBodyDirectory.subDirectories += cppPackageBodyDirectory
-		cppPackage.headerDir = cppPackageHeaderDirectory
-		cppPackage.bodyDir = cppPackageBodyDirectory
+		createCPPComponentWithDefaultDirectories(cppPackage, xtComponent1)
 		
-		val cppComponent1 = createCPPComponent(cppPackage, xtComponent1, null, null, null, null)
-		val cppComponent1HeaderDirectory = createCPPDirectory(cppComponent1.eResource)
-		val cppComponent1BodyDirectory = createCPPDirectory(cppComponent1.eResource)
-		cppPackageHeaderDirectory.subDirectories += cppComponent1HeaderDirectory
-		cppPackageBodyDirectory.subDirectories += cppComponent1BodyDirectory
-		cppComponent1.headerDirectory = cppComponent1HeaderDirectory
-		cppComponent1.bodyDirectory = cppComponent1BodyDirectory
+		val cppComponent2 = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent2)
 		
-		val cppComponent2 = createCPPComponent(cppPackage, xtComponent2, null, null, null, null)
-		val cppComponent2HeaderDirectory = createCPPDirectory(cppComponent2.eResource)
-		val cppComponent2BodyDirectory = createCPPDirectory(cppComponent2.eResource)
-		cppPackageHeaderDirectory.subDirectories += cppComponent2HeaderDirectory
-		cppPackageBodyDirectory.subDirectories += cppComponent2BodyDirectory
-		cppComponent2.headerDirectory = cppComponent2HeaderDirectory
-		cppComponent2.bodyDirectory = cppComponent2BodyDirectory
-		
-		val cppClassHeaderFile = createCPPHeaderFile(cppComponent2HeaderDirectory)
-		val cppClassBodyFile = createCPPBodyFile(cppComponent2BodyDirectory)
+		val cppClassHeaderFile = createCPPHeaderFile(cppComponent2.headerDirectory)
+		val cppClassBodyFile = createCPPBodyFile(cppComponent2.bodyDirectory)
 		
 		val cppClass = createCPPClass(cppComponent2, xtClass, cppClassHeaderFile, cppClassBodyFile)
 		cppClass.createCPPEvent(classEvent)

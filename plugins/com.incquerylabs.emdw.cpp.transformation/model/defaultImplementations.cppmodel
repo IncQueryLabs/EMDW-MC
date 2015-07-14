@@ -68,6 +68,29 @@
     <containerHeaderIncludes>&lt;vector></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
   </cpp:CPPSequenceImplementation>
+  <cpp:CPPSequenceImplementation
+      containerQualifiedName="::std::vector"
+      anyTemplate="$valueType$ $result$ = $collection$.front();"
+      addTemplate="$collection$.push_back(e);&#xD;&#xA;bool $result$ = true;"
+      addAllTemplate="$collection$.insert($collection$.end(), $values$.begin(), $values$.end());"
+      clearTemplate="$collection$.clear();"
+      cloneTemplate="::std::vector&lt; $variableType$> $result$($collection$);"
+      containsTemplate="bool $result$ = ::std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
+      containsAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
+      countOfTemplate="unsigned int $result$ = $collection$.count(e);"
+      elementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
+      insertElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
+      isEmptyTemplate="bool $result$ = $collection$.empty();"
+      removeTemplate="$collection$.erase($value$);"
+      removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;    $collection$.erase(*it);&#xD;&#xA;}"
+      replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
+      retainAllTemplate="::std::vector&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
+      sizeTemplate="unsigned int $result$ = $collection$.size();"
+      orderedness="ORDERED"
+      uniqueness="UNIQUE">
+    <containerHeaderIncludes>&lt;vector></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+  </cpp:CPPSequenceImplementation>
   <cpp:CPPClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::list"
       anyTemplate="$valueType$ $result$ = $collection$.front();"

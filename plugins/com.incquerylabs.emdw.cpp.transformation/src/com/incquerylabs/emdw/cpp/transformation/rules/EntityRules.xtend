@@ -5,6 +5,7 @@ import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
@@ -16,6 +17,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class EntityRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
@@ -42,16 +44,20 @@ class EntityRules {
 	val entityAttributeRule = createRule.precondition(cppEntityAttributes).action[ match |
 		val cppElement = match.cppElement
 		val attribute = match.attribute
-		val cppAttribute = createCPPAttribute => [
+		val cppAttribute = createCPPAttribute
+		cppElement.subElements += cppAttribute
+		cppAttribute => [
 			commonAttribute = attribute
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = attribute ]
 			if(attribute.multiValue){
 				unnamedSequenceType = generateCPPSequence(attribute)
 			}
 		]
-		cppElement.subElements += cppAttribute
 		trace('''Mapped Attribute «attribute.name» in entity «match.xtEntity.name» to CPPAttribute''')
 		fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppAttribute])
+		if(cppAttribute.unnamedSequenceType != null){
+			fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppAttribute.unnamedSequenceType])
+		}
 		addIncludes(cppAttribute)
 	].build
 	
@@ -60,7 +66,13 @@ class EntityRules {
 		cppSequence.elementType = ooplType
 		trace('''Set CPPSequence type of «typedElement.name» to «ooplType.commonType.name»''')
 	].build
-		
+	
+	@Accessors(PUBLIC_GETTER)
+	val cppSequenceImplementationRule = createRule.precondition(cppSequenceContainerImplementation).action[
+		cppSequence.implementation = containerImplementation
+		trace('''Set CPPSequence implementation to «containerImplementation.containerQualifiedName»''')
+	].build
+	
 	@Accessors(PUBLIC_GETTER)
 	val entityOperationRule = createRule.precondition(cppEntityOperations).action[ match |
 		val cppElement = match.cppElement

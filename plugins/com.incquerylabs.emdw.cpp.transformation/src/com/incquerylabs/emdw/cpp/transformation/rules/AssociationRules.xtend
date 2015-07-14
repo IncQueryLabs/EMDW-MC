@@ -6,6 +6,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
@@ -17,6 +18,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class AssociationRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
@@ -32,7 +34,8 @@ class AssociationRules {
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
-			associationRule
+			associationRule,
+			classReferenceSimpleCollectionTypeRule
 		)
 		transformation.addRules(rules)
 	}
@@ -51,30 +54,38 @@ class AssociationRules {
 		cppClass.referenceStorage += cppReferenceStorage
 		cppClass.subElements += cppRelation
 		trace('''Mapped Association «xtAssociation.name» in Class «xtClass.name» to CPPRelation''')
-		addIncludesForClassReference(cppClass, cppTargetClass, cppClassReference)
+		fireAllCurrent(classReferenceSimpleCollectionTypeRule, [it.classReferenceSimpleCollection == cppClassReference])
 	].build
 	
-	def createClassReference(CPPClass cppTargetClass, XTAssociation xtAssociation){
+	@Accessors(PUBLIC_GETTER)
+	val classReferenceSimpleCollectionTypeRule = createRule.precondition(classReferenceSimpleCollectionContainerImplementation).action[ match |
+		val collection = match.classReferenceSimpleCollection
+		val implementation = match.containerImplementation
+		collection.implementation = implementation
+		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
+	].build
+	
+	def OOPLType createClassReference(CPPClass cppTargetClass, XTAssociation xtAssociation){
 		val xtTargetClass = xtAssociation.target
-		var OOPLType referenceType
 		if (xtAssociation.upperBound != 1){
-			referenceType = createCPPClassRefSimpleCollection => [
+			val referenceType = createCPPClassRefSimpleCollection => [
 				it.commonType = xtTargetClass
 				it.ooplClass = cppTargetClass
 				it.ooplNameProvider = createOOPLExistingNameProvider =>[
 					commonNamedElement = xtTargetClass
 				]
 			]
+			return referenceType
 		} else {
-			referenceType = createCPPClassReference => [
+			val referenceType = createCPPClassReference => [
 				it.commonType = xtTargetClass
 				it.ooplClass = cppTargetClass
 				it.ooplNameProvider = createOOPLExistingNameProvider =>[
 					commonNamedElement = xtTargetClass
 				]
 			]
+			return referenceType
 		}
-		return referenceType
 	}
 	
 	def createReferenceStorage(OOPLType cppClassReference, XTAssociation xtAssociation){

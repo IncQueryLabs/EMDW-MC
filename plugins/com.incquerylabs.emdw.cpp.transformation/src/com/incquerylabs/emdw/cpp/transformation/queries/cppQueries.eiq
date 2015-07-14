@@ -115,3 +115,27 @@ pattern cppAttributeOrParameter(
 	CPPOperation.subElements(cppOperation, cppElement);
 	CPPFormalParameter(cppElement);
 }
+
+// Container implementations
+pattern classReferenceSimpleCollectionContainerImplementation(
+	classReferenceSimpleCollection : CPPClassRefSimpleCollection,
+	containerImplementation : CPPClassRefSimpleCollectionImplementation
+){
+	CPPClassRefSimpleCollection.kind(classReferenceSimpleCollection, collectionKind);
+	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, implementationKind);
+	collectionKind == implementationKind;
+}
+
+pattern cppSequenceContainerImplementation(
+	cppAttribute : CPPAttribute,
+	cppSequence : CPPSequence,
+	containerImplementation : CPPSequenceImplementation
+) {
+	CPPAttribute.unnamedSequenceType(cppAttribute, cppSequence);
+	CPPSequence.orderedness(cppSequence, sequenceOrderedness);
+	CPPSequence.uniqueness(cppSequence, sequenceUniqueness);
+	CPPSequenceImplementation.orderedness(containerImplementation, containerOrderedness);
+	CPPSequenceImplementation.uniqueness(containerImplementation, containerUniqueness);
+	sequenceOrderedness == containerOrderedness;
+	sequenceUniqueness == containerUniqueness;
+}

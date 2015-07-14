@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
-import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
@@ -88,27 +87,15 @@ class IncludeRules {
 	val statemachineRuntimeIncludeRule = createRule.precondition(cppClassStateMachine).action[ match |
 		val cppClass = match.cppClass
 		val cppHeader = cppClass.headerFile
-		val directoryPrefix = getRuntimeDirectoryPrefix(cppClass)
-		val statefulClassExternalHeader = getExternalHeader('''«directoryPrefix»Runtime/StatefulClass.hh''')
-		val eventExternalHeader = getExternalHeader('''«directoryPrefix»Runtime/Event.hh''')
+		val statefulClassExternalHeader = getExternalHeader('''"Runtime/StatefulClass.hh"''')
+		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
 		cppHeader.addInclude(statefulClassExternalHeader, "StatefulClass superclass in Runtime")
 		cppHeader.addInclude(eventExternalHeader, "Evenet class in Runtime")
 	].build
 	
 	def addComponentRuntimeIncludes(CPPComponent cppComponent){
-		val directoryPrefix = getRuntimeDirectoryPrefix(cppComponent)
-		val activeClassExternalHeader = getExternalHeader('''«directoryPrefix»Runtime/ActiveComponent.hh''')
+		val activeClassExternalHeader = getExternalHeader('''"Runtime/ActiveComponent.hh"''')
 		cppComponent.mainHeaderFile.addInclude(activeClassExternalHeader, "ActiveComponent superclass in Runtime")
-	}
-	
-	def getRuntimeDirectoryPrefix(CPPClass cppClass){
-		val directoryChangeCount = cppClass.cppQualifiedName.split("::").size-3
-		'''«FOR i : 0..<directoryChangeCount»../«ENDFOR»'''
-	}
-	
-	def getRuntimeDirectoryPrefix(CPPComponent cppComponent){
-		val directoryChangeCount = cppComponent.cppQualifiedName.split("::").size-2
-		'''«FOR i : 0..<directoryChangeCount»../«ENDFOR»'''
 	}
 	
 	dispatch def addIncludesForMultiplicityElement(CPPAttribute cppAttribute, CPPSourceFile cppSourceFile){
@@ -123,12 +110,15 @@ class IncludeRules {
 	
 	dispatch def void addIncludesForOOPLType(CPPBasicType cppBasicType, CPPSourceFile cppSourceFile, String comment){
 		if(cppBasicType.commonType.name == "String"){
-			cppSourceFile.addInclude(getExternalHeader("string"), comment)
+			cppSourceFile.addInclude(getExternalHeader("<string>"), comment)
 		}
 	}
 	
 	dispatch def void addIncludesForOOPLType(CPPSequence cppSequence, CPPSourceFile cppSourceFile, String comment){
-		cppSourceFile.addInclude(getExternalHeader(cppSequence), comment)
+		val externalHeaders = getExternalHeaders(cppSequence)
+		externalHeaders.forEach[ externalHeader |
+			cppSourceFile.addInclude(externalHeader, comment)
+		]
 		val typeOfSequence = cppSequence.elementType
 		addIncludesForOOPLType(typeOfSequence, cppSourceFile, comment)
 	}
@@ -152,27 +142,14 @@ class IncludeRules {
 		cppClass.bodyFile.includedHeaders += cppClass.headerFile
 	}
 	
-	def addIncludesForClassReference(CPPClass cppClass, CPPClass cppTargetClass, OOPLType cppClassReference) {
-		val cppClassHeader = cppClass.headerFile
-		val cppTargetClassHeader = cppTargetClass.headerFile
-		
-		cppClassHeader.addInclude(cppTargetClassHeader)
-		
-		if(cppClassReference instanceof CPPClassRefSimpleCollection){
-			val externalHeader = getExternalHeader(cppClassReference)
-			cppClassHeader.addInclude(externalHeader, '''CPPClassRefSimpleCollection «cppClassReference.cppName»''')
-		}
-		
+	def getExternalHeaders(CPPClassRefSimpleCollection cppRefCollection) {
+		val externalHeaderNames = cppRefCollection.externalHeaderNames
+		return externalHeaderNames.map[getExternalHeader]
 	}
 	
-	def getExternalHeader(CPPClassRefSimpleCollection cppRefCollection) {
-		val externalHeaderName = cppRefCollection.externalHeaderName
-		return getExternalHeader(externalHeaderName)
-	}
-	
-	def getExternalHeader(CPPSequence cppSequence) {
-		val externalHeaderName = cppSequence.externalHeaderName
-		return getExternalHeader(externalHeaderName)
+	def getExternalHeaders(CPPSequence cppSequence) {
+		val externalHeaderNames = cppSequence.externalHeaderNames
+		return externalHeaderNames.map[getExternalHeader]
 	}
 	
 	def getExternalHeader(String externalHeaderName){
@@ -207,28 +184,11 @@ class IncludeRules {
 		externalHeaderInclusion.comment = '''«externalHeaderInclusion.comment ?: externalHeader.name + " for"» «comment»; '''
 	}
 	
-	def getExternalHeaderName(CPPClassRefSimpleCollection classReferenceSimpleCollection) {
-		val container = classReferenceSimpleCollection.cppContainer
-		getExternalHeaderName(container)
+	def getExternalHeaderNames(CPPClassRefSimpleCollection classReferenceSimpleCollection) {
+		return classReferenceSimpleCollection.implementation.containerHeaderIncludes
 	}
 	
-	def getExternalHeaderName(CPPSequence cppSequence) {
-		val container = cppSequence.cppContainer
-		getExternalHeaderName(container)
-	}
-	
-	def getExternalHeaderName(CPPBasicType cppBasicType) {
-		getExternalHeaderName(cppBasicType.cppName)
-	}
-	
-	def getExternalHeaderName(String containerString) {
-		switch containerString {
-			case "std::list" : return "list"
-			case "std::array" : return "array"
-			case "std::deque" : return "deque"
-			case "std::multiset" : return "set"
-			case "std::set" : return "set"
-			case "std::vector" : return "vector"
-		}
+	def getExternalHeaderNames(CPPSequence cppSequence) {
+		return cppSequence.implementation.containerHeaderIncludes
 	}
 }

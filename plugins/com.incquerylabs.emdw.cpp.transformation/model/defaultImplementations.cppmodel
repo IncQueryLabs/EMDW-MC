@@ -18,7 +18,7 @@
       removeTemplate="$collection$.erase($value$);"
       removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;    $collection$.erase(*it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
-      retainAllTemplate="std::multiset&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::multiset&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();">
     <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
@@ -26,10 +26,10 @@
   <cpp:CPPSequenceImplementation
       containerQualifiedName="::std::set"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
-      addTemplate="std::pair&lt; std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;bool $result$ = result.second;"
+      addTemplate="::std::pair&lt; ::std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;bool $result$ = result.second;"
       addAllTemplate="$collection$.insert($values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
-      cloneTemplate="std::set&lt; $variableType$> $result$($collection$);"
+      cloneTemplate="::std::set&lt; $variableType$> $result$($collection$);"
       containsTemplate="bool $result$ = $collection$.find($value$) != $collection$.end();"
       containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if ($collection$.find(*it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
       countOfTemplate="int $result$ = $collection$.count(e);"
@@ -39,10 +39,12 @@
       removeTemplate="$collection$.erase($value$);"
       removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;    $collection$.erase(*it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
-      retainAllTemplate="std::set&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::set&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
       uniqueness="UNIQUE">
     <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
   </cpp:CPPSequenceImplementation>
   <cpp:CPPSequenceImplementation
       containerQualifiedName="::std::vector"
@@ -51,8 +53,8 @@
       addAllTemplate="$collection$.insert($collection$.end(), $values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
       cloneTemplate="::std::vector&lt; $variableType$> $result$($collection$);"
-      containsTemplate="bool $result$ = std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
-      containsAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
+      containsTemplate="bool $result$ = ::std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
+      containsAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
       countOfTemplate="unsigned int $result$ = $collection$.count(e);"
       elementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
       insertElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
@@ -60,10 +62,11 @@
       removeTemplate="$collection$.erase($value$);"
       removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;    $collection$.erase(*it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
-      retainAllTemplate="std::vector&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::vector&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
       orderedness="ORDERED">
     <containerHeaderIncludes>&lt;vector></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
   </cpp:CPPSequenceImplementation>
   <cpp:CPPClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::list"
@@ -72,18 +75,20 @@
       addAllTemplate="$collection$.insert($collection$.end(), $values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
       cloneTemplate="::std::list&lt; $valueType$> $result$($collection$);"
-      containsTemplate="bool $result$ = std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
-      containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
-      countOfTemplate="unsigned int $result$ = std::count($collection$.begin(), $collection$.end(), $value$);"
-      elementAtIndexTemplate="std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$valueType$ $result$ = *it;"
-      insertElementAtIndexTemplate="std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$collection$.insert(it, $value$);"
+      containsTemplate="bool $result$ = ::std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
+      containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
+      countOfTemplate="unsigned int $result$ = ::std::count($collection$.begin(), $collection$.end(), $value$);"
+      elementAtIndexTemplate="::std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$valueType$ $result$ = *it;"
+      insertElementAtIndexTemplate="::std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$collection$.insert(it, $value$);"
       isEmptyTemplate="bool $result$ = $collection$.empty();"
-      removeTemplate="$collection$.erase(std::remove($collection$.begin(), $collection$.end(), $value$), $collection$.end());"
-      removeAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;$collection$.erase(std::remove($collection$.begin(), $collection$.end(), *it), $collection$.end());&#xD;&#xA;}"
-      replaceElementAtIndexTemplate="std::list&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$collection$.insert($collection$.erase(it), $value$);"
-      retainAllTemplate="std::list&lt; int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      removeTemplate="$collection$.erase(::std::remove($collection$.begin(), $collection$.end(), $value$), $collection$.end());"
+      removeAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;$collection$.erase(::std::remove($collection$.begin(), $collection$.end(), *it), $collection$.end());&#xD;&#xA;}"
+      replaceElementAtIndexTemplate="::std::list&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$collection$.insert($collection$.erase(it), $value$);"
+      retainAllTemplate="::std::list&lt; int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();">
     <containerHeaderIncludes>&lt;list></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
   </cpp:CPPClassRefSimpleCollectionImplementation>
   <cpp:CPPClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::list"
@@ -92,19 +97,21 @@
       addAllTemplate="$collection$.insert($collection$.end(), $values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
       cloneTemplate="::std::list&lt; $valueType$> $result$($collection$);"
-      containsTemplate="bool $result$ = std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
-      containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
-      countOfTemplate="unsigned int $result$ = std::count($collection$.begin(), $collection$.end(), $value$);"
-      elementAtIndexTemplate="std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$valueType$ $result$ = *it;"
-      insertElementAtIndexTemplate="std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$collection$.insert(it, $value$);"
+      containsTemplate="bool $result$ = ::std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
+      containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
+      countOfTemplate="unsigned int $result$ = ::std::count($collection$.begin(), $collection$.end(), $value$);"
+      elementAtIndexTemplate="::std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$valueType$ $result$ = *it;"
+      insertElementAtIndexTemplate="::std::list&lt; $valueType$>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$collection$.insert(it, $value$);"
       isEmptyTemplate="bool $result$ = $collection$.empty();"
-      removeTemplate="$collection$.erase(std::remove($collection$.begin(), $collection$.end(), $value$), $collection$.end());"
-      removeAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;$collection$.erase(std::remove($collection$.begin(), $collection$.end(), *it), $collection$.end());&#xD;&#xA;}"
-      replaceElementAtIndexTemplate="std::list&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$collection$.insert($collection$.erase(it), $value$);"
-      retainAllTemplate="std::list&lt; int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      removeTemplate="$collection$.erase(::std::remove($collection$.begin(), $collection$.end(), $value$), $collection$.end());"
+      removeAllTemplate="$valuesType$&lt; $valueType>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;$collection$.erase(::std::remove($collection$.begin(), $collection$.end(), *it), $collection$.end());&#xD;&#xA;}"
+      replaceElementAtIndexTemplate="::std::list&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$collection$.insert($collection$.erase(it), $value$);"
+      retainAllTemplate="::std::list&lt; int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
       kind="DOUBLY_LINKED_LIST">
     <containerHeaderIncludes>&lt;list></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
   </cpp:CPPClassRefSimpleCollectionImplementation>
   <cpp:CPPClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::deque"
@@ -113,26 +120,29 @@
       addAllTemplate="$collection$.insert($collection$.end(), $values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
       cloneTemplate="::std::deque&lt; $valueType$> $result$($collection$);"
-      containsTemplate="bool $result$ = std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
-      containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
-      countOfTemplate="unsigned int $result$ = std::count($collection$.begin(), $collection$.end(), $value$);"
+      containsTemplate="bool $result$ = ::std::find($collection$.begin(), $collection$.end(), $value$) != $collection$.end();"
+      containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($collection$.begin(), $collection$.end(), *it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
+      countOfTemplate="unsigned int $result$ = ::std::count($collection$.begin(), $collection$.end(), $value$);"
       elementAtIndexTemplate="$valueType$ $result$ = $collection$[position];"
-      insertElementAtIndexTemplate="std::deque&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, position);&#xD;&#xA;$collection$.insert(it, e);"
+      insertElementAtIndexTemplate="::std::deque&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, position);&#xD;&#xA;$collection$.insert(it, e);"
       isEmptyTemplate="$result$ = $collection$.empty();"
-      removeTemplate="$collection$.erase(std::remove($collection$.begin(), $collection$.end(), $value$), $collection$.end());"
-      removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;$collection$.erase(std::remove($collection$.begin(), $collection$.end(), *it), $collection$.end());&#xD;&#xA;}"
-      replaceElementAtIndexTemplate="std::list&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;std::advance(it, $index$);&#xD;&#xA;$collection$.insert($collection$.erase(it), $value$);"
-      retainAllTemplate="std::list&lt; int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      removeTemplate="$collection$.erase(::std::remove($collection$.begin(), $collection$.end(), $value$), $collection$.end());"
+      removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;$collection$.erase(::std::remove($collection$.begin(), $collection$.end(), *it), $collection$.end());&#xD;&#xA;}"
+      replaceElementAtIndexTemplate="::std::list&lt; int>::iterator it = $collection$.begin();&#xD;&#xA;::std::advance(it, $index$);&#xD;&#xA;$collection$.insert($collection$.erase(it), $value$);"
+      retainAllTemplate="::std::list&lt; int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
       kind="DOUBLE_ENDED_QUEUE">
     <containerHeaderIncludes>&lt;deque></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
   </cpp:CPPClassRefSimpleCollectionImplementation>
   <cpp:CPPClassRefAssocCollectionImplementation
+      containerQualifiedName="::std::set"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
-      addTemplate="std::pair&lt; std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;bool $result$ = result.second;"
+      addTemplate="::std::pair&lt; ::std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;bool $result$ = result.second;"
       addAllTemplate="$collection$.insert($values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
-      cloneTemplate="std::set&lt; $variableType$> $result$($collection$);"
+      cloneTemplate="::std::set&lt; $variableType$> $result$($collection$);"
       containsTemplate="bool $result$ = $collection$.find($value$) != $collection$.end();"
       containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if ($collection$.find(*it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
       countOfTemplate="int $result$ = $collection$.count(e);"
@@ -142,15 +152,20 @@
       removeTemplate="$collection$.erase($value$);"
       removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;    $collection$.erase(*it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
-      retainAllTemplate="std::set&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::set&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
-      kind="ORDERED_SET"/>
+      kind="ORDERED_SET">
+    <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
+  </cpp:CPPClassRefAssocCollectionImplementation>
   <cpp:CPPClassRefAssocCollectionImplementation
+      containerQualifiedName="::std::multiset"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
       addTemplate="$collection$.insert($value$);&#xD;&#xA;bool $result$ = true;"
       addAllTemplate="$collection$.insert($values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
-      cloneTemplate="std::multiset&lt; $valueType$> $result$($collection$);"
+      cloneTemplate="::std::multiset&lt; $valueType$> $result$($collection$);"
       containsTemplate="bool $result$ = $collection$.find($value$) != $collection$.end();"
       containsAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if ($collection$.find(*it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
       countOfTemplate="int $result$ = $collection$.count(e);"
@@ -160,15 +175,19 @@
       removeTemplate="$collection$.erase($value$);"
       removeAllTemplate="$valuesType$&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;    $collection$.erase(*it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of set)"
-      retainAllTemplate="std::multiset&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::multiset&lt; $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;    if (::std::find($values$.begin(), $values$.end(), *it) == $values$.end())&#xD;&#xA;        $collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
-      kind="ORDERED_MULTISET"/>
+      kind="ORDERED_MULTISET">
+    <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+  </cpp:CPPClassRefAssocCollectionImplementation>
   <cpp:CPPClassRefAssocCollectionImplementation
+      containerQualifiedName="::std::multimap"
       anyTemplate="$valueType$ $result$ = (*$collection$.begin()).second;"
-      addTemplate="$collection$.insert(std::make_pair($key$, $value$));&#xD;&#xA;bool $result$ = true;"
+      addTemplate="$collection$.insert(::std::make_pair($key$, $value$));&#xD;&#xA;bool $result$ = true;"
       addAllTemplate="$collection$.insert($values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
-      cloneTemplate="std::multimap&lt; $keyType$, $valueType$> $result$($collection$);"
+      cloneTemplate="::std::multimap&lt; $keyType$, $valueType$> $result$($collection$);"
       containsTemplate="bool $result$ = $collection$.find($key$) != $collection$.end();"
       containsAllTemplate="$valueTypes$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if ($collection$.find(*it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
       countOfTemplate="unsigned int $result$ = $collection$.count($key$);"
@@ -176,17 +195,22 @@
       insertElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of map)"
       isEmptyTemplate="bool $result$ = $collection$.empty();"
       removeTemplate="$collection$.erase($value$);"
-      removeAllTemplate="std::multimap&lt; $keyType$, $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($values$.begin(), $values$.end(), (*it).first) != $values$.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      removeAllTemplate="::std::multimap&lt; $keyType$, $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($values$.begin(), $values$.end(), (*it).first) != $values$.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of map)"
-      retainAllTemplate="std::multimap&lt; int, int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find(keysequence.begin(), keysequence.end(), (*it).first) == keysequence.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::multimap&lt; int, int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find(keysequence.begin(), keysequence.end(), (*it).first) == keysequence.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
-      kind="ORDERED_MULTIMAP"/>
+      kind="ORDERED_MULTIMAP">
+    <containerHeaderIncludes>&lt;map></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
+  </cpp:CPPClassRefAssocCollectionImplementation>
   <cpp:CPPClassRefAssocCollectionImplementation
+      containerQualifiedName="::std::map"
       anyTemplate="$valueType$ $result$ = (*$collection$.begin()).second;"
-      addTemplate="std::pair&lt; std::_Rb_tree_iterator&lt; std::pair&lt; const $keyType$, $valueType$> >, bool> result = map.insert(std::make_pair($key$, $value$));&#xD;&#xA;bool $result$ = result.second;"
+      addTemplate="::std::pair&lt; ::std::_Rb_tree_iterator&lt; ::std::pair&lt; const $keyType$, $valueType$> >, bool> result = map.insert(::std::make_pair($key$, $value$));&#xD;&#xA;bool $result$ = result.second;"
       addAllTemplate="$collection$.insert($values$.begin(), $values$.end());"
       clearTemplate="$collection$.clear();"
-      cloneTemplate="std::map&lt; $keyType$, $valueType$> $result$($collection$);"
+      cloneTemplate="::std::map&lt; $keyType$, $valueType$> $result$($collection$);"
       containsTemplate="bool $result$ = $collection$.find($key$) != $collection$.end();"
       containsAllTemplate="$valueTypes$&lt; $valueType$>::iterator it;&#xD;&#xA;bool $result$ = true;&#xD;&#xA;for (it = $values$.begin(); it != $values$.end(); it++) {&#xD;&#xA;&#x9;if ($collection$.find(*it) == $collection$.end()) {&#xD;&#xA;&#x9;&#x9;$result$ = false;&#xD;&#xA;&#x9;&#x9;break;&#xD;&#xA;&#x9;}&#xD;&#xA;}"
       countOfTemplate="unsigned int $result$ = $collection$.count($key$);"
@@ -194,9 +218,13 @@
       insertElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of map)"
       isEmptyTemplate="bool $result$ = $collection$.empty();"
       removeTemplate="$collection$.erase($value$);"
-      removeAllTemplate="std::map&lt; $keyType$, $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find($values$.begin(), $values$.end(), (*it).first) != $values$.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      removeAllTemplate="::std::map&lt; $keyType$, $valueType$>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find($values$.begin(), $values$.end(), (*it).first) != $values$.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       replaceElementAtIndexTemplate="// Unsupported operation (the concept of index makes no sense in case of map)"
-      retainAllTemplate="std::map&lt; int, int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (std::find(keysequence.begin(), keysequence.end(), (*it).first) == keysequence.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
+      retainAllTemplate="::std::map&lt; int, int>::iterator it;&#xD;&#xA;for (it = $collection$.begin(); it != $collection$.end(); it++) {&#xD;&#xA;&#x9;if (::std::find(keysequence.begin(), keysequence.end(), (*it).first) == keysequence.end())&#xD;&#xA;&#x9;&#x9;$collection$.erase(it);&#xD;&#xA;}"
       sizeTemplate="unsigned int $result$ = $collection$.size();"
-      kind="ORDERED_MAP"/>
+      kind="ORDERED_MAP">
+    <containerHeaderIncludes>&lt;map></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
+    <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
+  </cpp:CPPClassRefAssocCollectionImplementation>
 </xmi:XMI>

@@ -40,7 +40,7 @@ class ComponentRulesMkTest extends MakeBaseTest<State, CPPModel> {
 		val cppComponent = cppPackage.subElements.get(0) as CPPComponent
 		assertNotNull(cppComponent)
 		val headerDir = cppComponent.headerDirectory
-		val rules = rules.get(headerDir)
+		val rules = rules.get(headerDir.makeRulesFile)
 		assertNotNull(rules)
 		assertTrue(rules.toString.contains("sp	:= $(basename $(sp))"))
 		assertFalse(rules.toString.contains("dir := 	$(d)/"))
@@ -64,10 +64,12 @@ class PackageRulesMkTest extends MakeBaseTest<State, CPPModel> {
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
-		val cppInnerPackage = createCPPPackage(cppComponent, xtInnerPackage)
+		val cppPackageHeader = createCPPHeaderFile(cppComponent.headerDirectory)
+		val cppPackageBody = createCPPBodyFile(cppComponent.bodyDirectory)
+		val cppInnerPackage = createCPPPackage(cppComponent, xtInnerPackage, cppPackageHeader, cppPackageBody)
 		val cppClassHeader = createCPPHeaderFile(cppInnerPackage.headerDir)
-		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
-		createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)
+		val cppClassBody = createCPPBodyFile(cppInnerPackage.bodyDir)
+		createCPPClass(cppInnerPackage, xtClass, cppClassHeader, cppClassBody)
 		
 		cppModel
 	}
@@ -80,14 +82,14 @@ class PackageRulesMkTest extends MakeBaseTest<State, CPPModel> {
 		assertNotNull(cppComponent)
 		
 		val headerDir = cppComponent.headerDirectory
-		val cppComponentRules = rules.get(headerDir)
+		val cppComponentRules = rules.get(headerDir.makeRulesFile)
 		assertNotNull(cppComponentRules)
 		assertTrue(cppComponentRules.toString.contains("sp	:= $(basename $(sp))"))
 		assertTrue(cppComponentRules.toString.contains("dir := 	$(d)/InnerPack"))
 		
 		val cppInnerPackage = cppComponent.subElements.get(0) as CPPPackage
 		val cppInnerPackageheaderDir = cppInnerPackage.headerDir
-		val cppInnerPackageRules = rules.get(cppInnerPackageheaderDir)
+		val cppInnerPackageRules = rules.get(cppInnerPackageheaderDir.makeRulesFile)
 		assertNotNull(cppInnerPackageRules)
 		assertTrue(cppInnerPackageRules.toString.contains("sp	:= $(basename $(sp))"))
 		assertFalse(cppInnerPackageRules.toString.contains("dir := 	$(d)/"))

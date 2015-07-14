@@ -77,6 +77,11 @@ abstract class FileManager implements IFileManager {
 		existsInFileCache('''«directoryPath»/«filename»''', newContentHash) || existsInFileSystem(directoryPath, filename, newContentHash)	
 	}
 	
+	private def boolean fileNotChanged(String filename, CharSequence content) {
+		val newContentHash = calculateHash(content)
+		existsInFileCache('''./«filename»''', newContentHash) || existsInFileSystem(filename, newContentHash)	
+	}
+	
 	private def cacheFile(String directoryPath, String filename, CharSequence content) {
 		fileHashCache.put('''«directoryPath»/«filename»''', calculateHash(content))
 	}
@@ -89,6 +94,13 @@ abstract class FileManager implements IFileManager {
 	// Check file system
 	private def boolean existsInFileSystem(String directoryPath, String filename, String contentHash) {
 		val fileSystemContent = getFileContent(directoryPath, filename)
+		if(fileSystemContent == null)
+			return false
+		else
+			calculateHash(fileSystemContent).equals(contentHash)
+	}
+	private def boolean existsInFileSystem(String filename, String contentHash) {
+		val fileSystemContent = getFileContent(filename)
 		if(fileSystemContent == null)
 			return false
 		else
@@ -122,6 +134,10 @@ abstract class FileManager implements IFileManager {
 	 	checkStringArgument(directoryPath, "Directory path")
 		checkStringArgument(filename, "Filename")
 	}
+	
+	 private def checkFileName(String filename) {
+		checkStringArgument(filename, "Filename")
+	}
 	 
 	override boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) {
 	 	checkDirectoryPathAndFileName(directoryPath, filename)
@@ -145,6 +161,28 @@ abstract class FileManager implements IFileManager {
 		}
 		
 		if(useCache) cacheFile(directoryPath, filename, content)
+		
+		return true
+	}
+	 
+	override boolean createFile(String filename, CharSequence content, boolean force, boolean useCache) {
+	 	checkFileName(filename)
+		
+	 	if (!force && fileNotChanged(filename, content)) {
+			info(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, ".", filename))
+			return true
+		}
+		
+		if(fileExists("", filename)) {
+			performFileDeletion("", filename)
+			performFileCreation("", filename, content)
+			info(MessageFormat.format(FileManager.messages.FILE_UPDATED, ".", filename))
+		} else {
+			performFileCreation("", filename, content)
+			info(MessageFormat.format(FileManager.messages.FILE_CREATED, ".", filename))
+		}
+		
+		if(useCache) cacheFile(".", filename, content)
 		
 		return true
 	}
@@ -185,6 +223,14 @@ abstract class FileManager implements IFileManager {
 			return readFileContent(directoryPath, filename)
 		else
 			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+		return null
+	}
+	private def byte[] getFileContent(String filename) {
+		checkFileName(filename)
+		if(fileExists("", filename))
+			return readFileContent("", filename)
+		else
+			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, ".", filename))
 		return null
 	}
 	

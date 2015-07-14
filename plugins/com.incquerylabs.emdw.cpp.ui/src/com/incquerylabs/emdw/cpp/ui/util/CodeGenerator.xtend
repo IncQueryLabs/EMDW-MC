@@ -15,7 +15,6 @@ import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstr
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
-import org.eclipse.core.resources.IFolder
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -33,6 +32,9 @@ import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import org.eclipse.emf.ecore.resource.Resource
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
+import java.util.Map
+import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 
 class CodeGenerator {
 
@@ -100,20 +102,19 @@ class CodeGenerator {
 		performCppTransformation(engine, xtComponent)
 		cppResource.save(null)
 		
+		val generatedCppSourceFiles = <CPPSourceFile, CharSequence>newHashMap
+		val mapperCppDir = getMapperCppDir(cppResource.resourceSet)
+		generatedCppSourceFiles.putAll(mapRuntime(mapperCppDir))
+		
 		val cppComponent = engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
 		val cppCodeGeneration = new CPPCodeGeneration
 		performCodeGeneration(engine, cppCodeGeneration, cppComponent)
-		
-		val generatedCppSourceFiles = <CPPSourceFile, CharSequence>newHashMap
-		val mapperCppDir = getMapperCppDir(cppResource.resourceSet)
-		if(mapperCppDir!=null) {
-			// Map static file sources
-			val mapperFileManager = new BundleFileManager("com.incquerylabs.emdw.cpp.codegeneration")
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, "model/runtime/"+mapperCppDir.name+"/")
-			mapper.execute
-			generatedCppSourceFiles.putAll(mapper.mappedSourceFiles)
-		}
 		generatedCppSourceFiles.putAll(cppCodeGeneration.generatedCPPSourceFiles)
+		
+		val makefileGeneration = new MakefileGeneration
+		val makefileContent = performMakefileGeneration(makefileGeneration, cppModel, mapperCppDir)
+		generatedCppSourceFiles.putAll(makefileGeneration.generatedCPPMakeFiles)
+		
 		val generatedCPPSourceFiles = ImmutableMap.copyOf(generatedCppSourceFiles)
 		
 		val targetFolder = GeneratorHelper.getTargetFolder(cppResource, false)
@@ -122,10 +123,22 @@ class CodeGenerator {
 		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
 		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
 		
-		performFileGeneration(engine, cppComponent, cppCodeGeneration, targetFolder)
+		performFileGeneration(engine, cppModel, cppCodeGeneration, filegen, fileManager)
 		filegen.execute(mapperCppDir)
 
+		fileManager.createFile("Makefile", makefileContent, true, false)
+		
 		cppCodeGeneration.dispose
+	}
+	
+	def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
+		if(mapperCppDir!=null) {
+			// Map static file sources
+			val mapperFileManager = new BundleFileManager("com.incquerylabs.emdw.cpp.codegeneration")
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, "model/runtime/"+mapperCppDir.name+"/")
+			mapper.execute
+			return mapper.mappedSourceFiles
+		}
 	}
 	
 	def CPPDirectory getMapperCppDir(ResourceSet rs) {
@@ -154,16 +167,41 @@ class CodeGenerator {
 		cppCodeGeneration.execute(cppComponent)
 	}
 	
-	def performFileGeneration(AdvancedIncQueryEngine engine, CPPComponent cppComponent, CPPCodeGeneration cppCodeGeneration, IFolder targetFolder){
+	def performMakefileGeneration(MakefileGeneration makefileGeneration, CPPModel cppModel, CPPDirectory... otherDirsForMakefile){
+		Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
+		makefileGeneration.initialize()
+		
+		val listOfDirs = <String>newArrayList
+		listOfDirs.add(cppModel.headerDir.name)
+		if(cppModel.headerDir!=cppModel.bodyDir) {
+			listOfDirs.add(cppModel.bodyDir.name)
+		}
+		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
+		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
+		
+		
+		makefileGeneration.executeRulesMk(cppModel.headerDir)
+		if(cppModel.headerDir!=cppModel.bodyDir) {
+			makefileGeneration.executeRulesMk(cppModel.bodyDir)
+		}
+		
+		return makefileContent
+	}
+	
+	def performFileGeneration(
+		AdvancedIncQueryEngine engine, 
+		CPPModel cppModel, 
+		CPPCodeGeneration cppCodeGeneration, 
+		FileAndDirectoryGeneration filegen,
+		IFileManager fileManager
+	){
 		val generatedCPPSourceFiles = cppCodeGeneration.generatedCPPSourceFiles
 		
-		val filegen = new FileAndDirectoryGeneration
-		val fileManager = new EclipseWorkspaceFileManager(targetFolder)
 		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
 		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
-		filegen.execute(cppComponent.headerDirectory)
-		if(cppComponent.bodyDirectory != cppComponent.headerDirectory){
-			filegen.execute(cppComponent.bodyDirectory)
+		filegen.execute(cppModel.headerDir)
+		if(cppModel.bodyDir != cppModel.headerDir){
+			filegen.execute(cppModel.bodyDir)
 		}
 	}
 	
@@ -178,7 +216,11 @@ class CodeGenerator {
 				]
 			}
 		} else {
-			val rootDirectory = createCPPDirectory
+			val makeRulesFile = createCPPMakeFile
+			val rootDirectory = createCPPDirectory => [
+				it.makeRulesFile = makeRulesFile
+				it.files += makeRulesFile
+			]
 			cppModel = createCPPModel => [
 				commonModel = xtmodel
 				ooplNameProvider = createOOPLExistingNameProvider => [
@@ -207,7 +249,11 @@ class CodeGenerator {
 		val cppResource = cppModel.eResource
 		val cppComponentMatcher = getCppComponents(engine)
 		if (!cppComponentMatcher.hasMatch(xtComponent, null)) {
-			val componentDirectory = cppFactory.createCPPDirectory
+			val makeRulesF = cppFactory.createCPPMakeFile
+			val componentDirectory = cppFactory.createCPPDirectory => [
+				it.makeRulesFile = makeRulesF
+			]
+			componentDirectory.files += makeRulesF
 			cppResource.contents += componentDirectory
 			val cppComponent = createCppComponent(componentDirectory, xtComponent)
 			cppModel.subElements += cppComponent
@@ -217,6 +263,18 @@ class CodeGenerator {
 				cppComponent.ooplNameProvider = createOOPLExistingNameProvider => [
 					commonNamedElement = xtComponent
 				]
+			}
+			val headerDir = cppComponent.headerDirectory
+			if(headerDir.makeRulesFile == null) {
+				val makeRulesF = createCPPMakeFile
+				headerDir.makeRulesFile = makeRulesF
+				headerDir.files += makeRulesF
+			}
+			val bodyDir = cppComponent.bodyDirectory
+			if(bodyDir != headerDir && bodyDir.makeRulesFile == null) {
+				val makeRulesF = createCPPMakeFile
+				bodyDir.makeRulesFile = makeRulesF
+				bodyDir.files += makeRulesF
 			}
 		}
 	}

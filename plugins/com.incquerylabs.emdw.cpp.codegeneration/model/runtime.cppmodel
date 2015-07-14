@@ -12,10 +12,11 @@
       <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="StatefulClass"/>
     </subElements>
   </cpp:CPPPackage>
-  <cpp:CPPDirectory>
+  <cpp:CPPDirectory makeRulesFile="/1/@files.4">
     <files xsi:type="cpp:CPPBodyFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPMakeFile"/>
   </cpp:CPPDirectory>
 </xmi:XMI>

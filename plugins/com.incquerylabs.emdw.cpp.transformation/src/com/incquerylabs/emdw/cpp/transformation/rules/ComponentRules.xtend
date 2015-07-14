@@ -66,6 +66,12 @@ class ComponentRules {
 			cppComponent.definitionHeaderFile.includedHeaders.clear
 			headerDirectory.files += cppComponent.definitionHeaderFile
 		}
+		if(cppComponent.headerDirectory.makeRulesFile != null) {
+			cppComponent.headerDirectory.files += cppComponent.headerDirectory.makeRulesFile
+		}
+		if(cppComponent.bodyDirectory != cppComponent.headerDirectory && cppComponent.bodyDirectory.makeRulesFile != null) {
+			cppComponent.bodyDirectory.files += cppComponent.bodyDirectory.makeRulesFile
+		}
 		
 		trace('''Cleaned Component «cppComponent.xtComponent.name»''')
 	].build

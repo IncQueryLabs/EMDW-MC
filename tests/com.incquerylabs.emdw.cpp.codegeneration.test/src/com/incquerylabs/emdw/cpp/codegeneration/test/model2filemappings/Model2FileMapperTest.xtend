@@ -26,6 +26,7 @@ import org.junit.runners.Parameterized.Parameters
 
 import static com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPMakeFile
 
 @RunWith(Parameterized)
 class Model2FileMapperTest extends TestWithoutParameters{
@@ -146,9 +147,11 @@ class Model2FileMapperTest extends TestWithoutParameters{
 	
 	def assertResult(CPPDirectory cppDir, Map<CPPSourceFile, CharSequence> mappedSourceFiles) {
 		for(file : cppDir.files) {
-			val content = mappedSourceFiles.get(file)
-			assertNotNull(content)
-			assertTrue(content==file.generationName)
+			if(!(file instanceof CPPMakeFile)) {
+				val content = mappedSourceFiles.get(file)
+				assertNotNull(content)
+				assertTrue(content==file.generationName)
+			}
 		}
 	}
 }

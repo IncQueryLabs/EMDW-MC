@@ -84,7 +84,11 @@ class CPPTransformationUtil {
 	}
 	
 	private def createCommonDirectories(CPPDirectory parent, CPPComponent component) {
-		component.bodyDirectory = createCPPDirectory
+		val makeRulesFile = createCPPMakeFile
+		component.bodyDirectory = createCPPDirectory => [
+			it.makeRulesFile = makeRulesFile
+			it.files += makeRulesFile
+		]
 		component.headerDirectory = component.bodyDirectory
 		
 		component.bodyDirectory.files += component.mainBodyFile
@@ -98,8 +102,16 @@ class CPPTransformationUtil {
 	}
 	
 	private def createDiffDirectories(CPPDirectory bodyParent, CPPDirectory headerParent, CPPComponent component) {
-		component.bodyDirectory = createCPPDirectory
-		component.headerDirectory = createCPPDirectory
+		val bodyMakeRulesFile = createCPPMakeFile
+		component.bodyDirectory = createCPPDirectory => [
+			it.makeRulesFile = bodyMakeRulesFile
+			it.files += bodyMakeRulesFile
+		]
+		val headerMakeRulesFile = createCPPMakeFile
+		component.headerDirectory = createCPPDirectory => [
+			it.makeRulesFile = headerMakeRulesFile
+			it.files += headerMakeRulesFile
+		]
 		
 		component.bodyDirectory.files += component.mainBodyFile
 		component.headerDirectory.files += component.mainHeaderFile
@@ -113,7 +125,11 @@ class CPPTransformationUtil {
 	}
 	
 	private def createCommonDirectories(CPPDirectory parent, CPPPackage pack) {
-		pack.bodyDir = createCPPDirectory
+		val makeRulesFile = createCPPMakeFile
+		pack.bodyDir = createCPPDirectory => [
+			it.makeRulesFile = makeRulesFile
+			it.files += makeRulesFile
+		]
 		pack.headerDir = pack.bodyDir
 		
 		pack.bodyDir.files += pack.bodyFile
@@ -125,8 +141,16 @@ class CPPTransformationUtil {
 	}
 	
 	private def createDiffDirectories(CPPDirectory bodyParent, CPPDirectory headerParent, CPPPackage pack) {
-		pack.bodyDir = createCPPDirectory
-		pack.headerDir = createCPPDirectory
+		val bodyMakeRulesFile = createCPPMakeFile
+		pack.bodyDir = createCPPDirectory => [
+			it.makeRulesFile = bodyMakeRulesFile
+			it.files += bodyMakeRulesFile
+		]
+		val headerMakeRulesFile = createCPPMakeFile
+		pack.headerDir = createCPPDirectory => [
+			it.makeRulesFile = headerMakeRulesFile
+			it.files += headerMakeRulesFile
+		]
 		
 		bodyParent.subDirectories += pack.bodyDir
 		headerParent.subDirectories += pack.headerDir

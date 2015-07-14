@@ -72,13 +72,18 @@ class PackageRules {
 	}
 	
 	protected def createCppPackage(Package xtPackage, CPPDirectory parentDir){
+		val makeRulesF = createCPPMakeFile
+		val dir = createCPPDirectory => [
+			it.makeRulesFile = makeRulesF
+		]
+		dir.files += makeRulesF
 		val cppPackage = createCPPPackage => [
 			// Setting name and common package
 			commonPackage = xtPackage
 			ooplNameProvider = createOOPLExistingNameProvider => [commonNamedElement = xtPackage]
 
 			// Creating package directories
-			bodyDir = createCPPDirectory
+			bodyDir = dir
 			headerDir = bodyDir
 			parentDir.subDirectories += bodyDir
 

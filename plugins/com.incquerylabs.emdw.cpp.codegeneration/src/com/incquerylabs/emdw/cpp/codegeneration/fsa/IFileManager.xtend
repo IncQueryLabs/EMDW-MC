@@ -22,6 +22,8 @@ interface IFileManager {
 	 */
 	def boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache)
 	
+	def boolean createFile(String filename, CharSequence content, boolean force, boolean useCache)
+	
 	def boolean deleteFile(String directoryPath, String filename)
 	
 	def boolean checkFileContent(String directoryPath, String filename, CharSequence content)

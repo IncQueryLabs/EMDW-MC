@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="com.incquerylabs.uml.ralf.feature"
-      label="Reduced Alf Language SDK"
+      label="EMDW Reduced Alf Language SDK"
       version="1.0.0.qualifier"
       provider-name="IncQuery Labs Ltd.">
 

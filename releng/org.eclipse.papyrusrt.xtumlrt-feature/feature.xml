@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.papyrusrt.xtumlrt-feature"
-      label="PapyrusRT xtUMLrt"
+      label="EMDW PapyrusRT xtUMLrt"
       version="1.0.0.qualifier"
       provider-name="Zeligsoft (2009) Limited">
 

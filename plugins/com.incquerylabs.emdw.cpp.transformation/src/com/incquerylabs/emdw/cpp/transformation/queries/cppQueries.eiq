@@ -121,9 +121,8 @@ pattern classReferenceSimpleCollectionContainerImplementation(
 	classReferenceSimpleCollection : CPPClassRefSimpleCollection,
 	containerImplementation : CPPClassRefSimpleCollectionImplementation
 ){
-	CPPClassRefSimpleCollection.kind(classReferenceSimpleCollection, collectionKind);
-	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, implementationKind);
-	collectionKind == implementationKind;
+	CPPClassRefSimpleCollection.kind(classReferenceSimpleCollection, kind);
+	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
 }
 
 pattern cppSequenceContainerImplementation(
@@ -132,10 +131,8 @@ pattern cppSequenceContainerImplementation(
 	containerImplementation : CPPSequenceImplementation
 ) {
 	CPPAttribute.unnamedSequenceType(cppAttribute, cppSequence);
-	CPPSequence.orderedness(cppSequence, sequenceOrderedness);
-	CPPSequence.uniqueness(cppSequence, sequenceUniqueness);
-	CPPSequenceImplementation.orderedness(containerImplementation, containerOrderedness);
-	CPPSequenceImplementation.uniqueness(containerImplementation, containerUniqueness);
-	sequenceOrderedness == containerOrderedness;
-	sequenceUniqueness == containerUniqueness;
+	CPPSequence.orderedness(cppSequence, orderedness);
+	CPPSequence.uniqueness(cppSequence, uniqueness);
+	CPPSequenceImplementation.orderedness(containerImplementation, orderedness);
+	CPPSequenceImplementation.uniqueness(containerImplementation, uniqueness);
 }

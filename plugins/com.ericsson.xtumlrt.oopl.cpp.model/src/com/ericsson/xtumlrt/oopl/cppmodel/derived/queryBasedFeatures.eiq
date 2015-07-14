@@ -338,21 +338,7 @@ pattern cppClassRefSimpleCollectionCppContainer(
 	source : CPPClassRefSimpleCollection,
 	target
 ) {
-	CPPClassRefSimpleCollection.kind(source, kind);
-	kind == SimpleCollectionKind::INDEXED_ARRAY;
-	target == "std::array";
-} or {
-	CPPClassRefSimpleCollection.kind(source, kind);
-	kind == SimpleCollectionKind::SIMPLY_LINKED_LIST;
-	find simplyLinkedListType(target);
-} or {
-	CPPClassRefSimpleCollection.kind(source, kind);
-	kind == SimpleCollectionKind::DOUBLY_LINKED_LIST;
-	target == "std::list";
-} or {
-	CPPClassRefSimpleCollection.kind(source, kind);
-	kind == SimpleCollectionKind::DOUBLE_ENDED_QUEUE;
-	target == "std::deque";
+	CPPClassRefSimpleCollection.implementation.containerQualifiedName(source, target);
 }
 
 @QueryBasedFeature(feature = "cppContainer")
@@ -360,36 +346,7 @@ pattern cppSequenceCppContainer(
 	source : CPPSequence,
 	target
 ) {
-	CPPSequence.orderedness(source, orderedness); 
-	find sortedOrUnorderedSequenceOrderednessKind(orderedness);
-	CPPSequence.uniqueness(source, uniqueness);
-	uniqueness == SequenceUniquenessKind::NON_UNIQUE;
-	target == "std::multiset";
-} or {
-	CPPSequence.orderedness(source, orderedness); 
-	find sortedOrUnorderedSequenceOrderednessKind(orderedness);
-	CPPSequence.uniqueness(source, uniqueness);
-	uniqueness == SequenceUniquenessKind::UNIQUE;
-	target == "std::set";
-} or {
-	CPPSequence.orderedness(source, orderedness); 
-	orderedness == SequenceOrderednessKind::ORDERED;
-	target == "std::vector";
-}
-
-pattern sortedOrUnorderedSequenceOrderednessKind(orderedness) {
-	orderedness == SequenceOrderednessKind::UNORDERED;
-} or {
-	orderedness == SequenceOrderednessKind::SORTED;
-}
-
-
-// this pattern is for selecting between C++03 and C++11 version of the list depending on the target platform
-pattern simplyLinkedListType(
-	cppContainer
-) {
-	// TODO: select between std::list and std::forward_list depending on platform
-	cppContainer == "std::list";
+	CPPSequence.implementation.containerQualifiedName(source, target);
 }
 
 pattern cppSequenceType(

@@ -57,8 +57,8 @@ class CodeGenerator {
     	}
 		
 		clearCPPModel(engine, xtResourceSet)
-		engine.dispose
 		xformqrt.dispose
+		engine.dispose
 	}
 	
 	def validateXtumlModel(AdvancedIncQueryEngine engine, ExecutionEvent event) {
@@ -96,6 +96,7 @@ class CodeGenerator {
 		val cppResource = cppModel.eResource
 		
 		loadCPPBasicTypes(xtResourceSet)
+		loadDefaultContainerImplementations(xtResourceSet)
 		
 		cppResource.createExternalLibrary
 		
@@ -323,6 +324,12 @@ class CodeGenerator {
 	def loadCPPBasicTypes(ResourceSet rs) {
 		rs.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),
+			true)
+	}
+	
+	def loadDefaultContainerImplementations(ResourceSet rs) {
+		rs.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
 			true)
 	}
 	

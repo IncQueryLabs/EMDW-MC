@@ -49,7 +49,7 @@ abstract class DynamicBehaviorBaseTest extends TransformationTest<Package, CPPDi
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootcppdir)
 		val xtClass = xtComponent.entities.head as XTClass
 		createCPPClass(cppComponent, xtClass, null, null)
 

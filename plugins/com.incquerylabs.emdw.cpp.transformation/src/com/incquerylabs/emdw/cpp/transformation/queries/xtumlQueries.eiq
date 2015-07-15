@@ -308,6 +308,15 @@ pattern cppClasses(
 	CPPClass.xtClass(cppClass, xtClass);
 }
 
+pattern cppComponentStateMachine(
+	cppComponent : CPPComponent,
+	stateMachine : StateMachine
+) {
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+	find xtComponentXTClasses(xtComponent, xtClass);
+	XTClass.behaviour(xtClass, stateMachine);
+}
+
 pattern cppClassStateMachine(
 	xtClass : XTClass,
 	cppClass : CPPClass,

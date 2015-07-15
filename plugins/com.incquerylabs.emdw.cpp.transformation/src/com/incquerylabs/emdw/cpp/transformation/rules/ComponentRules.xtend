@@ -80,12 +80,11 @@ class ComponentRules {
 	val componentRule = createRule.precondition(cppComponents).action[match |
 		val cppComponent = match.cppComponent
 		cppComponent.addIncludesBetweenOwnFiles
-		cppComponent.addComponentRuntimeIncludes
+		fireAllCurrent(includeRules.componentRuntimeIncludesRule, [it.cppComponent == cppComponent])
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
 		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppComponent])
 		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	].build
-	
 }

@@ -92,6 +92,9 @@ class EntityRules {
 			]
 			cppOperation.subElements += cppFormalParameter
 			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
+			if(cppFormalParameter.unnamedSequenceType != null){
+				fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppFormalParameter.unnamedSequenceType])
+			}
 			addIncludes(cppFormalParameter)
 		]
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')

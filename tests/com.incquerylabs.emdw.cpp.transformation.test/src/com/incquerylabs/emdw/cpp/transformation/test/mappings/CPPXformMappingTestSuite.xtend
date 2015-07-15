@@ -10,6 +10,7 @@ import org.junit.runners.Suite.SuiteClasses
 	CPPClassReferenceMappingTestSuite,
 	CPPComponentMappingTestSuite,
 	CPPEventMappingTestSuite,
+	CPPFormalParameterMappingTestSuite,
 	CPPOperationMappingTestSuite,
 	CPPPackageMappingTestSuite,
 	CPPPortMappingTestSuite,

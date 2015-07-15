@@ -8,6 +8,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import org.junit.Ignore
 
 /**
  * Test case which is responsible for checking if the given transformation method is 
@@ -53,7 +54,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
  * 		- Signal3
  * 			-User Defined Type parameter
  */
- @RunWith(Parameterized)
+@Ignore("dynamic behavior tests are not complete")
+@RunWith(Parameterized)
 class EventMultipleTypeTest extends DynamicBehaviorBaseTest {
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)

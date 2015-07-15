@@ -93,10 +93,11 @@ class IncludeRules {
 		cppHeader.addInclude(eventExternalHeader, "Evenet class in Runtime")
 	].build
 	
-	def addComponentRuntimeIncludes(CPPComponent cppComponent){
+	@Accessors(PUBLIC_GETTER)
+	val componentRuntimeIncludesRule = createRule.precondition(cppComponentStateMachine).action[
 		val activeClassExternalHeader = getExternalHeader('''"Runtime/ActiveComponent.hh"''')
 		cppComponent.mainHeaderFile.addInclude(activeClassExternalHeader, "ActiveComponent superclass in Runtime")
-	}
+	].build
 	
 	dispatch def addIncludesForMultiplicityElement(CPPAttribute cppAttribute, CPPSourceFile cppSourceFile){
 		val type = cppAttribute.type

@@ -39,7 +39,9 @@ class CPPAttributeInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
 		val xtClass = component.createXtClass("Class")
-		xtClass.createSingleAttribute(xtClass, VisibilityKind.PUBLIC, false, "Attribute")
+		val xtTypeDef = pack.createTypeDefinition("td")
+		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
+		xtClass.createSingleAttribute(xtType, VisibilityKind.PUBLIC, false, "Attribute")
 		
 		xtClass
 	}
@@ -52,6 +54,7 @@ class CPPAttributeInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
+		createCPPBasicType(cppPackage, xtPackage.typeDefinitions.head.type)
 		
 		cppComponent
 	}

@@ -106,8 +106,10 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
-		val xtClass = component.createXtClass("Class")
-		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", createParameter(xtClass,"Param",DirectionKind.IN))
+		val xtTypeDef = pack.createTypeDefinition("td")
+		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
+		val xtParam = createParameter(xtType,"Param",DirectionKind.IN)
+		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
 		
 		component
 	}
@@ -120,6 +122,7 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
 		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
+		createCPPBasicType(cppPackage, xtPackage.typeDefinitions.head.type)
 		
 		cppComponent
 	}

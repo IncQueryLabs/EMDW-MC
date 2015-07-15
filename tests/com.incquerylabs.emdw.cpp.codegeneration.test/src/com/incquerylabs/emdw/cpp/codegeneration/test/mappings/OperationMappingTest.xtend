@@ -58,7 +58,7 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		// check operation signature in declaration
 		assertTrue(classHeader.contains("TEST::myOp("))
 		assertTrue(classHeader.contains("bool myParam"))
-		assertTrue(classHeader.contains("set< bool > myParam2"))
+		assertTrue(classHeader.contains("::std::set< bool > myParam2"))
 		
 		val classBody = files.get(cppObject.bodyFile).toString
 		// check operation signature in definition

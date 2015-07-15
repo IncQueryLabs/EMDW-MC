@@ -41,7 +41,7 @@ class AttributeMappingTest extends TransformationTest<State, CPPClass> {
 		createCPPAttribute(cppClass, xtAttr)
 		val cppAttr2 = createCPPAttribute(cppClass, xtAttr2)
 		val cppType = createCPPBasicType(cppPackage, xtType)
-		createCPPSequence(cppAttr2, cppType)
+		createCPPSequence(cppAttr2, cppType, false, true)
 		
 		cppClass
 	}

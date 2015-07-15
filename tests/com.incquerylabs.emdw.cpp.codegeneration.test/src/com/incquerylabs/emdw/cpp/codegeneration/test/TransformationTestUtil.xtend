@@ -58,6 +58,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.OOPLNameProvider
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequenceImplementation
+import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
+import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -641,11 +644,64 @@ class TransformationTestUtil {
 			it.commonParameter = parameter
 			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = parameter ]
 			if(multiValue){
-				createCPPSequence(it, type)
+				createCPPSequence(it, type, false, true)
 			}
 		]
 		root.subElements += cppFormalParameter
 		cppFormalParameter
+	}
+	
+	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLType type, boolean ordered, boolean unique) {
+		val implementation = getSequenceImplementation(type, ordered, unique)
+		val seq = cppFactory.createCPPSequence => [
+			it.elementType = type
+			it.implementation = implementation
+		]
+		root.unnamedSequenceType = seq
+		seq
+	}
+	
+	static def CPPSequenceImplementation getSequenceImplementation(OOPLType type, boolean ordered, boolean unique) {
+		val implementationResource = type.eResource.resourceSet.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			true)
+		val orderness = decodeSequenceOrderness(ordered)
+		val uniqueness = decodeSequenceUniqueness(unique)
+		val implementations = implementationResource.contents
+													.filter[
+														it instanceof CPPSequenceImplementation
+													].toList
+		val implementation = implementations.findFirst[
+												(it as CPPSequenceImplementation).orderedness==orderness &&
+												(it as CPPSequenceImplementation).uniqueness==uniqueness
+											]
+		return implementation as CPPSequenceImplementation
+	}
+	
+	static def decodeSequenceOrderness(boolean ordered) {
+		if(ordered) {
+			return SequenceOrderednessKind.ORDERED
+		} else {
+			return SequenceOrderednessKind.UNORDERED
+		}
+	}
+	
+	static def decodeSequenceUniqueness(boolean unique) {
+		if(unique) {
+			return SequenceUniquenessKind.UNIQUE
+		} else {
+			return SequenceUniquenessKind.NON_UNIQUE
+		}
+	}
+	
+	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLType type, boolean ordered, boolean unique) {
+		val implementation = getSequenceImplementation(type, ordered, unique)
+		val seq = cppFactory.createCPPSequence => [
+			it.elementType = type
+			it.implementation = implementation
+		]
+		root.unnamedSequenceType = seq
+		seq
 	}
 	
 	static def CPPBasicType createCPPBasicType(CPPQualifiedNamedElement root, Type type) {
@@ -655,22 +711,6 @@ class TransformationTestUtil {
 		]
 		root.subElements += cppBasicType
 		cppBasicType
-	}
-	
-	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLType type) {
-		val seq = cppFactory.createCPPSequence => [
-			it.elementType = type
-		]
-		root.unnamedSequenceType = seq
-		seq
-	}
-	
-	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLType type) {
-		val seq = cppFactory.createCPPSequence => [
-			it.elementType = type
-		]
-		root.unnamedSequenceType = seq
-		seq
 	}
 	
 	static def CPPState createCPPState(CPPQualifiedNamedElement root, State state) {

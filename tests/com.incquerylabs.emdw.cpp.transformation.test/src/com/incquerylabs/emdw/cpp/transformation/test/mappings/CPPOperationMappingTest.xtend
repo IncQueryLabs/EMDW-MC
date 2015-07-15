@@ -52,18 +52,15 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
 		
 		createCPPBasicType(cppPackage, xtPackage.typeDefinitions.head.type)
-		
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
-		cppComponent.headerDirectory = rootDir
-		cppComponent.bodyDirectory = rootDir
 		
 		cppComponent
 	}
@@ -116,16 +113,13 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
-		cppComponent.headerDirectory = rootDir
-		cppComponent.bodyDirectory = rootDir
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
 		
 		cppComponent
 	}

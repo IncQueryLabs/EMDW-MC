@@ -25,6 +25,8 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		val xtObject = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
+		loadDefaultContainerImplementations(cppResource)
+		createCPPExternalLibrary(cppResource)
 		val cppModel = createCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		// transform to CPP

@@ -55,9 +55,7 @@ class CPPClassInPackageTest extends MappingBaseTest<Package, CPPComponent> {
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		cppComponent.headerDirectory = rootDir
-		cppComponent.bodyDirectory = rootDir
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
 		
 		cppComponent
 	}
@@ -66,9 +64,10 @@ class CPPClassInPackageTest extends MappingBaseTest<Package, CPPComponent> {
 		val xtClasses = xtObject.entities.filter(XTClass)
 		val cppPackage = cppObject.subElements.filter(CPPPackage).head
 		val cppClasses = cppPackage.subElements.filter(CPPClass)
+		val packageDir = cppPackage.headerDir
 		assertEquals(xtClasses.size,cppClasses.size)
-		assertEquals(xtClasses.size+1,rootDir.countCppHeaderFiles)
-		assertEquals(xtClasses.size+1,rootDir.countCppBodyFiles)
+		assertEquals(xtClasses.size+1,packageDir.countCppHeaderFiles)
+		assertEquals(xtClasses.size+1,packageDir.countCppBodyFiles)
 		cppClasses.forEach[
 			assertNotNull(ooplNameProvider)
 			assertNotNull(xtClass)
@@ -85,9 +84,10 @@ class CPPClassInPackageTest extends MappingBaseTest<Package, CPPComponent> {
 	override protected assertClear(Model input, CPPModel result, Package xtObject, CPPComponent cppObject) {
 		val cppPackage = cppObject.subElements.filter(CPPPackage).head
 		val cppClasses = cppPackage.subElements.filter(CPPClass)
+		val packageDir = cppPackage.headerDir
 		assertEquals(0, cppClasses.size)
-		assertEquals(1, rootDir.countCppHeaderFiles)
-		assertEquals(1, rootDir.countCppBodyFiles)
+		assertEquals(1, packageDir.countCppHeaderFiles)
+		assertEquals(1, packageDir.countCppBodyFiles)
 	}
 	
 }
@@ -158,16 +158,13 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponent(cppPackage, xtComponent, null, null, null, null)
-		
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
-		cppComponent.headerDirectory = rootDir
-		cppComponent.bodyDirectory = rootDir
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
 		
 		return cppComponent
 	}
@@ -176,8 +173,10 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 		val xtClasses = xtObject.entities
 		val cppClasses = cppObject.subElements.filter(CPPClass)
 		assertEquals(xtClasses.size,cppClasses.size)
-		assertEquals(xtClasses.size,rootDir.countCppHeaderFiles)
-		assertEquals(xtClasses.size,rootDir.countCppBodyFiles)
+		assertEquals(1, rootDir.subDirectories.size)
+		val componentDir = cppObject.headerDirectory
+		assertEquals(xtClasses.size+3,componentDir.countCppHeaderFiles)
+		assertEquals(xtClasses.size+1,componentDir.countCppBodyFiles)
 		cppClasses.forEach[
 			assertNotNull(ooplNameProvider)
 			assertNotNull(xtClass)
@@ -193,8 +192,10 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
 		val cppClasses = cppObject.subElements.filter(CPPClass)
 		assertEquals(0,cppClasses.size)
-		assertEquals(0,rootDir.countCppHeaderFiles)
-		assertEquals(0,rootDir.countCppBodyFiles)
+		assertEquals(1, rootDir.subDirectories.size)
+		val componentDir = cppObject.headerDirectory
+		assertEquals(3,componentDir.countCppHeaderFiles)
+		assertEquals(1,componentDir.countCppBodyFiles)
 	}
 	
 }
@@ -218,20 +219,15 @@ class CPPClassSingleComponentTransformTest extends SingleComponentTransformTest 
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val xtComponent = xtPackage.entities.filter(XTComponent).filter[it.name=="Component"].head
 		val otherXtComponent = xtPackage.entities.filter(XTComponent).filter[it.name=="OtherComponent"].head
-		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
-		val otherCppComponent = cppPackage.createCPPComponent(otherXtComponent, null, null, null, null)
-		
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
-		cppComponent.headerDirectory = rootDir.createCPPSubDirectory
-		cppComponent.bodyDirectory = cppComponent.headerDirectory
-		otherCppComponent.headerDirectory = rootDir.createCPPSubDirectory
-		otherCppComponent.bodyDirectory = cppComponent.headerDirectory
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
+		cppPackage.createCPPComponentWithDirectoriesAndFiles(otherXtComponent, rootDir)
 		
 		return cppComponent
 	}

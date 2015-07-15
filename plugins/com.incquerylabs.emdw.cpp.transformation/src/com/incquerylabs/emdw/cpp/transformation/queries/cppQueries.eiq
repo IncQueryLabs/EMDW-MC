@@ -126,13 +126,22 @@ pattern classReferenceSimpleCollectionContainerImplementation(
 }
 
 pattern cppSequenceContainerImplementation(
-	cppAttribute : CPPAttribute,
+	cppElement : CPPQualifiedNamedElement,
 	cppSequence : CPPSequence,
 	containerImplementation : CPPSequenceImplementation
 ) {
-	CPPAttribute.unnamedSequenceType(cppAttribute, cppSequence);
+	find cppElementSequence(cppElement, cppSequence);
 	CPPSequence.orderedness(cppSequence, orderedness);
 	CPPSequence.uniqueness(cppSequence, uniqueness);
 	CPPSequenceImplementation.orderedness(containerImplementation, orderedness);
 	CPPSequenceImplementation.uniqueness(containerImplementation, uniqueness);
+}
+
+pattern cppElementSequence(
+	cppElement : CPPQualifiedNamedElement,
+	cppSequence : CPPSequence
+) {
+	CPPAttribute.unnamedSequenceType(cppElement, cppSequence);
+} or {
+	CPPFormalParameter.unnamedSequenceType(cppElement, cppSequence);
 }

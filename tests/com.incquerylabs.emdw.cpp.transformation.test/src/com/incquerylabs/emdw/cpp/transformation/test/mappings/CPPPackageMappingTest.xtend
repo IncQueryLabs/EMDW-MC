@@ -1,8 +1,10 @@
 
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
@@ -51,11 +53,7 @@ class CPPPackageInComponentTest extends MappingBaseTest<XTComponent, CPPComponen
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		
 		// Component and its directories
-		val cppComponent = cppModel.createCPPComponent(xtComponent, null,null,null,null)
-		val bodyDir = createCPPDirectory(rootDir.eResource)
-		val headerDir = bodyDir
-		cppComponent.headerDirectory = headerDir
-		cppComponent.bodyDirectory = bodyDir
+		val cppComponent = cppModel.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
 		
 		cppComponent
 	}
@@ -79,7 +77,10 @@ class CPPPackageInComponentTest extends MappingBaseTest<XTComponent, CPPComponen
 			assertNotNull("Package header directory is not set.", package.headerDir)
 			assertNotNull("Package body directory is not set.", package.bodyDir)
 			// Assert files are created and set
-			assertEquals("Package files are not created correctly", 2, package.headerDir.files.size)
+			val packageHeaderFiles = package.headerDir.files.filter(CPPHeaderFile)
+			val packageBodyFiles = package.headerDir.files.filter(CPPBodyFile)
+			assertEquals("Package files are not created correctly", 1, packageHeaderFiles.size)
+			assertEquals("Package files are not created correctly", 1, packageBodyFiles.size)
 			assertNotNull("Package header file is not set.", package.headerFile)
 			assertNotNull("Package body file is not set.", package.bodyFile)
 		]
@@ -123,20 +124,10 @@ class CPPPackageInPackageTest extends MappingBaseTest<XTComponent, CPPComponent>
 		val xtParentPackage = xtComponent.packages.head
 		
 		// Component and its directories
-		val cppComponent = cppModel.createCPPComponent(xtComponent, null, null, null, null)
-
-		val componentHeaderDir = createCPPDirectory(rootDir.eResource)
-		val componentBodyDir = createCPPDirectory(rootDir.eResource)
-		cppComponent.headerDirectory = componentHeaderDir
-		cppComponent.bodyDirectory = componentBodyDir
+		val cppComponent = cppModel.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
 
 		// Parent package and its directories
-		val cppParentPackage = cppComponent.createCPPPackage(xtParentPackage)
-		
-		val parentHeaderDir = createCPPDirectory(componentHeaderDir.eResource)
-		val parentBodyDir = createCPPDirectory(componentBodyDir.eResource)
-		cppParentPackage.headerDir = parentHeaderDir
-		cppParentPackage.bodyDir = parentBodyDir
+		cppComponent.createCPPPackageWithDirectoriesAndFiles(xtParentPackage, cppComponent.headerDirectory)
 		
 		cppComponent
 	}
@@ -163,7 +154,10 @@ class CPPPackageInPackageTest extends MappingBaseTest<XTComponent, CPPComponent>
 			assertNotNull("Package header directory is not set.", package.headerDir)
 			assertNotNull("Package body directory is not set.", package.bodyDir)
 			// Assert files are created and set
-			assertEquals("Package files are not created correctly", 2, package.headerDir.files.size)
+			val packageHeaderFiles = package.headerDir.files.filter(CPPHeaderFile)
+			val packageBodyFiles = package.headerDir.files.filter(CPPBodyFile)
+			assertEquals("Package files are not created correctly", 1, packageHeaderFiles.size)
+			assertEquals("Package files are not created correctly", 1, packageBodyFiles.size)
 			assertNotNull("Package header file is not set.", package.headerFile)
 			assertNotNull("Package body file is not set.", package.bodyFile)
 		]
@@ -211,20 +205,10 @@ class CPPPackageHierarchyTest extends MappingBaseTest<XTComponent, CPPComponent>
 		val xtRootPackage = xtComponent.packages.head
 		
 		// Component and its directories
-		val cppComponent = cppModel.createCPPComponent(xtComponent, null, null, null, null)
-
-		val componentHeaderDir = createCPPDirectory(rootDir.eResource)
-		val componentBodyDir = createCPPDirectory(rootDir.eResource)
-		cppComponent.headerDirectory = componentHeaderDir
-		cppComponent.bodyDirectory = componentBodyDir
+		val cppComponent = cppModel.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
 
 		// Root package and its directories
-		val cppRootPackage = cppComponent.createCPPPackage(xtRootPackage)
-		
-		val rootHeaderDir = createCPPDirectory(componentHeaderDir.eResource)
-		val rootBodyDir = createCPPDirectory(componentBodyDir.eResource)
-		cppRootPackage.headerDir = rootHeaderDir
-		cppRootPackage.bodyDir = rootBodyDir
+		cppComponent.createCPPPackageWithDirectoriesAndFiles(xtRootPackage, cppComponent.headerDirectory)
 		
 		cppComponent
 	}
@@ -266,7 +250,10 @@ class CPPPackageHierarchyTest extends MappingBaseTest<XTComponent, CPPComponent>
 			assertNotNull("Package header directory is not set.", package.headerDir)
 			assertNotNull("Package body directory is not set.", package.bodyDir)
 			// Assert files are created and set
-			assertEquals("Package files are not created correctly", 2, package.headerDir.files.size)
+			val packageHeaderFiles = package.headerDir.files.filter(CPPHeaderFile)
+			val packageBodyFiles = package.headerDir.files.filter(CPPBodyFile)
+			assertEquals("Package files are not created correctly", 1, packageHeaderFiles.size)
+			assertEquals("Package files are not created correctly", 1, packageBodyFiles.size)
 			assertNotNull("Package header file is not set.", package.headerFile)
 			assertNotNull("Package body file is not set.", package.bodyFile)
 		]

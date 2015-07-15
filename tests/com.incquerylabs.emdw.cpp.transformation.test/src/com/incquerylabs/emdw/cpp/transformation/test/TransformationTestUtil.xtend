@@ -56,6 +56,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -596,6 +597,40 @@ class TransformationTestUtil {
 		root.subElements += cppPackage
 		cppPackage
 	}
+	
+	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, org.eclipse.papyrusrt.xtumlrt.common.Package xtpackage,
+		CPPHeaderFile headerFile, CPPBodyFile bodyFile
+	) {
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
+		val cppPackage = cppFactory.createCPPPackage => [
+			it.commonPackage = xtpackage
+			it.ooplNameProvider = provider
+			it.bodyFile = bodyFile
+			it.headerFile = headerFile
+		]
+		root.subElements += cppPackage
+		cppPackage
+	}
+		
+	static def CPPPackage createCPPPackageWithFiles(CPPQualifiedNamedElement root, org.eclipse.papyrusrt.xtumlrt.common.Package xtpackage, 
+		CPPDirectory headerDirectory, CPPDirectory bodyDirectory) {
+		val headerFile = headerDirectory.createCPPHeaderFile()
+		val bodyFile = bodyDirectory.createCPPBodyFile()
+		
+		createCPPPackage(root, xtpackage, headerFile, bodyFile) => [
+			it.headerDir = headerDirectory
+			it.bodyDir = bodyDirectory
+		]
+	}
+	
+	static def CPPPackage createCPPPackageWithDirectoriesAndFiles(
+		CPPQualifiedNamedElement root, org.eclipse.papyrusrt.xtumlrt.common.Package xtpackage, CPPDirectory parentDirectory) {
+		val headerDirectory = parentDirectory.createCPPSubDirectory
+		val bodyDirectory = headerDirectory
+		
+		createCPPPackageWithFiles(root, xtpackage, headerDirectory, bodyDirectory)
+	}
+	
 
 	static def CPPProtocol createCPPProtocol(CPPQualifiedNamedElement root, XTProtocol protocol, CPPHeaderFile header) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = protocol ]
@@ -705,6 +740,27 @@ class TransformationTestUtil {
 		cppComponent	
 	}
 	
+	static def CPPComponent createCPPComponentWithFiles(CPPQualifiedNamedElement root, XTComponent xtComponent, 
+		CPPDirectory headerDirectory, CPPDirectory bodyDirectory) {
+		val declHeader = headerDirectory.createCPPHeaderFile()
+		val defHeader = headerDirectory.createCPPHeaderFile()
+		val mainHeader = headerDirectory.createCPPHeaderFile()
+		val mainBody = bodyDirectory.createCPPBodyFile()
+		
+		createCPPComponent(root, xtComponent, mainHeader, mainBody, declHeader, defHeader) => [
+			it.headerDirectory = headerDirectory
+			it.bodyDirectory = bodyDirectory
+		]
+	}
+	
+	static def CPPComponent createCPPComponentWithDirectoriesAndFiles(
+		CPPQualifiedNamedElement root, XTComponent xtComponent, CPPDirectory parentDirectory) {
+		val headerDirectory = parentDirectory.createCPPSubDirectory
+		val bodyDirectory = headerDirectory
+		
+		createCPPComponentWithFiles(root, xtComponent, headerDirectory, bodyDirectory)
+	}
+	
 	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body ) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtclass ]
 		val cppClass = cppFactory.createCPPClass => [
@@ -717,11 +773,32 @@ class TransformationTestUtil {
 		cppClass	
 	}
 	
+	static def CPPClass createCPPClassWithFiles(CPPQualifiedNamedElement root, XTClass xtclass, 
+		CPPDirectory headerDirectory, CPPDirectory bodyDirectory) {
+		val headerFile = headerDirectory.createCPPHeaderFile()
+		val bodyFile = bodyDirectory.createCPPBodyFile()
+		
+		createCPPClass(root, xtclass, headerFile, bodyFile)
+	}
+	
+	static def CPPExternalLibrary createCPPExternalLibrary(Resource resource){
+		val externalLibrary = createCPPExternalLibrary
+		resource.contents += externalLibrary
+		return externalLibrary
+	}
+	
 	static def CPPBasicType createCPPBasicType(CPPQualifiedNamedElement root, Type type) {
 		cppFactory.createCPPBasicType => [
 			it.commonType = type
 			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider => [ commonNamedElement = type]
 			root.subElements += it
 		]
+	}
+	
+	static def loadDefaultContainerImplementations(Resource resource) {
+		val resourceSet = resource.resourceSet
+		resourceSet.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			true)
 	}
 }

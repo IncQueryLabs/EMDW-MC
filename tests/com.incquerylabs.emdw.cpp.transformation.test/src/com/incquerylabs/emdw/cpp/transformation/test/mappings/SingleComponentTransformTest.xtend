@@ -20,6 +20,8 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val xtComponent = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
+		loadDefaultContainerImplementations(cppResource)
+		createCPPExternalLibrary(cppResource)
 		val cppModel = createCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
 		// transform to CPP
@@ -38,6 +40,8 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val xtComponent = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
+		loadDefaultContainerImplementations(cppResource)
+		createCPPExternalLibrary(cppResource)
 		val cppModel = createCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
 		// transform to CPP

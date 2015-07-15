@@ -36,6 +36,7 @@ import java.util.Map
 import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
+import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 
 class CodeGenerator {
 
@@ -45,6 +46,9 @@ class CodeGenerator {
 	
 	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {		
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+		
+		val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
+		QueryBasedFeatures.instance.prepare(managedEngine)
 		
 		var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
 		xformqrt.initialize(engine)

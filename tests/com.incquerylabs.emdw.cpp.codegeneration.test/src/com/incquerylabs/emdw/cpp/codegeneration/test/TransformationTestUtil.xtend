@@ -1,27 +1,42 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test
 
+import com.ericsson.xtumlrt.oopl.OOPLNameProvider
+import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.OoplFactory
+import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
+import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequenceImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
@@ -38,6 +53,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 import org.eclipse.papyrusrt.xtumlrt.common.Vertex
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
@@ -48,19 +64,6 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
-import com.ericsson.xtumlrt.oopl.OoplFactory
-import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
-import com.ericsson.xtumlrt.oopl.OOPLType
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
-import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.ericsson.xtumlrt.oopl.OOPLNameProvider
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequenceImplementation
-import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
-import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -81,6 +84,9 @@ class TransformationTestUtil {
 	static def createEmptyXtumlModel(String modelname) {
 		val resourceSet = new ResourceSetImpl
 		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtUMLuri"))
+
+		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
+		QueryBasedFeatures.instance.prepare(managedEngine)
 
 		val xtumlrtModel = commonFactory.createModel=>[it.name = modelname]
 		xtumlrtResource.contents += xtumlrtModel

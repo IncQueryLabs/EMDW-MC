@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.transformation.test
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
@@ -12,14 +13,18 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPort
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocolOperationDefinition
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
@@ -28,15 +33,18 @@ import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Entity
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import org.eclipse.papyrusrt.xtumlrt.common.Port
 import org.eclipse.papyrusrt.xtumlrt.common.Protocol
+import org.eclipse.papyrusrt.xtumlrt.common.ProtocolBehaviourFeatureKind
 import org.eclipse.papyrusrt.xtumlrt.common.Signal
 import org.eclipse.papyrusrt.xtumlrt.common.SimpleState
 import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 import org.eclipse.papyrusrt.xtumlrt.common.Vertex
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
@@ -45,13 +53,9 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
-import org.eclipse.papyrusrt.xtumlrt.common.ProtocolBehaviourFeatureKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocolOperationDefinition
-import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -76,7 +80,10 @@ class TransformationTestUtil {
 	
 	static def createEmptyXtumlResource(String resourcename) {
 		val resourceSet = new ResourceSetImpl
-		resourceSet.createResource(URI.createURI("model/"+resourcename+"/ref/test.xtuml"))
+		val resource = resourceSet.createResource(URI.createURI("model/"+resourcename+"/ref/test.xtuml"))
+		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
+		QueryBasedFeatures.instance.prepare(managedEngine)
+		resource
 	}
 	
 	static def createEmptyXtumlModel(Resource xtumlrtResource, String modelname) {
@@ -94,7 +101,7 @@ class TransformationTestUtil {
 		pack
 	}
 
-	static def createPackage(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createPackage(Package root, String name) {
 		var pack = commonFactory.createPackage => [
 			it.name = name
 		]
@@ -110,7 +117,7 @@ class TransformationTestUtil {
 		pack
 	}
 
-	static def createXtComponent(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createXtComponent(Package root, String name) {
 		var comp = xtumlFactory.createXTComponent => [
 			it.name = name
 		]
@@ -134,7 +141,7 @@ class TransformationTestUtil {
 		xtclass
 	}
 	
-	static def createXtClass(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createXtClass(Package root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
 		]
@@ -159,7 +166,7 @@ class TransformationTestUtil {
 	}
 	
 
-	static def createXtProtocol(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createXtProtocol(Package root, String name) {
 		var protocol = xtumlFactory.createXTProtocol => [
 			it.name = name
 		]
@@ -436,7 +443,7 @@ class TransformationTestUtil {
 		parameter
 	}
 
-	static def createTypeDefinition(org.eclipse.papyrusrt.xtumlrt.common.Package root, Type type, String name) {
+	static def createTypeDefinition(Package root, Type type, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -445,7 +452,7 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createTypeDefinition(org.eclipse.papyrusrt.xtumlrt.common.Package root, String name) {
+	static def createTypeDefinition(Package root, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -580,7 +587,7 @@ class TransformationTestUtil {
 		cppBody
 	}
 
-	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, org.eclipse.papyrusrt.xtumlrt.common.Package xtpackage) {
+	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, Package xtpackage) {
 		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.commonPackage = xtpackage

@@ -1,15 +1,19 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test
 
+import com.ericsson.xtumlrt.oopl.AssociativeCollectionKind
 import com.ericsson.xtumlrt.oopl.OOPLNameProvider
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
+import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollectionImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
@@ -409,22 +413,22 @@ class TransformationTestUtil {
 		op
 	}
 	
-	static def createAssociation(XTClass source, XTClass target, String name) {
+	static def createAssociation(XTClass source, XTClass target, String name, int upperBound) {
 		val assoc = xtumlFactory.createXTAssociation => [
 			it.source = source
 			it.target = target
 			it.name = name
 			it.unique = false
 			it.lowerBound = 1
-			it.upperBound = 1
+			it.upperBound = upperBound
 		]
 		source.relations += assoc
 		return assoc
 	}
 	
 	static def createBidirectionalAssociation(XTClass source, XTClass target, String sourceToTargetAssociationName, String targetToSourceAssociationName) {
-		val assoc1 = createAssociation(source, target, sourceToTargetAssociationName)
-		val assoc2 = createAssociation(target, source, targetToSourceAssociationName)
+		val assoc1 = createAssociation(source, target, sourceToTargetAssociationName, 1)
+		val assoc2 = createAssociation(target, source, targetToSourceAssociationName, 1)
 		assoc1.opposite = assoc2
 		assoc2.opposite = assoc1
 		return assoc1
@@ -785,17 +789,56 @@ class TransformationTestUtil {
 		]
 	}
 	
-	static def OOPLType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass) {
+	static def OOPLType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, SimpleCollectionKind kind) {
 		val xtTargetClass = xtAssoc.target
-		
+		val implementation = getClassRefSimpleCollectionImplementation(cppTargetClass.eResource, kind)
 		val referenceType = createCPPClassRefSimpleCollection => [
 			it.commonType = xtTargetClass
 			it.ooplClass = cppTargetClass
 			it.ooplNameProvider = createOOPLExistingNameProvider =>[
 				commonNamedElement = xtTargetClass
 			]
+			it.implementation = implementation
 		]
 		return referenceType
+	}
+	
+	static def CPPClassRefSimpleCollectionImplementation getClassRefSimpleCollectionImplementation(Resource res, SimpleCollectionKind kind) {
+		val implementationResource = res.resourceSet.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			true)
+		val implementations = implementationResource.contents
+													.filter[
+														it instanceof CPPClassRefSimpleCollectionImplementation
+													].toList
+		val implementation = implementations.findFirst[(it as CPPClassRefSimpleCollectionImplementation).kind == kind]
+		return implementation as CPPClassRefSimpleCollectionImplementation
+	}
+	
+	static def OOPLType createCPPClassRefAssocCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, AssociativeCollectionKind kind) {
+		val xtTargetClass = xtAssoc.target
+		val implementation = getClassRefAssocCollectionImplementation(cppTargetClass.eResource, kind)
+		val referenceType = createCPPClassRefAssocCollection => [
+			it.commonType = xtTargetClass
+			it.ooplClass = cppTargetClass
+			it.ooplNameProvider = createOOPLExistingNameProvider =>[
+				commonNamedElement = xtTargetClass
+			]
+			it.implementation = implementation
+		]
+		return referenceType
+	}
+	
+	static def CPPClassRefAssocCollectionImplementation getClassRefAssocCollectionImplementation(Resource res, AssociativeCollectionKind kind) {
+		val implementationResource = res.resourceSet.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			true)
+		val implementations = implementationResource.contents
+													.filter[
+														it instanceof CPPClassRefAssocCollectionImplementation
+													].toList
+		val implementation = implementations.findFirst[(it as CPPClassRefAssocCollectionImplementation).kind == kind]
+		return implementation as CPPClassRefAssocCollectionImplementation
 	}
 	
 	static def OOPLType createCPPClassReference(XTAssociation xtAssoc, CPPClass cppTargetClass) {

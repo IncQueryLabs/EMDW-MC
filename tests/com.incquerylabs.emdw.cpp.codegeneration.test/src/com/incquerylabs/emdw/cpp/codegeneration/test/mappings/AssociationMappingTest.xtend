@@ -12,6 +12,7 @@ import org.junit.runners.Parameterized
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
 
 @RunWith(Parameterized)
 class AssociationMappingTest extends TransformationTest<State, CPPClass> {
@@ -57,6 +58,55 @@ class AssociationMappingTest extends TransformationTest<State, CPPClass> {
 		val files = wrapper.codegen.generatedCPPSourceFiles
 		val classHeader = files.get(cppObject.headerFile).toString
 		assertTrue(classHeader.contains("TEST2* test2"))
+	}
+	
+}
+@RunWith(Parameterized)
+class AssociationCollectionMappingTest extends TransformationTest<State, CPPClass> {
+	
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+	
+	override protected prepareCppModel(CPPModel cppModel) {
+		val xtmodel = cppModel.commonModel
+		val xtPackage = xtmodel.createPackage("RootPackage")
+		val xtComponent = xtPackage.createXtComponent("Component")
+		val xtClass1 = xtComponent.createXtClass("TEST1")
+		val xtClass2 = xtComponent.createXtClass("TEST2")
+		val xtAssoc1 = xtClass1.createAssociation(xtClass2, "test2s", 2)
+		val xtAssoc2 = xtClass2.createAssociation(xtClass1, "test1", 1)
+		xtAssoc1.opposite = xtAssoc2
+		xtAssoc2.opposite = xtAssoc1
+		
+		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
+		val cppClass1Header = createCPPHeaderFile(cppComponent.headerDirectory)
+		val cppClass1Body = createCPPBodyFile(cppComponent.bodyDirectory)
+		val cppClass1 = createCPPClass(cppComponent, xtClass1, cppClass1Header, cppClass1Body)
+		val cppClass2Header = createCPPHeaderFile(cppComponent.headerDirectory)
+		val cppClass2Body = createCPPBodyFile(cppComponent.bodyDirectory)
+		val cppClass2 = createCPPClass(cppComponent, xtClass2, cppClass2Header, cppClass2Body)
+		createCPPRelation(cppClass1, xtAssoc1, 
+			createCPPClassReferenceStorage(xtAssoc1, 
+				createCPPClassRefSimpleCollection(xtAssoc1, cppClass2, SimpleCollectionKind.SIMPLY_LINKED_LIST)
+			)
+		)
+		createCPPRelation(cppClass2, xtAssoc2, 
+			createCPPClassReferenceStorage(xtAssoc2, 
+				createCPPClassReference(xtAssoc2, cppClass1)
+			)
+		)
+		
+		cppClass1
+	}
+	
+	override protected assertResult(CPPModel result, CPPClass cppObject) {
+		val wrapper = xform as CPPCodeGenerationWrapper
+		
+		val files = wrapper.codegen.generatedCPPSourceFiles
+		val classHeader = files.get(cppObject.headerFile).toString
+		assertTrue(classHeader.contains("::std::list< ::AssociationCollectionMappingTest_single::RootPackage::Component::TEST2* > test2s"))
 	}
 	
 }

@@ -35,6 +35,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 import java.util.Map
 import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
 
 class CodeGenerator {
 
@@ -116,18 +117,20 @@ class CodeGenerator {
 		val makefileContent = performMakefileGeneration(makefileGeneration, cppModel, mapperCppDir)
 		generatedCppSourceFiles.putAll(makefileGeneration.generatedCPPMakeFiles)
 		
-		val generatedCPPSourceFiles = ImmutableMap.copyOf(generatedCppSourceFiles)
+		val mainGeneration = new MainGeneration
+		val mainContent = performMainGeneration(mainGeneration, cppComponent)
 		
 		val targetFolder = GeneratorHelper.getTargetFolder(cppResource, false)
 		val filegen = new FileAndDirectoryGeneration
 		val fileManager = new EclipseWorkspaceFileManager(targetFolder)
 		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
-		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
+		filegen.initialize(engine, fileManager, ImmutableMap.copyOf(generatedCppSourceFiles))
 		
 		performFileGeneration(engine, cppModel, cppCodeGeneration, filegen, fileManager)
 		filegen.execute(mapperCppDir)
 
 		fileManager.createFile("Makefile", makefileContent, true, false)
+		fileManager.createFile("main.cc", mainContent, true, false)
 		
 		cppCodeGeneration.dispose
 	}
@@ -169,7 +172,7 @@ class CodeGenerator {
 	}
 	
 	def performMakefileGeneration(MakefileGeneration makefileGeneration, CPPModel cppModel, CPPDirectory... otherDirsForMakefile){
-		Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
+		Logger.getLogger(MakefileGeneration.package.name).level = Level.DEBUG
 		makefileGeneration.initialize()
 		
 		val listOfDirs = <String>newArrayList
@@ -187,6 +190,14 @@ class CodeGenerator {
 		}
 		
 		return makefileContent
+	}
+	
+	def performMainGeneration(MainGeneration mainGeneration, CPPComponent... components) {
+		Logger.getLogger(MainGeneration.package.name).level = Level.DEBUG
+		mainGeneration.initialize
+		
+		val mainContent = mainGeneration.execute(components)
+		return mainContent
 	}
 	
 	def performFileGeneration(

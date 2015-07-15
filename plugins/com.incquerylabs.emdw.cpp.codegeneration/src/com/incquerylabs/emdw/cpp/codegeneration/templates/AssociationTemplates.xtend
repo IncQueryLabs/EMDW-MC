@@ -4,7 +4,8 @@ import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 
 class AssociationTemplates {
 	val codeGenQueries = CppCodeGenerationQueries.instance
@@ -27,6 +28,18 @@ class AssociationTemplates {
 		'''
 		«cppReferenceStorageType» «cppReferenceStorageName»;
 		'''
+	}
+	
+	def associationDefinitionInClassBody(CPPClassReferenceStorage cppClassReferenceStorage) {
+		val cppReferenceStorageType = generateCPPReferenceStorageType(cppClassReferenceStorage)
+		val cppReferenceStorageName = cppClassReferenceStorage.cppQualifiedName 
+		'''
+		«cppReferenceStorageType» («cppReferenceStorageName»);
+		'''
+	}
+	
+	def getQualifiedNameOfType(CPPClassReferenceStorage cppClassReferenceStorage) {
+		((cppClassReferenceStorage.type as CPPClassRefSimpleCollection)?.ooplClass as CPPClass)?.cppQualifiedName
 	}
 	
 	def generateCPPReferenceStorageType(CPPClassReferenceStorage cppClassReferenceStorage){

@@ -774,7 +774,6 @@ class TransformationTestUtil {
 				commonNamedElement = xtAssoc
 			]
 		]
-		root.referenceStorage += cppReferenceStorage
 		root.subElements += cppAssoc
 		cppAssoc
 	}
@@ -903,6 +902,21 @@ class TransformationTestUtil {
 			it.bodyFile = body
 			it.ooplNameProvider = provider
 		]
+		val implementation = getClassRefSimpleCollectionImplementation(root.eResource, SimpleCollectionKind.SIMPLY_LINKED_LIST)
+		val instanceReferences = createCPPClassReferenceStorage => [
+			it.type = createCPPClassRefSimpleCollection => [
+				it.commonType = xtclass
+				it.ooplClass = cppClass
+				it.kind = SimpleCollectionKind.SIMPLY_LINKED_LIST
+				it.implementation = implementation
+				it.ooplNameProvider = createOOPLExistingNameProvider => [ it.commonNamedElement = xtclass ]
+			]
+			it.subElements += it.type as CPPQualifiedNamedElement
+			
+			it.ooplNameProvider = createOOPLDerivedNameProvider => [ it.name = "_instances" ]
+		]
+		cppClass.referenceStorage += instanceReferences
+		cppClass.subElements += instanceReferences
 		root.subElements += cppClass
 		cppClass	
 	}

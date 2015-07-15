@@ -51,7 +51,6 @@ class AssociationRules {
 		val cppReferenceStorage = createReferenceStorage(cppClassReference, xtAssociation)
 		val cppRelation = createRelation(cppReferenceStorage, xtAssociation)
 		
-		cppClass.referenceStorage += cppReferenceStorage
 		cppClass.subElements += cppRelation
 		trace('''Mapped Association «xtAssociation.name» in Class «xtClass.name» to CPPRelation''')
 		fireAllCurrent(classReferenceSimpleCollectionTypeRule, [it.classReferenceSimpleCollection == cppClassReference])
@@ -59,6 +58,14 @@ class AssociationRules {
 	
 	@Accessors(PUBLIC_GETTER)
 	val classReferenceSimpleCollectionTypeRule = createRule.precondition(classReferenceSimpleCollectionContainerImplementation).action[ match |
+		val collection = match.classReferenceSimpleCollection
+		val implementation = match.containerImplementation
+		collection.implementation = implementation
+		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val classReferenceSimpleCollectionTypeRule4Instances = createRule.precondition(classReferenceSimpleCollectionContainerImplementation4Instances).action[ match |
 		val collection = match.classReferenceSimpleCollection
 		val implementation = match.containerImplementation
 		collection.implementation = implementation

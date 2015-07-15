@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
@@ -128,7 +129,7 @@ class ClassTemplates {
 		// Deny copy of the class using assignment
 		«cppClassName»& operator=(const «cppClassName»&);
 		
-		static ::std::list< «cppClassName»* > _instances;
+		«cppClass.instanceStorageInClassHeader»
 		
 		static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
 		
@@ -170,13 +171,22 @@ class ClassTemplates {
 		
 		'''
 		// Associations
-		«FOR association : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
-			«IF cppAssocMatcher.hasMatch(cppClass, association)»
-				«associationTemplates.associationDeclarationInClassHeader(association)»
-			«ENDIF»
+		«FOR association : cppClass.subElements.filter(CPPRelation).sortBy[cppName]»
+			«FOR refStorage : association.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
+				«IF cppAssocMatcher.hasMatch(cppClass, refStorage)»
+					«associationTemplates.associationDeclarationInClassHeader(refStorage)»
+				«ENDIF»
+			«ENDFOR»
 		«ENDFOR»
 		'''
 	}
+	
+	def instanceStorageInClassHeader(CPPClass cppClass) 
+	'''
+	«FOR refStorage : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
+	static «associationTemplates.associationDeclarationInClassHeader(refStorage)»
+	«ENDFOR»
+	'''
 	
 	def constructorDeclarationsInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
 		val cppClassName = cppClass.cppName
@@ -199,7 +209,7 @@ class ClassTemplates {
 		«IF destructors.size == 0 && visibility == VisibilityKind.PUBLIC»
 		virtual ~«cppClassName»();
 		«ENDIF»
-		«destructodDeclarations(cppClass, visibility, destructors, false)»
+		«destructorDeclarations(cppClass, visibility, destructors, false)»
 		'''
 	}
 	
@@ -226,7 +236,7 @@ class ClassTemplates {
 		'''
 	}
 	
-	def destructodDeclarations(CPPClass cppClass, VisibilityKind visibility, List<CPPOperation> operations, boolean hasReturnType){
+	def destructorDeclarations(CPPClass cppClass, VisibilityKind visibility, List<CPPOperation> operations, boolean hasReturnType){
 		val cppOpMatcher = codeGenQueries.getCppClassOperations(engine)
 		'''
 		«FOR operation : operations»
@@ -273,7 +283,7 @@ class ClassTemplates {
 		'''
 		«cppClass.bodyFile.inclusions»
 		
-		::std::list< «cppFQN»*> («cppFQN»::_instances);
+		«cppClass.instanceStorageInClassBody»
 		
 		«cppClass.constructorDefinitionsInClassBody»
 		
@@ -316,6 +326,15 @@ class ClassTemplates {
 		'''
 	}
 	
+	
+	
+	def instanceStorageInClassBody(CPPClass cppClass) 
+	'''
+	«FOR refStorage : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
+	static «associationTemplates.associationDefinitionInClassBody(refStorage)»
+	«ENDFOR»
+	'''
+	
 	def constructorDefinitionsInClassBody(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
@@ -335,11 +354,11 @@ class ClassTemplates {
 		// Constructors
 		«IF constructors.size == 0»
 			«cppFQN»::«cppClassName»()«fieldInitialization» {
-				_instances.push_back(this);
+				«operationTemplates.instancesAddTemplates(cppClass)»
 			}
 		«ENDIF»
 		«FOR constructor : constructors»
-			«operationTemplates.constructorDefinitionInClassBody(constructor, fieldInitialization)»
+			«operationTemplates.constructorDefinitionInClassBody(cppClass, constructor, fieldInitialization)»
 		«ENDFOR»
 		'''
 	}
@@ -353,11 +372,11 @@ class ClassTemplates {
 		// Destructor
 		«IF destructors.size == 0»
 			«cppFQN»::~«cppClassName»() {
-				_instances.remove(this);
+				«operationTemplates.instancesRemoveTemplates(cppClass)»
 			}
 		«ENDIF»
 		«FOR destructor : destructors»
-			«operationTemplates.destructorDefinitionInClassBody(destructor)»
+			«operationTemplates.destructorDefinitionInClassBody(cppClass, destructor)»
 		«ENDFOR»
 		'''
 	}

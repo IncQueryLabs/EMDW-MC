@@ -31,16 +31,12 @@
 
 		<!-- XTUML-CPP transformation -->
 		<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
-		<!-- Ignored tests because they are incomplete and failing
 		<module>../../tests/com.incquerylabs.emdw.cpp.transformation.test</module>
-		-->
 
 		<!-- CPP code generation -->
 		<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
 		<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
-		<!-- Ignored tests because they are incomplete and failing
 		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
-		-->
 
 		<!-- rALF Language -->
 		<module>../../plugins/com.incquerylabs.uml.ralf</module>

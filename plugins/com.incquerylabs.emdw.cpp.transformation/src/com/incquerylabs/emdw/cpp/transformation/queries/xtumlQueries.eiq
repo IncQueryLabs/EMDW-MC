@@ -221,6 +221,15 @@ pattern cppEntityAttributes(
 	Entity.attributes(xtEntity, attribute);
 }
 
+pattern cppEventAttributes(
+	xtClassEvent : XTClassEvent,
+	cppEvent : CPPEvent,
+	attribute : Attribute
+) {
+	find cppEvents(xtClassEvent, cppEvent);
+	XTClassEvent.attributes(xtClassEvent, attribute);
+}
+
 pattern cppSequenceType(
 	cppElement : CPPQualifiedNamedElement,
 	typedElement : NamedElement,
@@ -306,6 +315,13 @@ pattern cppClasses(
 	cppClass : CPPClass
 ) {
 	CPPClass.xtClass(cppClass, xtClass);
+}
+
+pattern cppEvents(
+	xtEvent : XTEvent,
+	cppEvent : CPPEvent
+) {
+	CPPEvent.xtEvent(cppEvent, xtEvent);
 }
 
 pattern cppComponentStateMachine(

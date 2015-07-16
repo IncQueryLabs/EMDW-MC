@@ -19,10 +19,13 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 
 @SuiteClasses(#[
 	CPPAttributeInClassTest,
-	CPPAttributeInComponentTest
+	CPPAttributeInComponentTest,
+	CPPAttributeInEventTest
 ])
 @RunWith(Suite)
 class CPPAttributeMappingTestSuite {}
@@ -133,6 +136,64 @@ class CPPAttributeInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 	
 	override protected assertClear(Model input, CPPModel result, XTComponent xtObject, CPPComponent cppObject) {
 		val cppAttrs = cppObject.subElements.filter(CPPAttribute)
+		assertEquals(0,cppAttrs.size)
+	}
+	
+}
+
+@RunWith(Parameterized)
+class CPPAttributeInEventTest extends MappingBaseTest<XTClassEvent, CPPComponent> {
+	CPPDirectory rootDir;
+	
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+	
+	override protected prepareXtUmlModel(Model model) {
+		val pack = model.createPackage("RootPackage")
+		val component = pack.createXtComponent("Component")
+		val xtClass = component.createXtClass("Class")
+		val xtClassEvent = xtClass.createXtClassEvent("ClassEvent")
+		val xtTypeDef = pack.createTypeDefinition("td")
+		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
+		xtClassEvent.createSingleAttribute(xtType, VisibilityKind.PUBLIC, false, "Attribute")
+		
+		xtClassEvent
+	}
+		
+	override protected prepareCppModel(CPPModel cppModel) {
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		val xtmodel = cppModel.commonModel
+		val xtPackage = xtmodel.packages.head as Package
+		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val xtComponent = xtPackage.entities.head as XTComponent
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
+		createCPPBasicType(cppPackage, xtPackage.typeDefinitions.head.type)
+		
+		cppComponent
+	}
+	
+	override protected assertResult(Model input, CPPModel result, XTClassEvent xtObject, CPPComponent cppObject) {
+		val xtAttr = xtObject.attributes
+		val cppClass = cppObject.subElements.filter(CPPClass).head
+		val cppEvent = cppClass.subElements.filter(CPPEvent).head
+		val cppAttrs = cppEvent.subElements.filter(CPPAttribute)
+		assertEquals(xtAttr.size,cppAttrs.size)
+		cppAttrs.forEach[
+			assertNotNull(ooplNameProvider)
+			assertNotNull(commonAttribute)
+		]
+	}
+	
+	override protected clearXtUmlElement(XTClassEvent xtObject) {
+		xtObject.attributes.clear
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTClassEvent xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).head
+		val cppEvent = cppClass.subElements.filter(CPPEvent).head
+		val cppAttrs = cppEvent.subElements.filter(CPPAttribute)
 		assertEquals(0,cppAttrs.size)
 	}
 	

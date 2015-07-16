@@ -57,6 +57,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -497,7 +498,19 @@ class TransformationTestUtil {
 	}
 
 	static def createSingleAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
-		val attr = commonFactory.createAttribute => [
+		val attr = createSingleAttribute(type, visibility, isStatic, name)
+		root.attributes += attr
+		attr
+	}
+
+	static def createSingleAttribute(XTClassEvent root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		val attr = createSingleAttribute(type, visibility, isStatic, name)
+		root.attributes += attr
+		attr
+	}
+	
+	static def createSingleAttribute(Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		commonFactory.createAttribute => [
 			it.name = name
 			it.visibility = visibility
 			it.static = isStatic
@@ -505,8 +518,6 @@ class TransformationTestUtil {
 			it.lowerBound = 1
 			it.upperBound = 1
 		]
-		root.attributes += attr
-		attr
 	}
 
 	static def createListAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {

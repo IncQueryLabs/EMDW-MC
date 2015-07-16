@@ -110,6 +110,7 @@ class ClassRules {
 		]
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
+		fireAllCurrent(attributeRules.classEventAttributeRule, [it.cppEvent == cppEvent])
 	].build
 	
 	def createCppClass(XTClass xtClass, CPPDirectory headerDir, CPPDirectory bodyDir){

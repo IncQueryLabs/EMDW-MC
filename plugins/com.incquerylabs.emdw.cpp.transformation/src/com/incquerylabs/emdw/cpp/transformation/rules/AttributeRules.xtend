@@ -5,6 +5,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
@@ -30,7 +31,8 @@ class AttributeRules {
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
-			entityAttributeRule
+			entityAttributeRule,
+			classEventAttributeRule
 		)
 		transformation.addRules(rules)
 	}
@@ -39,22 +41,36 @@ class AttributeRules {
 	val entityAttributeRule = createRule.precondition(cppEntityAttributes).action[ match |
 		val cppElement = match.cppElement
 		val attribute = match.attribute
+		val cppAttribute = cppElement.createCppAttribute(attribute)
+		trace('''Mapped Attribute «attribute.name» in entity «match.xtEntity.name» to CPPAttribute''')
+		addIncludes(cppAttribute)
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val classEventAttributeRule = createRule.precondition(cppEventAttributes).action[ match |
+		val cppEvent = match.cppEvent
+		val attribute = match.attribute
+		val cppAttribute = cppEvent.createCppAttribute(attribute)
+		trace('''Mapped Attribute «attribute.name» in class event «match.xtClassEvent.name» to CPPAttribute''')
+		addIncludes(cppAttribute)
+	].build
+	
+	def createCppAttribute(CPPQualifiedNamedElement cppElement, Attribute xtAttribute){
 		val cppAttribute = createCPPAttribute
 		cppElement.subElements += cppAttribute
 		cppAttribute => [
-			commonAttribute = attribute
-			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = attribute ]
-			if(attribute.multiValue){
-				unnamedSequenceType = generateCPPSequence(attribute)
+			commonAttribute = xtAttribute
+			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtAttribute ]
+			if(xtAttribute.multiValue){
+				unnamedSequenceType = generateCPPSequence(xtAttribute)
 			}
 		]
-		trace('''Mapped Attribute «attribute.name» in entity «match.xtEntity.name» to CPPAttribute''')
 		fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppAttribute])
 		if(cppAttribute.unnamedSequenceType != null){
 			fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppAttribute.unnamedSequenceType])
 		}
-		addIncludes(cppAttribute)
-	].build
+		cppAttribute
+	}
 	
 	def addIncludes(CPPQualifiedNamedElement cppElement) {
 		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])

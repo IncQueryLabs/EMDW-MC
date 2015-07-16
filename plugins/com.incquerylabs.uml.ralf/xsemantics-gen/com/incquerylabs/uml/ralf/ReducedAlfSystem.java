@@ -6,7 +6,6 @@ import com.google.inject.Provider;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression;
@@ -37,7 +36,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause;
@@ -354,64 +352,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     
     /* empty |- varType <: valueType */
     subtypeOrEqualInternal(emptyEnvironment(), _trace_, varType, valueType);
-    EObject checkedContainer = st;
-    EObject container = st;
-    do {
-      EObject _eContainer = container.eContainer();
-      container = _eContainer;
-      boolean visitedContainer = false;
-      if ((container instanceof Block)) {
-        EList<Statement> _statement = ((Block)container).getStatement();
-        for (final Statement statement : _statement) {
-          if ((!visitedContainer)) {
-            boolean _equals = statement.equals(checkedContainer);
-            if (_equals) {
-              visitedContainer = true;
-            } else {
-              if ((statement instanceof LocalNameDeclarationStatement)) {
-                Variable _variable_1 = ((LocalNameDeclarationStatement)statement).getVariable();
-                String _name = _variable_1.getName();
-                Variable _variable_2 = st.getVariable();
-                String _name_1 = _variable_2.getName();
-                boolean _equals_1 = _name.equals(_name_1);
-                if (_equals_1) {
-                  /* fail error "Duplicate local variable name " source st */
-                  String error = "Duplicate local variable name ";
-                  EObject source = st;
-                  throwForExplicitFail(error, new ErrorInformation(source, null));
-                }
-              }
-            }
-          }
-        }
-      }
-      if ((container instanceof Statements)) {
-        EList<Statement> _statement_1 = ((Statements)container).getStatement();
-        for (final Statement statement_1 : _statement_1) {
-          if ((!visitedContainer)) {
-            boolean _equals_2 = statement_1.equals(checkedContainer);
-            if (_equals_2) {
-              visitedContainer = true;
-            } else {
-              if ((statement_1 instanceof LocalNameDeclarationStatement)) {
-                Variable _variable_3 = ((LocalNameDeclarationStatement)statement_1).getVariable();
-                String _name_2 = _variable_3.getName();
-                Variable _variable_4 = st.getVariable();
-                String _name_3 = _variable_4.getName();
-                boolean _equals_3 = _name_2.equals(_name_3);
-                if (_equals_3) {
-                  /* fail error "Duplicate local variable name " source st */
-                  String error_1 = "Duplicate local variable name ";
-                  EObject source_1 = st;
-                  throwForExplicitFail(error_1, new ErrorInformation(source_1, null));
-                }
-              }
-            }
-          }
-        }
-      }
-      checkedContainer = container;
-    } while((!(container instanceof Statements)));
     return new Result<Boolean>(true);
   }
   
@@ -435,18 +375,9 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result.getFirst(), Type.class);
     condType = (Type) result.getFirst();
     
+    /* empty |- condType <: BOOLEAN.primitiveType */
     Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
-    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(condType, _primitiveType);
-    boolean _failed = _subtypeOrEqual.failed();
-    if (_failed) {
-      /* fail error "Invalid if condition variable type " + condType.name source cl.^condition */
-      String _name = condType.getName();
-      String _plus = ("Invalid if condition variable type " + _name);
-      String error = _plus;
-      Expression _condition_1 = cl.getCondition();
-      EObject source = _condition_1;
-      throwForExplicitFail(error, new ErrorInformation(source, null));
-    }
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, condType, _primitiveType);
     return new Result<Boolean>(true);
   }
   
@@ -513,39 +444,30 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
       checkAssignableTo(result.getFirst(), Type.class);
       ex1Type = (Type) result.getFirst();
       
+      /* empty |- ex1Type <: INTEGER.primitiveType */
       Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
-      Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(ex1Type, _primitiveType);
-      boolean _failed = _subtypeOrEqual.failed();
-      if (_failed) {
-        /* fail error "Invalid loop variable type " + ex1Type.name source loopVariable.expression1 */
-        String _name = ex1Type.getName();
-        String _plus = ("Invalid loop variable type " + _name);
-        String error = _plus;
-        Expression _expression1_1 = loopVariable.getExpression1();
-        EObject source = _expression1_1;
-        throwForExplicitFail(error, new ErrorInformation(source, null));
-      }
-      Expression _expression2 = loopVariable.getExpression2();
-      boolean _notEquals = (!Objects.equal(_expression2, null));
-      if (_notEquals) {
-        /* empty |- loopVariable.expression2 : var Type ex2Type */
-        Expression _expression2_1 = loopVariable.getExpression2();
-        Type ex2Type = null;
-        Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression2_1);
-        checkAssignableTo(result_1.getFirst(), Type.class);
-        ex2Type = (Type) result_1.getFirst();
-        
-        Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.INTEGER);
-        Result<Boolean> _subtypeOrEqual_1 = this.subtypeOrEqual(ex2Type, _primitiveType_1);
-        boolean _failed_1 = _subtypeOrEqual_1.failed();
-        if (_failed_1) {
-          /* fail error "Invalid loop variable type " + ex2Type.name source loopVariable.expression2 */
-          String _name_1 = ex2Type.getName();
-          String _plus_1 = ("Invalid loop variable type " + _name_1);
-          String error_1 = _plus_1;
-          Expression _expression2_2 = loopVariable.getExpression2();
-          EObject source_1 = _expression2_2;
-          throwForExplicitFail(error_1, new ErrorInformation(source_1, null));
+      subtypeOrEqualInternal(emptyEnvironment(), _trace_, ex1Type, _primitiveType);
+      /* { loopVariable.expression2 == null } or { empty |- loopVariable.expression2 : var Type ex2Type empty |- ex2Type <: INTEGER.primitiveType } */
+      {
+        RuleFailedException previousFailure = null;
+        try {
+          Expression _expression2 = loopVariable.getExpression2();
+          /* loopVariable.expression2 == null */
+          if (!Objects.equal(_expression2, null)) {
+            sneakyThrowRuleFailedException("loopVariable.expression2 == null");
+          }
+        } catch (Exception e) {
+          previousFailure = extractRuleFailedException(e);
+          /* empty |- loopVariable.expression2 : var Type ex2Type */
+          Expression _expression2_1 = loopVariable.getExpression2();
+          Type ex2Type = null;
+          Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression2_1);
+          checkAssignableTo(result_1.getFirst(), Type.class);
+          ex2Type = (Type) result_1.getFirst();
+          
+          /* empty |- ex2Type <: INTEGER.primitiveType */
+          Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.INTEGER);
+          subtypeOrEqualInternal(emptyEnvironment(), _trace_, ex2Type, _primitiveType_1);
         }
       }
     }
@@ -572,17 +494,9 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result.getFirst(), Type.class);
     condType = (Type) result.getFirst();
     
+    /* empty |- condType <: BOOLEAN.primitiveType */
     Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
-    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(condType, _primitiveType);
-    boolean _failed = _subtypeOrEqual.failed();
-    if (_failed) {
-      /* fail error "Invalid while condition variable type " + condType.name source st */
-      String _name = condType.getName();
-      String _plus = ("Invalid while condition variable type " + _name);
-      String error = _plus;
-      EObject source = st;
-      throwForExplicitFail(error, new ErrorInformation(source, null));
-    }
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, condType, _primitiveType);
     return new Result<Boolean>(true);
   }
   
@@ -606,17 +520,9 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result.getFirst(), Type.class);
     condType = (Type) result.getFirst();
     
+    /* empty |- condType <: BOOLEAN.primitiveType */
     Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
-    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(condType, _primitiveType);
-    boolean _failed = _subtypeOrEqual.failed();
-    if (_failed) {
-      /* fail error "Invalid do..while condition variable type " + condType.name source st */
-      String _name = condType.getName();
-      String _plus = ("Invalid do..while condition variable type " + _name);
-      String error = _plus;
-      EObject source = st;
-      throwForExplicitFail(error, new ErrorInformation(source, null));
-    }
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, condType, _primitiveType);
     return new Result<Boolean>(true);
   }
   
@@ -640,25 +546,19 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result.getFirst(), Type.class);
     eType = (Type) result.getFirst();
     
-    boolean _and = false;
-    Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
-    Result<Boolean> _subtypeOrEqual = this.subtypeOrEqual(eType, _primitiveType);
-    boolean _failed = _subtypeOrEqual.failed();
-    if (!_failed) {
-      _and = false;
-    } else {
-      Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.STRING);
-      Result<Boolean> _subtypeOrEqual_1 = this.subtypeOrEqual(eType, _primitiveType_1);
-      boolean _failed_1 = _subtypeOrEqual_1.failed();
-      _and = _failed_1;
-    }
-    if (_and) {
-      /* fail error "Invalid switch variable type " + eType.name source st */
-      String _name = eType.getName();
-      String _plus = ("Invalid switch variable type " + _name);
-      String error = _plus;
-      EObject source = st;
-      throwForExplicitFail(error, new ErrorInformation(source, null));
+    /* { empty |- eType <: INTEGER.primitiveType } or { empty |- eType <: STRING.primitiveType } */
+    {
+      RuleFailedException previousFailure = null;
+      try {
+        /* empty |- eType <: INTEGER.primitiveType */
+        Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
+        subtypeOrEqualInternal(emptyEnvironment(), _trace_, eType, _primitiveType);
+      } catch (Exception e) {
+        previousFailure = extractRuleFailedException(e);
+        /* empty |- eType <: STRING.primitiveType */
+        Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.STRING);
+        subtypeOrEqualInternal(emptyEnvironment(), _trace_, eType, _primitiveType_1);
+      }
     }
     EList<SwitchClause> _nonDefaultClause = st.getNonDefaultClause();
     for (final SwitchClause cl : _nonDefaultClause) {
@@ -672,14 +572,14 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
         
         Expression _expression_1 = st.getExpression();
         Result<Boolean> _assignable = this.assignable(_expression_1, caseType);
-        boolean _failed_2 = _assignable.failed();
-        if (_failed_2) {
+        boolean _failed = _assignable.failed();
+        if (_failed) {
           /* fail error "Invalid switch case variable type " + caseType.name source cl */
-          String _name_1 = caseType.getName();
-          String _plus_1 = ("Invalid switch case variable type " + _name_1);
-          String error_1 = _plus_1;
-          EObject source_1 = cl;
-          throwForExplicitFail(error_1, new ErrorInformation(source_1, null));
+          String _name = caseType.getName();
+          String _plus = ("Invalid switch case variable type " + _name);
+          String error = _plus;
+          EObject source = cl;
+          throwForExplicitFail(error, new ErrorInformation(source, null));
         }
       }
     }

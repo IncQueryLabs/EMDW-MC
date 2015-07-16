@@ -122,6 +122,9 @@ ParenthesizedExpression returns Expression :
 ;
 
 /* PROPERTY ACCESS EXPRESSIONS */
+// At this point in case of affix and postfix ++/-- operators, only variable names and properties can be used
+// Property chaining is not supported at this time
+// TODO: use primary expressions and filter using expression types
 PropertyAccessExpression:
 	context = PrimaryExpression '.' property = [uml::Property|Name]
 ;

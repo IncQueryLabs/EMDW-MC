@@ -391,60 +391,61 @@ from {
     empty |- st.expression : var Type valueType
     empty |- varType <: valueType
 
-    var EObject checkedContainer = st;
-    var EObject container = st;
-    do{
-		container = container.eContainer
-		var visitedContainer = false
-		if(container instanceof Block){
-			for(Statement statement :container.statement){
-				if(!visitedContainer){
-					if(statement.equals(checkedContainer)){
-						visitedContainer = true
-					}else{
-						if(statement instanceof LocalNameDeclarationStatement){
-							if(statement.variable.name.equals(st.variable.name)){
-								fail
-        						error "Duplicate local variable name "
-        						source st
-							}
-						}
-					}
-					
-				}
-			}	
-		} 
-		if(container instanceof Statements){
-			for(Statement statement :container.statement){
-				if(!visitedContainer){
-					if(statement.equals(checkedContainer)){
-						visitedContainer = true
-					}else{
-						if(statement instanceof LocalNameDeclarationStatement){
-							if(statement.variable.name.equals(st.variable.name)){
-								fail
-        						error "Duplicate local variable name "
-        						source st
-							}
-						}
-					}
-					
-				}
-			}	
-		} 
-		checkedContainer = container
-	}while(!(container instanceof Statements));  	
+//    var EObject checkedContainer = st;
+//    var EObject container = st;
+//    do{
+//		container = container.eContainer
+//		var visitedContainer = false
+//		if(container instanceof Block){
+//			for(Statement statement :container.statement){
+//				if(!visitedContainer){
+//					if(statement.equals(checkedContainer)){
+//						visitedContainer = true
+//					}else{
+//						if(statement instanceof LocalNameDeclarationStatement){
+//							if(statement.variable.name.equals(st.variable.name)){
+//								fail
+//        						error "Duplicate local variable name "
+//        						source st
+//							}
+//						}
+//					}
+//					
+//				}
+//			}	
+//		} 
+//		if(container instanceof Statements){
+//			for(Statement statement :container.statement){
+//				if(!visitedContainer){
+//					if(statement.equals(checkedContainer)){
+//						visitedContainer = true
+//					}else{
+//						if(statement instanceof LocalNameDeclarationStatement){
+//							if(statement.variable.name.equals(st.variable.name)){
+//								fail
+//        						error "Duplicate local variable name "
+//        						source st
+//							}
+//						}
+//					}
+//					
+//				}
+//			}	
+//		} 
+//		checkedContainer = container
+//	}while(!(container instanceof Statements));  	
 }
 
 checkrule NonFinalClause for
     NonFinalClause cl
 from {
 	empty |- cl.^condition : var Type condType
-	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
-		fail
-        error "Invalid if condition variable type " + condType.name
-        source cl.^condition
-	}
+	empty |- condType <: BOOLEAN.primitiveType
+//	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
+//		fail
+//        error "Invalid if condition variable type " + condType.name
+//        source cl.^condition
+//	}
 }
 
 checkrule BreakStatement for
@@ -476,19 +477,26 @@ from {
 	for(Variable variable : st.variableDefinition){
 		val loopVariable = variable as LoopVariable
 		empty |- loopVariable.expression1 : var Type ex1Type
-		if(subtypeOrEqual(ex1Type, INTEGER.primitiveType).failed /*TODO Collections*/){
-   			fail
-        	error "Invalid loop variable type " + ex1Type.name
-        	 source loopVariable.expression1
-   		}
-   		if(loopVariable.expression2 != null){
+		empty |- ex1Type <: INTEGER.primitiveType
+//		if(subtypeOrEqual(ex1Type, INTEGER.primitiveType).failed /*TODO Collections*/){
+//   			fail
+//        	error "Invalid loop variable type " + ex1Type.name
+//        	 source loopVariable.expression1
+//   		}
+   		{
+   			loopVariable.expression2 == null
+   		} or {
    			empty |- loopVariable.expression2 : var Type ex2Type
-   			if(subtypeOrEqual(ex2Type, INTEGER.primitiveType).failed){
-   				fail
-        		error "Invalid loop variable type " + ex2Type.name
-        	 	source loopVariable.expression2
-   			}
+   			empty |- ex2Type <: INTEGER.primitiveType
    		}
+//   		if(loopVariable.expression2 != null){
+//   			empty |- loopVariable.expression2 : var Type ex2Type
+//   			if(subtypeOrEqual(ex2Type, INTEGER.primitiveType).failed){
+//   				fail
+//        		error "Invalid loop variable type " + ex2Type.name
+//        	 	source loopVariable.expression2
+//   			}
+//   		}
    		
 	}
 }
@@ -497,11 +505,12 @@ checkrule WhileStatement for
     WhileStatement st
 from {
 	empty |- st.^condition : var Type condType
-	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
-		fail
-       	error "Invalid while condition variable type " + condType.name
-       	source st
-	}
+	empty |- condType <: BOOLEAN.primitiveType
+//	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
+//		fail
+//       	error "Invalid while condition variable type " + condType.name
+//       	source st
+//	}
 	
 }
 
@@ -509,11 +518,12 @@ checkrule DoStatement for
     DoStatement st
 from {
 	empty |- st.^condition : var Type condType
-	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
-		fail
-       	error "Invalid do..while condition variable type " + condType.name
-       	source st
-	}
+	empty |- condType <: BOOLEAN.primitiveType
+//	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
+//		fail
+//       	error "Invalid do..while condition variable type " + condType.name
+//       	source st
+//	}
 }
 
 checkrule SwitchStatement_ for
@@ -521,11 +531,18 @@ checkrule SwitchStatement_ for
 from {
 	//Proper type
 	empty |- st.expression : var Type eType
-	if(subtypeOrEqual(eType, INTEGER.primitiveType).failed && subtypeOrEqual(eType, STRING.primitiveType).failed){
-		fail
-       	error "Invalid switch variable type " + eType.name
-       	source st   	
+	{
+		empty |- eType <: INTEGER.primitiveType 
+	} or {
+		empty |- eType <: STRING.primitiveType
 	}
+//	
+//	
+//	if(subtypeOrEqual(eType, INTEGER.primitiveType).failed && subtypeOrEqual(eType, STRING.primitiveType).failed){
+//		fail
+//       	error "Invalid switch variable type " + eType.name
+//       	source st   	
+//	}
 	//cases match the type
 	for(SwitchClause cl : st.nonDefaultClause){
 		for(Expression ex : cl.^case){

@@ -3,6 +3,14 @@
  */
 package com.incquerylabs.uml.ralf.validation
 
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.validation.Check
+
 //import org.eclipse.xtext.validation.Check
 
 /**
@@ -12,14 +20,46 @@ package com.incquerylabs.uml.ralf.validation
  */
 class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 
-//  public static val INVALID_NAME = 'invalidName'
-//
-//	@Check
-//	def checkGreetingStartsWithCapital(Greeting greeting) {
-//		if (!Character.isUpperCase(greeting.name.charAt(0))) {
-//			warning('Name should start with a capital', 
-//					MyDslPackage.Literals.GREETING__NAME,
-//					INVALID_NAME)
-//		}
-//	}
+	@Check
+	def duplicateLocalVariables(LocalNameDeclarationStatement st) {
+		var EObject checkedContainer = st;
+		var EObject container = st;
+		do {
+			container = container.eContainer
+			var visitedContainer = false
+			if (container instanceof Block) {
+				for (Statement statement : container.statement) {
+					if (!visitedContainer) {
+						if (statement.equals(checkedContainer)) {
+							visitedContainer = true
+						} else {
+							if (statement instanceof LocalNameDeclarationStatement) {
+								if (statement.variable.name.equals(st.variable.name)) {
+									error("Duplicate local variable name", ReducedAlfLanguagePackage.Literals.LOCAL_NAME_DECLARATION_STATEMENT__VARIABLE)
+								}
+							}
+						}
+
+					}
+				}
+			}
+			if (container instanceof Statements) {
+				for (Statement statement : container.statement) {
+					if (!visitedContainer) {
+						if (statement.equals(checkedContainer)) {
+							visitedContainer = true
+						} else {
+							if (statement instanceof LocalNameDeclarationStatement) {
+								if (statement.variable.name.equals(st.variable.name)) {
+									error("Duplicate local variable name", ReducedAlfLanguagePackage.Literals.LOCAL_NAME_DECLARATION_STATEMENT__VARIABLE)
+								}
+							}
+						}
+
+					}
+				}
+			}
+			checkedContainer = container
+		} while (!(container instanceof Statements));
+	}
 }

@@ -354,14 +354,13 @@ pattern cppClassStateMachineTransitions(
 	CompositeState.transitions(compState, transition);
 }
 
-pattern cppClassStateMachineEvents(
+pattern cppClassEvents(
 	xtClass : XTClass,
 	cppClass : CPPClass,
 	event : XTEvent
 ) {
-	find cppClassStateMachineTransitions(xtClass, cppClass, transition);
-	Transition.triggers(transition, trigger);
-	XTEventTrigger.signal(trigger, event);
+	find cppClasses(xtClass, cppClass);
+	XTClass.events(xtClass, event);
 }
 
 pattern cppClassAssociations(

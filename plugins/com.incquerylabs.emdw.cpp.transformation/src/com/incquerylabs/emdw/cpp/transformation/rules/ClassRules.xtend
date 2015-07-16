@@ -102,7 +102,7 @@ class ClassRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val eventRule = createRule.precondition(cppClassStateMachineEvents).action[ match |
+	val eventRule = createRule.precondition(cppClassEvents).action[ match |
 		val event = match.event
 		val cppEvent = createCPPEvent => [
 			xtEvent = event

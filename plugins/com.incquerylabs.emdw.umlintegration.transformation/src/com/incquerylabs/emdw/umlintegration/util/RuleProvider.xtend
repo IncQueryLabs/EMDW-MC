@@ -78,7 +78,7 @@ class RuleProvider {
 	 * Public method that initiates each rule
 	 * 
 	 */
-	public def initRules() {
+	public def void initRules() {
 		ActionChainRules.getRules(engine).initRules
 		AttributeRules.getRules(engine).initRules
 		CapsulePartRules.getRules(engine).initRules

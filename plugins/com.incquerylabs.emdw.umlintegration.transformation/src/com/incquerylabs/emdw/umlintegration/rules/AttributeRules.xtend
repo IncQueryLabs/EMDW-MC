@@ -33,9 +33,9 @@ class ClassAttributeMapping extends AbstractObjectMapping<AttributeMatch, Proper
 		Attribute
 	}
 	
-	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
+	public static val int PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
 
-	override getRulePriority() {
+	override int getRulePriority() {
 		PRIORITY
 	}
 

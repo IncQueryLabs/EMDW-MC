@@ -6,6 +6,7 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Property
@@ -34,6 +35,35 @@ class AttributeMappingTest extends TransformationTest<Property, Attribute> {
 		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.type)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
 		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
+		assertEquals("Attribute's (default) lower bound is not set correctly", 1, xtumlrtObject.lowerBound)
+		assertEquals("Attribute's (default) upper bound is not set correctly", 1, xtumlrtObject.upperBound)
+	}
+
+}
+
+@RunWith(Parameterized)
+class SignalAttributeMappingTest extends TransformationTest<Property, Attribute> {
+
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+
+	override protected createUmlObject(Model umlRoot) {
+		val comp = umlRoot.createComponentInModel
+		val signal = createClassAndSignal(umlRoot)
+		createSignalEvent(umlRoot, signal)
+		val property = createPropertyForSignal(signal) => [
+			type = comp
+		]
+		property
+	}
+
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.entities.filter(XTClass).head.events.filter(XTClassEvent).head.attributes
+	}
+
+	override protected checkXtumlrtObject(RootMapping mapping, Property umlObject, Attribute xtumlrtObject) {
+		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.type)
 		assertEquals("Attribute's (default) lower bound is not set correctly", 1, xtumlrtObject.lowerBound)
 		assertEquals("Attribute's (default) upper bound is not set correctly", 1, xtumlrtObject.upperBound)
 	}

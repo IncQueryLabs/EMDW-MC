@@ -191,6 +191,12 @@ class TransformationTestUtil {
 		owner.nestedClassifiers += mySignal
 		mySignal
 	}
+	
+	static def createPropertyForSignal(Signal signal) {
+		val property = umlFactory.createProperty
+		signal.ownedAttributes += property
+		property
+	}
 
 	static def createSignalAndSignalEvent(Model umlRoot, Class owner, Trigger trigger) {
 		val signal = owner.createClassSignal

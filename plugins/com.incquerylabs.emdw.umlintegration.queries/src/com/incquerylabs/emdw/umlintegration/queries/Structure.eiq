@@ -177,6 +177,7 @@ pattern attribute(umlClass: Class, property: Property) {
 }
 
 pattern signalAttribute(umlSignal: Signal, property: Property) {
+	find xtClassEvent(_class, umlSignal);
 	Signal.ownedAttribute(umlSignal, property);
 }
 

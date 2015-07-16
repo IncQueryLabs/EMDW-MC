@@ -16866,12 +16866,12 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_Yr_R0BaTEeW8X4qhyNN0tA" name="generateClone(collection EString, variableType EString, result EString) : EString" tooltipText="generateClone(collection, variableType, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_Yr_R0BaTEeW8X4qhyNN0tA" name="generateClone(collection EString, valueType EString, result EString) : EString" tooltipText="generateClone(collection, valueType, result) : EString">
           <target xmi:type="ecore:EOperation" href="cppmodel.ecore#//BaseContainerImplementation/generateClone"/>
           <semanticElements xmi:type="ecore:EOperation" href="cppmodel.ecore#//BaseContainerImplementation/generateClone"/>
           <semanticElements xmi:type="ecore:EParameter" href="cppmodel.ecore#//BaseContainerImplementation/generateClone/collection"/>
           <semanticElements xmi:type="ecore:EParameter" href="cppmodel.ecore#//BaseContainerImplementation/generateClone/result"/>
-          <semanticElements xmi:type="ecore:EParameter" href="cppmodel.ecore#//BaseContainerImplementation/generateClone/variableType"/>
+          <semanticElements xmi:type="ecore:EParameter" href="cppmodel.ecore#//BaseContainerImplementation/generateClone/valueType"/>
           <ownedStyle xmi:type="diagram:BundledImage" xmi:id="_Yr_R0RaTEeW8X4qhyNN0tA" labelAlignment="LEFT">
             <description xmi:type="style:BundledImageDescription" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']/@style"/>
           </ownedStyle>

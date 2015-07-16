@@ -252,7 +252,7 @@
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateClone">
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/variableType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/valueType"/>
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/result"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateContains">

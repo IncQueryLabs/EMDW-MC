@@ -1,12 +1,16 @@
 package com.incquerylabs.emdw.cpp.transformation
 
 import com.google.common.base.Stopwatch
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
+import com.incquerylabs.emdw.cpp.transformation.rules.AttributeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
-import com.incquerylabs.emdw.cpp.transformation.rules.EntityRules
+import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
+import com.incquerylabs.emdw.cpp.transformation.rules.OperationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
+import com.incquerylabs.emdw.cpp.transformation.rules.SequenceRules
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
@@ -16,8 +20,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
-import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 
 class XtumlComponentCPPTransformation {
 
@@ -33,8 +35,10 @@ class XtumlComponentCPPTransformation {
 	ComponentRules componentRules
 	PackageRules packageRules
 	ClassRules classRules
-	EntityRules entityRules
+	AttributeRules attributeRules
+	OperationRules operationRules
 	AssociationRules associationRules
+	SequenceRules sequenceRules
 	IncludeRules includeRules
 	
 
@@ -52,18 +56,25 @@ class XtumlComponentCPPTransformation {
 			debug("Preparing transformation rules.")
 			transform = BatchTransformation.forEngine(engine)
 			statements = new BatchTransformationStatements(transform)
-			includeRules = new IncludeRules(engine, statements)
-			entityRules  = new EntityRules(statements, includeRules)
-			associationRules = new AssociationRules(statements, includeRules)
-			classRules = new ClassRules(statements, associationRules, entityRules, includeRules)
-			packageRules = new PackageRules(statements, classRules, includeRules)
-			componentRules = new ComponentRules(statements, packageRules, classRules, entityRules, includeRules)
 			
-			componentRules.addRules(transform)
-			packageRules.addRules(transform)
-			classRules.addRules(transform)
-			entityRules.addRules(transform)
+			includeRules = new IncludeRules(engine, statements)
+			sequenceRules = new SequenceRules(statements)
+			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
+			operationRules = new OperationRules(statements, sequenceRules, includeRules)
+			associationRules = new AssociationRules(statements, includeRules)
+			classRules = new ClassRules(statements, associationRules, attributeRules, operationRules, includeRules)
+			packageRules = new PackageRules(statements, classRules, includeRules)
+			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)
+			
+			includeRules.addRules(transform)
+			sequenceRules.addRules(transform)
+			attributeRules.addRules(transform)
+			operationRules.addRules(transform)
 			associationRules.addRules(transform)
+			classRules.addRules(transform)
+			packageRules.addRules(transform)
+			componentRules.addRules(transform)
+			
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true

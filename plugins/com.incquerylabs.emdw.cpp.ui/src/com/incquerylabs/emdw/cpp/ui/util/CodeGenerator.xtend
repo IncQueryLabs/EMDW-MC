@@ -46,24 +46,29 @@ class CodeGenerator {
 	
 	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {		
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
-		
-		val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
-		QueryBasedFeatures.instance.prepare(managedEngine)
-		
-		var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
-		xformqrt.initialize(engine)
-		xformqrt.execute
-		
-		val validXtumlModel = validateXtumlModel(engine, event)
-		if(validXtumlModel){
-			xtComponents.forEach[ xtComponent |
-				performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
-			]
-    	}
-		
-		clearCPPModel(engine, xtResourceSet)
-		xformqrt.dispose
-		engine.dispose
+		try {
+			val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
+			QueryBasedFeatures.instance.prepare(managedEngine)
+			
+			clearCPPModel(engine, xtResourceSet)
+			var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
+	
+			xformqrt.initialize(engine)
+			try {
+				xformqrt.execute
+				
+				val validXtumlModel = validateXtumlModel(engine, event)
+				if(validXtumlModel){
+					xtComponents.forEach[ xtComponent |
+						performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
+					]
+		    	}
+			} finally {
+				xformqrt.dispose
+			}
+		} finally {
+			engine.dispose
+		}
 	}
 	
 	def validateXtumlModel(AdvancedIncQueryEngine engine, ExecutionEvent event) {

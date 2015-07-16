@@ -125,6 +125,18 @@ pattern classReferenceSimpleCollectionContainerImplementation(
 	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
 }
 
+pattern classReferenceSimpleCollectionContainerImplementation4Instances(
+	cppClass : CPPClass,
+	classReferenceSimpleCollection : CPPClassRefSimpleCollection,
+	containerImplementation : CPPClassRefSimpleCollectionImplementation
+){
+	CPPClass.referenceStorage(cppClass, cppInstanceReference);
+	CPPClassReferenceStorage.type(cppInstanceReference, classReferenceSimpleCollection);
+	CPPClassRefSimpleCollection.ooplClass(classReferenceSimpleCollection, cppClass);
+	CPPClassRefSimpleCollection.kind(classReferenceSimpleCollection, kind);
+	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
+}
+
 pattern cppSequenceContainerImplementation(
 	cppElement : CPPQualifiedNamedElement,
 	cppSequence : CPPSequence,

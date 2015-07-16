@@ -12,6 +12,8 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 
 class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -104,7 +106,7 @@ class ClassRules {
 	].build
 	
 	def createCppClass(XTClass xtClass, CPPDirectory headerDir, CPPDirectory bodyDir){
-		createCPPClass => [
+		val cppClass = createCPPClass => [
 			it.xtClass = xtClass
 			bodyFile = createCPPBodyFile
 			bodyDir.files += bodyFile
@@ -113,7 +115,24 @@ class ClassRules {
 			headerDir.files += headerFile
 			
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = xtClass ]
+			
 		]
+		val cppClassRef =  createCPPClassRefSimpleCollection => [
+			it.commonType = xtClass
+			it.ooplClass = cppClass
+			it.kind = SimpleCollectionKind.SIMPLY_LINKED_LIST
+			
+			it.ooplNameProvider = createOOPLExistingNameProvider => [ it.commonNamedElement = xtClass ]
+		]
+		val instanceReferences = createCPPClassReferenceStorage => [
+			it.type = cppClassRef
+			it.subElements += it.type as CPPQualifiedNamedElement
+			
+			it.ooplNameProvider = createOOPLDerivedNameProvider => [ it.name = "_instances" ]
+		]
+		cppClass.referenceStorage += instanceReferences
+		cppClass.subElements += instanceReferences
+		return cppClass
 	}
 	
 	def addIncludes(CPPClass cppClass){
@@ -138,6 +157,7 @@ class ClassRules {
 		// After the creation of the second CPPClass both directions of the association have to be added
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
 		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
+		fireAllCurrent(associationRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
 		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
 		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
 		fireAllCurrent(stateRule, [it.cppClass == cppClass])

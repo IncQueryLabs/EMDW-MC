@@ -1,5 +1,8 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
@@ -52,22 +55,52 @@ class OperationTemplates {
 		'''
 	}
 	
-	def constructorDefinitionInClassBody(CPPOperation constructor, String fieldInitialization) {		
+	def constructorDefinitionInClassBody(CPPClass cppClass, CPPOperation constructor, String fieldInitialization) {		
 		'''
 			«operationSignature(constructor, true, false, false, false)»«fieldInitialization» {
-				_instances.push_back(this);
 				«actionCodeTemplates.generateActionCode(constructor.commonOperation.body)»
+				«instancesAddTemplates(cppClass)»
 			}
 		'''
 	}
 	
-	def destructorDefinitionInClassBody(CPPOperation destructor) {		
+	def instancesAddTemplates(CPPClass cppClass) {
+		'''
+		«FOR cppClassRefStorage : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
+			«cppClassRefStorage.generateAddTemplate("this")»
+		«ENDFOR»
+		'''
+	}
+	
+	def String generateAddTemplate(CPPClassReferenceStorage storage, String value) {
+		var type = storage.type
+		if(type instanceof CPPClassRefSimpleCollection) {
+			return type.implementation.generateAdd(storage.cppName, value, "result")
+		}
+	}
+	
+	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {		
 		'''
 			«operationSignature(destructor, true, false, false, false)» {
 				«actionCodeTemplates.generateActionCode(destructor.commonOperation.body)»
-				_instances.remove(this);
+				«instancesRemoveTemplates(cppClass)»
 			}
 		'''
+	}
+	
+	def instancesRemoveTemplates(CPPClass cppClass) {
+		'''
+		«FOR cppClassRefStorage : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
+			«cppClassRefStorage.generateRemoveTemplate("this")»
+		«ENDFOR»
+		'''
+	}
+	
+	def String generateRemoveTemplate(CPPClassReferenceStorage storage, String value) {
+		var type = storage.type
+		if(type instanceof CPPClassRefSimpleCollection) {
+			return type.implementation.generateRemove(storage.cppName, value)
+		}
 	}
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){

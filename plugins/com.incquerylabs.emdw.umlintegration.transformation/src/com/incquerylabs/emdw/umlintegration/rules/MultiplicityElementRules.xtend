@@ -20,9 +20,14 @@ class MultiplicityElementMapping extends AbstractMapping<MultiplicityElementMatc
 		super(engine)
 	}
 	
-	public static val PRIORITY = Math.max(Math.max(XTAssociationMapping.PRIORITY, AttributeMapping.PRIORITY), OperationMapping.PRIORITY) + 1
+	public static val int PRIORITY = Math.max(Math.max(Math.max(
+		XTAssociationMapping.PRIORITY, 
+		ClassAttributeMapping.PRIORITY),
+		SignalAttributeMapping.PRIORITY),
+		OperationMapping.PRIORITY
+	) + 1
 
-	override getRulePriority() {
+	override int getRulePriority() {
 		PRIORITY
 	}
 	

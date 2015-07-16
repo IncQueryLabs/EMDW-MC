@@ -36,7 +36,7 @@ class XTClassMapping extends AbstractObjectMapping<XtClassMatch, Class, XTClass>
 		XTClass
 	}
 	
-	public static val PRIORITY = 1
+	public static val PRIORITY = CommonPriorities.CLASS_MAPPING_PRIORITY
 
 	override getRulePriority() {
 		PRIORITY

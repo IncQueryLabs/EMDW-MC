@@ -29,7 +29,8 @@
     </genClasses>
     <genClasses image="false" ecoreClass="xtuml.ecore#//XTEvent"/>
     <genClasses ecoreClass="xtuml.ecore#//XTClassEvent">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClassEvent/attributes"/>
+      <genFeatures property="None" children="true" createChild="true" propertySortChoices="true"
+          ecoreFeature="ecore:EReference xtuml.ecore#//XTClassEvent/attributes"/>
     </genClasses>
     <genClasses ecoreClass="xtuml.ecore#//XTProtocol"/>
     <genClasses ecoreClass="xtuml.ecore#//XTEventTrigger">

@@ -2,9 +2,9 @@ package com.incquerylabs.emdw.umlintegration.test
 
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.rules.ActionChainMapping
-import com.incquerylabs.emdw.umlintegration.rules.AttributeMapping
 import com.incquerylabs.emdw.umlintegration.rules.CapsulePartMapping
 import com.incquerylabs.emdw.umlintegration.rules.ChoicePointMapping
+import com.incquerylabs.emdw.umlintegration.rules.ClassAttributeMapping
 import com.incquerylabs.emdw.umlintegration.rules.CompositeStateMapping
 import com.incquerylabs.emdw.umlintegration.rules.ConnectorEndMapping
 import com.incquerylabs.emdw.umlintegration.rules.ConnectorMapping
@@ -97,7 +97,7 @@ class IntegrationTest {
 			new ConnectorMapping(engine),
 			new ConnectorEndMapping(engine),
 			new XTClassMapping(engine),
-			new AttributeMapping(engine),
+			new ClassAttributeMapping(engine),
 			new OperationMapping(engine),
 			new ParameterMapping(engine),
 			new XTAssociationMapping(engine),

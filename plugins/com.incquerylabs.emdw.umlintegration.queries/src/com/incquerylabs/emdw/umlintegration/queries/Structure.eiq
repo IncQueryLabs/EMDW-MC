@@ -176,6 +176,10 @@ pattern attribute(umlClass: Class, property: Property) {
 	Class.ownedAttribute(umlClass, property);
 }
 
+pattern signalAttribute(umlSignal: Signal, property: Property) {
+	Signal.ownedAttribute(umlSignal, property);
+}
+
 // MultiplicityElement
 
 pattern multiplicityElement(multiplicityElement: MultiplicityElement, lowerValue: ValueSpecification, upperValue: ValueSpecification) {

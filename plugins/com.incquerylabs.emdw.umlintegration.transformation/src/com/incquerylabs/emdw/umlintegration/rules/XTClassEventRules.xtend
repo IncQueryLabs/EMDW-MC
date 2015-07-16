@@ -29,7 +29,7 @@ class XTClassEventMapping extends AbstractObjectMapping<XtClassEventMatch, Signa
 	}
 	
 	override getRulePriority() {
-		XTClassMapping.PRIORITY + 1
+		CommonPriorities.EVENT_MAPPING_PRIORITY
 	}
 
 	override getQuerySpecification() {

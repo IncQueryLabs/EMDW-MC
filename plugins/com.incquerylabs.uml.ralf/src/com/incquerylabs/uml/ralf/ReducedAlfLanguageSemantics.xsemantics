@@ -5,11 +5,8 @@ validatorExtends AbstractReducedAlfLanguageValidator
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
@@ -35,8 +32,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
@@ -389,51 +384,7 @@ checkrule LocalNameDeclarationStatementType for
 from {
     empty |- st.variable : var Type varType
     empty |- st.expression : var Type valueType
-    empty |- varType <: valueType
-
-//    var EObject checkedContainer = st;
-//    var EObject container = st;
-//    do{
-//		container = container.eContainer
-//		var visitedContainer = false
-//		if(container instanceof Block){
-//			for(Statement statement :container.statement){
-//				if(!visitedContainer){
-//					if(statement.equals(checkedContainer)){
-//						visitedContainer = true
-//					}else{
-//						if(statement instanceof LocalNameDeclarationStatement){
-//							if(statement.variable.name.equals(st.variable.name)){
-//								fail
-//        						error "Duplicate local variable name "
-//        						source st
-//							}
-//						}
-//					}
-//					
-//				}
-//			}	
-//		} 
-//		if(container instanceof Statements){
-//			for(Statement statement :container.statement){
-//				if(!visitedContainer){
-//					if(statement.equals(checkedContainer)){
-//						visitedContainer = true
-//					}else{
-//						if(statement instanceof LocalNameDeclarationStatement){
-//							if(statement.variable.name.equals(st.variable.name)){
-//								fail
-//        						error "Duplicate local variable name "
-//        						source st
-//							}
-//						}
-//					}
-//					
-//				}
-//			}	
-//		} 
-//		checkedContainer = container
-//	}while(!(container instanceof Statements));  	
+    empty |- varType <: valueType	
 }
 
 checkrule NonFinalClause for
@@ -441,34 +392,6 @@ checkrule NonFinalClause for
 from {
 	empty |- cl.^condition : var Type condType
 	empty |- condType <: BOOLEAN.primitiveType
-//	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
-//		fail
-//        error "Invalid if condition variable type " + condType.name
-//        source cl.^condition
-//	}
-}
-
-checkrule BreakStatement for
-    BreakStatement st
-from {
-	var invalid = true;
-	var container = st.eContainer
-	while(!(container instanceof Statements)){
-		if(container instanceof BlockStatement && (
-			container.eContainer instanceof WhileStatement || 
-			container.eContainer instanceof DoStatement || 
-			container.eContainer instanceof ForStatement || 
-			container.eContainer instanceof SwitchClause ))
-		{
-			invalid = false;
-		}
-		container = container.eContainer
-	}
-	if(invalid){
-		fail
-        error "Invalid break statement "
-        source st
-	}
 }
 
 checkrule ForStatement for
@@ -478,26 +401,12 @@ from {
 		val loopVariable = variable as LoopVariable
 		empty |- loopVariable.expression1 : var Type ex1Type
 		empty |- ex1Type <: INTEGER.primitiveType
-//		if(subtypeOrEqual(ex1Type, INTEGER.primitiveType).failed /*TODO Collections*/){
-//   			fail
-//        	error "Invalid loop variable type " + ex1Type.name
-//        	 source loopVariable.expression1
-//   		}
    		{
    			loopVariable.expression2 == null
    		} or {
    			empty |- loopVariable.expression2 : var Type ex2Type
    			empty |- ex2Type <: INTEGER.primitiveType
-   		}
-//   		if(loopVariable.expression2 != null){
-//   			empty |- loopVariable.expression2 : var Type ex2Type
-//   			if(subtypeOrEqual(ex2Type, INTEGER.primitiveType).failed){
-//   				fail
-//        		error "Invalid loop variable type " + ex2Type.name
-//        	 	source loopVariable.expression2
-//   			}
-//   		}
-   		
+   		} 		
 	}
 }
 
@@ -505,13 +414,7 @@ checkrule WhileStatement for
     WhileStatement st
 from {
 	empty |- st.^condition : var Type condType
-	empty |- condType <: BOOLEAN.primitiveType
-//	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
-//		fail
-//       	error "Invalid while condition variable type " + condType.name
-//       	source st
-//	}
-	
+	empty |- condType <: BOOLEAN.primitiveType	
 }
 
 checkrule DoStatement for
@@ -519,11 +422,6 @@ checkrule DoStatement for
 from {
 	empty |- st.^condition : var Type condType
 	empty |- condType <: BOOLEAN.primitiveType
-//	if(subtypeOrEqual(condType, BOOLEAN.primitiveType).failed){
-//		fail
-//       	error "Invalid do..while condition variable type " + condType.name
-//       	source st
-//	}
 }
 
 checkrule SwitchStatement_ for
@@ -536,22 +434,11 @@ from {
 	} or {
 		empty |- eType <: STRING.primitiveType
 	}
-//	
-//	
-//	if(subtypeOrEqual(eType, INTEGER.primitiveType).failed && subtypeOrEqual(eType, STRING.primitiveType).failed){
-//		fail
-//       	error "Invalid switch variable type " + eType.name
-//       	source st   	
-//	}
 	//cases match the type
 	for(SwitchClause cl : st.nonDefaultClause){
 		for(Expression ex : cl.^case){
 			empty |- ex : var Type caseType
-	   		if(assignable(st.expression, caseType).failed){
-	   			fail
-	        	error "Invalid switch case variable type " + caseType.name
-	        	source cl
-	   		}
+			empty |- st.expression |> caseType
 		}
 	}
 	

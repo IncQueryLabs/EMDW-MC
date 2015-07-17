@@ -2,7 +2,6 @@ package com.incquerylabs.uml.ralf.validation;
 
 import com.google.inject.Inject;
 import com.incquerylabs.uml.ralf.ReducedAlfSystem;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
@@ -54,13 +53,6 @@ public class ReducedAlfSystemValidator extends AbstractReducedAlfLanguageValidat
     errorGenerator.generateErrors(this,
     	getXsemanticsSystem().nonFinalClause(cl),
     		cl);
-  }
-  
-  @Check
-  public void breakStatement(final BreakStatement st) {
-    errorGenerator.generateErrors(this,
-    	getXsemanticsSystem().breakStatement(st),
-    		st);
   }
   
   @Check

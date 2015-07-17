@@ -6,10 +6,8 @@ import com.google.inject.Provider;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement;
@@ -36,7 +34,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement;
@@ -381,46 +378,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<Boolean>(true);
   }
   
-  public Result<Boolean> breakStatement(final BreakStatement st) {
-    return breakStatement(null, st);
-  }
-  
-  public Result<Boolean> breakStatement(final RuleApplicationTrace _trace_, final BreakStatement st) {
-    try {
-    	return breakStatementInternal(_trace_, st);
-    } catch (Exception _e_BreakStatement) {
-    	return resultForFailure(_e_BreakStatement);
-    }
-  }
-  
-  protected Result<Boolean> breakStatementInternal(final RuleApplicationTrace _trace_, final BreakStatement st) throws RuleFailedException {
-    boolean invalid = true;
-    EObject container = st.eContainer();
-    while ((!(container instanceof Statements))) {
-      boolean _and = false;
-      if (!(container instanceof BlockStatement)) {
-        _and = false;
-      } else {
-        _and = ((((container.eContainer() instanceof WhileStatement) || 
-          (container.eContainer() instanceof DoStatement)) || 
-          (container.eContainer() instanceof ForStatement)) || 
-          (container.eContainer() instanceof SwitchClause));
-      }
-      if (_and) {
-        invalid = false;
-      }
-      EObject _eContainer = container.eContainer();
-      container = _eContainer;
-    }
-    if (invalid) {
-      /* fail error "Invalid break statement " source st */
-      String error = "Invalid break statement ";
-      EObject source = st;
-      throwForExplicitFail(error, new ErrorInformation(source, null));
-    }
-    return new Result<Boolean>(true);
-  }
-  
   public Result<Boolean> forStatement(final ForStatement st) {
     return forStatement(null, st);
   }
@@ -570,17 +527,9 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
         checkAssignableTo(result_1.getFirst(), Type.class);
         caseType = (Type) result_1.getFirst();
         
+        /* empty |- st.expression |> caseType */
         Expression _expression_1 = st.getExpression();
-        Result<Boolean> _assignable = this.assignable(_expression_1, caseType);
-        boolean _failed = _assignable.failed();
-        if (_failed) {
-          /* fail error "Invalid switch case variable type " + caseType.name source cl */
-          String _name = caseType.getName();
-          String _plus = ("Invalid switch case variable type " + _name);
-          String error = _plus;
-          EObject source = cl;
-          throwForExplicitFail(error, new ErrorInformation(source, null));
-        }
+        assignableInternal(emptyEnvironment(), _trace_, _expression_1, caseType);
       }
     }
     return new Result<Boolean>(true);

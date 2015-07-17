@@ -4,10 +4,16 @@
 package com.incquerylabs.uml.ralf.validation
 
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
 
@@ -61,5 +67,25 @@ class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 			}
 			checkedContainer = container
 		} while (!(container instanceof Statements));
+	}
+	
+	@Check
+	def invalidBreak(BreakStatement st) {
+		var invalid = true;
+		var container = st.eContainer
+		while(!(container instanceof Statements)){
+			if(container instanceof BlockStatement && (
+				container.eContainer instanceof WhileStatement || 
+				container.eContainer instanceof DoStatement || 
+				container.eContainer instanceof ForStatement || 
+				container.eContainer instanceof SwitchClause ))
+			{
+				invalid = false;
+			}
+			container = container.eContainer
+		}
+		if(invalid){
+			error("Invalid break statement", ReducedAlfLanguagePackage.Literals.BLOCK__STATEMENT)
+		}
 	}
 }

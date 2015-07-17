@@ -235,6 +235,16 @@ pattern xtClassEvent(umlClass: Class, signal: Signal) {
 	
 }
 
+pattern xtClassEventGeneralization(
+	signal: Signal,
+	superSignal: Signal
+) {
+	Class.nestedClassifier(_class1, signal);
+	Class.nestedClassifier(_class2, superSignal);
+	Signal.generalization(signal, generalization);
+	Generalization.general(generalization, superSignal);
+}
+
 // Types
 
 pattern typeDefinition(umlPackage: Package, type : uml::Type) {

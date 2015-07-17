@@ -19,7 +19,9 @@
           <subvertex xmi:type="uml:State" xmi:id="_d8s14BmmEeWkDIIs2OLK7g" name="s2">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_Dxv2kBpDEeWJmP2mki6rxQ" name="sendPong">
               <language>C++</language>
+              <language>rALF</language>
               <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
+              <body>send new pong_s() => this->ping;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
@@ -41,13 +43,17 @@
           <subvertex xmi:type="uml:State" xmi:id="_oUtdcBmkEeWkDIIs2OLK7g" name="s1">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_hi5noBpCEeWFcpFo2w2ToQ" name="sendPing">
               <language>C++</language>
+              <language>rALF</language>
               <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
+              <body>send new ping_s() => this->pong;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:State" xmi:id="_oolbsBmkEeWkDIIs2OLK7g" name="s2">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_AiVCkBmmEeWkDIIs2OLK7g" name="sendPing">
               <language>C++</language>
+              <language>rALF</language>
               <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
+              <body>send new ping_s() => this->pong;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_rax2gBmkEeWkDIIs2OLK7g" name="initial"/>

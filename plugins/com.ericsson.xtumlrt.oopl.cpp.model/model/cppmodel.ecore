@@ -524,20 +524,30 @@
   <eClassifiers xsi:type="ecore:EClass" name="CPPClassRefSimpleCollectionImplementation"
       eSuperTypes="#//BaseContainerImplementation">
     <eOperations name="generateElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollectionImplementationTemplateReplacer.generateElementAtIndex(this, collection, valueType, index, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
       <eParameters name="collection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="generateInsertElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollectionImplementationTemplateReplacer.generateInsertElementAtIndex(this, collection, value, valueType, index);&#xD;&#xA;return template;"/>
+      </eAnnotations>
       <eParameters name="collection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="generateReplaceElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollectionImplementationTemplateReplacer.generateReplaceElementAtIndex(this, collection, value, valueType, index);&#xD;&#xA;return template;"/>
+      </eAnnotations>
       <eParameters name="collection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eParameters name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" ordered="false" unique="false"

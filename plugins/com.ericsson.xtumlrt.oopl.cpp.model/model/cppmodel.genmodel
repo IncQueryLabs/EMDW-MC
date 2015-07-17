@@ -170,19 +170,20 @@
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/valueType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/result"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/valueType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/value"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/valueType"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
     </genClasses>
@@ -190,19 +191,20 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/kind"/>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/valueType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/result"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/valueType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/value"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/valueType"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
     </genClasses>
@@ -252,7 +254,7 @@
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateClone">
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/variableType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/valueType"/>
         <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/result"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateContains">

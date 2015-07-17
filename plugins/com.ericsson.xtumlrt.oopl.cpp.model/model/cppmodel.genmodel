@@ -170,19 +170,20 @@
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/valueType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/result"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/index"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/valueType"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex">
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/collection"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/value"/>
+        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/valueType"/>
         <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
     </genClasses>

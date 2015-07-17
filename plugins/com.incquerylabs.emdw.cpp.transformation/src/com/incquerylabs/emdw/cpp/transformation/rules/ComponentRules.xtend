@@ -17,14 +17,22 @@ class ComponentRules {
 	
 	val PackageRules packageRules
 	val ClassRules classRules
-	val EntityRules entityRules
+	val AttributeRules attributeRules
+	val OperationRules operationRules
 	extension val IncludeRules includeRules
 	
-	new(BatchTransformationStatements statements, PackageRules packageRules, ClassRules classRules, EntityRules entityRules, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements,
+		PackageRules packageRules,
+		ClassRules classRules,
+		AttributeRules attributeRules,
+		OperationRules operationRules,
+		IncludeRules includeRules
+	) {
 		this.statements = statements
 		this.packageRules = packageRules
 		this.classRules = classRules
-		this.entityRules = entityRules
+		this.attributeRules = attributeRules
+		this.operationRules = operationRules
 		this.includeRules = includeRules
 	}
 	
@@ -83,8 +91,8 @@ class ComponentRules {
 		fireAllCurrent(includeRules.componentRuntimeIncludesRule, [it.cppComponent == cppComponent])
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
-		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppComponent])
-		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppComponent])
+		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppComponent])
+		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppComponent])
 		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	].build
 }

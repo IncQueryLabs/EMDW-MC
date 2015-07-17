@@ -25,13 +25,20 @@ class ClassRules {
 	extension val BatchTransformationStatements statements
 	
 	val AssociationRules associationRules
-	val EntityRules entityRules
+	val AttributeRules attributeRules
+	val OperationRules operationRules
 	extension val IncludeRules includeRules
 	
-	new(BatchTransformationStatements statements, AssociationRules associationRules, EntityRules entityRules, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements,
+		AssociationRules associationRules,
+		AttributeRules attributeRules,
+		OperationRules operationRules,
+		IncludeRules includeRules
+	) {
 		this.statements = statements
 		this.associationRules = associationRules
-		this.entityRules = entityRules
+		this.attributeRules = attributeRules
+		this.operationRules = operationRules
 		this.includeRules = includeRules
 	}
 	
@@ -95,7 +102,7 @@ class ClassRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val eventRule = createRule.precondition(cppClassStateMachineEvents).action[ match |
+	val eventRule = createRule.precondition(cppClassEvents).action[ match |
 		val event = match.event
 		val cppEvent = createCPPEvent => [
 			xtEvent = event
@@ -103,6 +110,7 @@ class ClassRules {
 		]
 		match.cppClass.subElements += cppEvent
 		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
+		fireAllCurrent(attributeRules.classEventAttributeRule, [it.cppEvent == cppEvent])
 	].build
 	
 	def createCppClass(XTClass xtClass, CPPDirectory headerDir, CPPDirectory bodyDir){
@@ -158,8 +166,8 @@ class ClassRules {
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
 		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
 		fireAllCurrent(associationRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
-		fireAllCurrent(entityRules.entityAttributeRule, [it.cppElement == cppClass])
-		fireAllCurrent(entityRules.entityOperationRule, [it.cppElement == cppClass])
+		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppClass])
+		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppClass])
 		fireAllCurrent(stateRule, [it.cppClass == cppClass])
 		fireAllCurrent(transitionRule, [it.cppClass == cppClass])
 		fireAllCurrent(eventRule, [it.cppClass == cppClass])

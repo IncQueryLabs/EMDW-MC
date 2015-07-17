@@ -5,6 +5,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 
 class EventTemplates {
 
@@ -12,9 +13,11 @@ class EventTemplates {
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	extension val CppCodeGenerationQueries codeGenQueries = CppCodeGenerationQueries.instance
 	val IncQueryEngine engine
+	val AttributeTemplates attributeTemplates
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
+		this.attributeTemplates = new AttributeTemplates(engine)
 	}
 
 	def enumInClassHeader(CPPClass cppClass) {
@@ -35,7 +38,10 @@ class EventTemplates {
 		«FOR event : classEvents»
 			class «event.generatedEventClassName» : public «ClassTemplates.EventFQN»«event.superEventsTemplate» {
 				public:
+					// Constructor
 					«event.generatedEventClassName»(bool isInternal);
+					// Attributes
+					«event.attributesInEventClassHeader»
 			};
 			
 		«ENDFOR»
@@ -65,6 +71,14 @@ class EventTemplates {
 			return cppSuperEvents
 		}
 		return #[]
+	}
+	
+	def attributesInEventClassHeader(CPPEvent event) {
+		'''
+		«FOR attribute : event.subElements.filter(CPPAttribute)»
+			«attributeTemplates.attributeDeclarationInClassHeader(attribute)»
+		«ENDFOR»
+		'''
 	}
 	
 	def innerClassesInClassBody(CPPClass cppClass) {

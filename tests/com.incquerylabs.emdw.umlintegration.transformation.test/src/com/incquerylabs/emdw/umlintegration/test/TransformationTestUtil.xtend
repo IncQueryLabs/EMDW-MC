@@ -176,6 +176,15 @@ class TransformationTestUtil {
 		subClass.generalizations += generalization
 		generalization
 	}
+	
+	static def createGeneralization(Signal subSignal, Signal superSignal) {
+		val generalization = umlFactory.createGeneralization => [
+			specific = subSignal
+			general = superSignal
+		]
+		subSignal.generalizations += generalization
+		generalization
+	}
 
 	static def createClassAndSignal(Model umlRoot) {
 		val mySignal = umlFactory.createSignal

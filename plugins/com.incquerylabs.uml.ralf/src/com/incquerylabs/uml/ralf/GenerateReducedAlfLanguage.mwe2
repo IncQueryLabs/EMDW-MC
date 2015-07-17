@@ -131,10 +131,6 @@ Workflow {
     		// scoping and exporting API
     		fragment = scoping.ImportNamespacesScopingFragment auto-inject {}
     		fragment = exporting.QualifiedNamesFragment auto-inject {}
-    		fragment = builder.BuilderIntegrationFragment auto-inject {}
-    
-    		// generator API
-    		fragment = generator.GeneratorFragment auto-inject {}
     
     		// formatter API
     		fragment = formatting.FormatterFragment auto-inject {}
@@ -164,9 +160,6 @@ Workflow {
     
     		// rename refactoring
     		fragment = refactoring.RefactorElementNameFragment auto-inject {}
-    
-    		// provides the necessary bindings for java types integration
-    		fragment = types.TypesGeneratorFragment auto-inject {}
     
     		// provides a preference page for template proposals
     		fragment = templates.CodetemplatesGeneratorFragment auto-inject {}

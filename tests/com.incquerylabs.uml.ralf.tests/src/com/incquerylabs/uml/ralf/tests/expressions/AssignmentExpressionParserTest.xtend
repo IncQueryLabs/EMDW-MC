@@ -19,8 +19,8 @@ import static org.junit.Assert.*
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class AuxiliaryExpressionParserTest {
-
+class AssignmentExpressionParserTest {
+	
 	@Inject
 	IGrammarAccess grammarAccess;
 	
@@ -28,42 +28,37 @@ class AuxiliaryExpressionParserTest {
 	IParser parser;
 	
 	@Test
-	def unaryNumericNegativeAffixIncrement() {
-		auxiliaryParseError('''
-		Integer x = 1;
-		-++x;
-		''', "NumericUnaryExpression")
+	def assignmentExpressionIntegerLiteral() {
+		assignmentParseError('''
+		1 = 2;
+		''', "AssignmentExpression");
 	}
 	
 	@Test
-	def unaryNumericNegativeAffixDecrement() {
-		auxiliaryParseError('''
-		Integer x = 1;
-		---x;
-		''', "NumericUnaryExpression")
+	def assignmentExpressionStringLiteral() {
+		assignmentParseError('''
+		"String" = "A";
+		''', "AssignmentExpression");
 	}
 	
 	@Test
-	def unaryNumericPositiveAffixIncrement() {
-		auxiliaryParseError('''
-		Integer x= 1;
-		+++x;
-		''', "NumericUnaryExpression")
+	def assignmentExpressionRealLiteral() {
+		assignmentParseError('''
+		1.1 = 2.2;
+		''', "AssignmentExpression");
 	}
 	
 	@Test
-	def unaryNumericPositiveAffixDecrement() {
-		auxiliaryParseError('''
-		Integer x = 1;
-		+--x;
-		''', "NumericUnaryExpression")
+	def assignmentExpressionBooleanLiteral() {
+		assignmentParseError('''
+		true = false;
+		''', "AssignmentExpression");
 	}
 	
-	private def auxiliaryParseError(String text, String rulename) {
+	private def assignmentParseError(String text, String rulename) {
 		val grammar = grammarAccess.getGrammar();
 		val rule = GrammarUtil.findRuleForName(grammar,rulename) as ParserRule ;
 		val result = parser.parse(rule, new StringReader(text));
 		assertEquals("There were no parse errors", false, result.getSyntaxErrors().isEmpty)
 	}
-
 }

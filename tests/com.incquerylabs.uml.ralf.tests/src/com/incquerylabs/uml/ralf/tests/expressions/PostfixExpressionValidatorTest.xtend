@@ -28,70 +28,12 @@ class PostfixExpressionValidatorTest {
 	@Inject extension ValidationTestHelper
 	
 	//postfix increment operator
-	
-	@Test
-	def postfixIncrementIntegerLiteral() {
-		postfixIncrementExpressionError('''1++;''')
-	}
-		
-	@Test
-	def postfixIncrementReaLiteral() {
-		postfixIncrementExpressionError('''1.1++;''')
-	}
-		
-	@Test
-	def postfixIncrementParenthesisIntLiteral() {
-		postfixIncrementExpressionError('''(1)++;''')
-	}
-	
-	@Test
-	def postfixIncrementParenthesisRealLiteral() {
-		postfixIncrementExpressionError('''(1.1)++;''')
-	}
-	
 	@Test
 	def postfixIncrementIntegerVariable() {
 		postfixIncrementExpressionOK('''
 		Integer x = 1;
 		x++;
 		''')
-	}
-		
-	@Test
-	def postfixIncrementBooleanLiteral() {
-		postfixIncrementExpressionError('''true++;''')
-	}
-	
-	@Test
-	def postfixIncrementStringLiteral() {
-		postfixIncrementExpressionError('''"String"++;''')
-	}
-	
-	@Test
-	def postfixIncrementParenthesisInvalidType() {
-		postfixIncrementExpressionError('''("1")++;''')
-	}
-	
-	@Test
-	def postfixIncrementNumericUnaryNegative() {
-		postfixIncrementExpressionError('''-1++;''')
-	}
-	
-	@Test
-	def postfixIncrementNumericUnaryPositive() {
-		postfixIncrementExpressionError('''+1++;''')
-	}
-	
-	@Test
-	def postfixIncrementAffixIncrement() {
-		
-		postfixIncrementExpressionError('''++1++;''')
-	}
-	
-	@Test
-	def postfixIncrementAffixDecrement() {
-		postfixIncrementExpressionError('''--1++;''')
-		
 	}
 	
 	@Test
@@ -101,6 +43,7 @@ class PostfixExpressionValidatorTest {
 		x++;
 		''')
 	}
+		
 	
 	private def postfixIncrementExpressionOK(String code){
 		val model = parseHelper.parse(code)

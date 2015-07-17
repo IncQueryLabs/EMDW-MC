@@ -149,6 +149,16 @@ class SimpleStatementsValidatorTest {
 	}
 	
 	@Test
+	def breakStatementValidInSwitch2() {
+		simpleStatementOK('''
+		Integer x =1;
+		switch(x){
+		case 1: {break;}
+		}
+		''');
+	}
+	
+	@Test
 	def breakStatementValidInWhile() {
 		simpleStatementOK('''
 		while(true){
@@ -169,7 +179,7 @@ class SimpleStatementsValidatorTest {
 	@Test
 	def breakStatementValidInFor() {
 		simpleStatementOK('''
-		for(i in 1..2){
+		for(i : 9){
 			break;
 		}
 		''');

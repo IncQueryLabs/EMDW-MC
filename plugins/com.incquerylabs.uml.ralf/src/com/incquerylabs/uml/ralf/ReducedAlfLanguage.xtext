@@ -122,6 +122,14 @@ ParenthesizedExpression returns Expression :
 ;
 
 /* PROPERTY ACCESS EXPRESSIONS */
+// At this point in case of affix and postfix ++/-- operators, only variable names and properties can be used
+// Property chaining is not supported at this time
+// TODO: use primary expressions and filter using expression types
+PropertyAccessExpression:
+	context = PrimaryExpression '.' property = [uml::Property|Name]
+;
+
+
 //FeatureReference :
 //  expression = PrimaryExpression // '.' nameBinding = NameBinding
 //;
@@ -241,13 +249,14 @@ PrefixExpression returns Expression :
     operator = AffixOperator operand = LeftHandSide
 ;
 
-AffixOperator :
-    '++' | '--'
+enum AffixOperator :
+increment = '++' | decrement = '--'
 ;
+
 
 /* UNARY EXPRESSIONS */
 UnaryExpression returns Expression :
-  PostfixOrCastExpression | NonPostfixNonCastUnaryExpression
+  PostfixOrCastExpression | NonPostfixNonCastUnaryExpression | PrefixExpression
 ;
 
 PostfixOrCastExpression returns Expression :
@@ -260,7 +269,7 @@ PostfixExpression returns Expression :
 ;
 
 NonPostfixNonCastUnaryExpression returns Expression : 
-    PrefixExpression | 
+    //PrefixExpression | 
     NumericUnaryExpression | 
     BooleanUnaryExpression  | 
     BitStringUnaryExpression    | 
@@ -276,11 +285,12 @@ BitStringUnaryExpression :
 ;
 
 NumericUnaryExpression : 
-    operator = NumericUnaryOperator operand = UnaryExpression
+    operator = NumericUnaryOperator operand = (PostfixOrCastExpression | NonPostfixNonCastUnaryExpression) |
+    operator = NumericUnaryOperator '('operand = PrefixExpression ')'
 ;
 
-NumericUnaryOperator : 
-    '+' | '-'
+enum NumericUnaryOperator :
+plus = '+' | minus = '-'
 ;
 
 IsolationExpression : 
@@ -305,18 +315,20 @@ MultiplicativeExpression returns Expression :
     ( {ArithmeticExpression.operand1 = current} operator = MultiplicativeOperator operand2 = UnaryExpression )*
 ;
 
-MultiplicativeOperator : 
-    '*' | '/' | '%'
+MultiplicativeOperator:
+	'*' | '/' | '%'
 ;
+
 
 AdditiveExpression returns Expression : 
     MultiplicativeExpression
     ( {ArithmeticExpression.operand1 = current} operator = AdditiveOperator operand2 = MultiplicativeExpression )*
 ;
 
-AdditiveOperator : 
-    '+' | '-'
+AdditiveOperator:
+	'+' | '-'
 ;
+
 
 /* SHIFT EXPRESSIONS */
 
@@ -325,9 +337,10 @@ ShiftExpression returns Expression :
     ( {ShiftExpression.operand1 = current} operator = ShiftOperator operand2 = AdditiveExpression )*
 ;
 
-ShiftOperator : 
-    '<<' | '>>' | '>>>'
+enum ShiftOperator :
+ right = '>>' | left = '<<' | triple = '>>>'
 ;
+
 
 /* RELATIONAL EXPRESSIONS */
 RelationalExpression returns Expression :
@@ -335,8 +348,8 @@ RelationalExpression returns Expression :
     ( {RelationalExpression.operand1 = current} operator = RelationalOperator operand2 = ShiftExpression )?
 ;
 
-RelationalOperator : 
-    '<' | '>' | '<=' | '>='
+enum RelationalOperator :
+ greaterThan = '>' | lesserThan = '<' | greaterOrEquals = '>=' | lesserOrEquals = '<='
 ;
 
 /* CLASSIFICATION EXPRESSIONS */
@@ -345,8 +358,8 @@ ClassificationExpression returns Expression :
   ( {ClassificationExpression.operand = current} operator = ClassificationOperator type = [uml::Class|QualifiedName] )?
 ;
 
-ClassificationOperator : 
-    'instanceof' | 'hastype'
+enum ClassificationOperator :
+ instanceof = 'instanceof' | hastype = 'hastype'
 ;
 
 /* EQUALITY EXPRESSIONS */
@@ -355,8 +368,8 @@ EqualityExpression returns Expression :
   ( {EqualityExpression.operand1 = current} operator = EqualityOperator operand2 = ClassificationExpression )*
 ;
 
-EqualityOperator : 
-    '==' | '!='
+enum EqualityOperator :
+ equals = '==' | notEquals = '!='
 ;
 
 /* LOGICAL EXPRESSIONS */
@@ -407,16 +420,29 @@ LeftHandSide :
 
 NameLeftHandSide :
   // CHANGE: Moved the index property from LeftHandSide down to just NameLeftHandSide.
-  target = [Variable|QualifiedName] ( index = Index )? 
+  expression = NameExpression ( index = Index )? 
 ;
 
 FeatureLeftHandSide :
   // CHANGE: Replaced the feature property of a FeatureLeftHandSide with expression.
-  expression = PrimaryExpression
+  expression = PropertyAccessExpression
 ;
 
-AssignmentOperator : 
-    '=' | '+=' | '-='   | '*='| '/=' | '%=' | '&=' | '|='   | '^=' | '<<=' | '>>=' | '>>>=' ;
+enum AssignmentOperator :
+ assign = '=' | 
+ incrementAssign = '+=' | 
+ decrementAssign = '-=' | 
+ multiplyAssign = '*=' | 
+ divisionAssign = '/=' | 
+ moduloAssign = '%=' | 
+ andAssign = '&=' | 
+ orAssign = '|=' |
+ xorAssign = '^=' |
+ leftShiftAssign = '<<=' |
+ rightShiftAssign = '>>=' | 
+ tripleShiftAssign = '>>>='
+;
+
 
 /**************
  * STATEMENTS *

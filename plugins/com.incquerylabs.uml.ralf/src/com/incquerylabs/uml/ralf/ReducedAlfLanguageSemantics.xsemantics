@@ -9,17 +9,21 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
@@ -29,21 +33,20 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator
 import java.util.List
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Classifier
-import org.eclipse.uml2.uml.ConnectableElement
-import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 
 inject extension IUMLContextProvider umlContext
 val REAL    = IUMLContextProvider.REAL_TYPE
@@ -357,7 +360,7 @@ rule NameLeftHandSide
 from {
     {
         lhs.index == null
-        G |- lhs.target : var Type varType
+        G |- lhs.expression : var Type varType
         result = varType
     } or {
         //TODO indexed access
@@ -376,12 +379,69 @@ from {
     empty |- ^var : var Type type
 }
 
-checkrule LocalNameDeclarationStatement for
+checkrule LocalNameDeclarationStatementType for
     LocalNameDeclarationStatement st
 from {
     empty |- st.variable : var Type varType
     empty |- st.expression : var Type valueType
-    empty |- varType <: valueType
+    empty |- varType <: valueType	
+}
+
+checkrule NonFinalClause for
+    NonFinalClause cl
+from {
+	empty |- cl.^condition : var Type condType
+	empty |- condType <: BOOLEAN.primitiveType
+}
+
+checkrule ForStatement for
+    ForStatement st
+from {
+	for(Variable variable : st.variableDefinition){
+		val loopVariable = variable as LoopVariable
+		empty |- loopVariable.expression1 : var Type ex1Type
+		empty |- ex1Type <: INTEGER.primitiveType
+   		{
+   			loopVariable.expression2 == null
+   		} or {
+   			empty |- loopVariable.expression2 : var Type ex2Type
+   			empty |- ex2Type <: INTEGER.primitiveType
+   		} 		
+	}
+}
+
+checkrule WhileStatement for
+    WhileStatement st
+from {
+	empty |- st.^condition : var Type condType
+	empty |- condType <: BOOLEAN.primitiveType	
+}
+
+checkrule DoStatement for
+    DoStatement st
+from {
+	empty |- st.^condition : var Type condType
+	empty |- condType <: BOOLEAN.primitiveType
+}
+
+checkrule SwitchStatement_ for
+    SwitchStatement st
+from {
+	//Proper type
+	empty |- st.expression : var Type eType
+	{
+		empty |- eType <: INTEGER.primitiveType 
+	} or {
+		empty |- eType <: STRING.primitiveType
+	}
+	//cases match the type
+	for(SwitchClause cl : st.nonDefaultClause){
+		for(Expression ex : cl.^case){
+			empty |- ex : var Type caseType
+			empty |- st.expression |> caseType
+		}
+	}
+	
 }
 
 checkrule SendSignalStatement for

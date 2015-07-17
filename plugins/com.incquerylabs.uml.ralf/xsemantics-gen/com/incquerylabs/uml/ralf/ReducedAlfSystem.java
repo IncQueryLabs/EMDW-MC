@@ -10,18 +10,22 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression;
@@ -31,8 +35,11 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import it.xsemantics.runtime.ErrorInformation;
 import it.xsemantics.runtime.Result;
@@ -41,6 +48,7 @@ import it.xsemantics.runtime.RuleEnvironment;
 import it.xsemantics.runtime.RuleFailedException;
 import it.xsemantics.runtime.XsemanticsRuntimeSystem;
 import java.util.List;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
@@ -312,19 +320,19 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<Boolean>(true);
   }
   
-  public Result<Boolean> localNameDeclarationStatement(final LocalNameDeclarationStatement st) {
-    return localNameDeclarationStatement(null, st);
+  public Result<Boolean> localNameDeclarationStatementType(final LocalNameDeclarationStatement st) {
+    return localNameDeclarationStatementType(null, st);
   }
   
-  public Result<Boolean> localNameDeclarationStatement(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) {
+  public Result<Boolean> localNameDeclarationStatementType(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) {
     try {
-    	return localNameDeclarationStatementInternal(_trace_, st);
-    } catch (Exception _e_LocalNameDeclarationStatement) {
-    	return resultForFailure(_e_LocalNameDeclarationStatement);
+    	return localNameDeclarationStatementTypeInternal(_trace_, st);
+    } catch (Exception _e_LocalNameDeclarationStatementType) {
+    	return resultForFailure(_e_LocalNameDeclarationStatementType);
     }
   }
   
-  protected Result<Boolean> localNameDeclarationStatementInternal(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
+  protected Result<Boolean> localNameDeclarationStatementTypeInternal(final RuleApplicationTrace _trace_, final LocalNameDeclarationStatement st) throws RuleFailedException {
     /* empty |- st.variable : var Type varType */
     Variable _variable = st.getVariable();
     Type varType = null;
@@ -341,6 +349,189 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     
     /* empty |- varType <: valueType */
     subtypeOrEqualInternal(emptyEnvironment(), _trace_, varType, valueType);
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> nonFinalClause(final NonFinalClause cl) {
+    return nonFinalClause(null, cl);
+  }
+  
+  public Result<Boolean> nonFinalClause(final RuleApplicationTrace _trace_, final NonFinalClause cl) {
+    try {
+    	return nonFinalClauseInternal(_trace_, cl);
+    } catch (Exception _e_NonFinalClause) {
+    	return resultForFailure(_e_NonFinalClause);
+    }
+  }
+  
+  protected Result<Boolean> nonFinalClauseInternal(final RuleApplicationTrace _trace_, final NonFinalClause cl) throws RuleFailedException {
+    /* empty |- cl.^condition : var Type condType */
+    Expression _condition = cl.getCondition();
+    Type condType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), Type.class);
+    condType = (Type) result.getFirst();
+    
+    /* empty |- condType <: BOOLEAN.primitiveType */
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, condType, _primitiveType);
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> forStatement(final ForStatement st) {
+    return forStatement(null, st);
+  }
+  
+  public Result<Boolean> forStatement(final RuleApplicationTrace _trace_, final ForStatement st) {
+    try {
+    	return forStatementInternal(_trace_, st);
+    } catch (Exception _e_ForStatement) {
+    	return resultForFailure(_e_ForStatement);
+    }
+  }
+  
+  protected Result<Boolean> forStatementInternal(final RuleApplicationTrace _trace_, final ForStatement st) throws RuleFailedException {
+    EList<Variable> _variableDefinition = st.getVariableDefinition();
+    for (final Variable variable : _variableDefinition) {
+      final LoopVariable loopVariable = ((LoopVariable) variable);
+      /* empty |- loopVariable.expression1 : var Type ex1Type */
+      Expression _expression1 = loopVariable.getExpression1();
+      Type ex1Type = null;
+      Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _expression1);
+      checkAssignableTo(result.getFirst(), Type.class);
+      ex1Type = (Type) result.getFirst();
+      
+      /* empty |- ex1Type <: INTEGER.primitiveType */
+      Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
+      subtypeOrEqualInternal(emptyEnvironment(), _trace_, ex1Type, _primitiveType);
+      /* { loopVariable.expression2 == null } or { empty |- loopVariable.expression2 : var Type ex2Type empty |- ex2Type <: INTEGER.primitiveType } */
+      {
+        RuleFailedException previousFailure = null;
+        try {
+          Expression _expression2 = loopVariable.getExpression2();
+          /* loopVariable.expression2 == null */
+          if (!Objects.equal(_expression2, null)) {
+            sneakyThrowRuleFailedException("loopVariable.expression2 == null");
+          }
+        } catch (Exception e) {
+          previousFailure = extractRuleFailedException(e);
+          /* empty |- loopVariable.expression2 : var Type ex2Type */
+          Expression _expression2_1 = loopVariable.getExpression2();
+          Type ex2Type = null;
+          Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression2_1);
+          checkAssignableTo(result_1.getFirst(), Type.class);
+          ex2Type = (Type) result_1.getFirst();
+          
+          /* empty |- ex2Type <: INTEGER.primitiveType */
+          Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.INTEGER);
+          subtypeOrEqualInternal(emptyEnvironment(), _trace_, ex2Type, _primitiveType_1);
+        }
+      }
+    }
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> whileStatement(final WhileStatement st) {
+    return whileStatement(null, st);
+  }
+  
+  public Result<Boolean> whileStatement(final RuleApplicationTrace _trace_, final WhileStatement st) {
+    try {
+    	return whileStatementInternal(_trace_, st);
+    } catch (Exception _e_WhileStatement) {
+    	return resultForFailure(_e_WhileStatement);
+    }
+  }
+  
+  protected Result<Boolean> whileStatementInternal(final RuleApplicationTrace _trace_, final WhileStatement st) throws RuleFailedException {
+    /* empty |- st.^condition : var Type condType */
+    Expression _condition = st.getCondition();
+    Type condType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), Type.class);
+    condType = (Type) result.getFirst();
+    
+    /* empty |- condType <: BOOLEAN.primitiveType */
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, condType, _primitiveType);
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> doStatement(final DoStatement st) {
+    return doStatement(null, st);
+  }
+  
+  public Result<Boolean> doStatement(final RuleApplicationTrace _trace_, final DoStatement st) {
+    try {
+    	return doStatementInternal(_trace_, st);
+    } catch (Exception _e_DoStatement) {
+    	return resultForFailure(_e_DoStatement);
+    }
+  }
+  
+  protected Result<Boolean> doStatementInternal(final RuleApplicationTrace _trace_, final DoStatement st) throws RuleFailedException {
+    /* empty |- st.^condition : var Type condType */
+    Expression _condition = st.getCondition();
+    Type condType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), Type.class);
+    condType = (Type) result.getFirst();
+    
+    /* empty |- condType <: BOOLEAN.primitiveType */
+    Type _primitiveType = this.umlContext.getPrimitiveType(this.BOOLEAN);
+    subtypeOrEqualInternal(emptyEnvironment(), _trace_, condType, _primitiveType);
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> switchStatement_(final SwitchStatement st) {
+    return switchStatement_(null, st);
+  }
+  
+  public Result<Boolean> switchStatement_(final RuleApplicationTrace _trace_, final SwitchStatement st) {
+    try {
+    	return switchStatement_Internal(_trace_, st);
+    } catch (Exception _e_SwitchStatement_) {
+    	return resultForFailure(_e_SwitchStatement_);
+    }
+  }
+  
+  protected Result<Boolean> switchStatement_Internal(final RuleApplicationTrace _trace_, final SwitchStatement st) throws RuleFailedException {
+    /* empty |- st.expression : var Type eType */
+    Expression _expression = st.getExpression();
+    Type eType = null;
+    Result<Type> result = typeInternal(emptyEnvironment(), _trace_, _expression);
+    checkAssignableTo(result.getFirst(), Type.class);
+    eType = (Type) result.getFirst();
+    
+    /* { empty |- eType <: INTEGER.primitiveType } or { empty |- eType <: STRING.primitiveType } */
+    {
+      RuleFailedException previousFailure = null;
+      try {
+        /* empty |- eType <: INTEGER.primitiveType */
+        Type _primitiveType = this.umlContext.getPrimitiveType(this.INTEGER);
+        subtypeOrEqualInternal(emptyEnvironment(), _trace_, eType, _primitiveType);
+      } catch (Exception e) {
+        previousFailure = extractRuleFailedException(e);
+        /* empty |- eType <: STRING.primitiveType */
+        Type _primitiveType_1 = this.umlContext.getPrimitiveType(this.STRING);
+        subtypeOrEqualInternal(emptyEnvironment(), _trace_, eType, _primitiveType_1);
+      }
+    }
+    EList<SwitchClause> _nonDefaultClause = st.getNonDefaultClause();
+    for (final SwitchClause cl : _nonDefaultClause) {
+      EList<Expression> _case = cl.getCase();
+      for (final Expression ex : _case) {
+        /* empty |- ex : var Type caseType */
+        Type caseType = null;
+        Result<Type> result_1 = typeInternal(emptyEnvironment(), _trace_, ex);
+        checkAssignableTo(result_1.getFirst(), Type.class);
+        caseType = (Type) result_1.getFirst();
+        
+        /* empty |- st.expression |> caseType */
+        Expression _expression_1 = st.getExpression();
+        assignableInternal(emptyEnvironment(), _trace_, _expression_1, caseType);
+      }
+    }
     return new Result<Boolean>(true);
   }
   
@@ -1840,7 +2031,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   protected Result<Type> applyRuleFeatureLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureLeftHandSide lhs) throws RuleFailedException {
     Type result = null; // output parameter
     /* G |- lhs.expression : var Type exType */
-    Expression _expression = lhs.getExpression();
+    PropertyAccessExpression _expression = lhs.getExpression();
     Type exType = null;
     Result<Type> result_1 = typeInternal(G, _trace_, _expression);
     checkAssignableTo(result_1.getFirst(), Type.class);
@@ -1871,7 +2062,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   protected Result<Type> applyRuleNameLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final NameLeftHandSide lhs) throws RuleFailedException {
     Type result = null; // output parameter
-    /* { lhs.index == null G |- lhs.target : var Type varType result = varType } or { } */
+    /* { lhs.index == null G |- lhs.expression : var Type varType result = varType } or { } */
     {
       RuleFailedException previousFailure = null;
       try {
@@ -1881,10 +2072,10 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
         if (!_equals) {
           sneakyThrowRuleFailedException("lhs.index == null");
         }
-        /* G |- lhs.target : var Type varType */
-        Variable _target = lhs.getTarget();
+        /* G |- lhs.expression : var Type varType */
+        NameExpression _expression = lhs.getExpression();
         Type varType = null;
-        Result<Type> result_1 = typeInternal(G, _trace_, _target);
+        Result<Type> result_1 = typeInternal(G, _trace_, _expression);
         checkAssignableTo(result_1.getFirst(), Type.class);
         varType = (Type) result_1.getFirst();
         

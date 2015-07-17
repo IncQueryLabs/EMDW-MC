@@ -175,7 +175,7 @@ class ReducedAlfSnippetCompiler {
 
 		
 	def dispatch String visit(NameLeftHandSide lhs){
-		'''«lhs.target.name»«IF lhs.index != null»[«lhs.index.visit»]«ENDIF»'''
+		'''«lhs.expression.visit»«IF lhs.index != null»[«lhs.index.visit»]«ENDIF»'''
 	}
 	
 	def dispatch String visit(FeatureLeftHandSide lhs){

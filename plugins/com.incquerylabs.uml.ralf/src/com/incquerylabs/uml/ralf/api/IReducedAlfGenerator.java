@@ -5,12 +5,14 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 
+import snippetTemplate.Snippet;
+
 public interface IReducedAlfGenerator {
     /**
      * Returns tha map that contains C++ snippets and their corresponding rALF fragments.
      * @return
      */
-    public Map<String,String> getSnippetMap();
+    public Map<Snippet,String> getSnippetMap();
     
     /**
      * Creates a C++ snippet based on the defined rALF code using the provided rALF parser.
@@ -18,7 +20,7 @@ public interface IReducedAlfGenerator {
      * @param parser Parser used for parsing the rALF code
      * @return
      */
-    public String createSnippet(String behavior, IReducedAlfParser parser);
+    public Snippet createSnippet(String behavior, IReducedAlfParser parser);
     
     /**
      * Creates a C++ snippet based on the the rALF code, which is contained by the specified opaque behavior 
@@ -27,12 +29,12 @@ public interface IReducedAlfGenerator {
      * @param parser Parser used for parsing the rALF code
      * @return
      */
-    public String createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser);
+    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser);
     
     /**
      * Creates a C++ snippet based on a given rALF AST.
      * @param rootElement
      * @return
      */
-    public String createSnippet(EObject rootElement);  
+    public Snippet createSnippet(EObject rootElement);  
 }

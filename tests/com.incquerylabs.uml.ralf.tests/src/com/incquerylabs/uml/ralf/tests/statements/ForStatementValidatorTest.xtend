@@ -14,6 +14,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 import org.junit.Ignore
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import org.eclipse.xtext.junit4.validation.AssertableDiagnostics
+import org.eclipse.emf.common.util.Diagnostic
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -185,7 +188,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. 1.1){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -193,7 +198,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. true){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -201,7 +208,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. "1"){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 
 	
@@ -235,7 +244,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. 1>1){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -243,7 +254,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. 1==1){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -275,7 +288,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. true && false){
 			
-		}''');
+		}''',
+		  ReducedAlfSystem.LOOPVARIABLE,
+		  ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -283,7 +298,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. true || false){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -291,7 +308,9 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		for(i in 0 .. !true){
 			
-		}''');
+		}''',
+          ReducedAlfSystem.LOOPVARIABLE,
+          ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING);
 	}
 	
 	@Test
@@ -313,5 +332,11 @@ class ForStatementValidatorTest {
 	private def forStatementError(String code){
 		val model = parseHelper.parse(code)
 		tester.validate(model).assertError(0)
+	}
+	
+	private def forStatementError(String code, String... errorCodes) {
+	    val model = parseHelper.parse(code)
+	    
+        tester.validate(model).assertAll(errorCodes.map[AssertableDiagnostics.diagnostic(Diagnostic.ERROR, it, "")])
 	}
 }

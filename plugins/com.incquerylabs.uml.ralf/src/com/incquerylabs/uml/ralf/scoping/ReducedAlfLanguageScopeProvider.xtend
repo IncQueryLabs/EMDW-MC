@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Class
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
+import com.incquerylabs.uml.ralf.types.UMLTypeReference
 
 /**
  * This class contains custom scoping description.
@@ -125,12 +126,14 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         if (typeResult.failed) {
             return null
         }
-        val type = typeResult.value
-        if (type instanceof Class) {
-            Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
-        } else {
-            null
+        val typeRef = typeResult.value
+        if (typeRef instanceof UMLTypeReference) {
+            val type = typeRef.umlType
+            if (type instanceof Class) {
+                return Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
+            }    
         }
+        return null
     }
     
     def IScope scope_AssociationAccessExpression_association(AssociationAccessExpression ctx, EReference ref) {
@@ -146,12 +149,14 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         if (typeResult.failed) {
             return null
         }
-        val type = typeResult.value
-        if (type instanceof Class) {
-            Scopes.scopeFor(umlContext.getAssociationsOfClass(type))
-        } else {
-            null
+        val typeRef = typeResult.value
+        if (typeRef instanceof UMLTypeReference) {
+            val type = typeRef.umlType
+            if (type instanceof Class) {
+                return Scopes.scopeFor(umlContext.getAssociationsOfClass(type))
+            } 
         }
+        return null
     }
 
 }

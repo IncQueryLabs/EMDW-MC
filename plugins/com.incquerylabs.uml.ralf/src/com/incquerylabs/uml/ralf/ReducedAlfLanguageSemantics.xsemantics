@@ -47,8 +47,13 @@ import org.eclipse.uml2.uml.Classifier
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference
+import com.incquerylabs.uml.ralf.types.TypeFactory
+import com.incquerylabs.uml.ralf.types.UMLTypeReference
 
 inject extension IUMLContextProvider umlContext
+inject extension TypeFactory typeFactory
+
 val REAL    = IUMLContextProvider.REAL_TYPE
 val INTEGER = IUMLContextProvider.INTEGER_TYPE
 val BOOLEAN = IUMLContextProvider.BOOLEAN_TYPE
@@ -60,12 +65,14 @@ auxiliary {
 }
 
 judgments {
-    type |- EObject expression : output Type
+    type |- EObject expression : output IUMLTypeReference
         error "Cannot type " + stringRep(expression)
         source expression
-    subtypeOrEqual |- Type left <: Type right
+    subtypeReference |- IUMLTypeReference left <: IUMLTypeReference right
         error stringRep(left) + " is not a subtype of  " + stringRep(right)
-    assignable |- Expression expression |> Type target
+    subtypeOrEqual |- Type left <~ Type right
+        error stringRep(left) + " is not a subtype of  " + stringRep(right)
+    assignable |- Expression expression |> IUMLTypeReference target
         error stringRep(expression) + " is not assignable for type " + stringRep(target)
         source expression        
 }
@@ -76,29 +83,65 @@ auxiliary superClassList(Class cl) {
 
 axiom BooleanLiteral
     G |- BooleanLiteralExpression bool :
-        BOOLEAN.primitiveType
+        BOOLEAN.primitiveTypeReference
         
 axiom NaturalLiteral
     G |- NaturalLiteralExpression natural :
-        INTEGER.primitiveType
+        INTEGER.primitiveTypeReference
         
 axiom RealLiteral
     G |- RealLiteralExpression real :
-        REAL.primitiveType
+        REAL.primitiveTypeReference
         
 axiom StringLiteral
     G |- StringLiteralExpression string :
-        STRING.primitiveType
+        STRING.primitiveTypeReference
+
+/**
+ * Variable declarations
+ */
+
 
 axiom VariableDeclaration
     G |- Variable variable : 
-        variable.type
+        variable.type.typeReference
+
+rule LoopVariable
+    G |- LoopVariable variable : IUMLTypeReference result
+from {
+    if (variable.type != null) {
+        result = variable.type.typeReference
+    } else {
+        G |- variable.expression1 : var IUMLTypeReference ex1Type
+        result = ex1Type
+        
+        if (variable.expression2 != null) {
+            G |- variable.expression2 : var IUMLTypeReference ex2Type
+            ex1Type == ex2Type
+            ex1Type == INTEGER.primitiveTypeReference
+        }
+    }
+}
 
 /**
  * Subtyping and assignability
  */
+rule GeneralReferenceSubtyping 
+    derives G |- IUMLTypeReference left <: IUMLTypeReference right
+    error "The type " + stringRep(left) + " is not compatible with the type " + stringRep(right)
+from {
+    //More specific cases are not matched, fail here
+    fail
+} 
+
+rule SimpleTypeReferenceSubtyping
+    derives G |- UMLTypeReference left <: UMLTypeReference right
+from {
+    G |- left.umlType <~ right.umlType
+}
+
 rule GeneralSubtyping
-    derives G |- Type left <: Type right
+    derives G |- Type left <~ Type right
     error "The type " + stringRep(left) + " is not compatible with the type " + stringRep(right)
 from {
     //More specific cases are not matched, fail here
@@ -106,7 +149,7 @@ from {
 } 
 
 rule PrimitiveSubtyping
-    derives G |- PrimitiveType left <: PrimitiveType right
+    derives G |- PrimitiveType left <~ PrimitiveType right
 from {
     {
         left == right
@@ -117,13 +160,13 @@ from {
 }
 
 rule EqualsClassifierSubtyping
-    derives G |- Classifier left <: Classifier right
+    derives G |- Classifier left <~ Classifier right
 from {
     left == right
 }
 
 rule ClassSubtyping
-    derives G |- Class left <: Class right
+    derives G |- Class left <~ Class right
 from {
     left == right
     or
@@ -133,9 +176,9 @@ from {
 } 
 
 rule ExpressionAssignableToType
-    G |- Expression ex |> Type target
+    G |- Expression ex |> IUMLTypeReference target
 from {
-    G |- ex : var Type expressionType
+    G |- ex : var IUMLTypeReference expressionType
     G |- expressionType <: target 
 }
 
@@ -143,171 +186,171 @@ from {
  * Expressions
  */  
 rule NumericUnaryExpression
-    G |- NumericUnaryExpression ex : Type result
+    G |- NumericUnaryExpression ex : IUMLTypeReference result
 from {
     {
-        ex.operand.type.value == INTEGER.primitiveType
-        result = INTEGER.primitiveType
+        ex.operand.type.value == INTEGER.primitiveTypeReference
+        result = INTEGER.primitiveTypeReference
     } or {
-        ex.operand.type.value == REAL.primitiveType
-        result = REAL.primitiveType
+        ex.operand.type.value == REAL.primitiveTypeReference
+        result = REAL.primitiveTypeReference
     }
 }
 
 rule ArithmeticExpression
-    G |- ArithmeticExpression ex : Type result
+    G |- ArithmeticExpression ex : IUMLTypeReference result
 from {
-   G |- ex.operand1 : var Type type1
-   G |- ex.operand2 : var Type type2  
+   G |- ex.operand1 : var IUMLTypeReference type1
+   G |- ex.operand2 : var IUMLTypeReference type2  
    { 
        ex.operator == "+"
-       type1 == STRING.primitiveType
-       type2 == STRING.primitiveType
-       result = STRING.primitiveType
+       type1 == STRING.primitiveTypeReference
+       type2 == STRING.primitiveTypeReference
+       result = STRING.primitiveTypeReference
    } or {
        ex.operator == "+"
-       type1 == REAL.primitiveType
-       type2 == REAL.primitiveType || type2 == INTEGER.primitiveType
-       result = REAL.primitiveType
+       type1 == REAL.primitiveTypeReference
+       type2 == REAL.primitiveTypeReference || type2 == INTEGER.primitiveTypeReference
+       result = REAL.primitiveTypeReference
    } or {
        ex.operator == "+"
-       type1 == REAL.primitiveType
-       type2 == REAL.primitiveType || type2 == INTEGER.primitiveType
-       result = REAL.primitiveType
+       type1 == REAL.primitiveTypeReference
+       type2 == REAL.primitiveTypeReference || type2 == INTEGER.primitiveTypeReference
+       result = REAL.primitiveTypeReference
    } or {
        ex.operator == "+"
-       type1 == REAL.primitiveType || type1 == INTEGER.primitiveType
-       type2 == REAL.primitiveType
-       result = REAL.primitiveType
+       type1 == REAL.primitiveTypeReference || type1 == INTEGER.primitiveTypeReference
+       type2 == REAL.primitiveTypeReference
+       result = REAL.primitiveTypeReference
    } or {
-       type1 == REAL.primitiveType
-       type2 == INTEGER.primitiveType || type2 == REAL.primitiveType
-       result = REAL.primitiveType
+       type1 == REAL.primitiveTypeReference
+       type2 == INTEGER.primitiveTypeReference || type2 == REAL.primitiveTypeReference
+       result = REAL.primitiveTypeReference
    } or {
-       type1 == INTEGER.primitiveType || type1 == REAL.primitiveType
-       type2 == REAL.primitiveType
-       result = REAL.primitiveType
+       type1 == INTEGER.primitiveTypeReference || type1 == REAL.primitiveTypeReference
+       type2 == REAL.primitiveTypeReference
+       result = REAL.primitiveTypeReference
    } or {
        //All operations
-       type1 == INTEGER.primitiveType
-       type2 == INTEGER.primitiveType
-       result = INTEGER.primitiveType
+       type1 == INTEGER.primitiveTypeReference
+       type2 == INTEGER.primitiveTypeReference
+       result = INTEGER.primitiveTypeReference
    }
 } 
 
 rule NameExpression
-    G |- NameExpression ex : Type result
+    G |- NameExpression ex : IUMLTypeReference result
 from {
-    G |- ex.reference : var Type varType
+    G |- ex.reference : var IUMLTypeReference varType
     result = varType
 }
 
 rule AssignmentExpression
-    G |- AssignmentExpression ex : Type result
+    G |- AssignmentExpression ex : IUMLTypeReference result
 from {
-    G |- ex.leftHandSide : var Type leftType
-    G |- ex.rightHandSide : var Type rightType
+    G |- ex.leftHandSide : var IUMLTypeReference leftType
+    G |- ex.rightHandSide : var IUMLTypeReference rightType
     leftType == rightType //TODO subtyping
     result = rightType
 }
 
 rule PrefixExpression
-    G |- PrefixExpression ex : Type result
+    G |- PrefixExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand : var Type opType
-    opType == INTEGER.primitiveType
-    result = INTEGER.primitiveType
+    G |- ex.operand : var IUMLTypeReference opType
+    opType == INTEGER.primitiveTypeReference
+    result = INTEGER.primitiveTypeReference
 }
 
 rule PostfixExpression
-    G |- PostfixExpression ex : Type result
+    G |- PostfixExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand : var Type opType
-    opType == INTEGER.primitiveType
-    result = INTEGER.primitiveType    
+    G |- ex.operand : var IUMLTypeReference opType
+    opType == INTEGER.primitiveTypeReference
+    result = INTEGER.primitiveTypeReference
 }
 
 rule ShiftExpression
-    G |- ShiftExpression ex : Type result
+    G |- ShiftExpression ex : IUMLTypeReference result
 from {
-   G |- ex.operand1 : var Type op1Type 
-   G |- ex.operand2 : var Type op2Type
-   op1Type == INTEGER.primitiveType 
-   op2Type == INTEGER.primitiveType
-   result   = INTEGER.primitiveType 
+   G |- ex.operand1 : var IUMLTypeReference op1Type 
+   G |- ex.operand2 : var IUMLTypeReference op2Type
+   op1Type == INTEGER.primitiveTypeReference
+   op2Type == INTEGER.primitiveTypeReference
+   result   = INTEGER.primitiveTypeReference
 }
 
 rule EqualityExpression
-    G |- EqualityExpression ex : Type result
+    G |- EqualityExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand1 : var Type op1Type 
-    G |- ex.operand2 : var Type op2Type
+    G |- ex.operand1 : var IUMLTypeReference op1Type 
+    G |- ex.operand2 : var IUMLTypeReference op2Type
     {
         G |- op1Type <: op2Type
         or
         G |- op2Type <: op1Type
     } 
-    result = BOOLEAN.primitiveType
+    result = BOOLEAN.primitiveTypeReference
 }
 
 rule RelationalExpression
-    G |- RelationalExpression ex : Type result
+    G |- RelationalExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand1 : var Type op1Type 
-    G |- ex.operand2 : var Type op2Type
-    op1Type == INTEGER.primitiveType || op1Type == REAL.primitiveType 
-    op2Type == INTEGER.primitiveType || op2Type == REAL.primitiveType
-    result = BOOLEAN.primitiveType
+    G |- ex.operand1 : var IUMLTypeReference op1Type 
+    G |- ex.operand2 : var IUMLTypeReference op2Type
+    op1Type == INTEGER.primitiveTypeReference || op1Type == REAL.primitiveTypeReference 
+    op2Type == INTEGER.primitiveTypeReference || op2Type == REAL.primitiveTypeReference
+    result = BOOLEAN.primitiveTypeReference
 }
 
 rule LogicalUnaryExpression
-    G |- BooleanUnaryExpression ex : Type result
+    G |- BooleanUnaryExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand : var Type opType
-    opType == BOOLEAN.primitiveType
-    result = BOOLEAN.primitiveType
+    G |- ex.operand : var IUMLTypeReference opType
+    opType == BOOLEAN.primitiveTypeReference
+    result = BOOLEAN.primitiveTypeReference
 }
 
 rule LogicalExpression
-    G |- LogicalExpression ex : Type result
+    G |- LogicalExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand1 : var Type op1Type 
-    G |- ex.operand2 : var Type op2Type
+    G |- ex.operand1 : var IUMLTypeReference op1Type 
+    G |- ex.operand2 : var IUMLTypeReference op2Type
     {
-        op1Type == BOOLEAN.primitiveType
-        op2Type == BOOLEAN.primitiveType
-        result = BOOLEAN.primitiveType
+        op1Type == BOOLEAN.primitiveTypeReference
+        op2Type == BOOLEAN.primitiveTypeReference
+        result = BOOLEAN.primitiveTypeReference
     } or {
-        op1Type == INTEGER.primitiveType
-        op2Type == INTEGER.primitiveType
-        result = INTEGER.primitiveType
+        op1Type == INTEGER.primitiveTypeReference
+        op2Type == INTEGER.primitiveTypeReference
+        result = INTEGER.primitiveTypeReference
     }
 }
 
 rule ConditionalLogicalExpression
-    G |- ConditionalLogicalExpression ex : Type result
+    G |- ConditionalLogicalExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand1 : var Type op1Type 
-    G |- ex.operand2 : var Type op2Type
-    op1Type == BOOLEAN.primitiveType
-    op2Type == BOOLEAN.primitiveType
-    result = BOOLEAN.primitiveType
+    G |- ex.operand1 : var IUMLTypeReference op1Type 
+    G |- ex.operand2 : var IUMLTypeReference op2Type
+    op1Type == BOOLEAN.primitiveTypeReference
+    op2Type == BOOLEAN.primitiveTypeReference
+    result = BOOLEAN.primitiveTypeReference
 }
 
 rule ConditionalTestExpression
-    G |- ConditionalTestExpression ex : Type result
+    G |- ConditionalTestExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operand1 : var Type condType
-    G |- ex.operand2 : var Type trueType
-    G |- ex.operand3 : var Type falseType
+    G |- ex.operand1 : var IUMLTypeReference condType
+    G |- ex.operand2 : var IUMLTypeReference trueType
+    G |- ex.operand3 : var IUMLTypeReference falseType
     G |- trueType <: falseType 
-    condType == BOOLEAN.primitiveType
+    condType == BOOLEAN.primitiveTypeReference
     result = trueType
 }
 
 
 rule InstanceCreationExpression
-    G |- InstanceCreationExpression ex : Type result
+    G |- InstanceCreationExpression ex : IUMLTypeReference result
 from {
     // Primitive types cannot be instantiated
     !(ex.instance instanceof PrimitiveType)
@@ -316,51 +359,51 @@ from {
     ex.tuple
     
     // Return typing
-    result = ex.instance
+    result = ex.instance.typeReference
 }
 
 rule ThisExpression
-    G |- ThisExpression ex : Type result
+    G |- ThisExpression ex : IUMLTypeReference result
 from {
-    result = umlContext.thisType
+    result = umlContext.thisType.typeReference
 }
 
 rule PropertyAccessExpression
-    G |- PropertyAccessExpression ex : Type result
+    G |- PropertyAccessExpression ex : IUMLTypeReference result
 from {
-    result = ex.property.getType()
+    result = ex.property.type.typeReference
 }
 
 rule AssociationAccessExpression
-    G |- AssociationAccessExpression ex : Type result
+    G |- AssociationAccessExpression ex : IUMLTypeReference result
 from {
-    result = ex.association.getType()
+    result = ex.association.type.typeReference
 }
 
 rule LinkOperationExpression
-    G |- LinkOperationExpression ex : Type result
+    G |- LinkOperationExpression ex : IUMLTypeReference result
 from {
     {
         ex.operation == LinkOperation.LINK
-        result = ex.association 
+        result = ex.association.typeReference
     }  or {
         result = null
     } 
 }
 
 rule FeatureLeftHandSide
-    G |- FeatureLeftHandSide lhs : Type result
+    G |- FeatureLeftHandSide lhs : IUMLTypeReference result
 from {
-    G |- lhs.expression : var Type exType
+    G |- lhs.expression : var IUMLTypeReference exType
      result = exType
 }
 
 rule NameLeftHandSide
-    G |- NameLeftHandSide lhs : Type result
+    G |- NameLeftHandSide lhs : IUMLTypeReference result
 from {
     {
         lhs.index == null
-        G |- lhs.expression : var Type varType
+        G |- lhs.expression : var IUMLTypeReference varType
         result = varType
     } or {
         //TODO indexed access
@@ -370,28 +413,28 @@ from {
 checkrule CheckExpressionType for
     Expression ex
 from {
-    empty |- ex : var Type type
+    empty |- ex : var IUMLTypeReference type
 }
 
 checkrule VariableType for
     Variable ^var
 from {
-    empty |- ^var : var Type type
+    empty |- ^var : var IUMLTypeReference type
 }
 
 checkrule LocalNameDeclarationStatementType for
     LocalNameDeclarationStatement st
 from {
-    empty |- st.variable : var Type varType
-    empty |- st.expression : var Type valueType
+    empty |- st.variable : var IUMLTypeReference varType
+    empty |- st.expression : var IUMLTypeReference valueType
     empty |- varType <: valueType	
 }
 
 checkrule NonFinalClause for
     NonFinalClause cl
 from {
-	empty |- cl.^condition : var Type condType
-	empty |- condType <: BOOLEAN.primitiveType
+	empty |- cl.^condition : var IUMLTypeReference condType
+	empty |- condType <: BOOLEAN.primitiveTypeReference
 }
 
 checkrule ForStatement for
@@ -399,13 +442,13 @@ checkrule ForStatement for
 from {
 	for(Variable variable : st.variableDefinition){
 		val loopVariable = variable as LoopVariable
-		empty |- loopVariable.expression1 : var Type ex1Type
-		empty |- ex1Type <: INTEGER.primitiveType
+		empty |- loopVariable.expression1 : var IUMLTypeReference ex1Type
+		empty |- ex1Type <: INTEGER.primitiveTypeReference
    		{
    			loopVariable.expression2 == null
    		} or {
-   			empty |- loopVariable.expression2 : var Type ex2Type
-   			empty |- ex2Type <: INTEGER.primitiveType
+   			empty |- loopVariable.expression2 : var IUMLTypeReference ex2Type
+   			empty |- ex2Type <: INTEGER.primitiveTypeReference
    		} 		
 	}
 }
@@ -413,31 +456,31 @@ from {
 checkrule WhileStatement for
     WhileStatement st
 from {
-	empty |- st.^condition : var Type condType
-	empty |- condType <: BOOLEAN.primitiveType	
+	empty |- st.^condition : var IUMLTypeReference condType
+	empty |- condType <: BOOLEAN.primitiveTypeReference
 }
 
 checkrule DoStatement for
     DoStatement st
 from {
-	empty |- st.^condition : var Type condType
-	empty |- condType <: BOOLEAN.primitiveType
+	empty |- st.^condition : var IUMLTypeReference condType
+	empty |- condType <: BOOLEAN.primitiveTypeReference
 }
 
 checkrule SwitchStatement_ for
     SwitchStatement st
 from {
 	//Proper type
-	empty |- st.expression : var Type eType
+	empty |- st.expression : var IUMLTypeReference eType
 	{
-		empty |- eType <: INTEGER.primitiveType 
+		empty |- eType <: INTEGER.primitiveTypeReference
 	} or {
-		empty |- eType <: STRING.primitiveType
+		empty |- eType <: STRING.primitiveTypeReference
 	}
 	//cases match the type
 	for(SwitchClause cl : st.nonDefaultClause){
 		for(Expression ex : cl.^case){
-			empty |- ex : var Type caseType
+			empty |- ex : var IUMLTypeReference caseType
 			empty |- st.expression |> caseType
 		}
 	}
@@ -447,14 +490,14 @@ from {
 checkrule SendSignalStatement for
     SendSignalStatement st
 from {
-    empty |- st.signal : var Type signalType
-    empty |- st.target : var Type targetType
-    if (!(signalType instanceof Signal)) {
+    empty |- st.signal : var UMLTypeReference signalType
+    empty |- st.target : var UMLTypeReference targetType
+    if (!(signalType.umlType instanceof Signal)) {
         fail
-        error "Invalid signal type " + signalType.name
+        error "Invalid signal type " + signalType.umlType.name
     }
-    if (!(targetType instanceof Class)) {
+    if (!(targetType.umlType instanceof Class)) {
         fail
-        error "Invalid signal target " + targetType.name
+        error "Invalid signal target " + targetType.umlType.name
     }
 }

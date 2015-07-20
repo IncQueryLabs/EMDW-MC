@@ -85,7 +85,7 @@ class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 			container = container.eContainer
 		}
 		if(invalid){
-			error("Invalid break statement", ReducedAlfLanguagePackage.Literals.BLOCK__STATEMENT)
+			error("Invalid break statement", st, null)
 		}
 	}
 }

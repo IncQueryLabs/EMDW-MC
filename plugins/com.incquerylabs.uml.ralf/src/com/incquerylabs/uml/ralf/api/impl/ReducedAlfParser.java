@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.resource.IResourceFactory;
@@ -30,6 +34,9 @@ public class ReducedAlfParser implements IReducedAlfParser {
     
     @Inject
     private FileExtensionProvider extensionProvider;
+    
+    @Inject
+    private Diagnostician diagnostician;
 
     private String fileExtension; 
     private String LANGUAGE_NAME;
@@ -63,7 +70,18 @@ public class ReducedAlfParser implements IReducedAlfParser {
 
     protected Statements parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
         Resource resource = resource(in, uriToUse, options, resourceSet);
-        return (Statements) (resource.getContents().isEmpty() ? null : resource.getContents().get(0));
+        EList<EObject> contents = resource.getContents();
+        if (contents.isEmpty()) {
+        	return null;
+        } else {
+        	Statements st = (Statements) contents.get(0);
+        	BasicDiagnostic diagnosticChain = new BasicDiagnostic();
+        	diagnostician.validate(st, diagnosticChain);
+        	for (Diagnostic diag : diagnosticChain.getChildren()) {
+        		System.out.println(String.format("[%s] %s at %s", diag.getSeverity(), diag.getMessage(), diag.getSource()));
+        	}
+        	return st;
+        }
     }
    
 

@@ -122,6 +122,8 @@
           optional="true"/>
       <requirement
           name="org.eclipse.incquery.uml.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.cdt.sdk.feature.group"/>
       <repositoryList
           name="Luna">
         <repository
@@ -157,11 +159,15 @@
           name="it.xsemantics.sdk.source.feature.group"/>
       <requirement
           name="org.eclipse.xtext.sdk.feature.group"/>
+      <requirement
+          name="de.itemis.xtext.antlr.sdk.feature.group"/>
       <repositoryList>
         <repository
             url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.8"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/"/>
+        <repository
+            url="http://download.itemis.com/updates/releases"/>
       </repositoryList>
     </targlet>
   </setupTask>

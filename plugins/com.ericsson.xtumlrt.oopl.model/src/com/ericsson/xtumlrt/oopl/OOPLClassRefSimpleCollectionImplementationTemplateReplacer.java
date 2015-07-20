@@ -1,9 +1,9 @@
-package com.ericsson.xtumlrt.oopl.cppmodel;
+package com.ericsson.xtumlrt.oopl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
-public class CPPClassRefSimpleCollectionImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
+public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
     
     /**************************************************
      * 
@@ -11,7 +11,7 @@ public class CPPClassRefSimpleCollectionImplementationTemplateReplacer extends B
      * 
      **************************************************/
     
-    public static String generateElementAtIndex(CPPClassRefSimpleCollectionImplementation impl, String collection, String valueType, String index, String result) {
+    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String collection, String valueType, String index, String result) {
         String template = impl.getElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
@@ -21,7 +21,7 @@ public class CPPClassRefSimpleCollectionImplementationTemplateReplacer extends B
         return generateTemplate(template, map.build());
     }
     
-    public static String generateInsertElementAtIndex(CPPClassRefSimpleCollectionImplementation impl, String collection, String value, String valueType, String index) {
+    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String collection, String value, String valueType, String index) {
         String template = impl.getInsertElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
@@ -31,7 +31,7 @@ public class CPPClassRefSimpleCollectionImplementationTemplateReplacer extends B
         return generateTemplate(template, map.build());
     }
     
-    public static String generateReplaceElementAtIndex(CPPClassRefSimpleCollectionImplementation impl, String collection, String value, String valueType, String index) {
+    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String collection, String value, String valueType, String index) {
         String template = impl.getReplaceElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);

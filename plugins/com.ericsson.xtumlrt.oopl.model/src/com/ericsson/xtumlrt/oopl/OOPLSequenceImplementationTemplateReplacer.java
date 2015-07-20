@@ -1,9 +1,9 @@
-package com.ericsson.xtumlrt.oopl.cppmodel;
+package com.ericsson.xtumlrt.oopl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 
-public class CPPSequenceImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
+public class OOPLSequenceImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
     
     /**************************************************
      * 
@@ -11,7 +11,7 @@ public class CPPSequenceImplementationTemplateReplacer extends BaseContainerImpl
      * 
      **************************************************/
     
-    public static String generateAny(CPPSequenceImplementation impl, String collection, String valueType, String result) {
+    public static String generateAny(OOPLSequenceImplementation impl, String collection, String valueType, String result) {
         String template = impl.getAnyTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
@@ -20,7 +20,7 @@ public class CPPSequenceImplementationTemplateReplacer extends BaseContainerImpl
         return generateTemplate(template, map.build());
     }
 
-    public static String generateCountOf(CPPSequenceImplementation impl, String collection, String value, String result) {
+    public static String generateCountOf(OOPLSequenceImplementation impl, String collection, String value, String result) {
         String template = impl.getCountOfTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
@@ -29,7 +29,7 @@ public class CPPSequenceImplementationTemplateReplacer extends BaseContainerImpl
         return generateTemplate(template, map.build());
     }
     
-    public static String generateElementAtIndex(CPPSequenceImplementation impl, String collection, String valueType, String index, String result) {
+    public static String generateElementAtIndex(OOPLSequenceImplementation impl, String collection, String valueType, String index, String result) {
         String template = impl.getElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
@@ -39,7 +39,7 @@ public class CPPSequenceImplementationTemplateReplacer extends BaseContainerImpl
         return generateTemplate(template, map.build());
     }
     
-    public static String generateInsertElementAtIndex(CPPSequenceImplementation impl, String collection, String value, String valueType, String index) {
+    public static String generateInsertElementAtIndex(OOPLSequenceImplementation impl, String collection, String value, String valueType, String index) {
         String template = impl.getInsertElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
@@ -49,7 +49,7 @@ public class CPPSequenceImplementationTemplateReplacer extends BaseContainerImpl
         return generateTemplate(template, map.build());
     }
     
-    public static String generateReplaceElementAtIndex(CPPSequenceImplementation impl, String collection, String value, String valueType, String index) {
+    public static String generateReplaceElementAtIndex(OOPLSequenceImplementation impl, String collection, String value, String valueType, String index) {
         String template = impl.getReplaceElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);

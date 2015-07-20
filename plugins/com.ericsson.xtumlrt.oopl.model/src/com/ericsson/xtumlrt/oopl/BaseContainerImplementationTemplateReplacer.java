@@ -1,4 +1,4 @@
-package com.ericsson.xtumlrt.oopl.cppmodel;
+package com.ericsson.xtumlrt.oopl;
 
 import java.util.Map;
 import java.util.Map.Entry;

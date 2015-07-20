@@ -105,6 +105,10 @@
 			<layout>p2</layout>
 			<url>http://master.dl.sourceforge.net/project/xsemantics/updates/releases/1.8/</url>
 		</repository>
+		<repository>
+            <id>emdw-p2-mirror</id>
+            <url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>
+        </repository>
 	</repositories>
 	<pluginRepositories>
         <pluginRepository>

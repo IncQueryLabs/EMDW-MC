@@ -12,5 +12,8 @@ Require-Bundle: com.google.guava,
  com.ericsson.xtumlrt.oopl.cpp.model,
  com.incquerylabs.emdw.umlintegration.trace;bundle-version="1.0.0",
  com.incquerylabs.emdw.cpp.transformation;bundle-version="1.0.0",
- com.ericsson.xtumlrt.oopl.model
+ com.ericsson.xtumlrt.oopl.model,
+ org.eclipse.papyrusrt.xtumlrt.common.model;bundle-version="1.0.0",
+ org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="1.0.0",
+ com.ericsson.xtumlrt.platform.model;bundle-version="1.0.0"
 Import-Package: org.apache.log4j;version="1.2.15"

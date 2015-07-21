@@ -197,9 +197,9 @@ pattern cppModel(cppModel : CPPModel) {
 
 pattern typeToOOPLType(
 	commonType : Type,
-	ooplType : OOPLType
+	ooplType : OOPLDataType
 ) {
-	OOPLType.commonType(ooplType, commonType);
+	OOPLDataType.commonType(ooplType, commonType);
 }
 
 pattern xtModelToCppModel(
@@ -234,7 +234,7 @@ pattern cppSequenceType(
 	cppElement : CPPQualifiedNamedElement,
 	typedElement : NamedElement,
 	cppSequence : CPPSequence,
-	ooplType : OOPLType
+	ooplType : OOPLDataType
 ) {
 	CPPAttribute.unnamedSequenceType(cppElement, cppSequence);
 	CPPAttribute.commonAttribute(cppElement, typedElement);

@@ -1,0 +1,18 @@
+package com.ericsson.xtumlrt.oopl.derived
+
+import "http://www.eclipse.org/emf/2002/Ecore"
+
+import "http://www.ericsson.com/xtumlrt/oopl"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+
+@QueryBasedFeature(feature = "stringRepresentation")
+pattern valueDescriptorStringRepresentation(
+	source : ValueDescriptor,
+	target
+) {
+	VariableDescriptor.name(source, varName);
+	target == eval(varName.replace(' ', '_'));
+} or {
+	LiteralDescriptor.value(source, litValue);
+	target == eval(litValue.replace(' ', ' '));
+}

@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
-import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
@@ -72,7 +72,7 @@ class AssociationRules {
 		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
 	].build
 	
-	def OOPLType createClassReference(CPPClass cppTargetClass, XTAssociation xtAssociation){
+	def OOPLDataType createClassReference(CPPClass cppTargetClass, XTAssociation xtAssociation){
 		val xtTargetClass = xtAssociation.target
 		if (xtAssociation.upperBound != 1){
 			val referenceType = createCPPClassRefSimpleCollection => [
@@ -95,7 +95,7 @@ class AssociationRules {
 		}
 	}
 	
-	def createReferenceStorage(OOPLType cppClassReference, XTAssociation xtAssociation){
+	def createReferenceStorage(OOPLDataType cppClassReference, XTAssociation xtAssociation){
 		createCPPClassReferenceStorage => [
 			it.type = cppClassReference
 			it.ooplNameProvider = createOOPLExistingNameProvider => [

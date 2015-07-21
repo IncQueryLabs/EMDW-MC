@@ -2,7 +2,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.test
 
 import com.ericsson.xtumlrt.oopl.AssociativeCollectionKind
 import com.ericsson.xtumlrt.oopl.OOPLNameProvider
-import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
@@ -649,7 +649,7 @@ class TransformationTestUtil {
 		cppOperation
 	}
 	
-	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, OOPLType type, boolean multiValue) {
+	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, OOPLDataType type, boolean multiValue) {
 		val cppFormalParameter = cppFactory.createCPPFormalParameter => [
 			it.commonParameter = parameter
 			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = parameter ]
@@ -661,7 +661,7 @@ class TransformationTestUtil {
 		cppFormalParameter
 	}
 	
-	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLType type, boolean ordered, boolean unique) {
+	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLDataType type, boolean ordered, boolean unique) {
 		val implementation = getSequenceImplementation(type, ordered, unique)
 		val seq = cppFactory.createCPPSequence => [
 			it.elementType = type
@@ -671,7 +671,7 @@ class TransformationTestUtil {
 		seq
 	}
 	
-	static def OOPLSequenceImplementation getSequenceImplementation(OOPLType type, boolean ordered, boolean unique) {
+	static def OOPLSequenceImplementation getSequenceImplementation(OOPLDataType type, boolean ordered, boolean unique) {
 		val implementationResource = type.eResource.resourceSet.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
 			true)
@@ -704,7 +704,7 @@ class TransformationTestUtil {
 		}
 	}
 	
-	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLType type, boolean ordered, boolean unique) {
+	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLDataType type, boolean ordered, boolean unique) {
 		val implementation = getSequenceImplementation(type, ordered, unique)
 		val seq = cppFactory.createCPPSequence => [
 			it.elementType = type
@@ -778,7 +778,7 @@ class TransformationTestUtil {
 		cppAssoc
 	}
 	
-	static def CPPClassReferenceStorage createCPPClassReferenceStorage(XTAssociation xtAssoc, OOPLType cppClassReference) {
+	static def CPPClassReferenceStorage createCPPClassReferenceStorage(XTAssociation xtAssoc, OOPLDataType cppClassReference) {
 		createCPPClassReferenceStorage => [
 			it.type = cppClassReference
 			it.ooplNameProvider = createOOPLExistingNameProvider => [
@@ -788,7 +788,7 @@ class TransformationTestUtil {
 		]
 	}
 	
-	static def OOPLType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, SimpleCollectionKind kind) {
+	static def OOPLDataType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, SimpleCollectionKind kind) {
 		val xtTargetClass = xtAssoc.target
 		val implementation = getClassRefSimpleCollectionImplementation(cppTargetClass.eResource, kind)
 		val referenceType = createCPPClassRefSimpleCollection => [
@@ -814,7 +814,7 @@ class TransformationTestUtil {
 		return implementation as OOPLClassRefSimpleCollectionImplementation
 	}
 	
-	static def OOPLType createCPPClassRefAssocCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, AssociativeCollectionKind kind) {
+	static def OOPLDataType createCPPClassRefAssocCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, AssociativeCollectionKind kind) {
 		val xtTargetClass = xtAssoc.target
 		val implementation = getClassRefAssocCollectionImplementation(cppTargetClass.eResource, kind)
 		val referenceType = createCPPClassRefAssocCollection => [
@@ -840,7 +840,7 @@ class TransformationTestUtil {
 		return implementation as OOPLClassRefAssocCollectionImplementation
 	}
 	
-	static def OOPLType createCPPClassReference(XTAssociation xtAssoc, CPPClass cppTargetClass) {
+	static def OOPLDataType createCPPClassReference(XTAssociation xtAssoc, CPPClass cppTargetClass) {
 		val xtTargetClass = xtAssoc.target
 		
 		val referenceType = createCPPClassReference => [

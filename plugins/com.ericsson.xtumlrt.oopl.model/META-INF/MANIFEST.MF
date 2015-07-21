@@ -4,15 +4,20 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: com.ericsson.xtumlrt.oopl.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.common.model;bundle-version="0.5.0";visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="0.5.0";visibility:=reexport,
- com.google.guava
-Bundle-ActivationPolicy: lazy
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: com.ericsson.xtumlrt.oopl,
+ com.ericsson.xtumlrt.oopl.derived,
+ com.ericsson.xtumlrt.oopl.derived.util,
  com.ericsson.xtumlrt.oopl.impl,
  com.ericsson.xtumlrt.oopl.util
+Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore,
+ org.eclipse.papyrusrt.xtumlrt.common.model,
+ org.eclipse.papyrusrt.xtumlrt.xtuml.model,
+ com.google.guava,
+ org.eclipse.incquery.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: org.apache.log4j;version="1.2.15"

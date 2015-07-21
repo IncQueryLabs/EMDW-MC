@@ -37,8 +37,8 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClass/xtClass"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClass/referenceStorage"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLType">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLType/commonType"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLDataType">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLDataType/commonType"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassReference">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLClassReference/ooplClass"/>
@@ -232,5 +232,21 @@
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
     </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//CollectionDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/name"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//CollectionDescriptor/valueType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//CollectionDescriptor/collectionType"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//ValueDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//ValueDescriptor/stringRepresentation"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//ValueDescriptor/valueType"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//VariableDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//VariableDescriptor/name"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//LiteralDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//LiteralDescriptor/value"/>
+    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//OOPLType"/>
   </genPackages>
 </genmodel:GenModel>

@@ -4,9 +4,6 @@
     <!-- @generated cppmodel -->
     <package class="com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage" genModel="model/cppmodel.genmodel" uri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
-  <extension id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures"/>
-  </extension>
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppAttributeType" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPAttribute" feature-name="type" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
@@ -37,8 +34,14 @@
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppQualifiedNamedElementCppQualifiedName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPQualifiedNamedElement" feature-name="cppQualifiedName" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppSequenceCppContainer" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPSequence" feature-name="cppContainer" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryPath" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPDirectory" feature-name="path" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppClassRefSimpleCollectionCppContainer" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPClassRefSimpleCollection" feature-name="cppContainer" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppQualifiedNamedElementCppPrefix" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPQualifiedNamedElement" feature-name="cppPrefix" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
@@ -49,10 +52,7 @@
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPDirectory" feature-name="name" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
-  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppSequenceCppContainer" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
-    <wellbehaving-derived-feature classifier-name="CPPSequence" feature-name="cppContainer" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
-  </extension>
-  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppClassRefSimpleCollectionCppContainer" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
-    <wellbehaving-derived-feature classifier-name="CPPClassRefSimpleCollection" feature-name="cppContainer" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  <extension id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures"/>
   </extension>
 </plugin>

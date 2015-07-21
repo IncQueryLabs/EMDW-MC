@@ -352,7 +352,7 @@
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="unnamedSequenceType" eType="#//CPPSequence"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLDataType"
         changeable="false" volatile="true" transient="true" derived="true">
       <eAnnotations source="org.eclipse.incquery.querybasedfeature">
         <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.cppmodel.derived.cppAttributeType"/>
@@ -394,7 +394,7 @@
         <details key="documentation" value="This reference shall be used only for containing a CPPSequence."/>
       </eAnnotations>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLDataType"
         changeable="false" volatile="true" transient="true" derived="true">
       <eAnnotations source="org.eclipse.incquery.querybasedfeature">
         <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.cppmodel.derived.cppFormalParameterType"/>

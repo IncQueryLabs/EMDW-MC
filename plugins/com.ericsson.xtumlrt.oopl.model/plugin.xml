@@ -1,17 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?eclipse version="3.0"?>
-
-<!--
--->
-
-<plugin>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated oopl -->
-      <package
-            uri="http://www.ericsson.com/xtumlrt/oopl"
-            class="com.ericsson.xtumlrt.oopl.OoplPackage"
-            genModel="model/oopl.genmodel"/>
-   </extension>
-
+<?xml version="1.0" encoding="UTF-8"?><?eclipse version="3.0"?><!--
+--><plugin>
+  <extension point="org.eclipse.emf.ecore.generated_package">
+    <!-- @generated oopl -->
+    <package class="com.ericsson.xtumlrt.oopl.OoplPackage" genModel="model/oopl.genmodel" uri="http://www.ericsson.com/xtumlrt/oopl"/>
+  </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.derived.valueDescriptorStringRepresentation" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="ValueDescriptor" feature-name="stringRepresentation" package-nsUri="http://www.ericsson.com/xtumlrt/oopl"/>
+  </extension>
+  <extension id="com.ericsson.xtumlrt.oopl.derived.QueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.derived.QueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.derived.QueryBasedFeatures"/>
+  </extension>
 </plugin>

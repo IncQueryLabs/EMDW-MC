@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="oopl" nsURI="http://www.ericsson.com/xtumlrt/oopl" nsPrefix="oopl">
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLClass" abstract="true">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="settingDelegates" value="org.eclipse.incquery.querybasedfeature"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLClass" abstract="true" eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of XTUML class ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass}) for OOP languages."/>
     </eAnnotations>
@@ -10,14 +13,14 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="referenceStorage" upperBound="-1"
         eType="#//OOPLClassReferenceStorage"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLType" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLDataType" abstract="true" eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of common type ({@link org.eclipse.papyrusrt.xtumlrt.common.Type}) for OOP languages."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonType" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Type"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassReference" abstract="true"
-      eSuperTypes="#//OOPLType">
+      eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Reference type in OOP languages to store reference to the OOP representation of a model class ({@link com.ericsson.xtumlrt.oopl.OOPLClass})."/>
     </eAnnotations>
@@ -25,7 +28,7 @@
         eType="#//OOPLClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassReferenceCollection" abstract="true"
-      eSuperTypes="#//OOPLType">
+      eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Collection type in OOP languages to store references to the OOP representation of model classes ({@link com.ericsson.xtumlrt.oopl.OOPLClass})."/>
     </eAnnotations>
@@ -77,7 +80,7 @@
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Storage for references of a class ({@link com.ericsson.xtumlrt.oopl.OOPLClass}) for queries that are made directly on the class or for a relation ({@link com.ericsson.xtumlrt.oopl.OOPLRelation}) if queries are made across the relation. Storage may be a single reference (for signleton classes and x-to-one relations) or a collection of references (for all other classes and x-to-many relations). Multiple storages for the same class or relation are possible if different queries require different access to the references (e.g. maps with different keys)."/>
     </eAnnotations>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLDataType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="required" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLRelation" abstract="true">
@@ -107,12 +110,12 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonNamedElement" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLBasicType" abstract="true" eSuperTypes="#//OOPLType">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLBasicType" abstract="true" eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Basic type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType}."/>
     </eAnnotations>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLEnumType" abstract="true" eSuperTypes="#//OOPLType">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLEnumType" abstract="true" eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Enumeration type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.Enumeration}. Consists of structure members ({@link com.ericsson.xtumlrt.oopl.OOPLEnumerator})."/>
     </eAnnotations>
@@ -136,7 +139,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonEnumerationLiteral"
         lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//EnumerationLiteral"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLStructType" abstract="true" eSuperTypes="#//OOPLType">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLStructType" abstract="true" eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Structure type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.StructType}. Consists of structure members ({@link com.ericsson.xtumlrt.oopl.OOPLStructMember})."/>
     </eAnnotations>
@@ -153,21 +156,21 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonMember" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLType"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLDataType"
         changeable="false" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLStructMember.commonMember.type(ooplStructMember, type);&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;}"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" eSuperTypes="#//OOPLType">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Sequence (array, set or multiset) type in OOP languages. Elements are OOP types ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="elementType" lowerBound="1"
-        eType="#//OOPLType"/>
+        eType="#//OOPLDataType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderedness" ordered="false"
-        unique="false" lowerBound="1" eType="#//SequenceOrderednessKind"/>
+        unique="false" lowerBound="1" eType="#//SequenceOrderednessKind" defaultValueLiteral="UNORDERED"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uniqueness" ordered="false"
         unique="false" lowerBound="1" eType="#//SequenceUniquenessKind"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementation" lowerBound="1"
@@ -183,12 +186,12 @@
     <eLiterals name="UNIQUE" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLUserDefinedType" abstract="true"
-      eSuperTypes="#//OOPLType">
+      eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="User defined type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.UserDefinedType}. Based on any OOP type ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="baseType" lowerBound="1"
-        eType="#//OOPLType"/>
+        eType="#//OOPLDataType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BaseContainerImplementation" abstract="true">
     <eOperations name="generateAdd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
@@ -397,4 +400,28 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderedness" lowerBound="1"
         eType="#//SequenceOrderednessKind" defaultValueLiteral="UNORDERED"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CollectionDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
+        eType="#//OOPLType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="collectionType" lowerBound="1"
+        eType="#//BaseContainerImplementation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ValueDescriptor" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.derived.valueDescriptorStringRepresentation"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
+        eType="#//OOPLType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDescriptor" eSuperTypes="#//ValueDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralDescriptor" eSuperTypes="#//ValueDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLType" abstract="true"/>
 </ecore:EPackage>

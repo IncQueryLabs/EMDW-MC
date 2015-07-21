@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.cpp.codegeneration.util
 
-import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
@@ -26,7 +26,7 @@ class TypeConverter {
 		return '''«cppContainer»< «cppType» >''' 
 	}
 	
-	def dispatch String convertType(OOPLType type) {
+	def dispatch String convertType(OOPLDataType type) {
 		return convertType(type.commonType)
 	}
 	

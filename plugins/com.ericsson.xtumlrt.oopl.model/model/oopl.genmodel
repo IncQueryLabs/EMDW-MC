@@ -165,6 +165,52 @@
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize/result"/>
       </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateAdd.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/itemToAdd"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateAddAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll.1/itemsToAdd"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateClear.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClear.1/context"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateClone.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateContains.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/itemToContain"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/itemsToContain"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRemove.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove.1/itemToRemove"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1/itemsToRemove"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1/itemsToRetainAll"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateSize.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize.1/result"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassRefAssocCollectionImplementation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefAssocCollectionImplementation/kind"/>

@@ -280,6 +280,86 @@
       <eParameters name="collection" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="generateAdd" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="// Redirect to the correct template replacer"/>
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateAdd(this, context, itemToAdd, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemToAdd" eType="#//ValueDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
+    <eOperations name="generateAddAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateAddAll(this, context, itemsToAdd);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemsToAdd" eType="#//CollectionDescriptor"/>
+    </eOperations>
+    <eOperations name="generateClear" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateClear(this, context);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+    </eOperations>
+    <eOperations name="generateClone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateClone(this, context, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="result" eType="#//CollectionDescriptor"/>
+    </eOperations>
+    <eOperations name="generateContains" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateContains(this, context, itemToContain, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemToContain" eType="#//ValueDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
+    <eOperations name="generateContainsAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateContainsAll(this, context, itemsToContain, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemsToContain" eType="#//CollectionDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
+    <eOperations name="generateIsEmpty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateIsEmpty(this, context, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
+    <eOperations name="generateRemove" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateRemove(this, context, itemToRemove);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemToRemove" eType="#//ValueDescriptor"/>
+    </eOperations>
+    <eOperations name="generateRemoveAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateRemoveAll(this, context, itemsToRemove);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemsToRemove" eType="#//CollectionDescriptor"/>
+    </eOperations>
+    <eOperations name="generateRetainAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateRetainAll(this, context, itemsToRetainAll);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemsToRetainAll" eType="#//CollectionDescriptor"/>
+    </eOperations>
+    <eOperations name="generateSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateSize(this, context, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="anyTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="addTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="addAllTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

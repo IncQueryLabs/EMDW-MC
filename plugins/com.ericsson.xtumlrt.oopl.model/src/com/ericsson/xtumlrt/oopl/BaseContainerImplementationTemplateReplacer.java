@@ -116,4 +116,52 @@ public class BaseContainerImplementationTemplateReplacer {
         map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
+    
+    // TODO
+    
+
+    
+    public static String generateAdd(BaseContainerImplementation impl, CollectionDescriptor collection, ValueDescriptor value, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateAddAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values) {
+        return null;
+    }
+    
+    public static String generateClear(BaseContainerImplementation impl, CollectionDescriptor collection) {
+        return null;
+    }
+    
+    public static String generateClone(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor result) {
+        return null;
+    }
+    
+    public static String generateContains(BaseContainerImplementation impl, CollectionDescriptor collection, ValueDescriptor value, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateContainsAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateIsEmpty(BaseContainerImplementation impl, CollectionDescriptor collection, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateRemove(BaseContainerImplementation impl, CollectionDescriptor collection, ValueDescriptor value) {
+        return null;
+    }
+    
+    public static String generateRemoveAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values) {
+        return null;
+    }
+    
+    public static String generateRetainAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values) {
+        return null;
+    }
+    
+    public static String generateSize(BaseContainerImplementation impl, CollectionDescriptor collection, VariableDescriptor result) {
+        return null;
+    }
 }

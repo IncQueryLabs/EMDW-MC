@@ -27,12 +27,6 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src-gen</directory>
-							<excludes>
-								<exclude>.gitignore</exclude>
-							</excludes>
-						</fileset>
-						<fileset>
 							<directory>emf-gen</directory>
 							<excludes>
 								<exclude>.gitignore</exclude>
@@ -91,49 +85,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.incquery</groupId>
-				<artifactId>incquery-maven-plugin</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<outputDirectory>src-gen</outputDirectory>
-					<metamodels>
-						<metamodel>
-							<genmodelUri>model/oopl.genmodel</genmodelUri>
-						</metamodel>
-					</metamodels>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.incquerylabs.emdw</groupId>
-						<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
-						<version>1.0.0-SNAPSHOT</version>
-					</dependency>
-					<dependency>
-   						<groupId>org.eclipse.emf</groupId>
-						<artifactId>org.eclipse.emf.ecore</artifactId>
-						<version>2.10.2-v20150123-0348</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.emf</groupId>
-						<artifactId>org.eclipse.emf.codegen.ecore</artifactId>
-						<version>2.10.2-v20150123-0452</version>
-					</dependency>
-					<dependency>
-						<groupId>org.eclipse.emf</groupId>
-						<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-						<version>2.10.2-v20150123-0348</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

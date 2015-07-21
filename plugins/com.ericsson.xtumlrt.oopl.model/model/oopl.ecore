@@ -408,20 +408,11 @@
         eType="#//BaseContainerImplementation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ValueDescriptor" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
-        changeable="false" volatile="true" transient="true" derived="true">
-      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
-        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.derived.valueDescriptorStringRepresentation"/>
-      </eAnnotations>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
         eType="#//OOPLType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableDescriptor" eSuperTypes="#//ValueDescriptor">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="LiteralDescriptor" eSuperTypes="#//ValueDescriptor">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="VariableDescriptor" eSuperTypes="#//ValueDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LiteralDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLType" abstract="true"/>
 </ecore:EPackage>

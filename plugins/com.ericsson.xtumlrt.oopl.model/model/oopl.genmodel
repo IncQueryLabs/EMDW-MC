@@ -241,12 +241,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//ValueDescriptor/stringRepresentation"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//ValueDescriptor/valueType"/>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//VariableDescriptor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//VariableDescriptor/name"/>
-    </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//LiteralDescriptor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//LiteralDescriptor/value"/>
-    </genClasses>
+    <genClasses ecoreClass="oopl.ecore#//VariableDescriptor"/>
+    <genClasses ecoreClass="oopl.ecore#//LiteralDescriptor"/>
     <genClasses ecoreClass="oopl.ecore#//OOPLType"/>
   </genPackages>
 </genmodel:GenModel>

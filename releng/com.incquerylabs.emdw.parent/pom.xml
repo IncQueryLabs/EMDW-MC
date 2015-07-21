@@ -16,7 +16,7 @@
 		<module>../../plugins/com.ericsson.xtumlrt.oopl.cpp.model</module>
 		<module>../../plugins/com.ericsson.xtumlrt.oopl.java.model</module>
 		<module>../../plugins/com.incquerylabs.uml.xtuml.profile</module>
-		<module>../../plugins/com.incquerylabs.emdw.snippettemplate</module>
+		<module>../../plugins/com.incquerylabs.emdw.snippet.model</module>
 
 		<!-- UML integration -->
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.queries</module>

@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Snippet Template
-Bundle-SymbolicName: com.incquerylabs.emdw.snippettemplate;singleton:=true
+Bundle-Name: Snippet Template Model
+Bundle-SymbolicName: com.incquerylabs.emdw.snippet.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: IncQuery Labs Ltd.

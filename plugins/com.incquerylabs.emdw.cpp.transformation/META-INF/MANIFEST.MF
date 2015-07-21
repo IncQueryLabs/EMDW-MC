@@ -6,7 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
 Export-Package: com.incquerylabs.emdw.cpp.transformation,
  com.incquerylabs.emdw.cpp.transformation.queries,
- com.incquerylabs.emdw.cpp.transformation.queries.util
+ com.incquerylabs.emdw.cpp.transformation.queries.util,
+ com.incquerylabs.emdw.cpp.transformation.monitor
 Require-Bundle: com.ericsson.xtumlrt.oopl.cpp.model,
  com.google.guava,
  org.eclipse.xtend.lib,

@@ -52,7 +52,7 @@ class JUnitPrimitiveTypeExampleTest {
 		//generate snippet from AST
 		val serializer = new ReducedAlfSnippetTemplateSerializer
 		val snippet = generator.createSnippet(ast)
-		val serializedSnippet = serializer.compile(snippet)
+		val serializedSnippet = serializer.serialize(snippet)
 		assertEquals("The created snippet does not match the expected result", expected, serializedSnippet)
 	}
 }

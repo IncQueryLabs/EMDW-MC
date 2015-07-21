@@ -25,6 +25,8 @@ class PrimitiveTypesSnippetTest {
 	@Inject
 	IReducedAlfParser parser
 	
+	ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
+	
 	
 	@Test
 	def numericUnaryExpressionTest(){
@@ -138,9 +140,8 @@ class PrimitiveTypesSnippetTest {
 	}
 	
 	def snippetCompilerTest(String input, String expected) {	
-		val serializer = new ReducedAlfSnippetTemplateSerializer
 		val snippet = compiler.createSnippet(input, parser)
-		val serializedSnippet = serializer.compile(snippet)
+		val serializedSnippet = serializer.serialize(snippet)
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 }

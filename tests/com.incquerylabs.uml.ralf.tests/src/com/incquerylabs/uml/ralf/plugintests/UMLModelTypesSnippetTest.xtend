@@ -20,11 +20,13 @@ import static org.junit.Assert.*
 @InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
 class UMLModelTypesSnippetTest {
 	@Inject
-	IReducedAlfGenerator compiler
+	IReducedAlfGenerator generator
 	@Inject
 	IReducedAlfParser parser
 	@Inject
 	TestModelUMLContextProvider context
+	
+	ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
 		
 	@Test
 	def PongTest(){
@@ -62,16 +64,15 @@ class UMLModelTypesSnippetTest {
 
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
 		context.elementFQN = thisElementFQN
-		val serializer = new ReducedAlfSnippetTemplateSerializer
-		val snippet = compiler.createSnippet(input, parser)
-		val serializedSnippet = serializer.compile(snippet)	
+		
+		val snippet = generator.createSnippet(input, parser)
+		val serializedSnippet = serializer.serialize(snippet)	
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 	
 	def snippetCompilerTest(String input, String expected) {
-		val serializer = new ReducedAlfSnippetTemplateSerializer
-		val snippet = compiler.createSnippet(input, parser)
-		val serializedSnippet = serializer.compile(snippet)	
+		val snippet = generator.createSnippet(input, parser)
+		val serializedSnippet = serializer.serialize(snippet)	
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 }

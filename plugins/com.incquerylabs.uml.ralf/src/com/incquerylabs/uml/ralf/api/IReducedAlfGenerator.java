@@ -2,8 +2,10 @@ package com.incquerylabs.uml.ralf.api;
 
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+
+import com.incquerylabs.uml.ralf.api.impl.ParsingResults;
+import com.incquerylabs.uml.ralf.api.impl.SnippetCompilerException;
 
 import snippetTemplate.Snippet;
 
@@ -20,7 +22,7 @@ public interface IReducedAlfGenerator {
      * @param parser Parser used for parsing the rALF code
      * @return
      */
-    public Snippet createSnippet(String behavior, IReducedAlfParser parser);
+    public Snippet createSnippet(String behavior, IReducedAlfParser parser) throws SnippetCompilerException;
     
     /**
      * Creates a C++ snippet based on the the rALF code, which is contained by the specified opaque behavior 
@@ -29,12 +31,12 @@ public interface IReducedAlfGenerator {
      * @param parser Parser used for parsing the rALF code
      * @return
      */
-    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser);
+    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) throws SnippetCompilerException;
     
     /**
      * Creates a C++ snippet based on a given rALF AST.
      * @param rootElement
      * @return
      */
-    public Snippet createSnippet(EObject rootElement);  
+    public Snippet createSnippet(ParsingResults result) throws SnippetCompilerException;
 }

@@ -12,6 +12,8 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 
 class StateTemplates {
 	public static val TERMINATE_POSTFIX = "TERMINATE"
@@ -66,9 +68,9 @@ class StateTemplates {
 		val stateCppName = state.cppName
 		'''
 		// «stateCppName» state
-		«performEntryActionDefinition(cppClass, state)»
-		
 		«processEventInStateDefinition(cppClass, state)»
+		
+		«performEntryActionDefinition(cppClass, state)»
 		
 		«FOR transitionInfo : state.orderTransitions»
 			«evaluateGuardOnTransitionDefinition(cppClass, transitionInfo)»
@@ -116,14 +118,19 @@ class StateTemplates {
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
 		val cppTransition = transitionInfo.cppTransition
+		val eventType = eventType(cppTransition)
+		val eventName = "eventWithCorrectType"
+		
 		'''
 		// «sourceStateCppName» -«cppTransition.cppName»-> «targetStateCppName» transition
 		if(«cppTransition.generatedTransitionCondition(cppClassName, sourceStateCppName, targetStateCppName)») {
-			«performExitActionCall(sourceState)»
+			const «eventType»* «eventName» = static_cast<const «eventType»*>(event);
 			
-			«performActionsOnTransitionCall(transitionInfo)»
+			«performExitActionCall(sourceState, eventName)»
 			
-			«performEntryActionCall(targetState)»
+			«performActionsOnTransitionCall(transitionInfo, eventName)»
+			
+			«performEntryActionCall(targetState, eventName)»
 			
 			«changeStateTemplate(cppClass, transitionInfo)»
 		}
@@ -183,7 +190,7 @@ class StateTemplates {
 	}
 	
 	def performActionsOnTransitionSignature(TransitionInfo transitionInfo){
-		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «eventType(transitionInfo.cppTransition)»* event)'''
 	}
 	
 	def performActionsOnTransitionDeclaration(TransitionInfo transitionInfo){
@@ -210,12 +217,12 @@ class StateTemplates {
 		'''
 	}
 	
-	def performActionsOnTransitionCall(TransitionInfo transitionInfo){
+	def performActionsOnTransitionCall(TransitionInfo transitionInfo, String eventName){
 		val transition = transitionInfo.transition
 		'''
 		«IF transition.actionChain != null»
 			// transition action
-			«performActionsOnTransitionMethodName(transitionInfo)»(event);
+			«performActionsOnTransitionMethodName(transitionInfo)»(«eventName»);
 		«ELSE»
 			// no transition action
 		«ENDIF»
@@ -227,7 +234,7 @@ class StateTemplates {
 	}
 	
 	def performEntryActionSignature(CPPState state){
-		'''«performEntryActionMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«performEntryActionMethodName(state)»(const «incomingEventType(state)»* event)'''
 	}
 	
 	def performEntryActionDeclaration(CPPState state){
@@ -250,13 +257,13 @@ class StateTemplates {
 		'''
 	}
 	
-	def performEntryActionCall(CPPState targetState){
+	def performEntryActionCall(CPPState targetState, String eventName){
 		'''
 		«IF targetState == null»
 «««			no entry action for Terminate state
 		«ELSEIF targetState.commonState.entryAction != null»
 			// entry action
-			«performEntryActionMethodName(targetState)»(event);
+			«performEntryActionMethodName(targetState)»(«eventName»);
 		«ELSE»
 			// no entry action
 		«ENDIF»
@@ -268,7 +275,7 @@ class StateTemplates {
 	}
 	
 	def performExitActionSignature(CPPState state){
-		'''«performExitActionMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«performExitActionMethodName(state)»(const «outgoingEventType(state)»* event)'''
 	}
 	
 	def performExitActionDeclaration(CPPState state){
@@ -291,11 +298,11 @@ class StateTemplates {
 		'''
 	}
 	
-	def performExitActionCall(CPPState sourceState){
+	def performExitActionCall(CPPState sourceState, String eventName){
 		'''
 		«IF sourceState.commonState.exitAction != null»	
 			// exit action
-			«performExitActionMethodName(sourceState)»(event);
+			«performExitActionMethodName(sourceState)»(«eventName»);
 		«ELSE»
 			// no exit action
 		«ENDIF»
@@ -318,6 +325,50 @@ class StateTemplates {
 			«tracingMessage('''    No state change on «cppTransition.cppName»''')»
 		«ENDIF»
 		'''
+	}
+	
+	def incomingEventType(CPPState cppState){
+		val eventMatcher = codeGenQueries.getCppStateIncomingCppEvents(engine)
+		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppState)
+		return eventType(cppEvents)
+	}
+	
+	def outgoingEventType(CPPState cppState){
+		val eventMatcher = codeGenQueries.getCppStateOutgoingCppEvents(engine)
+		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppState)
+		return eventType(cppEvents)
+	}
+	
+	def eventType(CPPTransition cppTransition){
+		val eventMatcher = codeGenQueries.getCppTransitionCppEvents(engine)
+		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppTransition)
+		return eventType(cppEvents)
+	}
+	
+	def eventType(Iterable<CPPEvent> events){
+		var ancestorQualifiedName = ClassTemplates.EventFQN
+		if(events.length > 0) {
+			val lowestCommonAncestorEvent = events.fold(events.head,[result, event | getLowestCommonAncestor(result, event)])
+			if (lowestCommonAncestorEvent != null){
+				ancestorQualifiedName = lowestCommonAncestorEvent.cppQualifiedName
+			}
+		}
+		return '''«ancestorQualifiedName»_event'''
+	}
+	
+	def getLowestCommonAncestor(CPPEvent event1, CPPEvent event2) {
+		val eventAncestorMatcher = codeGenQueries.getCppEventCommonAncestor(engine)
+		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
+		val commonXtAncestors = eventAncestorMatcher.getAllValuesOfcommonXtAncestor(event1, event2, null)
+		if(commonXtAncestors.isNullOrEmpty){
+			return null
+		}
+		var currentXtEvent = event1.xtEvent as XTClassEvent
+		while(!commonXtAncestors.contains(currentXtEvent)){
+			currentXtEvent = currentXtEvent.definingEvents.head
+		}
+		val lowestCommonAncestor = cppEventMatcher.getAllValuesOfcppEvent(currentXtEvent).head
+		return lowestCommonAncestor
 	}
 	
 	def orderTransitions(CPPState cppState) {

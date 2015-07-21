@@ -220,6 +220,15 @@ pattern cppStateIncomingCppEvents(
 	find transitionCppEvents(transition, cppEvent);
 }
 
+pattern cppStateOutgoingCppEvents(
+	cppState : CPPState,
+	cppEvent : CPPEvent
+) {
+	CPPState.commonState(cppState, commonState);
+	State.outgoingTransitions(commonState, transition);
+	find transitionCppEvents(transition, cppEvent);
+}
+
 pattern cppParentEvent(
 	childEvent : CPPEvent,
 	parentEvent : CPPEvent
@@ -241,24 +250,12 @@ pattern cppAncestorEvent(
 pattern cppEventCommonAncestor(
 	event1 : CPPEvent,
 	event2 : CPPEvent,
-	commonAncestor : CPPEvent
-){
+	commonAncestor : CPPEvent,
+	commonXtAncestor : XTClassEvent
+) {
 	find cppAncestorEvent(event1, commonAncestor);
 	find cppAncestorEvent(event2, commonAncestor);
-}
-
-pattern cppEventLowestCommonAncestor(
-	event1 : CPPEvent,
-	event2 : CPPEvent,
-	lowestCommonAncestor : CPPEvent
-){
-	count find cppEventCommonAncestor(event1, event2, _) == 1;
-	find cppEventCommonAncestor(event1, event2, lowestCommonAncestor);
-} or {
-	find cppEventCommonAncestor(event1, event2, lowestCommonAncestor);
-	find cppEventCommonAncestor(event1, event2, otherCommonAncestor);
-	otherCommonAncestor != lowestCommonAncestor;
-	neg find cppAncestorEvent(otherCommonAncestor, lowestCommonAncestor);
+	find cppEvents(commonXtAncestor, commonAncestor);
 }
 
 pattern cppTransitionToTerminate(

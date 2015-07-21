@@ -2,4 +2,11 @@
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package class="com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage" genModel="model/generated/ReducedAlfLanguage.genmodel" uri="http://www.incquerylabs.com/uml/ralf/ReducedAlfLanguage"/>
   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated snippettemplate -->
+      <package
+            uri="http://www.incquerylabs.com/uml/ralf/SnippetTemplate"
+            class="snippetTemplate.SnippetTemplatePackage"/>
+   </extension>
+
 </plugin>

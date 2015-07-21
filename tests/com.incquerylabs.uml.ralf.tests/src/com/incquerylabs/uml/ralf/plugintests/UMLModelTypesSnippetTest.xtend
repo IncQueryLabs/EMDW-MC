@@ -1,5 +1,6 @@
 package com.incquerylabs.uml.ralf.plugintests
 
+import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguagePluginInjectorProvider
@@ -61,13 +62,17 @@ class UMLModelTypesSnippetTest {
 
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
 		context.elementFQN = thisElementFQN
+		val serializer = new ReducedAlfSnippetTemplateSerializer
 		val snippet = compiler.createSnippet(input, parser)
-		assertEquals("The created snippet does not match the expected result",expected,snippet)
+		val serializedSnippet = serializer.compile(snippet)	
+		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 	
-	def snippetCompilerTest(String input, String expected) {	
+	def snippetCompilerTest(String input, String expected) {
+		val serializer = new ReducedAlfSnippetTemplateSerializer
 		val snippet = compiler.createSnippet(input, parser)
-		assertEquals("The created snippet does not match the expected result",expected,snippet)
+		val serializedSnippet = serializer.compile(snippet)	
+		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 }
 

@@ -5,22 +5,15 @@ import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import java.io.StringReader
-import org.eclipse.xtext.GrammarUtil
-import org.eclipse.xtext.IGrammarAccess
-import org.eclipse.xtext.ParserRule
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.eclipse.xtext.junit4.util.ParseHelper
 import org.eclipse.xtext.junit4.validation.ValidationTestHelper
 import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.eclipse.xtext.parser.IParser
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-
-import static org.junit.Assert.*
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -36,11 +29,7 @@ class AuxiliaryExpressionValidatorTest {
 	@Inject 
 	extension ValidationTestHelper
 	
-	@Inject
-	IGrammarAccess grammarAccess;
-	
-	@Inject
-	IParser parser;
+
 	
 	//Parentheses
 	

@@ -1,6 +1,7 @@
 package com.incquerylabs.uml.ralf.tests.examples.junittests
 
 import com.google.inject.Injector
+import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
@@ -49,8 +50,10 @@ class JUnitPrimitiveTypeExampleTest {
 		//create AST
 		val ast = parser.parse(input)
 		//generate snippet from AST
+		val serializer = new ReducedAlfSnippetTemplateSerializer
 		val snippet = generator.createSnippet(ast)
-		assertEquals("The created snippet does not match the expected result", expected, snippet)
+		val serializedSnippet = serializer.compile(snippet)
+		assertEquals("The created snippet does not match the expected result", expected, serializedSnippet)
 	}
 }
 

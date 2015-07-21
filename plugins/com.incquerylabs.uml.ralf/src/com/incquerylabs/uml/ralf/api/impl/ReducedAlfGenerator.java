@@ -7,43 +7,45 @@ import org.eclipse.uml2.uml.OpaqueBehavior;
 
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
-import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
+import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
-import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetCompiler;
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
+
+import snippetTemplate.Snippet;
 
 public class ReducedAlfGenerator implements IReducedAlfGenerator {
       
-    private ReducedAlfSnippetCompiler snippetCompiler;
+    private ReducedAlfSnippetTemplateCompiler templateCompiler;
     
-    private Map<String, String> snippetMap;
+    private Map<Snippet, String> snippetMap;
     
     @Inject
     public ReducedAlfGenerator() {
         snippetMap = Maps.newHashMap();
-        snippetCompiler = new ReducedAlfSnippetCompiler();
+        templateCompiler = new ReducedAlfSnippetTemplateCompiler();
     }
 
     @Override
-    public Map<String, String> getSnippetMap() {
+    public Map<Snippet, String> getSnippetMap() {
         return snippetMap;
     }
 
     @Override
-    public String createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) {
+    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) {
         Statements statements = parser.parse(behavior);
         return createSnippet(statements);
     }
     
     @Override
-    public String createSnippet(String behavior, IReducedAlfParser parser) {
+    public Snippet createSnippet(String behavior, IReducedAlfParser parser) {
         Statements statements = parser.parse(behavior);
         return createSnippet(statements);
     }
 
     @Override
-    public String createSnippet(EObject actionCode) {
-        return snippetCompiler.visit(actionCode);
+    public Snippet createSnippet(EObject actionCode) {
+        return templateCompiler.visit(actionCode);
     }
 
 }

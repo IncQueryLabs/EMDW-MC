@@ -2,7 +2,7 @@ package com.incquerylabs.uml.ralf.api;
 
 import org.eclipse.uml2.uml.OpaqueBehavior;
 
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
+import com.incquerylabs.uml.ralf.api.impl.ParsingResults;
 
 public interface IReducedAlfParser {
     /**
@@ -10,13 +10,13 @@ public interface IReducedAlfParser {
      * @param behavior
      * @return
      */
-    public Statements parse(String behavior);
+    public ParsingResults parse(String behavior);
     
     /**
      * Extracts the rALF code from a specified OpaqueBehavior instance, and creates the corresponding rALF AST.
      * @param behavior
      * @return
      */
-    public Statements parse(OpaqueBehavior behavior);
+    public ParsingResults parse(OpaqueBehavior behavior);
     
 }

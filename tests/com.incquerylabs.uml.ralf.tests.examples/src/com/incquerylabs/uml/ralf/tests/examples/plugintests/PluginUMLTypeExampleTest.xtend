@@ -77,7 +77,7 @@ class PluginUMLTypeExampleTest {
 		//generate snippets
 		val snippet = generator.createSnippet(ast)
 		val serializer = new ReducedAlfSnippetTemplateSerializer
-		val serializedSnippet = serializer.compile(snippet)
+		val serializedSnippet = serializer.serialize(snippet)
 		//compare results
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}

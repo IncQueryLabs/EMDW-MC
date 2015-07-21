@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+import org.eclipse.emf.common.util.BasicDiagnostic;
+import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.resource.IResourceFactory;
@@ -18,6 +22,7 @@ import org.eclipse.xtext.util.LazyStringInputStream;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguageFactory;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 
 public class ReducedAlfParser implements IReducedAlfParser {
@@ -30,6 +35,9 @@ public class ReducedAlfParser implements IReducedAlfParser {
     
     @Inject
     private FileExtensionProvider extensionProvider;
+    
+    @Inject
+    private Diagnostician diagnostician;
 
     private String fileExtension; 
     private String LANGUAGE_NAME;
@@ -40,9 +48,9 @@ public class ReducedAlfParser implements IReducedAlfParser {
     }
 
     @Override
-    public Statements parse(OpaqueBehavior behavior) {
+    public ParsingResults parse(OpaqueBehavior behavior) {
         int indexOfRALFBody = -1;
-        Statements result = null;
+        ParsingResults result = null;
         for (int i = 0; i < behavior.getLanguages().size() && indexOfRALFBody == -1; i++) {
             if (behavior.getLanguages().get(i).equals(LANGUAGE_NAME)) {
                 indexOfRALFBody = i;
@@ -56,23 +64,32 @@ public class ReducedAlfParser implements IReducedAlfParser {
     }
     
     @Override
-    public Statements parse(String text) {
+    public ParsingResults parse(String text) {
         fileExtension = extensionProvider.getPrimaryFileExtension();
         return parse(text, createResourceSet());
     }
 
-    protected Statements parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
+    protected ParsingResults parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
         Resource resource = resource(in, uriToUse, options, resourceSet);
-        return (Statements) (resource.getContents().isEmpty() ? null : resource.getContents().get(0));
+        EList<EObject> contents = resource.getContents();
+        if (contents.isEmpty()) {
+            return new ParsingResults(new BasicDiagnostic(Diagnostic.ERROR, getClass().getName(), 1 , "Error while parsing input", new Object[0]) , ReducedAlfLanguageFactory.eINSTANCE.createStatements());
+        } else {
+            Statements st = (Statements) contents.get(0);
+            BasicDiagnostic diagnosticChain = new BasicDiagnostic();
+            diagnostician.validate(st, diagnosticChain);
+            return new ParsingResults(diagnosticChain, st);
+        }
+        //return (Statements) (resource.getContents().isEmpty() ? null : resource.getContents().get(0));
     }
    
 
     
-    protected Statements parse(String text, ResourceSet resourceSetToUse){
+    protected ParsingResults parse(String text, ResourceSet resourceSetToUse){
         return parse(getAsStream(text), computeUnusedUri(resourceSetToUse), null, resourceSetToUse);
     }
 
-    protected Statements parse(String text, URI uriToUse, ResourceSet resourceSetToUse){
+    protected ParsingResults parse(String text, URI uriToUse, ResourceSet resourceSetToUse){
         return parse(getAsStream(text), uriToUse, null, resourceSetToUse);
     }
     

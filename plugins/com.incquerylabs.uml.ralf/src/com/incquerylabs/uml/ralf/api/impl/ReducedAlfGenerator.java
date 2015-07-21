@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
 
 import snippetTemplate.Snippet;
@@ -32,19 +31,32 @@ public class ReducedAlfGenerator implements IReducedAlfGenerator {
     }
 
     @Override
-    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) {
-        Statements statements = parser.parse(behavior);
-        return createSnippet(statements);
+    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) throws SnippetCompilerException {
+        ParsingResults result = parser.parse(behavior);
+        if(result.validationOK()){
+            return createSnippet(result.getModel());
+        }
+        throw new SnippetCompilerException("Validation: "+result.toString());
     }
     
     @Override
-    public Snippet createSnippet(String behavior, IReducedAlfParser parser) {
-        Statements statements = parser.parse(behavior);
-        return createSnippet(statements);
+    public Snippet createSnippet(String behavior, IReducedAlfParser parser) throws SnippetCompilerException {
+        ParsingResults result = parser.parse(behavior);
+        if(result.validationOK()){
+            return createSnippet(result.getModel());
+        }
+        throw new SnippetCompilerException("Validation: "+result.toString());
     }
 
     @Override
-    public Snippet createSnippet(EObject actionCode) {
+    public Snippet createSnippet(ParsingResults result) throws SnippetCompilerException {
+        if(result.validationOK()){
+            return createSnippet(result.getModel());
+        }
+        throw new SnippetCompilerException("Validation: "+result.toString());
+    }
+    
+    private Snippet createSnippet(EObject actionCode) {
         return templateCompiler.visit(actionCode);
     }
 

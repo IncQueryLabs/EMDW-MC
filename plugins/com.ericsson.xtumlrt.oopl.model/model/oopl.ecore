@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="oopl" nsURI="http://www.ericsson.com/xtumlrt/oopl" nsPrefix="oopl">
-  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
-    <details key="settingDelegates" value="org.eclipse.incquery.querybasedfeature"/>
-  </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClass" abstract="true" eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of XTUML class ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass}) for OOP languages."/>

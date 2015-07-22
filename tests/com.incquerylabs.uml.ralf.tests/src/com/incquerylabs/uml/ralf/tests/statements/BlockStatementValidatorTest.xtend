@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -84,6 +85,7 @@ class BlockStatementValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Ranges are not supported currently")
 	def blockStatementContainsFor() {
 		blockStatementOK('''
 		{

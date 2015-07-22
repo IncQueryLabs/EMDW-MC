@@ -10,6 +10,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
@@ -36,9 +37,16 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.TypeDeclaration
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
+import com.incquerylabs.uml.ralf.types.CollectionTypeReference
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference.AnyTypeReference
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference.NullTypeReference
+import com.incquerylabs.uml.ralf.types.TypeFactory
+import com.incquerylabs.uml.ralf.types.UMLTypeReference
 import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator
 import java.util.List
 import org.eclipse.emf.ecore.EObject
@@ -47,9 +55,6 @@ import org.eclipse.uml2.uml.Classifier
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.types.IUMLTypeReference
-import com.incquerylabs.uml.ralf.types.TypeFactory
-import com.incquerylabs.uml.ralf.types.UMLTypeReference
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -61,6 +66,7 @@ val STRING  = IUMLContextProvider.STRING_TYPE
 
 auxiliary {
     superClassList(Class cl) : List<Class>
+    typeReference(TypeDeclaration decl) : IUMLTypeReference
 //    isPrimitive(Type type) : Boolean
 }
 
@@ -79,6 +85,14 @@ judgments {
 
 auxiliary superClassList(Class cl) {
     cl.superClasses
+}
+
+auxiliary typeReference(TypeDeclaration decl) {
+    if (decl.isIsAny) {
+        anyType
+    } else {
+        decl.getType().typeReference
+    }
 }
 
 axiom BooleanLiteral
@@ -102,9 +116,11 @@ axiom StringLiteral
  */
 
 
-axiom VariableDeclaration
-    G |- Variable variable : 
-        variable.type.typeReference
+rule VariableDeclaration
+    derives G |- Variable variable : IUMLTypeReference result
+from {
+      result = variable.type.typeReference
+}
 
 rule LoopVariable
     G |- LoopVariable variable : IUMLTypeReference result
@@ -112,20 +128,20 @@ from {
     if (variable.type != null) {
         result = variable.type.typeReference
     } else {
-        G |- variable.expression1 : var IUMLTypeReference ex1Type
-        result = ex1Type
-        
-        if (variable.expression2 != null) {
-            G |- variable.expression2 : var IUMLTypeReference ex2Type
-            ex1Type == ex2Type
-            ex1Type == INTEGER.primitiveTypeReference
-        }
+        G |- variable.expression : result
     }
 }
 
 /**
  * Subtyping and assignability
- */
+ */  
+
+axiom NullSubtyping
+  G |- IUMLTypeReference left <: NullTypeReference right
+  
+axiom AnySubtyping
+  G |- AnyTypeReference left <: IUMLTypeReference right
+
 rule GeneralReferenceSubtyping 
     derives G |- IUMLTypeReference left <: IUMLTypeReference right
     error "The type " + stringRep(left) + " is not compatible with the type " + stringRep(right)
@@ -140,13 +156,20 @@ from {
     G |- left.umlType <~ right.umlType
 }
 
+rule CollectionSubtyping
+    derives G |- CollectionTypeReference left <: CollectionTypeReference right
+from {
+    left.type == right.type
+    left.valueType == right.valueType
+}
+
 rule GeneralSubtyping
     derives G |- Type left <~ Type right
     error "The type " + stringRep(left) + " is not compatible with the type " + stringRep(right)
 from {
     //More specific cases are not matched, fail here
     fail
-} 
+}  
 
 rule PrimitiveSubtyping
     derives G |- PrimitiveType left <~ PrimitiveType right
@@ -207,11 +230,6 @@ from {
        type1 == STRING.primitiveTypeReference
        type2 == STRING.primitiveTypeReference
        result = STRING.primitiveTypeReference
-   } or {
-       ex.operator == "+"
-       type1 == REAL.primitiveTypeReference
-       type2 == REAL.primitiveTypeReference || type2 == INTEGER.primitiveTypeReference
-       result = REAL.primitiveTypeReference
    } or {
        ex.operator == "+"
        type1 == REAL.primitiveTypeReference
@@ -371,7 +389,19 @@ from {
 rule PropertyAccessExpression
     G |- PropertyAccessExpression ex : IUMLTypeReference result
 from {
-    result = ex.property.type.typeReference
+    {
+        !ex.property.multivalued
+        result = ex.property.type.typeReference
+    } or {
+        ex.property.multivalued && ex.property.ordered 
+        result = ex.property.type.sequenceOf
+    } or {
+        ex.property.multivalued && !ex.property.ordered && ex.property.unique
+        result = ex.property.type.setOf
+    } or {
+        ex.property.multivalued && !ex.property.ordered && !ex.property.unique
+        result = ex.property.type.bagOf
+    }
 }
 
 rule AssociationAccessExpression
@@ -391,6 +421,28 @@ from {
     } 
 }
 
+rule CollectionConstructionExpression
+    derives G |- ElementCollectionExpression ex : IUMLTypeReference result
+from {
+    val valueType = if (ex.typeDeclaration != null) {
+        ex.typeDeclaration.typeReference
+    } else {
+        anyType
+    }
+    
+    for (element : ex.elements.expressions) {
+        G |- element : var IUMLTypeReference elType
+        G |- valueType <: elType
+    }
+    if (ex.collectionType != null) {
+        result = valueType.collectionOf(ex.collectionType)
+    } else {
+        result = valueType.sequenceOf   
+    }
+}
+
+//Non-expression types
+
 rule FeatureLeftHandSide
     G |- FeatureLeftHandSide lhs : IUMLTypeReference result
 from {
@@ -406,9 +458,15 @@ from {
         G |- lhs.expression : var IUMLTypeReference varType
         result = varType
     } or {
-        //TODO indexed access
+        G |- lhs.expression : var UMLTypeReference varType
+        result = varType.umlType.bagOf
     }
 }
+
+
+/**
+ * Validation rules
+ */
 
 checkrule CheckExpressionType for
     Expression ex
@@ -442,12 +500,12 @@ checkrule ForStatement for
 from {
 	for(Variable variable : st.variableDefinition){
 		val loopVariable = variable as LoopVariable
-		empty |- loopVariable.expression1 : var IUMLTypeReference ex1Type
+		empty |- loopVariable.expression : var IUMLTypeReference ex1Type
 		empty |- ex1Type <: INTEGER.primitiveTypeReference
    		{
-   			loopVariable.expression2 == null
+   			loopVariable.expression == null
    		} or {
-   			empty |- loopVariable.expression2 : var IUMLTypeReference ex2Type
+   			empty |- loopVariable.expression : var IUMLTypeReference ex2Type
    			empty |- ex2Type <: INTEGER.primitiveTypeReference
    		} 		
 	}

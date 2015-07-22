@@ -35,10 +35,6 @@ QualifiedName :
     Name ( '::' Name )*
 ;
 
-NameBinding : 
-    name = Name  
-;
-
 /***************
 * EXPRESSIONS *
 ***************/
@@ -64,12 +60,13 @@ PrimaryExpression returns Expression :
 
 BaseExpression returns Expression : 
     LiteralExpression |
+    CollectionLiteralExpression |
     ThisExpression |
     SuperInvocationExpression |
     InstanceCreationOrSequenceConstructionExpression |
     ClassExtentExpression |
     LinkOperationExpression |
-    SequenceConstructionExpression |
+    NullExpression |
 //  SequenceOperationOrReductionOrExpansionExpression |
     BehaviorInvocationExpression |
     NameExpression |
@@ -148,19 +145,18 @@ BehaviorInvocationExpression :
   target = [uml::Behavior|QualifiedName] tuple = Tuple
 ;
 
-Tuple : 
-    /* {Tuple}'(' ( namedTupleExpressionList = NamedTupleExpressionList | ( positionalTupleExpressionList = PositionalTupleExpressionList )? ) ')' */
-    {PositionalTuple} '(' ')'
+Tuple returns Tuple: 
+    {ExpressionList} '(' ')'
     |
-    '(' ( NamedTupleExpressionList | PositionalTupleExpressionList ) ')'
+    '(' ( NamedTupleExpressionList | ExpressionList ) ')'
 ;
 
-PositionalTupleExpressionList returns PositionalTuple :
-    {PositionalTuple} ( expression += Expression (',' expression += Expression)* )?
+ExpressionList:
+    {ExpressionList} ( expressions += Expression (',' expressions += Expression)* )?
 ;
 
 NamedTupleExpressionList returns NamedTuple : 
-    namedExpression += NamedExpression ( ',' namedExpression += NamedExpression )*
+    expressions += NamedExpression ( ',' expressions += NamedExpression )*
 ;
 
 NamedExpression : 
@@ -178,15 +174,11 @@ InstanceCreationOrSequenceConstructionExpression returns Expression :
 
 /* LINK OPERATION EXPRESSIONS */
 LinkOperationExpression :
-  association = [uml::Association|QualifiedName] '::' operation = LinkOperation tuple = LinkOperationTuple
+  association = [uml::Association|QualifiedName] '::' operation = LinkOperation tuple = Tuple
 ;
 
 enum LinkOperation :
 link = 'link' | unlink = 'unlink'
-;
-
-LinkOperationTuple returns Tuple :
-'(' ( NamedTupleExpressionList | PositionalTupleExpressionList ) ')'
 ;
 
 /* CLASS EXTENT EXPRESSIONS */
@@ -194,38 +186,30 @@ ClassExtentExpression :
   class = [uml::Class|QualifiedName] '::' 'instances' '(' ')'
 ;
 
+/* NULL EXPRESSION */
+NullExpression:
+    {NullExpression} 'null'
+;
+
 /* SEQUENCE CONSTRUCTION EXPRESSIONS */
-
-SequenceConstructionExpression :
-  // CHANGE: Added isAny attribute to SequenceConstructionExpression in order to allow Xtext serialization.
-  ( isAny ?= 'any' | typeName = QualifiedName ) ( hasMultiplicity ?= MultiplicityIndicator )? '{' ( elements = SequenceElements )? '}' |
-  hasMultiplicity ?= 'null'
+CollectionLiteralExpression returns CollectionLiteralExpression:
+//    {RangeCollectionExpression}
+//    collectionType = CollectionType '<' typeDeclaration = TypeDeclaration '>' '{' ( range = SequenceRange)? '}' |
+    {ElementCollectionExpression}
+    (collectionType = CollectionType '<' typeDeclaration = TypeDeclaration '>')? '{' ( elements = ExpressionList )? '}'
 ;
 
-MultiplicityIndicator : 
-    '[' ']'
+enum CollectionType:
+     set = 'set' | bag = 'bag' | sequence = 'sequence'
 ;
 
-SequenceElements : 
-  SequenceRange | 
-  SequenceExpressionList
+TypeDeclaration:
+     isAny ?= 'any' | type = [uml::Type|QualifiedName] 
 ;
 
-SequenceRange :
-  rangeLower = Expression '..' rangeUpper = Expression
-;
-
-SequenceExpressionList :
-  element += SequenceElement ( ',' element += SequenceElement )* ( ',' )?
-;
-
-SequenceElement returns Expression : 
-    Expression | SequenceInitializationExpression
-;
-
-SequenceInitializationExpression returns SequenceConstructionExpression : 
-    'new'? '{' elements = SequenceElements '}'
-;
+//SequenceRange :
+//  rangeLower = Expression '..' rangeUpper = Expression
+//;
 
 /* SEQUENCE ACCESS EXPRESSIONS */
 Index returns Expression : 
@@ -414,7 +398,7 @@ AssignmentExpression returns AssignmentExpression :
 
 LeftHandSide :
   NameLeftHandSide | 
-  FeatureLeftHandSide // ( index = Index )? |
+  FeatureLeftHandSide // ( index = Index )? | //TODO Indexing
 //  "(" LeftHandSide ")"
 ;
 
@@ -479,8 +463,13 @@ EmptyStatement :
     ';'
 ;
 
+
+MultiplicityIndicator : 
+    '[' ']'
+;
+
 VariableDeclaration returns Variable: 
-   ( isAny ?= 'any' | type = [uml::Type|QualifiedName] ) hasMultiplicity ?= MultiplicityIndicator? name = Name     
+   type = TypeDeclaration hasMultiplicity ?= MultiplicityIndicator? name = Name     
 ;
 
 /* LOCAL NAME DECLARATION STATEMENTS */
@@ -490,7 +479,6 @@ LocalNameDeclarationStatement :
 
 InitializationExpression returns Expression :
     Expression
-| SequenceInitializationExpression
 | InstanceInitializationExpression
 ;
 
@@ -560,12 +548,12 @@ ForStatement :
 LoopVariableDefinition returns Variable: 
   // CHANGE: Added isAny attribute to LoopVariableDefinition in order to allow Xtext serialization.
   // NOTE: Default for typeIsInferred must be false.
+     //{LoopVariable} 
+     //  (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
+     //  typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
      {LoopVariable} 
-       (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
-       typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
-     {LoopVariable} 
-       (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
-       ':' expression1 = Expression
+       (name = Name | type = TypeDeclaration name = Name)
+       ':' expression = Expression
 ;
 
 /* BREAK STATEMENTS */

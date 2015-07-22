@@ -28,7 +28,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.PositionalTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
@@ -44,6 +43,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.UnboundedLiteralExpression
 import org.eclipse.emf.ecore.EObject
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 
 class ReducedAlfSnippetTemplateCompiler {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -105,7 +105,7 @@ class ReducedAlfSnippetTemplateCompiler {
 	
 	def dispatch Snippet visit(LocalNameDeclarationStatement st){
 		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = st.variable.type.qualifiedName])
+			snippet.add(createStringSnippet => [value = st.variable.type.type.qualifiedName])
 			snippet.add(createStringSnippet => [value = ''' '''])
 			snippet.add(createStringSnippet => [value = st.variable.name])
 			snippet.add(createStringSnippet => [value = ''' = '''])
@@ -211,11 +211,11 @@ class ReducedAlfSnippetTemplateCompiler {
 		]
 	}
 	
-	def dispatch Snippet visit(PositionalTuple tuple){
+	def dispatch Snippet visit(ExpressionList tuple){
 		createCompositeSnippet => [ f | 
 			f.snippet.add = createStringSnippet => [value = '''(''']
-			if(tuple.expression!= null && !tuple.expression.isEmpty){
-				tuple.expression.forEach[
+			if(tuple.expressions!= null && !tuple.expressions.isEmpty){
+				tuple.expressions.forEach[
 					f.snippet.add(visit)
 					f.snippet.add(createStringSnippet => [value = ''', '''])
 				]
@@ -228,8 +228,8 @@ class ReducedAlfSnippetTemplateCompiler {
 	def dispatch Snippet visit(NamedTuple tuple){
 		createCompositeSnippet => [ f | 
 				f.snippet.add = createStringSnippet => [value = '''(''']
-				if(tuple.namedExpression!= null && !tuple.namedExpression.isEmpty){
-					tuple.namedExpression.forEach[
+				if(tuple.expressions!= null && !tuple.expressions.isEmpty){
+					tuple.expressions.forEach[
 						f.snippet.add(visit)
 						f.snippet.add(createStringSnippet => [value = ''', '''])
 	    			]

@@ -23,11 +23,13 @@ class StateTemplates {
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val ActionCodeTemplates actionCodeTemplates
+	val EventTemplates eventTemplates
 	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
 		actionCodeTemplates = new ActionCodeTemplates(engine)
+		eventTemplates = new EventTemplates(engine)
 	}
 	
 	def enumInClassHeader(CPPClass cppClass) {
@@ -344,14 +346,15 @@ class StateTemplates {
 	}
 	
 	def eventType(Iterable<CPPEvent> events){
-		var ancestorQualifiedName = ClassTemplates.EventFQN
+		var CharSequence ancestorQualifiedName = ClassTemplates.EventFQN
 		if(events.length > 0) {
 			val lowestCommonAncestorEvent = events.fold(events.head,[result, event | getLowestCommonAncestor(result, event)])
 			if (lowestCommonAncestorEvent != null){
-				ancestorQualifiedName = lowestCommonAncestorEvent.cppQualifiedName
+				ancestorQualifiedName = eventTemplates.generatedEventClassQualifiedName(lowestCommonAncestorEvent)
 			}
 		}
-		return '''«ancestorQualifiedName»_event'''
+		
+		return ancestorQualifiedName
 	}
 	
 	def getLowestCommonAncestor(CPPEvent event1, CPPEvent event2) {

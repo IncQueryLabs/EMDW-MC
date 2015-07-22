@@ -552,14 +552,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderedness" lowerBound="1"
         eType="#//SequenceOrderednessKind" defaultValueLiteral="UNORDERED"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CollectionDescriptor">
+  <eClassifiers xsi:type="ecore:EClass" name="CollectionDescriptor" eSuperTypes="#//AbstractDescriptor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
         eType="#//OOPLType"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="collectionType" lowerBound="1"
         eType="#//BaseContainerImplementation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ValueDescriptor" abstract="true">
+  <eClassifiers xsi:type="ecore:EClass" name="ValueDescriptor" abstract="true" eSuperTypes="#//AbstractDescriptor">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="valueType" lowerBound="1"
         eType="#//OOPLType"/>
@@ -567,4 +567,5 @@
   <eClassifiers xsi:type="ecore:EClass" name="VariableDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="LiteralDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLType" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractDescriptor" abstract="true"/>
 </ecore:EPackage>

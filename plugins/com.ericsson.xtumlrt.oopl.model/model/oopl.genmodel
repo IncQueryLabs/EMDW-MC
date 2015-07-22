@@ -338,5 +338,6 @@
     <genClasses ecoreClass="oopl.ecore#//VariableDescriptor"/>
     <genClasses ecoreClass="oopl.ecore#//LiteralDescriptor"/>
     <genClasses ecoreClass="oopl.ecore#//OOPLType"/>
+    <genClasses ecoreClass="oopl.ecore#//AbstractDescriptor"/>
   </genPackages>
 </genmodel:GenModel>

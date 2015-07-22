@@ -58,4 +58,26 @@ public class OOPLSequenceImplementationTemplateReplacer extends BaseContainerImp
         map.put("$index$", index);
         return generateTemplate(template, map.build());
     }
+    
+    // TODO
+    
+    public static String generateAny(OOPLSequenceImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
+        return null;
+    }
+
+    public static String generateCountOf(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToCount, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, int index, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateInsertElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToInsert, int index) {
+        return null;
+    }
+    
+    public static String generateReplaceElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToReplace, int index) {
+        return null;
+    }
 }

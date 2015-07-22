@@ -292,6 +292,30 @@
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/valueType"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateAny.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/itemToCount"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/index"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/itemToInsert"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/index"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/itemToReplace"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/index"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//CollectionDescriptor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/name"/>

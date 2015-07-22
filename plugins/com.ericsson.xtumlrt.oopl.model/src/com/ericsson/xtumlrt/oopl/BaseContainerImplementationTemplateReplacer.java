@@ -117,51 +117,53 @@ public class BaseContainerImplementationTemplateReplacer {
         return generateTemplate(template, map.build());
     }
     
-    // TODO
     
-
     
-    public static String generateAdd(BaseContainerImplementation impl, CollectionDescriptor collection, ValueDescriptor value, VariableDescriptor result) {
-        return null;
+    public static String generateAdd(BaseContainerImplementation impl, CollectionDescriptor context, ValueDescriptor itemToAdd, VariableDescriptor result) {
+        return generateAdd(impl, context.getName(), itemToAdd.getStringRepresentation(), result.getStringRepresentation());
     }
     
-    public static String generateAddAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values) {
-        return null;
+    public static String generateAddAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor values) {
+        return generateAddAll(impl, context.getName(), values.getName());
     }
     
-    public static String generateClear(BaseContainerImplementation impl, CollectionDescriptor collection) {
-        return null;
+    public static String generateClear(BaseContainerImplementation impl, CollectionDescriptor context) {
+        return generateClear(impl, context.getName());
     }
     
-    public static String generateClone(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor result) {
-        return null;
+    public static String generateClone(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor result) {
+        return generateClone(impl, context.getName(), result.getValueType().toString(), result.getName());
     }
     
-    public static String generateContains(BaseContainerImplementation impl, CollectionDescriptor collection, ValueDescriptor value, VariableDescriptor result) {
-        return null;
+    public static String generateContains(BaseContainerImplementation impl, CollectionDescriptor context, ValueDescriptor itemToContain, VariableDescriptor result) {
+        return generateContains(impl, context.getName(), itemToContain.getStringRepresentation(), result.getStringRepresentation());
     }
     
-    public static String generateContainsAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values, VariableDescriptor result) {
-        return null;
+    public static String generateContainsAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor itemsToContain, VariableDescriptor result) {
+        return generateContainsAll(impl, context.getName(), itemsToContain.getName(), 
+                    itemsToContain.getCollectionType().getContainerQualifiedName(), 
+                    itemsToContain.getValueType().toString(), result.getStringRepresentation());
     }
     
-    public static String generateIsEmpty(BaseContainerImplementation impl, CollectionDescriptor collection, VariableDescriptor result) {
-        return null;
+    public static String generateIsEmpty(BaseContainerImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
+        return generateIsEmpty(impl, context.getName(), result.getStringRepresentation());
     }
     
-    public static String generateRemove(BaseContainerImplementation impl, CollectionDescriptor collection, ValueDescriptor value) {
-        return null;
+    public static String generateRemove(BaseContainerImplementation impl, CollectionDescriptor context, ValueDescriptor itemToRemove) {
+        return generateRemove(impl, context.getName(), itemToRemove.getStringRepresentation());
     }
     
-    public static String generateRemoveAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values) {
-        return null;
+    public static String generateRemoveAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor itemsToRemove) {
+        return generateRemoveAll(impl, context.getName(), itemsToRemove.getName(), 
+                    itemsToRemove.getCollectionType().getContainerQualifiedName(), 
+                    itemsToRemove.getValueType().toString());
     }
     
-    public static String generateRetainAll(BaseContainerImplementation impl, CollectionDescriptor collection, CollectionDescriptor values) {
-        return null;
+    public static String generateRetainAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor itemsToRetain) {
+        return generateRetainAll(impl, context.getName(), itemsToRetain.getName(), context.getValueType().toString());
     }
     
-    public static String generateSize(BaseContainerImplementation impl, CollectionDescriptor collection, VariableDescriptor result) {
-        return null;
+    public static String generateSize(BaseContainerImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
+        return generateSize(impl, context.getName(), result.getStringRepresentation());
     }
 }

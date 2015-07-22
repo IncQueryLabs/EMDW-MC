@@ -43,15 +43,15 @@ public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends 
     
     // TODO
     
-    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, int index, VariableDescriptor result) {
-        return null;
+    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, Integer index, VariableDescriptor result) {
+        return generateElementAtIndex(impl, context.getName(), context.getValueType().toString(), index.toString(), result.getStringRepresentation());
     }
     
-    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor value, int index) {
-        return null;
+    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToInsert, Integer index) {
+        return generateInsertElementAtIndex(impl, context.getName(), itemToInsert.getStringRepresentation(), context.getValueType().toString(), index.toString());
     }
     
-    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor value, int index) {
-        return null;
+    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToReplace, Integer index) {
+        return generateReplaceElementAtIndex(impl, context.getName(), itemToReplace.getStringRepresentation(), context.getValueType().toString(), index.toString());
     }
 }

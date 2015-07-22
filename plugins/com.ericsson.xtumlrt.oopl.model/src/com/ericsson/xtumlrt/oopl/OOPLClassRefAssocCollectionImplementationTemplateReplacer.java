@@ -11,28 +11,31 @@ public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends B
      * 
      **************************************************/
     
-    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, String collection, String value) {
+    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, String collection, String valueType, String result) {
+        String template = impl.getAnyTemplate();
+        Builder<String, String> map = ImmutableMap.builder();
+        map.put("$collection$", collection);
+        map.put("$valueType$", valueType);
+        map.put("$result$", result);
+        return generateTemplate(template, map.build());
+    }
+    
+    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, String collection, String value, String result) {
         String template = impl.getCountOfTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
         map.put("$value$", value);
+        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
-    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, String collection) {
-        String template = impl.getAnyTemplate();
-        Builder<String, String> map = ImmutableMap.builder();
-        map.put("$collection$", collection);
-        return generateTemplate(template, map.build());
-    }
     
-    // TODO
+    
+    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
+        return generateAny(impl, context.getName(), result.getValueType().toString(), result.getStringRepresentation());
+    }
     
     public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToCount, VariableDescriptor result) {
-        return null;
-    }
-    
-    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor collection, VariableDescriptor result) {
-        return null;
+        return generateCountOf(impl, context.getName(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
     }
 }

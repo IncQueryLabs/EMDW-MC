@@ -59,25 +59,25 @@ public class OOPLSequenceImplementationTemplateReplacer extends BaseContainerImp
         return generateTemplate(template, map.build());
     }
     
-    // TODO
+    
     
     public static String generateAny(OOPLSequenceImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
-        return null;
+        return generateAny(impl, context.getName(), result.getValueType().toString(), result.getStringRepresentation());
     }
 
     public static String generateCountOf(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToCount, VariableDescriptor result) {
-        return null;
+        return generateCountOf(impl, context.getName(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
     }
     
-    public static String generateElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, int index, VariableDescriptor result) {
-        return null;
+    public static String generateElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, Integer index, VariableDescriptor result) {
+        return generateElementAtIndex(impl, context.getName(), context.getValueType().toString(), index.toString(), result.getStringRepresentation());
     }
     
-    public static String generateInsertElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToInsert, int index) {
-        return null;
+    public static String generateInsertElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToInsert, Integer index) {
+        return generateInsertElementAtIndex(impl, context.getName(), itemToInsert.getStringRepresentation(), context.getValueType().toString(), index.toString());
     }
     
-    public static String generateReplaceElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToReplace, int index) {
-        return null;
+    public static String generateReplaceElementAtIndex(OOPLSequenceImplementation impl, CollectionDescriptor context, ValueDescriptor itemToReplace, Integer index) {
+        return generateReplaceElementAtIndex(impl, context.getName(), itemToReplace.getStringRepresentation(), context.getValueType().toString(), index.toString());
     }
 }

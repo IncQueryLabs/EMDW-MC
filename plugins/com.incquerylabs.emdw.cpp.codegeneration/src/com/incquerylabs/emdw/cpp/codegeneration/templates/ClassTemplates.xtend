@@ -331,7 +331,7 @@ class ClassTemplates {
 	def instanceStorageInClassBody(CPPClass cppClass) 
 	'''
 	«FOR refStorage : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
-	static «associationTemplates.associationDefinitionInClassBody(refStorage)»
+		«associationTemplates.associationDefinitionInClassBody(refStorage)»
 	«ENDFOR»
 	'''
 	

@@ -193,6 +193,71 @@ pattern cppTransitionInfo(
 	Transition.targetVertex(transition, target);
 }
 
+pattern transitionCppEvents(
+	transition : Transition,
+	cppEvent : CPPEvent
+) {
+	Transition.triggers(transition, trigger);
+	XTEventTrigger.signal(trigger, xtClassEvent);
+	XTClassEvent(xtClassEvent);
+	CPPEvent.xtEvent(cppEvent, xtClassEvent);
+}
+
+pattern cppTransitionCppEvents(
+	cppTransition : CPPTransition,
+	cppEvent : CPPEvent
+) {
+	CPPTransition.commonTransition(cppTransition, transition);
+	find transitionCppEvents(transition, cppEvent);
+}
+
+pattern cppStateIncomingCppEvents(
+	cppState : CPPState,
+	cppEvent : CPPEvent
+) {
+	CPPState.commonState(cppState, commonState);
+	State.incomingTransitions(commonState, transition);
+	find transitionCppEvents(transition, cppEvent);
+}
+
+pattern cppStateOutgoingCppEvents(
+	cppState : CPPState,
+	cppEvent : CPPEvent
+) {
+	CPPState.commonState(cppState, commonState);
+	State.outgoingTransitions(commonState, transition);
+	find transitionCppEvents(transition, cppEvent);
+}
+
+pattern cppParentEvent(
+	childEvent : CPPEvent,
+	parentEvent : CPPEvent
+) {
+	CPPEvent.xtEvent(childEvent, xtChildEvent);
+	CPPEvent.xtEvent(parentEvent, xtParentEvent);
+	XTClassEvent.definingEvents(xtChildEvent, xtParentEvent);
+}
+
+pattern cppAncestorEvent(
+	childEvent : CPPEvent,
+	ancestorEvent : CPPEvent
+) {
+	find cppParentEvent+(childEvent, ancestorEvent);
+} or {
+	childEvent == ancestorEvent;
+}
+
+pattern cppEventCommonAncestor(
+	event1 : CPPEvent,
+	event2 : CPPEvent,
+	commonAncestor : CPPEvent,
+	commonXtAncestor : XTClassEvent
+) {
+	find cppAncestorEvent(event1, commonAncestor);
+	find cppAncestorEvent(event2, commonAncestor);
+	find cppEvents(commonXtAncestor, commonAncestor);
+}
+
 pattern cppTransitionToTerminate(
 	cppTransition : CPPTransition,
 	transition : Transition,

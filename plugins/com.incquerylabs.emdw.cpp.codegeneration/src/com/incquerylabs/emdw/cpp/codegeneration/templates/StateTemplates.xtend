@@ -1,6 +1,7 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
@@ -11,9 +12,8 @@ import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 
 class StateTemplates {
 	public static val TERMINATE_POSTFIX = "TERMINATE"
@@ -112,7 +112,6 @@ class StateTemplates {
 	}
 	
 	def processEventForTransitionTemplate(CPPClass cppClass,TransitionInfo transitionInfo){
-		val cppClassName = cppClass.cppName
 		val sourceState = transitionInfo.cppSource
 		val sourceStateCppName = sourceState.cppName
 		val targetState = transitionInfo.cppTarget
@@ -123,7 +122,7 @@ class StateTemplates {
 		
 		'''
 		// «sourceStateCppName» -«cppTransition.cppName»-> «targetStateCppName» transition
-		if(«cppTransition.generatedTransitionCondition(cppClassName, sourceStateCppName, targetStateCppName)») {
+		if(«generatedTransitionCondition(cppClass, transitionInfo)») {
 			const «eventType»* «eventName» = static_cast<const «eventType»*>(event);
 			
 			«performExitActionCall(sourceState, eventName)»
@@ -138,12 +137,11 @@ class StateTemplates {
 	}
 	
 	def evaluateGuardOnTransitionMethodName(TransitionInfo transitionInfo){
-		val sourceState = transitionInfo.cppSource
 		val targetState = transitionInfo.cppTarget
-		val sourceStateCppName = sourceState.cppName
+		val sourceStateCppName = transitionInfo.cppSource.cppName
 		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
-		val cppTransition = transitionInfo.cppTransition
-		'''evaluate_guard_on_«cppTransition.cppName»_transition_from_«sourceStateCppName»_to_«targetStateCppName»'''
+		val transitionCppName = transitionInfo.cppTransition.cppName
+		'''evaluate_guard_on_«transitionCppName»_transition_from_«sourceStateCppName»_to_«targetStateCppName»'''
 	}
 	
 	def evaluateGuardOnTransitionSignature(TransitionInfo transitionInfo){
@@ -412,11 +410,9 @@ class StateTemplates {
 		new TransitionInfo(match.cppTransition, match.transition, match.cppSource, null)
 	}
 	
-	def generatedTransitionCondition(CPPTransition cppTransition, String cppClassName, String stateCppName, String target) {
-		val transition = cppTransition.commonTransition
-		var condition = transition.generateEventMatchingCondition(cppClassName)
-		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
-		val transitionInfo = cppTransitionInfoMatcher.getOneArbitraryMatch(cppTransition, transition, null, null).createTransitionInfo
+	def generatedTransitionCondition(CPPClass cppClass, TransitionInfo transitionInfo) {
+		val transition = transitionInfo.transition
+		var condition = transition.generateEventMatchingCondition(cppClass.cppName)
 		val guardCall = '''«evaluateGuardOnTransitionMethodName(transitionInfo)»(event)'''
 
 		if(transition.guard != null){

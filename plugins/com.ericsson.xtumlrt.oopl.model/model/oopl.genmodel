@@ -245,6 +245,21 @@
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/valueType"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/index"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/itemToInsert"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/index"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/itemToReplace"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/index"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLSequenceImplementation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLSequenceImplementation/uniqueness"/>

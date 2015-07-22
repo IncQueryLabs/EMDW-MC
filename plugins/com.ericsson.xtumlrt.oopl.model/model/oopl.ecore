@@ -428,6 +428,30 @@
       <eParameters name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="generateElementAtIndex" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementationTemplateReplacer.generateElementAtIndex(this, context, index, result);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
+    <eOperations name="generateInsertElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementationTemplateReplacer.generateInsertElementAtIndex(this, context, itemToInsert, index);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemToInsert" eType="#//ValueDescriptor"/>
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
+    <eOperations name="generateReplaceElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementationTemplateReplacer.generateReplaceElementAtIndex(this, context, itemToReplace, index);&#xD;&#xA;return template;"/>
+      </eAnnotations>
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemToReplace" eType="#//ValueDescriptor"/>
+      <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//SimpleCollectionKind"
         defaultValueLiteral="SIMPLY_LINKED_LIST"/>
   </eClassifiers>

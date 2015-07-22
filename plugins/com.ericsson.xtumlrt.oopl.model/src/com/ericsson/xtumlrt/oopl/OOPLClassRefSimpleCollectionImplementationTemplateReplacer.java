@@ -40,4 +40,18 @@ public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends 
         map.put("$index$", index);
         return generateTemplate(template, map.build());
     }
+    
+    // TODO
+    
+    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, int index, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor value, int index) {
+        return null;
+    }
+    
+    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor value, int index) {
+        return null;
+    }
 }

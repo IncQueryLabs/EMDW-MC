@@ -396,6 +396,15 @@
       <eParameters name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eParameters name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
+    <eOperations name="generateAny" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
+    <eOperations name="generateCountOf" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="itemToCount" eType="#//ValueDescriptor"/>
+      <eParameters name="result" eType="#//VariableDescriptor"/>
+    </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//AssociativeCollectionKind"
         defaultValueLiteral="UNORDERED_SET"/>
   </eClassifiers>

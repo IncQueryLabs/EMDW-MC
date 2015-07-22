@@ -25,4 +25,14 @@ public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends B
         map.put("$collection$", collection);
         return generateTemplate(template, map.build());
     }
+    
+    // TODO
+    
+    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToCount, VariableDescriptor result) {
+        return null;
+    }
+    
+    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor collection, VariableDescriptor result) {
+        return null;
+    }
 }

@@ -224,6 +224,15 @@
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny/valueType"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny/result"/>
       </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1/result"/>
+      </genOperations>
+      <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/context"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/itemToCount"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/result"/>
+      </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/kind"/>

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.incquerylabs.emdw.snippettemplate/src-gen"
-    editDirectory="/com.incquerylabs.emdw.snippettemplate.edit/src-gen" editorDirectory="/com.incquerylabs.emdw.snippettemplate.editor/src-gen"
-    modelPluginID="com.incquerylabs.emdw.snippettemplate" modelName="Snippettemplate"
-    rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container" testsDirectory="/com.incquerylabs.emdw.snippettemplate.tests/src-gen"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.incquerylabs.emdw.snippet.model/src-gen" modelPluginID="com.incquerylabs.emdw.snippet.model"
+    modelName="Snippettemplate" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
   <foreignModel>snippettemplate.ecore</foreignModel>

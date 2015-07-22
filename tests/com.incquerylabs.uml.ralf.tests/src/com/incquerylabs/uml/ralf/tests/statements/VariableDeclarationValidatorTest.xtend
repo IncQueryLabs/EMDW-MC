@@ -36,6 +36,26 @@ class VariableDeclarationValidatorTest {
 	}
 	
 	@Test
+	def localVariableStringNull() {
+		localVariableError('''String x = null;''')
+	}
+	
+	@Test
+	def localVariableIntegerNull() {
+		localVariableError('''Integer x = null;''')
+	}
+	
+	@Test
+	def localVariableRealNull() {
+		localVariableError('''Real x = null;''')
+	}
+	
+	@Test
+	def localVariableBooleanNull() {
+		localVariableError('''Boolean x = null;''')
+	}
+	
+	@Test
 	def localVariableAdditive() {
 		localVariableOK('''Integer x = 1+2;''')
 	}
@@ -106,6 +126,136 @@ class VariableDeclarationValidatorTest {
 		'''
 		Integer x = 1 + 2;
 		Integer y = x + 2;
+		'''
+		)
+	}
+	
+	@Test
+	def localVariableIntegerSequence() {
+		localVariableOK('''Integer[] x = {1,2,3};''')
+	}
+	
+	@Test
+	def localVariableBooleanSequence() {
+		localVariableOK('''Boolean[] x = {true,false,true};''')
+	}
+	
+	@Test
+	def localVariableRealSequence() {
+		localVariableOK('''Real[] x = {1.1,2.2,3.3};''')
+	}
+	
+	@Test
+	def localVariableStringSequence() {
+		localVariableOK('''String[] x = {"1","2","3"};''')
+	}
+	
+	@Test
+	def localVariableAnySimple() {
+		localVariableOK('''any x = 1;''')
+	}
+	
+	@Test
+	def localVariableAnyNull() {
+		localVariableError('''any x = null;''')
+	}
+	
+	@Test
+	def localVariableAnyAdditive() {
+		localVariableOK('''any x = 1+2;''')
+	}
+	
+	@Test
+	def localVariableAnyMultiplicative() {
+		localVariableOK('''any x = 1*2;''')
+	}
+	
+	@Test
+	def localVariableAnyNumericUnary() {
+		localVariableOK('''any x = -1;''')
+	}
+	
+	@Test
+	def localVariableAnyShift() {
+		localVariableOK('''any x = 1>>2;''')
+	}
+	
+	@Test
+	def localVariableAnyRelation() {
+		localVariableOK('''any x = 1 < 2;''')
+	}
+	
+	@Test
+	def localVariableAnyEquality() {
+		localVariableOK('''any x = 1 == 2;''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanUnary() {
+		localVariableOK('''any x = !(1 < 2);''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanXor() {
+		localVariableOK('''any x = 1 < 2 ^ false;''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanOr() {
+		localVariableOK('''any x = 1 < 2 | false;''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanAnd() {
+		localVariableOK('''any x = 1 < 2 & false;''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanConditionalAnd() {
+		localVariableOK('''any x = 1 < 2 && false;''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanConditionalOr() {
+		localVariableOK('''any x = 1 < 2 || false;''')
+	}
+	
+	@Test
+	def localVariableAnyConditionalTest() {
+		localVariableOK('''any x = (1 != 2) ? "test" : "test2";''')
+	}
+	
+	@Test
+	def localVariableAnyIntegerSequence() {
+		localVariableOK('''any x = {1,2,3};''')
+	}
+	
+	@Test
+	def localVariableAnyBooleanSequence() {
+		localVariableOK('''any x = {true,false,true};''')
+	}
+	
+	@Test
+	def localVariableAnyRealSequence() {
+		localVariableOK('''any x = {1.1,2.2,3.3};''')
+	}
+	
+	@Test
+	def localVariableAnyStringSequence() {
+		localVariableOK('''any x = {"1","2","3"};''')
+	}
+		
+	@Test
+	def localVariableAnySequenceInvalidType() {
+		localVariableError('''any x = {1,2,"3"};''')
+	}
+	
+	@Test
+	def localVariableAnyReference() {
+		localVariableOK(
+		'''
+		any x = 1 + 2;
+		any y = x + 2;
 		'''
 		)
 	}

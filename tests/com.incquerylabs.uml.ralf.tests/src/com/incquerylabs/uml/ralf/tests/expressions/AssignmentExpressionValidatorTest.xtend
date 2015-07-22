@@ -38,6 +38,22 @@ class AssignmentExpressionValidatorTest {
 	}
 	
 	@Test
+	def assignmentExpressionAny() {
+		assignmentOK('''
+		any x = 1;
+		x = 1;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionAnyError() {
+		assignmentOK('''
+		any x = 1;
+		x = "1";
+		''');
+	}
+	
+	@Test
 	def assignmentExpressionBoolean() {
 		assignmentOK('''
 		Boolean x = true;
@@ -190,6 +206,38 @@ class AssignmentExpressionValidatorTest {
 		assignmentOK('''
 		Integer x = 1;
 		x = (true) ? 2 : 3;''');
+	}
+	
+	@Test
+	def assignmentExpressionIntegerNull() {
+		assignmentError('''
+		Integer x = 1;
+		x = null;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionRealNull() {
+		assignmentError('''
+		Real x = 1.1;
+		x = null;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionStringNull() {
+		assignmentError('''
+		String x = "1";
+		x = null;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionBooleanNull() {
+		assignmentError('''
+		Boolean x = true;
+		x = null;
+		''');
 	}
 	
 	private def assignmentOK(String code){

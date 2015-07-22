@@ -41,6 +41,14 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
+	def forStatementSyntaxA_AnyLiteral() {
+		forStatementOK('''
+		for(any i : 5){
+			
+		}''');
+	}
+	
+	@Test
 	def forStatementSyntaxA_LiteralReal() {
 		forStatementError('''
 		for(i : 1.1){
@@ -171,6 +179,14 @@ class ForStatementValidatorTest {
 	def forStatementSyntaxB_Literal() {
 		forStatementOK('''
 		for(i in 1 .. 5){
+			
+		}''');
+	}
+	
+	@Test
+	def forStatementSyntaxB_AnyLiteral() {
+		forStatementOK('''
+		for(any i in 1 .. 5){
 			
 		}''');
 	}

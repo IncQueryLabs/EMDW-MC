@@ -21,10 +21,14 @@ class XtumlModelChangeMonitor {
 	private Set<XTComponent> dirtyXTComponents
 	private HashMap<IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>>, String> scopedParameters;
 	
+	private Boolean started = false;
+	
 	new (AdvancedIncQueryEngine engine) {
 		this.monitor = new ChangeMonitor(engine)
 		this.dirtyXTComponents = <XTComponent>newHashSet()
 		this.scopedParameters = <IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>>, String>newHashMap()
+		
+		engine.addLifecycleListener(new XtumlMonitorEngineLifecycleListener(this))
 		
 		XtComponentXTClassesQuerySpecification.instance.registerQuerySpecification(1)
 		XtComponentXTPackagesQuerySpecification.instance.registerQuerySpecification(1)
@@ -36,9 +40,12 @@ class XtumlModelChangeMonitor {
 	
 	def startMonitoring() {
 		monitor.startMonitoring
+		started = true
 	}
 	
 	def createCheckpoint() {
+		
+		if(!started) return
 		
 		val delta = monitor.createCheckpoint
 		
@@ -63,6 +70,10 @@ class XtumlModelChangeMonitor {
 	
 	def dispose() {
 		monitor?.dispose
+	}
+	
+	def isStarted() {
+		started
 	}
 	
 	private def checkComponentChanges(Multimap<IQuerySpecification<? extends IncQueryMatcher<IPatternMatch>>, IPatternMatch> changes) {

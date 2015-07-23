@@ -33,15 +33,15 @@ class ForStatementValidatorTest {
 	// for(i : 5) syntax
 	
 	@Test
-	def forStatementSyntaxA_Literal() {
-		forStatementOK('''
+	def forEachStatement_Literal() {
+		forStatementError('''
 		for(i : 5){
 			
 		}''');
 	}
 	
 	@Test
-	def forStatementSyntaxA_AnyLiteral() {
+	def forEachStatement_AnyLiteral() {
 		forStatementOK('''
 		for(any i : 5){
 			
@@ -49,7 +49,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_LiteralReal() {
+	def forEachStatement_LiteralReal() {
 		forStatementError('''
 		for(i : 1.1){
 			
@@ -57,7 +57,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_LiteralBoolean() {
+	def forEachStatement_LiteralBoolean() {
 		forStatementError('''
 		for(i : true){
 			
@@ -65,17 +65,25 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_LiteralString() {
+	def forEachStatement_LiteralString() {
 		forStatementError('''
 		for(i : "1"){
+			
+		}''');
+	}
+	
+	@Test
+	def forEachStatement_LiteralCollection() {
+		forStatementOK('''
+		for(i : {"1"}){
 			
 		}''');
 	}
 
 	
 	@Test
-	def forStatementSyntaxA_Multiplicative() {
-		forStatementOK('''
+	def forEachStatement_Multiplicative() {
+		forStatementError('''
 		for(i : 1*1){
 			
 		}''');
@@ -83,23 +91,23 @@ class ForStatementValidatorTest {
 	
 	
 	@Test
-	def forStatementSyntaxA_Additive() {
-		forStatementOK('''
+	def forEachStatement_Additive() {
+		forStatementError('''
 		for(i : 1+1){
 			
 		}''');
 	}
 	
 	@Test
-	def forStatementSyntaxA_Shift() {
-		forStatementOK('''
+	def forEachStatement_Shift() {
+		forStatementError('''
 		for(i : 1>>1){
 			
 		}''');
 	}
 	
 	@Test
-	def forStatementSyntaxA_Relational() {
+	def forEachStatement_Relational() {
 		forStatementError('''
 		for(i : 1>1){
 			
@@ -107,7 +115,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_Equality() {
+	def forEachStatement_Equality() {
 		forStatementError('''
 		for(i : 1==1){
 			
@@ -115,31 +123,31 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_BitwiseOr() {
-		forStatementOK('''
+	def forEachStatement_BitwiseOr() {
+		forStatementError('''
 		for(i : 1|1){
 			
 		}''');
 	}
 	
 	@Test
-	def forStatementSyntaxA_BitwiseAnd() {
-		forStatementOK('''
+	def forEachStatement_BitwiseAnd() {
+		forStatementError('''
 		for(i : 1&1){
 			
 		}''');
 	}
 	
 	@Test
-	def forStatementSyntaxA_BitwiseXor() {
-		forStatementOK('''
+	def forEachStatement_BitwiseXor() {
+		forStatementError('''
 		for(i : 1^1){
 			
 		}''');
 	}
 	
 	@Test
-	def forStatementSyntaxA_And() {
+	def forEachStatement_And() {
 		forStatementError('''
 		for(i : true && false){
 			
@@ -147,7 +155,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_Or() {
+	def forEachStatement_Or() {
 		forStatementError('''
 		for(i : true || false){
 			
@@ -155,7 +163,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_BooleanUnary() {
+	def forEachStatement_BooleanUnary() {
 		forStatementError('''
 		for(i : !true){
 			
@@ -163,8 +171,8 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	def forStatementSyntaxA_Assignment() {
-		forStatementOK('''
+	def forEachStatement_Assignment() {
+		forStatementError('''
 		Integer x = 1;
 		for(i : x = 2){
 			
@@ -176,7 +184,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Literal() {
+	def forEachStatement_Range_Literal() {
 		forStatementOK('''
 		for(i in 1 .. 5){
 			
@@ -194,7 +202,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("At this point the for(i in 1..2) without whitespace characters is not supported")
-	def forStatementSyntaxB_LiteralNoSpace() {
+	def forEachStatement_Range_LiteralNoSpace() {
 		forStatementOK('''
 		for(i in 1..5){
 			
@@ -203,7 +211,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_LiteralReal() {
+	def forEachStatement_Range_LiteralReal() {
 		forStatementError('''
 		for(i in 0 .. 1.1){
 			
@@ -214,7 +222,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_LiteralBoolean() {
+	def forEachStatement_Range_LiteralBoolean() {
 		forStatementError('''
 		for(i in 0 .. true){
 			
@@ -225,7 +233,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_LiteralString() {
+	def forEachStatement_Range_LiteralString() {
 		forStatementError('''
 		for(i in 0 .. "1"){
 			
@@ -237,7 +245,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Multiplicative() {
+	def forEachStatement_Range_Multiplicative() {
 		forStatementOK('''
 		for(i in 0 .. 1*1){
 			
@@ -247,7 +255,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Additive() {
+	def forEachStatement_Range_Additive() {
 		forStatementOK('''
 		for(i in 0 .. 1+1){
 			
@@ -256,7 +264,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Shift() {
+	def forEachStatement_Range_Shift() {
 		forStatementOK('''
 		for(i in 0 .. 1>>1){
 			
@@ -265,7 +273,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Relational() {
+	def forEachStatement_Range_Relational() {
 		forStatementError('''
 		for(i in 0 .. 1>1){
 			
@@ -276,7 +284,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Equality() {
+	def forEachStatement_Range_Equality() {
 		forStatementError('''
 		for(i in 0 .. 1==1){
 			
@@ -287,7 +295,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_BitwiseOr() {
+	def forEachStatement_Range_BitwiseOr() {
 		forStatementOK('''
 		for(i in 0 .. 1|1){
 			
@@ -296,7 +304,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_BitwiseAnd() {
+	def forEachStatementSyntax_Range_BitwiseAnd() {
 		forStatementOK('''
 		for(i in 0 .. 1&1){
 			
@@ -305,7 +313,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_BitwiseXor() {
+	def forEachStatement_Range_BitwiseXor() {
 		forStatementOK('''
 		for(i in 0 .. 1^1){
 			
@@ -314,7 +322,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_And() {
+	def forEachStatement_Range_And() {
 		forStatementError('''
 		for(i in 0 .. true && false){
 			
@@ -325,7 +333,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Or() {
+	def forEachStatement_Range_Or() {
 		forStatementError('''
 		for(i in 0 .. true || false){
 			
@@ -336,7 +344,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_BooleanUnary() {
+	def forEachStatement_Range_BooleanUnary() {
 		forStatementError('''
 		for(i in 0 .. !true){
 			
@@ -347,7 +355,7 @@ class ForStatementValidatorTest {
 	
 	@Test
 	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_Assignment() {
+	def forEachStatement_Range_Assignment() {
 		forStatementOK('''
 		Integer x = 1;
 		for(i in 0 .. x = 2){
@@ -356,6 +364,54 @@ class ForStatementValidatorTest {
 		''');
 	}
 	
+	// for(i : 5) syntax
+	
+	@Test
+	def forStatement_Simple() {
+	    forStatementOK('''
+	    for (Integer i = 0; i < 5; i++) {
+	        
+	    }
+	    ''')
+	}
+	
+	@Test
+    def forStatement_PredefinedLoopVariable() {
+        forStatementOK('''
+        Integer i = 0;
+        for (; i < 5; i++) {
+            
+        }
+        ''')
+    }
+    
+    @Test
+    def forStatement_InfiniteLoop() {
+        forStatementOK('''
+        for (; true; ) {
+            
+        }
+        ''')
+    }
+    
+    @Test
+    def forStatement_NoLoop() {
+        forStatementOK('''
+        for (; false; ) {
+            
+        }
+        ''')
+    }
+	
+	@Test
+    def forStatement_InvalidCondition() {
+        forStatementError('''
+        for (Integer i = 0; i; i++) {
+            
+        }
+        ''')
+    }
+    
 	private def forStatementOK(String code){
 		val model = parseHelper.parse(code)
 		tester.validate(model).assertOK

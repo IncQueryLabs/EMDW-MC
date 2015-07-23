@@ -19,6 +19,7 @@ import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import com.incquerylabs.uml.ralf.types.UMLTypeReference
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 
 /**
  * This class contains custom scoping description.
@@ -93,7 +94,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         }
     }
     
-    private def variableDeclarations(EObject container, EObject until) {
+    private def Iterable<Variable> variableDeclarations(EObject container, EObject until) {
         switch (container) {
           Block:  
             container.statement.
@@ -104,6 +105,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
                 takeWhile[it != until].
                 map[eContents.filter(Variable)].
                 flatten
+          ForStatement: variableDeclarations(container.initialization, container)
           Statement: 
             container.eContents.
                 takeWhile[it != until].

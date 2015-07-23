@@ -55,6 +55,7 @@ import org.eclipse.uml2.uml.Classifier
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -498,17 +499,16 @@ from {
 checkrule ForStatement for
     ForStatement st
 from {
-	for(Variable variable : st.variableDefinition){
-		val loopVariable = variable as LoopVariable
-		empty |- loopVariable.expression : var IUMLTypeReference ex1Type
-		empty |- ex1Type <: INTEGER.primitiveTypeReference
-   		{
-   			loopVariable.expression == null
-   		} or {
-   			empty |- loopVariable.expression : var IUMLTypeReference ex2Type
-   			empty |- ex2Type <: INTEGER.primitiveTypeReference
-   		} 		
-	}
+    empty |- st.^condition : var IUMLTypeReference condType
+    empty |- condType <: BOOLEAN.primitiveTypeReference
+}
+
+checkrule ForEachStatement for
+    ForEachStatement st
+from {
+	val loopVariable = st.variableDefinition as LoopVariable
+	empty |- loopVariable.expression : var IUMLTypeReference exType
+	exType instanceof CollectionTypeReference
 }
 
 checkrule WhileStatement for

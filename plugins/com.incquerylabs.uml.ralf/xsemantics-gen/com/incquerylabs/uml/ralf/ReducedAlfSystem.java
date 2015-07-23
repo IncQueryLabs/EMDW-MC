@@ -17,6 +17,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide;
@@ -480,42 +481,44 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   }
   
   protected Result<Boolean> forStatementInternal(final RuleApplicationTrace _trace_, final ForStatement st) throws RuleFailedException {
-    EList<Variable> _variableDefinition = st.getVariableDefinition();
-    for (final Variable variable : _variableDefinition) {
-      final LoopVariable loopVariable = ((LoopVariable) variable);
-      /* empty |- loopVariable.expression : var IUMLTypeReference ex1Type */
-      Expression _expression = loopVariable.getExpression();
-      IUMLTypeReference ex1Type = null;
-      Result<IUMLTypeReference> result = typeInternal(emptyEnvironment(), _trace_, _expression);
-      checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
-      ex1Type = (IUMLTypeReference) result.getFirst();
-      
-      /* empty |- ex1Type <: INTEGER.primitiveTypeReference */
-      UMLTypeReference _primitiveTypeReference = this.typeFactory.primitiveTypeReference(this.INTEGER);
-      subtypeReferenceInternal(emptyEnvironment(), _trace_, ex1Type, _primitiveTypeReference);
-      /* { loopVariable.expression == null } or { empty |- loopVariable.expression : var IUMLTypeReference ex2Type empty |- ex2Type <: INTEGER.primitiveTypeReference } */
-      {
-        RuleFailedException previousFailure = null;
-        try {
-          Expression _expression_1 = loopVariable.getExpression();
-          /* loopVariable.expression == null */
-          if (!Objects.equal(_expression_1, null)) {
-            sneakyThrowRuleFailedException("loopVariable.expression == null");
-          }
-        } catch (Exception e) {
-          previousFailure = extractRuleFailedException(e);
-          /* empty |- loopVariable.expression : var IUMLTypeReference ex2Type */
-          Expression _expression_2 = loopVariable.getExpression();
-          IUMLTypeReference ex2Type = null;
-          Result<IUMLTypeReference> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression_2);
-          checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
-          ex2Type = (IUMLTypeReference) result_1.getFirst();
-          
-          /* empty |- ex2Type <: INTEGER.primitiveTypeReference */
-          UMLTypeReference _primitiveTypeReference_1 = this.typeFactory.primitiveTypeReference(this.INTEGER);
-          subtypeReferenceInternal(emptyEnvironment(), _trace_, ex2Type, _primitiveTypeReference_1);
-        }
-      }
+    /* empty |- st.^condition : var IUMLTypeReference condType */
+    Expression _condition = st.getCondition();
+    IUMLTypeReference condType = null;
+    Result<IUMLTypeReference> result = typeInternal(emptyEnvironment(), _trace_, _condition);
+    checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
+    condType = (IUMLTypeReference) result.getFirst();
+    
+    /* empty |- condType <: BOOLEAN.primitiveTypeReference */
+    UMLTypeReference _primitiveTypeReference = this.typeFactory.primitiveTypeReference(this.BOOLEAN);
+    subtypeReferenceInternal(emptyEnvironment(), _trace_, condType, _primitiveTypeReference);
+    return new Result<Boolean>(true);
+  }
+  
+  public Result<Boolean> forEachStatement(final ForEachStatement st) {
+    return forEachStatement(null, st);
+  }
+  
+  public Result<Boolean> forEachStatement(final RuleApplicationTrace _trace_, final ForEachStatement st) {
+    try {
+    	return forEachStatementInternal(_trace_, st);
+    } catch (Exception _e_ForEachStatement) {
+    	return resultForFailure(_e_ForEachStatement);
+    }
+  }
+  
+  protected Result<Boolean> forEachStatementInternal(final RuleApplicationTrace _trace_, final ForEachStatement st) throws RuleFailedException {
+    Variable _variableDefinition = st.getVariableDefinition();
+    final LoopVariable loopVariable = ((LoopVariable) _variableDefinition);
+    /* empty |- loopVariable.expression : var IUMLTypeReference exType */
+    Expression _expression = loopVariable.getExpression();
+    IUMLTypeReference exType = null;
+    Result<IUMLTypeReference> result = typeInternal(emptyEnvironment(), _trace_, _expression);
+    checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
+    exType = (IUMLTypeReference) result.getFirst();
+    
+    /* exType instanceof CollectionTypeReference */
+    if (!(exType instanceof CollectionTypeReference)) {
+      sneakyThrowRuleFailedException("exType instanceof CollectionTypeReference");
     }
     return new Result<Boolean>(true);
   }

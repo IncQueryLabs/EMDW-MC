@@ -179,7 +179,7 @@ class SimpleStatementsValidatorTest {
 	@Test
 	def breakStatementValidInFor() {
 		simpleStatementOK('''
-		for(i : 9){
+		for(i : { 9 }){
 			break;
 		}
 		''');

@@ -432,19 +432,26 @@ enum AssignmentOperator :
  * STATEMENTS *
  **************/
 Statement : 
+    SimpleStatement ';'|
     BlockStatement |
-    EmptyStatement |
-    LocalNameDeclarationStatement |
-    ExpressionStatement |
     IfStatement |
     SwitchStatement |
     WhileStatement |
     ForStatement |
+    ForEachStatement |
     DoStatement |
     BreakStatement |
     ReturnStatement |
     ClassifyStatement |
     SendSignalStatement
+;
+
+SimpleStatement:
+    (
+      LocalNameDeclarationStatement |
+      ExpressionStatement |  
+      EmptyStatement
+    )
 ;
 
 /* BLOCK */
@@ -460,7 +467,6 @@ BlockStatement :
 /* EMPTY STATEMENTS */
 EmptyStatement :
   {EmptyStatement}
-    ';'
 ;
 
 
@@ -474,7 +480,7 @@ VariableDeclaration returns Variable:
 
 /* LOCAL NAME DECLARATION STATEMENTS */
 LocalNameDeclarationStatement : 
-    variable = VariableDeclaration '=' expression = InitializationExpression ';'
+    variable = VariableDeclaration '=' expression = InitializationExpression
 ;
 
 InitializationExpression returns Expression :
@@ -488,7 +494,7 @@ InstanceInitializationExpression returns InstanceCreationExpression :
 
 /* EXPRESSION STATEMENTS */
 ExpressionStatement :
-  expression = Expression ';'
+  expression = Expression
 ;
 
 /* IF STATEMENTS */
@@ -540,17 +546,21 @@ DoStatement :
 ;
 
 /* FOR STATEMENTS */
-ForStatement : 
-    'for' '(' variableDefinition += LoopVariableDefinition')' 
+ForStatement :
+    'for' '(' 
+        initialization = SimpleStatement ';'
+        condition = Expression ';'
+        update = SimpleStatement
+    ')'
+    body = Block
+;
+
+ForEachStatement : 
+    'for' '(' variableDefinition = LoopVariableDefinition')' 
     body = Block
 ;
 
 LoopVariableDefinition returns Variable: 
-  // CHANGE: Added isAny attribute to LoopVariableDefinition in order to allow Xtext serialization.
-  // NOTE: Default for typeIsInferred must be false.
-     //{LoopVariable} 
-     //  (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
-     //  typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
      {LoopVariable} 
        (name = Name | type = TypeDeclaration name = Name)
        ':' expression = Expression

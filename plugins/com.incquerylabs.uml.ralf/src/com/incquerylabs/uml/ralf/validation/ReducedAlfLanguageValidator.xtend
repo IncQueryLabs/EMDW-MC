@@ -16,6 +16,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.validation.Check
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 
 //import org.eclipse.xtext.validation.Check
 
@@ -78,6 +79,7 @@ class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 				container.eContainer instanceof WhileStatement || 
 				container.eContainer instanceof DoStatement || 
 				container.eContainer instanceof ForStatement || 
+				container.eContainer instanceof ForEachStatement || 
 				container.eContainer instanceof SwitchClause ))
 			{
 				invalid = false;

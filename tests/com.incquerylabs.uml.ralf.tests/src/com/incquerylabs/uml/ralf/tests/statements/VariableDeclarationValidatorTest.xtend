@@ -129,27 +129,7 @@ class VariableDeclarationValidatorTest {
 		'''
 		)
 	}
-	
-	@Test
-	def localVariableIntegerSequence() {
-		localVariableOK('''Integer[] x = {1,2,3};''')
-	}
-	
-	@Test
-	def localVariableBooleanSequence() {
-		localVariableOK('''Boolean[] x = {true,false,true};''')
-	}
-	
-	@Test
-	def localVariableRealSequence() {
-		localVariableOK('''Real[] x = {1.1,2.2,3.3};''')
-	}
-	
-	@Test
-	def localVariableStringSequence() {
-		localVariableOK('''String[] x = {"1","2","3"};''')
-	}
-	
+		
 	@Test
 	def localVariableAnySimple() {
 		localVariableOK('''any x = 1;''')
@@ -246,8 +226,23 @@ class VariableDeclarationValidatorTest {
 	}
 		
 	@Test
-	def localVariableAnySequenceInvalidType() {
-		localVariableError('''any x = {1,2,"3"};''')
+	def localVariableAnyCollectionInvalidType() {
+		localVariableOK('''any x = {1,2,"3"};''')
+	}
+	
+	@Test
+	def localVariableAnyCollectionInvalidTypeBag() {
+		localVariableError('''any x = bag<Integer>{1,2,"3"};''')
+	}
+	
+	@Test
+	def localVariableAnyCollectionInvalidTypeSet() {
+		localVariableError('''any x = set<Integer>{1,2,"3"};''')
+	}
+	
+	@Test
+	def localVariableAnyCollectionInvalidTypeSequence() {
+		localVariableError('''any x = sequence<Integer>{1,2,"3"};''')
 	}
 	
 	@Test

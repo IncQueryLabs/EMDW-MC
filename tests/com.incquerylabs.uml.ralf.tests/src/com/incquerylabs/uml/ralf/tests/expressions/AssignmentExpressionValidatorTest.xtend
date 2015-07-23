@@ -47,7 +47,7 @@ class AssignmentExpressionValidatorTest {
 	
 	@Test
 	def assignmentExpressionAnyError() {
-		assignmentOK('''
+		assignmentError('''
 		any x = 1;
 		x = "1";
 		''');

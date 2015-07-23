@@ -184,6 +184,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Ranges are not supported currently")
 	def forStatementSyntaxB_AnyLiteral() {
 		forStatementOK('''
 		for(any i in 1 .. 5){

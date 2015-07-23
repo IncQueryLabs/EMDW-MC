@@ -21,7 +21,7 @@
               <language>C++</language>
               <language>rALF</language>
               <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
-              <body>send new pong_s() => this->ping;</body>
+              <body>send new pong_s() to this->ping;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
@@ -45,7 +45,7 @@
               <language>C++</language>
               <language>rALF</language>
               <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
-              <body>send new ping_s() => this->pong;</body>
+              <body>send new ping_s() to this->pong;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:State" xmi:id="_oolbsBmkEeWkDIIs2OLK7g" name="s2">
@@ -53,7 +53,7 @@
               <language>C++</language>
               <language>rALF</language>
               <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
-              <body>send new ping_s() => this->pong;</body>
+              <body>send new ping_s() to this->pong;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_rax2gBmkEeWkDIIs2OLK7g" name="initial"/>

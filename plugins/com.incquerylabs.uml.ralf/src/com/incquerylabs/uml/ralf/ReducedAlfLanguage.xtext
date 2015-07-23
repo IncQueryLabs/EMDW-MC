@@ -203,8 +203,8 @@ enum CollectionType:
      set = 'set' | bag = 'bag' | sequence = 'sequence'
 ;
 
-TypeDeclaration:
-     isAny ?= 'any' | type = [uml::Type|QualifiedName] 
+TypeDeclaration: //TODO define collection types as well
+     isAny ?= 'any' | type = [uml::Type|QualifiedName]
 ;
 
 //SequenceRange :
@@ -599,7 +599,7 @@ QualifiedNameList :
 *****************/
 SendSignalStatement:
     {SendSignalStatement}
-    'send' signal = Expression '=>' target = Expression ';'
+    'send' signal = Expression 'to' target = Expression ';'
 ;
 
 

@@ -42,7 +42,7 @@ class UMLModelTypesSnippetTest {
 		'''
 			Pong p = new Pong();
 			ping_s s = new ping_s();
-			send s => p->ping;'''
+			send s to p->ping;'''
 		, 
 		'''
 			model::Comp::Pong p = new model::Comp::Pong();
@@ -54,7 +54,7 @@ class UMLModelTypesSnippetTest {
 	def SendSignalTest2(){
 		snippetCompilerTest(
 		'''
-			send new ping_s() => this->ping;'''
+			send new ping_s() to this->ping;'''
 		, 
 		'''
 			this->ping->generate_event(new model::Comp::Pong::ping_s());'''

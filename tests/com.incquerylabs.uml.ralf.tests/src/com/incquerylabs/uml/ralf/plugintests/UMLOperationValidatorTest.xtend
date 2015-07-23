@@ -12,10 +12,12 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
+@Ignore("Operations are not yet working")
 class UMLOperationValidatorTest {
 	
 	@Inject

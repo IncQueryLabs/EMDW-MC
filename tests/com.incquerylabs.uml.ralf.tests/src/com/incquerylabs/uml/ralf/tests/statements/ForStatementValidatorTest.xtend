@@ -41,6 +41,7 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def forEachStatement_AnyLiteral() {
 		forStatementOK('''
 		for(any i : 5){
@@ -175,6 +176,16 @@ class ForStatementValidatorTest {
 		forStatementError('''
 		Integer x = 1;
 		for(i : x = 2){
+			
+		}
+		''');
+	}
+	
+	@Test
+	def forEachStatement_Reassignment() {
+		forStatementError('''
+		Integer i = 1;
+		for(i : { 5 }){
 			
 		}
 		''');

@@ -3,20 +3,22 @@
  */
 package com.incquerylabs.uml.ralf.validation
 
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
+import com.incquerylabs.uml.ralf.scoping.ReducedAlfLanguageScopeProvider
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.validation.Check
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 
 //import org.eclipse.xtext.validation.Check
 
@@ -27,49 +29,34 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
  */
 class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 
+    @Inject
+    ReducedAlfLanguageScopeProvider scopeProvider
+
 	@Check
 	def duplicateLocalVariables(LocalNameDeclarationStatement st) {
-		var EObject checkedContainer = st;
-		var EObject container = st;
-		do {
-			container = container.eContainer
-			var visitedContainer = false
-			if (container instanceof Block) {
-				for (Statement statement : container.statement) {
-					if (!visitedContainer) {
-						if (statement.equals(checkedContainer)) {
-							visitedContainer = true
-						} else {
-							if (statement instanceof LocalNameDeclarationStatement) {
-								if (statement.variable.name.equals(st.variable.name)) {
-									error("Duplicate local variable name", ReducedAlfLanguagePackage.Literals.LOCAL_NAME_DECLARATION_STATEMENT__VARIABLE)
-								}
-							}
-						}
-
-					}
-				}
-			}
-			if (container instanceof Statements) {
-				for (Statement statement : container.statement) {
-					if (!visitedContainer) {
-						if (statement.equals(checkedContainer)) {
-							visitedContainer = true
-						} else {
-							if (statement instanceof LocalNameDeclarationStatement) {
-								if (statement.variable.name.equals(st.variable.name)) {
-									error("Duplicate local variable name", ReducedAlfLanguagePackage.Literals.LOCAL_NAME_DECLARATION_STATEMENT__VARIABLE)
-								}
-							}
-						}
-
-					}
-				}
-			}
-			checkedContainer = container
-		} while (!(container instanceof Statements));
+        val EObject context = if (
+            st.eContainer instanceof ForStatement &&
+            st.equals((st.eContainer as ForStatement).initialization)) {
+            st.eContainer
+        } else {
+            st
+        }
+		if (isDuplicateInScope(context, st.variable.name)) {
+		    error("Duplicate local variable " + st.variable.name, ReducedAlfLanguagePackage.Literals.LOCAL_NAME_DECLARATION_STATEMENT__VARIABLE)
+		}
 	}
 	
+	@Check
+	def duplicateLocalVariables(LoopVariable decl) {
+	    if (isDuplicateInScope(decl, decl.name)) {
+	        error("Duplicate local variable " + decl.name, ReducedAlfLanguagePackage.Literals.VARIABLE__NAME)
+	    }
+	}
+	
+    private def isDuplicateInScope (EObject context, String name) {
+        val variableScope = scopeProvider.scope_Variable(context)
+        return (variableScope.getSingleElement(QualifiedName.create(name)) != null);
+    }
 	@Check
 	def invalidBreak(BreakStatement st) {
 		var invalid = true;

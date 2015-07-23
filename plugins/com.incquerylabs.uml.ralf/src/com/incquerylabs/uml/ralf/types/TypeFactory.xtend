@@ -6,17 +6,22 @@ import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference.AnyTypeReference
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference.NullTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
+import org.eclipse.uml2.uml.PrimitiveType
 
 class TypeFactory {
     
     @Inject extension IUMLContextProvider umlContext
     
-    def UMLTypeReference typeReference(Type type) {
-        return UMLTypeReference.create(type)
+    def IUMLTypeReference typeReference(Type type) {
+        if (type instanceof PrimitiveType) {
+            return new PrimitiveTypeReference(type)        
+        } else {
+            return new UMLTypeReference(type)
+        }
     }
 
-    def UMLTypeReference primitiveTypeReference(String name) {
-        name.primitiveType.typeReference        
+    def PrimitiveTypeReference primitiveTypeReference(String name) {
+        return new PrimitiveTypeReference(name.primitiveType)        
     }
     
     def AnyTypeReference anyType() {

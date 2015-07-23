@@ -56,6 +56,8 @@ import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression
+import com.incquerylabs.uml.ralf.types.AbstractTypeReference
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -68,7 +70,6 @@ val STRING  = IUMLContextProvider.STRING_TYPE
 auxiliary {
     superClassList(Class cl) : List<Class>
     typeReference(TypeDeclaration decl) : IUMLTypeReference
-//    isPrimitive(Type type) : Boolean
 }
 
 judgments {
@@ -89,11 +90,11 @@ auxiliary superClassList(Class cl) {
 }
 
 auxiliary typeReference(TypeDeclaration decl) {
-    if (decl.isIsAny) {
-        anyType
-    } else {
+//    if (decl.isIsAny) {
+//        anyType
+//    } else {
         decl.getType().typeReference
-    }
+//    }
 }
 
 axiom BooleanLiteral
@@ -111,6 +112,16 @@ axiom RealLiteral
 axiom StringLiteral
     G |- StringLiteralExpression string :
         STRING.primitiveTypeReference
+
+axiom NullLiteral
+    G |- NullExpression ex : nullType
+
+rule TypeDeclaration
+    G |- TypeDeclaration typeDecl: IUMLTypeReference result
+        
+from {
+    result = typeDecl.typeReference
+}
 
 /**
  * Variable declarations
@@ -138,7 +149,7 @@ from {
  */  
 
 axiom NullSubtyping
-  G |- IUMLTypeReference left <: NullTypeReference right
+  G |- UMLTypeReference left <: NullTypeReference right
   
 axiom AnySubtyping
   G |- AnyTypeReference left <: IUMLTypeReference right
@@ -152,7 +163,7 @@ from {
 } 
 
 rule SimpleTypeReferenceSubtyping
-    derives G |- UMLTypeReference left <: UMLTypeReference right
+    derives G |- AbstractTypeReference left <: AbstractTypeReference right
 from {
     G |- left.umlType <~ right.umlType
 }
@@ -459,7 +470,7 @@ from {
         G |- lhs.expression : var IUMLTypeReference varType
         result = varType
     } or {
-        G |- lhs.expression : var UMLTypeReference varType
+        G |- lhs.expression : var AbstractTypeReference varType
         result = varType.umlType.bagOf
     }
 }

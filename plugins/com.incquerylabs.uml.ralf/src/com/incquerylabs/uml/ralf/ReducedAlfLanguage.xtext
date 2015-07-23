@@ -204,7 +204,7 @@ enum CollectionType:
 ;
 
 TypeDeclaration: //TODO define collection types as well
-     isAny ?= 'any' | type = [uml::Type|QualifiedName]
+     /*isAny ?= 'any' | */type = [uml::Type|QualifiedName]
 ;
 
 //SequenceRange :
@@ -282,8 +282,7 @@ IsolationExpression :
 ;
 
 CastExpression : 
-  // CHANGE: Added isAny attribute to CastExpression in order to allow Xtext serialization.
-  '(' ( isAny ?= 'any' | typeName = QualifiedName ) ')' operand = CastCompletion
+  '(' TypeDeclaration ')' operand = CastCompletion
 ;
 
 CastCompletion returns Expression : 

@@ -14,6 +14,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -38,6 +39,7 @@ class AssignmentExpressionValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def assignmentExpressionAny() {
 		assignmentOK('''
 		any x = 1;
@@ -46,6 +48,7 @@ class AssignmentExpressionValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def assignmentExpressionAnyError() {
 		assignmentError('''
 		any x = 1;

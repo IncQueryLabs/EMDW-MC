@@ -13,6 +13,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -131,121 +132,145 @@ class VariableDeclarationValidatorTest {
 	}
 		
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnySimple() {
 		localVariableOK('''any x = 1;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyNull() {
 		localVariableError('''any x = null;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyAdditive() {
 		localVariableOK('''any x = 1+2;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyMultiplicative() {
 		localVariableOK('''any x = 1*2;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyNumericUnary() {
 		localVariableOK('''any x = -1;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyShift() {
 		localVariableOK('''any x = 1>>2;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyRelation() {
 		localVariableOK('''any x = 1 < 2;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyEquality() {
 		localVariableOK('''any x = 1 == 2;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanUnary() {
 		localVariableOK('''any x = !(1 < 2);''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanXor() {
 		localVariableOK('''any x = 1 < 2 ^ false;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanOr() {
 		localVariableOK('''any x = 1 < 2 | false;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanAnd() {
 		localVariableOK('''any x = 1 < 2 & false;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanConditionalAnd() {
 		localVariableOK('''any x = 1 < 2 && false;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanConditionalOr() {
 		localVariableOK('''any x = 1 < 2 || false;''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyConditionalTest() {
 		localVariableOK('''any x = (1 != 2) ? "test" : "test2";''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyIntegerSequence() {
 		localVariableOK('''any x = {1,2,3};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyBooleanSequence() {
 		localVariableOK('''any x = {true,false,true};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyRealSequence() {
 		localVariableOK('''any x = {1.1,2.2,3.3};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyStringSequence() {
 		localVariableOK('''any x = {"1","2","3"};''')
 	}
 		
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyCollectionInvalidType() {
 		localVariableOK('''any x = {1,2,"3"};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyCollectionInvalidTypeBag() {
 		localVariableError('''any x = bag<Integer>{1,2,"3"};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyCollectionInvalidTypeSet() {
 		localVariableError('''any x = set<Integer>{1,2,"3"};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyCollectionInvalidTypeSequence() {
 		localVariableError('''any x = sequence<Integer>{1,2,"3"};''')
 	}
 	
 	@Test
+	@Ignore("Any not yet supported")
 	def localVariableAnyReference() {
 		localVariableOK(
 		'''

@@ -79,7 +79,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         scope
     }
     
-    private def IScope scope_Variable(EObject block) {
+    def IScope scope_Variable(EObject block) {
         var parentBlock = block.eContainer
         if (parentBlock == null) {
             IScope.NULLSCOPE

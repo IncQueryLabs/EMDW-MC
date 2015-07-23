@@ -78,6 +78,17 @@
         </ownedParameter>
       </ownedOperation>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s"/>
+      <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_Tfv7cDE3EeW_U4Ge-CTh1A" name="TestBehavior">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_93Gp8DE0EeW_U4Ge-CTh1A" name="inParameter">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_QZoxADE1EeW_U4Ge-CTh1A" name="outParameter" direction="out">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_eRB-oDE1EeW_U4Ge-CTh1A" name="result" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </nestedClassifier>
       <ownedReception xmi:type="uml:Reception" xmi:id="_l3-fkBpEEeWgOeVNG9guWg" name="Reception1" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
     </nestedClassifier>
     <nestedClassifier xmi:type="uml:Class" xmi:id="_I9qiEBmkEeWkDIIs2OLK7g" name="Ping" classifierBehavior="_kQ9UIBmkEeWkDIIs2OLK7g">

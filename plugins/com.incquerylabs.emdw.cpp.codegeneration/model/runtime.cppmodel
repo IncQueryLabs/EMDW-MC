@@ -1,22 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl">
-  <cpp:CPPPackage headerDir="/1" bodyDir="/1">
-    <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="Runtime"/>
-    <subElements xsi:type="cpp:CPPClass" headerFile="/1/@files.1" bodyFile="/1/@files.0">
-      <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="ActiveComponent"/>
+<xmi:XMI xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp"
+    xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl">
+  <cpp:CPPPackage
+      headerDir="/1"
+      bodyDir="/1">
+    <ooplNameProvider
+        xsi:type="oopl:OOPLDerivedNameProvider"
+        name="Runtime"/>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.1"
+        bodyFile="/1/@files.0">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="ActiveComponent"/>
     </subElements>
-    <subElements xsi:type="cpp:CPPClass" headerFile="/1/@files.2">
-      <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="Event"/>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.2">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="Event"/>
     </subElements>
-    <subElements xsi:type="cpp:CPPClass" headerFile="/1/@files.3">
-      <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="StatefulClass"/>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.3">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="StatefulClass"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.7">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="type_number"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.6"
+        bodyFile="/1/@files.5">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="unique_number"/>
     </subElements>
   </cpp:CPPPackage>
-  <cpp:CPPDirectory makeRulesFile="/1/@files.4">
+  <cpp:CPPDirectory
+      makeRulesFile="/1/@files.4">
     <files xsi:type="cpp:CPPBodyFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPMakeFile"/>
+    <files xsi:type="cpp:CPPBodyFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
   </cpp:CPPDirectory>
 </xmi:XMI>

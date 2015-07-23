@@ -8,7 +8,6 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
-import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
@@ -20,7 +19,6 @@ class ClassTemplates {
 	// TODO @Inject
 	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val TypeConverter typeConverter
-	val TypeIdentifierGenerator typeIdGenerator
 	public static val StatefulClassFQN = "::StatefulClass"
 	public static val EventFQN = "::Event"
 
@@ -35,9 +33,8 @@ class ClassTemplates {
 	ActionCodeTemplates actionCodeTemplates
 	IncQueryEngine engine
 	
-	new(IncQueryEngine engine, TypeIdentifierGenerator typeIdGenerator) {
+	new(IncQueryEngine engine) {
 		this.engine = engine
-		this.typeIdGenerator = typeIdGenerator
 		
 		namespaceTemplates = new NamespaceTemplates
 		headerGuardTemplates = new HeaderGuardTemplates
@@ -67,15 +64,15 @@ class ClassTemplates {
 		
 		public:
 		
-			«publicContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
+			«publicContentInClassHeader(cppClass, hasStateMachine)»
 		
 		protected:
 		
-			«protectedContentInClassHeader(cppClass, cppClassName)»
+			«protectedContentInClassHeader(cppClass)»
 		
 		private:
 		
-			«privateContentInClassHeader(cppClass, cppClassName, hasStateMachine)»
+			«privateContentInClassHeader(cppClass, hasStateMachine)»
 		}; /* class «cppClassName» */
 		«cppClass.namespaceCloserTemplate»
 		
@@ -84,13 +81,16 @@ class ClassTemplates {
 		
 	}
 	
-	def publicContentInClassHeader(CPPClass cppClass, String cppClassName, boolean hasStateMachine) {
+	def publicContentInClassHeader(CPPClass cppClass, boolean hasStateMachine) {
 		'''
 		
 		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 		
 		«destructorDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 		
+		«typeIdTemplate(cppClass)»
+		
+		// Initialization
 		void perform_initialization();
 		
 		«attributesInClassHeader(cppClass, VisibilityKind.PUBLIC)»
@@ -109,7 +109,7 @@ class ClassTemplates {
 		'''
 	}
 	
-	def protectedContentInClassHeader(CPPClass cppClass, String cppClassName) {
+	def protectedContentInClassHeader(CPPClass cppClass) {
 		'''
 		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PROTECTED)»
 		
@@ -121,7 +121,8 @@ class ClassTemplates {
 		'''
 	}
 	
-	def privateContentInClassHeader(CPPClass cppClass, String cppClassName, boolean hasStateMachine) {
+	def privateContentInClassHeader(CPPClass cppClass, boolean hasStateMachine) {
+		val cppClassName = cppClass.cppName
 		'''
 		// Deny copy of the class using copy constructor
 		«cppClassName»(const «cppClassName»&);
@@ -130,12 +131,6 @@ class ClassTemplates {
 		«cppClassName»& operator=(const «cppClassName»&);
 		
 		«cppClass.instanceStorageInClassHeader»
-		
-		static const unsigned short type_id = «typeIdGenerator.generateTypeId»;
-		
-		virtual unsigned short get_type_id() const {
-			return type_id;
-		}
 		
 		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		
@@ -151,7 +146,13 @@ class ClassTemplates {
 		'''
 	}
 	
-	
+	def typeIdTemplate(CPPClass cppClass) {
+		'''
+		// Type id getters
+		static ::unique_number __get_static_type_number() { return ::type_number<«cppClass.cppName»*>::number; }
+		virtual ::unique_number __get_dynamic_type_number() { return __get_static_type_number(); }
+		'''
+	}
 	
 	def attributesInClassHeader(CPPClass cppClass, VisibilityKind visibility) {
 		val cppAttrMatcher = codeGenQueries.getCppClassAttributes(engine)

@@ -151,12 +151,17 @@ class ClassRules {
 		// External includes for model independent generated code
 		fireAllCurrent(includeRules.statemachineRuntimeIncludeRule, [it.cppClass == cppClass])
 		
+		val cppHeader = cppClass.headerFile
+		val uniqueNumberExternalHeader = getExternalHeader('''"Runtime/unique_number.hh"''')
+		cppHeader.addInclude(uniqueNumberExternalHeader, "Type identifier generation")
+		val typeNumberExternalHeader = getExternalHeader('''"Runtime/type_number.hh"''')
+		cppHeader.addInclude(typeNumberExternalHeader, "Type identifier generation")
 		val listExternalHeader = includeRules.getExternalHeader("<list>")
-		cppClass.headerFile.addInclude(listExternalHeader, "_instances")
+		cppHeader.addInclude(listExternalHeader, "_instances")
 		val queueExternalHeader = includeRules.getExternalHeader("<queue>")
-		cppClass.headerFile.addInclude(queueExternalHeader, "event queues")
+		cppHeader.addInclude(queueExternalHeader, "event queues")
 		val iostreamExternalHeader = includeRules.getExternalHeader("<iostream>")
-		cppClass.headerFile.addInclude(iostreamExternalHeader, "standard io")
+		cppHeader.addInclude(iostreamExternalHeader, "standard io")
 		
 	}
 

@@ -54,7 +54,7 @@ class ClassAttributeMapping extends AbstractObjectMapping<AttributeMatch, Proper
 	override updateXtumlrtObject(Attribute xtumlrtObject, AttributeMatch match) {
 		val umlObject = match.umlObject
 		if(umlObject.type != null){
-			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
+			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).filter(Type).head {
 				Type: xtumlrtObject.type = type
 			}
 		}

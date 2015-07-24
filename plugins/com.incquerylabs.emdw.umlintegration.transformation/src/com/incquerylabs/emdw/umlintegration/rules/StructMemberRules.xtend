@@ -7,6 +7,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Property
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 
 class StructMemberRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -29,7 +30,7 @@ class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Prope
 		Attribute
 	}
 	
-	public static val PRIORITY = TypeDefinitionMapping.PRIORITY
+	public static val PRIORITY = StructTypeMapping.PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY
@@ -48,7 +49,19 @@ class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Prope
 	}
 
 	override updateXtumlrtObject(Attribute xtumlrtObject, StructMemberMatch match) {
-		xtumlrtObject.type = match.member.type.findXtumlrtObject(Type)
+		val umlObject = match.umlObject
+		if(umlObject.type != null){
+			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).filter(Type).head {
+				Type: xtumlrtObject.type = type
+			}
+		}
+		xtumlrtObject.static = umlObject.static
+		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
+		
+		xtumlrtObject.lowerBound = umlObject.lower
+		xtumlrtObject.upperBound = umlObject.upper
+		xtumlrtObject.ordered = umlObject.isOrdered
+		xtumlrtObject.unique = umlObject.isUnique
 	}
 
 	def getXtumlrtContainer(StructMemberMatch match) {

@@ -61,7 +61,7 @@ class XtComponentXtPackageUpdateMonitorTest extends XtumlMonitorBaseTest {
 	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
-		dirtyComponent.entities.filter(Package).head.createXtClass("Class")
+		dirtyComponent.packages.filter(Package).head.createXtClass("Class")
 	}
 	
 }
@@ -88,7 +88,7 @@ class XtComponentXtPackageDeleteMonitorTest extends XtumlMonitorBaseTest {
 	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
-		EcoreUtil.remove(dirtyComponent.entities.filter(Package).head)
+		EcoreUtil.remove(dirtyComponent.packages.filter(Package).head)
 	}
 	
 }

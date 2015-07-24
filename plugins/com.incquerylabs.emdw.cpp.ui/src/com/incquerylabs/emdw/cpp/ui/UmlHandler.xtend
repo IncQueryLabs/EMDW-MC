@@ -16,6 +16,8 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
+import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+
 class UmlHandler extends AbstractHandler {
 	extension CodeGenerator codeGenerator = new CodeGenerator()
 	
@@ -35,7 +37,7 @@ class UmlHandler extends AbstractHandler {
 				val xtumlResource = emfModel.resource
 				val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
 				val xtComponents = xtModel.allSubComponents
-				generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event)
+				generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
 			}
 		}
 		

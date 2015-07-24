@@ -20,6 +20,8 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Component
 
+import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+
 class UmlComponentHandler extends AbstractHandler {
 	extension CodeGenerator codeGenerator = new CodeGenerator()
 	
@@ -43,7 +45,7 @@ class UmlComponentHandler extends AbstractHandler {
 				val selectedXtComponents = tracePatterns.getTrace(engine).getAllValuesOfxtumlrtElement(null, null, umlComponent).filter(XTComponent)
 				engine.dispose
 				
-				generateCodeFromXtComponents(xtumlResource.resourceSet, selectedXtComponents, event)
+				generateCodeFromXtComponents(xtumlResource.resourceSet, selectedXtComponents, event, getChangeMonitor(modelSet))
 			}
 		}
 				

@@ -37,6 +37,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
 
 class CodeGenerator {
 
@@ -44,7 +45,7 @@ class CodeGenerator {
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
-	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event) {		
+	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event, XtumlModelChangeMonitor xtumlChangeMonitor) {
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
 		try {
 			val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
@@ -59,12 +60,20 @@ class CodeGenerator {
 				
 				val validXtumlModel = validateXtumlModel(engine, event)
 				if(validXtumlModel){
+					xtumlChangeMonitor?.createCheckpoint
 					xtComponents.forEach[ xtComponent |
-						performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
+						if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent))
+							performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
 					]
-		    	}
+					xtumlChangeMonitor?.clear
+				}
 			} finally {
 				xformqrt.dispose
+			}
+			
+			// Start monitoring
+			if (xtumlChangeMonitor != null && !xtumlChangeMonitor.started) {
+				xtumlChangeMonitor.startMonitoring
 			}
 		} finally {
 			engine.dispose

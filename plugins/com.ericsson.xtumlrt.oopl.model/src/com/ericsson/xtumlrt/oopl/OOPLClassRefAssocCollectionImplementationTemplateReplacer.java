@@ -32,7 +32,7 @@ public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends B
     
     
     public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
-        return generateAny(impl, context.getName(), result.getValueType().toString(), result.getStringRepresentation());
+        return generateAny(impl, context.getName(), result.getValueType(), result.getStringRepresentation());
     }
     
     public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToCount, VariableDescriptor result) {

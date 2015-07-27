@@ -132,7 +132,7 @@ public class BaseContainerImplementationTemplateReplacer {
     }
     
     public static String generateClone(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor result) {
-        return generateClone(impl, context.getName(), result.getValueType().toString(), result.getName());
+        return generateClone(impl, context.getName(), result.getValueType(), result.getName());
     }
     
     public static String generateContains(BaseContainerImplementation impl, CollectionDescriptor context, ValueDescriptor itemToContain, VariableDescriptor result) {
@@ -141,8 +141,8 @@ public class BaseContainerImplementationTemplateReplacer {
     
     public static String generateContainsAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor itemsToContain, VariableDescriptor result) {
         return generateContainsAll(impl, context.getName(), itemsToContain.getName(), 
-                    itemsToContain.getCollectionType().getContainerQualifiedName(), 
-                    itemsToContain.getValueType().toString(), result.getStringRepresentation());
+                    itemsToContain.getCollectionType(), 
+                    itemsToContain.getValueType(), result.getStringRepresentation());
     }
     
     public static String generateIsEmpty(BaseContainerImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
@@ -155,12 +155,12 @@ public class BaseContainerImplementationTemplateReplacer {
     
     public static String generateRemoveAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor itemsToRemove) {
         return generateRemoveAll(impl, context.getName(), itemsToRemove.getName(), 
-                    itemsToRemove.getCollectionType().getContainerQualifiedName(), 
-                    itemsToRemove.getValueType().toString());
+                    itemsToRemove.getCollectionType(), 
+                    itemsToRemove.getValueType());
     }
     
     public static String generateRetainAll(BaseContainerImplementation impl, CollectionDescriptor context, CollectionDescriptor itemsToRetain) {
-        return generateRetainAll(impl, context.getName(), itemsToRetain.getName(), context.getValueType().toString());
+        return generateRetainAll(impl, context.getName(), itemsToRetain.getName(), context.getValueType());
     }
     
     public static String generateSize(BaseContainerImplementation impl, CollectionDescriptor context, VariableDescriptor result) {

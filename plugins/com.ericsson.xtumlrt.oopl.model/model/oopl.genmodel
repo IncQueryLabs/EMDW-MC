@@ -328,12 +328,13 @@
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//CollectionDescriptor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//CollectionDescriptor/valueType"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//CollectionDescriptor/collectionType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/collectionType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/valueType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/fullType"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//ValueDescriptor">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//ValueDescriptor/stringRepresentation"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//ValueDescriptor/valueType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//ValueDescriptor/valueType"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//VariableDescriptor"/>
     <genClasses ecoreClass="oopl.ecore#//LiteralDescriptor"/>

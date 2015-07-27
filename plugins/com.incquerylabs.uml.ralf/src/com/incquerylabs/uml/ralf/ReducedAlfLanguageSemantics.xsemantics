@@ -58,9 +58,13 @@ import org.eclipse.uml2.uml.Type
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression
 import com.incquerylabs.uml.ralf.types.AbstractTypeReference
+import org.eclipse.uml2.uml.Parameter
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
+import com.incquerylabs.uml.ralf.scoping.UMLScopeHelper
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
+inject extension UMLScopeHelper scopeHelper
 
 val REAL    = IUMLContextProvider.REAL_TYPE
 val INTEGER = IUMLContextProvider.INTEGER_TYPE
@@ -69,7 +73,7 @@ val STRING  = IUMLContextProvider.STRING_TYPE
 
 auxiliary {
     superClassList(Class cl) : List<Class>
-    typeReference(TypeDeclaration decl) : IUMLTypeReference
+    typeReference(TypeDeclaration decl) : IUMLTypeReference 
 }
 
 judgments {
@@ -116,16 +120,16 @@ axiom StringLiteral
 axiom NullLiteral
     G |- NullExpression ex : nullType
 
+
+/**
+ * Variable declarations
+ */
 rule TypeDeclaration
     G |- TypeDeclaration typeDecl: IUMLTypeReference result
         
 from {
     result = typeDecl.typeReference
 }
-
-/**
- * Variable declarations
- */
 
 
 rule VariableDeclaration
@@ -135,7 +139,7 @@ from {
 }
 
 rule LoopVariable
-    G |- LoopVariable variable : IUMLTypeReference result
+    derives G |- LoopVariable variable : IUMLTypeReference result
 from {
     if (variable.type != null) {
         result = variable.type.typeReference
@@ -144,6 +148,11 @@ from {
     }
 }
 
+rule Parameter
+    derives G |- Parameter parameter : IUMLTypeReference result
+from {
+    result = parameter.type.typeReference
+}
 /**
  * Subtyping and assignability
  */  
@@ -189,8 +198,8 @@ from {
     {
         left == right
     } or {
-        left == INTEGER.primitiveType
-        right == REAL.primitiveType
+        left == REAL.primitiveType
+        right == INTEGER.primitiveType
     }
 }
 
@@ -280,7 +289,7 @@ rule AssignmentExpression
 from {
     G |- ex.leftHandSide : var IUMLTypeReference leftType
     G |- ex.rightHandSide : var IUMLTypeReference rightType
-    leftType == rightType //TODO subtyping
+    G |- leftType <: rightType
     result = rightType
 }
 
@@ -395,7 +404,11 @@ from {
 rule ThisExpression
     G |- ThisExpression ex : IUMLTypeReference result
 from {
-    result = umlContext.thisType.typeReference
+    if (umlContext.thisType == null) {
+        result = anyType
+    } else {
+        result = umlContext.thisType.typeReference
+    }
 }
 
 rule PropertyAccessExpression
@@ -459,7 +472,7 @@ rule FeatureLeftHandSide
     G |- FeatureLeftHandSide lhs : IUMLTypeReference result
 from {
     G |- lhs.expression : var IUMLTypeReference exType
-     result = exType
+    result = exType
 }
 
 rule NameLeftHandSide
@@ -542,9 +555,9 @@ from {
 	//Proper type
 	empty |- st.expression : var IUMLTypeReference eType
 	{
-		empty |- eType <: INTEGER.primitiveTypeReference
+		INTEGER.primitiveTypeReference == eType
 	} or {
-		empty |- eType <: STRING.primitiveTypeReference
+		STRING.primitiveTypeReference == eType
 	}
 	//cases match the type
 	for(SwitchClause cl : st.nonDefaultClause){
@@ -568,5 +581,19 @@ from {
     if (!(targetType.umlType instanceof Class)) {
         fail
         error "Invalid signal target " + targetType.umlType.name
+    }
+}
+
+checkrule ReturnStatement for
+    ReturnStatement st
+from {
+    val returnValue = definedBehavior.returnParameter
+    {
+        returnValue == null    
+        st.expression == null
+    } or {
+        empty |- st.expression : var IUMLTypeReference exprType
+        val returnType = returnValue.type.typeReference
+        empty |- returnType <: exprType
     }
 }

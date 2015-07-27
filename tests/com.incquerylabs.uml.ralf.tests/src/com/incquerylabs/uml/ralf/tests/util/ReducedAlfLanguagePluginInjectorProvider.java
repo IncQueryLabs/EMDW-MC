@@ -15,7 +15,6 @@ import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 
 public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguageInjectorProvider {
-    private static final String LANGUAGE_NAME = "rALF";
     
     @Override
     protected Injector internalCreateInjector() {
@@ -40,7 +39,7 @@ public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguage
                 TestModelUMLContextProvider provider = new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
                 binder.bind(IUMLContextProvider.class).toInstance(provider);
                 binder.bind(TestModelUMLContextProvider.class).toInstance(provider);
-                binder.bind(IReducedAlfParser.class).toInstance(new ReducedAlfParser(LANGUAGE_NAME));
+                binder.bind(IReducedAlfParser.class).toInstance(new ReducedAlfParser());
                 binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
             }
         };

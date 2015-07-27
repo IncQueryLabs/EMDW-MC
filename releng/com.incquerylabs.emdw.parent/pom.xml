@@ -41,7 +41,7 @@
 
 		<!-- rALF Language -->
 		<module>../../plugins/com.incquerylabs.uml.ralf</module>
-		<module>../../plugins/com.incquerylabs.uml.ralf.incquery</module>
+		<module>../../plugins/com.incquerylabs.uml.ralf.languagegenerator</module>
 		<module>../../plugins/com.incquerylabs.uml.ralf.papyrus.ui</module>
 		<module>../../plugins/com.incquerylabs.uml.ralf.ui</module>
 		<module>../../tests/com.incquerylabs.uml.ralf.tests</module>

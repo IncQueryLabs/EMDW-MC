@@ -19,6 +19,7 @@ import com.incquerylabs.uml.ralf.scoping.ReducedAlfLanguageScopeProvider
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.validation.Check
+import org.eclipse.uml2.uml.UMLPackage
 
 //import org.eclipse.xtext.validation.Check
 
@@ -49,12 +50,12 @@ class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 	@Check
 	def duplicateLocalVariables(LoopVariable decl) {
 	    if (isDuplicateInScope(decl, decl.name)) {
-	        error("Duplicate local variable " + decl.name, ReducedAlfLanguagePackage.Literals.VARIABLE__NAME)
+	        error("Duplicate local variable " + decl.name, UMLPackage.Literals.NAMED_ELEMENT__NAME)
 	    }
 	}
 	
     private def isDuplicateInScope (EObject context, String name) {
-        val variableScope = scopeProvider.scope_Variable(context)
+        val variableScope = scopeProvider.scope_NamedElement(context)
         return (variableScope.getSingleElement(QualifiedName.create(name)) != null);
     }
 	@Check

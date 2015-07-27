@@ -17,7 +17,6 @@ import org.junit.Ignore
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
-@Ignore("Opaque behavior specification parameters not supported")
 class UMLOpaqueBehaviorParameterValidatorTest {
 	@Inject
 	IReducedAlfParser parser
@@ -109,7 +108,7 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 	
 	@Test
 	def outParameterIntegerAssignment_RealLiteral(){
-		parameterOK(
+		parameterError(
 		'''
 			outParameter = 1.1;
 		'''
@@ -158,6 +157,7 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation calls not yet supported")
 	def outParameterIntegerAssignment_Operation(){
 		parameterOK(
 		'''
@@ -189,7 +189,7 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 	
 	@Test
 	def returnParameter_RealLiteral(){
-		parameterOK(
+		parameterError(
 		'''
 			return 1.1;
 		'''
@@ -238,6 +238,7 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Return parameters not yet supported")
 	def returnParameter_Operation(){
 		parameterOK(
 		'''
@@ -261,15 +262,15 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 	
 	def parameterOK(String input, String thisElementFQN, String opaqueFQN) {
 		//Set Opaque behavior ID	
-		context.elementFQN = thisElementFQN
-		val result = parser.parse(input)
+		context.elementFQN = opaqueFQN
+		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def parameterError(String input, String thisElementFQN, String opaqueFQN) {	
 		//Set Opaque behavior ID
-		context.elementFQN = thisElementFQN
-		assertTrue("NO Validation errors found", parser.parse(input).hasError)
+		context.elementFQN = opaqueFQN
+		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 	
 }

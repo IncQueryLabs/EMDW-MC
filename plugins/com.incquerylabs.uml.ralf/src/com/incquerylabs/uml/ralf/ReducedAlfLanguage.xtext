@@ -104,7 +104,7 @@ StringLiteralExpression :
 
 /* Name EXPRESSIONS */
 NameExpression :
-    reference = [Variable|QualifiedName]
+    reference = [uml::NamedElement|QualifiedName]
 ;
 
 /* THIS EXPRESSIONS */
@@ -282,7 +282,7 @@ IsolationExpression :
 ;
 
 CastExpression : 
-  '(' TypeDeclaration ')' operand = CastCompletion
+  '(' type = TypeDeclaration ')' operand = CastCompletion
 ;
 
 CastCompletion returns Expression : 
@@ -473,8 +473,8 @@ MultiplicityIndicator :
     '[' ']'
 ;
 
-VariableDeclaration returns Variable: 
-   type = TypeDeclaration hasMultiplicity ?= MultiplicityIndicator? name = Name     
+VariableDeclaration returns uml::NamedElement : 
+   {Variable} type = TypeDeclaration hasMultiplicity ?= MultiplicityIndicator? name = Name     
 ;
 
 /* LOCAL NAME DECLARATION STATEMENTS */

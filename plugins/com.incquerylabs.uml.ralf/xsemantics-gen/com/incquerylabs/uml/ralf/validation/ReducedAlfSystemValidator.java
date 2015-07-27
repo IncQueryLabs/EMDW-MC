@@ -8,6 +8,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable;
@@ -95,6 +96,13 @@ public class ReducedAlfSystemValidator extends AbstractReducedAlfLanguageValidat
   public void sendSignalStatement(final SendSignalStatement st) {
     errorGenerator.generateErrors(this,
     	getXsemanticsSystem().sendSignalStatement(st),
+    		st);
+  }
+  
+  @Check
+  public void returnStatement(final ReturnStatement st) {
+    errorGenerator.generateErrors(this,
+    	getXsemanticsSystem().returnStatement(st),
     		st);
   }
 }

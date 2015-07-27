@@ -13,6 +13,7 @@ import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
+import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
 
 public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageInjectorProvider {
@@ -38,7 +39,7 @@ public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageI
         Module customizations = new Module() {
             @Override
             public void configure(Binder binder) {
-                binder.bind(IUMLContextProvider.class).toInstance(new TestUMLContextProvider());
+                binder.bind(IUMLContextProvider.class).toInstance(new SimpleUMLContextProvider());
                 binder.bind(ReducedAlfSnippetTemplateCompiler.class).toInstance(new ReducedAlfSnippetTemplateCompiler());
                 binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
                 binder.bind(IReducedAlfParser.class).to(ReducedAlfParser.class);

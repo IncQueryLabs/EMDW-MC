@@ -31,9 +31,11 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
     @Inject
-    IUMLContextProvider umlContext;
+    IUMLContextProvider umlContext
     @Inject
-    ReducedAlfSystem system;
+    ReducedAlfSystem system
+    @Inject
+    extension UMLScopeHelper scopeHelper
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
@@ -51,7 +53,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         if (umlContext == null) {
             IScope.NULLSCOPE
         } else {
-               Scopes.scopeFor(umlContext.knownTypes)
+            Scopes.scopeFor(umlContext.knownTypes)
         }
     }
     
@@ -74,17 +76,17 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         Scopes.scopeFor(umlContext.knownAssociations)
     }
     
-    def scope_Variable(Expression context, EReference reference) {
-        val scope = scope_Variable(context)
+    def scope_NamedElement(Expression context, EReference reference) {
+        val scope = scope_NamedElement(context)
         scope
     }
     
-    def IScope scope_Variable(EObject block) {
+    def IScope scope_NamedElement(EObject block) {
         var parentBlock = block.eContainer
         if (parentBlock == null) {
-            IScope.NULLSCOPE
+            parametersScope
         } else {
-            val parentScope = scope_Variable(parentBlock)
+            val parentScope = scope_NamedElement(parentBlock)
             val declarations = parentBlock.variableDeclarations(block)
             if (declarations.nullOrEmpty) {
                 parentScope
@@ -92,6 +94,11 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
                 Scopes.scopeFor(declarations, parentScope)
             }
         }
+    }
+    
+    private def IScope getParametersScope() {
+        val behavior = umlContext.definedBehavior
+        Scopes.scopeFor(behavior.parameters)
     }
     
     private def Iterable<Variable> variableDeclarations(EObject container, EObject until) {

@@ -25,7 +25,7 @@ class UMLVariableDeclarationValidatorTest {
 	
 	@Test
 	def localVariableUMLNull(){
-		localVariableOK('''Pong x = null;''')
+		localVariableOKThis('''Pong x = null;''',"model::Comp::Pong::TestBehavior")
 	}
 	
 	@Test
@@ -48,21 +48,21 @@ class UMLVariableDeclarationValidatorTest {
 	
 	def localVariableOKThis(String input, String thisElementFQN) {	
 		context.elementFQN = thisElementFQN
-		val result = parser.parse(input)
+		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def localVariableErrorThis(String input, String thisElementFQN) {	
 		context.elementFQN = thisElementFQN
-		assertTrue("NO Validation errors found", parser.parse(input).hasError)
+		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 	
 	def localVariableOK(String input) {	
-		val result = parser.parse(input)
+		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def localVariableError(String input) {	
-		assertTrue("NO Validation errors found", parser.parse(input).hasError)
+		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 }

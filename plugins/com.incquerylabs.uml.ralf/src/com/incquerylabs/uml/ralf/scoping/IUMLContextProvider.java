@@ -1,6 +1,7 @@
 package com.incquerylabs.uml.ralf.scoping;
 
 import org.eclipse.uml2.uml.Association;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
@@ -30,4 +31,7 @@ public interface IUMLContextProvider {
 	 * @return
 	 */
 	Class getThisType();
+	
+	Behavior getDefinedBehavior();
+	void setDefinedBehavior(Behavior behavior);
 }

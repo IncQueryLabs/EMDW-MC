@@ -8,6 +8,8 @@
   <semanticResources>platform:/resource/com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel</semanticResources>
   <semanticResources>platform:/resource/org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel</semanticResources>
   <semanticResources>platform:/resource/org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel</semanticResources>
+  <semanticResources>platform:/resource/com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore</semanticResources>
+  <semanticResources>platform:/resource/com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.genmodel</semanticResources>
   <ownedViews xmi:type="viewpoint:DRepresentationContainer" xmi:id="_6JD9EM7rEeS3VI6j6-KGPw">
     <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Review']"/>
   </ownedViews>

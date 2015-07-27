@@ -2,6 +2,8 @@ package com.ericsson.xtumlrt.oopl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.incquerylabs.emdw.valuedescriptor.CollectionValueDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor;
 
 public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
     
@@ -43,15 +45,15 @@ public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends 
     
     // TODO
     
-    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, Integer index, VariableDescriptor result) {
+    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionValueDescriptor context, Integer index, SingleValueDescriptor result) {
         return generateElementAtIndex(impl, context.getName(), context.getValueType(), index.toString(), result.getStringRepresentation());
     }
     
-    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToInsert, Integer index) {
+    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToInsert, Integer index) {
         return generateInsertElementAtIndex(impl, context.getName(), itemToInsert.getStringRepresentation(), context.getValueType(), index.toString());
     }
     
-    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToReplace, Integer index) {
+    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToReplace, Integer index) {
         return generateReplaceElementAtIndex(impl, context.getName(), itemToReplace.getStringRepresentation(), context.getValueType(), index.toString());
     }
 }

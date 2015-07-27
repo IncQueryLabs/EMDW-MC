@@ -17,6 +17,7 @@ Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime,
  com.ericsson.xtumlrt.oopl.model,
  org.eclipse.papyrusrt.xtumlrt.common.model,
  org.eclipse.papyrusrt.xtumlrt.xtuml.model,
+ com.incquerylabs.emdw.valuedescriptor.model,
  org.eclipse.incquery.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

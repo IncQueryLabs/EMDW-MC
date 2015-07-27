@@ -32,7 +32,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="ooplClass" lowerBound="1"
         eType="#//OOPLClass"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefSimpleCollection" eSuperTypes="#//OOPLClassReferenceCollection">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefSimpleCollection" abstract="true"
+      eSuperTypes="#//OOPLClassReferenceCollection">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Simple (non-associative) collection type in OOP languages to store references to the OOP representation of model classes ({@link com.ericsson.xtumlrt.oopl.OOPLClass})."/>
     </eAnnotations>
@@ -41,7 +42,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="implementation" lowerBound="1"
         eType="#//OOPLClassRefSimpleCollectionImplementation"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefAssocCollection" eSuperTypes="#//OOPLClassReferenceCollection">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefAssocCollection" abstract="true"
+      eSuperTypes="#//OOPLClassReferenceCollection">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Associative collection type in OOP languages to store references to the OOP representation of model classes ({@link com.ericsson.xtumlrt.oopl.OOPLClass}) indexed by one of the attributes ({@link org.eclipse.papyrusrt.xtumlrt.common.Attribute}) of the class."/>
     </eAnnotations>
@@ -160,7 +162,7 @@
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" eSuperTypes="#//OOPLDataType">
+  <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" abstract="true" eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Sequence (array, set or multiset) type in OOP languages. Elements are OOP types ({@link com.ericsson.xtumlrt.oopl.OOPLType})."/>
     </eAnnotations>
@@ -282,80 +284,80 @@
         <details key="documentation" value="// Redirect to the correct template replacer"/>
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateAdd(this, context, itemToAdd, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToAdd" eType="#//ValueDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToAdd" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateAddAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateAddAll(this, context, itemsToAdd);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemsToAdd" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemsToAdd" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
     </eOperations>
     <eOperations name="generateClear" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateClear(this, context);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
     </eOperations>
     <eOperations name="generateClone" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateClone(this, context, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="result" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
     </eOperations>
     <eOperations name="generateContains" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateContains(this, context, itemToContain, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToContain" eType="#//ValueDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToContain" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateContainsAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateContainsAll(this, context, itemsToContain, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemsToContain" eType="#//CollectionDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemsToContain" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateIsEmpty" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateIsEmpty(this, context, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateRemove" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateRemove(this, context, itemToRemove);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToRemove" eType="#//ValueDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToRemove" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateRemoveAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateRemoveAll(this, context, itemsToRemove);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemsToRemove" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemsToRemove" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
     </eOperations>
     <eOperations name="generateRetainAll" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateRetainAll(this, context, itemsToRetainAll);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemsToRetainAll" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemsToRetainAll" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
     </eOperations>
     <eOperations name="generateSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer.generateSize(this, context, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="anyTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="addTemplate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -394,13 +396,13 @@
       <eParameters name="result" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eOperations>
     <eOperations name="generateAny" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateCountOf" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToCount" eType="#//ValueDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToCount" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//AssociativeCollectionKind"
         defaultValueLiteral="UNORDERED_SET"/>
@@ -438,24 +440,24 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementationTemplateReplacer.generateElementAtIndex(this, context, index, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateInsertElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementationTemplateReplacer.generateInsertElementAtIndex(this, context, itemToInsert, index);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToInsert" eType="#//ValueDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToInsert" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="generateReplaceElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementationTemplateReplacer.generateReplaceElementAtIndex(this, context, itemToReplace, index);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToReplace" eType="#//ValueDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToReplace" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="kind" lowerBound="1" eType="#//SimpleCollectionKind"
@@ -509,39 +511,39 @@
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLSequenceImplementationTemplateReplacer.generateAny(this, context, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateCountOf" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLSequenceImplementationTemplateReplacer.generateCountOf(this, context, itemToCount, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToCount" eType="#//ValueDescriptor"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToCount" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLSequenceImplementationTemplateReplacer.generateElementAtIndex(this, context, index, result);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-      <eParameters name="result" eType="#//VariableDescriptor"/>
+      <eParameters name="result" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
     </eOperations>
     <eOperations name="generateInsertElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLSequenceImplementationTemplateReplacer.generateInsertElementAtIndex(this, context, itemToInsert, index);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToInsert" eType="#//ValueDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToInsert" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eOperations name="generateReplaceElementAtIndex" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="body" value="String template = com.ericsson.xtumlrt.oopl.OOPLSequenceImplementationTemplateReplacer.generateReplaceElementAtIndex(this, context, itemToReplace, index);&#xD;&#xA;return template;"/>
       </eAnnotations>
-      <eParameters name="context" eType="#//CollectionDescriptor"/>
-      <eParameters name="itemToReplace" eType="#//ValueDescriptor"/>
+      <eParameters name="context" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//CollectionValueDescriptor"/>
+      <eParameters name="itemToReplace" eType="ecore:EClass ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.ecore#//SingleValueDescriptor"/>
       <eParameters name="index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eOperations>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="uniqueness" lowerBound="1"
@@ -549,18 +551,5 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="orderedness" lowerBound="1"
         eType="#//SequenceOrderednessKind" defaultValueLiteral="UNORDERED"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="CollectionDescriptor" eSuperTypes="#//AbstractDescriptor">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="collectionType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fullType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ValueDescriptor" abstract="true" eSuperTypes="#//AbstractDescriptor">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRepresentation" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="VariableDescriptor" eSuperTypes="#//ValueDescriptor"/>
-  <eClassifiers xsi:type="ecore:EClass" name="LiteralDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLType" abstract="true"/>
-  <eClassifiers xsi:type="ecore:EClass" name="AbstractDescriptor" abstract="true"/>
 </ecore:EPackage>

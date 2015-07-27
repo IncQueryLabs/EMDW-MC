@@ -61,6 +61,9 @@
 							<packageClass>org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage</packageClass>
 						</metamodel>
 						<metamodel>
+							<packageClass>com.incquerylabs.emdw.valuedescriptor.ValuedescriptorPackage</packageClass>
+						</metamodel>
+						<metamodel>
 							<packageClass>com.ericsson.xtumlrt.oopl.OoplPackage</packageClass>
 						</metamodel>
 						<metamodel>

@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.ericsson.xtumlrt.oopl.model/emf-gen" modelPluginID="com.ericsson.xtumlrt.oopl.model"
     modelName="Oopl" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
+    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.genmodel#//valuedescriptor ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
     operationReflection="true" importOrganizing="true">
   <foreignModel>oopl.ecore</foreignModel>
   <genPackages prefix="Oopl" basePackage="com.ericsson.xtumlrt" disposableProviderFactory="true"
@@ -326,19 +326,6 @@
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/index"/>
       </genOperations>
     </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//CollectionDescriptor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/collectionType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/valueType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//CollectionDescriptor/fullType"/>
-    </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//ValueDescriptor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//ValueDescriptor/stringRepresentation"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//ValueDescriptor/valueType"/>
-    </genClasses>
-    <genClasses ecoreClass="oopl.ecore#//VariableDescriptor"/>
-    <genClasses ecoreClass="oopl.ecore#//LiteralDescriptor"/>
     <genClasses ecoreClass="oopl.ecore#//OOPLType"/>
-    <genClasses ecoreClass="oopl.ecore#//AbstractDescriptor"/>
   </genPackages>
 </genmodel:GenModel>

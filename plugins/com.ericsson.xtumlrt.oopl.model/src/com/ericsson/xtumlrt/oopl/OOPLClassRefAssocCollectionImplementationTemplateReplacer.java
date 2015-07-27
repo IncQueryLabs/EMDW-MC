@@ -2,6 +2,8 @@ package com.ericsson.xtumlrt.oopl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.incquerylabs.emdw.valuedescriptor.CollectionValueDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor;
 
 public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
     
@@ -31,11 +33,11 @@ public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends B
     
     
     
-    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, VariableDescriptor result) {
+    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor result) {
         return generateAny(impl, context.getName(), result.getValueType(), result.getStringRepresentation());
     }
     
-    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionDescriptor context, ValueDescriptor itemToCount, VariableDescriptor result) {
+    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToCount, SingleValueDescriptor result) {
         return generateCountOf(impl, context.getName(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
     }
 }

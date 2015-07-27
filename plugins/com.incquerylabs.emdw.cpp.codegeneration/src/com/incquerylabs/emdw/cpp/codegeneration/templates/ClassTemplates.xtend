@@ -292,32 +292,6 @@ class ClassTemplates {
 		
 		«cppClass.performInitializationDefinition»
 		
-		void «cppFQN»::generate_event(const «EventFQN»* e) {
-			if(e->_isInternal) {
-				_internalEvents.push(e);
-			} else {
-				_externalEvents.push(e);
-			}
-			if(_internalEvents.size() + _externalEvents.size() == 1) {
-				_comp->schedule(this);
-			}
-		}
-		
-		void «cppFQN»::process() {
-			const «EventFQN»* evt;
-			if(!_internalEvents.empty()) {
-				evt = _internalEvents.front();
-				_internalEvents.pop();
-			} else {
-				evt = _externalEvents.front();
-				_externalEvents.pop();
-			}
-			if(!_internalEvents.empty() or !_externalEvents.empty()) {
-				_comp->schedule(this);
-			}
-			process_event(evt);
-		}
-		
 		«operationDefinitions(cppClass)»
 		
 		«IF hasStateMachine»
@@ -434,6 +408,8 @@ class ClassTemplates {
 		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
 		
 		'''
+		«statefulClassMethodDefinitions(cppClass)»
+		
 		void «cppFQN»::process_event(const «EventFQN»* event) {
 			«IF generateTracingCode»
 				::std::cout << "[«cppClassName»] Event " << event->_id << " received." << ::std::endl;
@@ -458,6 +434,37 @@ class ClassTemplates {
 		«ENDFOR»
 		
 		«eventTemplates.innerClassesInClassBody(cppClass)»
+		'''
+	}
+	
+	def statefulClassMethodDefinitions(CPPClass cppClass) {
+		val cppClassFQN = cppClass.cppQualifiedName
+		'''
+		void «cppClassFQN»::generate_event(const «EventFQN»* e) {
+			if(e->_isInternal) {
+				_internalEvents.push(e);
+			} else {
+				_externalEvents.push(e);
+			}
+			if(_internalEvents.size() + _externalEvents.size() == 1) {
+				_comp->schedule(this);
+			}
+		}
+		
+		void «cppClassFQN»::process() {
+			const «EventFQN»* evt;
+			if(!_internalEvents.empty()) {
+				evt = _internalEvents.front();
+				_internalEvents.pop();
+			} else {
+				evt = _externalEvents.front();
+				_externalEvents.pop();
+			}
+			if(!_internalEvents.empty() or !_externalEvents.empty()) {
+				_comp->schedule(this);
+			}
+			process_event(evt);
+		}
 		'''
 	}
 }

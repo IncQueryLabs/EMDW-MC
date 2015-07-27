@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cpp
+Bundle-SymbolicName: com.incquerylabs.emdw.valuedescriptor.factory.cpp
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.incquerylabs.emdw.valuedescriptor.factory.cpp
+Require-Bundle: org.eclipse.xtend.lib,
+ com.incquerylabs.emdw.valuedescriptor.model;bundle-version="1.0.0",
+ com.ericsson.xtumlrt.oopl.cpp.model;bundle-version="1.0.0",
+ com.ericsson.xtumlrt.oopl.model;bundle-version="1.0.0"

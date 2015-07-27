@@ -98,7 +98,7 @@ class ComponentTemplates {
 		«cppComponent.mainHeaderFile.inclusions»
 		
 		«cppComponent.namespaceOpenerTemplate»
-		class «cppComponent.cppName» : public ActiveComponent {
+		class «cppComponent.cppName» «superclassTemplate(cppComponent)»{
 «««		TODO: Generate component code from cppmodel 
 		public:
 		    «cppComponent.cppName»(){}
@@ -111,6 +111,13 @@ class ComponentTemplates {
 		«closeHeaderGuard(cppComponent, headerGuardPostfix)»
 		
 		'''
+	}
+	
+	def superclassTemplate(CPPComponent cppComponent) {
+		val stateMachineMatcher = codeGenQueries.getCppComponentStateMachines(engine)
+		val isActiveComponent = stateMachineMatcher.hasMatch(cppComponent, null);
+		
+		'''«IF isActiveComponent»: public ActiveComponent «ENDIF»'''
 	}
 	
 	def componentMainBodyTemplate(CPPComponent cppComponent) {

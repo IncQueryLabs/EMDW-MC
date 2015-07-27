@@ -1,15 +1,15 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.AttributeMatch
+import com.incquerylabs.emdw.umlintegration.queries.SignalAttributeMatch
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
-import org.eclipse.papyrusrt.xtumlrt.common.Attribute
-import org.eclipse.papyrusrt.xtumlrt.common.Entity
-import org.eclipse.papyrusrt.xtumlrt.common.Type
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.uml2.uml.Property
-import com.incquerylabs.emdw.umlintegration.queries.SignalAttributeMatch
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.papyrusrt.xtumlrt.common.Entity
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
+import org.eclipse.uml2.uml.Property
+import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class AttributeRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -51,21 +51,10 @@ class ClassAttributeMapping extends AbstractObjectMapping<AttributeMatch, Proper
 		commonFactory.createAttribute
 	}
 
-	override updateXtumlrtObject(Attribute xtumlrtObject, AttributeMatch match) {
-		val umlObject = match.umlObject
-		if(umlObject.type != null){
-			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).filter(Type).head {
-				Type: xtumlrtObject.type = type
-			}
-		}
-		xtumlrtObject.static = umlObject.static
-		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
-		
-		xtumlrtObject.lowerBound = match.property.lower
-		xtumlrtObject.upperBound = match.property.upper
-		xtumlrtObject.ordered = match.property.isOrdered
-		xtumlrtObject.unique = match.property.isUnique
-		
+	override updateXtumlrtObject(Attribute xtAttribute, AttributeMatch match) {
+		val umlProperty = match.umlObject
+		val xtType = engine.trace.getAllValuesOfxtumlrtElement(null, null, umlProperty.type).filter(Type).head
+		TransformationUtil.updateAttribute(umlProperty, xtAttribute, xtType)
 	}
 	
 	def getXtumlrtContainer(AttributeMatch match) {
@@ -109,21 +98,10 @@ class SignalAttributeMapping extends AbstractObjectMapping<SignalAttributeMatch,
 		commonFactory.createAttribute
 	}
 
-	override updateXtumlrtObject(Attribute xtumlrtObject, SignalAttributeMatch match) {
-		val umlObject = match.umlObject
-		if(umlObject.type != null){
-			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
-				Type: xtumlrtObject.type = type
-			}
-		}
-		xtumlrtObject.static = umlObject.static
-		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
-		
-		xtumlrtObject.lowerBound = match.property.lower
-		xtumlrtObject.upperBound = match.property.upper
-		xtumlrtObject.ordered = match.property.isOrdered
-		xtumlrtObject.unique = match.property.isUnique
-		
+	override updateXtumlrtObject(Attribute xtAttribute, SignalAttributeMatch match) {
+		val umlProperty = match.umlObject
+		val xtType = engine.trace.getAllValuesOfxtumlrtElement(null, null, umlProperty.type).filter(Type).head
+		TransformationUtil.updateAttribute(umlProperty, xtAttribute, xtType)
 	}
 	
 	def getXtumlrtContainer(SignalAttributeMatch match) {

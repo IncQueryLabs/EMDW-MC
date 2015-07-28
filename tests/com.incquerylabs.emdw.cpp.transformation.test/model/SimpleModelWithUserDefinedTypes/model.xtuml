@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="RootElement">
+  <entities xsi:type="xtuml:XTComponent" name="MyComponent">
+    <typeDefinitions name="MyDataType">
+      <type xsi:type="common:StructuredType" name="MyDataType">
+        <attributes name="MyDatatypeIntMember" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </attributes>
+        <attributes name="MyDatatypeStringListMember" unique="true" lowerBound="1" upperBound="-1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+        </attributes>
+      </type>
+    </typeDefinitions>
+    <typeDefinitions name="MyPrimitiveType">
+      <type xsi:type="common:PrimitiveType" name="MyPrimitiveType"/>
+    </typeDefinitions>
+  </entities>
+</common:Model>

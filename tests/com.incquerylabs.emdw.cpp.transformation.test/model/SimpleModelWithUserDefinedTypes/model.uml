@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_njMdwDIKEeWf8oeazc34-Q" name="RootElement">
+  <packagedElement xmi:type="uml:Component" xmi:id="_pfmgEDIKEeWf8oeazc34-Q" name="MyComponent">
+    <packagedElement xmi:type="uml:DataType" xmi:id="_tFQ_MDIKEeWf8oeazc34-Q" name="MyDataType">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_u50GADIKEeWf8oeazc34-Q" name="MyDatatypeIntMember">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_ZKImIDINEeWBiqQHLWinhQ" name="MyDatatypeStringListMember">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cL_NkDINEeWBiqQHLWinhQ" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cMBp0DINEeWBiqQHLWinhQ" value="*"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_gDlxQDINEeWBiqQHLWinhQ" name="MyPrimitiveType"/>
+  </packagedElement>
+</uml:Model>

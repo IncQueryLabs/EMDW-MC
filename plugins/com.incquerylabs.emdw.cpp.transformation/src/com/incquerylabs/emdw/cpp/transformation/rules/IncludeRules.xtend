@@ -90,7 +90,7 @@ class IncludeRules {
 		val statefulClassExternalHeader = getExternalHeader('''"Runtime/StatefulClass.hh"''')
 		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
 		cppHeader.addInclude(statefulClassExternalHeader, "StatefulClass superclass in Runtime")
-		cppHeader.addInclude(eventExternalHeader, "Evenet class in Runtime")
+		cppHeader.addInclude(eventExternalHeader, "Event class in Runtime")
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

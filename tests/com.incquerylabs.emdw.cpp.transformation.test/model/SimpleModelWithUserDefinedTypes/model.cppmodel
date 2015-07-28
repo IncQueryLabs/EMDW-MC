@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp" xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml">
+  <cpp:CPPModel headerDir="/1" bodyDir="/1">
+    <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+      <commonNamedElement xsi:type="common:Model" href="model.xtuml#/"/>
+    </ooplNameProvider>
+    <subElements xsi:type="cpp:CPPComponent" mainHeaderFile="/1/@subDirectories.0/@files.1" mainBodyFile="/1/@subDirectories.0/@files.0" declarationHeaderFile="/1/@subDirectories.0/@files.2" definitionHeaderFile="/1/@subDirectories.0/@files.3" headerDirectory="/1/@subDirectories.0" bodyDirectory="/1/@subDirectories.0">
+      <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+        <commonNamedElement xsi:type="xtuml:XTComponent" href="model.xtuml#//@entities.0"/>
+      </ooplNameProvider>
+      <xtComponent href="model.xtuml#//@entities.0"/>
+    </subElements>
+    <commonModel href="model.xtuml#/"/>
+  </cpp:CPPModel>
+  <cpp:CPPDirectory makeRulesFile="/1/@files.0">
+    <subDirectories makeRulesFile="/1/@subDirectories.0/@files.4">
+      <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@files.1 /1/@subDirectories.0/@files.3"/>
+      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
+      <files xsi:type="cpp:CPPHeaderFile"/>
+      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.1"/>
+      <files xsi:type="cpp:CPPMakeFile"/>
+    </subDirectories>
+    <files xsi:type="cpp:CPPMakeFile"/>
+  </cpp:CPPDirectory>
+  <cpp:CPPExternalLibrary/>
+</xmi:XMI>

@@ -1,10 +1,12 @@
-package com.ericsson.xtumlrt.oopl.cppmodel;
+package com.ericsson.xtumlrt.oopl;
 
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
+import com.incquerylabs.emdw.valuedescriptor.CollectionValueDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor;
 
 public class BaseContainerImplementationTemplateReplacer {
     protected static String generateTemplate(String template, Map<String, String> map) {
@@ -115,5 +117,55 @@ public class BaseContainerImplementationTemplateReplacer {
         map.put("$collection$", collection);
         map.put("$result$", result);
         return generateTemplate(template, map.build());
+    }
+    
+    
+    
+    public static String generateAdd(BaseContainerImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToAdd, SingleValueDescriptor result) {
+        return generateAdd(impl, context.getName(), itemToAdd.getStringRepresentation(), result.getStringRepresentation());
+    }
+    
+    public static String generateAddAll(BaseContainerImplementation impl, CollectionValueDescriptor context, CollectionValueDescriptor values) {
+        return generateAddAll(impl, context.getName(), values.getName());
+    }
+    
+    public static String generateClear(BaseContainerImplementation impl, CollectionValueDescriptor context) {
+        return generateClear(impl, context.getName());
+    }
+    
+    public static String generateClone(BaseContainerImplementation impl, CollectionValueDescriptor context, CollectionValueDescriptor result) {
+        return generateClone(impl, context.getName(), result.getValueType(), result.getName());
+    }
+    
+    public static String generateContains(BaseContainerImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToContain, SingleValueDescriptor result) {
+        return generateContains(impl, context.getName(), itemToContain.getStringRepresentation(), result.getStringRepresentation());
+    }
+    
+    public static String generateContainsAll(BaseContainerImplementation impl, CollectionValueDescriptor context, CollectionValueDescriptor itemsToContain, SingleValueDescriptor result) {
+        return generateContainsAll(impl, context.getName(), itemsToContain.getName(), 
+                    itemsToContain.getCollectionType(), 
+                    itemsToContain.getValueType(), result.getStringRepresentation());
+    }
+    
+    public static String generateIsEmpty(BaseContainerImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor result) {
+        return generateIsEmpty(impl, context.getName(), result.getStringRepresentation());
+    }
+    
+    public static String generateRemove(BaseContainerImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToRemove) {
+        return generateRemove(impl, context.getName(), itemToRemove.getStringRepresentation());
+    }
+    
+    public static String generateRemoveAll(BaseContainerImplementation impl, CollectionValueDescriptor context, CollectionValueDescriptor itemsToRemove) {
+        return generateRemoveAll(impl, context.getName(), itemsToRemove.getName(), 
+                    itemsToRemove.getCollectionType(), 
+                    itemsToRemove.getValueType());
+    }
+    
+    public static String generateRetainAll(BaseContainerImplementation impl, CollectionValueDescriptor context, CollectionValueDescriptor itemsToRetain) {
+        return generateRetainAll(impl, context.getName(), itemsToRetain.getName(), context.getValueType());
+    }
+    
+    public static String generateSize(BaseContainerImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor result) {
+        return generateSize(impl, context.getName(), result.getStringRepresentation());
     }
 }

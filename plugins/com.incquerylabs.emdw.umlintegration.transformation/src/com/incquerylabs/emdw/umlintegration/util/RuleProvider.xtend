@@ -15,6 +15,7 @@ import com.incquerylabs.emdw.umlintegration.rules.ConnectorEndRules
 import com.incquerylabs.emdw.umlintegration.rules.ConnectorRules
 import com.incquerylabs.emdw.umlintegration.rules.DeepHistoryRules
 import com.incquerylabs.emdw.umlintegration.rules.EntryPointRules
+import com.incquerylabs.emdw.umlintegration.rules.EnumerationRules
 import com.incquerylabs.emdw.umlintegration.rules.ExitPointRules
 import com.incquerylabs.emdw.umlintegration.rules.GuardRules
 import com.incquerylabs.emdw.umlintegration.rules.InitialPointRules
@@ -27,6 +28,8 @@ import com.incquerylabs.emdw.umlintegration.rules.OperationRules
 import com.incquerylabs.emdw.umlintegration.rules.ParameterRules
 import com.incquerylabs.emdw.umlintegration.rules.PrimitiveTypeRules
 import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
+import com.incquerylabs.emdw.umlintegration.rules.StateEntryRules
+import com.incquerylabs.emdw.umlintegration.rules.StateExitRules
 import com.incquerylabs.emdw.umlintegration.rules.StateMachineRules
 import com.incquerylabs.emdw.umlintegration.rules.StructMemberRules
 import com.incquerylabs.emdw.umlintegration.rules.StructTypeRules
@@ -49,15 +52,13 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.api.IncQueryMatcher
+import org.eclipse.incquery.runtime.evm.specific.Lifecycles
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryActivationStateEnum
-import org.eclipse.incquery.runtime.evm.specific.lifecycle.DefaultActivationLifeCycle
 import org.eclipse.incquery.runtime.evm.specific.resolver.FixedPriorityConflictResolver
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
-import org.eclipse.incquery.runtime.evm.specific.Lifecycles
-import com.incquerylabs.emdw.umlintegration.rules.StateExitRules
-import com.incquerylabs.emdw.umlintegration.rules.StateEntryRules
+import com.incquerylabs.emdw.umlintegration.rules.EnumerationLiteralRules
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -88,6 +89,8 @@ class RuleProvider {
 		ConnectorRules.getRules(engine).initRules
 		DeepHistoryRules.getRules(engine).initRules
 		EntryPointRules.getRules(engine).initRules
+		EnumerationRules.getRules(engine).initRules
+		EnumerationLiteralRules.getRules(engine).initRules
 		ExitPointRules.getRules(engine).initRules
 		GuardRules.getRules(engine).initRules
 		InitialPointRules.getRules(engine).initRules

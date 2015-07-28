@@ -4,6 +4,7 @@ import com.incquerylabs.emdw.umlintegration.queries.PrimitiveTypeMatch
 import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 
 class PrimitiveTypeRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -26,7 +27,7 @@ class PrimitiveTypeMapping extends AbstractObjectMapping<PrimitiveTypeMatch, org
 		PrimitiveType
 	}
 	
-	public static val PRIORITY = 1
+	public static val PRIORITY = Math.max(TypeDefinitionInComponentMapping.PRIORITY, TypeDefinitionInPackageMapping.PRIORITY) + 1
 
 	override getRulePriority() {
 		PRIORITY
@@ -46,9 +47,13 @@ class PrimitiveTypeMapping extends AbstractObjectMapping<PrimitiveTypeMatch, org
 
 	override updateXtumlrtObject(PrimitiveType xtumlrtObject, PrimitiveTypeMatch match) {
 	}
+	
+	def getXtumlContainer(PrimitiveTypeMatch match) {
+		match.primitiveType.findXtumlrtObject(TypeDefinition)
+	}
 
 	override protected insertXtumlrtObject(PrimitiveType xtumlrtObject, PrimitiveTypeMatch match) {
-		rootMapping.xtumlrtRoot.eResource.contents += xtumlrtObject
+		match.xtumlContainer.type = xtumlrtObject
 	}
 	
 }

@@ -84,6 +84,14 @@ pattern cppClassInPackageSubPackages(
 	find cppClassInPackage(cppClass, subPackage);
 }
 
+pattern cppComponentStateMachines(
+	cppComponent : CPPComponent,
+	stateMachine : StateMachine
+) {
+	find cppClassInComponentSubPackages(cppClass, cppComponent);
+	find cppClassStateMachine(_, cppClass, stateMachine);
+}
+
 // Elements of Classes
 pattern cppClassStateMachine(
 	xtClass : XTClass,

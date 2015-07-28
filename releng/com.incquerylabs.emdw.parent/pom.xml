@@ -12,6 +12,7 @@
 		<!-- Metamodels -->
 		<module>../../plugins/org.eclipse.papyrusrt.xtumlrt.common.model</module>
 		<module>../../plugins/org.eclipse.papyrusrt.xtumlrt.xtuml.model</module>
+		<module>../../plugins/com.incquerylabs.emdw.valuedescriptor.model</module>
 		<module>../../plugins/com.ericsson.xtumlrt.oopl.model</module>
 		<module>../../plugins/com.ericsson.xtumlrt.oopl.cpp.model</module>
 		<module>../../plugins/com.ericsson.xtumlrt.oopl.java.model</module>

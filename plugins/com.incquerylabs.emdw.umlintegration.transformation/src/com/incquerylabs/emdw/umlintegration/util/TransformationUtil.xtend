@@ -7,13 +7,15 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.ParameterDirectionKind
-import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
+import org.eclipse.uml2.uml.Property
 
 class TransformationUtil {
 
@@ -66,5 +68,18 @@ class TransformationUtil {
 		} else {
 			return null
 		}
+	}
+	
+	static def updateAttribute(Property property, Attribute attribute, Type xtType){
+		if(property.type != null){
+			attribute.type = xtType
+		}
+		attribute.static = property.static
+		attribute.visibility = TransformationUtil.transform(property.visibility)
+		
+		attribute.lowerBound = property.lower
+		attribute.upperBound = property.upper
+		attribute.ordered = property.isOrdered
+		attribute.unique = property.isUnique
 	}
 }

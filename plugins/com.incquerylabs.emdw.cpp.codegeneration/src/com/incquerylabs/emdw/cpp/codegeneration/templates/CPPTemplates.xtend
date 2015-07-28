@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
-import com.incquerylabs.emdw.cpp.codegeneration.util.TypeIdentifierGenerator
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class CPPTemplates {
@@ -17,15 +16,13 @@ class CPPTemplates {
 	val ClassTemplates classTemplates
 	val ComponentTemplates componentTemplates
 	val PackageTemplates packageTemplates
-	val TypeIdentifierGenerator typeIdGenerator
 	
 	new(IncQueryEngine engine) {
 		this.engine = engine
 		namespaceTemplates = new NamespaceTemplates
-		typeIdGenerator = new TypeIdentifierGenerator
 		packageTemplates = new PackageTemplates(engine)
 		componentTemplates = new ComponentTemplates(engine)
-		classTemplates = new ClassTemplates(engine, typeIdGenerator)
+		classTemplates = new ClassTemplates(engine)
 	}
 	
 	def CharSequence componentDeclHeaderTemplate(CPPComponent cppComponent){

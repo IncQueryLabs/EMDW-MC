@@ -36,7 +36,7 @@ class EventTemplates {
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
 		«FOR event : classEvents»
-			class «event.generatedEventClassName» : public «ClassTemplates.EventFQN»«event.superEventsTemplate» {
+			class «event.generatedEventClassName» : «event.superEventsTemplate» {
 				public:
 					// Constructor
 					«event.generatedEventClassName»(bool isInternal);
@@ -58,8 +58,12 @@ class EventTemplates {
 	
 	def superEventsTemplate(CPPEvent cppEvent) {
 		val superEvents = cppEvent.superEvents
-		'''«FOR superEvent : superEvents»,
-		public «superEvent.generatedEventClassQualifiedName»«ENDFOR»'''
+		if(superEvents.isNullOrEmpty){
+			return '''public «ClassTemplates.EventFQN»'''
+		} else {
+			return '''«FOR superEvent : superEvents SEPARATOR ","»
+			public «superEvent.generatedEventClassQualifiedName»«ENDFOR»'''
+		}
 	}
 	
 	def getSuperEvents(CPPEvent cppEvent){

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="ASCII"?>
 <xmi:XMI xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI"
-    xmlns:cpp="http://www.ericsson.com/xtumlrt/oopl/cpp">
-  <cpp:CPPSequenceImplementation
+    xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl">
+  <oopl:OOPLSequenceImplementation
       containerQualifiedName="::std::multiset"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
       addTemplate="$collection$.insert($value$);&#xD;&#xA;bool $result$ = true;"
@@ -22,8 +22,8 @@
       sizeTemplate="unsigned int $result$ = $collection$.size();">
     <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
-  </cpp:CPPSequenceImplementation>
-  <cpp:CPPSequenceImplementation
+  </oopl:OOPLSequenceImplementation>
+  <oopl:OOPLSequenceImplementation
       containerQualifiedName="::std::set"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
       addTemplate="::std::pair&lt; ::std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;bool $result$ = result.second;"
@@ -45,8 +45,8 @@
     <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
-  </cpp:CPPSequenceImplementation>
-  <cpp:CPPSequenceImplementation
+  </oopl:OOPLSequenceImplementation>
+  <oopl:OOPLSequenceImplementation
       containerQualifiedName="::std::vector"
       anyTemplate="$valueType$ $result$ = $collection$.front();"
       addTemplate="$collection$.push_back($value$);&#xD;&#xA;bool $result$ = true;"
@@ -67,8 +67,8 @@
       orderedness="ORDERED">
     <containerHeaderIncludes>&lt;vector></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
-  </cpp:CPPSequenceImplementation>
-  <cpp:CPPSequenceImplementation
+  </oopl:OOPLSequenceImplementation>
+  <oopl:OOPLSequenceImplementation
       containerQualifiedName="::std::vector"
       anyTemplate="$valueType$ $result$ = $collection$.front();"
       addTemplate="$collection$.push_back($value$);&#xD;&#xA;bool $result$ = true;"
@@ -90,8 +90,8 @@
       uniqueness="UNIQUE">
     <containerHeaderIncludes>&lt;vector></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
-  </cpp:CPPSequenceImplementation>
-  <cpp:CPPClassRefSimpleCollectionImplementation
+  </oopl:OOPLSequenceImplementation>
+  <oopl:OOPLClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::list"
       anyTemplate="$valueType$ $result$ = $collection$.front();"
       addTemplate="$collection$.push_back($value$);&#xD;&#xA;bool $result$ = true;"
@@ -112,8 +112,8 @@
     <containerHeaderIncludes>&lt;list></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
-  </cpp:CPPClassRefSimpleCollectionImplementation>
-  <cpp:CPPClassRefSimpleCollectionImplementation
+  </oopl:OOPLClassRefSimpleCollectionImplementation>
+  <oopl:OOPLClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::list"
       anyTemplate="$valueType$ $result$ = $collection$.front();"
       addTemplate="$collection$.push_back($value$);&#xD;&#xA;bool $result$ = true;"
@@ -135,8 +135,8 @@
     <containerHeaderIncludes>&lt;list></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
-  </cpp:CPPClassRefSimpleCollectionImplementation>
-  <cpp:CPPClassRefSimpleCollectionImplementation
+  </oopl:OOPLClassRefSimpleCollectionImplementation>
+  <oopl:OOPLClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::deque"
       anyTemplate="$valueType$ $result$ = $collection$.front();"
       addTemplate="$collection$.push_back($value$);&#xD;&#xA;bool $result$ = true;"
@@ -158,8 +158,8 @@
     <containerHeaderIncludes>&lt;deque></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
-  </cpp:CPPClassRefSimpleCollectionImplementation>
-  <cpp:CPPClassRefAssocCollectionImplementation
+  </oopl:OOPLClassRefSimpleCollectionImplementation>
+  <oopl:OOPLClassRefAssocCollectionImplementation
       containerQualifiedName="::std::set"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
       addTemplate="::std::pair&lt; ::std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;bool $result$ = result.second;"
@@ -181,8 +181,8 @@
     <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
-  </cpp:CPPClassRefAssocCollectionImplementation>
-  <cpp:CPPClassRefAssocCollectionImplementation
+  </oopl:OOPLClassRefAssocCollectionImplementation>
+  <oopl:OOPLClassRefAssocCollectionImplementation
       containerQualifiedName="::std::multiset"
       anyTemplate="$valueType$ $result$ = *$collection$.begin();"
       addTemplate="$collection$.insert($value$);&#xD;&#xA;bool $result$ = true;"
@@ -203,8 +203,8 @@
       kind="ORDERED_MULTISET">
     <containerHeaderIncludes>&lt;set></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
-  </cpp:CPPClassRefAssocCollectionImplementation>
-  <cpp:CPPClassRefAssocCollectionImplementation
+  </oopl:OOPLClassRefAssocCollectionImplementation>
+  <oopl:OOPLClassRefAssocCollectionImplementation
       containerQualifiedName="::std::multimap"
       anyTemplate="$valueType$ $result$ = (*$collection$.begin()).second;"
       addTemplate="$collection$.insert(::std::make_pair($key$, $value$));&#xD;&#xA;bool $result$ = true;"
@@ -226,8 +226,8 @@
     <containerHeaderIncludes>&lt;map></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
-  </cpp:CPPClassRefAssocCollectionImplementation>
-  <cpp:CPPClassRefAssocCollectionImplementation
+  </oopl:OOPLClassRefAssocCollectionImplementation>
+  <oopl:OOPLClassRefAssocCollectionImplementation
       containerQualifiedName="::std::map"
       anyTemplate="$valueType$ $result$ = (*$collection$.begin()).second;"
       addTemplate="bool $result$ = $collection$.insert(::std::make_pair($key$, $value$)).second;"
@@ -249,5 +249,5 @@
     <containerHeaderIncludes>&lt;map></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
     <containerHeaderIncludes>&lt;utility></containerHeaderIncludes>
-  </cpp:CPPClassRefAssocCollectionImplementation>
+  </oopl:OOPLClassRefAssocCollectionImplementation>
 </xmi:XMI>

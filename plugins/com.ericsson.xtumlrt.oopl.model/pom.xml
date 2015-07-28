@@ -27,7 +27,10 @@
 				<configuration>
 					<filesets>
 						<fileset>
-							<directory>src</directory>
+							<directory>emf-gen</directory>
+							<excludes>
+								<exclude>.gitignore</exclude>
+							</excludes>
 						</fileset>
 					</filesets>
 				</configuration>
@@ -73,10 +76,10 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${project.basedir}/src</outputDirectory>
+							<outputDirectory>${project.basedir}/emf-gen</outputDirectory>
 							<resources>
 								<resource>
-									<directory>target/generated/emf/src</directory>
+									<directory>target/generated/emf/emf-gen</directory>
 								</resource>
 							</resources>
 						</configuration>

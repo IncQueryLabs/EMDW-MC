@@ -15,10 +15,10 @@ class XtumlToOoplMapper {
 	}
 	
 	def convertType(Type type) {
-		engine.typeToOOPLType.getAllValuesOfooplType(type).head
+		engine.ooplType2Type.getAllValuesOfooplType(type).head
 	}
 	
 	def convertClass(XTClass xtClass) {
-		engine.xtclassToOOPLClass.getAllValuesOfooplClass(xtClass).head
+		engine.ooplClass2XtClass.getAllValuesOfooplClass(xtClass).head
 	}
 }

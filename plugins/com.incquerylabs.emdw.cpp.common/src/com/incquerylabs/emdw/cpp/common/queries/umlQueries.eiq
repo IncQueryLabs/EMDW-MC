@@ -1,0 +1,22 @@
+package com.incquerylabs.emdw.cpp.common.queries
+
+import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://incquerylabs.com/emdw/umlintegration/trace"
+
+pattern type2UmlElement(
+	umlType,
+	xtumlType : Type
+) {
+	Trace.umlElements(trace, umlType);
+	Trace.xtumlrtElements(trace, xtumlType);
+}
+
+pattern xtClass2UmlClass(
+	umlClass,
+	xtumlClass : XTClass
+) {
+	Trace.umlElements(trace, umlClass);
+	Trace.xtumlrtElements(trace, xtumlClass);
+}

@@ -5,14 +5,14 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
 
-pattern typeToOOPLType(
+pattern ooplType2Type(
 	commonType : Type,
 	ooplType : OOPLDataType
 ) {
 	OOPLDataType.commonType(ooplType, commonType);
 }
 
-pattern xtclassToOOPLClass(
+pattern ooplClass2XtClass(
 	xtClass : XTClass,
 	ooplClass : OOPLClass
 ) {

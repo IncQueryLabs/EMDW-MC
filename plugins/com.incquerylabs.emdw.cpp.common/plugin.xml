@@ -2,4 +2,7 @@
   <extension id="com.incquerylabs.emdw.cpp.common.queries.XtumlQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.common.queries.XtumlQueries" id="com.incquerylabs.emdw.cpp.common.queries.XtumlQueries"/>
   </extension>
+  <extension id="com.incquerylabs.emdw.cpp.common.queries.UmlQueries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.common.queries.UmlQueries" id="com.incquerylabs.emdw.cpp.common.queries.UmlQueries"/>
+  </extension>
 </plugin>

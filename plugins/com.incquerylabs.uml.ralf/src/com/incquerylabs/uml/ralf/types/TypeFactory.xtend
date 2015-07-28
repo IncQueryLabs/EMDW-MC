@@ -6,17 +6,35 @@ import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference.AnyTypeReference
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference.NullTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
+import org.eclipse.uml2.uml.PrimitiveType
+import java.util.Map
 
 class TypeFactory {
     
     @Inject extension IUMLContextProvider umlContext
+    Map<String, PrimitiveTypeReference> primitiveTypeMap = newHashMap()
     
-    def UMLTypeReference typeReference(Type type) {
-        return UMLTypeReference.create(type)
+    def IUMLTypeReference typeReference(Type type) {
+        if (type instanceof PrimitiveType) {
+            return type.createPrimitiveTypeReference        
+        } else {
+            return new UMLTypeReference(type)
+        }
     }
 
-    def UMLTypeReference primitiveTypeReference(String name) {
-        name.primitiveType.typeReference        
+    def PrimitiveTypeReference primitiveTypeReference(String name) {
+        return name.primitiveType.createPrimitiveTypeReference   
+    }
+    
+    private def createPrimitiveTypeReference(Type type) {
+        val fqn = type.qualifiedName
+        if (primitiveTypeMap.containsKey(fqn)) {
+            primitiveTypeMap.get(fqn)
+        } else {
+            val ref = new PrimitiveTypeReference(type)
+            primitiveTypeMap.put(fqn, ref)
+            return ref
+        }
     }
     
     def AnyTypeReference anyType() {

@@ -14,6 +14,7 @@ import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -34,6 +35,24 @@ class AssignmentExpressionValidatorTest {
 		assignmentOK('''
 		Integer x = 1;
 		x = 1;
+		''');
+	}
+	
+	@Test
+	@Ignore("Any not yet supported")
+	def assignmentExpressionAny() {
+		assignmentOK('''
+		any x = 1;
+		x = 1;
+		''');
+	}
+	
+	@Test
+	@Ignore("Any not yet supported")
+	def assignmentExpressionAnyError() {
+		assignmentError('''
+		any x = 1;
+		x = "1";
 		''');
 	}
 	
@@ -190,6 +209,38 @@ class AssignmentExpressionValidatorTest {
 		assignmentOK('''
 		Integer x = 1;
 		x = (true) ? 2 : 3;''');
+	}
+	
+	@Test
+	def assignmentExpressionIntegerNull() {
+		assignmentError('''
+		Integer x = 1;
+		x = null;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionRealNull() {
+		assignmentError('''
+		Real x = 1.1;
+		x = null;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionStringNull() {
+		assignmentError('''
+		String x = "1";
+		x = null;
+		''');
+	}
+	
+	@Test
+	def assignmentExpressionBooleanNull() {
+		assignmentError('''
+		Boolean x = true;
+		x = null;
+		''');
 	}
 	
 	private def assignmentOK(String code){

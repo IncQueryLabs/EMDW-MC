@@ -11,12 +11,6 @@
 	</parent>
 	<artifactId>com.incquerylabs.emdw.xtuml.incquery</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>incquery</id>
-			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
-		</pluginRepository>
-	</pluginRepositories>
 	<build>
 		<plugins>
 			<plugin>
@@ -36,7 +30,7 @@
 			<plugin>
 				<groupId>org.eclipse.incquery</groupId>
 				<artifactId>incquery-maven-plugin</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>${incquery.version}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>

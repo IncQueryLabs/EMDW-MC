@@ -6,6 +6,10 @@ pattern signals(sig : Signal) {
     Signal(sig);
 }
 
+pattern umlTypes(type : Type) {
+    Type(type);
+}
+
 pattern attributesOfClass(cl : Class, attribute : Property) {
     Class.ownedAttribute(cl, attribute);
 }

@@ -20,6 +20,7 @@ import org.eclipse.papyrus.infra.core.services.ServiceException;
 import org.eclipse.papyrus.infra.core.services.ServicesRegistry;
 import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet;
 import org.eclipse.papyrus.uml.xtext.integration.DefaultXtextDirectEditorConfiguration;
+import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
@@ -38,8 +39,8 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.emdw.umlintegration.papyrus.IncQueryEngineService;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
-import com.incquerylabs.uml.ralf.incquery.IncQueryBasedUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
+import com.incquerylabs.uml.ralf.scoping.UMLContextProvider;
 import com.incquerylabs.uml.ralf.ui.internal.ReducedAlfLanguageActivator;
 
 public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEditorConfiguration {
@@ -79,7 +80,7 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		
 	}
 	
-	private class EditorContext extends IncQueryBasedUMLContextProvider {
+	private class EditorContext extends UMLContextProvider {
 
 		private Model model;
 
@@ -107,11 +108,20 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		}
 
 		@Override
-		protected Object getContextObject() {
-			return getObjectToEdit();
+		protected EObject getContextObject() {
+			return (EObject)getObjectToEdit();
 		}
 
         @Override
+		public Behavior getDefinedBehavior() {
+        	if (getObjectToEdit() instanceof Behavior) {
+        		return (Behavior) getObjectToEdit();
+        	} else {
+        		return null;
+        	}
+		}
+
+		@Override
         protected Package getPrimitivePackage() {
             ResourceSet set = getModel().eResource().getResourceSet();
             Resource resource = set.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true);

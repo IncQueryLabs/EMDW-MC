@@ -1,54 +1,61 @@
 package com.incquerylabs.uml.ralf.tests.util
 
+import com.google.common.base.Joiner
 import com.google.inject.Singleton
-import com.incquerylabs.uml.ralf.incquery.IncQueryBasedUMLContextProvider
+import com.incquerylabs.uml.ralf.scoping.UMLContextProvider
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.NamedElement
-import org.eclipse.uml2.uml.Package
-import org.eclipse.uml2.uml.UMLPackage
+import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.emf.ecore.resource.ResourceSet
 
 @Singleton
-class TestModelUMLContextProvider extends IncQueryBasedUMLContextProvider {
+class TestModelUMLContextProvider extends UMLContextProvider {
 
 	var Model model
-	var Resource resource
 	var String elementFQN
+	val ResourceSet resourceSet
 
 	new(String location) {
-		val resourceSet = new ResourceSetImpl
-		resource = resourceSet.createResource(URI.createPlatformPluginURI(location, true)) => [
+		resourceSet = new ResourceSetImpl
+		resourceSet.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI),
+                true) => [
+                    load(#{})    
+                ]
+		val resource = resourceSet.createResource(URI.createPlatformPluginURI(location, true)) => [
 			load(#{})
 		]
-		if (resource.allContents.filter(typeof(Model)).size > 0) {
-			model = resource.allContents.filter(typeof(Model)).head
-		}
-
+		model =  resource.allContents.filter(typeof(Model)).findFirst[true]
 	}
 	
 	public def setElementFQN(String elementFQN) {
 		this.elementFQN = elementFQN;
 	}
-
-	override protected getPrimitivePackage() {
-		EcoreUtil.getObjectByType(resource.getContents(), UMLPackage.Literals.PACKAGE) as Package
+	
+	override public Behavior getDefinedBehavior() {
+	    model.allOwnedElements.filter(Behavior)
+	       .findFirst[
+	           if (qualifiedName == elementFQN) {
+	               true
+	           } else {
+	               val splitString = elementFQN.split("::")
+	               val joinedString = Joiner.on("::").join(splitString.take(splitString.length - 1))
+	               qualifiedName == splitString.last 
+	                   && (it.eContainer as NamedElement).qualifiedName == joinedString
+	           }
+	       ]
 	}
 	
 	override protected getContextObject() {
-		var elements = model.allOwnedElements.filter(NamedElement).filter[qualifiedName == elementFQN]
-		if(elements.size >0){
-			return elements.head
-		}
-		return null;
+		getDefinedBehavior()
 	}
 	
 	override protected doGetEngine() {
-        IncQueryEngine.on(new EMFScope(model.eResource.resourceSet));
+        IncQueryEngine.on(new EMFScope(resourceSet));
 	}
 	
 }

@@ -42,7 +42,7 @@ class UMLModelTypesSnippetTest {
 		'''
 			Pong p = new Pong();
 			ping_s s = new ping_s();
-			send s => p->ping;'''
+			send s to p->ping;'''
 		, 
 		'''
 			model::Comp::Pong p = new model::Comp::Pong();
@@ -54,24 +54,24 @@ class UMLModelTypesSnippetTest {
 	def SendSignalTest2(){
 		snippetCompilerTest(
 		'''
-			send new ping_s() => this->ping;'''
+			send new ping_s() to this->ping;'''
 		, 
 		'''
 			this->ping->generate_event(new model::Comp::Pong::ping_s());'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::Pong_SM::Region1::s2::sendPong")
 	}
 	
 
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
 		context.elementFQN = thisElementFQN
 		
-		val snippet = generator.createSnippet(input, parser)
+		val snippet = generator.createSnippet(input, context, parser)
 		val serializedSnippet = serializer.serialize(snippet)	
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 	
 	def snippetCompilerTest(String input, String expected) {
-		val snippet = generator.createSnippet(input, parser)
+		val snippet = generator.createSnippet(input, context, parser)
 		val serializedSnippet = serializer.serialize(snippet)	
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}

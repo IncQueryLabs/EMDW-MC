@@ -104,7 +104,7 @@ StringLiteralExpression :
 
 /* Name EXPRESSIONS */
 NameExpression :
-    reference = [Variable|QualifiedName]
+    reference = [uml::NamedElement|QualifiedName]
 ;
 
 /* THIS EXPRESSIONS */
@@ -203,8 +203,8 @@ enum CollectionType:
      set = 'set' | bag = 'bag' | sequence = 'sequence'
 ;
 
-TypeDeclaration:
-     isAny ?= 'any' | type = [uml::Type|QualifiedName] 
+TypeDeclaration: //TODO define collection types as well
+     /*isAny ?= 'any' | */type = [uml::Type|QualifiedName]
 ;
 
 //SequenceRange :
@@ -282,8 +282,7 @@ IsolationExpression :
 ;
 
 CastExpression : 
-  // CHANGE: Added isAny attribute to CastExpression in order to allow Xtext serialization.
-  '(' ( isAny ?= 'any' | typeName = QualifiedName ) ')' operand = CastCompletion
+  '(' type = TypeDeclaration ')' operand = CastCompletion
 ;
 
 CastCompletion returns Expression : 
@@ -432,19 +431,26 @@ enum AssignmentOperator :
  * STATEMENTS *
  **************/
 Statement : 
+    SimpleStatement ';'|
     BlockStatement |
-    EmptyStatement |
-    LocalNameDeclarationStatement |
-    ExpressionStatement |
     IfStatement |
     SwitchStatement |
     WhileStatement |
     ForStatement |
+    ForEachStatement |
     DoStatement |
     BreakStatement |
     ReturnStatement |
     ClassifyStatement |
     SendSignalStatement
+;
+
+SimpleStatement:
+    (
+      LocalNameDeclarationStatement |
+      ExpressionStatement |  
+      EmptyStatement
+    )
 ;
 
 /* BLOCK */
@@ -460,7 +466,6 @@ BlockStatement :
 /* EMPTY STATEMENTS */
 EmptyStatement :
   {EmptyStatement}
-    ';'
 ;
 
 
@@ -468,13 +473,13 @@ MultiplicityIndicator :
     '[' ']'
 ;
 
-VariableDeclaration returns Variable: 
-   type = TypeDeclaration hasMultiplicity ?= MultiplicityIndicator? name = Name     
+VariableDeclaration returns uml::NamedElement : 
+   {Variable} type = TypeDeclaration hasMultiplicity ?= MultiplicityIndicator? name = Name     
 ;
 
 /* LOCAL NAME DECLARATION STATEMENTS */
 LocalNameDeclarationStatement : 
-    variable = VariableDeclaration '=' expression = InitializationExpression ';'
+    variable = VariableDeclaration '=' expression = InitializationExpression
 ;
 
 InitializationExpression returns Expression :
@@ -488,7 +493,7 @@ InstanceInitializationExpression returns InstanceCreationExpression :
 
 /* EXPRESSION STATEMENTS */
 ExpressionStatement :
-  expression = Expression ';'
+  expression = Expression
 ;
 
 /* IF STATEMENTS */
@@ -540,17 +545,21 @@ DoStatement :
 ;
 
 /* FOR STATEMENTS */
-ForStatement : 
-    'for' '(' variableDefinition += LoopVariableDefinition')' 
+ForStatement :
+    'for' '(' 
+        initialization = SimpleStatement ';'
+        condition = Expression ';'
+        update = SimpleStatement
+    ')'
+    body = Block
+;
+
+ForEachStatement : 
+    'for' '(' variableDefinition = LoopVariableDefinition')' 
     body = Block
 ;
 
 LoopVariableDefinition returns Variable: 
-  // CHANGE: Added isAny attribute to LoopVariableDefinition in order to allow Xtext serialization.
-  // NOTE: Default for typeIsInferred must be false.
-     //{LoopVariable} 
-     //  (name = Name | ( isAny ?= 'any' | typeName = QualifiedName ) name = Name)
-     //  typeIsInferred ?= 'in' expression1 = Expression ( '..' expression2 = Expression )? |
      {LoopVariable} 
        (name = Name | type = TypeDeclaration name = Name)
        ':' expression = Expression
@@ -599,7 +608,7 @@ QualifiedNameList :
 *****************/
 SendSignalStatement:
     {SendSignalStatement}
-    'send' signal = Expression '=>' target = Expression ';'
+    'send' signal = Expression 'to' target = Expression ';'
 ;
 
 

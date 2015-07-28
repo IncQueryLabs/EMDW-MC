@@ -30,7 +30,7 @@
 			<plugin>
 				<groupId>org.eclipse.incquery</groupId>
 				<artifactId>incquery-maven-plugin</artifactId>
-				<version>1.0.0-SNAPSHOT</version>
+				<version>${incquery.version}</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>

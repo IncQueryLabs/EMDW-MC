@@ -1,9 +1,13 @@
-package com.incquerylabs.uml.ralf.incquery;
+package com.incquerylabs.uml.ralf.scoping;
 
 import java.util.Set;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.incquery.runtime.api.GenericPatternGroup;
 import org.eclipse.incquery.runtime.api.IQueryGroup;
 import org.eclipse.incquery.runtime.api.IncQueryEngine;
@@ -12,24 +16,23 @@ import org.eclipse.incquery.runtime.emf.EMFScope;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
-import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Type;
 import org.eclipse.uml2.uml.UMLPackage;
-import org.eclipse.xtext.EcoreUtil2;
+import org.eclipse.uml2.uml.resource.UMLResource;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.incquerylabs.emdw.umlintegration.queries.AssociationsOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.AttributesOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.SignalsMatcher;
+import com.incquerylabs.emdw.umlintegration.queries.UmlTypesMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.XtClassMatcher;
-import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 
-public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProvider {
-	
+public abstract class UMLContextProvider extends AbstractUMLContextProvider {
+
 	private IncQueryEngine engine;
 	protected IncQueryEngine getEngine() throws IncQueryException {
 		if (engine == null) {
@@ -38,7 +41,8 @@ public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProv
 					XtClassMatcher.querySpecification(),
 					AssociationsOfClassMatcher.querySpecification(),
 					AttributesOfClassMatcher.querySpecification(),
-					SignalsMatcher.querySpecification()
+					SignalsMatcher.querySpecification(),
+					UmlTypesMatcher.querySpecification()
 					);
 			queries.prepare(engine);			
 		}
@@ -47,8 +51,16 @@ public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProv
 	
 	protected abstract IncQueryEngine doGetEngine();
 	
-	protected abstract Object getContextObject();
-	protected abstract Package getPrimitivePackage();
+	protected abstract EObject getContextObject();
+	
+	@Override
+	protected Package getPrimitivePackage() {
+		ResourceSet set = getContextObject().eResource().getResourceSet();
+		Resource containerResource = set.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI),
+				true);
+		return (Package) EcoreUtil.getObjectByType(containerResource.getContents(),
+				UMLPackage.Literals.PACKAGE);
+	}
 	
 	private <T extends EObject> Set<T> getModelElementsByType(EClass eClass, java.lang.Class<T> clazz) throws IncQueryException {
 		IncQueryEngine engine = getEngine();
@@ -56,11 +68,6 @@ public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProv
 		Set<EObject> instances = index.getAllInstances(eClass);
 		return Sets.newHashSet(Iterables.filter(instances, clazz));
 	}
-	
-	@Override
-	public Type getPrimitiveType(String name) {
-    	return getPrimitivePackage().getOwnedType(name);
-    }
 	
 	@Override
 	public Set<Class> getKnownClasses() {
@@ -108,20 +115,6 @@ public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProv
 		}
 		return Sets.newHashSet();
 	}
-	
-	@Override
-	public Class getThisType() {
-		Object contextObject = getContextObject();
-		Set<Class> umlClasses = getKnownClasses();
-		if (contextObject instanceof Element) {
-			Class containerClass = EcoreUtil2.getContainerOfType(((Element)contextObject), Class.class);
-			while (containerClass != null && !umlClasses.contains(containerClass)) {
-				containerClass = EcoreUtil2.getContainerOfType(((Element)containerClass).eContainer(), Class.class);
-			}
-			return containerClass;
-		}
-		return null;
-	}
 
 	@Override
 	public Set<Property> getPropertiesOfClass(Class cl) {
@@ -148,4 +141,5 @@ public abstract class IncQueryBasedUMLContextProvider implements IUMLContextProv
 		}
 		return Sets.newHashSet();
 	}
+
 }

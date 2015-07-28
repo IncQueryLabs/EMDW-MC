@@ -7,6 +7,9 @@ public class CollectionTypeReference implements IUMLTypeReference {
 	CollectionType type;
 	IUMLTypeReference valueType;
 	
+	CollectionTypeReference(IUMLTypeReference valueType) {
+		this(null, valueType);
+	}
 	CollectionTypeReference(CollectionType type, IUMLTypeReference valueType) {
 		super();
 		this.type = type;
@@ -17,6 +20,14 @@ public class CollectionTypeReference implements IUMLTypeReference {
 		return type;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isSpecificCollection() {
+		return valueType != null;
+	}
+	
 	public IUMLTypeReference getValueType() {
 		return valueType;
 	}

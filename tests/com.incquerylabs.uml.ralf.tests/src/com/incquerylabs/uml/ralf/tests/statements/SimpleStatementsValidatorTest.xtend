@@ -179,7 +179,7 @@ class SimpleStatementsValidatorTest {
 	@Test
 	def breakStatementValidInFor() {
 		simpleStatementOK('''
-		for(i : 9){
+		for(i : { 9 }){
 			break;
 		}
 		''');
@@ -197,84 +197,104 @@ class SimpleStatementsValidatorTest {
 	//Return
 	
 	@Test
+	def returnStatement() {
+		simpleStatementOK('''return;''');
+	}
+	@Test
 	def returnStatementNaturalLiteral() {
-		simpleStatementOK('''return 1;''');
+		// No return value allowed
+        simpleStatementError('''return 1;''');
 	}
 	@Test
 	def returnStatementRealLiteral() {
-		simpleStatementOK('''return 1.1;''');
+		// No return value allowed
+        simpleStatementError('''return 1.1;''');
 	}
 	
 	@Test
 	def returnStatementBoolean() {
-		simpleStatementOK('''return false;''');
+		// No return value allowed
+        simpleStatementError('''return false;''');
 	}
 	
 	@Test
 	def returnStatementString() {
-		simpleStatementOK('''return "1";''');
+		// No return value allowed
+        simpleStatementError('''return "1";''');
 	}
 
 	
 	@Test
 	def returnStatementMultiplicative() {
-		simpleStatementOK('''return 1*1;''');
+		// No return value allowed
+        simpleStatementError('''return 1*1;''');
 	}
 	
 	
 	@Test
 	def returnStatementAdditive() {
-		simpleStatementOK('''return 1+1;''');
+		// No return value allowed
+        simpleStatementError('''return 1+1;''');
 	}
 	
 	@Test
 	def returnStatementShift() {
-		simpleStatementOK('''return 1>>1;''');
+		// No return value allowed
+        simpleStatementError('''return 1>>1;''');
 	}
 	
 	@Test
 	def returnStatementRelational() {
-		simpleStatementOK('''return 1>1;''');
+		// No return value allowed
+        simpleStatementError('''return 1>1;''');
 	}
 	
 	@Test
 	def returnStatementEquality() {
-		simpleStatementOK('''return 1==1;''');
+		// No return value allowed
+        simpleStatementError('''return 1==1;''');
 	}
 	
 	@Test
 	def returnStatementBitwiseOr() {
-		simpleStatementOK('''return 1|1;''');
+		// No return value allowed
+        simpleStatementError('''return 1|1;''');
 	}
 	
 	@Test
 	def returnStatementBitwiseAnd() {
-		simpleStatementOK('''return 1&1;''');
+		// No return value allowed
+        simpleStatementError('''return 1&1;''');
 	}
 	
 	@Test
 	def returnStatementBitwiseXor() {
-		simpleStatementOK('''return 1^1;''');
+		// No return value allowed
+        simpleStatementError('''return 1^1;''');
 	}
 	
 	@Test
 	def returnStatementAnd() {
-		simpleStatementOK('''return true && false;''');
+		// No return value allowed
+        simpleStatementError('''return true && false;''');
 	}
 	
 	@Test
 	def returnStatementOr() {
-		simpleStatementOK('''return true || false;''');
+		// No return value allowed
+        simpleStatementError('''return true || false;''');
 	}
 	
 	@Test
 	def returnStatementBooleanUnary() {
-		simpleStatementOK('''return !true;''');
+		// No return value allowed
+		simpleStatementError('''return !true;''');
 	}
 	
 	@Test
 	def returnStatementAssignment() {
-		simpleStatementOK('''
+		// No return value allowed
+        simpleStatementError('''
 		Integer x = 1;
 		return x = 2;
 		''');

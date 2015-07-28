@@ -1,5 +1,7 @@
 package com.incquerylabs.uml.ralf.types;
 
+import org.eclipse.uml2.uml.Type;
+
 public interface IUMLTypeReference {
 
 	public class AnyTypeReference implements IUMLTypeReference {
@@ -11,6 +13,7 @@ public interface IUMLTypeReference {
 		}
 		
 		private AnyTypeReference() {}
+
 	}
 	public class NullTypeReference implements IUMLTypeReference {
 		
@@ -21,5 +24,6 @@ public interface IUMLTypeReference {
 		}
 		
 		private NullTypeReference() {}
+
 	}
 }

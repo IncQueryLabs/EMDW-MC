@@ -40,19 +40,23 @@ class PluginUMLTypeExampleTest {
 		val input = '''
 			Pong p = new Pong();
 			ping_s s = new ping_s();
-			send s => p->ping;'''
+			send s to p->ping;'''
 			
 		val expected = '''
 			model::Comp::Pong p = new model::Comp::Pong();
 			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 			p->ping->generate_event(s);'''
-			
+	
+	    //Set context by adding an qualified name for a behavior
+	    context.elementFQN = "model::Comp::Pong::Pong_SM::Region1::s2::sendPong"
 		//create AST
-		val ast = parser.parse(input)
+		val ast = parser.parse(input, context)
 		//generate snippets
 		val snippet = generator.createSnippet(ast)
+		val serializer = new ReducedAlfSnippetTemplateSerializer
+        val serializedSnippet = serializer.serialize(snippet)
 		//compare results
-		assertEquals("The created snippet does not match the expected result",expected,snippet)
+		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 	
 	@Test
@@ -61,19 +65,19 @@ class PluginUMLTypeExampleTest {
 		//It parses the action code describing a ping signal being sent to the "ping" attribute (association end) of the current object.
 		
 		val input = '''
-			send new ping_s() => this->ping;'''
+			send new ping_s() to this->ping;'''
 			
 		val expected = '''
 			this->ping->generate_event(new model::Comp::Pong::ping_s());'''
 		
 		//As in this test case there is no editor attached to the UML model, the qualified name of the current type needs to be specified.
-		val thisFQN = "model::Comp::Pong"
+		val thisFQN = "model::Comp::Pong::Pong_SM::Region1::s2::sendPong"
 		
 		//Hand the name of the current type to the context provider
 		context.elementFQN = thisFQN
 		
 		//create AST
-		val ast = parser.parse(input)
+		val ast = parser.parse(input, context)
 		//generate snippets
 		val snippet = generator.createSnippet(ast)
 		val serializer = new ReducedAlfSnippetTemplateSerializer

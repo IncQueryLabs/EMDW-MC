@@ -19,6 +19,7 @@ import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import com.incquerylabs.uml.ralf.types.UMLTypeReference
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 
 /**
  * This class contains custom scoping description.
@@ -30,9 +31,11 @@ import com.incquerylabs.uml.ralf.types.UMLTypeReference
 class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
     @Inject
-    IUMLContextProvider umlContext;
+    IUMLContextProvider umlContext
     @Inject
-    ReducedAlfSystem system;
+    ReducedAlfSystem system
+    @Inject
+    extension UMLScopeHelper scopeHelper
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
@@ -50,7 +53,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         if (umlContext == null) {
             IScope.NULLSCOPE
         } else {
-               Scopes.scopeFor(umlContext.knownTypes)
+            Scopes.scopeFor(umlContext.knownTypes)
         }
     }
     
@@ -73,17 +76,17 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         Scopes.scopeFor(umlContext.knownAssociations)
     }
     
-    def scope_Variable(Expression context, EReference reference) {
-        val scope = scope_Variable(context)
+    def scope_NamedElement(Expression context, EReference reference) {
+        val scope = scope_NamedElement(context)
         scope
     }
     
-    private def IScope scope_Variable(EObject block) {
+    def IScope scope_NamedElement(EObject block) {
         var parentBlock = block.eContainer
         if (parentBlock == null) {
-            IScope.NULLSCOPE
+            parametersScope
         } else {
-            val parentScope = scope_Variable(parentBlock)
+            val parentScope = scope_NamedElement(parentBlock)
             val declarations = parentBlock.variableDeclarations(block)
             if (declarations.nullOrEmpty) {
                 parentScope
@@ -93,7 +96,12 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         }
     }
     
-    private def variableDeclarations(EObject container, EObject until) {
+    private def IScope getParametersScope() {
+        val behavior = umlContext.definedBehavior
+        Scopes.scopeFor(behavior.parameters)
+    }
+    
+    private def Iterable<Variable> variableDeclarations(EObject container, EObject until) {
         switch (container) {
           Block:  
             container.statement.
@@ -104,6 +112,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
                 takeWhile[it != until].
                 map[eContents.filter(Variable)].
                 flatten
+          ForStatement: variableDeclarations(container.initialization, container)
           Statement: 
             container.eContents.
                 takeWhile[it != until].

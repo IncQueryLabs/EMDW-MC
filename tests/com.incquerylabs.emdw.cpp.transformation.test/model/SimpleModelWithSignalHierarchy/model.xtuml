@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="MyModel">
+  <entities xsi:type="xtuml:XTComponent" name="MyComponent">
+    <entities xsi:type="xtuml:XTClass" name="MyClass">
+      <behaviour name="MyStateMachine">
+        <top>
+          <initial name="MyInitialPoint" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.8"/>
+          <substates xsi:type="common:SimpleState" name="MyState3" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.11 //@entities.0/@entities.0/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0 //@entities.0/@entities.0/@behaviour/@top/@transitions.10 //@entities.0/@entities.0/@behaviour/@top/@transitions.7"/>
+          <substates xsi:type="common:SimpleState" name="MyState1" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0 //@entities.0/@entities.0/@behaviour/@top/@transitions.8 //@entities.0/@entities.0/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.9 //@entities.0/@entities.0/@behaviour/@top/@transitions.3 //@entities.0/@entities.0/@behaviour/@top/@transitions.11"/>
+          <substates xsi:type="common:SimpleState" name="TestState2" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.9 //@entities.0/@entities.0/@behaviour/@top/@transitions.6 //@entities.0/@entities.0/@behaviour/@top/@transitions.7" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.5">
+            <entryAction name="MyTestEntryAction2OpaqueBehavior" source="// This is the second test code (entry action)"/>
+            <exitAction name="MyTestExitActionOpaqueBehavior" source="// This is the test code for the exit action"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="MyState2" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.3 //@entities.0/@entities.0/@behaviour/@top/@transitions.10" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.4 //@entities.0/@entities.0/@behaviour/@top/@transitions.6 //@entities.0/@entities.0/@behaviour/@top/@transitions.2 //@entities.0/@entities.0/@behaviour/@top/@transitions.1"/>
+          <substates xsi:type="common:SimpleState" name="TestState1" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.5 //@entities.0/@entities.0/@behaviour/@top/@transitions.4">
+            <entryAction name="TestEntryActionOpaqueBehavior" source="// This is the first test code (entry action)"/>
+          </substates>
+          <transitions name="MyTransition31" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="Trigger4" signal="//@entities.0/@entities.0/@events.1"/>
+          </transitions>
+          <transitions name="MyTransition21" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="Trigger2" signal="//@entities.0/@entities.0/@events.3"/>
+          </transitions>
+          <transitions name="MyTransition23" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="Trigger5" signal="//@entities.0/@entities.0/@events.0"/>
+          </transitions>
+          <transitions name="MyTransition12" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="MyTrigger1" signal="//@entities.0/@entities.0/@events.4"/>
+          </transitions>
+          <transitions name="TestTransition1" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.4">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TestTrigger1" signal="//@entities.0/@entities.0/@events.4"/>
+          </transitions>
+          <transitions name="TestTransition10" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.4">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TestTrigger10" signal="//@entities.0/@entities.0/@events.2"/>
+          </transitions>
+          <transitions name="TestTransition2" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TestTrigger2" signal="//@entities.0/@entities.0/@events.3"/>
+          </transitions>
+          <transitions name="TestTransition3" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TestTrigger" signal="//@entities.0/@entities.0/@events.5"/>
+          </transitions>
+          <transitions name="MyTransitionI1" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1"/>
+          <transitions name="TestTransition4" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.2">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="Trigger4" signal="//@entities.0/@entities.0/@events.1"/>
+          </transitions>
+          <transitions name="MyTransition32" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.3">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="Trigger6" signal="//@entities.0/@entities.0/@events.2"/>
+          </transitions>
+          <transitions name="MyTransition13" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="Trigger3" signal="//@entities.0/@entities.0/@events.5"/>
+          </transitions>
+        </top>
+      </behaviour>
+      <events xsi:type="xtuml:XTClassEvent" name="MySignal5"/>
+      <events xsi:type="xtuml:XTClassEvent" name="MySignal4" definingEvents="//@entities.0/@entities.0/@events.0"/>
+      <events xsi:type="xtuml:XTClassEvent" name="MySignal6"/>
+      <events xsi:type="xtuml:XTClassEvent" name="MySignal2" definingEvents="//@entities.0/@entities.0/@events.5"/>
+      <events xsi:type="xtuml:XTClassEvent" name="MySignal1"/>
+      <events xsi:type="xtuml:XTClassEvent" name="MySignal3" definingEvents="//@entities.0/@entities.0/@events.1"/>
+    </entities>
+  </entities>
+</common:Model>

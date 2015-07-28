@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.codegeneration.util
+package com.incquerylabs.emdw.cpp.common
 
 import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass

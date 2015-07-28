@@ -18,7 +18,10 @@ class TypeDefinitionRules {
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
 	def addRules(BatchTransformation transformation){
-		val rules = new BatchTransformationRuleGroup(cppStructTypeRule)
+		val rules = new BatchTransformationRuleGroup(
+			cppStructTypeRule,
+			cppBasicTypeRule
+		)
 		transformation.addRules(rules)
 	}
 	
@@ -34,5 +37,19 @@ class TypeDefinitionRules {
 		]
 		cppContainer.subElements += cppStructType
 		trace('''Mapped StructuredType «xtStructuredType.name» to CPPStructType «cppStructType»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val cppBasicTypeRule = createRule.precondition(primitiveType).action[ match |
+		val cppContainer = match.cppContainer
+		val xtPrimitiveType = match.primitiveType
+		val cppBasicType = createCPPBasicType => [
+			it.commonType = xtPrimitiveType
+			it.ooplNameProvider = createOOPLExistingNameProvider => [
+				commonNamedElement = xtPrimitiveType
+			]
+		]
+		cppContainer.subElements += cppBasicType
+		trace('''Mapped PrimitiveType «xtPrimitiveType.name» to CPPBasicType «cppBasicType»''')
 	].build
 }

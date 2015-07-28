@@ -212,6 +212,15 @@ pattern structuredType(
 	find cppContainer(xtContainer, cppContainer);
 }
 
+pattern primitiveType(
+	primitiveType : PrimitiveType,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	BaseContainer.typeDefinitions(xtContainer, typeDefinition);
+	TypeDefinition.type(typeDefinition, primitiveType);
+	find cppContainer(xtContainer, cppContainer);
+}
+
 /**
  * CPP Model queries
  */

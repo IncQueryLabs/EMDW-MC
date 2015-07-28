@@ -482,7 +482,13 @@ class TransformationTestUtil {
 		root.typeDefinitions += typeDef
 		typeDef
 	}
-
+	
+	static def createPrimitiveTypeWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val primitiveType = createPrimitiveType(typeDefinition, name)
+		return primitiveType
+	}
+	
 	static def createPrimitiveType(TypeDefinition typedef, String name) {
 		val type = commonFactory.createPrimitiveType => [
 			it.name = name

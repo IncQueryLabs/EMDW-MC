@@ -1,12 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StructMemberMatch
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
-import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Property
+import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class StructMemberRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -29,7 +30,7 @@ class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Prope
 		Attribute
 	}
 	
-	public static val PRIORITY = TypeDefinitionMapping.PRIORITY
+	public static val PRIORITY = StructTypeMapping.PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY
@@ -47,8 +48,10 @@ class StructMemberMapping extends AbstractObjectMapping<StructMemberMatch, Prope
 		commonFactory.createAttribute
 	}
 
-	override updateXtumlrtObject(Attribute xtumlrtObject, StructMemberMatch match) {
-		xtumlrtObject.type = match.member.type.findXtumlrtObject(Type)
+	override updateXtumlrtObject(Attribute xtAttribute, StructMemberMatch match) {
+		val umlProperty = match.umlObject
+		val xtType = engine.trace.getAllValuesOfxtumlrtElement(null, null, umlProperty.type).filter(Type).head
+		TransformationUtil.updateAttribute(umlProperty, xtAttribute, xtType)
 	}
 
 	def getXtumlrtContainer(StructMemberMatch match) {

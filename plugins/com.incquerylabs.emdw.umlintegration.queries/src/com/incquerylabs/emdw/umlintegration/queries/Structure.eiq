@@ -247,38 +247,68 @@ pattern xtClassEventGeneralization(
 
 // Types
 
-pattern typeDefinition(umlPackage: Package, type : uml::Type) {
-	find isTypeDefinition(type);
+pattern typeDefinitionInPackage(umlPackage: Package, type : uml::Type) {
+	find typeDefinition(type);
 	Package.packagedElement(umlPackage, type);
 }
 
-private pattern isTypeDefinition(type: uml::Type) {
-	find primitiveType(_, type);
+pattern typeDefinitionInComponent(umlComponent: Component, type : uml::Type) {
+	find typeDefinition(type);
+	Component.packagedElement(umlComponent, type);
+}
+
+pattern typeDefinition(type: uml::Type) {
+	find primitiveType(type);
 } or {
-	find structType(_, type);
+	find structType(type);
 }
 
-pattern primitiveType(model: Model, primitiveType: PrimitiveType) {
-	find elementInPackage(model, primitiveType);
+pattern primitiveType(primitiveType: PrimitiveType) {
+	find packagedElement(primitiveType);
 }
 
-pattern structType(model: Model, structType: DataType) {
-	find structMember(structType, _);
-	find elementInPackage(model, structType);
+pattern structType(structType: DataType) {
+	find packagedElement(structType);
+	neg find primitiveType(structType);
+}
+
+pattern structTypeInComponent(
+	structType : DataType,
+	umlComponent : Component
+) {
+	Component.packagedElement(umlComponent, structType);
+}
+
+pattern structTypeInPackage(
+	structType : DataType,
+	umlPackage : Package
+) {
+	Package.packagedElement(umlPackage, structType);
 }
 
 pattern structMember(structType: DataType, member: Property) {
 	DataType.ownedAttribute(structType, member);
 }
 
-private pattern elementInPackage(model: Model, packageableElement: PackageableElement) {
-	find xtPackageSomewhereInModel(model, umlPackage);
-	Package.packagedElement(umlPackage, packageableElement);
+private pattern packagedElement(
+	packagedElement : PackageableElement
+) {
+	find elementInPackage(_umlPackage, packagedElement);
+} or {
+	find elementInComponent(_umlComponent, packagedElement);
 }
 
-private pattern xtPackageSomewhereInModel(model: Model, umlPackage: Package) {
-	find xtPackageInModel(model, umlPackage);
-} or {
-	find xtPackageInModel(model, parent);
-	find xtPackageInPackage+(parent, umlPackage);
+private pattern elementInComponent(
+	component : Component,
+	packageableElement : PackageableElement
+) {
+	Component.packagedElement(component, packageableElement);
+}
+
+private pattern elementInPackage(
+	umlPackage : Package,
+	packageableElement: PackageableElement
+) {
+	find xtPackage(umlPackage);
+	Package.packagedElement(umlPackage, packageableElement);
 }

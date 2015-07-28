@@ -23,6 +23,7 @@ import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
+import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
 
 class XtumlComponentCPPTransformation {
 
@@ -46,6 +47,7 @@ class XtumlComponentCPPTransformation {
 	ClassReferenceRules classReferenceRules
 	SequenceRules sequenceRules
 	IncludeRules includeRules
+	TypeDefinitionRules typeDefinitionRules
 	
 
 	def initialize(IncQueryEngine engine) {
@@ -64,6 +66,7 @@ class XtumlComponentCPPTransformation {
 			statements = new BatchTransformationStatements(transform)
 			
 			includeRules = new IncludeRules(engine, statements)
+			typeDefinitionRules = new TypeDefinitionRules()
 			sequenceRules = new SequenceRules(statements)
 			classReferenceRules = new ClassReferenceRules(statements)
 			returnValueRules = new ReturnValueRules(statements, classReferenceRules, sequenceRules, includeRules)
@@ -72,8 +75,8 @@ class XtumlComponentCPPTransformation {
 			operationRules = new OperationRules(statements, formalParameterRules, returnValueRules)
 			associationRules = new AssociationRules(statements, classReferenceRules)
 			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, includeRules)
-			packageRules = new PackageRules(statements, classRules, includeRules)
-			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)
+			packageRules = new PackageRules(statements, typeDefinitionRules, classRules, includeRules)
+			componentRules = new ComponentRules(statements, packageRules, typeDefinitionRules, classRules, attributeRules, operationRules, includeRules)
 			
 			includeRules.addRules(transform)
 			sequenceRules.addRules(transform)

@@ -203,6 +203,15 @@ pattern stateMachineTerminatePoints(
 	CompositeState.terminatepoint(compositeState, terminatePoint);
 }
 
+pattern structuredType(
+	structuredType : StructuredType,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	BaseContainer.typeDefinitions(xtContainer, typeDefinition);
+	TypeDefinition.type(typeDefinition, structuredType);
+	find cppContainer(xtContainer, cppContainer);
+}
+
 /**
  * CPP Model queries
  */
@@ -315,6 +324,15 @@ pattern cppOperationReturnValue(
 ) {
 	Operation.returnType(operation, returnType);
 	CPPOperation.commonOperation(cppOperation, operation);
+}
+
+pattern cppContainer (
+	xtContainer : BaseContainer,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	find cppPackages(xtContainer, cppContainer);
+} or {
+	find cppComponents(xtContainer, cppContainer);
 }
 
 pattern cppComponents(

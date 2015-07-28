@@ -23,6 +23,7 @@ import org.junit.runners.Suite.SuiteClasses
 	CPPReturnValueMappingTestSuite,
 	CPPSignalMappingTestSuite,
 	CPPStateMappingTestSuite,
+	CPPStructTypeMappingTestSuite,
 	CPPTransitionMappingTestSuite
 ])
 @RunWith(Suite)

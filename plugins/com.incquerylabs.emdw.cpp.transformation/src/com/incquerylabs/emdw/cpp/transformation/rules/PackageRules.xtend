@@ -28,12 +28,14 @@ class PackageRules {
 	extension val BatchTransformationStatements statements
 	
 	extension val IncludeRules includeRules
+	val TypeDefinitionRules typeDefinitionRules
 	val ClassRules classRules
 	
-	new(BatchTransformationStatements statements, ClassRules classRules, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements, TypeDefinitionRules typeDefinitionRules, ClassRules classRules, IncludeRules includeRules) {
 		this.statements = statements
 		this.classRules = classRules
 		this.includeRules = includeRules
+		this.typeDefinitionRules = typeDefinitionRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -75,6 +77,7 @@ class PackageRules {
 	}
 	
 	def void transformSubElements(CPPPackage cppPackage){
+		fireAllCurrent(typeDefinitionRules.cppStructTypeRule, [it.cppContainer == cppPackage])
 		fireAllCurrent(classRules.classInPackageRule, [it.cppPackage == cppPackage])
 		fireAllCurrent(packageInPackageRule, [it.cppParentPackage == cppPackage])
 	}

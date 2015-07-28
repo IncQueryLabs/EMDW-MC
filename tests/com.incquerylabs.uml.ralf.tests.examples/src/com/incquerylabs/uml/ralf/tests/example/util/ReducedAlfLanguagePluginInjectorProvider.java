@@ -46,7 +46,7 @@ public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguage
                 TestModelUMLContextProvider provider = new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests.examples/model/model.uml");
                 binder.bind(IUMLContextProvider.class).toInstance(provider);
                 binder.bind(TestModelUMLContextProvider.class).toInstance(provider);
-                binder.bind(IReducedAlfParser.class).toInstance(new ReducedAlfParser(LANGUAGE_NAME));
+                binder.bind(IReducedAlfParser.class).toInstance(new ReducedAlfParser());
                 binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
             }
         };

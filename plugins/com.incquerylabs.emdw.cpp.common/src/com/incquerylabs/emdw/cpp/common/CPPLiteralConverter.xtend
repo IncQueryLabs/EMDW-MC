@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.common
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 
-class LiteralConverter {
+class CPPLiteralConverter {
 	new() {}
 	
 	def String convertLiteral(OOPLType type, String literal) {

@@ -261,15 +261,30 @@ pattern typeDefinition(type: uml::Type) {
 	find primitiveType(type);
 } or {
 	find structType(type);
+} or {
+	find enumeration(type);
 }
 
 pattern primitiveType(primitiveType: PrimitiveType) {
 	find packagedElement(primitiveType);
 }
 
+pattern enumeration(enumeration: Enumeration) {
+	find packagedElement(enumeration);
+}
+
+pattern enumerationLiteral(
+	enumeration : Enumeration,
+	enumerationLiteral : EnumerationLiteral
+) {
+	find enumeration(enumeration);
+	Enumeration.ownedLiteral(enumeration, enumerationLiteral);
+}
+
 pattern structType(structType: DataType) {
 	find packagedElement(structType);
 	neg find primitiveType(structType);
+	neg find enumeration(structType);
 }
 
 pattern structTypeInComponent(

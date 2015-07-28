@@ -27,6 +27,7 @@ import org.eclipse.uml2.uml.UMLFactory
 
 import static org.junit.Assert.*
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.uml2.uml.Enumeration
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -240,6 +241,18 @@ class TransformationTestUtil {
 		umlFactory.createProperty => [
 			type = primitiveType
 		]
+	}
+	
+	static def createEnumeration(Package umlPackage) {
+		val enumeration = umlFactory.createEnumeration
+		umlPackage.packagedElements += enumeration
+		return enumeration
+	}
+	
+	static def createEnumerationLiteral(Enumeration enumeration) {
+		val enumerationLiteral = umlFactory.createEnumerationLiteral
+		enumeration.ownedLiterals += enumerationLiteral
+		return enumerationLiteral
 	}
 
 	static def createStateMachine(Model umlRoot) {

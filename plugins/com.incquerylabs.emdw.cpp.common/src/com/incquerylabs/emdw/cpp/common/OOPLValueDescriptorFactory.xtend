@@ -19,13 +19,13 @@ abstract class OOPLValueDescriptorFactory {
 	
 	
 	
-	def SingleValueDescriptor prepareSingleValueDescriptor4NewLocalVariable(OOPLType type, String localVariableName)
+	def SingleValueDescriptor prepareSingleValueDescriptorForNewLocalVariable(OOPLType type, String localVariableName)
 	
-	def SingleValueDescriptor prepareSingleValueDescriptor4NewLocalVariable(OOPLType type) 
+	def SingleValueDescriptor prepareSingleValueDescriptorForNewLocalVariable(OOPLType type) 
 	
-	def SingleValueDescriptor prepareSingleValueDescriptor4ExistingVariable(OOPLType type, String localVariableName)
+	def SingleValueDescriptor prepareSingleValueDescriptorForExistingVariable(OOPLType type, String localVariableName)
 	
-	def SingleValueDescriptor prepareSingleValueDescriptor4Literal(OOPLType type, String literal) 
+	def SingleValueDescriptor prepareSingleValueDescriptorForLiteral(OOPLType type, String literal) 
 	
-	def SingleValueDescriptor prepareSingleValueDescriptor4Attribute(SingleValueDescriptor attributeOwner, CPPAttribute attribute) 
+	def SingleValueDescriptor prepareSingleValueDescriptorForAttribute(SingleValueDescriptor attributeOwner, CPPAttribute attribute) 
 }

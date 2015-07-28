@@ -12,11 +12,3 @@ pattern type2UmlElement(
 	Trace.umlElements(trace, umlType);
 	Trace.xtumlrtElements(trace, xtumlType);
 }
-
-pattern xtClass2UmlClass(
-	umlClass,
-	xtumlClass : XTClass
-) {
-	Trace.umlElements(trace, umlClass);
-	Trace.xtumlrtElements(trace, xtumlClass);
-}

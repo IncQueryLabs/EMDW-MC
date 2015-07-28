@@ -9,7 +9,7 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 	private CPPLiteralConverter converter
 	
 	private static final String LOCAL_VARIABLE_PREFIX = "ralf"
-	private static final String SEPARATOR = "___"
+	private static final String SEPARATOR = "__"
 	
 	
 	
@@ -33,29 +33,29 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 	
 	
 	
-	override prepareSingleValueDescriptor4NewLocalVariable(OOPLType type, String localVariableName) {
+	override prepareSingleValueDescriptorForNewLocalVariable(OOPLType type, String localVariableName) {
 		val preparedDescriptor = prepareSingleValueDescriptor(type, localVariableName.qualifiedName)
 		index++
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptor4NewLocalVariable(OOPLType type) {
+	override prepareSingleValueDescriptorForNewLocalVariable(OOPLType type) {
 		val preparedDescriptor = prepareSingleValueDescriptor(type, (type as CPPQualifiedNamedElement).cppName.qualifiedName)
 		index++
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptor4ExistingVariable(OOPLType type, String localVariableName) {
+	override prepareSingleValueDescriptorForExistingVariable(OOPLType type, String localVariableName) {
 		val preparedDescriptor = prepareSingleValueDescriptor(type, localVariableName)
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptor4Literal(OOPLType type, String literal) {
+	override prepareSingleValueDescriptorForLiteral(OOPLType type, String literal) {
 		val preparedDescriptor = prepareSingleValueDescriptor(type, converter.convertLiteral(type, literal))
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptor4Attribute(SingleValueDescriptor attributeOwner, CPPAttribute attribute) {
+	override prepareSingleValueDescriptorForAttribute(SingleValueDescriptor attributeOwner, CPPAttribute attribute) {
 		val preparedDescriptor = prepareSingleValueDescriptor(attribute.type, 
 									attributeOwner.stringRepresentation + attribute.cppQualifiedName)
 		return preparedDescriptor
@@ -72,12 +72,12 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 	}
 	
 	private def String qualifiedName(String name) {
-		return (LOCAL_VARIABLE_PREFIX + SEPARATOR + index.qualifiedIndex + SEPARATOR + name)
+		return '''«SEPARATOR»«LOCAL_VARIABLE_PREFIX»«SEPARATOR»«index.qualifiedIndex»«SEPARATOR»«name»'''
 	}
 	
 	private def String qualifiedIndex(Integer index) {
 		if(parent!=null) {
-			return '''«parent.actualIndex.qualifiedIndex»___«index»'''
+			return '''«parent.actualIndex.qualifiedIndex»«SEPARATOR»«index»'''
 		}
 		return index.toString
 	}

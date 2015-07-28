@@ -16,11 +16,7 @@ class CPPLiteralConverter {
 				return Double.parseDouble(literal).toString
 			CPPBasicType case type.commonType.name == "String":
 				return '''"«literal»"'''
-			CPPBasicType case type.commonType.name == "Void":
-				return "void"
-//			CPPEnumType:
-//				return type.
 		}
-		return null
+		throw new IllegalArgumentException("Unsupported type: "+type)
 	}
 }

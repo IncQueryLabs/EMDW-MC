@@ -7,14 +7,9 @@ import "http://www.ericsson.com/xtumlrt/oopl"
 
 pattern ooplType2Type(
 	commonType : Type,
-	ooplType : OOPLDataType
+	ooplType : OOPLType
 ) {
 	OOPLDataType.commonType(ooplType, commonType);
-}
-
-pattern ooplClass2XtClass(
-	xtClass : XTClass,
-	ooplClass : OOPLClass
-) {
-	OOPLClass.xtClass(ooplClass, xtClass);
+} or {
+	OOPLClass.xtClass(ooplType, commonType);
 }

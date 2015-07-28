@@ -13,10 +13,6 @@ class UmlToXtumlMapper {
 		umlQueries.prepare(engine)
 	}
 	
-	def convertClass(Element umlClass) {
-		engine.xtClass2UmlClass.getAllValuesOfxtumlClass(umlClass).head
-	}
-	
 	def convertType(Element umlType) {
 		engine.type2UmlElement.getAllValuesOfxtumlType(umlType).head
 	}

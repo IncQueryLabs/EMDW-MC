@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.common
 
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import static com.google.common.base.Preconditions.*
 
 class XtumlValueDescriptorFactory {
 	private XtumlValueDescriptorFactory parent
@@ -10,14 +11,16 @@ class XtumlValueDescriptorFactory {
 	private AdvancedIncQueryEngine engine
 	
 	new(AdvancedIncQueryEngine engine) {
-		this(null, engine)
+		checkArgument(engine!=null, "Engine cannot be null!")
+		init(null, engine)
 	}
 	
 	new(XtumlValueDescriptorFactory parent) {
-		this(parent, parent.engine)
+		checkArgument(parent!=null, "Parent cannot be null!")
+		init(parent, parent.engine)
 	}
 	
-	new(XtumlValueDescriptorFactory parent, AdvancedIncQueryEngine engine) {
+	private def init(XtumlValueDescriptorFactory parent, AdvancedIncQueryEngine engine) {
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
@@ -30,24 +33,24 @@ class XtumlValueDescriptorFactory {
 	
 	
 	
-	def prepareSingleValueDescriptor4NewLocalVariable(Type type, String localVariableName) {
+	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName) {
 		val ooplType = mapper.convertType(type)
-		return factory.prepareSingleValueDescriptor4NewLocalVariable(ooplType, localVariableName)
+		return factory.prepareSingleValueDescriptorForNewLocalVariable(ooplType, localVariableName)
 	}
 	
-	def prepareSingleValueDescriptor4NewLocalVariable(Type type) {
+	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
 		val ooplType = mapper.convertType(type)
-		return factory.prepareSingleValueDescriptor4NewLocalVariable(ooplType)
+		return factory.prepareSingleValueDescriptorForNewLocalVariable(ooplType)
 	}
 	
-	def prepareSingleValueDescriptor4ExistingVariable(Type type, String localVariableName) {
+	def prepareSingleValueDescriptorForExistingVariable(Type type, String localVariableName) {
 		val ooplType = mapper.convertType(type)
-		return factory.prepareSingleValueDescriptor4ExistingVariable(ooplType, localVariableName)
+		return factory.prepareSingleValueDescriptorForExistingVariable(ooplType, localVariableName)
 	}
 	
-	def prepareSingleValueDescriptor4Literal(Type type, String literal) {
+	def prepareSingleValueDescriptorForLiteral(Type type, String literal) {
 		val ooplType = mapper.convertType(type)
-		return factory.prepareSingleValueDescriptor4Literal(ooplType, literal)
+		return factory.prepareSingleValueDescriptorForLiteral(ooplType, literal)
 	}
 
 }

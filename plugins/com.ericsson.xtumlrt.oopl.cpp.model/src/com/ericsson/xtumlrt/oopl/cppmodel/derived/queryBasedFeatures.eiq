@@ -9,24 +9,24 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
 @QueryBasedFeature(feature = "type")
 pattern cppAttributeType(
 	source : CPPAttribute,
-	target : OOPLType
+	target : OOPLDataType
 ) {
 	find cppAttributeUnnamedSequenceType(source, target);
 } or {
 	CPPAttribute.commonAttribute.type(source, commonType);
-	OOPLType.commonType(target, commonType);
+	OOPLDataType.commonType(target, commonType);
 	neg find cppAttributeUnnamedSequenceType(source, _sequence);
 }
 
 @QueryBasedFeature(feature = "type")
 pattern cppFormalParameterType(
 	source : CPPFormalParameter,
-	target : OOPLType
+	target : OOPLDataType
 ) {
 	find cppFormalParameterUnnamedSequenceType(source, target);
 } or {
 	CPPFormalParameter.commonParameter.type(source, commonType);
-	OOPLType.commonType(target, commonType);
+	OOPLDataType.commonType(target, commonType);
 	neg find cppFormalParameterUnnamedSequenceType(source, _sequence);
 }
 
@@ -351,7 +351,7 @@ pattern cppSequenceCppContainer(
 
 pattern cppSequenceType(
 	cppSequence : CPPSequence,
-	ooplType : OOPLType
+	ooplType : OOPLDataType
 ) {
 	CPPSequence.elementType(cppSequence, ooplType);
 }

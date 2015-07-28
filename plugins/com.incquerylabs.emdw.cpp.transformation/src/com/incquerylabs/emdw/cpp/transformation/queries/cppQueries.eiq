@@ -119,34 +119,34 @@ pattern cppAttributeOrParameter(
 // Container implementations
 pattern classReferenceSimpleCollectionContainerImplementation(
 	classReferenceSimpleCollection : CPPClassRefSimpleCollection,
-	containerImplementation : CPPClassRefSimpleCollectionImplementation
+	containerImplementation : OOPLClassRefSimpleCollectionImplementation
 ){
 	CPPClassRefSimpleCollection.kind(classReferenceSimpleCollection, kind);
-	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
+	OOPLClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
 }
 
 pattern classReferenceSimpleCollectionContainerImplementation4Instances(
 	cppClass : CPPClass,
 	classReferenceSimpleCollection : CPPClassRefSimpleCollection,
-	containerImplementation : CPPClassRefSimpleCollectionImplementation
+	containerImplementation : OOPLClassRefSimpleCollectionImplementation
 ){
 	CPPClass.referenceStorage(cppClass, cppInstanceReference);
 	CPPClassReferenceStorage.type(cppInstanceReference, classReferenceSimpleCollection);
 	CPPClassRefSimpleCollection.ooplClass(classReferenceSimpleCollection, cppClass);
 	CPPClassRefSimpleCollection.kind(classReferenceSimpleCollection, kind);
-	CPPClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
+	OOPLClassRefSimpleCollectionImplementation.kind(containerImplementation, kind);
 }
 
 pattern cppSequenceContainerImplementation(
 	cppElement : CPPQualifiedNamedElement,
 	cppSequence : CPPSequence,
-	containerImplementation : CPPSequenceImplementation
+	containerImplementation : OOPLSequenceImplementation
 ) {
 	find cppElementSequence(cppElement, cppSequence);
 	CPPSequence.orderedness(cppSequence, orderedness);
 	CPPSequence.uniqueness(cppSequence, uniqueness);
-	CPPSequenceImplementation.orderedness(containerImplementation, orderedness);
-	CPPSequenceImplementation.uniqueness(containerImplementation, uniqueness);
+	OOPLSequenceImplementation.orderedness(containerImplementation, orderedness);
+	OOPLSequenceImplementation.uniqueness(containerImplementation, uniqueness);
 }
 
 pattern cppElementSequence(

@@ -1,20 +1,17 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: com.ericsson.xtumlrt.oopl.model;singleton:=true
+Bundle-SymbolicName: com.incquerylabs.emdw.valuedescriptor.model;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: com.ericsson.xtumlrt.oopl,
- com.ericsson.xtumlrt.oopl.impl,
- com.ericsson.xtumlrt.oopl.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.common.model;visibility:=reexport,
- com.incquerylabs.emdw.valuedescriptor.model;visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.xtuml.model;visibility:=reexport,
  com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: com.incquerylabs.emdw.valuedescriptor,
+ com.incquerylabs.emdw.valuedescriptor.impl,
+ com.incquerylabs.emdw.valuedescriptor.util
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j;version="1.2.15"

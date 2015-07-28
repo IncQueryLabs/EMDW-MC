@@ -13,10 +13,11 @@ Export-Package: com.ericsson.xtumlrt.oopl.cppmodel,
  com.ericsson.xtumlrt.oopl.cppmodel.util
 Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime,
  org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- com.ericsson.xtumlrt.oopl.model;visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.common.model;visibility:=reexport,
- org.eclipse.papyrusrt.xtumlrt.xtuml.model;visibility:=reexport,
+ org.eclipse.emf.ecore,
+ com.ericsson.xtumlrt.oopl.model,
+ org.eclipse.papyrusrt.xtumlrt.common.model,
+ org.eclipse.papyrusrt.xtumlrt.xtuml.model,
+ com.incquerylabs.emdw.valuedescriptor.model,
  org.eclipse.incquery.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

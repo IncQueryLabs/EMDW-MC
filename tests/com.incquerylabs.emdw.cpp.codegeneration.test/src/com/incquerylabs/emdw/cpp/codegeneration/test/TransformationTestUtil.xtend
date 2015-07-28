@@ -2,7 +2,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.test
 
 import com.ericsson.xtumlrt.oopl.AssociativeCollectionKind
 import com.ericsson.xtumlrt.oopl.OOPLNameProvider
-import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
@@ -11,9 +11,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollectionImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
@@ -27,7 +25,6 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequenceImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
@@ -68,6 +65,9 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
+import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
+import com.ericsson.xtumlrt.oopl.OOPLClassRefAssocCollectionImplementation
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -649,7 +649,7 @@ class TransformationTestUtil {
 		cppOperation
 	}
 	
-	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, OOPLType type, boolean multiValue) {
+	static def CPPFormalParameter createCPPFormalParameter(CPPQualifiedNamedElement root, Parameter parameter, OOPLDataType type, boolean multiValue) {
 		val cppFormalParameter = cppFactory.createCPPFormalParameter => [
 			it.commonParameter = parameter
 			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = parameter ]
@@ -661,7 +661,7 @@ class TransformationTestUtil {
 		cppFormalParameter
 	}
 	
-	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLType type, boolean ordered, boolean unique) {
+	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLDataType type, boolean ordered, boolean unique) {
 		val implementation = getSequenceImplementation(type, ordered, unique)
 		val seq = cppFactory.createCPPSequence => [
 			it.elementType = type
@@ -671,7 +671,7 @@ class TransformationTestUtil {
 		seq
 	}
 	
-	static def CPPSequenceImplementation getSequenceImplementation(OOPLType type, boolean ordered, boolean unique) {
+	static def OOPLSequenceImplementation getSequenceImplementation(OOPLDataType type, boolean ordered, boolean unique) {
 		val implementationResource = type.eResource.resourceSet.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
 			true)
@@ -679,13 +679,13 @@ class TransformationTestUtil {
 		val uniqueness = decodeSequenceUniqueness(unique)
 		val implementations = implementationResource.contents
 													.filter[
-														it instanceof CPPSequenceImplementation
+														it instanceof OOPLSequenceImplementation
 													].toList
 		val implementation = implementations.findFirst[
-												(it as CPPSequenceImplementation).orderedness==orderness &&
-												(it as CPPSequenceImplementation).uniqueness==uniqueness
+												(it as OOPLSequenceImplementation).orderedness==orderness &&
+												(it as OOPLSequenceImplementation).uniqueness==uniqueness
 											]
-		return implementation as CPPSequenceImplementation
+		return implementation as OOPLSequenceImplementation
 	}
 	
 	static def decodeSequenceOrderness(boolean ordered) {
@@ -704,7 +704,7 @@ class TransformationTestUtil {
 		}
 	}
 	
-	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLType type, boolean ordered, boolean unique) {
+	static def CPPSequence createCPPSequence(CPPAttribute root, OOPLDataType type, boolean ordered, boolean unique) {
 		val implementation = getSequenceImplementation(type, ordered, unique)
 		val seq = cppFactory.createCPPSequence => [
 			it.elementType = type
@@ -778,7 +778,7 @@ class TransformationTestUtil {
 		cppAssoc
 	}
 	
-	static def CPPClassReferenceStorage createCPPClassReferenceStorage(XTAssociation xtAssoc, OOPLType cppClassReference) {
+	static def CPPClassReferenceStorage createCPPClassReferenceStorage(XTAssociation xtAssoc, OOPLDataType cppClassReference) {
 		createCPPClassReferenceStorage => [
 			it.type = cppClassReference
 			it.ooplNameProvider = createOOPLExistingNameProvider => [
@@ -788,7 +788,7 @@ class TransformationTestUtil {
 		]
 	}
 	
-	static def OOPLType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, SimpleCollectionKind kind) {
+	static def OOPLDataType createCPPClassRefSimpleCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, SimpleCollectionKind kind) {
 		val xtTargetClass = xtAssoc.target
 		val implementation = getClassRefSimpleCollectionImplementation(cppTargetClass.eResource, kind)
 		val referenceType = createCPPClassRefSimpleCollection => [
@@ -802,19 +802,19 @@ class TransformationTestUtil {
 		return referenceType
 	}
 	
-	static def CPPClassRefSimpleCollectionImplementation getClassRefSimpleCollectionImplementation(Resource res, SimpleCollectionKind kind) {
+	static def OOPLClassRefSimpleCollectionImplementation getClassRefSimpleCollectionImplementation(Resource res, SimpleCollectionKind kind) {
 		val implementationResource = res.resourceSet.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
 			true)
 		val implementations = implementationResource.contents
 													.filter[
-														it instanceof CPPClassRefSimpleCollectionImplementation
+														it instanceof OOPLClassRefSimpleCollectionImplementation
 													].toList
-		val implementation = implementations.findFirst[(it as CPPClassRefSimpleCollectionImplementation).kind == kind]
-		return implementation as CPPClassRefSimpleCollectionImplementation
+		val implementation = implementations.findFirst[(it as OOPLClassRefSimpleCollectionImplementation).kind == kind]
+		return implementation as OOPLClassRefSimpleCollectionImplementation
 	}
 	
-	static def OOPLType createCPPClassRefAssocCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, AssociativeCollectionKind kind) {
+	static def OOPLDataType createCPPClassRefAssocCollection(XTAssociation xtAssoc, CPPClass cppTargetClass, AssociativeCollectionKind kind) {
 		val xtTargetClass = xtAssoc.target
 		val implementation = getClassRefAssocCollectionImplementation(cppTargetClass.eResource, kind)
 		val referenceType = createCPPClassRefAssocCollection => [
@@ -828,19 +828,19 @@ class TransformationTestUtil {
 		return referenceType
 	}
 	
-	static def CPPClassRefAssocCollectionImplementation getClassRefAssocCollectionImplementation(Resource res, AssociativeCollectionKind kind) {
+	static def OOPLClassRefAssocCollectionImplementation getClassRefAssocCollectionImplementation(Resource res, AssociativeCollectionKind kind) {
 		val implementationResource = res.resourceSet.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
 			true)
 		val implementations = implementationResource.contents
 													.filter[
-														it instanceof CPPClassRefAssocCollectionImplementation
+														it instanceof OOPLClassRefAssocCollectionImplementation
 													].toList
-		val implementation = implementations.findFirst[(it as CPPClassRefAssocCollectionImplementation).kind == kind]
-		return implementation as CPPClassRefAssocCollectionImplementation
+		val implementation = implementations.findFirst[(it as OOPLClassRefAssocCollectionImplementation).kind == kind]
+		return implementation as OOPLClassRefAssocCollectionImplementation
 	}
 	
-	static def OOPLType createCPPClassReference(XTAssociation xtAssoc, CPPClass cppTargetClass) {
+	static def OOPLDataType createCPPClassReference(XTAssociation xtAssoc, CPPClass cppTargetClass) {
 		val xtTargetClass = xtAssoc.target
 		
 		val referenceType = createCPPClassReference => [

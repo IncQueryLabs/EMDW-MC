@@ -4,7 +4,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.incquerylabs.emdw</groupId>
-	<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+	<artifactId>com.incquerylabs.emdw.valuedescriptor.model</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		<genmodel-file-name>oopl</genmodel-file-name>
+		<genmodel-file-name>valuedescriptor</genmodel-file-name>
 	</properties>
 
 	<build>

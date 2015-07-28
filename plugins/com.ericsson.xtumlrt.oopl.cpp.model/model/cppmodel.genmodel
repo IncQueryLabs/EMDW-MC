@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.ericsson.xtumlrt.oopl.cpp.model/emf-gen" modelPluginID="com.ericsson.xtumlrt.oopl.cpp.model"
     modelName="Cppmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#//oopl ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
+    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#//oopl ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.genmodel#//valuedescriptor"
     operationReflection="true" importOrganizing="true">
   <foreignModel>cppmodel.ecore</foreignModel>
   <genPackages prefix="Cppmodel" basePackage="com.ericsson.xtumlrt.oopl" disposableProviderFactory="true"
@@ -111,12 +111,10 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPClassReferenceStorage"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPClassRefSimpleCollection">
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPClassRefSimpleCollection/cppContainer"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPClassRefSimpleCollection/implementation"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPClassRefAssocCollection">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPClassRefAssocCollection/cppContainer"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPClassRefAssocCollection/cppAttribute"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPClassRefAssocCollection/implementation"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPAttribute">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPAttribute/commonAttribute"/>
@@ -146,7 +144,6 @@
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPSequence">
       <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSequence/cppContainer"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPSequence/implementation"/>
     </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPEnumType"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPEnumerator">
@@ -155,144 +152,6 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPStructType"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPStructMember"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPUserDefinedType"/>
-    <genClasses ecoreClass="cppmodel.ecore#//CPPSequenceImplementation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSequenceImplementation/orderedness"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPSequenceImplementation/uniqueness"/>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateAny">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateAny/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateAny/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateAny/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateCountOf">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateCountOf/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateCountOf/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateCountOf/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/index"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateElementAtIndex/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateInsertElementAtIndex/index"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPSequenceImplementation/generateReplaceElementAtIndex/index"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/kind"/>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/index"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateElementAtIndex/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/index"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/index"/>
-      </genOperations>
-    </genClasses>
-    <genClasses ecoreClass="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/kind"/>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateCountOf">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateCountOf/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateCountOf/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateCountOf/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateAny">
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateAny/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateAny/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//CPPClassRefAssocCollectionImplementation/generateAny/result"/>
-      </genOperations>
-    </genClasses>
-    <genClasses image="false" ecoreClass="cppmodel.ecore#//BaseContainerImplementation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerQualifiedName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containerHeaderIncludes"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/anyTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/addAllTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/clearTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/cloneTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containsTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/containsAllTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/countOfTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/elementAtIndexTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/insertElementAtIndexTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/isEmptyTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/removeTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/removeAllTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/retainAllTemplate"/>
-      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute cppmodel.ecore#//BaseContainerImplementation/sizeTemplate"/>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateAdd">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAdd/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateAddAll">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAddAll/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateAddAll/values"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateClear">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClear/collection"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateClone">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateClone/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateContains">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContains/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContains/value"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContains/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateContainsAll">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContainsAll/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContainsAll/values"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContainsAll/valuesType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContainsAll/valueType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateContainsAll/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateIsEmpty">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateIsEmpty/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateIsEmpty/result"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateRemove">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRemove/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRemove/value"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateRemoveAll">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRemoveAll/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRemoveAll/values"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRemoveAll/valuesType"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRemoveAll/valueType"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateRetainAll">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRetainAll/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRetainAll/values"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateRetainAll/valueType"/>
-      </genOperations>
-      <genOperations ecoreOperation="cppmodel.ecore#//BaseContainerImplementation/generateSize">
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateSize/collection"/>
-        <genParameters ecoreParameter="cppmodel.ecore#//BaseContainerImplementation/generateSize/result"/>
-      </genOperations>
-    </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPMakeFile"/>
   </genPackages>
 </genmodel:GenModel>

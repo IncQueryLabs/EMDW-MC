@@ -262,14 +262,14 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 	
 	def parameterOK(String input, String thisElementFQN, String opaqueFQN) {
 		//Set Opaque behavior ID	
-		context.elementFQN = opaqueFQN
+		context.definedBehavior = opaqueFQN
 		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def parameterError(String input, String thisElementFQN, String opaqueFQN) {	
 		//Set Opaque behavior ID
-		context.elementFQN = opaqueFQN
+		context.definedBehavior = opaqueFQN
 		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 	

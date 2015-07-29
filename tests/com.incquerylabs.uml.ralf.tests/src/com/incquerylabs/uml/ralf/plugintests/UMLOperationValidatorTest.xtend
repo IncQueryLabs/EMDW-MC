@@ -568,13 +568,13 @@ class UMLOperationValidatorTest {
 	}
 	
 	def operationOKThis(String input, String thisElementFQN) {	
-		context.elementFQN = thisElementFQN
+		context.definedBehavior = thisElementFQN
 		val result = parser.parse(input)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def operationErrorThis(String input, String thisElementFQN) {	
-		context.elementFQN = thisElementFQN
+		context.definedBehavior = thisElementFQN
 		assertTrue("NO Validation errors found", parser.parse(input).hasError)
 	}
 }

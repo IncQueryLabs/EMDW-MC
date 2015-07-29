@@ -63,7 +63,7 @@ class UMLModelTypesSnippetTest {
 	
 
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
-		context.elementFQN = thisElementFQN
+		context.definedBehavior = thisElementFQN
 		
 		val snippet = generator.createSnippet(input, context, parser)
 		val serializedSnippet = serializer.serialize(snippet)	

@@ -23,7 +23,6 @@ import org.eclipse.uml2.uml.resource.UMLResource
 class TestModelUMLContextProvider extends UMLContextProvider {
 
     var Model model
-    var String elementFQN
     val ResourceSet resourceSet
 
     new(String location) {
@@ -38,12 +37,8 @@ class TestModelUMLContextProvider extends UMLContextProvider {
         model =  resource.allContents.filter(typeof(Model)).findFirst[true]
     }
     
-    public def setElementFQN(String elementFQN) {
-        this.elementFQN = elementFQN;
-    }
-    
-    override public Behavior getDefinedBehavior() {
-        model.allOwnedElements.filter(Behavior)
+    public def setDefinedBehavior(String elementFQN) {
+        definedBehavior = model.allOwnedElements.filter(Behavior)
            .findFirst[
                if (qualifiedName == elementFQN) {
                    true

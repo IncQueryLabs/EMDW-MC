@@ -47,13 +47,13 @@ class UMLVariableDeclarationValidatorTest {
 	}
 	
 	def localVariableOKThis(String input, String thisElementFQN) {	
-		context.elementFQN = thisElementFQN
+		context.definedBehavior = thisElementFQN
 		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def localVariableErrorThis(String input, String thisElementFQN) {	
-		context.elementFQN = thisElementFQN
+		context.definedBehavior = thisElementFQN
 		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 	

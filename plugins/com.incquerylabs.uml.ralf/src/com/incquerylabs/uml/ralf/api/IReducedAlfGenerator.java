@@ -16,7 +16,7 @@ public interface IReducedAlfGenerator {
      * @param parser Parser used for parsing the rALF code
      * @return
      */
-    public Snippet createSnippet(String behavior, IReducedAlfParser parser) throws SnippetCompilerException;
+    Snippet createSnippet(String behavior, IReducedAlfParser parser) throws SnippetCompilerException;
     
     /**
      * Creates a C++ snippet based on the the rALF code, which is contained by the specified opaque behavior 
@@ -25,15 +25,16 @@ public interface IReducedAlfGenerator {
      * @param parser Parser used for parsing the rALF code
      * @return
      */
-    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) throws SnippetCompilerException;
+    Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) throws SnippetCompilerException;
     
     /**
      * Creates a C++ snippet based on a given rALF AST.
-     * @param rootElement
-     * @return
      */
-    public Snippet createSnippet(ParsingResults result) throws SnippetCompilerException;
+    Snippet createSnippet(ParsingResults result) throws SnippetCompilerException;
 
-	Snippet createSnippet(String behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser)
+    /**
+     * Creates a C++ snippet from a string representation and a context provider.
+     */
+    Snippet createSnippet(String behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser)
 			throws SnippetCompilerException;
 }

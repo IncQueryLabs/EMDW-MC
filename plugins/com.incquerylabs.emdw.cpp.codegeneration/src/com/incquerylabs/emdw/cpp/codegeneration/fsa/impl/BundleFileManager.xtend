@@ -4,6 +4,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import org.eclipse.core.runtime.Platform
 import org.eclipse.core.runtime.FileLocator
 import java.io.File
+import java.net.URI
 import com.google.common.io.Files
 
 class BundleFileManager extends FileManager {
@@ -23,15 +24,20 @@ class BundleFileManager extends FileManager {
 	}
 	
 	private def File getFile(String directoryPath, String filename) {
-		val bundle = Platform.getBundle(rootDirectory)
-		val url = bundle.getEntry(directoryPath+filename)
-		new File(FileLocator.toFileURL(url).toURI())
+		val fullPath = directoryPath+filename
+		resolveFile(fullPath)
 	}
 	
 	private def File getFolder(String directoryPath) {
+		resolveFile(directoryPath)
+	}
+	
+	private def resolveFile(String fullPath) {
 		val bundle = Platform.getBundle(rootDirectory)
-		val url = bundle.getEntry(directoryPath)
-		new File(FileLocator.toFileURL(url).toURI())
+		val url = bundle.getEntry(fullPath)
+		val resolvedFileURL = FileLocator.toFileURL(url);
+		val resolvedURI = new URI(resolvedFileURL.getProtocol(), resolvedFileURL.getPath(), null)
+		new File(resolvedURI)
 	}
 	
 	override readFileContent(String directoryPath, String filename) {

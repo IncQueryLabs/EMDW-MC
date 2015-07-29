@@ -25,13 +25,13 @@ class BundleFileManager extends FileManager {
 	private def File getFile(String directoryPath, String filename) {
 		val bundle = Platform.getBundle(rootDirectory)
 		val url = bundle.getEntry(directoryPath+filename)
-		new File(FileLocator.resolve(url).toURI())
+		new File(FileLocator.toFileURL(url).toURI())
 	}
 	
 	private def File getFolder(String directoryPath) {
 		val bundle = Platform.getBundle(rootDirectory)
 		val url = bundle.getEntry(directoryPath)
-		new File(FileLocator.resolve(url).toURI())
+		new File(FileLocator.toFileURL(url).toURI())
 	}
 	
 	override readFileContent(String directoryPath, String filename) {

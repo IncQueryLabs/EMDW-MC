@@ -34,21 +34,25 @@ class XtumlValueDescriptorFactory {
 	
 	
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName) {
+		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleValueDescriptorForNewLocalVariable(ooplType, localVariableName)
 	}
 	
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
+		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleValueDescriptorForNewLocalVariable(ooplType)
 	}
 	
 	def prepareSingleValueDescriptorForExistingVariable(Type type, String localVariableName) {
+		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleValueDescriptorForExistingVariable(ooplType, localVariableName)
 	}
 	
 	def prepareSingleValueDescriptorForLiteral(Type type, String literal) {
+		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleValueDescriptorForLiteral(ooplType, literal)
 	}

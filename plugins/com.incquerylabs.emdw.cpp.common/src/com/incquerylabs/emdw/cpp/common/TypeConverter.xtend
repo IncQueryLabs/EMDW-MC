@@ -37,11 +37,6 @@ class TypeConverter {
 	def dispatch convertType(Type type) {
 		switch(type.name) {
 			case null: "NULL_TYPE" 
-			case "Boolean":	"bool"
-			case "Integer": "long" 
-			case "Real": "double"
-			case "String": "std::string"
-			case "Void": "void"
 			default: type.name
 		}
 	}

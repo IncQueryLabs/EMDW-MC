@@ -21,6 +21,11 @@
   	</dependency>
   	<dependency>
 		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.incquerylabs.emdw.valuedescriptor.model</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+  	<dependency>
+		<groupId>com.incquerylabs.emdw</groupId>
 		<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
 		<version>${project.version}</version>
 	</dependency>

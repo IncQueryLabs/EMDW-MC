@@ -62,8 +62,9 @@ class CodeGenerator {
 				if(validXtumlModel){
 					xtumlChangeMonitor?.createCheckpoint
 					xtComponents.forEach[ xtComponent |
-						if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent))
+//						if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
 							performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
+//						}
 					]
 					xtumlChangeMonitor?.clear
 				}

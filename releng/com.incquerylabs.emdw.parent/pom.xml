@@ -39,6 +39,7 @@
 		<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
 		<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
 		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
+		<module>../../examples/com.incquerylabs.emdw.examples</module>
 
 		<!-- rALF Language -->
 		<module>../../plugins/com.incquerylabs.uml.ralf</module>

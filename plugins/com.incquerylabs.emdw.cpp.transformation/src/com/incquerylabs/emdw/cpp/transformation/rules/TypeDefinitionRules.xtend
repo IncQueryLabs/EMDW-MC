@@ -6,20 +6,28 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
 
 class TypeDefinitionRules {
+	
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val BatchTransformationStatements statements
+	
+	new(BatchTransformationStatements statements) {
+		this.statements = statements
+	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
 			cppStructTypeRule,
+			cppStructMemberRule,
 			cppBasicTypeRule
 		)
 		transformation.addRules(rules)
@@ -37,6 +45,22 @@ class TypeDefinitionRules {
 		]
 		cppContainer.subElements += cppStructType
 		trace('''Mapped StructuredType «xtStructuredType.name» to CPPStructType «cppStructType»''')
+		fireAllCurrent(cppStructMemberRule, [it.cppStructType == cppStructType])
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val cppStructMemberRule = createRule.precondition(structMember).action[ match |
+		val cppStructType = match.cppStructType
+		val xtAttribute = match.attribute
+		val cppStructMember = createCPPStructMember => [
+			it.commonMember = xtAttribute
+			it.ooplNameProvider = createOOPLExistingNameProvider => [
+				commonNamedElement = xtAttribute
+			]
+		]
+		cppStructType.subElements += cppStructMember
+		cppStructType.members += cppStructMember
+		trace('''Mapped Attribute «xtAttribute.name» to CPPStructMember «cppStructMember»''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

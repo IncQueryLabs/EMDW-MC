@@ -203,6 +203,15 @@ pattern stateMachineTerminatePoints(
 	CompositeState.terminatepoint(compositeState, terminatePoint);
 }
 
+pattern structMember(
+	structuredType : StructuredType,
+	cppStructType : CPPStructType,
+	attribute : Attribute
+) {
+	StructuredType.attributes(structuredType, attribute);
+	CPPStructType.commonType(cppStructType, structuredType);
+}
+
 pattern structuredType(
 	structuredType : StructuredType,
 	cppContainer : CPPQualifiedNamedElement

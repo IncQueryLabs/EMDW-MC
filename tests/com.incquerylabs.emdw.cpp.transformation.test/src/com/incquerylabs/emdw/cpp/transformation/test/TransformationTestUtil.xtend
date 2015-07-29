@@ -59,6 +59,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
+import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -542,6 +543,24 @@ class TransformationTestUtil {
 		root.attributes += attr
 		attr
 	}
+
+	static def createSingleAttribute(StructuredType root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		val attr = createSingleAttribute(type, visibility, isStatic, name)
+		root.attributes += attr
+		attr
+	}
+	
+	static def createListAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		val attribute = createListAttribute(type, visibility, isStatic, name)
+		root.attributes += attribute
+		return attribute
+	}
+	
+	static def createListAttribute(StructuredType root, Type type, VisibilityKind visibility, boolean isStatic, String name){
+		val attribute = createListAttribute(type, visibility, isStatic, name)
+		root.attributes += attribute
+		return attribute
+	}
 	
 	static def createSingleAttribute(Type type, VisibilityKind visibility, boolean isStatic, String name) {
 		commonFactory.createAttribute => [
@@ -554,7 +573,7 @@ class TransformationTestUtil {
 		]
 	}
 
-	static def createListAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+	static def createListAttribute(Type type, VisibilityKind visibility, boolean isStatic, String name) {
 		val attr = commonFactory.createAttribute => [
 			it.name = name
 			it.visibility = visibility
@@ -564,7 +583,6 @@ class TransformationTestUtil {
 			it.lowerBound = 0
 			it.upperBound = Integer.MAX_VALUE
 		]
-		root.attributes += attr
 		attr
 	}
 

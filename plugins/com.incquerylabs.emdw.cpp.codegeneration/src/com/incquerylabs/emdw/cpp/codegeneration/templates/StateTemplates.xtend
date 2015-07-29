@@ -119,14 +119,11 @@ class StateTemplates {
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
 		val cppTransition = transitionInfo.cppTransition
-		val eventType = eventType(cppTransition)
-		val eventName = "eventWithCorrectType"
+		val eventName = "event"
 		
 		'''
 		// «sourceStateCppName» -«cppTransition.cppName»-> «targetStateCppName» transition
-		if(«generatedTransitionCondition(cppClass, transitionInfo)») {
-			const «eventType»* «eventName» = static_cast<const «eventType»*>(event);
-			
+		if(«generatedTransitionCondition(transitionInfo)») {
 			«performExitActionCall(sourceState, eventName)»
 			
 			«performActionsOnTransitionCall(transitionInfo, eventName)»
@@ -190,7 +187,7 @@ class StateTemplates {
 	}
 	
 	def performActionsOnTransitionSignature(TransitionInfo transitionInfo){
-		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «eventType(transitionInfo.cppTransition)»* event)'''
+		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EventFQN»* event)'''
 	}
 	
 	def performActionsOnTransitionDeclaration(TransitionInfo transitionInfo){
@@ -207,9 +204,13 @@ class StateTemplates {
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
 		val transition = transitionInfo.transition
+		val eventType = eventType(transitionInfo.cppTransition)
+		val castedEventName = "casted_const_event"
+		
 		'''
 		«IF transition.actionChain != null»
 			void «cppClassFQN»::«performActionsOnTransitionSignature(transitionInfo)»{
+				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Action: -> «targetStateCppName»]''')»
 				«actionCodeTemplates.generateActionCode(transition.actionChain)»
 			}
@@ -234,7 +235,7 @@ class StateTemplates {
 	}
 	
 	def performEntryActionSignature(CPPState state){
-		'''«performEntryActionMethodName(state)»(const «incomingEventType(state)»* event)'''
+		'''«performEntryActionMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
 	}
 	
 	def performEntryActionDeclaration(CPPState state){
@@ -247,9 +248,13 @@ class StateTemplates {
 	
 	def performEntryActionDefinition(CPPClass cppClass, CPPState state){
 		val cppClassFQN = cppClass.cppQualifiedName
+		val eventType = incomingEventType(state)
+		val castedEventName = "casted_const_event"
+		
 		'''
 		«IF state.commonState.entryAction != null»
 			void «cppClassFQN»::«performEntryActionSignature(state)»{
+				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Entry: INIT]''')»
 				«actionCodeTemplates.generateActionCode(state.commonState.entryAction)»
 			}
@@ -275,7 +280,7 @@ class StateTemplates {
 	}
 	
 	def performExitActionSignature(CPPState state){
-		'''«performExitActionMethodName(state)»(const «outgoingEventType(state)»* event)'''
+		'''«performExitActionMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
 	}
 	
 	def performExitActionDeclaration(CPPState state){
@@ -288,9 +293,13 @@ class StateTemplates {
 	
 	def performExitActionDefinition(CPPClass cppClass, CPPState state){
 		val cppClassFQN = cppClass.cppQualifiedName
+		val eventType = outgoingEventType(state)
+		val castedEventName = "casted_const_event"
+		
 		'''
 		«IF state.commonState.exitAction != null»	
 			void «cppClassFQN»::«performExitActionSignature(state)»{
+				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Exit]''')»
 				«actionCodeTemplates.generateActionCode(state.commonState.exitAction)»
 			}
@@ -413,9 +422,9 @@ class StateTemplates {
 		new TransitionInfo(match.cppTransition, match.transition, match.cppSource, null)
 	}
 	
-	def generatedTransitionCondition(CPPClass cppClass, TransitionInfo transitionInfo) {
+	def generatedTransitionCondition(TransitionInfo transitionInfo) {
 		val transition = transitionInfo.transition
-		var condition = transition.generateEventMatchingCondition(cppClass.cppName)
+		var condition = transitionInfo.generateEventMatchingCondition()
 		val guardCall = '''«evaluateGuardOnTransitionMethodName(transitionInfo)»(event)'''
 
 		if(transition.guard != null){
@@ -427,23 +436,33 @@ class StateTemplates {
 		condition
 	}
 	
-	def generateEventMatchingCondition(Transition transition, String cppClassName) {
+	def generateEventMatchingCondition(TransitionInfo transitionInfo) {
+		val transition = transitionInfo.transition
 		val triggers = transition.triggers
 		if(triggers.empty) {
 			''''''
 		} else if(triggers.size == 1){
-			'''event->_id == «cppClassName»_EVENT_«triggers.head.getEventId»'''
+			val trigger = triggers.head
+			val cppEvent = trigger.getEvent
+			val cppClass = cppEvent.eContainer as CPPClass 
+			'''event->_id == «cppClass.cppQualifiedName»::«cppClass.cppName»_EVENT_«cppEvent.cppName»'''
 		} else {
 			'''
-			(«FOR trigger : triggers SEPARATOR " || "»event->_id == «trigger.getEventId»«ENDFOR»)'''
+			(
+			«FOR trigger : triggers SEPARATOR " || "»
+				«val cppClass = trigger.getEvent.eContainer as CPPClass »
+				event->_id == «cppClass.cppQualifiedName»::«cppClass.cppName»_EVENT_«trigger.getEvent.cppName»
+			«ENDFOR»
+			)
+			'''
 		}
 	}
 	
-	def getEventId(Trigger trigger) {
+	def getEvent(Trigger trigger) {
 		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
 		val xttrigger = trigger as XTEventTrigger
 		val cppEvent = cppEventMatcher.getAllValuesOfcppEvent(xttrigger.signal).head
-		cppEvent.cppName
+		return cppEvent
 	}
 	
 	def tracingMessage(String message) {

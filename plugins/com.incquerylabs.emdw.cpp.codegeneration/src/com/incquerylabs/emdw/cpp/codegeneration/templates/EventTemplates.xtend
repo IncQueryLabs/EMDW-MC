@@ -86,14 +86,34 @@ class EventTemplates {
 	}
 	
 	def innerClassesInClassBody(CPPClass cppClass) {
-		val cppClassName = cppClass.cppName
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
 		«FOR event : classEvents»
-			«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
-				«ClassTemplates.EventFQN»(«cppClassName»_EVENT_«event.cppName», isInternal){
-			}
+			«event.constructorTemplate»
 		«ENDFOR»
 		'''
+	}
+	
+	def constructorTemplate(CPPEvent event){
+		var CPPClass cppClass = event.eContainer as CPPClass
+		val cppClassName = cppClass.cppName
+		val superEvents = event.superEvents
+		
+		if(superEvents.isNullOrEmpty){
+			'''
+				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
+				«ClassTemplates.EventFQN»(«cppClassName»_EVENT_«event.cppName», isInternal){
+				}
+			'''
+		} else {
+			'''
+				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
+				«superEvents.head.generatedEventClassQualifiedName»(isInternal){
+					this->::Event::_id = «cppClassName»_EVENT_«event.cppName»;
+				}
+			'''
+		}
+		
+		
 	}
 }

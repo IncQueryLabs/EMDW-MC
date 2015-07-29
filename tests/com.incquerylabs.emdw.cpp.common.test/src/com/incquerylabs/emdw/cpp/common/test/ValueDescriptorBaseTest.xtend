@@ -38,7 +38,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescripto
 		val rs = new ResourceSetImpl
 		val mapping = createRootMapping("test",rs)
 		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
-		val umlObject = selectUmlObject(mapping.umlRoot)
+		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeTransformation(rs, primitiveTypeMapping)
 		executeTransformation
 		val factory = new UmlValueDescriptorFactory(engine)
@@ -47,7 +47,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescripto
 		endTest(testId)
 	}
 	
-	protected def UmlObject selectUmlObject(Model umlModel)
+	protected def UmlObject createUmlObject(Model umlModel)
 	
 	protected def ValueDescriptor prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, UmlObject object)
 	

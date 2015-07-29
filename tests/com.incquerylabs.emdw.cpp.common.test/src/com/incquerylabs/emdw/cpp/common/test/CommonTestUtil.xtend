@@ -1,11 +1,8 @@
 package com.incquerylabs.emdw.cpp.common.test
 
-import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.Type
@@ -22,8 +19,6 @@ class CommonTestUtil {
 	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
-	static extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
-	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	
 	private static final String COMMON_TYPES_PATH = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
 	private static final String CPP_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
@@ -74,16 +69,6 @@ class CommonTestUtil {
 		mapping
 	}
 	
-	static def createCPPModel(Resource cppResource, org.eclipse.papyrusrt.xtumlrt.common.Model xtModel) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
-		val cppModel = cppFactory.createCPPModel => [
-			commonModel = xtModel
-			it.ooplNameProvider = provider
-		]
-		cppResource.contents += cppModel
-		cppModel
-	}
-	
 	static def createPackage(String name) {
 		umlFactory.createPackage => [
 			it.name = name
@@ -108,9 +93,10 @@ class CommonTestUtil {
 		comp
 	}
 
-	static def createPrimitiveType(Package umlPackage, String name) {
-		val primitiveType = umlPackage.createOwnedPrimitiveType(name)
-		primitiveType
+	static def PrimitiveType findPrimitiveType(Model umlModel, String name) {
+		val umlPrimitiveTypesResource = umlModel.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("UMLPrimitiveTypes")]
+		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
+		return primitiveTypes.findFirst[it.name == name]
 	}
 
 	static def createClass(Component umlPackage, String name) {

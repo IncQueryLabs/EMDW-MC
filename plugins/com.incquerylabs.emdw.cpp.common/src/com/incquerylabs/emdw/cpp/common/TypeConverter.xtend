@@ -6,6 +6,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 
 class TypeConverter {
 	
@@ -24,6 +25,10 @@ class TypeConverter {
 		val cppContainer = sequence.cppContainer
 		val cppType = convertType(sequence.elementType)
 		return '''«cppContainer»< «cppType» >''' 
+	}
+	
+	def dispatch String convertType(CPPBasicType basicType) {
+		return basicType.cppName
 	}
 	
 	def dispatch String convertType(OOPLDataType type) {

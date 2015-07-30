@@ -10,6 +10,13 @@ pattern ooplType2Type(
 	ooplType : OOPLType
 ) {
 	OOPLDataType.commonType(ooplType, commonType);
+	neg find isXtClass(commonType);
 } or {
-	OOPLClass.xtClass(ooplType, commonType);
+	CPPClass.xtClass(ooplType, commonType);
+}
+
+pattern isXtClass(
+	xtType : Type
+) {
+	XTClass(xtType);
 }

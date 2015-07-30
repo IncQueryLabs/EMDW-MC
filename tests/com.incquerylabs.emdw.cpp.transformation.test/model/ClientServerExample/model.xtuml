@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="Model">
+  <entities xsi:type="xtuml:XTComponent" name="Component">
+    <entities xsi:type="xtuml:XTClass" name="Server">
+      <attributes name="lastRequestId" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+      </attributes>
+      <attributes name="result" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+      </attributes>
+      <behaviour name="Behavior">
+        <top>
+          <initial name="Init" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.3"/>
+          <substates xsi:type="common:SimpleState" name="WaitForAck" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.4 //@entities.0/@entities.0/@behaviour/@top/@transitions.5 //@entities.0/@entities.0/@behaviour/@top/@transitions.0 //@entities.0/@entities.0/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1 //@entities.0/@entities.0/@behaviour/@top/@transitions.0 //@entities.0/@entities.0/@behaviour/@top/@transitions.2">
+            <entryAction name="SendResult" source="if(casted_const_event->id == this->lastRequestId) {&#xD;&#xA;  ::std::cout &lt;&lt; &quot;Sending response for request with id: &quot; &lt;&lt; casted_const_event->id &lt;&lt; ::std::endl;&#xD;&#xA;::Model::Component::Server::Response_event* result = new ::Model::Component::Server::Response_event(false);&#xD;&#xA;result->id = casted_const_event->id;&#xD;&#xA;result->result = this->result;&#xD;&#xA;  R1_client->generate_event(result);&#xD;&#xA;} else {&#xD;&#xA;  ::std::cout &lt;&lt; &quot;Ignoring new request before ACK&quot; &lt;&lt; ::std::endl;&#xD;&#xA;}"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="Ready" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.3 //@entities.0/@entities.0/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.4 //@entities.0/@entities.0/@behaviour/@top/@transitions.5">
+            <entryAction name="PrintReadyMessage" source="::std::cout &lt;&lt; &quot;***************** server is ready *****************&quot; &lt;&lt; ::std::endl;&#xD;&#xA;::std::cout &lt;&lt; &quot;Waiting for requests&quot; &lt;&lt; ::std::endl;"/>
+          </substates>
+          <transitions sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnMultiplicationRequest" signal="//@entities.0/@entities.0/@events.2"/>
+            <actionChain name="MultiplicationRequestBeforeAckAction">
+              <actions name="MultiplicationRequestBeforeAckAction" source="::std::cout &lt;&lt; &quot;Recieved request before ACK with id &quot; &lt;&lt; casted_const_event->id &lt;&lt; ::std::endl;"/>
+            </actionChain>
+          </transitions>
+          <transitions name="Finish" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnAck" signal="//@entities.0/@entities.0/@events.3"/>
+            <actionChain name="PrintAckRecieved">
+              <actions name="PrintAckRecieved" source="::std::cout &lt;&lt; &quot;Recieved ACK for the response with id: &quot; &lt;&lt; casted_const_event->id &lt;&lt; ::std::endl;"/>
+            </actionChain>
+          </transitions>
+          <transitions name="ResendResponse" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnAdditionRequest" signal="//@entities.0/@entities.0/@events.0"/>
+            <actionChain name="AddRequestBeforeAckAction">
+              <actions name="AddRequestBeforeAckAction" source="::std::cout &lt;&lt; &quot;Recieved request before ACK with id &quot; &lt;&lt; casted_const_event->id &lt;&lt; ::std::endl;"/>
+            </actionChain>
+          </transitions>
+          <transitions name="Initialize" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1"/>
+          <transitions name="Multiplicate" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnMultiplicationRequest" signal="//@entities.0/@entities.0/@events.2"/>
+            <actionChain name="CalculateMultiplication">
+              <actions name="CalculateMultiplication" source="::std::cout &lt;&lt; &quot;Recieved request for multiplication with id &quot; &lt;&lt; casted_const_event->id &lt;&lt; ::std::endl;&#xD;&#xA;this->lastRequestId = casted_const_event->id;&#xD;&#xA;float multiplicationResult = casted_const_event->r1 * casted_const_event->r2;&#xD;&#xA;this->result = multiplicationResult;&#xD;&#xA;::std::cout &lt;&lt; &quot;The computed result for the multiplication is &quot; &lt;&lt; multiplicationResult &lt;&lt; ::std::endl;"/>
+            </actionChain>
+          </transitions>
+          <transitions name="Add" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnAdditionRequest" signal="//@entities.0/@entities.0/@events.0"/>
+            <actionChain name="CalculateAddition">
+              <actions name="CalculateAddition" source="::std::cout &lt;&lt; &quot;Recieved request for addition with id &quot; &lt;&lt; casted_const_event->id &lt;&lt; ::std::endl;&#xD;&#xA;this->lastRequestId = casted_const_event->id;&#xD;&#xA;double additionResult = casted_const_event->a  + casted_const_event->b;&#xD;&#xA;this->result = additionResult;&#xD;&#xA;::std::cout &lt;&lt; &quot;The computed result for the addition is &quot; &lt;&lt; additionResult &lt;&lt; ::std::endl;"/>
+            </actionChain>
+          </transitions>
+        </top>
+      </behaviour>
+      <relations xsi:type="xtuml:XTAssociation" name="R1_client" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.1/@relations.0" source="//@entities.0/@entities.0" target="//@entities.0/@entities.1"/>
+      <events xsi:type="xtuml:XTClassEvent" name="RequestAddition" definingEvents="//@entities.0/@entities.0/@events.1">
+        <attributes name="a" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </attributes>
+        <attributes name="b" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </attributes>
+      </events>
+      <events xsi:type="xtuml:XTClassEvent" name="Request">
+        <attributes name="id" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </attributes>
+      </events>
+      <events xsi:type="xtuml:XTClassEvent" name="RequestMultiplication" definingEvents="//@entities.0/@entities.0/@events.1">
+        <attributes name="r1" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+        </attributes>
+        <attributes name="r2" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+        </attributes>
+      </events>
+      <events xsi:type="xtuml:XTClassEvent" name="Response">
+        <attributes name="result" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+        </attributes>
+        <attributes name="id" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </attributes>
+      </events>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="Client">
+      <behaviour name="Behavior">
+        <top>
+          <initial name="Init" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.3"/>
+          <substates xsi:type="common:SimpleState" name="WaitForMultiplicationResult" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.4">
+            <entryAction name="SendAnotherFaultyRequestBeforeAck" source="::Model::Component::Server::RequestMultiplication_event* request = new ::Model::Component::Server::RequestMultiplication_event(false);&#xD;&#xA;request->id = 666;&#xD;&#xA;request->r1 = 66;&#xD;&#xA;request->r2 = 6;&#xD;&#xA;::std::cout &lt;&lt; &quot;Requesting multiplication of &quot; &lt;&lt; request->r1 &lt;&lt; &quot; and &quot; &lt;&lt; request->r2 &lt;&lt; &quot; with id: &quot; &lt;&lt; request->id &lt;&lt; ::std::endl;&#xD;&#xA;R1_server->generate_event(request);"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="WaitForMultiplicationResentResult" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.4" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0">
+            <exitAction name="SendMultiplicationAck" source="::std::cout &lt;&lt; &quot;Recieved multiplication result: &quot; &lt;&lt; casted_const_event->result &lt;&lt; &quot; with id: &quot; &lt;&lt; casted_const_event->id  &lt;&lt; ::std::endl;&#xD;&#xA;::Model::Component::Server::Response_event* ack = new ::Model::Component::Server::Response_event(false);&#xD;&#xA;ack->id = casted_const_event->id;&#xD;&#xA;::std::cout &lt;&lt; &quot;Sending ACK with id: &quot; &lt;&lt; ack->id &lt;&lt; ::std::endl;&#xD;&#xA;R1_server->generate_event(ack);"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="WaitForAdditionResult" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1">
+            <exitAction name="SendAdditionAck" source="::std::cout &lt;&lt; &quot;Recieved addition result: &quot; &lt;&lt; casted_const_event->result &lt;&lt; &quot; with id: &quot; &lt;&lt; casted_const_event->id  &lt;&lt; ::std::endl;&#xD;&#xA;::Model::Component::Server::Response_event* ack = new ::Model::Component::Server::Response_event(false);&#xD;&#xA;ack->id = casted_const_event->id;&#xD;&#xA;::std::cout &lt;&lt; &quot;Sending ACK with id: &quot; &lt;&lt; ack->id &lt;&lt; ::std::endl;&#xD;&#xA;R1_server->generate_event(ack);"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="Ready" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0 //@entities.0/@entities.1/@behaviour/@top/@transitions.3" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.2">
+            <entryAction name="PrintReadyMessage" source="::std::cout &lt;&lt; &quot;***************** client is ready *****************&quot; &lt;&lt; ::std::endl;"/>
+            <exitAction name="SendAdditionRequest" source="::Model::Component::Server::RequestAddition_event* request = new ::Model::Component::Server::RequestAddition_event(false);&#xD;&#xA;request->id = casted_const_event->id + 1;&#xD;&#xA;request->a = 3;&#xD;&#xA;request->b = 9;&#xD;&#xA;::std::cout &lt;&lt; &quot;Requesting addition of &quot; &lt;&lt; request->a &lt;&lt; &quot; and &quot; &lt;&lt; request->b &lt;&lt; &quot; with id: &quot; &lt;&lt; request->id &lt;&lt; ::std::endl;&#xD;&#xA;R1_server->generate_event(request);"/>
+          </substates>
+          <transitions name="ReturnToReadyState" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.3">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnMultiplicationSecondResponse" signal="//@entities.0/@entities.0/@events.3"/>
+          </transitions>
+          <transitions name="SendMultiplicationRequest" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.2" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnAdditionResponse" signal="//@entities.0/@entities.0/@events.3"/>
+            <actionChain name="SendMultiplicationRequest">
+              <actions name="SendMultiplicationRequest" source="::Model::Component::Server::RequestMultiplication_event* request = new ::Model::Component::Server::RequestMultiplication_event(false);&#xD;&#xA;request->id = casted_const_event->id + 1;&#xD;&#xA;request->r1 = 6;&#xD;&#xA;request->r2 = 7;&#xD;&#xA;::std::cout &lt;&lt; &quot;Requesting multiplication of &quot; &lt;&lt; request->r1 &lt;&lt; &quot; and &quot; &lt;&lt; request->r2 &lt;&lt; &quot; with id: &quot; &lt;&lt; request->id &lt;&lt; ::std::endl;&#xD;&#xA;R1_server->generate_event(request);"/>
+            </actionChain>
+          </transitions>
+          <transitions name="SendAdditionRequest" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.3" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.2">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnStart" signal="//@entities.0/@entities.0/@events.3"/>
+          </transitions>
+          <transitions name="TransitionInitReady" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.3"/>
+          <transitions name="ResendMultiplicationRequest" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="TriggerOnMultiplicationResponse" signal="//@entities.0/@entities.0/@events.3"/>
+            <actionChain name="ResendMultiplicationRequest">
+              <actions name="ResendMultiplicationRequest" source="::Model::Component::Server::RequestMultiplication_event* request = new ::Model::Component::Server::RequestMultiplication_event(false);&#xD;&#xA;request->id = casted_const_event->id;&#xD;&#xA;::std::cout &lt;&lt; &quot;Requesting multiplication result with id: &quot; &lt;&lt; request->id &lt;&lt; ::std::endl;&#xD;&#xA;R1_server->generate_event(request);"/>
+            </actionChain>
+          </transitions>
+        </top>
+      </behaviour>
+      <relations xsi:type="xtuml:XTAssociation" name="R1_server" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.0/@relations.0" source="//@entities.0/@entities.1" target="//@entities.0/@entities.0"/>
+    </entities>
+  </entities>
+</common:Model>

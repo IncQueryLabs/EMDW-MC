@@ -367,6 +367,12 @@ class StateTemplates {
 	}
 	
 	def getLowestCommonAncestor(CPPEvent event1, CPPEvent event2) {
+		if(event1 == null || event2 == null){
+			return null
+		}
+		if (event1 == event2) {
+			return event1
+		}
 		val eventAncestorMatcher = codeGenQueries.getCppEventCommonAncestor(engine)
 		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
 		val commonXtAncestors = eventAncestorMatcher.getAllValuesOfcommonXtAncestor(event1, event2, null)

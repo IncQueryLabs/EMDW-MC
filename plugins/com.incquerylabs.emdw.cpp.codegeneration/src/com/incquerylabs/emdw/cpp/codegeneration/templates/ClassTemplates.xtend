@@ -427,6 +427,7 @@ class ClassTemplates {
 					delete this;
 				}
 			«ENDIF»
+			delete event;
 		}
 		
 		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»

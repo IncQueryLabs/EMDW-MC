@@ -19,6 +19,17 @@
 			project="true">
 			<description>A simple example to demonstrate the Event dispatching between statemachines using the ping-pong model</description>
 		</wizard>
+  <wizard
+        category="org.eclipse.ui.Examples/com.incquerylabs.emdw.ui.examples"
+        class="org.eclipse.emf.common.ui.wizard.ExampleInstallerWizard"
+        icon="icons/genproject.gif"
+        id="com.incquerylabs.emdw.project.examples.AdvancedPingPong"
+        name="Class based advanced Ping-Pong example model"
+        project="true">
+     <description>
+        An advanced example to demonstrate the event dispatching between statemachines using the ping-pong model. This example uses event generalization, event attributes and multiple associations and attributes.
+     </description>
+  </wizard>
 	</extension>
 	
 	 <extension
@@ -30,6 +41,15 @@
                contentURI="contents/com.incquerylabs.emdw.example.pingpongsimple.zip"
                description="Contains a simple Component that holds the Ping and Pong classes."
                name="com.incquerylabs.emdw.example.pingpongsimple">
+         </projectDescriptor>
+      </example>
+      <example
+            pageImage="icons/genproject.gif"
+            wizardID="com.incquerylabs.emdw.project.examples.AdvancedPingPong">
+         <projectDescriptor
+               contentURI="contents/com.incquerylabs.emdw.example.pingpongadvanced.zip"
+               description="Contains a simple Component that holds the Ping, Pong and Manager classes."
+               name="com.incquerylabs.emdw.example.pingpongadvanced">
          </projectDescriptor>
       </example>
    </extension>

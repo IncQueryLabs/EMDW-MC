@@ -133,7 +133,6 @@ class SingleValueDescriptorForHeavyStringLiteralTest extends ValueDescriptorBase
 	}
 	
 	override protected assertResult(Element object, SingleValueDescriptor descriptor) {
-		println(descriptor.stringRepresentation)
 		assertTrue("Descriptor's value type should be std::string.", descriptor.valueType=="std::string")
 		assertTrue('''Descriptor's string representation should be "heavy \" string".''', descriptor.stringRepresentation=="\"heavy \" string\"")
 	}

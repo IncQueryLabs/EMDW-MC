@@ -12,6 +12,10 @@ import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.UMLFactory
 import org.eclipse.uml2.uml.resource.UMLResource
+import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.ericsson.xtumlrt.oopl.OoplFactory
+import org.eclipse.emf.ecore.resource.Resource
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 
 class CommonTestUtil {
 
@@ -19,6 +23,8 @@ class CommonTestUtil {
 	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
+	static extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	
 	private static final String COMMON_TYPES_PATH = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
 	private static final String CPP_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
@@ -50,14 +56,16 @@ class CommonTestUtil {
 		val umlResource = resourceSet.createResource(URI.createURI("model/"+umlModelName+"/dummyUmlUri.uml"))
 		val xtumlrtResource = resourceSet.createResource(URI.createURI("model/"+umlModelName+"/dummyXtumlrtUri.xtuml"))
 		val traceResource = resourceSet.createResource(URI.createURI("model/"+umlModelName+"/dummyTraceUri.trace"))
-		resourceSet.createResource(URI.createURI("model/"+umlModelName+"/dummyCppUri.trace"))
+		val cppResource = resourceSet.createResource(URI.createURI("model/"+umlModelName+"/dummyCppUri.cppmodel"))
 		
 		val umlModel = umlFactory.createModel => [
 			name = umlModelName
 		]
 		umlResource.contents += umlModel
 		
-		val xtumlrtModel = commonFactory.createModel
+		val xtumlrtModel = commonFactory.createModel => [
+			it.name = umlModelName
+		]
 		xtumlrtResource.contents += xtumlrtModel
 
 		val mapping = createRootMapping => [
@@ -66,13 +74,47 @@ class CommonTestUtil {
 		]
 		traceResource.contents += mapping
 		
+		cppResource.prepareCppModel(xtumlrtModel)
+		
+		
 		mapping
+	}
+	
+	static def CPPModel prepareCppModel(Resource resource, org.eclipse.papyrusrt.xtumlrt.common.Model xtModel) {
+		val cppModel = createCppModel(resource, xtModel)
+		val modelDir = createCPPDirectory(cppModel.eResource)
+		resource.contents += cppFactory.createCPPExternalLibrary
+		cppModel.headerDir = modelDir
+		cppModel.bodyDir = modelDir
+		return cppModel
+	}
+	
+	static def createCppModel(Resource cppResource, org.eclipse.papyrusrt.xtumlrt.common.Model xtModel) {
+		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
+		val cppModel = cppFactory.createCPPModel => [
+			commonModel = xtModel
+			it.ooplNameProvider = provider
+		]
+		cppResource.contents += cppModel
+		return cppModel
+	}
+
+	static def createCPPDirectory(Resource cppResource) {
+		val cppDir = cppFactory.createCPPDirectory
+		cppResource.contents += cppDir
+		return cppDir
 	}
 	
 	static def createPackage(String name) {
 		umlFactory.createPackage => [
 			it.name = name
 		]
+	}
+	
+	static def createPackage(Component comp, String name) {
+		val package = createPackage(name)
+		comp.packagedElements += package
+		package
 	}
 
 	static def createPackageInModel(Model umlRoot) {
@@ -87,7 +129,7 @@ class CommonTestUtil {
 		]
 	}
 
-	static def createComponentInPackage(Package root, String name) {
+	static def createComponent(Package root, String name) {
 		val comp = createComponent(name)
 		root.packagedElements += comp
 		comp
@@ -99,7 +141,15 @@ class CommonTestUtil {
 		return primitiveTypes.findFirst[it.name == name]
 	}
 
-	static def createClass(Component umlPackage, String name) {
+	static def createClass(Component umlComp, String name) {
+		val umlClass = umlFactory.createClass => [
+			it.name = name
+		]
+		umlComp.nestedClassifiers += umlClass
+		return umlClass
+	}
+
+	static def createClass(Package umlPackage, String name) {
 		val umlClass = umlFactory.createClass => [
 			it.name = name
 		]

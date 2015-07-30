@@ -7,33 +7,41 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import java.util.Map
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 
 class UmlCppTransformationWrapper extends TransformationWrapper {
 	
-	TransformationQrt xform_1
-	XtumlCPPTransformationQrt xform_2
+	TransformationQrt xtTrafo
+	XtumlCPPTransformationQrt cppTrafo
+	XtumlComponentCPPTransformation compTrafo
 	AdvancedIncQueryEngine engine
 	
 	override initializeTransformation(ResourceSet rs, Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
-		xform_1 = new TransformationQrt
-		xform_1.externalTypeMap = primitiveTypeMapping
-		xform_1.initialize(engine)
-		xform_2 = new XtumlCPPTransformationQrt
-		xform_2.initialize(engine)
+		xtTrafo = new TransformationQrt
+		xtTrafo.externalTypeMap = primitiveTypeMapping
+		xtTrafo.initialize(engine)
+		cppTrafo = new XtumlCPPTransformationQrt
+		cppTrafo.initialize(engine)
+		compTrafo = new XtumlComponentCPPTransformation
+		compTrafo.initialize(engine)
 	}
 	
 	override executeTransformation() {
-		xform_1.execute
-		xform_2.execute
+		xtTrafo.execute
+		cppTrafo.execute
+		compTrafo.execute
 	}
 	
 	override cleanupTransformation() {
-		if(xform_1 != null) {
-			xform_1.dispose
+		if(xtTrafo != null) {
+			xtTrafo.dispose
 		}
-		if(xform_2 != null) {
-			xform_2.dispose
+		if(cppTrafo != null) {
+			cppTrafo.dispose
+		}
+		if(compTrafo != null) {
+			compTrafo.dispose
 		}
 		if(engine != null) {
 			engine.dispose

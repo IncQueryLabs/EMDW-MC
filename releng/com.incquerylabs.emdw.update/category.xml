@@ -34,5 +34,5 @@
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
    <category-def name="com.incquerylabs.emdw.update" label="xUML-RT"/>
-   <category-def name="com.incquerylabs.emdw.update.developer" label="EMDW Developer Features"/>
+   <category-def name="com.incquerylabs.emdw.update.developer" label="xUML-RT Developer Features"/>
 </site>

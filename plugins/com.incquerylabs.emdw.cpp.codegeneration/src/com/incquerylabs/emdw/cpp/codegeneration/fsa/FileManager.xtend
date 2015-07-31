@@ -142,7 +142,7 @@ abstract class FileManager implements IFileManager {
 	override boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) {
 	 	checkDirectoryPathAndFileName(directoryPath, filename)
 	 	if (!isDirectoryExists(directoryPath)) {
-			warn(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
+			info(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
 			return false
 		}
 		
@@ -183,14 +183,14 @@ abstract class FileManager implements IFileManager {
 	override boolean deleteFile(String directoryPath, String filename) {
 		checkDirectoryPathAndFileName(directoryPath, filename)
 		if (!isDirectoryExists(directoryPath)) {
-			warn(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
+			info(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
 			return false
 		}
 		if(fileExists(directoryPath, filename)) {
 			performFileDeletion(directoryPath, filename)
 			info(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, filename))
 		} else
-			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
 		
 		return true
 	}
@@ -205,7 +205,7 @@ abstract class FileManager implements IFileManager {
 		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
 			return readFileContentAsString(directoryPath, filename)
 		else
-			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
 		return null
 	}
 	
@@ -215,7 +215,7 @@ abstract class FileManager implements IFileManager {
 		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
 			return readFileContent(directoryPath, filename)
 		else
-			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
 		return null
 	}
 	private def byte[] getFileContent(String filename) {
@@ -223,7 +223,7 @@ abstract class FileManager implements IFileManager {
 		if(fileExists("", filename))
 			return readFileContent("", filename)
 		else
-			warn(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, ".", filename))
+			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, ".", filename))
 		return null
 	}
 	

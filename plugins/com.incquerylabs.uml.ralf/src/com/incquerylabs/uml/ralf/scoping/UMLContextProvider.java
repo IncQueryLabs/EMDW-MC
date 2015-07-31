@@ -16,6 +16,7 @@ import org.eclipse.incquery.runtime.emf.EMFScope;
 import org.eclipse.incquery.runtime.exception.IncQueryException;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
@@ -27,6 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.incquerylabs.emdw.umlintegration.queries.AssociationsOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.AttributesOfClassMatcher;
+import com.incquerylabs.emdw.umlintegration.queries.OperationMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.SignalsMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.UmlTypesMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.XtClassMatcher;
@@ -42,7 +44,8 @@ public abstract class UMLContextProvider extends AbstractUMLContextProvider {
 					AssociationsOfClassMatcher.querySpecification(),
 					AttributesOfClassMatcher.querySpecification(),
 					SignalsMatcher.querySpecification(),
-					UmlTypesMatcher.querySpecification()
+					UmlTypesMatcher.querySpecification(),
+					OperationMatcher.querySpecification()
 					);
 			queries.prepare(engine);			
 		}
@@ -142,4 +145,25 @@ public abstract class UMLContextProvider extends AbstractUMLContextProvider {
 		return Sets.newHashSet();
 	}
 
+	@Override
+	public Set<Operation> getOperationsOfClass(Class cl) {
+		return getOperationsOfClass(cl, false);
+	}
+
+	@Override
+	public Set<Operation> getStaticOperationsOfClass(Class cl) {
+		return getOperationsOfClass(cl, true);
+	}
+
+	public Set<Operation> getOperationsOfClass(Class cl, final boolean staticClass) {
+		OperationMatcher matcher;
+		try {
+			matcher = OperationMatcher.on(getEngine());
+			return Sets.filter(matcher.getAllValuesOfoperation(cl), (Operation op) -> op.isStatic() == staticClass);
+		} catch (IncQueryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Sets.newHashSet();
+	}
 }

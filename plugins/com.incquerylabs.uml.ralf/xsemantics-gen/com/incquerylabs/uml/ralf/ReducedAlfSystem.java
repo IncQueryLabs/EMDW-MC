@@ -16,6 +16,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
@@ -65,9 +66,9 @@ import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
-import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Classifier;
 import org.eclipse.uml2.uml.NamedElement;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Property;
@@ -157,6 +158,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String LINKOPERATIONEXPRESSION = "com.incquerylabs.uml.ralf.LinkOperationExpression";
   
   public final static String COLLECTIONCONSTRUCTIONEXPRESSION = "com.incquerylabs.uml.ralf.CollectionConstructionExpression";
+  
+  public final static String FEATUREINVOCATIONEXPRESSION = "com.incquerylabs.uml.ralf.FeatureInvocationExpression";
   
   public final static String FEATURELEFTHANDSIDE = "com.incquerylabs.uml.ralf.FeatureLeftHandSide";
   
@@ -718,8 +721,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   }
   
   protected Result<Boolean> returnStatementInternal(final RuleApplicationTrace _trace_, final ReturnStatement st) throws RuleFailedException {
-    Behavior _definedBehavior = this.umlContext.getDefinedBehavior();
-    final Parameter returnValue = this.scopeHelper.getReturnParameter(_definedBehavior);
+    Operation _definedOperation = this.umlContext.getDefinedOperation();
+    final Parameter returnValue = this.scopeHelper.getReturnParameter(_definedOperation);
     /* { returnValue == null st.expression == null } or { empty |- st.expression : var IUMLTypeReference exprType val returnType = returnValue.type.typeReference empty |- returnType <: exprType } */
     {
       RuleFailedException previousFailure = null;
@@ -2632,6 +2635,34 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
       CollectionTypeReference _sequenceOf = this.typeFactory.sequenceOf(valueType);
       result = _sequenceOf;
     }
+    return new Result<IUMLTypeReference>(result);
+  }
+  
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureInvocationExpression ex) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<IUMLTypeReference> _result_ = applyRuleFeatureInvocationExpression(G, _subtrace_, ex);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("FeatureInvocationExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleFeatureInvocationExpression) {
+    	typeThrowException(ruleName("FeatureInvocationExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + "IUMLTypeReference",
+    		FEATUREINVOCATIONEXPRESSION,
+    		e_applyRuleFeatureInvocationExpression, ex, new ErrorInformation[] {new ErrorInformation(ex)});
+    	return null;
+    }
+  }
+  
+  protected Result<IUMLTypeReference> applyRuleFeatureInvocationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureInvocationExpression ex) throws RuleFailedException {
+    IUMLTypeReference result = null; // output parameter
+    Operation _operation = ex.getOperation();
+    Type _type = _operation.getType();
+    IUMLTypeReference _typeReference = this.typeFactory.typeReference(_type);
+    result = _typeReference;
     return new Result<IUMLTypeReference>(result);
   }
   

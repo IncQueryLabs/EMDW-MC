@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.scoping;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Behavior;
 import org.eclipse.uml2.uml.Class;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Signal;
 import org.eclipse.uml2.uml.Type;
@@ -24,6 +25,8 @@ public interface IUMLContextProvider {
 	
 	Iterable<Property> getPropertiesOfClass(Class cl);
 	Iterable<Property> getAssociationsOfClass(Class cl);
+	Iterable<Operation> getOperationsOfClass(Class cl);
+	Iterable<Operation> getStaticOperationsOfClass(Class cl);
 	
 	/**
 	 * Returns the type of the this expression. If no container can be calculated, might return null.
@@ -32,6 +35,6 @@ public interface IUMLContextProvider {
 	 */
 	Class getThisType();
 	
-	Behavior getDefinedBehavior();
-	void setDefinedBehavior(Behavior behavior);
+	Operation getDefinedOperation();
+	void setDefinedOperation(Operation behavior);
 }

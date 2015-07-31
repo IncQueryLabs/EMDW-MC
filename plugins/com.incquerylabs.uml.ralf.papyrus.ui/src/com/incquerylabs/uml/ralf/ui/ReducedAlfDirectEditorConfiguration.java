@@ -21,9 +21,11 @@ import org.eclipse.papyrus.infra.core.services.ServicesRegistry;
 import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet;
 import org.eclipse.papyrus.uml.xtext.integration.DefaultXtextDirectEditorConfiguration;
 import org.eclipse.uml2.uml.Behavior;
+import org.eclipse.uml2.uml.BehavioralFeature;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.OpaqueBehavior;
+import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UMLResource;
@@ -113,12 +115,14 @@ public class ReducedAlfDirectEditorConfiguration extends DefaultXtextDirectEdito
 		}
 
         @Override
-		public Behavior getDefinedBehavior() {
+		public Operation getDefinedOperation() {
         	if (getObjectToEdit() instanceof Behavior) {
-        		return (Behavior) getObjectToEdit();
-        	} else {
-        		return null;
+        		 BehavioralFeature specification = ((Behavior) getObjectToEdit()).getSpecification();
+        		 if (specification instanceof Operation) {
+        			 return (Operation) specification;
+        		 }
         	}
+        	return null;
 		}
 
 		@Override

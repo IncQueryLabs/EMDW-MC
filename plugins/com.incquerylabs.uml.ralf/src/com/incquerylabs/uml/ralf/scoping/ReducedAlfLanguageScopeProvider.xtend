@@ -20,6 +20,8 @@ import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
 import com.incquerylabs.uml.ralf.types.UMLTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference
 
 /**
  * This class contains custom scoping description.
@@ -34,8 +36,6 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     IUMLContextProvider umlContext
     @Inject
     ReducedAlfSystem system
-    @Inject
-    extension UMLScopeHelper scopeHelper
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
@@ -97,8 +97,12 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     private def IScope getParametersScope() {
-        val behavior = umlContext.definedBehavior
-        Scopes.scopeFor(behavior.parameters)
+        val operation = umlContext.definedOperation
+        if (operation == null) {
+            IScope.NULLSCOPE
+        } else {
+            Scopes.scopeFor(operation.ownedParameters)
+        }
     }
     
     private def Iterable<Variable> variableDeclarations(EObject container, EObject until) {
@@ -122,6 +126,41 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         }
     }
     
+    private def getClassFromTypeReference(IUMLTypeReference typeRef) {
+        if (typeRef instanceof UMLTypeReference) {
+            val type = typeRef.umlType
+            if (type instanceof Class) {
+                return type
+            }    
+        }
+        return null
+    }
+     
+    def IScope scope_FeatureInvocationExpression_operation(FeatureInvocationExpression ctx, EReference ref) {
+        if (ctx.context != null && !ctx.context.eIsProxy) {
+            scope_FeatureInvocationExpression_operation(ctx.context, ref, ctx.isIsStatic)    
+        } else {
+            null
+        }
+    }
+    
+    def IScope scope_FeatureInvocationExpression_operation(Expression ctx, EReference ref, boolean isStatic) {
+        val typeResult = system.type(ctx)
+        if (typeResult.failed) {
+            return null
+        }
+        val type = typeResult.value.classFromTypeReference
+        if (type != null) {
+            if (isStatic) {
+                Scopes.scopeFor(umlContext.getStaticOperationsOfClass(type))
+            } else {
+                Scopes.scopeFor(umlContext.getOperationsOfClass(type))
+            }
+        } else {
+            null
+        }
+    }
+    
     def IScope scope_PropertyAccessExpression_property(PropertyAccessExpression ctx, EReference ref) {
         if (ctx.context != null && !(ctx.context.eIsProxy)) {
             scope_PropertyAccessExpression_property(ctx.context, ref)
@@ -135,12 +174,9 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         if (typeResult.failed) {
             return null
         }
-        val typeRef = typeResult.value
-        if (typeRef instanceof UMLTypeReference) {
-            val type = typeRef.umlType
-            if (type instanceof Class) {
-                return Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
-            }    
+        val type = typeResult.value.classFromTypeReference
+        if (type != null) {
+            return Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
         }
         return null
     }

@@ -41,6 +41,14 @@ class SimpleUMLContextProvider extends AbstractUMLContextProvider {
     override getAssociationsOfClass(Class cl) {
         return newArrayList
     }
+    
+    override getOperationsOfClass(Class cl) {
+        return newArrayList
+    }
+    
+    override getStaticOperationsOfClass(Class cl) {
+        return newArrayList
+    }
 
     override getKnownTypes() {
         containerResource.allContents.filter(typeof(Type)).toSet

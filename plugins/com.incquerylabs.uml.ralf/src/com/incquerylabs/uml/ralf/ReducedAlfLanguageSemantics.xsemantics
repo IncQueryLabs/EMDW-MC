@@ -61,6 +61,7 @@ import com.incquerylabs.uml.ralf.types.AbstractTypeReference
 import org.eclipse.uml2.uml.Parameter
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
 import com.incquerylabs.uml.ralf.scoping.UMLScopeHelper
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -466,6 +467,12 @@ from {
     }
 }
 
+rule FeatureInvocationExpression
+    derives G |- FeatureInvocationExpression ex : IUMLTypeReference result
+from {
+    result = ex.operation.getType.typeReference
+}
+
 //Non-expression types
 
 rule FeatureLeftHandSide
@@ -587,7 +594,7 @@ from {
 checkrule ReturnStatement for
     ReturnStatement st
 from {
-    val returnValue = definedBehavior.returnParameter
+    val returnValue = definedOperation.returnParameter
     {
         returnValue == null    
         st.expression == null

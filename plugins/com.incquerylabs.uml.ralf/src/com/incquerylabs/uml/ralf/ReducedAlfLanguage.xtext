@@ -46,7 +46,7 @@ Expression :
 
 PrimaryExpression returns Expression :
   BaseExpression
-  ( {FeatureInvocationExpression.context = current} '.' operation = [uml::Operation|Name] parameters = Tuple |
+  ( {FeatureInvocationExpression.context = current} ('.'| isStatic ?= '::') operation = [uml::Operation|Name] parameters = Tuple |
     {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
@@ -68,7 +68,7 @@ BaseExpression returns Expression :
     LinkOperationExpression |
     NullExpression |
 //  SequenceOperationOrReductionOrExpansionExpression |
-    BehaviorInvocationExpression |
+//    BehaviorInvocationExpression |
     NameExpression |
     ParenthesizedExpression
 ;
@@ -140,10 +140,10 @@ PropertyAccessExpression:
 //;
 
 /* INVOCATION EXPRESSIONS */
-
-BehaviorInvocationExpression :
-  target = [uml::Behavior|QualifiedName] tuple = Tuple
-;
+//
+//BehaviorInvocationExpression :
+//  target = [uml::Behavior|QualifiedName] tuple = Tuple
+//;
 
 Tuple returns Tuple: 
     {ExpressionList} '(' ')'

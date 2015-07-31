@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.scoping
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.uml2.uml.Operation
 
 class UMLScopeHelper {
 
@@ -24,7 +25,7 @@ class UMLScopeHelper {
         return newArrayList
     }
     
-    def Parameter getReturnParameter(Behavior behavior) {
-        behavior.getParameters.findFirst[direction == ParameterDirectionKind.RETURN_LITERAL]
+    def Parameter getReturnParameter(Operation operation) {
+        operation?.ownedParameters?.findFirst[direction == ParameterDirectionKind.RETURN_LITERAL]
     }
 }

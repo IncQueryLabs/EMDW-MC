@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="PingPongAdvanced">
+  <entities xsi:type="xtuml:XTComponent" name="Component">
+    <entities xsi:type="xtuml:XTClass" name="Pong">
+      <behaviour name="Pong_SM">
+        <top>
+          <initial name="initial" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.0"/>
+          <substates xsi:type="common:SimpleState" name="s2" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.2">
+            <entryAction name="sendPong" source="::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;&#xA;new_event->count = casted_const_event->count + 1;&#xD;&#xA;new_event->myString = casted_const_event->myString;&#xD;&#xA;if(new_event->count % 10 == 0) {&#xD;&#xA;&#x9;new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;&#xA;}&#xD;&#xA;::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;&#xA;R1_ping->generate_event(new_event);"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="s1" incomingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.2 //@entities.0/@entities.0/@behaviour/@top/@transitions.0" outgoingTransitions="//@entities.0/@entities.0/@behaviour/@top/@transitions.1"/>
+          <transitions name="i" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1"/>
+          <transitions name="e1" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="ping_t" signal="//@entities.0/@entities.1/@events.0"/>
+          </transitions>
+          <transitions name="e2" sourceVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.0/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="ping_t" signal="//@entities.0/@entities.1/@events.0"/>
+            <actionChain name="sendPong">
+              <actions name="sendPong" source="::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;&#xA;new_event->count = casted_const_event->count + 1;&#xD;&#xA;new_event->myString = casted_const_event->myString;&#xD;&#xA;if(new_event->count % 10 == 0) {&#xD;&#xA;&#x9;new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;&#xA;}&#xD;&#xA;::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;&#xA;R1_ping->generate_event(new_event);"/>
+            </actionChain>
+          </transitions>
+        </top>
+      </behaviour>
+      <relations xsi:type="xtuml:XTAssociation" name="pongAssoc_manager" upperBound="-1" opposite="//@entities.0/@entities.2/@relations.1" source="//@entities.0/@entities.0" target="//@entities.0/@entities.2"/>
+      <relations xsi:type="xtuml:XTAssociation" name="R1_ping" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.1/@relations.0" source="//@entities.0/@entities.0" target="//@entities.0/@entities.1"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="Ping">
+      <behaviour name="Ping_SM">
+        <top>
+          <initial name="initial" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0"/>
+          <substates xsi:type="common:SimpleState" name="s2" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.2" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.1">
+            <entryAction name="sendPing" source="::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;&#xA;new_event->count = casted_const_event->count + 1;&#xD;&#xA;new_event->myString = casted_const_event->myString;&#xD;&#xA;if(new_event->count % 10 == 0) {&#xD;&#xA;&#x9;new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;&#xA;}&#xD;&#xA;::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;&#xA;R1_pong->generate_event(new_event);"/>
+          </substates>
+          <substates xsi:type="common:SimpleState" name="s1" incomingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.0 //@entities.0/@entities.1/@behaviour/@top/@transitions.1" outgoingTransitions="//@entities.0/@entities.1/@behaviour/@top/@transitions.2"/>
+          <transitions name="i" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1">
+            <actionChain name="createPing">
+              <actions name="createPing" source="R1_pong->generate_event(new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false));"/>
+            </actionChain>
+          </transitions>
+          <transitions name="e2" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="pong_t" signal="//@entities.0/@entities.1/@events.0"/>
+            <actionChain name="sendPing">
+              <actions name="sendPing" source="::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;&#xA;new_event->count = casted_const_event->count + 1;&#xD;&#xA;new_event->myString = casted_const_event->myString;&#xD;&#xA;if(new_event->count % 10 == 0) {&#xD;&#xA;&#x9;new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;&#xA;}&#xD;&#xA;::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;&#xA;R1_pong->generate_event(new_event);"/>
+            </actionChain>
+          </transitions>
+          <transitions name="e1" sourceVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.1" targetVertex="//@entities.0/@entities.1/@behaviour/@top/@substates.0">
+            <triggers xsi:type="xtuml:XTEventTrigger" name="pong_t" signal="//@entities.0/@entities.1/@events.0"/>
+          </transitions>
+        </top>
+      </behaviour>
+      <relations xsi:type="xtuml:XTAssociation" name="R1_pong" unique="true" lowerBound="1" upperBound="1" opposite="//@entities.0/@entities.0/@relations.1" source="//@entities.0/@entities.1" target="//@entities.0/@entities.0"/>
+      <relations xsi:type="xtuml:XTAssociation" name="pingAssoc_manager" unique="true" upperBound="-1" opposite="//@entities.0/@entities.2/@relations.0" source="//@entities.0/@entities.1" target="//@entities.0/@entities.2"/>
+      <events xsi:type="xtuml:XTClassEvent" name="DerivedSignal" definingEvents="//@entities.0/@entities.1/@events.1">
+        <attributes name="count" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+        </attributes>
+      </events>
+      <events xsi:type="xtuml:XTClassEvent" name="BaseSignal">
+        <attributes name="myString" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+        </attributes>
+      </events>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="Manager">
+      <attributes name="intList" unique="true" ordered="true" upperBound="-1">
+        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+      </attributes>
+      <attributes name="realList" lowerBound="1" upperBound="-1">
+        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+      </attributes>
+      <attributes name="boolList" unique="true" lowerBound="1" upperBound="-1">
+        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
+      </attributes>
+      <relations xsi:type="xtuml:XTAssociation" name="pingAssoc_ping" unique="true" upperBound="-1" opposite="//@entities.0/@entities.1/@relations.1" source="//@entities.0/@entities.2" target="//@entities.0/@entities.1"/>
+      <relations xsi:type="xtuml:XTAssociation" name="pongAssoc_pong" upperBound="-1" opposite="//@entities.0/@entities.0/@relations.0" source="//@entities.0/@entities.2" target="//@entities.0/@entities.0"/>
+    </entities>
+  </entities>
+</common:Model>

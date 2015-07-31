@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ZvNCEBmjEeWkDIIs2OLK7g" name="model">
-  <packagedElement xmi:type="uml:Component" xmi:id="_U_BbIBmkEeWkDIIs2OLK7g" name="Comp">
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ZvNCEBmjEeWkDIIs2OLK7g" name="PingPongAdvanced">
+  <packagedElement xmi:type="uml:Component" xmi:id="_U_BbIBmkEeWkDIIs2OLK7g" name="Component" isActive="true">
     <nestedClassifier xmi:type="uml:Class" xmi:id="_LbgdgBmkEeWkDIIs2OLK7g" name="Pong" classifierBehavior="_a8SY4BmmEeWkDIIs2OLK7g">
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a8SY4BmmEeWkDIIs2OLK7g" name="Pong_SM">
         <region xmi:type="uml:Region" xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
@@ -11,7 +11,7 @@
           <transition xmi:type="uml:Transition" xmi:id="_kKvFcBmmEeWkDIIs2OLK7g" name="e2" source="_d8s14BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_MmBIkBpDEeWJmP2mki6rxQ" name="sendPong">
               <language>C++</language>
-              <body>::model::Comp::Ping::DerivedSignal_event* new_event = new ::model::Comp::Ping::DerivedSignal_event(false);&#xD;
+              <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
 new_event->count = casted_const_event->count + 1;&#xD;
 new_event->myString = casted_const_event->myString;&#xD;
 if(new_event->count % 10 == 0) {&#xD;
@@ -27,7 +27,7 @@ R1_ping->generate_event(new_event);</body>
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_Dxv2kBpDEeWJmP2mki6rxQ" name="sendPong">
               <language>C++</language>
               <language>rALF</language>
-              <body>::model::Comp::Ping::DerivedSignal_event* new_event = new ::model::Comp::Ping::DerivedSignal_event(false);&#xD;
+              <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
 new_event->count = casted_const_event->count + 1;&#xD;
 new_event->myString = casted_const_event->myString;&#xD;
 if(new_event->count % 10 == 0) {&#xD;
@@ -50,7 +50,7 @@ R1_ping->generate_event(new_event);</body>
           <transition xmi:type="uml:Transition" xmi:id="_su_QYBmkEeWkDIIs2OLK7g" name="i" source="_rax2gBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_UwNk8DXxEeWvR7lYJDrnpw" name="createPing">
               <language>C++</language>
-              <body>R1_pong->generate_event(new ::model::Comp::Ping::DerivedSignal_event(false));</body>
+              <body>R1_pong->generate_event(new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false));</body>
             </effect>
           </transition>
           <transition xmi:type="uml:Transition" xmi:id="_76OrgBmkEeWkDIIs2OLK7g" name="e1" source="_oUtdcBmkEeWkDIIs2OLK7g" target="_oolbsBmkEeWkDIIs2OLK7g">
@@ -59,7 +59,7 @@ R1_ping->generate_event(new_event);</body>
           <transition xmi:type="uml:Transition" xmi:id="_84_Z0BmkEeWkDIIs2OLK7g" name="e2" source="_oolbsBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_E1LroDXxEeWvR7lYJDrnpw" name="sendPing">
               <language>C++</language>
-              <body>::model::Comp::Ping::DerivedSignal_event* new_event = new ::model::Comp::Ping::DerivedSignal_event(false);&#xD;
+              <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
 new_event->count = casted_const_event->count + 1;&#xD;
 new_event->myString = casted_const_event->myString;&#xD;
 if(new_event->count % 10 == 0) {&#xD;
@@ -75,7 +75,7 @@ R1_pong->generate_event(new_event);</body>
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_AiVCkBmmEeWkDIIs2OLK7g" name="sendPing">
               <language>C++</language>
               <language>rALF</language>
-              <body>::model::Comp::Ping::DerivedSignal_event* new_event = new ::model::Comp::Ping::DerivedSignal_event(false);&#xD;
+              <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
 new_event->count = casted_const_event->count + 1;&#xD;
 new_event->myString = casted_const_event->myString;&#xD;
 if(new_event->count % 10 == 0) {&#xD;

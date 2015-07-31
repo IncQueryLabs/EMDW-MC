@@ -33,6 +33,6 @@
    <feature url="features/it.xsemantics.sdk_1.8.0.qualifier.jar" id="it.xsemantics.sdk" version="1.8.0.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
-   <category-def name="com.incquerylabs.emdw.update" label="xUML-RT"/>
-   <category-def name="com.incquerylabs.emdw.update.developer" label="xUML-RT Developer Features"/>
+   <category-def name="com.incquerylabs.emdw.update" label="xUML-RT Model Compiler"/>
+   <category-def name="com.incquerylabs.emdw.update.developer" label="xUML-RT Model Compiler Developer Features"/>
 </site>

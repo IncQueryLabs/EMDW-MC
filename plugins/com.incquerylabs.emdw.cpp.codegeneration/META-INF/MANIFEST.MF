@@ -10,7 +10,7 @@ Export-Package: com.incquerylabs.emdw.cpp.codegeneration,
  com.incquerylabs.emdw.cpp.codegeneration.queries,
  com.incquerylabs.emdw.cpp.codegeneration.queries.util
 Require-Bundle: com.ericsson.xtumlrt.oopl.cpp.model,
- com.google.guava,
+ com.google.guava;bundle-version="[15.0.0,16.0.0)",
  org.eclipse.xtend.lib,
  org.eclipse.viatra.emf.runtime,
  org.eclipse.incquery.runtime,

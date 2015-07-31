@@ -48,7 +48,7 @@ class PluginUMLTypeExampleTest {
 			p->ping->generate_event(s);'''
 	
 	    //Set context by adding an qualified name for a behavior
-	    context.definedBehavior = "model::Comp::Pong::Pong_SM::Region1::s2::sendPong"
+	    context.definedOperation = "model::Comp::Pong::sendPong"
 		//create AST
 		val ast = parser.parse(input, context)
 		//generate snippets
@@ -72,7 +72,7 @@ class PluginUMLTypeExampleTest {
 		
 		//As in this test case there is no editor attached to the UML model, the qualified name of the current type needs to be specified.
 		//Hand the name of the current type to the context provider
-		context.definedBehavior = "model::Comp::Pong::Pong_SM::Region1::s2::sendPong"
+		context.definedOperation = "model::Comp::Pong::sendPong"
 		
 		//create AST
 		val ast = parser.parse(input, context)

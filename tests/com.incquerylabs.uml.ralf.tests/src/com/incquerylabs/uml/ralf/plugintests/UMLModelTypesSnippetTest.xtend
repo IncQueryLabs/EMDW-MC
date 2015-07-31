@@ -58,12 +58,13 @@ class UMLModelTypesSnippetTest {
 		, 
 		'''
 			this->ping->generate_event(new model::Comp::Pong::ping_s());'''
-		,"model::Comp::Pong::Pong_SM::Region1::s2::sendPong")
+		,
+		"model::Comp::Pong::doIntegerVoid")
 	}
 	
 
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
-		context.definedBehavior = thisElementFQN
+		context.definedOperation = thisElementFQN
 		
 		val snippet = generator.createSnippet(input, context, parser)
 		val serializedSnippet = serializer.serialize(snippet)	

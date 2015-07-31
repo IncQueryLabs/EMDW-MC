@@ -12,6 +12,7 @@ import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.NamedElement
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.uml2.uml.Operation
 
 @Singleton
 class TestModelUMLContextProvider extends UMLContextProvider {
@@ -31,22 +32,13 @@ class TestModelUMLContextProvider extends UMLContextProvider {
 		model =  resource.allContents.filter(typeof(Model)).findFirst[true]
 	}
 	
-	public def setDefinedBehavior(String elementFQN) {
-		definedBehavior = model.allOwnedElements.filter(Behavior)
-           .findFirst[
-               if (qualifiedName == elementFQN) {
-                   true
-               } else {
-                   val splitString = elementFQN.split("::")
-                   val joinedString = Joiner.on("::").join(splitString.take(splitString.length - 1))
-                   qualifiedName == splitString.last 
-                       && (it.eContainer as NamedElement).qualifiedName == joinedString
-               }
-           ] 
+	public def setDefinedOperation(String elementFQN) {
+		definedOperation = model.allOwnedElements.filter(Operation)
+           .findFirst[qualifiedName == elementFQN] 
 	}
 	
 	override protected getContextObject() {
-		getDefinedBehavior()
+		getDefinedOperation()
 	}
 	
 	override protected doGetEngine() {

@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.tests.example.util
 
-import com.google.common.base.Joiner
 import com.google.inject.Singleton
 import com.incquerylabs.uml.ralf.scoping.UMLContextProvider
 import org.eclipse.emf.common.util.URI
@@ -8,9 +7,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
-import org.eclipse.uml2.uml.NamedElement
+import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.resource.UMLResource
 
 /**
@@ -37,22 +35,13 @@ class TestModelUMLContextProvider extends UMLContextProvider {
         model =  resource.allContents.filter(typeof(Model)).findFirst[true]
     }
     
-    public def setDefinedBehavior(String elementFQN) {
-        definedBehavior = model.allOwnedElements.filter(Behavior)
-           .findFirst[
-               if (qualifiedName == elementFQN) {
-                   true
-               } else {
-                   val splitString = elementFQN.split("::")
-                   val joinedString = Joiner.on("::").join(splitString.take(splitString.length - 1))
-                   qualifiedName == splitString.last 
-                       && (it.eContainer as NamedElement).qualifiedName == joinedString
-               }
-           ]
+    public def setDefinedOperation(String elementFQN) {
+        definedOperation = model.allOwnedElements.filter(Operation)
+           .findFirst[qualifiedName == elementFQN]
     }
     
     override protected getContextObject() {
-        getDefinedBehavior()
+        getDefinedOperation()
     }
     
     override protected doGetEngine() {

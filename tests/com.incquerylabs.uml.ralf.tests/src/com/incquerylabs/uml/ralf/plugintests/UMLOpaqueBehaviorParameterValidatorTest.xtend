@@ -12,7 +12,6 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
-import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -29,9 +28,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		'''
 			Integer x = 1;
 			x = inParameter;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -40,9 +38,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		'''
 			Real x = 1.1;
 			x = inParameter;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -51,9 +48,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		'''
 			String x = "1";
 			x = inParameter;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -61,9 +57,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			inParameter + 1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -71,9 +66,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			inParameter * 1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -81,9 +75,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			inParameter >> 1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -91,9 +84,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			inParameter < 1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -101,9 +93,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			outParameter = 1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -111,9 +102,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterError(
 		'''
 			outParameter = 1.1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -121,9 +111,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterError(
 		'''
 			outParameter = "1";
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -131,9 +120,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			outParameter = 1 + 2;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -141,9 +129,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			outParameter = 1 * 2;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -151,20 +138,17 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			outParameter = 1 >> 2;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
-	@Ignore("Operation calls not yet supported")
 	def outParameterIntegerAssignment_Operation(){
 		parameterOK(
 		'''
 			outParameter = this.returnInteger();
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -172,9 +156,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterError(
 		'''
 			outParameter = this.returnPong();
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -182,9 +165,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			return 1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -192,9 +174,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterError(
 		'''
 			return 1.1;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -202,9 +183,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterError(
 		'''
 			return "1";
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -212,9 +192,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			return 1 + 2;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -222,9 +201,8 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			return 1 * 2;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -232,21 +210,18 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		parameterOK(
 		'''
 			return 1 >> 2;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
-	@Ignore("Return parameters not yet supported")
 	def returnParameter_Operation(){
 		parameterOK(
 		'''
 			Integer x = this.returnInteger();
 			return x;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -255,21 +230,20 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		'''
 			Pong x = this.returnPong();
 			return x;
-		'''
-		,"model::Comp::Pong"
-		,"model::Comp::Pong::TestBehavior")
+		''',
+		"model::Comp::Pong::TestOperation")
 	}
 	
-	def parameterOK(String input, String thisElementFQN, String opaqueFQN) {
+	def parameterOK(String input, String opaqueFQN) {
 		//Set Opaque behavior ID	
-		context.definedBehavior = opaqueFQN
+		context.definedOperation = opaqueFQN
 		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
-	def parameterError(String input, String thisElementFQN, String opaqueFQN) {	
+	def parameterError(String input, String opaqueFQN) {	
 		//Set Opaque behavior ID
-		context.definedBehavior = opaqueFQN
+		context.definedOperation = opaqueFQN
 		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 	

@@ -17,7 +17,7 @@ import org.junit.Ignore
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
-@Ignore("Operations are not yet working")
+@Ignore("Operation calls not yet working")
 class UMLOperationValidatorTest {
 	
 	@Inject
@@ -31,7 +31,7 @@ class UMLOperationValidatorTest {
 		operationOKThis(
 		'''
 			this.doIntegerVoid(1);'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -41,7 +41,7 @@ class UMLOperationValidatorTest {
 			Integer x = 2;
 			this.doIntegerVoid(x);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -51,7 +51,7 @@ class UMLOperationValidatorTest {
 			Integer x = 2;
 			this.doIntegerVoid(parameter => x);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -60,7 +60,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid(1+1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -69,7 +69,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid(1*1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid("1" + "1");
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -87,7 +87,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid(1 >> 1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -96,7 +96,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid(-1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -105,7 +105,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid(this.returnInteger());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 		
 	@Test
@@ -114,7 +114,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doIntegerVoid(this.returnPong());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -123,7 +123,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doStringVoid("1");
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -133,7 +133,7 @@ class UMLOperationValidatorTest {
 			String x = "1"
 			this.doStringVoid(x);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -143,7 +143,7 @@ class UMLOperationValidatorTest {
 			String x = "1"
 			this.doStringVoid(x + "1");
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -152,7 +152,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doBooleanVoid(true);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -161,7 +161,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doBooleanVoid(!true);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -170,7 +170,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doBooleanVoid(1 < 2);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -179,7 +179,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doBooleanVoid(true || false);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -188,7 +188,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doBooleanVoid("a");
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -198,7 +198,7 @@ class UMLOperationValidatorTest {
 			Integer x = 1;
 			this.doRealVoid(x);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -208,7 +208,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			this.doPongVoid(x);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -217,7 +217,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doPongVoid(new Pong());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -226,7 +226,7 @@ class UMLOperationValidatorTest {
 		'''
 			doPongVoid(new Pong());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -236,7 +236,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			x.doPongVoid(this);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -246,7 +246,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			this.doPongVoid(x.returnPong());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -256,7 +256,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			this.doPongVoid(x.returnInteger());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -265,7 +265,7 @@ class UMLOperationValidatorTest {
 		'''
 			doPongVoid(returnPong());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -275,7 +275,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			doPongVoid(x.returnInteger());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -285,7 +285,7 @@ class UMLOperationValidatorTest {
 			ping_s s = new ping_s();
 			this.doPingSignalVoid(s);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -294,7 +294,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doPingSignalVoid(new ping_s());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -303,7 +303,7 @@ class UMLOperationValidatorTest {
 		'''
 			doPingSignalVoid(new ping_s());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -312,7 +312,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doPingSignalVoid(this.returnPingSignal());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -321,7 +321,7 @@ class UMLOperationValidatorTest {
 		'''
 			doPingSignalVoid(returnPingSignal());
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -331,7 +331,7 @@ class UMLOperationValidatorTest {
 			ping_s x = new ping_s();
 			x = this.returnPingSignal();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -341,7 +341,7 @@ class UMLOperationValidatorTest {
 			Pong x = Pong();
 			x = this.returnPingSignal();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -351,7 +351,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			x = this.returnPong();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -360,7 +360,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.returnPong().doInteger(1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -370,7 +370,7 @@ class UMLOperationValidatorTest {
 			Integer x = 1;
 			x = this.returnInteger();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -379,7 +379,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.returnInteger() + 1;
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -388,7 +388,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.returnInteger() * 2;
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -397,7 +397,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.returnInteger() >> 2;
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 		
 	@Test
@@ -407,7 +407,7 @@ class UMLOperationValidatorTest {
 			ping_s x = new ping_s();
 			x = returnPingSignal();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -417,7 +417,7 @@ class UMLOperationValidatorTest {
 			Pong x = Pong();
 			x = returnPingSignal();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -427,7 +427,7 @@ class UMLOperationValidatorTest {
 			Pong x = new Pong();
 			x = returnPong();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -436,7 +436,7 @@ class UMLOperationValidatorTest {
 		'''
 			returnPong().doInteger(1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -446,7 +446,7 @@ class UMLOperationValidatorTest {
 			Integer x = 1;
 			x = returnInteger();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -455,7 +455,7 @@ class UMLOperationValidatorTest {
 		'''
 			returnInteger() + 1;
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -464,7 +464,7 @@ class UMLOperationValidatorTest {
 		'''
 			returnInteger() * 2;
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -473,7 +473,7 @@ class UMLOperationValidatorTest {
 		'''
 			returnInteger() >> 2;
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -482,7 +482,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doMultipleReturnString(1, this);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -491,7 +491,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doMultipleReturnString("1", this);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -500,7 +500,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doMultipleReturnString(this);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -510,7 +510,7 @@ class UMLOperationValidatorTest {
 			String x = "1";
 			x = this.doMultipleReturnString(1, this);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -519,7 +519,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doDefaultValue(1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -528,7 +528,7 @@ class UMLOperationValidatorTest {
 		'''
 			doDefaultValue(1);
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -537,7 +537,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doDefaultValue();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -546,7 +546,7 @@ class UMLOperationValidatorTest {
 		'''
 			doDefaultValue();
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -555,7 +555,7 @@ class UMLOperationValidatorTest {
 		'''
 			this.doDefaultValue("1");
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	@Test
@@ -564,17 +564,17 @@ class UMLOperationValidatorTest {
 		'''
 			doDefaultValue("1");
 		'''
-		,"model::Comp::Pong")
+		,"model::Comp::Pong::TestOperation")
 	}
 	
 	def operationOKThis(String input, String thisElementFQN) {	
-		context.definedBehavior = thisElementFQN
-		val result = parser.parse(input)
+		context.definedOperation = thisElementFQN
+		val result = parser.parse(input, context)
 		assertTrue(result.toString, result.validationOK)
 	}
 	
 	def operationErrorThis(String input, String thisElementFQN) {	
-		context.definedBehavior = thisElementFQN
-		assertTrue("NO Validation errors found", parser.parse(input).hasError)
+		context.definedOperation = thisElementFQN
+		assertTrue("NO Validation errors found", parser.parse(input, context).hasError)
 	}
 }

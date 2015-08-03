@@ -43,7 +43,7 @@ class OperationTemplates {
 	def operationDeclarationInClassHeader(CPPOperation operation, boolean withReturnType, boolean isVirtual) {
 		val commonOp = operation.commonOperation
 		val isStatic = commonOp.static
-		'''«operationSignature(operation, true, withReturnType, isVirtual, isStatic)»;'''
+		'''«operationSignature(operation, false, withReturnType, isVirtual, isStatic)»;'''
 	}
 	
 	def operationDefinitionInClassBody(CPPOperation operation, boolean withReturnType) {

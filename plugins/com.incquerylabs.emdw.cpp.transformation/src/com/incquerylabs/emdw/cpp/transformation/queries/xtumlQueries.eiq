@@ -42,6 +42,21 @@ pattern xtComponentXTClasses(
 	XTComponent.entities(xtComponent, xtClass);
 }
 
+pattern xtComponentAllXTClasses(
+	xtComponent : XTComponent,
+	xtClass : XTClass
+) {
+	find xtComponentXTClasses(xtComponent, xtClass);
+} or {
+	XTComponent.packages(xtComponent, xtPackage);
+	Package.entities(xtPackage, xtClass);
+} or {
+	XTComponent.packages(xtComponent, xtPackage);
+	find xtPackageSubPackages+(xtPackage, subPackage);
+	Package.entities(subPackage, xtClass);
+}
+
+
 pattern xtComponentXTPackages(
 	xtComponent : XTComponent,
 	xtPackage : Package
@@ -329,7 +344,7 @@ pattern cppComponentStateMachine(
 	stateMachine : StateMachine
 ) {
 	CPPComponent.xtComponent(cppComponent, xtComponent);
-	find xtComponentXTClasses(xtComponent, xtClass);
+	find xtComponentAllXTClasses(xtComponent, xtClass);
 	XTClass.behaviour(xtClass, stateMachine);
 }
 

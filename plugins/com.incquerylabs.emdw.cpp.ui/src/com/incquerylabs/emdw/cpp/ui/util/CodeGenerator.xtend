@@ -44,6 +44,12 @@ class CodeGenerator {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	val Logger logger
+	
+	new(){
+		logger = Logger.getLogger(class)
+		logger.level = Level.DEBUG
+	}
 	
 	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event, XtumlModelChangeMonitor xtumlChangeMonitor) {
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
@@ -68,6 +74,8 @@ class CodeGenerator {
 					]
 					xtumlChangeMonitor?.clear
 				}
+				
+				logger.info("Code generation finished successfully!")
 			} finally {
 				xformqrt.dispose
 			}

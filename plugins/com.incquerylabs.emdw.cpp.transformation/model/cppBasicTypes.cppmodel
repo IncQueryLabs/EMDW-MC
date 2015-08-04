@@ -14,7 +14,7 @@
   </subElements>
   <subElements xsi:type="cpp:CPPBasicType">
     <commonType xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
-    <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="std::string"/>
+    <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="::std::string"/>
   </subElements>
   <subElements xsi:type="cpp:CPPBasicType">
     <commonType xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>

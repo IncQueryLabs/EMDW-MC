@@ -35,7 +35,7 @@ class OperationTemplates {
 		val virtualKeyword = '''«IF isVirtual»virtual «ENDIF»'''
 		val returnTypeString = '''«IF hasReturnType»«typeConverter.convertType(returnType.type)» «ENDIF»'''
 		val operationName = '''«IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»'''
-		val parenthesizedName = '''«IF hasReturnType»(«operationName»)«ELSE»«operationName»«ENDIF»'''
+		val parenthesizedName = '''«IF hasReturnType && useQualifiedName»(«operationName»)«ELSE»«operationName»«ENDIF»'''
 		val operationParameters = '''«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»'''
 		
 		'''«virtualKeyword»«staticKeyword»«returnTypeString»«parenthesizedName»(«operationParameters»)'''

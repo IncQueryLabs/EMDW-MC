@@ -169,7 +169,7 @@ class ClassRules {
 		// Association rules only have matches if both source and target CPPClasses are already created
 		// After the creation of the second CPPClass both directions of the association have to be added
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
-		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass])
+		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass && it.cppClass != cppClass])
 		fireAllCurrent(associationRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppClass])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppClass])

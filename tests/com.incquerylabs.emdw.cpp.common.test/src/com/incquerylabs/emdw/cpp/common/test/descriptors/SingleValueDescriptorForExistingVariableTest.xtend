@@ -36,4 +36,13 @@ class SingleValueDescriptorForExistingVariableTest extends ValueDescriptorBaseTe
 					descriptor.stringRepresentation=="classVariable")
 	}
 	
+	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
+		return factory.prepareSingleValueDescriptorForExistingVariable(element, "classVariable")
+	}
+	
+	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
+		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
+					originalDescriptor.equals(cachedDescriptor))
+	}
+	
 }

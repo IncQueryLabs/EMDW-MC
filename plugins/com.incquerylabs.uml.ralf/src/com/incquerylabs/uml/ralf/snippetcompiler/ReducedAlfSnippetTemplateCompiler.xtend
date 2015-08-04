@@ -1,21 +1,29 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.incquerylabs.emdw.cpp.common.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BitStringUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConcurrentClauses
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EmptyStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
@@ -27,6 +35,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
@@ -35,18 +44,29 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SequenceAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.UnboundedLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import org.eclipse.emf.ecore.EObject
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 
 class ReducedAlfSnippetTemplateCompiler {
+	
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
+	
+	UmlValueDescriptorFactory descriptorFactory;
+	
+	new(UmlValueDescriptorFactory factory){
+		descriptorFactory = factory
+	}
 
 	def dispatch Snippet visit(EObject o) {
 		val fragment = createCompositeSnippet
@@ -77,7 +97,9 @@ class ReducedAlfSnippetTemplateCompiler {
 	} 
 	
 	def dispatch Snippet visit(Block block){
-		createCompositeSnippet => [ f | 
+		val parent = descriptorFactory
+		descriptorFactory = new UmlValueDescriptorFactory(parent)
+		val snippet = createCompositeSnippet => [ f | 
 				f.snippet.add = createStringSnippet => [value = '''{''']
 				f.snippet.add = createStringSnippet => [value = '\n']
 				f.snippet.add = createStringSnippet => [value = '\t']
@@ -89,6 +111,8 @@ class ReducedAlfSnippetTemplateCompiler {
     			f.snippet.add(createStringSnippet => [value = '\n'])
 				f.snippet.add = createStringSnippet => [value = '''}''']
 		]
+		descriptorFactory = parent
+		snippet
 	} 
 	
 	def dispatch Snippet visit(BreakStatement st){
@@ -104,10 +128,11 @@ class ReducedAlfSnippetTemplateCompiler {
 	} 
 	
 	def dispatch Snippet visit(LocalNameDeclarationStatement st){
+		val SingleValueDescriptor descriptor = descriptorFactory.prepareSingleValueDescriptorForNewLocalVariable(st.variable.type.type, st.variable.name)
 		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = st.variable.type.type.qualifiedName])
+			snippet.add(createStringSnippet => [value = descriptor.valueType+"*"])
 			snippet.add(createStringSnippet => [value = ''' '''])
-			snippet.add(createStringSnippet => [value = st.variable.name])
+			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 			snippet.add(createStringSnippet => [value = ''' = '''])
 			snippet.add(st.expression.visit)
 			snippet.add(createStringSnippet => [value = ''';'''])
@@ -161,8 +186,113 @@ class ReducedAlfSnippetTemplateCompiler {
 			snippet.add(createStringSnippet => [value = ''');'''])
 		]
 	}
+	
+	def dispatch Snippet visit(SwitchStatement st){
+		createCompositeSnippet => [ f |
+				f.snippet.add = createStringSnippet => [value = '''switch ''']
+				f.snippet.add = createStringSnippet => [value = '''(''']
+				f.snippet.add(st.expression.visit)
+				f.snippet.add = createStringSnippet => [value = ''') ''']
+				f.snippet.add = createStringSnippet => [value = '''{''']
+				f.snippet.add(createStringSnippet => [value = '\n'])
+				st.nonDefaultClause.forEach[cl |
+					f.snippet.add(cl.visit)
+					f.snippet.add(createStringSnippet => [value = '\n'])
+    			]
+    			if(st.defaultClause != null){
+    				f.snippet.add = createStringSnippet => [value = ''' default : ''']
+    				f.snippet.add(st.defaultClause.visit)
+    				f.snippet.add(createStringSnippet => [value = '\n'])
+    			}
+				f.snippet.add = createStringSnippet => [value = '''}''']
+				
+		]
+	} 
+	
+	def dispatch Snippet visit(SwitchClause st){
+		createCompositeSnippet => [ f |
+			f.snippet.add = createStringSnippet => [value = ''' case ''']
+			st.^case.forEach[
+    			f.snippet.add(visit)
+    		]
+    		f.snippet.add = createStringSnippet => [value = ''' : ''']
+    		f.snippet.add(st.block.visit)	
+		]
+	} 
+	
+	def dispatch Snippet visit(WhileStatement st){
+		createCompositeSnippet => [ f |
+			f.snippet.add = createStringSnippet => [value = '''while ''']
+			f.snippet.add = createStringSnippet => [value = '''(''']
+			f.snippet.add(st.condition.visit)
+			f.snippet.add = createStringSnippet => [value = ''') ''']
+			f.snippet.add(st.body.visit)				
+		]
+	} 
+
+	def dispatch Snippet visit(DoStatement st){
+		createCompositeSnippet => [ f |
+			f.snippet.add = createStringSnippet => [value = '''do ''']
+			f.snippet.add(st.body.visit)
+			f.snippet.add = createStringSnippet => [value = '''while ''']
+			f.snippet.add = createStringSnippet => [value = '''(''']
+			f.snippet.add(st.condition.visit)
+			f.snippet.add = createStringSnippet => [value = ''');''']
+		]
+	} 
+	
+	def dispatch Snippet visit(ForStatement st){
+		createCompositeSnippet => [ f |
+			f.snippet.add = createStringSnippet => [value = '''for ''']
+			f.snippet.add = createStringSnippet => [value = '''(''']
+			f.snippet.add(st.initialization.visit)
+			f.snippet.add = createStringSnippet => [value = ''' ''']
+			f.snippet.add(st.condition.visit)
+			f.snippet.add = createStringSnippet => [value = '''; ''']
+			f.snippet.add(st.update.visit)
+			f.snippet.remove(f.snippet.size-1)
+			f.snippet.add = createStringSnippet => [value = ''') ''']
+			f.snippet.add(st.body.visit)
+		]
+	} 
+	
+	def dispatch Snippet visit(ForEachStatement st){
+		createCompositeSnippet => [ f |
+			f.snippet.add = createStringSnippet => [value = '''for ''']
+			f.snippet.add = createStringSnippet => [value = '''(''']
+			//TODO Proper variable definition
+			f.snippet.add(st.variableDefinition.visit)
+			f.snippet.add = createStringSnippet => [value = ''') ''']
+			f.snippet.add(st.body.visit)
+		]
+	} 
+	
 		
 	//Expressions
+	
+	def dispatch Snippet visit(SequenceAccessExpression ex){
+		createCompositeSnippet =>[
+			snippet.add(ex.primary.visit)
+			snippet.add(ex?.index.visit)
+		]
+	}
+	
+	def dispatch Snippet visit(CastExpression ex){
+		val SingleValueDescriptor descriptor = descriptorFactory.prepareSingleValueDescriptorForNewLocalVariable(ex.type.type)
+		createCompositeSnippet =>[
+			snippet.add(createStringSnippet => [value = '''('''])
+			snippet.add(createStringSnippet => [value = descriptor.valueType+"*"])
+			snippet.add(createStringSnippet => [value = ''') '''])
+			snippet.add(ex.operand.visit)
+		]
+	}
+	
+	def dispatch Snippet visit(NullExpression ex){
+		createCompositeSnippet =>[
+			snippet.add(createStringSnippet => [value = '''0'''])
+		]
+	}
+	
 	def dispatch Snippet visit(InstanceCreationExpression ex){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''new '''])
@@ -170,6 +300,8 @@ class ReducedAlfSnippetTemplateCompiler {
 			snippet.add(ex.tuple.visit)
 		]
 	}
+	
+
 	
 	def dispatch Snippet visit(ThisExpression ex){
 		createStringSnippet => [value = '''this''']
@@ -224,6 +356,8 @@ class ReducedAlfSnippetTemplateCompiler {
 			f.snippet.add = createStringSnippet => [value = ''')''']
 		]
 	}
+	
+
 	
 	def dispatch Snippet visit(NamedTuple tuple){
 		createCompositeSnippet => [ f | 
@@ -482,9 +616,13 @@ class ReducedAlfSnippetTemplateCompiler {
 	}
 
 	def dispatch Snippet visit(NameExpression ex){
-		createStringSnippet => [
-			value = ex.reference.name
-		]
+		val variable = ex.reference as Variable
+		if(variable != null){
+			val SingleValueDescriptor descriptor = descriptorFactory.prepareSingleValueDescriptorForExistingVariable(variable.type.type, variable.name)	
+			createStringSnippet => [
+				value = descriptor.stringRepresentation
+			]
+		}
 	}
 	
 	def dispatch Snippet visit(NamedExpression ex){
@@ -500,6 +638,13 @@ class ReducedAlfSnippetTemplateCompiler {
 	def dispatch Snippet visit(NumericUnaryExpression ex){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = ex.operator.literal])
+			snippet.add(ex.operand.visit)
+		]
+	}
+	
+	def dispatch Snippet visit(BitStringUnaryExpression ex){
+		createCompositeSnippet =>[
+			snippet.add(createStringSnippet => [value = ex.operator])
 			snippet.add(ex.operand.visit)
 		]
 	}

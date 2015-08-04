@@ -37,7 +37,7 @@
 
 		<!-- CPP code generation -->
 		<module>../../plugins/com.incquerylabs.emdw.cpp.common</module>
-		<module>../../plugins/com.incquerylabs.emdw.cpp.common.test</module>
+		<module>../../tests/com.incquerylabs.emdw.cpp.common.test</module>
 		<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
 		<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
 		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>

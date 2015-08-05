@@ -7,7 +7,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
+import com.incquerylabs.emdw.cpp.common.TypeConverter
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind

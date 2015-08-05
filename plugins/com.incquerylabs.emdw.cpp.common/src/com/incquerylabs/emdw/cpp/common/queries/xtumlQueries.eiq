@@ -1,0 +1,22 @@
+package com.incquerylabs.emdw.cpp.common.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+pattern ooplType2Type(
+	commonType : Type,
+	ooplType : OOPLType
+) {
+	OOPLDataType.commonType(ooplType, commonType);
+	neg find isXtClass(commonType);
+} or {
+	CPPClass.xtClass(ooplType, commonType);
+}
+
+pattern isXtClass(
+	xtType : Type
+) {
+	XTClass(xtType);
+}

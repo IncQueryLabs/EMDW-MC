@@ -68,11 +68,16 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
 import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.OOPLClassRefAssocCollectionImplementation
+import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 
 /**
  * Most factory methods are impure: they modify the model! 
  */
 class TransformationTestUtil {
+	
+	private static final String COMMON_TYPES_PATH = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
+	private static final String CPP_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
 
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
@@ -88,6 +93,7 @@ class TransformationTestUtil {
 	static def createEmptyXtumlModel(String modelname) {
 		val resourceSet = new ResourceSetImpl
 		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtUMLuri"))
+		resourceSet.getResource(URI.createPlatformPluginURI(COMMON_TYPES_PATH, true), true)
 
 		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 		QueryBasedFeatures.instance.prepare(managedEngine)
@@ -387,6 +393,12 @@ class TransformationTestUtil {
 		type
 	}
 
+	static def findPrimitiveType(NamedElement ne, String name) {
+		val umlPrimitiveTypesResource = ne.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("umlPrimitiveTypes")]
+		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
+		return primitiveTypes.findFirst[it.name == name]
+	}
+
 	static def createXTUserDefinedType(TypeDefinition typedef, String name, TypeConstraint ... const) {
 		val type = commonFactory.createUserDefinedType => [
 			it.name = name
@@ -506,15 +518,11 @@ class TransformationTestUtil {
 	}
 	
 	static def createCPPModelWithCommonDirectory(Resource cppResource, Model xtModel) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
 		val dir = createCPPDirectory
-		val cppModel = cppFactory.createCPPModel => [
-			it.commonModel = xtModel
-			it.ooplNameProvider = provider
+		val cppModel = cppResource.createCPPModelWithoutDirectory(xtModel) => [
 			it.headerDir = dir
 			it.bodyDir = dir
 		]
-		cppResource.contents += cppModel
 		cppResource.contents += dir
 		cppModel
 	}
@@ -526,6 +534,7 @@ class TransformationTestUtil {
 			it.ooplNameProvider = provider
 		]
 		cppResource.contents += cppModel
+		cppResource.resourceSet.getResource(URI.createPlatformPluginURI(CPP_TYPES_PATH, true), true)
 		cppModel
 	}
 
@@ -721,6 +730,12 @@ class TransformationTestUtil {
 		]
 		root.subElements += cppBasicType
 		cppBasicType
+	}
+	
+	static def CPPBasicType findCPPBasicType(CPPQualifiedNamedElement root, Type type) {
+		val cppBasicTypesResource = root.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("cppBasicTypes")]
+		val basicTypes = cppBasicTypesResource.allContents.filter(CPPBasicType).toList
+		return basicTypes.findFirst[it.commonType == type]
 	}
 	
 	static def CPPState createCPPState(CPPQualifiedNamedElement root, State state) {

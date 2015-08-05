@@ -6,7 +6,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import com.incquerylabs.emdw.cpp.codegeneration.util.TypeConverter
+import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class OperationTemplates {

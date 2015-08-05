@@ -1,10 +1,9 @@
 package com.incquerylabs.emdw.cpp.common.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.builder.IUmlValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.builder.IUmlCollectionValueDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
-import com.incquerylabs.emdw.valuedescriptor.CollectionValueDescriptor
 
-class UmlCollectionValueDescriptorBuilder implements IUmlValueDescriptorBuilder<CollectionValueDescriptor>{
+class UmlCollectionValueDescriptorBuilder implements IUmlCollectionValueDescriptorBuilder {
 	private UmlValueDescriptorFactory factory
 	
 	new(UmlValueDescriptorFactory factory) {

@@ -9,7 +9,6 @@ import com.incquerylabs.emdw.cpp.common.descriptor.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
 import java.util.Map
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
@@ -19,8 +18,8 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private XtumlValueDescriptorFactory factory
 	private UmlToXtumlMapper mapper
 	private AdvancedIncQueryEngine engine
-	private Map<String, SingleValueDescriptor> variableCache
-	private Table<String, Element, SingleValueDescriptor> literalCache
+	private Map<String, SingleValueDescriptor> singleVariableCache
+	private Table<Type, String, SingleValueDescriptor> literalCache
 	
 	/**
 	 * @param engine Cannot be null
@@ -42,7 +41,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	private def init(UmlValueDescriptorFactory parent, AdvancedIncQueryEngine engine) {
 		checkArgument(engine!=null)
-		this.variableCache = newHashMap()
+		this.singleVariableCache = newHashMap()
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
@@ -101,8 +100,8 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 */
 	def prepareSingleValueDescriptorForExistingVariable(Type type, String localVariableName) {
 		val xtumlType = mapper.convertType(type)
-		if(variableCache.containsKey(localVariableName)) {
-			return variableCache.get(localVariableName)
+		if(isSingleVariableInCache(localVariableName)) {
+			return getSingleVariableFromCache(localVariableName)
 		}
 		return factory.prepareSingleValueDescriptorForExistingVariable(xtumlType, localVariableName).cache(localVariableName)
 	}
@@ -117,23 +116,25 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 */
 	def prepareSingleValueDescriptorForLiteral(Type type, String literal) {
 		val xtumlType = mapper.convertType(type)
-		if(literalCache.contains(literal, type)) {
-			return literalCache.get(literal, type)
+		if(isLiteralInCache(type, literal)) {
+			return getLiteralFromCache(type, literal)
 		}
-		return factory.prepareSingleValueDescriptorForLiteral(xtumlType, literal).cacheLiteral(literal, type)
+		return factory.prepareSingleValueDescriptorForLiteral(xtumlType, literal).cache(literal, type)
 	}
 	
 	
 	
-	private def SingleValueDescriptor cache(SingleValueDescriptor svd, String key) {
-		variableCache.put(key, svd)
+	private def SingleValueDescriptor cache(SingleValueDescriptor svd, String variableName) {
+		putSingleVariableIntoCache(variableName, svd)
 		return svd
 	}
 	
-	private def SingleValueDescriptor cacheLiteral(SingleValueDescriptor svd, String rowkey, Element columnkey) {
-		literalCache.put(rowkey, columnkey, svd)
+	private def SingleValueDescriptor cache(SingleValueDescriptor svd, String literal, Type type) {
+		putLiteralIntoCache(type, literal, svd)
 		return svd
 	}
+	
+	
 	
 	override createSingleValueDescriptorBuilder() {
 		return new UmlSingleValueDescriptorBuilder(this)
@@ -143,16 +144,34 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override getVariableCache() {
-		return variableCache
-	}
-	
-	override getLiteralCache() {
-		return literalCache
-	}
-	
 	override createChild() {
 		return new UmlValueDescriptorFactory(this)
+	}
+	
+	
+	
+	override isSingleVariableInCache(String variableName) {
+		return singleVariableCache.containsKey(variableName)
+	}
+	
+	override getSingleVariableFromCache(String variableName) {
+		return singleVariableCache.get(variableName)
+	}
+	
+	override putSingleVariableIntoCache(String variableName, SingleValueDescriptor descriptor) {
+		singleVariableCache.put(variableName, descriptor)
+	}
+	
+	override isLiteralInCache(Type type, String literal) {
+		return literalCache.contains(type, literal)
+	}
+	
+	override getLiteralFromCache(Type type, String literal) {
+		return literalCache.get(type, literal)
+	}
+	
+	override putLiteralIntoCache(Type type, String literal, SingleValueDescriptor descriptor) {
+		literalCache.put(type, literal, descriptor)
 	}
 	
 }

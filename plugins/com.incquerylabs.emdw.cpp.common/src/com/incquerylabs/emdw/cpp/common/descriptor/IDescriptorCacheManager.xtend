@@ -1,12 +1,15 @@
 package com.incquerylabs.emdw.cpp.common.descriptor
 
-import com.google.common.collect.Table
-import java.util.Map
-import org.eclipse.uml2.uml.Element
-import com.incquerylabs.emdw.valuedescriptor.AbstractValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import org.eclipse.uml2.uml.Type
 
 interface IDescriptorCacheManager {
 	
-	def Map<String, ? extends AbstractValueDescriptor> getVariableCache()
-	def Table<String, Element, ? extends AbstractValueDescriptor> getLiteralCache()
+	def boolean isSingleVariableInCache(String variableName)
+	def SingleValueDescriptor getSingleVariableFromCache(String variableName)
+	def void putSingleVariableIntoCache(String variableName, SingleValueDescriptor descriptor)
+	
+	def boolean isLiteralInCache(Type type, String literal)
+	def SingleValueDescriptor getLiteralFromCache(Type type, String literal)
+	def void putLiteralIntoCache(Type type, String literal, SingleValueDescriptor descriptor)
 }

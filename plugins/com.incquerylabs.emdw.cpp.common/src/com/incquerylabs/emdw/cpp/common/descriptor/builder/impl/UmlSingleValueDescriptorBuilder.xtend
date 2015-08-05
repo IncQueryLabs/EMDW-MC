@@ -20,10 +20,10 @@ class UmlSingleValueDescriptorBuilder implements IUmlSingleValueDescriptorBuilde
 	override build() {
 		checkArgument(type!=null, "Type cannot be null")
 		// TODO: business logic
-		if(isExistingVariable) {
-			return factory.prepareSingleValueDescriptorForExistingVariable(type, name)
-		} else if(literal!=null) {
+		if(literal!=null) {
 			return factory.prepareSingleValueDescriptorForLiteral(type, literal)
+		} else if(isExistingVariable) {
+			return factory.prepareSingleValueDescriptorForExistingVariable(type, name)
 		} else if(name!=null) {
 			return factory.prepareSingleValueDescriptorForNewLocalVariable(type, name)
 		} else {

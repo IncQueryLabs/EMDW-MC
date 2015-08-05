@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.common
+package com.incquerylabs.emdw.cpp.common.descriptor
 
 import com.google.common.collect.Table
 import java.util.Map

@@ -1,6 +1,6 @@
-package com.incquerylabs.emdw.cpp.common.mapper
+package com.incquerylabs.emdw.cpp.common.descriptor.mapper
 
-import com.incquerylabs.emdw.cpp.common.queries.UmlQueries
+import com.incquerylabs.emdw.cpp.common.descriptor.queries.UmlQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Element
 

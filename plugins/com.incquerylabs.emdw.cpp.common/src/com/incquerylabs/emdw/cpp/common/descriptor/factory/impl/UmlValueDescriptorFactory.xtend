@@ -1,11 +1,11 @@
-package com.incquerylabs.emdw.cpp.common.factory.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
-import com.incquerylabs.emdw.cpp.common.IDescriptorCacheManager
-import com.incquerylabs.emdw.cpp.common.builder.impl.UmlSingleValueDescriptorBuilder
-import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
+import com.incquerylabs.emdw.cpp.common.descriptor.IDescriptorCacheManager
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
 import java.util.Map
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine

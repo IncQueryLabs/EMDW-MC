@@ -1,6 +1,6 @@
-package com.incquerylabs.emdw.cpp.common.mapper
+package com.incquerylabs.emdw.cpp.common.descriptor.mapper
 
-import com.incquerylabs.emdw.cpp.common.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.common.descriptor.queries.XtumlQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 

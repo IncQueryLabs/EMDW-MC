@@ -1,18 +1,18 @@
 package com.incquerylabs.emdw.cpp.common.test
 
-import com.incquerylabs.emdw.valuedescriptor.AbstractValueDescriptor
-import org.eclipse.uml2.uml.Element
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
-import org.junit.runners.Parameterized.Parameters
 import com.google.common.collect.ImmutableList
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.cpp.common.test.wrappers.UmlCppTransformationWrapper
+import com.incquerylabs.emdw.valuedescriptor.AbstractValueDescriptor
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.uml2.uml.Element
+import org.eclipse.uml2.uml.Model
 import org.junit.Test
+import org.junit.runners.Parameterized.Parameters
 
 import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
-import org.eclipse.uml2.uml.Model
-import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
 
 abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescriptor extends AbstractValueDescriptor> extends TestWithoutParameters {
 	

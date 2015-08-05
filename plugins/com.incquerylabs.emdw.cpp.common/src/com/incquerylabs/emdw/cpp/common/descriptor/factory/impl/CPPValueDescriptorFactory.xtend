@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.common.factory.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement

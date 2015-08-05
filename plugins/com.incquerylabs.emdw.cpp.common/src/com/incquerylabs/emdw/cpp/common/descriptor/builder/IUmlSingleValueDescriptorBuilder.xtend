@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.common.builder
+package com.incquerylabs.emdw.cpp.common.descriptor.builder
 
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
 import org.eclipse.uml2.uml.Type

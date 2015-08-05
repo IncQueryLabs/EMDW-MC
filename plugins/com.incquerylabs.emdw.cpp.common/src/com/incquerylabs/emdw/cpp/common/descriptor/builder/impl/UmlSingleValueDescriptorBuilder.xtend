@@ -1,7 +1,7 @@
-package com.incquerylabs.emdw.cpp.common.builder.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.builder.IUmlSingleValueDescriptorBuilder
-import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*

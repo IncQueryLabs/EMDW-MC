@@ -1,6 +1,6 @@
-package com.incquerylabs.emdw.cpp.common.factory.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
-import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
+import com.incquerylabs.emdw.cpp.common.descriptor.mapper.XtumlToOoplMapper
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 

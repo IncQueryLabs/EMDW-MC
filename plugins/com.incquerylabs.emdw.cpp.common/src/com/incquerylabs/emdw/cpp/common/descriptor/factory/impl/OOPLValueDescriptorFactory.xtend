@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.common.factory.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor

@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
@@ -12,7 +13,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 import static org.junit.Assert.*
-import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
 
 @SuiteClasses(#[
 	SingleValueDescriptorForBooleanLiteralTest,

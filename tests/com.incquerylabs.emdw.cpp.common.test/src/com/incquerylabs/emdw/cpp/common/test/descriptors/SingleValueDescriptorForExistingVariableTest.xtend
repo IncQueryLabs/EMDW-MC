@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
-import com.incquerylabs.emdw.cpp.common.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
@@ -9,8 +9,9 @@ import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 import static org.junit.Assert.*
+
+import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, SingleValueDescriptor> {

@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.common
+package com.incquerylabs.emdw.cpp.common.factory.impl
 
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.*
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 
 class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
-	private CPPLiteralConverter converter
+	private com.incquerylabs.emdw.cpp.common.CPPLiteralConverter converter
 	
 	private static final String LOCAL_VARIABLE_PREFIX = "ralf"
 	private static final String SEPARATOR = "__"
@@ -31,11 +31,14 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 	new(OOPLValueDescriptorFactory parent, int start_index) {
 		index = start_index
 		this.parent = parent
-		converter = new CPPLiteralConverter
+		converter = new com.incquerylabs.emdw.cpp.common.CPPLiteralConverter
 	}
 	
 	
 	
+	/**
+	 * Másik komment
+	 */
 	override prepareSingleValueDescriptorForNewLocalVariable(OOPLType type, String localVariableName) {
 		checkArgument(type!=null, "OOPLType cannot be null")
 		val preparedDescriptor = prepareSingleValueDescriptor(type, localVariableName.qualifiedName)

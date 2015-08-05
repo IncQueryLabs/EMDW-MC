@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.common
+package com.incquerylabs.emdw.cpp.common.factory.impl
 
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
@@ -19,6 +19,13 @@ abstract class OOPLValueDescriptorFactory {
 	
 	
 	
+	/**
+	 * @param type Cannot be null
+	 * @param localVariableName Cannot be null
+	 * 
+	 * @return The SingleValueDescriptor with the <code>type</code>
+	 *         and with unique name based on <code>localVariableName</code>
+	 */
 	def SingleValueDescriptor prepareSingleValueDescriptorForNewLocalVariable(OOPLType type, String localVariableName)
 	
 	def SingleValueDescriptor prepareSingleValueDescriptorForNewLocalVariable(OOPLType type) 

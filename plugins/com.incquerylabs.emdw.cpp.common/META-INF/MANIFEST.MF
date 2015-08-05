@@ -5,6 +5,9 @@ Bundle-SymbolicName: com.incquerylabs.emdw.cpp.common;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
 Export-Package: com.incquerylabs.emdw.cpp.common,
+ com.incquerylabs.emdw.cpp.common.builder,
+ com.incquerylabs.emdw.cpp.common.factory,
+ com.incquerylabs.emdw.cpp.common.factory.impl,
  com.incquerylabs.emdw.cpp.common.queries,
  com.incquerylabs.emdw.cpp.common.queries.util
 Require-Bundle: org.eclipse.xtend.lib,

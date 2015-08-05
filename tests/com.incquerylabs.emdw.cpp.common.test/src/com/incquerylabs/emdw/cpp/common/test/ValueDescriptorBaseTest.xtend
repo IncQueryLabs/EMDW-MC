@@ -10,7 +10,7 @@ import org.junit.Test
 
 import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 import org.eclipse.uml2.uml.Model
-import com.incquerylabs.emdw.cpp.common.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 
 abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescriptor extends AbstractValueDescriptor> extends TestWithoutParameters {

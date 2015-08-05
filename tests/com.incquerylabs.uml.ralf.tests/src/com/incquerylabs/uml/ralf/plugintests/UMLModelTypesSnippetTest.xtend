@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.plugintests
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
 import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguagePluginInjectorProvider
 import com.incquerylabs.uml.ralf.tests.util.TestModelUMLContextProvider
 import javax.inject.Inject
@@ -14,6 +15,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -25,6 +27,8 @@ class UMLModelTypesSnippetTest {
 	IReducedAlfParser parser
 	@Inject
 	TestModelUMLContextProvider context
+	@Inject
+	ReducedAlfSnippetTemplateCompiler compiler
 	
 	ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
 		
@@ -62,17 +66,46 @@ class UMLModelTypesSnippetTest {
 		"model::Comp::Pong::doIntegerVoid")
 	}
 	
+	@Test
+	def NullTest(){
+		snippetCompilerTest(
+		'''
+			Pong p = null;
+			p = new Pong();
+			ping_s s = new ping_s();
+			send s to p->ping;'''
+		, 
+		'''
+			model::Comp::Pong p = 0;
+			p = new model::Comp::Pong();
+			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+			p->ping->generate_event(s);''')
+	}
+	
+	@Test
+	@Ignore("Casting not yet supported")
+	def CastTest(){
+		snippetCompilerTest(
+		'''
+			Pong p = new Pong;
+			Pong q = (Pong) p'''
+		, 
+		'''
+			model::Comp::Pong p = new model::Comp::Pong();
+			model::Comp::Pong q = (model::Comp::Pong) p;''')
+	}
+	
 
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
 		context.definedOperation = thisElementFQN
 		
-		val snippet = generator.createSnippet(input, context, parser)
+		val snippet = generator.createSnippet(input, context, parser, compiler)
 		val serializedSnippet = serializer.serialize(snippet)	
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}
 	
 	def snippetCompilerTest(String input, String expected) {
-		val snippet = generator.createSnippet(input, context, parser)
+		val snippet = generator.createSnippet(input, context, parser, compiler)
 		val serializedSnippet = serializer.serialize(snippet)	
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}

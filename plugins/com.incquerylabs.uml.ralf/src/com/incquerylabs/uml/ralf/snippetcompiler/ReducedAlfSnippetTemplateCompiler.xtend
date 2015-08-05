@@ -1,7 +1,6 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
-import com.incquerylabs.emdw.cpp.common.UmlValueDescriptorFactory
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
@@ -22,7 +21,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
@@ -55,17 +53,23 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.UnboundedLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import org.eclipse.emf.ecore.EObject
+import snippetTemplate.CompositeSnippet
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.emdw.cpp.common.modelaccess.IModelAccess
+import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
 
 class ReducedAlfSnippetTemplateCompiler {
 	
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	
-	UmlValueDescriptorFactory descriptorFactory;
+	IUmlDescriptorFactory descriptorFactory;
+	IModelAccess modelAccess;
 	
-	new(UmlValueDescriptorFactory factory){
+	
+	new(IUmlDescriptorFactory factory, IModelAccess modelAccess){
 		descriptorFactory = factory
+		this.modelAccess = modelAccess
 	}
 
 	def dispatch Snippet visit(EObject o) {
@@ -98,7 +102,7 @@ class ReducedAlfSnippetTemplateCompiler {
 	
 	def dispatch Snippet visit(Block block){
 		val parent = descriptorFactory
-		descriptorFactory = new UmlValueDescriptorFactory(parent)
+		descriptorFactory = parent.createChild
 		val snippet = createCompositeSnippet => [ f | 
 				f.snippet.add = createStringSnippet => [value = '''{''']
 				f.snippet.add = createStringSnippet => [value = '\n']
@@ -106,7 +110,9 @@ class ReducedAlfSnippetTemplateCompiler {
 				block.statement.forEach[
     				f.snippet.add(visit)
     				f.snippet.add(createStringSnippet => [value = '\n'])
+    				f.snippet.add = createStringSnippet => [value = '\t']
     			]
+    			f.snippet.remove(f.snippet.size-1)
     			f.snippet.remove(f.snippet.size-1)
     			f.snippet.add(createStringSnippet => [value = '\n'])
 				f.snippet.add = createStringSnippet => [value = '''}''']
@@ -128,9 +134,12 @@ class ReducedAlfSnippetTemplateCompiler {
 	} 
 	
 	def dispatch Snippet visit(LocalNameDeclarationStatement st){
-		val SingleValueDescriptor descriptor = descriptorFactory.prepareSingleValueDescriptorForNewLocalVariable(st.variable.type.type, st.variable.name)
+		val descriptor = (descriptorFactory.createSingleValueDescriptorBuilder => [
+			name = st.variable.name
+			type = st.variable.type.type
+		]).build
 		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = descriptor.valueType+"*"])
+			snippet.add(createStringSnippet => [value = descriptor.valueType])
 			snippet.add(createStringSnippet => [value = ''' '''])
 			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 			snippet.add(createStringSnippet => [value = ''' = '''])
@@ -146,12 +155,10 @@ class ReducedAlfSnippetTemplateCompiler {
 						f.snippet.add(createStringSnippet => [value = '''if '''])
 						f.snippet.add(clause.visit)
 					}else {
-						f.snippet.add(createStringSnippet => [value = '''else if '''])
+						f.snippet.add(createStringSnippet => [value = ''' else if '''])
 						f.snippet.add(clause.visit)
 					}
-    				f.snippet.add(createStringSnippet => [value = '\n'])
     			]
-    			f.snippet.remove(f.snippet.size-1)
     			if(st.finalClause != null){
     				f.snippet.add(createStringSnippet => [value = ''' else '''])
     				f.snippet.add(st.finalClause.visit)	
@@ -250,22 +257,27 @@ class ReducedAlfSnippetTemplateCompiler {
 			f.snippet.add(st.condition.visit)
 			f.snippet.add = createStringSnippet => [value = '''; ''']
 			f.snippet.add(st.update.visit)
-			f.snippet.remove(f.snippet.size-1)
+			
+			val updatesnippet = f.snippet.get(f.snippet.size-1) as CompositeSnippet
+			if(updatesnippet != null){
+				updatesnippet.snippet.remove(updatesnippet.snippet.size-1)
+			}
+			
 			f.snippet.add = createStringSnippet => [value = ''') ''']
 			f.snippet.add(st.body.visit)
 		]
 	} 
 	
-	def dispatch Snippet visit(ForEachStatement st){
-		createCompositeSnippet => [ f |
-			f.snippet.add = createStringSnippet => [value = '''for ''']
-			f.snippet.add = createStringSnippet => [value = '''(''']
-			//TODO Proper variable definition
-			f.snippet.add(st.variableDefinition.visit)
-			f.snippet.add = createStringSnippet => [value = ''') ''']
-			f.snippet.add(st.body.visit)
-		]
-	} 
+//	def dispatch Snippet visit(ForEachStatement st){
+//		createCompositeSnippet => [ f |
+//			f.snippet.add = createStringSnippet => [value = '''for ''']
+//			f.snippet.add = createStringSnippet => [value = '''(''']
+//			//TODO Proper variable definition
+//			f.snippet.add(st.variableDefinition.visit)
+//			f.snippet.add = createStringSnippet => [value = ''') ''']
+//			f.snippet.add(st.body.visit)
+//		]
+//	} 
 	
 		
 	//Expressions
@@ -278,10 +290,12 @@ class ReducedAlfSnippetTemplateCompiler {
 	}
 	
 	def dispatch Snippet visit(CastExpression ex){
-		val SingleValueDescriptor descriptor = descriptorFactory.prepareSingleValueDescriptorForNewLocalVariable(ex.type.type)
+		val descriptor = (descriptorFactory.createSingleValueDescriptorBuilder => [
+			type = ex.type.type
+		]).build
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''('''])
-			snippet.add(createStringSnippet => [value = descriptor.valueType+"*"])
+			snippet.add(createStringSnippet => [value = descriptor.valueType])
 			snippet.add(createStringSnippet => [value = ''') '''])
 			snippet.add(ex.operand.visit)
 		]
@@ -618,7 +632,10 @@ class ReducedAlfSnippetTemplateCompiler {
 	def dispatch Snippet visit(NameExpression ex){
 		val variable = ex.reference as Variable
 		if(variable != null){
-			val SingleValueDescriptor descriptor = descriptorFactory.prepareSingleValueDescriptorForExistingVariable(variable.type.type, variable.name)	
+			val descriptor = (descriptorFactory.createSingleValueDescriptorBuilder => [
+				name = variable.name
+				type = variable.type.type
+			]).build
 			createStringSnippet => [
 				value = descriptor.stringRepresentation
 			]
@@ -754,5 +771,31 @@ class ReducedAlfSnippetTemplateCompiler {
         }
         return false
 	}
+	
+	
+	private def dispatch SingleValueDescriptor getDescriptor(Expression ex){
+		
+	}
+	
+	private def dispatch SingleValueDescriptor getDescriptor(FeatureInvocationExpression ex){
+		
+		
+		ex.context
+		ex.operation
+		ex.parameters
+			
+	}
+	
+	private def dispatch SingleValueDescriptor getDescriptor(PropertyAccessExpression ex){
+		(modelAccess.createPropertyAccessBuilder => [
+			variable = getDescriptor(ex.context)
+			property = ex.property
+		]).build
+	}
+	
+	
+	
+	
+	
 			
 }

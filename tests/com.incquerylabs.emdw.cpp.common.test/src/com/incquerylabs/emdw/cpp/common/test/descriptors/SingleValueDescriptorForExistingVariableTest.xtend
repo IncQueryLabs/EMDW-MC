@@ -12,6 +12,14 @@ import org.junit.runners.Parameterized
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
+import org.junit.runners.Suite.SuiteClasses
+import org.junit.runners.Suite
+
+@SuiteClasses(#[
+	SingleValueDescriptorForExistingVariableTest
+])
+@RunWith(Suite)
+class SingleValueDescriptorForExistingVariableTestSuite {}
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, SingleValueDescriptor> {

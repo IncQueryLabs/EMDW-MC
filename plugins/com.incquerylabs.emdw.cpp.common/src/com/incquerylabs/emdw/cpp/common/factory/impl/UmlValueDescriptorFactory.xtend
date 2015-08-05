@@ -151,4 +151,8 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return literalCache
 	}
 	
+	override createChild() {
+		return new UmlValueDescriptorFactory(this)
+	}
+	
 }

@@ -1,7 +1,8 @@
-package com.incquerylabs.emdw.cpp.common.descriptor.mapper
+package com.incquerylabs.emdw.cpp.common.mapper
 
-import com.incquerylabs.emdw.cpp.common.descriptor.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.common.mapper.queries.XtumlQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 
 class XtumlToOoplMapper {
@@ -23,5 +24,9 @@ class XtumlToOoplMapper {
 	 */
 	def convertType(Type type) {
 		engine.ooplType2Type.getAllValuesOfooplType(type).head
+	}
+	
+	def convertAttribute(Attribute attribute) {
+		return engine.ooplAttribute2Attribute.getAllValuesOfooplAttribute(attribute).head
 	}
 }

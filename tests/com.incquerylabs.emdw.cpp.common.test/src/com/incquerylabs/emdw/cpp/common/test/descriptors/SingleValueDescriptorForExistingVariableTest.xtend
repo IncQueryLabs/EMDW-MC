@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
-import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
@@ -15,6 +15,7 @@ import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, SingleValueDescriptor> {
+	private static final String VARIABLE_NAME = "classVariable"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -26,8 +27,13 @@ class SingleValueDescriptorForExistingVariableTest extends ValueDescriptorBaseTe
 		return cl
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
-		return factory.prepareSingleValueDescriptorForExistingVariable(element, "classVariable")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			isExistingVariable = true
+			name = VARIABLE_NAME
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(Class object, SingleValueDescriptor descriptor) {
@@ -37,8 +43,13 @@ class SingleValueDescriptorForExistingVariableTest extends ValueDescriptorBaseTe
 					descriptor.stringRepresentation=="classVariable")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
-		return factory.prepareSingleValueDescriptorForExistingVariable(element, "classVariable")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val chachedDescriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			isExistingVariable = true
+			name = VARIABLE_NAME
+		]).build
+		return chachedDescriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {

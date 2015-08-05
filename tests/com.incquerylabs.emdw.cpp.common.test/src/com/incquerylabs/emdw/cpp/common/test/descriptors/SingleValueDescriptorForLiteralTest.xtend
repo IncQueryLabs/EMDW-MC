@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
-import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
@@ -13,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 import static org.junit.Assert.*
+import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
 
 @SuiteClasses(#[
 	SingleValueDescriptorForBooleanLiteralTest,
@@ -27,6 +27,7 @@ class SingleValueDescriptorForLiteralTestSuite {}
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForBooleanLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleValueDescriptor> {
+	private static final String LITERAL = "true"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -37,8 +38,12 @@ class SingleValueDescriptorForBooleanLiteralTest extends ValueDescriptorBaseTest
 		return pT
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "true")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(PrimitiveType object, SingleValueDescriptor descriptor) {
@@ -46,8 +51,12 @@ class SingleValueDescriptorForBooleanLiteralTest extends ValueDescriptorBaseTest
 		assertTrue("Descriptor's string representation should be true.", descriptor.stringRepresentation=="true")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "true")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
@@ -59,6 +68,7 @@ class SingleValueDescriptorForBooleanLiteralTest extends ValueDescriptorBaseTest
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForIntegerLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleValueDescriptor> {
+	private static final String LITERAL = "1"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -69,8 +79,12 @@ class SingleValueDescriptorForIntegerLiteralTest extends ValueDescriptorBaseTest
 		return pT
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "1")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(PrimitiveType object, SingleValueDescriptor descriptor) {
@@ -78,8 +92,12 @@ class SingleValueDescriptorForIntegerLiteralTest extends ValueDescriptorBaseTest
 		assertTrue("Descriptor's string representation should be 1.", descriptor.stringRepresentation=="1")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "1")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
@@ -91,6 +109,7 @@ class SingleValueDescriptorForIntegerLiteralTest extends ValueDescriptorBaseTest
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForRealLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleValueDescriptor> {
+	private static final String LITERAL = "1.1"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -101,8 +120,12 @@ class SingleValueDescriptorForRealLiteralTest extends ValueDescriptorBaseTest<Pr
 		return pT
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "1.1")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(PrimitiveType object, SingleValueDescriptor descriptor) {
@@ -110,8 +133,12 @@ class SingleValueDescriptorForRealLiteralTest extends ValueDescriptorBaseTest<Pr
 		assertTrue("Descriptor's string representation should be 1.1.", descriptor.stringRepresentation=="1.1")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "1.1")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
@@ -123,6 +150,7 @@ class SingleValueDescriptorForRealLiteralTest extends ValueDescriptorBaseTest<Pr
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForSimpleStringLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleValueDescriptor> {
+	private static final String LITERAL = "simple string"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -133,8 +161,12 @@ class SingleValueDescriptorForSimpleStringLiteralTest extends ValueDescriptorBas
 		return pT
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "simple string")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(PrimitiveType object, SingleValueDescriptor descriptor) {
@@ -142,8 +174,12 @@ class SingleValueDescriptorForSimpleStringLiteralTest extends ValueDescriptorBas
 		assertTrue('''Descriptor's string representation should be "simple string".''', descriptor.stringRepresentation=="\"simple string\"")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "simple string")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
@@ -155,6 +191,7 @@ class SingleValueDescriptorForSimpleStringLiteralTest extends ValueDescriptorBas
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForHeavyStringLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleValueDescriptor> {
+	private static final String LITERAL = "heavy \" string"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -165,8 +202,12 @@ class SingleValueDescriptorForHeavyStringLiteralTest extends ValueDescriptorBase
 		return pT
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "heavy \" string")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(PrimitiveType object, SingleValueDescriptor descriptor) {
@@ -174,8 +215,12 @@ class SingleValueDescriptorForHeavyStringLiteralTest extends ValueDescriptorBase
 		assertTrue('''Descriptor's string representation should be "heavy \" string".''', descriptor.stringRepresentation=="\"heavy \" string\"")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "heavy \" string")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
@@ -187,6 +232,7 @@ class SingleValueDescriptorForHeavyStringLiteralTest extends ValueDescriptorBase
 
 @RunWith(Parameterized)
 class SingleValueDescriptorForNumberLiteralCacheTest extends ValueDescriptorBaseTest<PrimitiveType, SingleValueDescriptor> {
+	private static final String LITERAL = "1"
 	private PrimitiveType real
 	private SingleValueDescriptor realDescriptor
 	
@@ -200,9 +246,15 @@ class SingleValueDescriptorForNumberLiteralCacheTest extends ValueDescriptorBase
 		return pT
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		val svd = factory.prepareSingleValueDescriptorForLiteral(element, "1")
-		realDescriptor = factory.prepareSingleValueDescriptorForLiteral(real, "1")
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val svd = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		realDescriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = real
+			literal = LITERAL
+		]).build
 		return svd
 	}
 	
@@ -211,8 +263,12 @@ class SingleValueDescriptorForNumberLiteralCacheTest extends ValueDescriptorBase
 		assertTrue("Descriptor's string representation should be 1.", descriptor.stringRepresentation=="1")
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, PrimitiveType element) {
-		return factory.prepareSingleValueDescriptorForLiteral(element, "1")
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			literal = LITERAL
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {

@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
-import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
@@ -16,6 +15,7 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
+import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
 
 @SuiteClasses(#[
 	SingleValueDescriptorForNewVariableWithPredifinedNameTest,
@@ -43,8 +43,12 @@ class SingleValueDescriptorForNewVariableWithPredifinedNameTest extends ValueDes
 		return cl
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
-		return factory.prepareSingleValueDescriptorForNewLocalVariable(element, VARIABLE_NAME)
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			name = VARIABLE_NAME
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(Class object, SingleValueDescriptor descriptor) {
@@ -54,8 +58,13 @@ class SingleValueDescriptorForNewVariableWithPredifinedNameTest extends ValueDes
 					descriptor.stringRepresentation==EXPECTED_REPRESENTATION)
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
-		return factory.prepareSingleValueDescriptorForExistingVariable(element, VARIABLE_NAME)
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val descriptor = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+			isExistingVariable = true
+			name = VARIABLE_NAME
+		]).build
+		return descriptor
 	}
 	
 	override protected assertResult(SingleValueDescriptor originalDescriptor, SingleValueDescriptor cachedDescriptor) {
@@ -84,8 +93,10 @@ class SingleValueDescriptorForNewVariableWithoutNameTest extends ValueDescriptor
 		return cl
 	}
 	
-	override protected prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
-		val svd = factory.prepareSingleValueDescriptorForNewLocalVariable(element)
+	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val svd = (factory.createSingleValueDescriptorBuilder => [
+			type = element
+		]).build
 		VARIABLE_NAME = svd.stringRepresentation
 		return svd
 	}
@@ -103,7 +114,7 @@ class SingleValueDescriptorForNewVariableWithoutNameTest extends ValueDescriptor
 		
 	}
 	
-	override protected getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, Class element) {
+	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		throw new UnsupportedOperationException("We cannot cache variable descriptor for an unnamed element.")
 	}
 	

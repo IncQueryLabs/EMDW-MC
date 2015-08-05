@@ -12,6 +12,7 @@ import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 import org.eclipse.uml2.uml.Model
 import com.incquerylabs.emdw.cpp.common.factory.impl.UmlValueDescriptorFactory
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import com.incquerylabs.emdw.cpp.common.factory.IUmlDescriptorFactory
 
 abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescriptor extends AbstractValueDescriptor> extends TestWithoutParameters {
 	
@@ -64,11 +65,11 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescripto
 		endTest(testId)
 	}
 	
-	protected def ValueDescriptor getCachedSingleValueDescriptor(UmlValueDescriptorFactory factory, UmlObject object)
+	protected def ValueDescriptor getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
 	protected def UmlObject createUmlObject(Model umlModel)
 	
-	protected def ValueDescriptor prepareSingleValueDescriptor(UmlValueDescriptorFactory factory, UmlObject object)
+	protected def ValueDescriptor prepareSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
 	protected def void assertResult(UmlObject object, ValueDescriptor descriptor)
 	

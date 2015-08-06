@@ -5,7 +5,7 @@ import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyReadBuil
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyWriteBuilder
 
 interface IModelAccess {
-	def IUmlPropertyReadBuilder createPropertyAccessBuilder()
+	def IUmlPropertyReadBuilder createPropertyReadBuilder()
 	
 	def IUmlPropertyWriteBuilder createPropertyWriteBuilder()
 	

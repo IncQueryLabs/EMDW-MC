@@ -2,14 +2,14 @@ package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeAccessBuilder
+import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeReadBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
-class CppAttributeAccessBuilder implements IOoplAttributeAccessBuilder {
+class CppAttributeReadBuilder implements IOoplAttributeReadBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper

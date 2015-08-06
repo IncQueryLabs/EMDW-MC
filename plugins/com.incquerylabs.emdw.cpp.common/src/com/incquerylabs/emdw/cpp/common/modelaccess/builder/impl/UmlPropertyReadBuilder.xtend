@@ -4,14 +4,14 @@ import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyReadBuil
 import org.eclipse.uml2.uml.Property
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeAccessBuilder
+import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeReadBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAssociationAccessBuilder
+import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAssociationReadBuilder
 
-class UmlPropertyAccessBuilder implements IUmlPropertyReadBuilder {
+class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 	private UmlToXtumlMapper mapper
-	private IOoplAttributeAccessBuilder attributeBuilder
-	private IOoplAssociationAccessBuilder associationBuilder
+	private IOoplAttributeReadBuilder attributeBuilder
+	private IOoplAssociationReadBuilder associationBuilder
 	
 	private ValueDescriptor variable
 	private Property property
@@ -19,7 +19,8 @@ class UmlPropertyAccessBuilder implements IUmlPropertyReadBuilder {
 	
 	new(AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
-		attributeBuilder = new CppAttributeAccessBuilder(engine)
+		attributeBuilder = new CppAttributeReadBuilder(engine)
+		associationBuilder = new CppAssociationReadBuilder(engine)
 	}
 	
 	

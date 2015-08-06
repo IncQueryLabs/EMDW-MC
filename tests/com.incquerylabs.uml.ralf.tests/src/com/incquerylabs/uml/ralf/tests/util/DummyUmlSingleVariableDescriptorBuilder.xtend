@@ -1,12 +1,12 @@
 package com.incquerylabs.uml.ralf.tests.util
 
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 
-class DummyUmlSingleValueDescriptorBuilder implements IUmlSingleValueDescriptorBuilder{
+class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptorBuilder{
 	private String name
 	private String literal
 	private Type type
@@ -48,41 +48,41 @@ class DummyUmlSingleValueDescriptorBuilder implements IUmlSingleValueDescriptorB
 	}
 	
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName) {
-		val descr = factory.createSingleValueDescriptor()
+		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = localVariableName
-		val UMLType = type as Type
-		if(UMLType != null){
-			descr.valueType = UMLType.qualifiedName
+		if(type != null){
+			descr.baseType = type.qualifiedName
+			descr.fullType = type.qualifiedName
 		}
 		descr
 	}
 	
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
-		val descr = factory.createSingleValueDescriptor()
+		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = "name"
-		val UMLType = type as Type
-		if(UMLType != null){
-			descr.valueType = UMLType.qualifiedName
+		if(type != null){
+			descr.baseType = type.qualifiedName
+			descr.fullType = type.qualifiedName
 		}
 		descr
 	}
 	
 	def prepareSingleValueDescriptorForExistingVariable(Type type, String localVariableName) {
-		val descr = factory.createSingleValueDescriptor()
+		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = localVariableName
-		val UMLType = type as Type
-		if(UMLType != null){
-			descr.valueType = UMLType.qualifiedName
+		if(type != null){
+			descr.baseType = type.qualifiedName
+			descr.fullType = type.qualifiedName
 		}
 		descr
 	}
 	
 	def prepareSingleValueDescriptorForLiteral(Type type, String literal) {
-		val descr = factory.createSingleValueDescriptor()
+		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = literal
-		val UMLType = type as Type
-		if(UMLType != null){
-			descr.valueType = UMLType.qualifiedName
+		if(type != null){
+			descr.baseType = type.qualifiedName
+			descr.fullType = type.qualifiedName
 		}
 		descr
 	}

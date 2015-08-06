@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
@@ -32,15 +31,16 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.UnboundedLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
 
 class ExpressionVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	extension ReducedAlfSnippetTemplateCompiler compiler
-	extension IUmlDescriptorFactory descriptorFactory
+	extension SnippetTemplateCompilerUtil util
 	
 	new(ReducedAlfSnippetTemplateCompiler compiler){
 		this.compiler = compiler
-		descriptorFactory = compiler.util.descriptorFactory
+		util = compiler.util
 	}
 	
 	def dispatch Snippet visit(SequenceAccessExpression ex){
@@ -51,12 +51,10 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch Snippet visit(CastExpression ex){
-		val descriptor = (createSingleValueDescriptorBuilder => [
-			type = ex.type.type
-		]).build
+		val descriptor = getDescriptor(ex)
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''('''])
-			snippet.add(createStringSnippet => [value = descriptor.valueType])
+			snippet.add(createStringSnippet => [value = descriptor.fullType])
 			snippet.add(createStringSnippet => [value = ''') '''])
 			snippet.add(ex.operand.visit)
 		]
@@ -84,57 +82,70 @@ class ExpressionVisitor {
 	def dispatch Snippet visit(LinkOperationExpression ex){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = ex.association.name])
-			snippet.add(createStringSnippet => [value = '''.'''])
+			snippet.add(createStringSnippet => [value = '''->'''])
 			snippet.add(createStringSnippet => [value = ex.operation.getName()])
 			snippet.add(ex.tuple.visit)
 		]
 	}
 	
 	def dispatch Snippet visit(PropertyAccessExpression ex){
+		if(ex.context instanceof ThisExpression){
+			return createCompositeSnippet =>[
+				snippet.add(ex.context.visit)
+				snippet.add(createStringSnippet => [value = '''->'''	])
+				snippet.add(createStringSnippet => [value = ex.property.name])
+			]
+		}
+		
+		val descriptor = getDescriptor(ex)
 		createCompositeSnippet =>[
-			snippet.add(ex.context.visit)
-			snippet.add(createStringSnippet => [value = '''.'''	])
-			snippet.add(createStringSnippet => [value = ex.property.name])
+			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 		]
 	}
 	
 	def dispatch Snippet visit(AssociationAccessExpression ex){
+		if(ex.context instanceof ThisExpression){
+			return createCompositeSnippet =>[
+				snippet.add(ex.context.visit)
+				snippet.add(createStringSnippet => [value = '''->'''])
+				snippet.add(createStringSnippet => [value = ex.association.name])
+			]
+		}
+		
+		val descriptor = getDescriptor(ex)
 		createCompositeSnippet =>[
-			snippet.add(ex.context.visit)
-			snippet.add(createStringSnippet => [value = '''->'''])
-			snippet.add(createStringSnippet => [value = ex.association.name])
+			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 		]
 	}
 	
 	def dispatch Snippet visit(FeatureInvocationExpression ex){
-		//val descriptor = util.getDescriptor(ex)
-//		if(descriptor instanceof SingleValueDescriptor){
-//			return createCompositeSnippet =>[
-//			snippet.add(ex.context.visit)
-//			snippet.add(createStringSnippet => [
-//				value = '''.'''
-//			])
-//			snippet.add(createStringSnippet => [value = ex.operation.name])
-//			snippet.add(ex.parameters.visit)
-//			]
-//			
-//		}
-//		
-//		if(descriptor instanceof CollectionValueDescriptor){
-//			descriptor.name
-//		}
-		createCompositeSnippet =>[
-			snippet.add(ex.context.visit)
-			snippet.add(createStringSnippet => [
-				value = '''.'''
-			])
-			snippet.add(createStringSnippet => [value = ex.operation.name])
-			snippet.add(ex.parameters.visit)
+		if(ex.context instanceof ThisExpression){
+			return createCompositeSnippet =>[
+				snippet.add(ex.context.visit)
+				snippet.add(createStringSnippet => [
+					value = '''.'''
+				])
+				snippet.add(createStringSnippet => [value = ex.operation.name])
+				snippet.add(ex.parameters.visit)
+			]
+		}
+	
+		val descriptor = util.getDescriptor(ex)
+		createCompositeSnippet => [
+			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation	])
 		]
 	}
 	
 	
 	def dispatch Snippet visit(AssignmentExpression ex){
+		//If the left hand side is a property
+		if(ex.leftHandSide instanceof FeatureLeftHandSide){
+			val descriptor = getDescriptor(ex)
+			return createCompositeSnippet =>[
+				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+			]
+		}
+		//If assignment has no property on the left hand side
 		createCompositeSnippet =>[
 			snippet.add(ex.leftHandSide.visit)
 			snippet.add(createStringSnippet => [value = ''' '''	])
@@ -142,7 +153,6 @@ class ExpressionVisitor {
 			snippet.add(createStringSnippet => [value = ''' '''	])
 			snippet.add(ex.rightHandSide.visit)
 		]
-		//TODO different assignment operators might require different solutions
 	}
 
 	def dispatch Snippet visit(ArithmeticExpression ex) {
@@ -353,16 +363,16 @@ class ExpressionVisitor {
 	}
 
 	def dispatch Snippet visit(NameExpression ex){
-		val variable = ex.reference as Variable
-		if(variable != null){
-			val descriptor = (descriptorFactory.createSingleValueDescriptorBuilder => [
-				name = variable.name
-				type = variable.type.type
-			]).build
-			createStringSnippet => [
-				value = descriptor.stringRepresentation
-			]
+		if(ex.reference instanceof Variable){
+			val variable = ex.reference as Variable
+			if(variable != null){
+				val descriptor = getDescriptor(ex)
+				return createStringSnippet => [
+					value = descriptor.stringRepresentation
+				]
+			}
 		}
+		
 	}
 	
 	

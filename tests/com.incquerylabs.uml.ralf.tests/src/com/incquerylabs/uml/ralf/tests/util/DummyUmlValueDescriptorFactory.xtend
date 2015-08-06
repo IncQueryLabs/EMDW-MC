@@ -8,11 +8,11 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		return this
 	}
 	
-	override createSingleValueDescriptorBuilder() {
-		return new DummyUmlSingleValueDescriptorBuilder
+	override createSingleVariableDescriptorBuilder() {
+		return new DummyUmlSingleVariableDescriptorBuilder
 	}
 	
-	override createCollectionValueDescriptorBuilder() {
+	override createCollectionVariableDescriptorBuilder() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

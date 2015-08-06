@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
@@ -20,11 +19,11 @@ import snippetTemplate.SnippetTemplateFactory
 class StatementVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	extension ReducedAlfSnippetTemplateCompiler compiler
-	extension IUmlDescriptorFactory descriptorFactory
+	extension SnippetTemplateCompilerUtil util
 	
 	new(ReducedAlfSnippetTemplateCompiler compiler){
 		this.compiler = compiler
-		descriptorFactory = compiler.util.descriptorFactory
+		util = compiler.util
 	}
 	
 	def dispatch Snippet visit(EmptyStatement st){
@@ -39,23 +38,20 @@ class StatementVisitor {
 	} 
 	
 	def dispatch Snippet visit(Block block){
-		val parent = descriptorFactory
-		descriptorFactory = parent.createChild
+		val parent = util.descriptorFactory
+		util.descriptorFactory = parent.createChild
 		val snippet = createCompositeSnippet => [ f | 
 				f.snippet.add = createStringSnippet => [value = '''{''']
 				f.snippet.add = createStringSnippet => [value = '\n']
-				//f.snippet.add = createStringSnippet => [value = '\t']
 				block.statement.forEach[
     				f.snippet.add(visit)
     				f.snippet.add(createStringSnippet => [value = '\n'])
-    				//f.snippet.add = createStringSnippet => [value = '\t']
     			]
-    			//f.snippet.remove(f.snippet.size-1)
     			f.snippet.remove(f.snippet.size-1)
     			f.snippet.add(createStringSnippet => [value = '\n'])
 				f.snippet.add = createStringSnippet => [value = '''}''']
 		]
-		descriptorFactory = parent
+		util.descriptorFactory = parent
 		snippet
 	} 
 	
@@ -72,12 +68,9 @@ class StatementVisitor {
 	} 
 	
 	def dispatch Snippet visit(LocalNameDeclarationStatement st){
-		val descriptor = (descriptorFactory.createSingleValueDescriptorBuilder => [
-			name = st.variable.name
-			type = st.variable.type.type
-		]).build
+		val descriptor = getDescriptor(st)
 		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = descriptor.valueType])
+			snippet.add(createStringSnippet => [value = descriptor.fullType])
 			snippet.add(createStringSnippet => [value = ''' '''])
 			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 			snippet.add(createStringSnippet => [value = ''' = '''])
@@ -103,8 +96,6 @@ class StatementVisitor {
     			}
 		]
 	}
-	
-	 	
 	
 	def dispatch Snippet visit(SendSignalStatement st){
 		createCompositeSnippet =>[
@@ -136,8 +127,6 @@ class StatementVisitor {
 				
 		]
 	} 
-	
-	 
 	
 	def dispatch Snippet visit(WhileStatement st){
 		createCompositeSnippet => [ f |

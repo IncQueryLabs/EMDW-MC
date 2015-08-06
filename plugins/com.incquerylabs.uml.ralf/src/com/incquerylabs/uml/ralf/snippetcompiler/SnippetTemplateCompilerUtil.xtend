@@ -1,25 +1,38 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.modelaccess.IModelAccess
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import java.util.List
 
 class SnippetTemplateCompilerUtil {
 	
 	public IUmlDescriptorFactory descriptorFactory;
-	//public IModelAccess modelAccess;
+	public IModelAccess modelAccess;
 	
-	new(IUmlDescriptorFactory factory/*, IModelAccess modelAccess*/){
+	new(IUmlDescriptorFactory factory, IModelAccess modelAccess){
 		descriptorFactory = factory
-		//this.modelAccess = modelAccess
+		this.modelAccess = modelAccess
 	}
 
 	def dispatch parenthesisRequired(Expression ex) {
@@ -100,44 +113,87 @@ class SnippetTemplateCompilerUtil {
 	}
 	
 	//Descriptors
+	//Model Access
 	
-//	def dispatch AbstractValueDescriptor getDescriptor(FeatureInvocationExpression ex){
-//		val parameters = ex.parameters
-//		val List<AbstractValueDescriptor> descriptors = Lists.newArrayList
-//		if(parameters instanceof ExpressionList){
-//			for(Expression expression : parameters.expressions){
-//				descriptors.add(getDescriptor(expression))
-//			}
-//		}	
-//		val descriptor = (modelAccess.createOperationCallBuilder => [
-//			variable = getDescriptor(ex.context) as SingleValueDescriptor
-//			operation = ex.operation
-//			parameters = descriptors
-//		]).build
-//		
-//		ex.context
-//		ex.operation
-//		descriptor
-//			
-//	}
-//	
-//	def dispatch AbstractValueDescriptor getDescriptor(PropertyAccessExpression ex){
-//		(modelAccess.createPropertyAccessBuilder => [
-//			variable = getDescriptor(ex.context) as SingleValueDescriptor
-//			property = ex.property
-//		]).build
-//	}
-//	
-//	
-//	def dispatch AbstractValueDescriptor getDescriptor(NameExpression ex){
-//		val variable = ex.reference as Variable
-//		if(variable != null){
-//			return (descriptorFactory.createSingleValueDescriptorBuilder => [
-//				name = variable.name
-//				type = variable.type.type
-//				isExistingVariable = true
-//			]).build	
-//		}
-//		return null
-//	}
+	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex){
+		val parameters = ex.parameters
+		val List<ValueDescriptor> descriptors = Lists.newArrayList
+		
+		
+		if(parameters instanceof ExpressionList){
+			for(Expression expression : parameters.expressions){
+				descriptors.add(getDescriptor(expression))
+			}
+		}	
+		
+		val descriptor = (modelAccess.createOperationCallBuilder => [
+			variable = getDescriptor(ex.context)
+			operation = ex.operation
+			parameters = descriptors
+		]).build
+		descriptor
+			
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(PropertyAccessExpression ex){
+		(modelAccess.createPropertyReadBuilder => [
+			variable = getDescriptor(ex.context)
+			property = ex.property
+		]).build
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(AssociationAccessExpression ex){
+		(modelAccess.createPropertyReadBuilder => [
+			variable = getDescriptor(ex.context)
+			property = ex.association
+		]).build
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(AssignmentExpression ex){
+		val lhs = ex.leftHandSide as FeatureLeftHandSide
+		if(lhs!=null){
+			return (modelAccess.createPropertyWriteBuilder => [
+				variable = getDescriptor(lhs.expression.context)
+				property = lhs.expression.property
+				newValue = getDescriptor(ex.rightHandSide)
+			]).build
+		}
+		return null
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(FeatureLeftHandSide lhs){
+		(modelAccess.createPropertyReadBuilder => [
+			variable = getDescriptor(lhs.expression.context)
+			property = lhs.expression.property
+		]).build
+	}
+	
+	//Variables
+	
+	def dispatch ValueDescriptor getDescriptor(CastExpression ex){
+		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = ex.type.type
+		]).build
+		
+	}
+	
+	
+	def dispatch ValueDescriptor getDescriptor(LocalNameDeclarationStatement st){
+		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+			name = st.variable.name
+			type = st.variable.type.type
+		]).build
+	}
+		
+	def dispatch ValueDescriptor getDescriptor(NameExpression ex){
+		val variable = ex.reference as Variable
+		if(variable != null){
+			return (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				name = variable.name
+				type = variable.type.type
+				isExistingVariable = true
+			]).build	
+		}
+		return null
+	}
 }

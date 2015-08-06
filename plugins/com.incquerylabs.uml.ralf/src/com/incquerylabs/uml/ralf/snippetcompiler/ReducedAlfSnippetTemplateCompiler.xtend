@@ -25,8 +25,8 @@ class ReducedAlfSnippetTemplateCompiler {
 	public ExpressionVisitor expressionVisitor
 	public StatementVisitor statementVisitor
 	
-	new(IUmlDescriptorFactory factory/*, IModelAccess modelAccess*/){
-		util = new SnippetTemplateCompilerUtil(factory)
+	new(IUmlDescriptorFactory factory, IModelAccess modelAccess){
+		util = new SnippetTemplateCompilerUtil(factory, modelAccess)
 		statementVisitor = new StatementVisitor(this)
 		expressionVisitor = new ExpressionVisitor(this)
 	}

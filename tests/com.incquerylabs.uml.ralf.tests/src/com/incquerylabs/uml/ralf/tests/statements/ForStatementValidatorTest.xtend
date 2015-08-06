@@ -41,15 +41,6 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	@Ignore("Any not yet supported")
-	def forEachStatement_AnyLiteral() {
-		forStatementOK('''
-		for(any i : 5){
-			
-		}''');
-	}
-	
-	@Test
 	def forEachStatement_LiteralReal() {
 		forStatementError('''
 		for(i : 1.1){
@@ -198,15 +189,6 @@ class ForStatementValidatorTest {
 	def forEachStatement_Range_Literal() {
 		forStatementOK('''
 		for(i in 1 .. 5){
-			
-		}''');
-	}
-	
-	@Test
-	@Ignore("Ranges are not supported currently")
-	def forStatementSyntaxB_AnyLiteral() {
-		forStatementOK('''
-		for(any i in 1 .. 5){
 			
 		}''');
 	}

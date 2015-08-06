@@ -39,24 +39,6 @@ class AssignmentExpressionValidatorTest {
 	}
 	
 	@Test
-	@Ignore("Any not yet supported")
-	def assignmentExpressionAny() {
-		assignmentOK('''
-		any x = 1;
-		x = 1;
-		''');
-	}
-	
-	@Test
-	@Ignore("Any not yet supported")
-	def assignmentExpressionAnyError() {
-		assignmentError('''
-		any x = 1;
-		x = "1";
-		''');
-	}
-	
-	@Test
 	def assignmentExpressionBoolean() {
 		assignmentOK('''
 		Boolean x = true;

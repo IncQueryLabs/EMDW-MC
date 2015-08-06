@@ -1,9 +1,8 @@
 package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlOperationCallBuilder
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Operation
-import com.incquerylabs.emdw.valuedescriptor.AbstractValueDescriptor
 
 class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	
@@ -11,7 +10,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override setVariable(SingleValueDescriptor variable) {
+	override setVariable(ValueDescriptor variable) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -19,7 +18,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override setParameters(AbstractValueDescriptor... params) {
+	override setParameters(ValueDescriptor... params) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

@@ -1,14 +1,15 @@
 package com.incquerylabs.emdw.cpp.common.modelaccess.builder
 
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.PropertyWriteDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Property
 
 interface IUmlPropertyWriteBuilder extends IModelAccessBuilder {
-	override String build()
+	override PropertyWriteDescriptor build()
 	
-	def IUmlPropertyWriteBuilder setVariable(SingleValueDescriptor variable)
+	def IUmlPropertyWriteBuilder setVariable(ValueDescriptor variable)
 	
 	def IUmlPropertyWriteBuilder setProperty(Property property)
 	
-	def IUmlPropertyWriteBuilder setNewValue(SingleValueDescriptor newValue)
+	def IUmlPropertyWriteBuilder setNewValue(ValueDescriptor newValue)
 }

@@ -5,9 +5,9 @@ import org.junit.runner.RunWith
 import org.junit.runners.Suite.SuiteClasses
 
 @SuiteClasses(#[
-	SingleValueDescriptorForLiteralTestSuite,
-	SingleValueDescriptorForNewVariableTestSuite,
-	SingleValueDescriptorForExistingVariableTestSuite
+	SingleVariableDescriptorForLiteralTestSuite,
+	SingleVariableDescriptorForNewVariableTestSuite,
+	SingleVariableDescriptorForExistingVariableTestSuite
 ])
 @RunWith(Suite)
-class SingleValueDescriptorTestSuite {}
+class SingleVariableDescriptorTestSuite {}

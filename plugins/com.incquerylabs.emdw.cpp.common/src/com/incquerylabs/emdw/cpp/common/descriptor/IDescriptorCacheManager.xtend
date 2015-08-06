@@ -1,15 +1,15 @@
 package com.incquerylabs.emdw.cpp.common.descriptor
 
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import org.eclipse.uml2.uml.Type
 
 interface IDescriptorCacheManager {
 	
 	def boolean isSingleVariableInCache(String variableName)
-	def SingleValueDescriptor getSingleVariableFromCache(String variableName)
-	def void putSingleVariableIntoCache(String variableName, SingleValueDescriptor descriptor)
+	def SingleVariableDescriptor getSingleVariableFromCache(String variableName)
+	def void putSingleVariableIntoCache(String variableName, SingleVariableDescriptor descriptor)
 	
 	def boolean isLiteralInCache(Type type, String literal)
-	def SingleValueDescriptor getLiteralFromCache(Type type, String literal)
-	def void putLiteralIntoCache(Type type, String literal, SingleValueDescriptor descriptor)
+	def SingleVariableDescriptor getLiteralFromCache(Type type, String literal)
+	def void putLiteralIntoCache(Type type, String literal, SingleVariableDescriptor descriptor)
 }

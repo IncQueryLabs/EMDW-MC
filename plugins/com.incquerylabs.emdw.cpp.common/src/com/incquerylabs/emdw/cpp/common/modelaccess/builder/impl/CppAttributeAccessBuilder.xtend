@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeAccessBuilder
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
@@ -14,7 +14,7 @@ class CppAttributeAccessBuilder implements IOoplAttributeAccessBuilder {
 	private XtumlToOoplMapper mapper
 	private TypeConverter converter
 	
-	private SingleValueDescriptor variable
+	private ValueDescriptor variable
 	private Attribute attribute
 	
 	
@@ -25,15 +25,16 @@ class CppAttributeAccessBuilder implements IOoplAttributeAccessBuilder {
 	
 	override build() {
 		val cppAttribute = mapper.convertAttribute(attribute)
-		val svd = factory.createSingleValueDescriptor => [
-			it.valueType = converter.convertType(cppAttribute.type)
+		val svd = factory.createPropertyAccessDescriptor => [
+			it.baseType = converter.convertType(cppAttribute.type)
+			it.fullType = it.baseType
 			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName»'''
 		]
 		return svd
 		
 	}
 	
-	override setVariable(SingleValueDescriptor variable) {
+	override setVariable(ValueDescriptor variable) {
 		this.variable = variable
 		return this
 	}

@@ -2,8 +2,8 @@ package com.ericsson.xtumlrt.oopl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
-import com.incquerylabs.emdw.valuedescriptor.CollectionValueDescriptor;
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor;
 
 public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
     
@@ -33,11 +33,11 @@ public class OOPLClassRefAssocCollectionImplementationTemplateReplacer extends B
     
     
     
-    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor result) {
-        return generateAny(impl, context.getName(), result.getValueType(), result.getStringRepresentation());
+    public static String generateAny(OOPLClassRefAssocCollectionImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor result) {
+        return generateAny(impl, context.getStringRepresentation(), result.getTemplateTypes().get(0), result.getStringRepresentation());
     }
     
-    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToCount, SingleValueDescriptor result) {
-        return generateCountOf(impl, context.getName(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateCountOf(OOPLClassRefAssocCollectionImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToCount, SingleVariableDescriptor result) {
+        return generateCountOf(impl, context.getStringRepresentation(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
     }
 }

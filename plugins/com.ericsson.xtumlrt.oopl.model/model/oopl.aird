@@ -1066,7 +1066,7 @@
               <styles xmi:type="notation:FilteringStyle" xmi:id="_gRnlFi6-EeW9ocW5ylGG4A"/>
             </children>
             <styles xmi:type="notation:ShapeStyle" xmi:id="_gRnlES6-EeW9ocW5ylGG4A" fontName="Segoe UI" fontHeight="8"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gRnlEi6-EeW9ocW5ylGG4A" x="580" y="745"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_gRnlEi6-EeW9ocW5ylGG4A" x="710" y="745"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_scuQAC6-EeW9ocW5ylGG4A" type="2003" element="_scjQ4C6-EeW9ocW5ylGG4A">
             <children xmi:type="notation:Node" xmi:id="_scuQAy6-EeW9ocW5ylGG4A" type="5007"/>
@@ -1123,7 +1123,7 @@
               <styles xmi:type="notation:FilteringStyle" xmi:id="_scuQBi6-EeW9ocW5ylGG4A"/>
             </children>
             <styles xmi:type="notation:ShapeStyle" xmi:id="_scuQAS6-EeW9ocW5ylGG4A" fontName="Segoe UI" fontHeight="8"/>
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_scuQAi6-EeW9ocW5ylGG4A" x="1220" y="745"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_scuQAi6-EeW9ocW5ylGG4A" x="1435" y="745"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_-sp9kC-iEeWQ7p5FWnnZFw" type="2003" element="_-sHyEC-iEeWQ7p5FWnnZFw">
             <children xmi:type="notation:Node" xmi:id="_-sp9ky-iEeWQ7p5FWnnZFw" type="5007"/>
@@ -1163,7 +1163,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_CTGs8dz7EeSQ-sQNaQgo9Q" routing="Tree"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_CTGs8tz7EeSQ-sQNaQgo9Q" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_CTGs89z7EeSQ-sQNaQgo9Q" points="[-44, -48, 136, 144]$[-124, -143, 56, 49]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_CTGs89z7EeSQ-sQNaQgo9Q" points="[0, -48, -185, 130]$[0, -83, -185, 95]$[186, -83, 1, 95]$[186, -129, 1, 49]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_uxZlMC66EeW9ocW5ylGG4A" id="(0.5,0.5)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_CTH7FNz7EeSQ-sQNaQgo9Q" id="(0.5,0.5)"/>
           </edges>
@@ -1291,7 +1291,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_wbuVESlAEeWb_LFfVtfWXg" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_wbuVEilAEeWb_LFfVtfWXg" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_wbuVEylAEeWb_LFfVtfWXg" points="[-46, 49, 564, -335]$[-46, 72, 564, -312]$[-565, 72, 45, -312]$[-565, 336, 45, -48]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_wbuVEylAEeWb_LFfVtfWXg" points="[-46, 49, 564, -335]$[-46, 65, 564, -319]$[-565, 65, 45, -319]$[-565, 336, 45, -48]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_wbwxUClAEeWb_LFfVtfWXg" id="(0.4972677595628416,0.494949494949495)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_wbwxUSlAEeWb_LFfVtfWXg" id="(0.4972677595628416,0.494949494949495)"/>
           </edges>
@@ -1307,7 +1307,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_XBTQQS6-EeW9ocW5ylGG4A" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_XBTQQi6-EeW9ocW5ylGG4A" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_XBTQQy6-EeW9ocW5ylGG4A" points="[0, 0, 185, -273]$[0, 273, 185, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_XBTQQy6-EeW9ocW5ylGG4A" points="[0, 0, 147, -273]$[0, 273, 147, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_XBWTkC6-EeW9ocW5ylGG4A" id="(0.6629834254143646,1.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_XBWTkS6-EeW9ocW5ylGG4A" id="(0.3137254901960784,0.0)"/>
           </edges>
@@ -1323,7 +1323,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_faDq8S6-EeW9ocW5ylGG4A" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_faDq8i6-EeW9ocW5ylGG4A" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_faDq8y6-EeW9ocW5ylGG4A" points="[-24, -109, -1249, 396]$[-24, -134, -1249, 371]$[1236, -134, 11, 371]$[1236, -170, 11, 335]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_faDq8y6-EeW9ocW5ylGG4A" points="[-35, -109, -1227, 396]$[-35, -134, -1227, 371]$[1155, -134, -37, 371]$[1155, -170, -37, 335]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_faESBC6-EeW9ocW5ylGG4A" id="(0.7647058823529411,1.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_faESBS6-EeW9ocW5ylGG4A" id="(0.5,0.5)"/>
           </edges>
@@ -1339,7 +1339,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_rxm2cS6-EeW9ocW5ylGG4A" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_rxm2ci6-EeW9ocW5ylGG4A" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_rxm2cy6-EeW9ocW5ylGG4A" points="[-159, -141, -758, 396]$[-159, -166, -758, 371]$[560, -166, -39, 371]$[560, -202, -39, 335]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_rxm2cy6-EeW9ocW5ylGG4A" points="[-162, -141, -622, 396]$[-162, -166, -622, 371]$[423, -166, -37, 371]$[423, -202, -37, 335]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rxndgC6-EeW9ocW5ylGG4A" id="(0.7653846153846153,1.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_rxndgS6-EeW9ocW5ylGG4A" id="(0.5,0.5)"/>
           </edges>
@@ -1355,7 +1355,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_W6_iAS7AEeW9ocW5ylGG4A" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_W6_iAi7AEeW9ocW5ylGG4A" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_W6_iAy7AEeW9ocW5ylGG4A" points="[214, -141, -39, 396]$[214, -202, -39, 335]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_W6_iAy7AEeW9ocW5ylGG4A" points="[96, -221, 44, 396]$[96, -246, 44, 371]$[15, -246, -37, 371]$[15, -282, -37, 335]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_W7AJEi7AEeW9ocW5ylGG4A" id="(0.30386740331491713,1.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_W7AJEy7AEeW9ocW5ylGG4A" id="(0.5,0.5)"/>
           </edges>
@@ -1371,7 +1371,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_X08o0S7AEeW9ocW5ylGG4A" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_X08o0i7AEeW9ocW5ylGG4A" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_X08o0y7AEeW9ocW5ylGG4A" points="[-25, 0, -94, -272]$[-25, 272, -94, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_X08o0y7AEeW9ocW5ylGG4A" points="[0, 0, -232, -272]$[0, 136, -232, -136]$[232, 136, 0, -136]$[232, 272, 0, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_X09P4C7AEeW9ocW5ylGG4A" id="(0.856353591160221,1.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_X09P4S7AEeW9ocW5ylGG4A" id="(0.38076923076923075,0.0)"/>
           </edges>
@@ -1387,7 +1387,7 @@
             </children>
             <styles xmi:type="notation:ConnectorStyle" xmi:id="_atEFcS7AEeW9ocW5ylGG4A" routing="Rectilinear"/>
             <styles xmi:type="notation:FontStyle" xmi:id="_atEFci7AEeW9ocW5ylGG4A" fontColor="7490599" fontName="Segoe UI" fontHeight="8"/>
-            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_atEFcy7AEeW9ocW5ylGG4A" points="[94, 0, -377, -450]$[94, 395, -377, -55]$[288, 395, -183, -55]$[288, 450, -183, 0]"/>
+            <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_atEFcy7AEeW9ocW5ylGG4A" points="[111, 0, -628, -450]$[111, 400, -628, -50]$[538, 400, -201, -50]$[538, 450, -201, 0]"/>
             <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_atEFei7AEeW9ocW5ylGG4A" id="(0.60625,1.0)"/>
             <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_atEFey7AEeW9ocW5ylGG4A" id="(0.35911602209944754,0.0)"/>
           </edges>
@@ -2466,7 +2466,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlFZ0C-8EeWygsGKBbbfnA" name="generateAdd(context CollectionValueDescriptor, itemToAdd SingleValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateAdd(context, itemToAdd, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlFZ0C-8EeWygsGKBbbfnA" name="generateAdd(context CollectionVariableDescriptor, itemToAdd SingleVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateAdd(context, itemToAdd, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateAdd.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateAdd.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateAdd.1/context"/>
@@ -2477,7 +2477,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlIdIC-8EeWygsGKBbbfnA" name="generateAddAll(context CollectionValueDescriptor, itemsToAdd CollectionValueDescriptor) : EString" tooltipText="generateAddAll(context, itemsToAdd) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlIdIC-8EeWygsGKBbbfnA" name="generateAddAll(context CollectionVariableDescriptor, itemsToAdd CollectionVariableDescriptor) : EString" tooltipText="generateAddAll(context, itemsToAdd) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateAddAll.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateAddAll.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateAddAll.1/context"/>
@@ -2487,7 +2487,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlJEMS-8EeWygsGKBbbfnA" name="generateClear(context CollectionValueDescriptor) : EString" tooltipText="generateClear(context) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlJEMS-8EeWygsGKBbbfnA" name="generateClear(context CollectionVariableDescriptor) : EString" tooltipText="generateClear(context) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateClear.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateClear.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateClear.1/context"/>
@@ -2496,7 +2496,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlKSUS-8EeWygsGKBbbfnA" name="generateClone(context CollectionValueDescriptor, result CollectionValueDescriptor) : EString" tooltipText="generateClone(context, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlKSUS-8EeWygsGKBbbfnA" name="generateClone(context CollectionVariableDescriptor, result CollectionVariableDescriptor) : EString" tooltipText="generateClone(context, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateClone.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateClone.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateClone.1/context"/>
@@ -2506,7 +2506,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlK5YS-8EeWygsGKBbbfnA" name="generateContains(context CollectionValueDescriptor, itemToContain SingleValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateContains(context, itemToContain, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlK5YS-8EeWygsGKBbbfnA" name="generateContains(context CollectionVariableDescriptor, itemToContain SingleVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateContains(context, itemToContain, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateContains.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateContains.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateContains.1/context"/>
@@ -2517,7 +2517,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMHgC-8EeWygsGKBbbfnA" name="generateContainsAll(context CollectionValueDescriptor, itemsToContain CollectionValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateContainsAll(context, itemsToContain, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMHgC-8EeWygsGKBbbfnA" name="generateContainsAll(context CollectionVariableDescriptor, itemsToContain CollectionVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateContainsAll(context, itemsToContain, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/context"/>
@@ -2528,7 +2528,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMHgi-8EeWygsGKBbbfnA" name="generateIsEmpty(context CollectionValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateIsEmpty(context, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMHgi-8EeWygsGKBbbfnA" name="generateIsEmpty(context CollectionVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateIsEmpty(context, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1/context"/>
@@ -2538,7 +2538,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMukS-8EeWygsGKBbbfnA" name="generateRemove(context CollectionValueDescriptor, itemToRemove SingleValueDescriptor) : EString" tooltipText="generateRemove(context, itemToRemove) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMukS-8EeWygsGKBbbfnA" name="generateRemove(context CollectionVariableDescriptor, itemToRemove SingleVariableDescriptor) : EString" tooltipText="generateRemove(context, itemToRemove) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateRemove.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateRemove.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateRemove.1/context"/>
@@ -2548,7 +2548,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMuky-8EeWygsGKBbbfnA" name="generateRemoveAll(context CollectionValueDescriptor, itemsToRemove CollectionValueDescriptor) : EString" tooltipText="generateRemoveAll(context, itemsToRemove) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlMuky-8EeWygsGKBbbfnA" name="generateRemoveAll(context CollectionVariableDescriptor, itemsToRemove CollectionVariableDescriptor) : EString" tooltipText="generateRemoveAll(context, itemsToRemove) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1/context"/>
@@ -2558,7 +2558,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlNVoS-8EeWygsGKBbbfnA" name="generateRetainAll(context CollectionValueDescriptor, itemsToRetainAll CollectionValueDescriptor) : EString" tooltipText="generateRetainAll(context, itemsToRetainAll) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlNVoS-8EeWygsGKBbbfnA" name="generateRetainAll(context CollectionVariableDescriptor, itemsToRetainAll CollectionVariableDescriptor) : EString" tooltipText="generateRetainAll(context, itemsToRetainAll) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1/context"/>
@@ -2568,7 +2568,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlN8sC-8EeWygsGKBbbfnA" name="generateSize(context CollectionValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateSize(context, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_tlN8sC-8EeWygsGKBbbfnA" name="generateSize(context CollectionVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateSize(context, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateSize.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//BaseContainerImplementation/generateSize.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//BaseContainerImplementation/generateSize.1/context"/>
@@ -2619,7 +2619,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_zXdcIDBAEeW-Tvj7yQnlbw" name="generateAny(context CollectionValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateAny(context, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_zXdcIDBAEeW-Tvj7yQnlbw" name="generateAny(context CollectionVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateAny(context, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1/context"/>
@@ -2629,7 +2629,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_z9EqoDBAEeW-Tvj7yQnlbw" name="generateCountOf(context CollectionValueDescriptor, itemToCount SingleValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateCountOf(context, itemToCount, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_z9EqoDBAEeW-Tvj7yQnlbw" name="generateCountOf(context CollectionVariableDescriptor, itemToCount SingleVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateCountOf(context, itemToCount, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/context"/>
@@ -2719,7 +2719,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_BJMqgDA9EeW-Tvj7yQnlbw" name="generateElementAtIndex(context CollectionValueDescriptor, index EInt, result SingleValueDescriptor) : EString" tooltipText="generateElementAtIndex(context, index, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_BJMqgDA9EeW-Tvj7yQnlbw" name="generateElementAtIndex(context CollectionVariableDescriptor, index EInt, result SingleVariableDescriptor) : EString" tooltipText="generateElementAtIndex(context, index, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/context"/>
@@ -2730,7 +2730,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_B11uEDA9EeW-Tvj7yQnlbw" name="generateInsertElementAtIndex(context CollectionValueDescriptor, itemToInsert SingleValueDescriptor, index EInt) : EString" tooltipText="generateInsertElementAtIndex(context, itemToInsert, index) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_B11uEDA9EeW-Tvj7yQnlbw" name="generateInsertElementAtIndex(context CollectionVariableDescriptor, itemToInsert SingleVariableDescriptor, index EInt) : EString" tooltipText="generateInsertElementAtIndex(context, itemToInsert, index) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/context"/>
@@ -2741,7 +2741,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_CX7HcDA9EeW-Tvj7yQnlbw" name="generateReplaceElementAtIndex(context CollectionValueDescriptor, itemToReplace SingleValueDescriptor, index EInt) : EString" tooltipText="generateReplaceElementAtIndex(context, itemToReplace, index) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_CX7HcDA9EeW-Tvj7yQnlbw" name="generateReplaceElementAtIndex(context CollectionVariableDescriptor, itemToReplace SingleVariableDescriptor, index EInt) : EString" tooltipText="generateReplaceElementAtIndex(context, itemToReplace, index) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/context"/>
@@ -2850,7 +2850,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_BSPm4DA_EeW-Tvj7yQnlbw" name="generateAny(context CollectionValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateAny(context, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_BSPm4DA_EeW-Tvj7yQnlbw" name="generateAny(context CollectionVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateAny(context, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateAny.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateAny.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLSequenceImplementation/generateAny.1/context"/>
@@ -2860,7 +2860,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_B31nQDA_EeW-Tvj7yQnlbw" name="generateCountOf(context CollectionValueDescriptor, itemToCount SingleValueDescriptor, result SingleValueDescriptor) : EString" tooltipText="generateCountOf(context, itemToCount, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_B31nQDA_EeW-Tvj7yQnlbw" name="generateCountOf(context CollectionVariableDescriptor, itemToCount SingleVariableDescriptor, result SingleVariableDescriptor) : EString" tooltipText="generateCountOf(context, itemToCount, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/context"/>
@@ -2871,7 +2871,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_CX9RwDA_EeW-Tvj7yQnlbw" name="generateElementAtIndex(context CollectionValueDescriptor, index EInt, result SingleValueDescriptor) : EString" tooltipText="generateElementAtIndex(context, index, result) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_CX9RwDA_EeW-Tvj7yQnlbw" name="generateElementAtIndex(context CollectionVariableDescriptor, index EInt, result SingleVariableDescriptor) : EString" tooltipText="generateElementAtIndex(context, index, result) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/context"/>
@@ -2882,7 +2882,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_C7y-oDA_EeW-Tvj7yQnlbw" name="generateInsertElementAtIndex(context CollectionValueDescriptor, itemToInsert SingleValueDescriptor, index EInt) : EString" tooltipText="generateInsertElementAtIndex(context, itemToInsert, index) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_C7y-oDA_EeW-Tvj7yQnlbw" name="generateInsertElementAtIndex(context CollectionVariableDescriptor, itemToInsert SingleVariableDescriptor, index EInt) : EString" tooltipText="generateInsertElementAtIndex(context, itemToInsert, index) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/context"/>
@@ -2893,7 +2893,7 @@
           </ownedStyle>
           <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/org.eclipse.emf.ecoretools.design/description/ecore.odesign#//@ownedViewpoints[name='Design']/@ownedRepresentations[name='Entities']/@defaultLayer/@containerMappings[name='EC%20EClass']/@subNodeMappings[name='Operation']"/>
         </ownedElements>
-        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_ESazUDA_EeW-Tvj7yQnlbw" name="generateReplaceElementAtIndex(context CollectionValueDescriptor, itemToReplace SingleValueDescriptor, index EInt) : EString" tooltipText="generateReplaceElementAtIndex(context, itemToReplace, index) : EString">
+        <ownedElements xmi:type="diagram:DNodeListElement" xmi:id="_ESazUDA_EeW-Tvj7yQnlbw" name="generateReplaceElementAtIndex(context CollectionVariableDescriptor, itemToReplace SingleVariableDescriptor, index EInt) : EString" tooltipText="generateReplaceElementAtIndex(context, itemToReplace, index) : EString">
           <target xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EOperation" href="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1"/>
           <semanticElements xmi:type="ecore:EParameter" href="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/context"/>

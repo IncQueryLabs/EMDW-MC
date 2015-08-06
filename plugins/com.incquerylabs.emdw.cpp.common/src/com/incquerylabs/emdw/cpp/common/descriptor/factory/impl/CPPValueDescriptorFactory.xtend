@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 
 import static com.google.common.base.Preconditions.*
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
@@ -39,50 +39,52 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 	/**
 	 * Másik komment
 	 */
-	override prepareSingleValueDescriptorForNewLocalVariable(OOPLType type, String localVariableName) {
+	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleValueDescriptor(type, localVariableName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName.qualifiedName)
 		index++
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptorForNewLocalVariable(OOPLType type) {
+	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleValueDescriptor(type, (type as CPPQualifiedNamedElement).cppName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, (type as CPPQualifiedNamedElement).cppName.qualifiedName)
 		index++
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptorForExistingVariable(OOPLType type, String localVariableName) {
+	override prepareSingleVariableDescriptorForExistingVariable(OOPLType type, String localVariableName) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleValueDescriptor(type, localVariableName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName)
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptorForLiteral(OOPLType type, String literal) {
+	override prepareSingleVariableDescriptorForLiteral(OOPLType type, String literal) {
 		checkArgument(type!=null, "OOPLType cannot be null")
 		checkArgument(type instanceof CPPBasicType, "Literal only could be a CPPBasicType, not a(n) "+type.class.name)
-		val preparedDescriptor = factory.createSingleValueDescriptor => [
+		val preparedDescriptor = factory.createSingleVariableDescriptor => [
 				it.stringRepresentation = converter.convertLiteral(type, literal)
-				it.valueType = (type as CPPBasicType).cppName
+				it.baseType = (type as CPPBasicType).cppName
+				it.fullType = it.baseType
 		]
 		return preparedDescriptor
 	}
 	
-	override prepareSingleValueDescriptorForAttribute(SingleValueDescriptor attributeOwner, CPPAttribute attribute) {
+	override prepareSingleVariableDescriptorForAttribute(SingleVariableDescriptor attributeOwner, CPPAttribute attribute) {
 		checkArgument(attributeOwner!=null, "Attribute owner cannot be null")
 		checkArgument(attribute!=null, "CPPAttribute cannot be null")
-		val preparedDescriptor = prepareSingleValueDescriptor(attribute.type, 
+		val preparedDescriptor = prepareSingleVariableDescriptor(attribute.type, 
 									attributeOwner.stringRepresentation + attribute.cppQualifiedName)
 		return preparedDescriptor
 	}
 	
 	
 	
-	private def prepareSingleValueDescriptor(OOPLType type, String localVariableName) {
-		val preparedDescriptor = factory.createSingleValueDescriptor => [
+	private def prepareSingleVariableDescriptor(OOPLType type, String localVariableName) {
+		val preparedDescriptor = factory.createSingleVariableDescriptor => [
 				it.stringRepresentation = localVariableName
-				it.valueType = (type as CPPQualifiedNamedElement).cppQualifiedName
+				it.baseType = (type as CPPQualifiedNamedElement).cppQualifiedName
+				it.fullType = it.baseType
 		]
 		return preparedDescriptor
 	}

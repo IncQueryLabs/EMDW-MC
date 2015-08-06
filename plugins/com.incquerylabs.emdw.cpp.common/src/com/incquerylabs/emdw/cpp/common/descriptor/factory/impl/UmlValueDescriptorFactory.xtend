@@ -3,10 +3,10 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.incquerylabs.emdw.cpp.common.descriptor.IDescriptorCacheManager
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import java.util.Map
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Type
@@ -18,8 +18,8 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private XtumlValueDescriptorFactory factory
 	private UmlToXtumlMapper mapper
 	private AdvancedIncQueryEngine engine
-	private Map<String, SingleValueDescriptor> singleVariableCache
-	private Table<Type, String, SingleValueDescriptor> literalCache
+	private Map<String, SingleVariableDescriptor> singleVariableCache
+	private Table<Type, String, SingleVariableDescriptor> literalCache
 	
 	/**
 	 * @param engine Cannot be null
@@ -60,28 +60,28 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * Create a new SingleVariableDescriptor which stringRepresentation won't be the same as 
 	 * <code>localVariableName</code> because we need to provide a unique name so it will add 
 	 * a unique prefix to the <code>localVariableName</code>. This method caches the returned 
-	 * SingleValueDescriptor to the <code>localVariableName</code> and you can get it through 
-	 * {@link UmlValueDescriptorFactory#prepareSingleValueDescriptorForExistingVariable 
-	 * <em>prepareSingleValueDescriptorForExistingVariable</em>} method.
+	 * SingleVariableDescriptor to the <code>localVariableName</code> and you can get it through 
+	 * {@link UmlValueDescriptorFactory#prepareSingleVariableDescriptorForExistingVariable 
+	 * <em>prepareSingleVariableDescriptorForExistingVariable</em>} method.
 	 * 
 	 * @param type Cannot be null
 	 * @param localVariableName Cannot be null
 	 * 
-	 * @return The SingleValueDescriptor with the resolved <code>type</code> based on implementation
+	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name based on <code>localVariableName</code>
 	 */
-	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName) {
+	def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName) {
 		val xtumlType = mapper.convertType(type)
-		return factory.prepareSingleValueDescriptorForNewLocalVariable(xtumlType, localVariableName).cache(localVariableName)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType, localVariableName).cache(localVariableName)
 	}
 	
 	/**
-	 * @return The SingleValueDescriptor with the resolved type based on implementation and 
+	 * @return The SingleVariableDescriptor with the resolved type based on implementation and 
 	 *         with unique name
 	 */
-	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
+	def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
 		val xtumlType = mapper.convertType(type)
-		return factory.prepareSingleValueDescriptorForNewLocalVariable(xtumlType)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType)
 	}
 	
 	/**
@@ -94,53 +94,53 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * @param type Only can be null if the required SVD in cache
 	 * @param localVariableName Cannot be null
 	 * 
-	 * @return The SingleValueDescriptor with the resolved <code>type</code> based on implementation 
+	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation 
 	 *         and with <code>stringRepresentation</code> which can be a unique name if SVD is a cached 
 	 *         variable or the same as <code>localVariableName</code> if it is not
 	 */
-	def prepareSingleValueDescriptorForExistingVariable(Type type, String localVariableName) {
+	def prepareSingleVariableDescriptorForExistingVariable(Type type, String localVariableName) {
 		val xtumlType = mapper.convertType(type)
 		if(isSingleVariableInCache(localVariableName)) {
 			return getSingleVariableFromCache(localVariableName)
 		}
-		return factory.prepareSingleValueDescriptorForExistingVariable(xtumlType, localVariableName).cache(localVariableName)
+		return factory.prepareSingleVariableDescriptorForExistingVariable(xtumlType, localVariableName).cache(localVariableName)
 	}
 	
 	/**
 	 * @param type Cannot be null and must be convertible to an xtUML type
 	 * @param literal Cannot be null and must be parsable if it is a number
 	 * 
-	 * @return The SingleValueDescriptor with the resolved type based on implementation 
+	 * @return The SingleVariableDescriptor with the resolved type based on implementation 
 	 *         and with <code>stringRepresentation</code> which will contain the converted 
 	 *         <code>literal</code>
 	 */
-	def prepareSingleValueDescriptorForLiteral(Type type, String literal) {
+	def prepareSingleVariableDescriptorForLiteral(Type type, String literal) {
 		val xtumlType = mapper.convertType(type)
 		if(isLiteralInCache(type, literal)) {
 			return getLiteralFromCache(type, literal)
 		}
-		return factory.prepareSingleValueDescriptorForLiteral(xtumlType, literal).cache(literal, type)
+		return factory.prepareSingleVariableDescriptorForLiteral(xtumlType, literal).cache(literal, type)
 	}
 	
 	
 	
-	private def SingleValueDescriptor cache(SingleValueDescriptor svd, String variableName) {
+	private def SingleVariableDescriptor cache(SingleVariableDescriptor svd, String variableName) {
 		putSingleVariableIntoCache(variableName, svd)
 		return svd
 	}
 	
-	private def SingleValueDescriptor cache(SingleValueDescriptor svd, String literal, Type type) {
+	private def SingleVariableDescriptor cache(SingleVariableDescriptor svd, String literal, Type type) {
 		putLiteralIntoCache(type, literal, svd)
 		return svd
 	}
 	
 	
 	
-	override createSingleValueDescriptorBuilder() {
-		return new UmlSingleValueDescriptorBuilder(this)
+	override createSingleVariableDescriptorBuilder() {
+		return new UmlSingleVariableDescriptorBuilder(this)
 	}
 	
-	override createCollectionValueDescriptorBuilder() {
+	override createCollectionVariableDescriptorBuilder() {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -158,7 +158,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return singleVariableCache.get(variableName)
 	}
 	
-	override putSingleVariableIntoCache(String variableName, SingleValueDescriptor descriptor) {
+	override putSingleVariableIntoCache(String variableName, SingleVariableDescriptor descriptor) {
 		singleVariableCache.put(variableName, descriptor)
 	}
 	
@@ -170,7 +170,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return literalCache.get(type, literal)
 	}
 	
-	override putLiteralIntoCache(Type type, String literal, SingleValueDescriptor descriptor) {
+	override putLiteralIntoCache(Type type, String literal, SingleVariableDescriptor descriptor) {
 		literalCache.put(type, literal, descriptor)
 	}
 	

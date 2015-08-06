@@ -5,7 +5,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.cpp.common.test.wrappers.UmlCppTransformationWrapper
-import com.incquerylabs.emdw.valuedescriptor.AbstractValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Model
@@ -14,7 +14,7 @@ import org.junit.runners.Parameterized.Parameters
 
 import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 
-abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescriptor extends AbstractValueDescriptor> extends TestWithoutParameters {
+abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescriptor extends ValueDescriptor> extends TestWithoutParameters {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -65,14 +65,14 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, ValueDescripto
 		endTest(testId)
 	}
 	
-	protected def ValueDescriptor getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
+	protected def IValueDescriptor getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
 	protected def UmlObject createUmlObject(Model umlModel)
 	
-	protected def ValueDescriptor prepareSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
+	protected def IValueDescriptor prepareSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
-	protected def void assertResult(UmlObject object, ValueDescriptor descriptor)
+	protected def void assertResult(UmlObject object, IValueDescriptor descriptor)
 	
-	protected def void assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor)
+	protected def void assertResult(IValueDescriptor originalDescriptor, IValueDescriptor cachedDescriptor)
 	
 }

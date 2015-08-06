@@ -31,7 +31,16 @@ class UmlToXtumlMapper {
 	 * 
 	 * @return The xtUML pair of the <code>umlProperty</code>
 	 */
-	def convertProperty(Property umlProperty) {
-		return engine.attribute2UmlProperty.getAllValuesOfxtumlAttribute(umlProperty).head
+	def convertPropertyToAttribute(Property umlProperty) {
+		return engine.attribute2UmlProperty.getAllValuesOfxtumlAttribute(umlProperty)?.head
+	}
+	
+	/**
+	 * @param umlProperty Cannot be null
+	 * 
+	 * @return The xtUML pair of the <code>umlProperty</code>
+	 */
+	def convertPropertyToAssociation(Property umlProperty) {
+		return engine.association2UmlProperty.getAllValuesOfxtumlAssociation(umlProperty)?.head
 	}
 }

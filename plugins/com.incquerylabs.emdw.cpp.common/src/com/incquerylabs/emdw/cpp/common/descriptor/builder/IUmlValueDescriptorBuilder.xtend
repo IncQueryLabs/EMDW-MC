@@ -1,10 +1,10 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder
 
-import com.incquerylabs.emdw.valuedescriptor.AbstractValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 
-interface IUmlValueDescriptorBuilder<ValueDescriptor extends AbstractValueDescriptor> {
+interface IUmlValueDescriptorBuilder<IValueDescriptor extends ValueDescriptor> {
 	/**
 	 * Build the concrete Descriptor with the previously set parameters.
 	 */
-	def ValueDescriptor build()
+	def IValueDescriptor build()
 }

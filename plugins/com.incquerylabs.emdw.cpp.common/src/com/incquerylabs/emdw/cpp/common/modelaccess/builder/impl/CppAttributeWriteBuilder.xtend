@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeWriteBuilder
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
@@ -14,9 +14,9 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	private XtumlToOoplMapper mapper
 	private TypeConverter converter
 	
-	private SingleValueDescriptor variable
+	private ValueDescriptor variable
 	private Attribute attribute
-	private SingleValueDescriptor newValue
+	private ValueDescriptor newValue
 	
 	
 	new(AdvancedIncQueryEngine engine) {
@@ -27,10 +27,15 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	
 	override build() {
 		val cppAttribute = mapper.convertAttribute(attribute)
-		return '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.stringRepresentation»'''
+		val svd = factory.createPropertyWriteDescriptor => [
+			it.baseType = converter.convertType(cppAttribute.type)
+			it.fullType = it.baseType
+			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.stringRepresentation»'''
+		]
+		return svd
 	}
 	
-	override setVariable(SingleValueDescriptor variable) {
+	override setVariable(ValueDescriptor variable) {
 		this.variable = variable
 		return this
 	}
@@ -40,7 +45,7 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 		return this
 	}
 	
-	override setNewValue(SingleValueDescriptor newValue) {
+	override setNewValue(ValueDescriptor newValue) {
 		this.newValue = newValue
 		return this
 	}

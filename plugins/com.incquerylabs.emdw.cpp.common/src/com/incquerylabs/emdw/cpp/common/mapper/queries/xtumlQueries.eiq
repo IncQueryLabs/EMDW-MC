@@ -28,7 +28,9 @@ pattern cppAttribute2Attribute(
 	CPPAttribute.commonAttribute(ooplAttribute, commonAttribute);
 }
 
-//pattern ooplAssociation2Association(
-//	commonAssociation : XTAssociation,
-//	ooplAssociation : OOPLRelation
-//)
+pattern ooplAssociation2Association(
+	commonRelation : XTAssociation,
+	ooplRelation : OOPLRelation
+) {
+	OOPLRelation.xtRelation(ooplRelation, commonRelation);
+}

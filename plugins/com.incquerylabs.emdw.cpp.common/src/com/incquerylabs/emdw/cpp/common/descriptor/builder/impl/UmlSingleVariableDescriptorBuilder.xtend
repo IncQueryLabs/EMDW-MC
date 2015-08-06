@@ -1,12 +1,12 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 
-class UmlSingleValueDescriptorBuilder implements IUmlSingleValueDescriptorBuilder {
+class UmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptorBuilder {
 	private String name
 	private String literal
 	private Type type
@@ -21,34 +21,34 @@ class UmlSingleValueDescriptorBuilder implements IUmlSingleValueDescriptorBuilde
 		checkArgument(type!=null, "Type cannot be null")
 		// TODO: business logic
 		if(literal!=null) {
-			return factory.prepareSingleValueDescriptorForLiteral(type, literal)
+			return factory.prepareSingleVariableDescriptorForLiteral(type, literal)
 		} else if(isExistingVariable) {
-			return factory.prepareSingleValueDescriptorForExistingVariable(type, name)
+			return factory.prepareSingleVariableDescriptorForExistingVariable(type, name)
 		} else if(name!=null) {
-			return factory.prepareSingleValueDescriptorForNewLocalVariable(type, name)
+			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type, name)
 		} else {
-			return factory.prepareSingleValueDescriptorForNewLocalVariable(type)
+			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type)
 		}
 	}
 	
-	override IUmlSingleValueDescriptorBuilder setName(String name) {
+	override IUmlSingleVariableDescriptorBuilder setName(String name) {
 		this.name = name
 		this.literal = null
 		return this
 	}
 	
-	override IUmlSingleValueDescriptorBuilder setLiteral(String literal) {
+	override IUmlSingleVariableDescriptorBuilder setLiteral(String literal) {
 		this.literal = literal
 		this.name = null
 		return this
 	}
 	
-	override IUmlSingleValueDescriptorBuilder setType(Type type) {
+	override IUmlSingleVariableDescriptorBuilder setType(Type type) {
 		this.type = type
 		return this
 	}
 	
-	override IUmlSingleValueDescriptorBuilder setIsExistingVariable(boolean isExistingVariable) {
+	override IUmlSingleVariableDescriptorBuilder setIsExistingVariable(boolean isExistingVariable) {
 		this.isExistingVariable = isExistingVariable
 		return this
 	}

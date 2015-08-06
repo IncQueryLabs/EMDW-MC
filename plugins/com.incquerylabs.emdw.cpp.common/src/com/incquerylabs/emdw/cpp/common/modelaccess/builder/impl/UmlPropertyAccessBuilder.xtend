@@ -1,17 +1,17 @@
 package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyAccessBuilder
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor
 import org.eclipse.uml2.uml.Property
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeAccessBuilder
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 
 class UmlPropertyAccessBuilder implements IUmlPropertyAccessBuilder {
 	private UmlToXtumlMapper mapper
 	private IOoplAttributeAccessBuilder builder
 	
-	private SingleValueDescriptor variable
+	private ValueDescriptor variable
 	private Property property
 	
 	
@@ -22,14 +22,17 @@ class UmlPropertyAccessBuilder implements IUmlPropertyAccessBuilder {
 	
 	
 	override build() {
-		val xtUmlProperty = mapper.convertProperty(property)
-		return (builder => [
-					it.variable = variable
-					it.attribute = xtUmlProperty
-				]).build
+		val xtUmlAttribute = mapper.convertPropertyToAttribute(property)
+		if(xtUmlAttribute!=null) {
+			return (builder => [
+						it.variable = variable
+						it.attribute = xtUmlAttribute
+					]).build		
+		}
+		
 	}
 	
-	override setVariable(SingleValueDescriptor variable) {
+	override setVariable(ValueDescriptor variable) {
 		this.variable = variable
 		return this
 	}

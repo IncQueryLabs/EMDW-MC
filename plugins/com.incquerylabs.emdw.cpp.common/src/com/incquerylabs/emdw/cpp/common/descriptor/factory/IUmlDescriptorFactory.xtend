@@ -1,12 +1,12 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.factory
 
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionValueDescriptorBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleValueDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionVariableDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
 	
-	def IUmlSingleValueDescriptorBuilder createSingleValueDescriptorBuilder()
+	def IUmlSingleVariableDescriptorBuilder createSingleVariableDescriptorBuilder()
 	
-	def IUmlCollectionValueDescriptorBuilder createCollectionValueDescriptorBuilder()
+	def IUmlCollectionVariableDescriptorBuilder createCollectionVariableDescriptorBuilder()
 }

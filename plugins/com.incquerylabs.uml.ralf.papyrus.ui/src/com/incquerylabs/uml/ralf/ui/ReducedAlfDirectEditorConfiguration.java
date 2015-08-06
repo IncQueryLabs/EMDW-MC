@@ -39,7 +39,7 @@ import com.google.inject.Binder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
-import com.incquerylabs.emdw.umlintegration.papyrus.IncQueryEngineService;
+import com.incquerylabs.uml.papyrus.IncQueryEngineService;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.UMLContextProvider;

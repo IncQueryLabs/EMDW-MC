@@ -1,12 +1,14 @@
 package com.incquerylabs.emdw.cpp.ui
 
 import com.incquerylabs.emdw.cpp.ui.util.CodeGenerator
-import com.incquerylabs.emdw.umlintegration.papyrus.EmfModel
+import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
 import java.util.List
+import org.apache.log4j.Logger
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
 import org.eclipse.core.runtime.IAdaptable
+import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.papyrus.infra.core.resource.ModelSet
@@ -17,8 +19,6 @@ import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
-import org.eclipse.jface.dialogs.MessageDialog
-import org.apache.log4j.Logger
 
 class UmlHandler extends AbstractHandler {
 	extension CodeGenerator codeGenerator = new CodeGenerator()
@@ -35,7 +35,7 @@ class UmlHandler extends AbstractHandler {
 		if (modelSet instanceof ModelSet){
 			val emfModel = modelSet.getModel(xtResourceUri.toString)
 			emfModel.saveModel()
-			if(emfModel instanceof EmfModel){
+			if(emfModel instanceof EMFResourcePapyrusModel){
 				val xtumlResource = emfModel.resource
 				val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
 				val xtComponents = xtModel.allSubComponents

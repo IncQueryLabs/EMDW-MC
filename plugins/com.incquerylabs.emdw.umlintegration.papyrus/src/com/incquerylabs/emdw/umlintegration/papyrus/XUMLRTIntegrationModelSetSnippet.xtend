@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.umlintegration.papyrus
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
+import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.HashMap
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
@@ -14,6 +15,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFBaseIndexWrapper
 import org.eclipse.incquery.runtime.evm.specific.TransactionalSchedulers
 import org.eclipse.incquery.runtime.exception.IncQueryException
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
@@ -25,7 +27,7 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
 
-class ModelSetSnippet implements IModelSetSnippet {
+class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
 	val transformation = new TransformationQrt
 	val Logger logger
@@ -52,12 +54,17 @@ class ModelSetSnippet implements IModelSetSnippet {
 
 	override start(ModelSet modelSet) {
 		try{
+			// this is required to find only the loaded models at the start
+			val defaultUMLResources = ImmutableList.copyOf(modelSet.resources.filter(UMLResource))
+			
+			val engine = getEngineManager(modelSet).getOrCreateEngine(modelSet)
+			// we need to expand the indexing to the additional resource set
+			val emfBaseIndex = engine.baseIndex as EMFBaseIndexWrapper
 			val resourceSet = new ResourceSetImpl
-			val engine = getEngineManager(modelSet).initializeEngine(modelSet, resourceSet) 
-			//AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(#{modelSet, resourceSet}))
+			emfBaseIndex.navigationHelper.addRoot(resourceSet)
 			
 			val mappings = newHashSet()
-			ImmutableList.copyOf(modelSet.resources.filter(UMLResource)).forEach[resource |
+			(defaultUMLResources).forEach[resource |
 				if (!resource.contents.filter(Model).empty) {
 					mappings += createMapping(resource, modelSet, resourceSet)
 				}
@@ -74,6 +81,8 @@ class ModelSetSnippet implements IModelSetSnippet {
 				logger.debug("Initialized UML integration transformation")
 				transformation.execute
 				logger.debug("First execution of UML integration transformation finished")
+			} else {
+				logger.error("More than one root mapping found, UML integration cannot continue!")
 			}
 		} catch (IncQueryException e) {
 			logger.error("Could not setup UML integration transformation!", e)
@@ -104,7 +113,7 @@ class ModelSetSnippet implements IModelSetSnippet {
 		val uri = uriWithoutExtension.appendFileExtension(fileExtension)
 		val resource = resourceSet.createResource(uri)
 		resource.contents += root
-		modelSet.registerModel(new EmfModel(resource))
+		modelSet.registerModel(new EMFResourcePapyrusModel(resource))
 		resource
 	}
 

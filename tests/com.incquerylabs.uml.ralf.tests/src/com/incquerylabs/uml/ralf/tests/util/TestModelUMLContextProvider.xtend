@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.tests.util
 
-import com.google.common.base.Joiner
 import com.google.inject.Singleton
 import com.incquerylabs.uml.ralf.scoping.UMLContextProvider
 import org.eclipse.emf.common.util.URI
@@ -8,11 +7,9 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
-import org.eclipse.uml2.uml.NamedElement
-import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.resource.UMLResource
 
 @Singleton
 class TestModelUMLContextProvider extends UMLContextProvider {

@@ -62,6 +62,10 @@ import org.eclipse.uml2.uml.Parameter
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
 import com.incquerylabs.uml.ralf.scoping.UMLScopeHelper
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import org.eclipse.uml2.uml.Operation
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 
 inject extension IUMLContextProvider umlContext
@@ -82,6 +86,9 @@ judgments {
     type |- EObject expression : output IUMLTypeReference
         error "Cannot type " + stringRep(expression)
         source expression
+    operationType |- Operation op <: Tuple params : output IUMLTypeReference
+        error "Invalid parameter types " + stringRep(op)
+        source op
     subtypeReference |- IUMLTypeReference left <: IUMLTypeReference right
         error stringRep(left) + " is not a subtype of  " + stringRep(right)
     subtypeOrEqual |- Type left <~ Type right
@@ -229,7 +236,36 @@ from {
 }
 
 /**
- * Expressions
+ * Operation typing
+ */
+rule OperationTyping
+    G |- Operation op <: Tuple params : IUMLTypeReference result
+from {
+    fail
+}
+rule ParameterListTyping
+    G |- Operation op <: ExpressionList params : IUMLTypeReference result
+from {
+    val opParamLength = op.ownedParameters.size
+    val paramLength = params.expressions.size
+    opParamLength == paramLength
+    
+    for (var i = 0; i < paramLength; i++) {
+        val declaredType = op.ownedParameters.get(i).type.typeReference
+        G |- params.expressions.get(i) |> declaredType
+    }
+    
+    G |- op : result
+}
+rule NamedTupleTyping
+    G |- Operation op <: NamedTuple params : IUMLTypeReference result
+from {
+    
+    result = op.returnParameter.type.typeReference
+}
+
+/**
+ * Expression typing
  */  
 rule NumericUnaryExpression
     G |- NumericUnaryExpression ex : IUMLTypeReference result
@@ -482,7 +518,19 @@ from {
 rule FeatureInvocationExpression
     derives G |- FeatureInvocationExpression ex : IUMLTypeReference result
 from {
-    result = ex.operation.getType.typeReference
+    G |- ex.operation : result
+    //TODO parameter typing
+}
+
+rule Operation
+    derives G |- Operation op : IUMLTypeReference result
+from {
+    {
+        op.getType == null
+        result = voidType 
+    } or {
+        result = op.getType.typeReference
+    }
 }
 
 //Non-expression types
@@ -529,14 +577,14 @@ checkrule LocalNameDeclarationStatementType for
 from {
     empty |- st.variable : var IUMLTypeReference varType
     empty |- st.expression : var IUMLTypeReference valueType
-    empty |- varType <: valueType	
+    empty |- varType <: valueType   
 }
 
 checkrule NonFinalClause for
     NonFinalClause cl
 from {
-	empty |- cl.^condition : var IUMLTypeReference condType
-	empty |- condType <: BOOLEAN.primitiveTypeReference
+    empty |- cl.^condition : var IUMLTypeReference condType
+    empty |- condType <: BOOLEAN.primitiveTypeReference
 }
 
 checkrule ForStatement for
@@ -549,43 +597,43 @@ from {
 checkrule ForEachStatement for
     ForEachStatement st
 from {
-	val loopVariable = st.variableDefinition as LoopVariable
-	empty |- loopVariable.expression : var IUMLTypeReference exType
-	exType instanceof CollectionTypeReference
+    val loopVariable = st.variableDefinition as LoopVariable
+    empty |- loopVariable.expression : var IUMLTypeReference exType
+    exType instanceof CollectionTypeReference
 }
 
 checkrule WhileStatement for
     WhileStatement st
 from {
-	empty |- st.^condition : var IUMLTypeReference condType
-	empty |- condType <: BOOLEAN.primitiveTypeReference
+    empty |- st.^condition : var IUMLTypeReference condType
+    empty |- condType <: BOOLEAN.primitiveTypeReference
 }
 
 checkrule DoStatement for
     DoStatement st
 from {
-	empty |- st.^condition : var IUMLTypeReference condType
-	empty |- condType <: BOOLEAN.primitiveTypeReference
+    empty |- st.^condition : var IUMLTypeReference condType
+    empty |- condType <: BOOLEAN.primitiveTypeReference
 }
 
 checkrule SwitchStatement_ for
     SwitchStatement st
 from {
-	//Proper type
-	empty |- st.expression : var IUMLTypeReference eType
-	{
-		INTEGER.primitiveTypeReference == eType
-	} or {
-		STRING.primitiveTypeReference == eType
-	}
-	//cases match the type
-	for(SwitchClause cl : st.nonDefaultClause){
-		for(Expression ex : cl.^case){
-			empty |- ex : var IUMLTypeReference caseType
-			empty |- st.expression |> caseType
-		}
-	}
-	
+    //Proper type
+    empty |- st.expression : var IUMLTypeReference eType
+    {
+        INTEGER.primitiveTypeReference == eType
+    } or {
+        STRING.primitiveTypeReference == eType
+    }
+    //cases match the type
+    for(SwitchClause cl : st.nonDefaultClause){
+        for(Expression ex : cl.^case){
+            empty |- ex : var IUMLTypeReference caseType
+            empty |- st.expression |> caseType
+        }
+    }
+    
 }
 
 checkrule SendSignalStatement for
@@ -615,4 +663,10 @@ from {
         val returnType = returnValue.type.typeReference
         empty |- returnType <: exprType
     }
+}
+
+checkrule OperationParameters for 
+    FeatureInvocationExpression ex
+from {
+    
 }

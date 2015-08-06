@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.incquerylabs.uml.ralf.ReducedAlfSystem;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
@@ -104,5 +105,12 @@ public class ReducedAlfSystemValidator extends AbstractReducedAlfLanguageValidat
     errorGenerator.generateErrors(this,
     	getXsemanticsSystem().returnStatement(st),
     		st);
+  }
+  
+  @Check
+  public void operationParameters(final FeatureInvocationExpression ex) {
+    errorGenerator.generateErrors(this,
+    	getXsemanticsSystem().operationParameters(ex),
+    		ex);
   }
 }

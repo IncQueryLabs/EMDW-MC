@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -27,11 +28,17 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	
 	override build() {
 		val cppAttribute = mapper.convertAttribute(attribute)
+		val type = cppAttribute.type
 		val svd = factory.createPropertyWriteDescriptor => [
-			it.baseType = converter.convertType(cppAttribute.type)
-			it.fullType = it.baseType
+			it.fullType = converter.convertType(type)
 			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.stringRepresentation»'''
 		]
+		if(type instanceof CPPSequence) {
+			svd.baseType = type.cppContainer
+			svd.templateTypes.add(converter.convertType(type.elementType))
+		} else {
+			svd.baseType = converter.convertType(type)
+		}
 		return svd
 	}
 	

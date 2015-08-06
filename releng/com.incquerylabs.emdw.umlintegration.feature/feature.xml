@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.incquerylabs.uml.ralf.feature"
-      label="EMDW Reduced Alf Language SDK"
+      id="com.incquerylabs.emdw.umlintegration.feature"
+      label="EMDW xUML-RT Integration"
       version="1.0.0.qualifier"
       provider-name="IncQuery Labs Ltd.">
 
@@ -18,47 +18,32 @@
    </license>
 
    <includes
-         id="it.xsemantics.runtime.feature"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.xtext.runtime"
-         version="0.0.0"/>
-
-   <includes
          id="com.incquerylabs.uml.papyrus.feature"
          version="0.0.0"/>
 
    <plugin
-         id="com.incquerylabs.uml.ralf"
+         id="com.incquerylabs.emdw.umlintegration.papyrus"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.incquerylabs.uml.ralf.papyrus.ui"
+         id="com.incquerylabs.emdw.umlintegration.trace"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.incquerylabs.uml.ralf.ui"
+         id="com.incquerylabs.emdw.umlintegration.transformation"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="com.incquerylabs.uml.ralf.tests"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="com.incquerylabs.uml.ralf.tests.examples"
+         id="com.incquerylabs.emdw.umlintegration.queries"
          download-size="0"
          install-size="0"
          version="0.0.0"/>

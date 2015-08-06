@@ -5,7 +5,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyAccessBuilder
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyWriteBuilder
 
-class UmlModelAccess implements IModelAccess{
+class UmlCppModelAccess implements IModelAccess{
 	private AdvancedIncQueryEngine engine
 	
 	new(AdvancedIncQueryEngine engine) {

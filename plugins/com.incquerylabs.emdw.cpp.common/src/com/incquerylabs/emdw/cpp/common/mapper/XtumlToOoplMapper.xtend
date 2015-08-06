@@ -27,6 +27,6 @@ class XtumlToOoplMapper {
 	}
 	
 	def convertAttribute(Attribute attribute) {
-		return engine.ooplAttribute2Attribute.getAllValuesOfooplAttribute(attribute).head
+		return engine.cppAttribute2Attribute.getAllValuesOfooplAttribute(attribute).head
 	}
 }

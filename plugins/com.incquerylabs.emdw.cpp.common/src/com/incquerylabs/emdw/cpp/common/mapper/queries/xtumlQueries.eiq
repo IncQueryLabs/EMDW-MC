@@ -21,7 +21,7 @@ pattern isXtClass(
 	XTClass(xtType);
 }
 
-pattern ooplAttribute2Attribute(
+pattern cppAttribute2Attribute(
 	commonAttribute : Attribute,
 	ooplAttribute
 ) {

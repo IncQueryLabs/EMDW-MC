@@ -6,7 +6,7 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://incquerylabs.com/emdw/umlintegration/trace"
 
 pattern type2UmlElement(
-	umlType : uml::Type,
+	umlType,
 	xtumlType : Type
 ) {
 	Trace.umlElements(trace, umlType);
@@ -14,7 +14,7 @@ pattern type2UmlElement(
 }
 
 pattern attribute2UmlProperty(
-	umlProperty : Property,
+	umlProperty,
 	xtumlAttribute : Attribute
 ) {
 	Trace.umlElements(trace, umlProperty);
@@ -22,7 +22,7 @@ pattern attribute2UmlProperty(
 }
 
 pattern association2UmlProperty(
-	umlProperty : Property,
+	umlProperty,
 	xtumlAssociation : XTAssociation
 ) {
 	Trace.umlElements(trace, umlProperty);

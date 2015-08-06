@@ -8,15 +8,16 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeAccessBuilder
 
 class UmlPropertyAccessBuilder implements IUmlPropertyAccessBuilder {
-	private SingleValueDescriptor variable
-	private Property property
 	private UmlToXtumlMapper mapper
 	private IOoplAttributeAccessBuilder builder
+	
+	private SingleValueDescriptor variable
+	private Property property
 	
 	
 	new(AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
-		builder = new OoplAttributeAccessBuilder(engine)
+		builder = new CppAttributeAccessBuilder(engine)
 	}
 	
 	

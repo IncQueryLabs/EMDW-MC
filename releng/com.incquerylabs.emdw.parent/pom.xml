@@ -57,9 +57,10 @@
 		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
-		<module>../com.incquerylabs.emdw.papyrus.feature</module>
-		<module>../com.incquerylabs.emdw.update</module>
+		<module>../com.incquerylabs.emdw.umlintegration.feature</module>
+		<module>../com.incquerylabs.uml.papyrus.feature</module>
 		<module>../com.incquerylabs.uml.ralf.feature</module>
+		<module>../com.incquerylabs.emdw.update</module>
 
 		<!-- Maven plugins -->
 		<module>../../maven/emdw-metamodels</module>

@@ -9,7 +9,7 @@
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>../com.incquerylabs.emdw.parent</relativePath>
 	</parent>
-	<artifactId>com.incquerylabs.emdw.papyrus.feature</artifactId>
+	<artifactId>com.incquerylabs.emdw.umlintegration.feature</artifactId>
 	<packaging>eclipse-feature</packaging>
 	<!-- <build>
 		<plugins>

@@ -18,15 +18,15 @@
    </license>
 
    <includes
-         id="com.incquerylabs.emdw.papyrus.feature"
-         version="0.0.0"/>
-
-   <includes
          id="it.xsemantics.runtime.feature"
          version="0.0.0"/>
 
    <includes
          id="org.eclipse.xtext.runtime"
+         version="0.0.0"/>
+
+   <includes
+         id="com.incquerylabs.uml.papyrus.feature"
          version="0.0.0"/>
 
    <plugin

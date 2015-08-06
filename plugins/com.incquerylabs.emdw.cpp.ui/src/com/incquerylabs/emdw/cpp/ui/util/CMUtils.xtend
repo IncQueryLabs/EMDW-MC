@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.ui.util
 
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
-import com.incquerylabs.emdw.umlintegration.papyrus.IncQueryEngineService
+import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.HashMap
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrus.infra.core.resource.ModelSet

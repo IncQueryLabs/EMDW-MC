@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: xUML-RT Papyrus IncQueryEngine Service
+Bundle-SymbolicName: com.incquerylabs.uml.papyrus;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.eclipse.papyrus.infra.core;bundle-version="1.1.0",
+ org.eclipse.incquery.runtime;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: IncQuery Labs Ltd.
+Export-Package: com.incquerylabs.uml.papyrus
+Import-Package: org.apache.log4j;version="1.2.15"
+

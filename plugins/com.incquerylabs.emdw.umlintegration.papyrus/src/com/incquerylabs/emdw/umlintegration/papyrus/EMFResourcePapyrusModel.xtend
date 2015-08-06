@@ -6,7 +6,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.papyrus.infra.core.resource.AbstractModel
 
-class EmfModel extends AbstractModel {
+class EMFResourcePapyrusModel extends AbstractModel {
 
 	val Resource resource
 

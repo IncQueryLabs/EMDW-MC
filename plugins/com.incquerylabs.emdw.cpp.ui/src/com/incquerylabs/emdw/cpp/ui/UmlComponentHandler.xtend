@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.ui
 
 import com.incquerylabs.emdw.cpp.ui.util.CodeGenerator
-import com.incquerylabs.emdw.umlintegration.papyrus.EmfModel
+import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
 import com.incquerylabs.emdw.umlintegration.queries.Trace
 import java.util.List
 import org.eclipse.core.commands.AbstractHandler
@@ -38,7 +38,7 @@ class UmlComponentHandler extends AbstractHandler {
 		if (modelSet instanceof ModelSet){
 			val emfModel = modelSet.getModel(xtResourceUri.toString)
 			emfModel.saveModel()
-			if(emfModel instanceof EmfModel){
+			if(emfModel instanceof EMFResourcePapyrusModel){
 				val xtumlResource = emfModel.resource
 				
 				val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtumlResource.resourceSet))

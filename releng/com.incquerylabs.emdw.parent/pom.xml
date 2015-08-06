@@ -24,13 +24,15 @@
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
 		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
+
+		<!-- Papyrus integration -->
+		<module>../../plugins/com.incquerylabs.uml.papyrus</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
 
 		<!-- Validation -->
 		<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery</module>
 		<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery.validation</module>
 		
-
 		<!-- XTUML-CPP transformation -->
 		<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
 		<module>../../tests/com.incquerylabs.emdw.cpp.transformation.test</module>
@@ -55,9 +57,10 @@
 		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
-		<module>../com.incquerylabs.emdw.papyrus.feature</module>
-		<module>../com.incquerylabs.emdw.update</module>
+		<module>../com.incquerylabs.emdw.umlintegration.feature</module>
+		<module>../com.incquerylabs.uml.papyrus.feature</module>
 		<module>../com.incquerylabs.uml.ralf.feature</module>
+		<module>../com.incquerylabs.emdw.update</module>
 
 		<!-- Maven plugins -->
 		<module>../../maven/emdw-metamodels</module>

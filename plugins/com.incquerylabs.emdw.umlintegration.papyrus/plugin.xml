@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.papyrus.infra.core.model">
       <modelSetSnippet
-            classname="com.incquerylabs.emdw.umlintegration.papyrus.ModelSetSnippet">
+            classname="com.incquerylabs.emdw.umlintegration.papyrus.XUMLRTIntegrationModelSetSnippet">
       </modelSetSnippet>
    </extension>
 

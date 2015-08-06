@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="com.incquerylabs.emdw.papyrus.feature"
-      label="EMDW Papyrus Integration"
+      id="com.incquerylabs.emdw.umlintegration.feature"
+      label="EMDW xUML-RT Integration"
       version="1.0.0.qualifier"
       provider-name="IncQuery Labs Ltd.">
 
@@ -16,6 +16,10 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
+
+   <includes
+         id="com.incquerylabs.uml.papyrus.feature"
+         version="0.0.0"/>
 
    <plugin
          id="com.incquerylabs.emdw.umlintegration.papyrus"

@@ -11,6 +11,6 @@ interface IUmlOperationCallBuilder extends IModelAccessBuilder {
 	
 	def IUmlOperationCallBuilder setOperation(Operation operation)
 	
-	def IUmlOperationCallBuilder setParameters(AbstractValueDescriptor params)
+	def IUmlOperationCallBuilder setParameters(AbstractValueDescriptor... params)
 	
 }

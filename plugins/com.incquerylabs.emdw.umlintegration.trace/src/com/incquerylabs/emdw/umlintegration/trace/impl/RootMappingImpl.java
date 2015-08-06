@@ -29,247 +29,247 @@ import org.eclipse.uml2.uml.Model;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.RootMappingImpl#getUmlRoot <em>Uml Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.RootMappingImpl#getXtumlrtRoot <em>Xtumlrt Root</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.RootMappingImpl#getTraces <em>Traces</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
 public class RootMappingImpl extends MinimalEObjectImpl.Container implements RootMapping {
 	/**
-	 * The cached value of the '{@link #getUmlRoot() <em>Uml Root</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getUmlRoot() <em>Uml Root</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlRoot()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getUmlRoot()
+     * @generated
+     * @ordered
+     */
 	protected Model umlRoot;
 
 	/**
-	 * The cached value of the '{@link #getXtumlrtRoot() <em>Xtumlrt Root</em>}' reference.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getXtumlrtRoot() <em>Xtumlrt Root</em>}' reference.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getXtumlrtRoot()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getXtumlrtRoot()
+     * @generated
+     * @ordered
+     */
 	protected org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot;
 
 	/**
-	 * The cached value of the '{@link #getTraces() <em>Traces</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getTraces() <em>Traces</em>}' containment reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getTraces()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getTraces()
+     * @generated
+     * @ordered
+     */
 	protected EList<Trace> traces;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected RootMappingImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return TracePackage.Literals.ROOT_MAPPING;
-	}
+        return TracePackage.Literals.ROOT_MAPPING;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Model getUmlRoot() {
-		if (umlRoot != null && umlRoot.eIsProxy()) {
-			InternalEObject oldUmlRoot = (InternalEObject)umlRoot;
-			umlRoot = (Model)eResolveProxy(oldUmlRoot);
-			if (umlRoot != oldUmlRoot) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.ROOT_MAPPING__UML_ROOT, oldUmlRoot, umlRoot));
-			}
-		}
-		return umlRoot;
-	}
+        if (umlRoot != null && umlRoot.eIsProxy()) {
+            InternalEObject oldUmlRoot = (InternalEObject)umlRoot;
+            umlRoot = (Model)eResolveProxy(oldUmlRoot);
+            if (umlRoot != oldUmlRoot) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.ROOT_MAPPING__UML_ROOT, oldUmlRoot, umlRoot));
+            }
+        }
+        return umlRoot;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Model basicGetUmlRoot() {
-		return umlRoot;
-	}
+        return umlRoot;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setUmlRoot(Model newUmlRoot) {
-		Model oldUmlRoot = umlRoot;
-		umlRoot = newUmlRoot;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.ROOT_MAPPING__UML_ROOT, oldUmlRoot, umlRoot));
-	}
+        Model oldUmlRoot = umlRoot;
+        umlRoot = newUmlRoot;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.ROOT_MAPPING__UML_ROOT, oldUmlRoot, umlRoot));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public org.eclipse.papyrusrt.xtumlrt.common.Model getXtumlrtRoot() {
-		if (xtumlrtRoot != null && xtumlrtRoot.eIsProxy()) {
-			InternalEObject oldXtumlrtRoot = (InternalEObject)xtumlrtRoot;
-			xtumlrtRoot = (org.eclipse.papyrusrt.xtumlrt.common.Model)eResolveProxy(oldXtumlrtRoot);
-			if (xtumlrtRoot != oldXtumlrtRoot) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.ROOT_MAPPING__XTUMLRT_ROOT, oldXtumlrtRoot, xtumlrtRoot));
-			}
-		}
-		return xtumlrtRoot;
-	}
+        if (xtumlrtRoot != null && xtumlrtRoot.eIsProxy()) {
+            InternalEObject oldXtumlrtRoot = (InternalEObject)xtumlrtRoot;
+            xtumlrtRoot = (org.eclipse.papyrusrt.xtumlrt.common.Model)eResolveProxy(oldXtumlrtRoot);
+            if (xtumlrtRoot != oldXtumlrtRoot) {
+                if (eNotificationRequired())
+                    eNotify(new ENotificationImpl(this, Notification.RESOLVE, TracePackage.ROOT_MAPPING__XTUMLRT_ROOT, oldXtumlrtRoot, xtumlrtRoot));
+            }
+        }
+        return xtumlrtRoot;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public org.eclipse.papyrusrt.xtumlrt.common.Model basicGetXtumlrtRoot() {
-		return xtumlrtRoot;
-	}
+        return xtumlrtRoot;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public void setXtumlrtRoot(org.eclipse.papyrusrt.xtumlrt.common.Model newXtumlrtRoot) {
-		org.eclipse.papyrusrt.xtumlrt.common.Model oldXtumlrtRoot = xtumlrtRoot;
-		xtumlrtRoot = newXtumlrtRoot;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.ROOT_MAPPING__XTUMLRT_ROOT, oldXtumlrtRoot, xtumlrtRoot));
-	}
+        org.eclipse.papyrusrt.xtumlrt.common.Model oldXtumlrtRoot = xtumlrtRoot;
+        xtumlrtRoot = newXtumlrtRoot;
+        if (eNotificationRequired())
+            eNotify(new ENotificationImpl(this, Notification.SET, TracePackage.ROOT_MAPPING__XTUMLRT_ROOT, oldXtumlrtRoot, xtumlrtRoot));
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList<Trace> getTraces() {
-		if (traces == null) {
-			traces = new EObjectContainmentEList<Trace>(Trace.class, this, TracePackage.ROOT_MAPPING__TRACES);
-		}
-		return traces;
-	}
+        if (traces == null) {
+            traces = new EObjectContainmentEList<Trace>(Trace.class, this, TracePackage.ROOT_MAPPING__TRACES);
+        }
+        return traces;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
-		switch (featureID) {
-			case TracePackage.ROOT_MAPPING__TRACES:
-				return ((InternalEList<?>)getTraces()).basicRemove(otherEnd, msgs);
-		}
-		return super.eInverseRemove(otherEnd, featureID, msgs);
-	}
+        switch (featureID) {
+            case TracePackage.ROOT_MAPPING__TRACES:
+                return ((InternalEList<?>)getTraces()).basicRemove(otherEnd, msgs);
+        }
+        return super.eInverseRemove(otherEnd, featureID, msgs);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case TracePackage.ROOT_MAPPING__UML_ROOT:
-				if (resolve) return getUmlRoot();
-				return basicGetUmlRoot();
-			case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
-				if (resolve) return getXtumlrtRoot();
-				return basicGetXtumlrtRoot();
-			case TracePackage.ROOT_MAPPING__TRACES:
-				return getTraces();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case TracePackage.ROOT_MAPPING__UML_ROOT:
+                if (resolve) return getUmlRoot();
+                return basicGetUmlRoot();
+            case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
+                if (resolve) return getXtumlrtRoot();
+                return basicGetXtumlrtRoot();
+            case TracePackage.ROOT_MAPPING__TRACES:
+                return getTraces();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case TracePackage.ROOT_MAPPING__UML_ROOT:
-				setUmlRoot((Model)newValue);
-				return;
-			case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
-				setXtumlrtRoot((org.eclipse.papyrusrt.xtumlrt.common.Model)newValue);
-				return;
-			case TracePackage.ROOT_MAPPING__TRACES:
-				getTraces().clear();
-				getTraces().addAll((Collection<? extends Trace>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case TracePackage.ROOT_MAPPING__UML_ROOT:
+                setUmlRoot((Model)newValue);
+                return;
+            case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
+                setXtumlrtRoot((org.eclipse.papyrusrt.xtumlrt.common.Model)newValue);
+                return;
+            case TracePackage.ROOT_MAPPING__TRACES:
+                getTraces().clear();
+                getTraces().addAll((Collection<? extends Trace>)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case TracePackage.ROOT_MAPPING__UML_ROOT:
-				setUmlRoot((Model)null);
-				return;
-			case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
-				setXtumlrtRoot((org.eclipse.papyrusrt.xtumlrt.common.Model)null);
-				return;
-			case TracePackage.ROOT_MAPPING__TRACES:
-				getTraces().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case TracePackage.ROOT_MAPPING__UML_ROOT:
+                setUmlRoot((Model)null);
+                return;
+            case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
+                setXtumlrtRoot((org.eclipse.papyrusrt.xtumlrt.common.Model)null);
+                return;
+            case TracePackage.ROOT_MAPPING__TRACES:
+                getTraces().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case TracePackage.ROOT_MAPPING__UML_ROOT:
-				return umlRoot != null;
-			case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
-				return xtumlrtRoot != null;
-			case TracePackage.ROOT_MAPPING__TRACES:
-				return traces != null && !traces.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case TracePackage.ROOT_MAPPING__UML_ROOT:
+                return umlRoot != null;
+            case TracePackage.ROOT_MAPPING__XTUMLRT_ROOT:
+                return xtumlrtRoot != null;
+            case TracePackage.ROOT_MAPPING__TRACES:
+                return traces != null && !traces.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //RootMappingImpl

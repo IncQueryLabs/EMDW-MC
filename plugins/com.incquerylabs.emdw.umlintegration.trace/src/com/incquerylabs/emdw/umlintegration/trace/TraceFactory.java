@@ -14,38 +14,38 @@ import org.eclipse.emf.ecore.EFactory;
  */
 public interface TraceFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory.
-	 * <!-- begin-user-doc -->
+     * The singleton instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	TraceFactory eINSTANCE = com.incquerylabs.emdw.umlintegration.trace.impl.TraceFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Root Mapping</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Root Mapping</em>'.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Root Mapping</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>Root Mapping</em>'.
+     * @generated
+     */
 	RootMapping createRootMapping();
 
 	/**
-	 * Returns a new object of class '<em>Trace</em>'.
-	 * <!-- begin-user-doc -->
+     * Returns a new object of class '<em>Trace</em>'.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Trace</em>'.
-	 * @generated
-	 */
+     * @return a new object of class '<em>Trace</em>'.
+     * @generated
+     */
 	Trace createTrace();
 
 	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
+     * Returns the package supported by this factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
+     * @return the package supported by this factory.
+     * @generated
+     */
 	TracePackage getTracePackage();
 
 } //TraceFactory

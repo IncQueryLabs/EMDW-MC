@@ -85,9 +85,9 @@ class PrimitiveTypesSnippetTest {
 			PrimitiveTypes::Integer x = (1 + 2) * 3 + 4;
 			++x;
 			if (x > 3) {
-				x--;
+			x--;
 			} else {
-				x++;
+			x++;
 			}''')
 	}
 	
@@ -98,14 +98,14 @@ class PrimitiveTypesSnippetTest {
 			Integer x = (1 + 2) * 3 + 4;
 			++x;
 			if (x > -3) {
-				x--;
+			x--;
 			}'''
 		, 
 		'''
 			PrimitiveTypes::Integer x = (1 + 2) * 3 + 4;
 			++x;
 			if (x > -3) {
-				x--;
+			x--;
 			}''')
 	}
 	
@@ -118,7 +118,7 @@ class PrimitiveTypesSnippetTest {
 			Integer y = x;
 			y = x - 15;
 			if ((x > 3) && !(y < -5)) {
-				x--;
+			x--;
 			}'''
 		, 
 		'''
@@ -127,7 +127,7 @@ class PrimitiveTypesSnippetTest {
 			PrimitiveTypes::Integer y = x;
 			y = x - 15;
 			if ((x > 3) && !(y < -5)) {
-				x--;
+			x--;
 			}''')
 	}
 	
@@ -156,12 +156,12 @@ class PrimitiveTypesSnippetTest {
 		'''
 			PrimitiveTypes::Integer x = 1;
 			switch (x) {
-			 case 1 : {
-				x++;
-				break;
+			case 1 : {
+			x++;
+			break;
 			}
-			 default : {
-				x++;
+			default : {
+			x++;
 			}
 			}''')
 	}
@@ -178,7 +178,7 @@ class PrimitiveTypesSnippetTest {
 		'''
 			PrimitiveTypes::Integer x = 1;
 			do {
-				x++;
+			x++;
 			}while (true);''')
 	}
 	
@@ -194,7 +194,7 @@ class PrimitiveTypesSnippetTest {
 		'''
 			PrimitiveTypes::Integer x = 1;
 			while (true) {
-				x++;
+			x++;
 			}''')
 	}
 	
@@ -210,7 +210,7 @@ class PrimitiveTypesSnippetTest {
 		'''
 			PrimitiveTypes::Integer x = 1;
 			for (PrimitiveTypes::Integer i = 0; i < 5; i++) {
-				x++;
+			x++;
 			}''')
 	}
 	
@@ -233,13 +233,13 @@ class PrimitiveTypesSnippetTest {
 		'''
 			PrimitiveTypes::Integer x = 1;
 			if (true) {
-				x++;
+			x++;
 			} else if (false) {
-				x++;
+			x++;
 			} else if (true) {
-				x++;
+			x++;
 			} else {
-				x++;
+			x++;
 			}''')
 	}
 	
@@ -266,15 +266,15 @@ class PrimitiveTypesSnippetTest {
 		'''
 			PrimitiveTypes::Integer x = 1;
 			if (true) {
-				x++;
+			x++;
 			} else {
-				if (false) {
-				x++;
+			if (false) {
+			x++;
 			} else {
-				if (true) {
-				x++;
+			if (true) {
+			x++;
 			} else {
-				x++;
+			x++;
 			}
 			}
 			}''')

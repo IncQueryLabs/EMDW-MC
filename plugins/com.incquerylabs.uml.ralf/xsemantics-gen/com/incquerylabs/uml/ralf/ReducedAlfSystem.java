@@ -21,6 +21,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression;
@@ -148,6 +149,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String CONDITIONALTESTEXPRESSION = "com.incquerylabs.uml.ralf.ConditionalTestExpression";
   
   public final static String INSTANCECREATIONEXPRESSION = "com.incquerylabs.uml.ralf.InstanceCreationExpression";
+  
+  public final static String INSTANCEDELETIONEXPRESSION = "com.incquerylabs.uml.ralf.InstanceDeletionExpression";
   
   public final static String THISEXPRESSION = "com.incquerylabs.uml.ralf.ThisExpression";
   
@@ -2345,6 +2348,44 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     Classifier _instance_1 = ex.getInstance();
     IUMLTypeReference _typeReference = this.typeFactory.typeReference(_instance_1);
     result = _typeReference;
+    return new Result<IUMLTypeReference>(result);
+  }
+  
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final InstanceDeletionExpression ex) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<IUMLTypeReference> _result_ = applyRuleInstanceDeletionExpression(G, _subtrace_, ex);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("InstanceDeletionExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleInstanceDeletionExpression) {
+    	typeThrowException(ruleName("InstanceDeletionExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + "IUMLTypeReference",
+    		INSTANCEDELETIONEXPRESSION,
+    		e_applyRuleInstanceDeletionExpression, ex, new ErrorInformation[] {new ErrorInformation(ex)});
+    	return null;
+    }
+  }
+  
+  protected Result<IUMLTypeReference> applyRuleInstanceDeletionExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final InstanceDeletionExpression ex) throws RuleFailedException {
+    IUMLTypeReference result = null; // output parameter
+    /* G |- ex.reference : var UMLTypeReference refType */
+    Expression _reference = ex.getReference();
+    UMLTypeReference refType = null;
+    Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _reference);
+    checkAssignableTo(result_1.getFirst(), UMLTypeReference.class);
+    refType = (UMLTypeReference) result_1.getFirst();
+    
+    Type _umlType = refType.getUmlType();
+    /* !(refType.umlType instanceof PrimitiveType) */
+    if (!(!(_umlType instanceof PrimitiveType))) {
+      sneakyThrowRuleFailedException("!(refType.umlType instanceof PrimitiveType)");
+    }
+    IUMLTypeReference.VoidTypeReference _voidType = this.typeFactory.voidType();
+    result = _voidType;
     return new Result<IUMLTypeReference>(result);
   }
   

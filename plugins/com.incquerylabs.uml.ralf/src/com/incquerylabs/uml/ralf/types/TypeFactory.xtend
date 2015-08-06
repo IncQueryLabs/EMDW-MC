@@ -8,6 +8,7 @@ import com.incquerylabs.uml.ralf.types.IUMLTypeReference.NullTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import org.eclipse.uml2.uml.PrimitiveType
 import java.util.Map
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference.VoidTypeReference
 
 class TypeFactory {
     
@@ -43,6 +44,10 @@ class TypeFactory {
     
     def NullTypeReference nullType() {
         return NullTypeReference.instance
+    }
+    
+    def VoidTypeReference voidType() {
+        return VoidTypeReference.instance
     }
     
     def CollectionTypeReference collectionOf(Type valueType, CollectionType collectionType) {

@@ -62,6 +62,7 @@ import org.eclipse.uml2.uml.Parameter
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
 import com.incquerylabs.uml.ralf.scoping.UMLScopeHelper
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -395,11 +396,22 @@ from {
     // Primitive types cannot be instantiated
     !(ex.instance instanceof PrimitiveType)
     
-    // Parameter mapping
+    // TODO Parameter mapping
     ex.tuple
     
     // Return typing
     result = ex.instance.typeReference
+}
+
+
+rule InstanceDeletionExpression
+    G |- InstanceDeletionExpression ex : IUMLTypeReference result
+from {
+    G |- ex.reference : var UMLTypeReference refType
+    // Primitive types cannot be deleted
+    !(refType.umlType instanceof PrimitiveType)
+    
+    result = voidType
 }
 
 rule ThisExpression

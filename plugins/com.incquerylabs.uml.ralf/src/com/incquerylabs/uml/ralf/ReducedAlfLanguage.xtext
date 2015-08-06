@@ -64,6 +64,7 @@ BaseExpression returns Expression :
     ThisExpression |
     SuperInvocationExpression |
     InstanceCreationOrSequenceConstructionExpression |
+    InstanceDeletionExpression |
     ClassExtentExpression |
     LinkOperationExpression |
     NullExpression |
@@ -479,7 +480,8 @@ VariableDeclaration returns uml::NamedElement :
 
 /* LOCAL NAME DECLARATION STATEMENTS */
 LocalNameDeclarationStatement : 
-    variable = VariableDeclaration '=' expression = InitializationExpression
+    //TODO test optional initialization
+    variable = VariableDeclaration ('=' expression = InitializationExpression)?
 ;
 
 InitializationExpression returns Expression :
@@ -488,7 +490,12 @@ InitializationExpression returns Expression :
 ;
 
 InstanceInitializationExpression returns InstanceCreationExpression : 
-    'new' tuple = Tuple
+    'new' instance = [uml::Classifier|QualifiedName] tuple = Tuple
+;
+
+InstanceDeletionExpression returns Expression : 
+    {InstanceDeletionExpression}
+    'delete' reference = Expression
 ;
 
 /* EXPRESSION STATEMENTS */

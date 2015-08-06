@@ -26,4 +26,15 @@ public interface IUMLTypeReference {
 		private NullTypeReference() {}
 
 	}
+	
+	public class VoidTypeReference implements IUMLTypeReference {
+		
+		private static VoidTypeReference INSTANCE = new VoidTypeReference();
+		
+		public static VoidTypeReference getInstance() {
+			return INSTANCE;
+		}
+		
+		private VoidTypeReference() {}
+	}
 }

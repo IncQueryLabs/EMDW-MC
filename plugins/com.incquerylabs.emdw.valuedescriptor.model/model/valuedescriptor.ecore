@@ -18,8 +18,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="OperationCallDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="SingleVariableDescriptor" eSuperTypes="#//VariableDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="CollectionVariableDescriptor" eSuperTypes="#//VariableDescriptor"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyDescriptor" abstract="true"
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyAccessDescriptor" abstract="true"
       eSuperTypes="#//ValueDescriptor"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyAccessDescriptor" eSuperTypes="#//PropertyDescriptor"/>
-  <eClassifiers xsi:type="ecore:EClass" name="PropertyWriteDescriptor" eSuperTypes="#//PropertyDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyReadDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="PropertyWriteDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>
 </ecore:EPackage>

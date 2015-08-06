@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppAttributeAccessBuilder implements IOoplAttributeAccessBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -25,11 +26,17 @@ class CppAttributeAccessBuilder implements IOoplAttributeAccessBuilder {
 	
 	override build() {
 		val cppAttribute = mapper.convertAttribute(attribute)
-		val svd = factory.createPropertyAccessDescriptor => [
-			it.baseType = converter.convertType(cppAttribute.type)
-			it.fullType = it.baseType
+		val type = cppAttribute.type
+		val svd = factory.createPropertyReadDescriptor => [
+			it.fullType = converter.convertType(type)
 			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName»'''
 		]
+		if(type instanceof CPPSequence) {
+			svd.baseType = type.cppContainer
+			svd.templateTypes.add(converter.convertType(type.elementType))
+		} else {
+			svd.baseType = converter.convertType(type)
+		}
 		return svd
 		
 	}

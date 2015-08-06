@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.cpp.common.modelaccess.builder
 
-import com.incquerylabs.emdw.valuedescriptor.PropertyAccessDescriptor
+import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Property
 
-interface IUmlPropertyAccessBuilder extends IModelAccessBuilder {
-	override PropertyAccessDescriptor build()
+interface IUmlPropertyReadBuilder extends IModelAccessBuilder {
+	override PropertyReadDescriptor build()
 	
-	def IUmlPropertyAccessBuilder setVariable(ValueDescriptor variable)
+	def IUmlPropertyReadBuilder setVariable(ValueDescriptor variable)
 	
-	def IUmlPropertyAccessBuilder setProperty(Property property)
+	def IUmlPropertyReadBuilder setProperty(Property property)
 }

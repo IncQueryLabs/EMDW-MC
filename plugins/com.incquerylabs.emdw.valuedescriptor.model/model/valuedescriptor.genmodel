@@ -18,8 +18,8 @@
     <genClasses ecoreClass="valuedescriptor.ecore#//OperationCallDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//SingleVariableDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//CollectionVariableDescriptor"/>
-    <genClasses ecoreClass="valuedescriptor.ecore#//PropertyDescriptor"/>
-    <genClasses ecoreClass="valuedescriptor.ecore#//PropertyAccessDescriptor"/>
+    <genClasses image="false" ecoreClass="valuedescriptor.ecore#//PropertyAccessDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//PropertyReadDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//PropertyWriteDescriptor"/>
   </genPackages>
 </genmodel:GenModel>

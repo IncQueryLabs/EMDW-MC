@@ -15,6 +15,7 @@ import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyReadBuilder
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyWriteBuilder
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -141,6 +142,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createChild() {
 		return new UmlValueDescriptorFactory(this)
+	}
+	
+	override createLiteralDescriptorBuilder() {
+		return new UmlLiteralDescriptorBuilder(this)
 	}
 	
 	override createSingleVariableDescriptorBuilder() {

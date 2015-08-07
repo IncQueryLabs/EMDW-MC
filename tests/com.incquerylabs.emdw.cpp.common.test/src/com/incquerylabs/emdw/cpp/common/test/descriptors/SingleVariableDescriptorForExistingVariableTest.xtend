@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
@@ -14,6 +13,7 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 
 @SuiteClasses(#[
 	SingleVariableDescriptorForExistingVariableTest
@@ -22,7 +22,7 @@ import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 class SingleVariableDescriptorForExistingVariableTestSuite {}
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, ValueDescriptor> {
+class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	private static final String VARIABLE_NAME = "classVariable"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -44,7 +44,7 @@ class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBas
 		return descriptor
 	}
 	
-	override protected assertResult(Class object, ValueDescriptor descriptor) {
+	override protected assertResult(Class object, SingleVariableDescriptor descriptor) {
 		assertTrue('''Descriptor's value type should be ::test::TestComponent::TestClass instead of «descriptor.baseType».''', 
 					descriptor.baseType=="::test::TestComponent::TestClass")
 		assertTrue('''Descriptor's string representation should be classVariable.''', 
@@ -60,7 +60,7 @@ class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBas
 		return chachedDescriptor
 	}
 	
-	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
+	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}

@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.cpp.common.modelaccess.builder
 import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Operation
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IValueDescriptorBuilder
 
-interface IUmlOperationCallBuilder extends IModelAccessBuilder {
-	override OperationCallDescriptor build()
+interface IUmlOperationCallBuilder extends IValueDescriptorBuilder<OperationCallDescriptor> {
 	
 	def IUmlOperationCallBuilder setVariable(ValueDescriptor variable)
 	

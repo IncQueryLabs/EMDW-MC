@@ -4,6 +4,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
+import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 
 abstract class OOPLValueDescriptorFactory {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -32,7 +33,7 @@ abstract class OOPLValueDescriptorFactory {
 	
 	def SingleVariableDescriptor prepareSingleVariableDescriptorForExistingVariable(OOPLType type, String localVariableName)
 	
-	def SingleVariableDescriptor prepareSingleVariableDescriptorForLiteral(OOPLType type, String literal) 
+	def LiteralDescriptor prepareSingleVariableDescriptorForLiteral(OOPLType type, String literal) 
 	
 	def SingleVariableDescriptor prepareSingleVariableDescriptorForAttribute(SingleVariableDescriptor attributeOwner, CPPAttribute attribute) 
 }

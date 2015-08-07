@@ -1,9 +1,10 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder
 
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Type
 
-interface IUmlSingleVariableDescriptorBuilder  extends IUmlValueDescriptorBuilder<SingleVariableDescriptor>{
+interface IUmlSingleVariableDescriptorBuilder  extends IValueDescriptorBuilder<ValueDescriptor>{
 	/**
 	 * Sets the base of the name for the future built 
 	 * {@link SingleVariableDescriptor <em>SingleVariableDescriptor</em>}'s 

@@ -12,6 +12,9 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyReadBuilder
+import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyWriteBuilder
+import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -19,7 +22,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private UmlToXtumlMapper mapper
 	private AdvancedIncQueryEngine engine
 	private Map<String, SingleVariableDescriptor> singleVariableCache
-	private Table<Type, String, SingleVariableDescriptor> literalCache
+	private Table<Type, String, LiteralDescriptor> literalCache
 	
 	/**
 	 * @param engine Cannot be null
@@ -114,7 +117,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 *         and with <code>stringRepresentation</code> which will contain the converted 
 	 *         <code>literal</code>
 	 */
-	def prepareSingleVariableDescriptorForLiteral(Type type, String literal) {
+	def LiteralDescriptor prepareSingleVariableDescriptorForLiteral(Type type, String literal) {
 		val xtumlType = mapper.convertType(type)
 		if(isLiteralInCache(type, literal)) {
 			return getLiteralFromCache(type, literal)
@@ -129,12 +132,16 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return svd
 	}
 	
-	private def SingleVariableDescriptor cache(SingleVariableDescriptor svd, String literal, Type type) {
+	private def LiteralDescriptor cache(LiteralDescriptor svd, String literal, Type type) {
 		putLiteralIntoCache(type, literal, svd)
 		return svd
 	}
 	
 	
+	
+	override createChild() {
+		return new UmlValueDescriptorFactory(this)
+	}
 	
 	override createSingleVariableDescriptorBuilder() {
 		return new UmlSingleVariableDescriptorBuilder(this)
@@ -144,8 +151,16 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
-	override createChild() {
-		return new UmlValueDescriptorFactory(this)
+	override createPropertyReadBuilder() {
+		new UmlPropertyReadBuilder(engine)
+	}
+	
+	override createPropertyWriteBuilder() {
+		new UmlPropertyWriteBuilder(engine)
+	}
+	
+	override createOperationCallBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	
@@ -170,7 +185,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return literalCache.get(type, literal)
 	}
 	
-	override putLiteralIntoCache(Type type, String literal, SingleVariableDescriptor descriptor) {
+	override putLiteralIntoCache(Type type, String literal, LiteralDescriptor descriptor) {
 		literalCache.put(type, literal, descriptor)
 	}
 	

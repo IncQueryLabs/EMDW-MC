@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.junit.Ignore
@@ -25,7 +25,7 @@ import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 class SingleVariableDescriptorForNewVariableTestSuite {}
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
+class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends ValueDescriptorBaseTest<Class, ValueDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
@@ -51,7 +51,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 		return descriptor
 	}
 	
-	override protected assertResult(Class object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(Class object, ValueDescriptor descriptor) {
 		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.baseType».''', 
 					descriptor.baseType==EXPECTED_TYPE)
 		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION».''', 
@@ -67,7 +67,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}
@@ -75,7 +75,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 }
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
+class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescriptorBaseTest<Class, ValueDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
@@ -101,7 +101,7 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescrip
 		return svd
 	}
 	
-	override protected assertResult(Class object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(Class object, ValueDescriptor descriptor) {
 		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.baseType».''', 
 					descriptor.baseType==EXPECTED_TYPE)
 		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION».''', 
@@ -118,7 +118,7 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescrip
 		throw new UnsupportedOperationException("We cannot cache variable descriptor for an unnamed element.")
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		throw new UnsupportedOperationException("We cannot cache variable descriptor for an unnamed element.")
 	}
 	

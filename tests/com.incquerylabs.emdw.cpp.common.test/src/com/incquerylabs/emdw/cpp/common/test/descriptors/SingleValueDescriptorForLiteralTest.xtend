@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
 import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.junit.runner.RunWith
@@ -26,7 +26,7 @@ import static org.junit.Assert.*
 class SingleVariableDescriptorForLiteralTestSuite {}
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForBooleanLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+class SingleVariableDescriptorForBooleanLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, ValueDescriptor> {
 	private static final String LITERAL = "true"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -46,7 +46,7 @@ class SingleVariableDescriptorForBooleanLiteralTest extends ValueDescriptorBaseT
 		return descriptor
 	}
 	
-	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(PrimitiveType object, ValueDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be bool.", descriptor.baseType=="bool")
 		assertTrue("Descriptor's string representation should be true.", descriptor.stringRepresentation=="true")
 	}
@@ -59,7 +59,7 @@ class SingleVariableDescriptorForBooleanLiteralTest extends ValueDescriptorBaseT
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}
@@ -67,7 +67,7 @@ class SingleVariableDescriptorForBooleanLiteralTest extends ValueDescriptorBaseT
 }
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForIntegerLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+class SingleVariableDescriptorForIntegerLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, ValueDescriptor> {
 	private static final String LITERAL = "1"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -87,7 +87,7 @@ class SingleVariableDescriptorForIntegerLiteralTest extends ValueDescriptorBaseT
 		return descriptor
 	}
 	
-	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(PrimitiveType object, ValueDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be long.", descriptor.baseType=="long")
 		assertTrue("Descriptor's string representation should be 1.", descriptor.stringRepresentation=="1")
 	}
@@ -100,7 +100,7 @@ class SingleVariableDescriptorForIntegerLiteralTest extends ValueDescriptorBaseT
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}
@@ -108,7 +108,7 @@ class SingleVariableDescriptorForIntegerLiteralTest extends ValueDescriptorBaseT
 }
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForRealLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+class SingleVariableDescriptorForRealLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, ValueDescriptor> {
 	private static final String LITERAL = "1.1"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -128,7 +128,7 @@ class SingleVariableDescriptorForRealLiteralTest extends ValueDescriptorBaseTest
 		return descriptor
 	}
 	
-	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(PrimitiveType object, ValueDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be double.", descriptor.baseType=="double")
 		assertTrue("Descriptor's string representation should be 1.1.", descriptor.stringRepresentation=="1.1")
 	}
@@ -141,7 +141,7 @@ class SingleVariableDescriptorForRealLiteralTest extends ValueDescriptorBaseTest
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}
@@ -149,7 +149,7 @@ class SingleVariableDescriptorForRealLiteralTest extends ValueDescriptorBaseTest
 }
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForSimpleStringLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+class SingleVariableDescriptorForSimpleStringLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, ValueDescriptor> {
 	private static final String LITERAL = "simple string"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -169,7 +169,7 @@ class SingleVariableDescriptorForSimpleStringLiteralTest extends ValueDescriptor
 		return descriptor
 	}
 	
-	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(PrimitiveType object, ValueDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be std::string.", descriptor.baseType=="::std::string")
 		assertTrue('''Descriptor's string representation should be "simple string".''', descriptor.stringRepresentation=="\"simple string\"")
 	}
@@ -182,7 +182,7 @@ class SingleVariableDescriptorForSimpleStringLiteralTest extends ValueDescriptor
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}
@@ -190,7 +190,7 @@ class SingleVariableDescriptorForSimpleStringLiteralTest extends ValueDescriptor
 }
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForHeavyStringLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+class SingleVariableDescriptorForHeavyStringLiteralTest extends ValueDescriptorBaseTest<PrimitiveType, ValueDescriptor> {
 	private static final String LITERAL = "heavy \" string"
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
@@ -210,7 +210,7 @@ class SingleVariableDescriptorForHeavyStringLiteralTest extends ValueDescriptorB
 		return descriptor
 	}
 	
-	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(PrimitiveType object, ValueDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be std::string.", descriptor.baseType=="::std::string")
 		assertTrue('''Descriptor's string representation should be "heavy \" string".''', descriptor.stringRepresentation=="\"heavy \" string\"")
 	}
@@ -223,7 +223,7 @@ class SingleVariableDescriptorForHeavyStringLiteralTest extends ValueDescriptorB
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 	}
@@ -231,10 +231,10 @@ class SingleVariableDescriptorForHeavyStringLiteralTest extends ValueDescriptorB
 }
 
 @RunWith(Parameterized)
-class SingleVariableDescriptorForNumberLiteralCacheTest extends ValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+class SingleVariableDescriptorForNumberLiteralCacheTest extends ValueDescriptorBaseTest<PrimitiveType, ValueDescriptor> {
 	private static final String LITERAL = "1"
 	private PrimitiveType real
-	private SingleVariableDescriptor realDescriptor
+	private ValueDescriptor realDescriptor
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -258,7 +258,7 @@ class SingleVariableDescriptorForNumberLiteralCacheTest extends ValueDescriptorB
 		return svd
 	}
 	
-	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+	override protected assertResult(PrimitiveType object, ValueDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be long.", descriptor.baseType=="long")
 		assertTrue("Descriptor's string representation should be 1.", descriptor.stringRepresentation=="1")
 	}
@@ -271,7 +271,7 @@ class SingleVariableDescriptorForNumberLiteralCacheTest extends ValueDescriptorB
 		return descriptor
 	}
 	
-	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+	override protected assertResult(ValueDescriptor originalDescriptor, ValueDescriptor cachedDescriptor) {
 		assertTrue('''Descriptors should be the same but the original is «originalDescriptor» and the cached is «cachedDescriptor».''', 
 					originalDescriptor.equals(cachedDescriptor))
 		assertFalse('''Real's descriptor and Integer's descriptor cannot be the same.''', 

@@ -28,3 +28,11 @@ pattern association2UmlProperty(
 	Trace.umlElements(trace, umlProperty);
 	Trace.xtumlrtElements(trace, xtumlAssociation);
 }
+
+pattern operation2UmlOperation(
+	umlOperation,
+	xtumlOperation : Operation
+) {
+	Trace.umlElements(trace, umlOperation);
+	Trace.xtumlrtElements(trace, xtumlOperation);
+}

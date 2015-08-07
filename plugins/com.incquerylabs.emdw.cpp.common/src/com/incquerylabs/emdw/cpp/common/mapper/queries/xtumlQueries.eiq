@@ -34,3 +34,10 @@ pattern ooplAssociation2Association(
 ) {
 	OOPLRelation.xtRelation(ooplRelation, commonRelation);
 }
+
+pattern cppOperation2Operation(
+	commonOperation : Operation,
+	cppOperation : CPPOperation
+) {
+	CPPOperation.commonOperation(cppOperation, commonOperation);
+}

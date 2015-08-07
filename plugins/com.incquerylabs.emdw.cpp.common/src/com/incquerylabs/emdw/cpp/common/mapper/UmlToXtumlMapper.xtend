@@ -4,6 +4,7 @@ import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.Operation
 
 class UmlToXtumlMapper {
 	extension UmlQueries umlQueries = UmlQueries.instance
@@ -42,5 +43,9 @@ class UmlToXtumlMapper {
 	 */
 	def convertPropertyToAssociation(Property umlProperty) {
 		return engine.association2UmlProperty.getAllValuesOfxtumlAssociation(umlProperty)?.head
+	}
+	
+	def convertOperation(Operation operation) {
+		return engine.operation2UmlOperation.getAllValuesOfxtumlOperation(operation).head
 	}
 }

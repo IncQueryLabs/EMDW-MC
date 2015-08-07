@@ -5,6 +5,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
+import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
 class XtumlToOoplMapper {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
@@ -33,5 +34,9 @@ class XtumlToOoplMapper {
 	
 	def convertAssociation(XTAssociation association) {
 		return engine.ooplAssociation2Association.getAllValuesOfooplRelation(association)?.head
+	}
+	
+	def convertOperation(Operation operation) {
+		return engine.cppOperation2Operation.getAllValuesOfcppOperation(operation).head
 	}
 }

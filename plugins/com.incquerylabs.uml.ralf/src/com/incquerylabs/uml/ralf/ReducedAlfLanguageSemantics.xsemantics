@@ -156,7 +156,6 @@ from {
         G |- variable.expression : result
     }
 }
-
 rule Parameter
     derives G |- Parameter parameter : IUMLTypeReference result
 from {

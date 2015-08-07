@@ -35,7 +35,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Literal() {
 		forStatementError('''
-		for(i : 5){
+		for(Integer i in 5){
 			
 		}''');
 	}
@@ -43,7 +43,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_LiteralReal() {
 		forStatementError('''
-		for(i : 1.1){
+		for(Integer i in 1.1){
 			
 		}''');
 	}
@@ -51,7 +51,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_LiteralBoolean() {
 		forStatementError('''
-		for(i : true){
+		for(Integer i in true){
 			
 		}''');
 	}
@@ -59,7 +59,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_LiteralString() {
 		forStatementError('''
-		for(i : "1"){
+		for(Integer i in "1"){
 			
 		}''');
 	}
@@ -67,7 +67,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_LiteralCollection() {
 		forStatementOK('''
-		for(i : {"1"}){
+		for(String i in {"1"}){
 			
 		}''');
 	}
@@ -76,7 +76,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Multiplicative() {
 		forStatementError('''
-		for(i : 1*1){
+		for(Integer i in 1*1){
 			
 		}''');
 	}
@@ -85,7 +85,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Additive() {
 		forStatementError('''
-		for(i : 1+1){
+		for(Integer i in 1+1){
 			
 		}''');
 	}
@@ -93,7 +93,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Shift() {
 		forStatementError('''
-		for(i : 1>>1){
+		for(Integer i in 1>>1){
 			
 		}''');
 	}
@@ -101,7 +101,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Relational() {
 		forStatementError('''
-		for(i : 1>1){
+		for(Integer i in 1>1){
 			
 		}''');
 	}
@@ -109,7 +109,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Equality() {
 		forStatementError('''
-		for(i : 1==1){
+		for(Integer i in 1==1){
 			
 		}''');
 	}
@@ -117,7 +117,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_BitwiseOr() {
 		forStatementError('''
-		for(i : 1|1){
+		for(Integer i in 1|1){
 			
 		}''');
 	}
@@ -125,7 +125,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_BitwiseAnd() {
 		forStatementError('''
-		for(i : 1&1){
+		for(Integer i in 1&1){
 			
 		}''');
 	}
@@ -133,7 +133,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_BitwiseXor() {
 		forStatementError('''
-		for(i : 1^1){
+		for(Integer i in 1^1){
 			
 		}''');
 	}
@@ -141,7 +141,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_And() {
 		forStatementError('''
-		for(i : true && false){
+		for(Integer i in true && false){
 			
 		}''');
 	}
@@ -149,7 +149,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_Or() {
 		forStatementError('''
-		for(i : true || false){
+		for(Integer i in true || false){
 			
 		}''');
 	}
@@ -157,7 +157,7 @@ class ForStatementValidatorTest {
 	@Test
 	def forEachStatement_BooleanUnary() {
 		forStatementError('''
-		for(i : !true){
+		for(Integer i in !true){
 			
 		}''');
 	}
@@ -166,17 +166,29 @@ class ForStatementValidatorTest {
 	def forEachStatement_Assignment() {
 		forStatementError('''
 		Integer x = 1;
-		for(i : x = 2){
+		for(Integer i in x = 2){
 			
 		}
 		''');
 	}
 	
 	@Test
+	@Ignore("These test cases can be useful with issue #226")
 	def forEachStatement_Reassignment() {
 		forStatementError('''
 		Integer i = 1;
-		for(i : { 5 }){
+		for(i in { 5 }){
+			
+		}
+		''');
+	}
+	
+	@Test
+	@Ignore("These test cases can be useful with issue #226")
+	def forEachStatement_Reassignment2() {
+		forStatementOK('''
+		Integer i = 1;
+		for(i in { 5 }){
 			
 		}
 		''');

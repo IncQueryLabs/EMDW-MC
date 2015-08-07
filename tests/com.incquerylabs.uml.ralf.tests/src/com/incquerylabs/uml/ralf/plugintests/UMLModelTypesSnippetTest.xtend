@@ -83,6 +83,20 @@ class UMLModelTypesSnippetTest {
 	}
 	
 	@Test
+	def FilterTest(){
+		snippetCompilerTest(
+		'''
+			Integer x = 
+			'''
+		, 
+		'''
+			model::Comp::Pong p = 0;
+			p = new model::Comp::Pong();
+			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+			p->ping->generate_event(s);''')
+	}
+	
+	@Test
 	@Ignore("Casting not yet supported")
 	def CastTest(){
 		snippetCompilerTest(
@@ -93,6 +107,46 @@ class UMLModelTypesSnippetTest {
 		'''
 			model::Comp::Pong p = new model::Comp::Pong();
 			model::Comp::Pong q = (model::Comp::Pong) p;''')
+	}
+	
+	@Test
+	def PropertyAssignmentTest(){
+		snippetCompilerTest(
+		'''
+			Integer i = 1;
+			i = 2;
+			Pong p = new Pong();
+			p.integerProperty = 1;'''
+		, 
+		'''
+			PrimitiveTypes::Integer i = 1;
+			i = 2;
+			model::Comp::Pong p = new model::Comp::Pong();
+			p->integerProperty = 1;'''
+		,
+		"model::Comp::Pong::doIntegerVoid")
+	}
+	
+	@Test
+	def PropertyAssignmentTest1(){
+		snippetCompilerTest(
+		'''
+			Integer i = 1;
+			i = 2;
+			Pong p = new Pong();
+			Pong q = new Pong();
+			p = q;
+			p.integerProperty = 1;'''
+		, 
+		'''
+			PrimitiveTypes::Integer i = 1;
+			i = 2;
+			model::Comp::Pong p = new model::Comp::Pong();
+			model::Comp::Pong q = new model::Comp::Pong();
+			p = q;
+			p->integerProperty = 1;'''
+		,
+		"model::Comp::Pong::doIntegerVoid")
 	}
 	
 //	@Test

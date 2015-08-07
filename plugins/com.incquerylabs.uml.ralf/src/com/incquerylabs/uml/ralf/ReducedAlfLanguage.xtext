@@ -47,7 +47,7 @@ Expression :
 PrimaryExpression returns Expression :
   BaseExpression
   ( {FeatureInvocationExpression.context = current} ('.'| isStatic ?= '::') operation = [uml::Operation|Name] parameters = Tuple |
-    {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
+    //{PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
 //      ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple
@@ -70,7 +70,8 @@ BaseExpression returns Expression :
     NullExpression |
 //  SequenceOperationOrReductionOrExpansionExpression |
 //    BehaviorInvocationExpression |
-    NameExpression |
+    NameExpression | 
+    PropertyAccessExpression | 
     ParenthesizedExpression
 ;
 
@@ -124,7 +125,7 @@ ParenthesizedExpression returns Expression :
 // Property chaining is not supported at this time
 // TODO: use primary expressions and filter using expression types
 PropertyAccessExpression:
-	context = PrimaryExpression '.' property = [uml::Property|Name]
+	context = NameExpression '.' property = [uml::Property|Name]
 ;
 
 
@@ -215,6 +216,20 @@ TypeDeclaration: //TODO define collection types as well
 /* SEQUENCE ACCESS EXPRESSIONS */
 Index returns Expression : 
     '[' Expression ']'
+;
+    
+    //{FilterExpression.context = current} '.filter('')' | 
+FilterExpression :
+	/*context = NameExpression '.' */'filter(' expression = FilterConditionExpression ')'
+;
+
+FilterConditionExpression :
+	declaration = FilterVariableDefinition '|' expression = Expression
+;
+
+FilterVariableDefinition returns Variable: 
+     {FilterVariable} 
+     (type = TypeDeclaration name = Name) 
 ;
 
 /* SEQUENCE OPERATION, REDUCTION AND EXPANSION EXPRESSIONS */
@@ -443,7 +458,8 @@ Statement :
     BreakStatement |
     ReturnStatement |
     ClassifyStatement |
-    SendSignalStatement
+    SendSignalStatement |
+    FilterExpression
 ;
 
 SimpleStatement:
@@ -562,14 +578,13 @@ ForStatement :
 ;
 
 ForEachStatement : 
-    'for' '(' variableDefinition = LoopVariableDefinition')' 
+    'for' '(' variableDefinition = LoopVariableDefinition ')' 
     body = Block
 ;
 
 LoopVariableDefinition returns Variable: 
      {LoopVariable} 
-       (name = Name | type = TypeDeclaration name = Name)
-       ':' expression = Expression
+     (type = TypeDeclaration name = Name) 'in' expression = Expression
 ;
 
 /* BREAK STATEMENTS */

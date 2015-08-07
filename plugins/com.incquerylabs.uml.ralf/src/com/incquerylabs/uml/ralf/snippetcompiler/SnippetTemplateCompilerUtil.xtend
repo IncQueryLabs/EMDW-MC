@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
@@ -18,21 +19,27 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import java.util.List
 
 class SnippetTemplateCompilerUtil {
 	
 	public IUmlDescriptorFactory descriptorFactory;
 	public IModelAccess modelAccess;
+	public IUMLContextProvider context
 	
-	new(IUmlDescriptorFactory factory, IModelAccess modelAccess){
+	new(IUmlDescriptorFactory factory, IModelAccess modelAccess, IUMLContextProvider context){
 		descriptorFactory = factory
 		this.modelAccess = modelAccess
+		this.context = context
 	}
 
 	def dispatch parenthesisRequired(Expression ex) {
@@ -195,5 +202,33 @@ class SnippetTemplateCompilerUtil {
 			]).build	
 		}
 		return null
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(NaturalLiteralExpression ex){
+		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+			literal = ex.value
+			type = context.getPrimitiveType(IUMLContextProvider.INTEGER_TYPE)
+		]).build
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(RealLiteralExpression ex){
+		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+			literal = ex.value
+			type = context.getPrimitiveType(IUMLContextProvider.REAL_TYPE)
+		]).build
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(StringLiteralExpression ex){
+		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+			literal = ex.value
+			type = context.getPrimitiveType(IUMLContextProvider.STRING_TYPE)
+		]).build
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(BooleanLiteralExpression ex){
+		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+			literal = ex.value
+			type = context.getPrimitiveType(IUMLContextProvider.BOOLEAN_TYPE)
+		]).build
 	}
 }

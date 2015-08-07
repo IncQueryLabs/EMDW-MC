@@ -23,7 +23,7 @@ public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguage
             public void configure(Binder binder) {
                 TestModelUMLContextProvider provider = new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
                 binder.bind(IUMLContextProvider.class).toInstance(provider);
-                binder.bind(ReducedAlfSnippetTemplateCompiler.class).toInstance(new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), new DummyUMLModelAccess()));
+                binder.bind(ReducedAlfSnippetTemplateCompiler.class).toInstance(new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), new DummyUMLModelAccess(), provider));
                 binder.bind(TestModelUMLContextProvider.class).toInstance(provider);
                 binder.bind(IReducedAlfParser.class).toInstance(new ReducedAlfParser());
                 binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);

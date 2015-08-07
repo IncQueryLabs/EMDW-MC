@@ -13,6 +13,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
+import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import org.eclipse.emf.ecore.EObject
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
@@ -25,8 +26,11 @@ class ReducedAlfSnippetTemplateCompiler {
 	public ExpressionVisitor expressionVisitor
 	public StatementVisitor statementVisitor
 	
-	new(IUmlDescriptorFactory factory, IModelAccess modelAccess){
-		util = new SnippetTemplateCompilerUtil(factory, modelAccess)
+	IUMLContextProvider context
+		
+	new(IUmlDescriptorFactory factory, IModelAccess modelAccess, IUMLContextProvider context){
+		util = new SnippetTemplateCompilerUtil(factory, modelAccess, context)
+		this.context = context
 		statementVisitor = new StatementVisitor(this)
 		expressionVisitor = new ExpressionVisitor(this)
 	}

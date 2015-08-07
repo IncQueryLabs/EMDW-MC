@@ -39,8 +39,9 @@ public class ReducedAlfLanguageJUnitInjectorProvider extends ReducedAlfLanguageI
         Module customizations = new Module() {
             @Override
             public void configure(Binder binder) {
-                binder.bind(IUMLContextProvider.class).toInstance(new SimpleUMLContextProvider());
-                binder.bind(ReducedAlfSnippetTemplateCompiler.class).toInstance(new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), new DummyUMLModelAccess()));
+                SimpleUMLContextProvider provider = new SimpleUMLContextProvider();
+                binder.bind(IUMLContextProvider.class).toInstance(provider);
+                binder.bind(ReducedAlfSnippetTemplateCompiler.class).toInstance(new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), new DummyUMLModelAccess(), provider));
                 binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
                 binder.bind(IReducedAlfParser.class).to(ReducedAlfParser.class);
             }

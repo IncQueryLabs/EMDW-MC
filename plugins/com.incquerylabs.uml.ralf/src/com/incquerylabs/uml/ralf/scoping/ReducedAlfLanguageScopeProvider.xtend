@@ -30,6 +30,7 @@ import com.incquerylabs.uml.ralf.types.IUMLTypeReference
  * on how and when to use it.
  *
  */
+ 
 class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
 
     @Inject

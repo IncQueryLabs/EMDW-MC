@@ -6,10 +6,12 @@ import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeWriteBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAssociationWriteBuilder
 
 class UmlPropertyWriteBuilder implements IUmlPropertyWriteBuilder {
 	private UmlToXtumlMapper mapper
-	private IOoplAttributeWriteBuilder builder
+	private IOoplAttributeWriteBuilder attributeBuilder
+	private IOoplAssociationWriteBuilder associationBuilder
 	
 	private ValueDescriptor variable
 	private Property property
@@ -17,15 +19,24 @@ class UmlPropertyWriteBuilder implements IUmlPropertyWriteBuilder {
 	
 	new(AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
-		builder = new CppAttributeWriteBuilder(engine)
+		attributeBuilder = new CppAttributeWriteBuilder(engine)
+		associationBuilder = new CppAssociationWriteBuilder(engine)
 	}
 	
 	override build() {
-		val xtUmlProperty = mapper.convertPropertyToAttribute(property)
-		return (builder => [
+		val xtUmlAttribute = mapper.convertPropertyToAttribute(property)
+		if(xtUmlAttribute!=null) {
+			return (attributeBuilder => [
+						it.variable = variable
+						it.attribute = xtUmlAttribute
+						it.newValue = newValue
+					]).build
+		}
+		val xtUmlAssociation = mapper.convertPropertyToAssociation(property)
+		return (associationBuilder => [
 					it.variable = variable
-					it.attribute = xtUmlProperty
-					it.newValue = newValue
+					it.association = xtUmlAssociation
+						it.newValue = newValue
 				]).build
 	}
 	

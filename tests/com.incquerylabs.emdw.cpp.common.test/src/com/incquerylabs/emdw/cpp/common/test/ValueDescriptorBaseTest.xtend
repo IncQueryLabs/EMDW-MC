@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.test
 
+import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
@@ -7,6 +8,8 @@ import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.cpp.common.test.wrappers.UmlCppTransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Model
 import org.junit.Test
@@ -37,6 +40,9 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		val testId = "simple"
 		startTest(testId)
 		val rs = new ResourceSetImpl
+		val managedEngine = IncQueryEngine.on(new EMFScope(rs))
+		QueryBasedFeatures.instance.prepare(managedEngine)
+		
 		val mapping = createRootMapping("test",rs)
 		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
 		val umlObject = createUmlObject(mapping.umlRoot)
@@ -53,6 +59,9 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		val testId = "cache"
 		startTest(testId)
 		val rs = new ResourceSetImpl
+		val managedEngine = IncQueryEngine.on(new EMFScope(rs))
+		QueryBasedFeatures.instance.prepare(managedEngine)
+		
 		val mapping = createRootMapping("test",rs)
 		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
 		val umlObject = createUmlObject(mapping.umlRoot)

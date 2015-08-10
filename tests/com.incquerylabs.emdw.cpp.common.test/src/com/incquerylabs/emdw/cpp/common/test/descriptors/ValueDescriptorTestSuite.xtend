@@ -7,7 +7,9 @@ import org.junit.runners.Suite.SuiteClasses
 @SuiteClasses(#[
 	LiteralDescriptorTestSuite,
 	SingleVariableDescriptorForNewVariableTestSuite,
-	SingleVariableDescriptorForExistingVariableTestSuite
+	SingleVariableDescriptorForExistingVariableTestSuite,
+	PropertyReadDescriptorTestSuite,
+	PropertyWriteDescriptorTestSuite
 ])
 @RunWith(Suite)
 class ValueDescriptorTestSuite {}

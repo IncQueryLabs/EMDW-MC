@@ -1,10 +1,10 @@
-package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlOperationCallBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.uml2.uml.Operation
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
 import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 

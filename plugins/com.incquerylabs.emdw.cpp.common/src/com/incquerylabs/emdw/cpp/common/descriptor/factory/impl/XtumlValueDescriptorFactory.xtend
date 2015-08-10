@@ -8,7 +8,7 @@ import static com.google.common.base.Preconditions.*
 
 class XtumlValueDescriptorFactory {
 	private XtumlValueDescriptorFactory parent
-	private OOPLValueDescriptorFactory factory
+	private OoplValueDescriptorFactory factory
 	private XtumlToOoplMapper mapper
 	private AdvancedIncQueryEngine engine
 	
@@ -34,9 +34,9 @@ class XtumlValueDescriptorFactory {
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
-			factory = new CPPValueDescriptorFactory(parent.factory)
+			factory = new CppValueDescriptorFactory(parent.factory)
 		} else {
-			factory = new CPPValueDescriptorFactory
+			factory = new CppValueDescriptorFactory
 		}
 		mapper = new XtumlToOoplMapper(engine)
 	}

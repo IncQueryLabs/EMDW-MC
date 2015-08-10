@@ -3,12 +3,12 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
-import com.incquerylabs.emdw.cpp.common.CPPLiteralConverter
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
 
-class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
-	private CPPLiteralConverter converter
+class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
+	private CppLiteralConverter converter
 	
 	private static final String LOCAL_VARIABLE_PREFIX = "ralf"
 	private static final String SEPARATOR = "__"
@@ -23,14 +23,14 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 		this(null, start_index)
 	}
 	
-	new(OOPLValueDescriptorFactory parent) {
+	new(OoplValueDescriptorFactory parent) {
 		this(parent, 0)
 	}
 	
-	new(OOPLValueDescriptorFactory parent, int start_index) {
+	new(OoplValueDescriptorFactory parent, int start_index) {
 		index = start_index
 		this.parent = parent
-		converter = new CPPLiteralConverter
+		converter = new CppLiteralConverter
 	}
 	
 	

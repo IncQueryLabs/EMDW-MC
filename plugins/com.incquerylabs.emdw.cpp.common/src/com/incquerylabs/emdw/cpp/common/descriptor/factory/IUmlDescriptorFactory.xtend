@@ -3,9 +3,9 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlOperationCallBuilder
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyReadBuilder
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyWriteBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyWriteBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()

@@ -1,15 +1,15 @@
-package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeWriteBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeReadBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
-class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
+class CppAttributeReadBuilder implements IOoplAttributeReadBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
@@ -17,7 +17,6 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	
 	private ValueDescriptor variable
 	private Attribute attribute
-	private ValueDescriptor newValue
 	
 	
 	new(AdvancedIncQueryEngine engine) {
@@ -25,13 +24,12 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 		converter = new TypeConverter
 	}
 	
-	
 	override build() {
 		val cppAttribute = mapper.convertAttribute(attribute)
 		val type = cppAttribute.type
-		val svd = factory.createPropertyWriteDescriptor => [
+		val svd = factory.createPropertyReadDescriptor => [
 			it.fullType = converter.convertType(type)
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.stringRepresentation»'''
+			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName»'''
 		]
 		if(type instanceof CPPSequence) {
 			svd.baseType = type.cppContainer
@@ -40,6 +38,7 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 			svd.baseType = converter.convertType(type)
 		}
 		return svd
+		
 	}
 	
 	override setVariable(ValueDescriptor variable) {
@@ -49,11 +48,6 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	
 	override setAttribute(Attribute attribute) {
 		this.attribute = attribute
-		return this
-	}
-	
-	override setNewValue(ValueDescriptor newValue) {
-		this.newValue = newValue
 		return this
 	}
 	

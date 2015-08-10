@@ -6,11 +6,11 @@ import com.ericsson.xtumlrt.oopl.OOPLType
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 
-abstract class OOPLValueDescriptorFactory {
+abstract class OoplValueDescriptorFactory {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	protected int index
-	protected OOPLValueDescriptorFactory parent
+	protected OoplValueDescriptorFactory parent
 	
 	
 	

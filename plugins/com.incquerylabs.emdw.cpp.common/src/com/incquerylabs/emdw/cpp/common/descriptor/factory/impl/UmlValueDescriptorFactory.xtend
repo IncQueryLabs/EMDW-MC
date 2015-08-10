@@ -5,6 +5,8 @@ import com.google.common.collect.Table
 import com.incquerylabs.emdw.cpp.common.descriptor.IDescriptorCacheManager
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyWriteBuilder
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import java.util.Map
@@ -12,8 +14,6 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyReadBuilder
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl.UmlPropertyWriteBuilder
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor

@@ -1,8 +1,8 @@
-package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine

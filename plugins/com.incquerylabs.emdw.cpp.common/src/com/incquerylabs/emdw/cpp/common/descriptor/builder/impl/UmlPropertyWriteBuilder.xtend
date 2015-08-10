@@ -1,28 +1,27 @@
-package com.incquerylabs.emdw.cpp.common.modelaccess.builder.impl
+package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlPropertyReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyWriteBuilder
 import org.eclipse.uml2.uml.Property
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAttributeReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeWriteBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IOoplAssociationReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAssociationWriteBuilder
 
-class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
+class UmlPropertyWriteBuilder implements IUmlPropertyWriteBuilder {
 	private UmlToXtumlMapper mapper
-	private IOoplAttributeReadBuilder attributeBuilder
-	private IOoplAssociationReadBuilder associationBuilder
+	private IOoplAttributeWriteBuilder attributeBuilder
+	private IOoplAssociationWriteBuilder associationBuilder
 	
 	private ValueDescriptor variable
 	private Property property
-	
+	private ValueDescriptor newValue
 	
 	new(AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
-		attributeBuilder = new CppAttributeReadBuilder(engine)
-		associationBuilder = new CppAssociationReadBuilder(engine)
+		attributeBuilder = new CppAttributeWriteBuilder(engine)
+		associationBuilder = new CppAssociationWriteBuilder(engine)
 	}
-	
 	
 	override build() {
 		val xtUmlAttribute = mapper.convertPropertyToAttribute(property)
@@ -30,14 +29,15 @@ class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 			return (attributeBuilder => [
 						it.variable = variable
 						it.attribute = xtUmlAttribute
+						it.newValue = newValue
 					]).build
 		}
 		val xtUmlAssociation = mapper.convertPropertyToAssociation(property)
 		return (associationBuilder => [
 					it.variable = variable
 					it.association = xtUmlAssociation
+					it.newValue = newValue
 				]).build
-		
 	}
 	
 	override setVariable(ValueDescriptor variable) {
@@ -47,6 +47,11 @@ class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 	
 	override setProperty(Property property) {
 		this.property = property
+		return this
+	}
+	
+	override setNewValue(ValueDescriptor newValue) {
+		this.newValue = newValue
 		return this
 	}
 	

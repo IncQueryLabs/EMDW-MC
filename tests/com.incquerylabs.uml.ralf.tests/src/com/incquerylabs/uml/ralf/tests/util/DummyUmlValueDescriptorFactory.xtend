@@ -16,4 +16,20 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
+	override createPropertyWriteBuilder() {
+		new DummyPropertyWriteBuilder
+	}
+	
+	override createOperationCallBuilder() {
+		new DummyOperationCallBuilder
+	}
+	
+	override createPropertyReadBuilder() {
+		new DummyPropertyAccessBuilder
+	}
+	
+	override createLiteralDescriptorBuilder() {
+		new DummyLiteralDescriptorBuilder
+	}
+	
 }

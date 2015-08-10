@@ -1,7 +1,6 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.cpp.common.modelaccess.IModelAccess
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConcurrentClauses
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
@@ -28,8 +27,8 @@ class ReducedAlfSnippetTemplateCompiler {
 	
 	IUMLContextProvider context
 		
-	new(IUmlDescriptorFactory factory, IModelAccess modelAccess, IUMLContextProvider context){
-		util = new SnippetTemplateCompilerUtil(factory, modelAccess, context)
+	new(IUmlDescriptorFactory factory, IUMLContextProvider context){
+		util = new SnippetTemplateCompilerUtil(factory, context)
 		this.context = context
 		statementVisitor = new StatementVisitor(this)
 		expressionVisitor = new ExpressionVisitor(this)

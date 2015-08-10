@@ -30,7 +30,6 @@ class ForStatementValidatorTest {
 	
 	@Inject extension ValidationTestHelper	
 	
-	// for(i : 5) syntax
 	
 	@Test
 	def forEachStatement_Literal() {
@@ -71,7 +70,37 @@ class ForStatementValidatorTest {
 			
 		}''');
 	}
+	
+	@Test
+	def forEachStatement_LiteralCollection_Reference() {
+		forStatementOK('''
+		for(String i in {"1"}){
+			i = "ASD";
+		}''');
+	}
 
+	@Test
+	@Ignore("Still not working...")
+	def forEachStatement_LiteralCollection_Definition() {
+		//TODO SCOPING
+		forStatementOK('''
+		for(String i in {"1"}){
+			i = "ASD";
+		}
+		String i = "1";''');
+	}
+	
+	@Test
+	@Ignore("Still not working...")
+	def forEachStatement_LiteralCollection_DefinitionBefore() {
+		//TODO SCOPING
+		forStatementError('''
+		String i = "1";'
+		for(String i in {"1"}){
+			i = "ASD";
+		}
+		''');
+	}
 	
 	@Test
 	def forEachStatement_Multiplicative() {

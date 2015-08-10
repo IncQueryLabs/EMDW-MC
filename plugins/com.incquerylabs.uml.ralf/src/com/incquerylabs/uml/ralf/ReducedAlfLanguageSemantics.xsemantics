@@ -14,6 +14,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperation
@@ -152,9 +153,7 @@ rule LoopVariable
 from {
     if (variable.type != null) {
         result = variable.type.typeReference
-    } else {
-        G |- variable.expression : result
-    }
+    } 
 }
 rule Parameter
     derives G |- Parameter parameter : IUMLTypeReference result
@@ -320,6 +319,26 @@ from {
     G |- ex.reference : var IUMLTypeReference varType
     result = varType
 }
+
+rule FilterExpression
+    G |- FilterExpression ex : IUMLTypeReference result
+from {
+    G |- ex.declaration : var IUMLTypeReference declarationType
+    G |- ex.expression : var IUMLTypeReference expType
+    G |- ex.context : var IUMLTypeReference contextType
+    if(contextType instanceof CollectionTypeReference){
+    	G |- contextType.valueType <: declarationType 
+    }    
+    expType == BOOLEAN.primitiveTypeReference
+    result = contextType
+}
+
+//rule FilterVariableDefinition
+//    G |- FilterVariable ex : IUMLTypeReference result
+//from {
+//    G |- ex.type.type : var IUMLTypeReference varType
+//    result = varType
+//}
 
 rule AssignmentExpression
     G |- AssignmentExpression ex : IUMLTypeReference result
@@ -575,8 +594,11 @@ checkrule LocalNameDeclarationStatementType for
     LocalNameDeclarationStatement st
 from {
     empty |- st.variable : var IUMLTypeReference varType
-    empty |- st.expression : var IUMLTypeReference valueType
-    empty |- varType <: valueType   
+    if(st.expression != null){
+    	empty |- st.expression : var IUMLTypeReference valueType
+    	empty |- varType <: valueType
+    }
+       
 }
 
 checkrule NonFinalClause for
@@ -596,9 +618,14 @@ from {
 checkrule ForEachStatement for
     ForEachStatement st
 from {
-    val loopVariable = st.variableDefinition as LoopVariable
-    empty |- loopVariable.expression : var IUMLTypeReference exType
-    exType instanceof CollectionTypeReference
+    empty |- st.expression  : var IUMLTypeReference exType
+	empty |- st.variableDefinition  : var IUMLTypeReference defType
+	if(exType instanceof CollectionTypeReference){
+		empty |- exType.valueType <: defType
+	}else{
+		fail
+        error "Invalid collection type "
+	}
 }
 
 checkrule WhileStatement for

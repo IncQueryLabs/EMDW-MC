@@ -8,7 +8,6 @@ import static com.google.common.base.Preconditions.*
 
 class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptorBuilder{
 	private String name
-	private String literal
 	private Type type
 	private boolean isExistingVariable
 	
@@ -18,12 +17,7 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 		this.name = name
 		this
 	}
-	
-	override setLiteral(String literal) {
-		this.literal=literal
-		this
-	}
-	
+		
 	override setType(Type type) {
 		this.type=type
 		this
@@ -38,8 +32,6 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 		checkArgument(type!=null, "Type cannot be null")
 		if(isExistingVariable) {
 			return prepareSingleValueDescriptorForExistingVariable(type, name)
-		} else if(literal!=null) {
-			return prepareSingleValueDescriptorForLiteral(type, literal)
 		} else if(name!=null) {
 			return prepareSingleValueDescriptorForNewLocalVariable(type, name)
 		} else {
@@ -75,16 +67,5 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 			descr.fullType = type.qualifiedName
 		}
 		descr
-	}
-	
-	def prepareSingleValueDescriptorForLiteral(Type type, String literal) {
-		val descr = factory.createSingleVariableDescriptor()
-		descr.stringRepresentation = literal
-		if(type != null){
-			descr.baseType = type.qualifiedName
-			descr.fullType = type.qualifiedName
-		}
-		descr
-	}
-	
+	}	
 }

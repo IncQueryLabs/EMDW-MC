@@ -39,7 +39,7 @@ QualifiedName :
 * EXPRESSIONS *
 ***************/
 Expression :
-  AssignmentExpression | ConditionalExpression
+  AssignmentExpression | ConditionalExpression 
 ;
 
 /* PRIMARY EXPRESSIONS */
@@ -47,6 +47,7 @@ Expression :
 PrimaryExpression returns Expression :
   BaseExpression
   ( {FeatureInvocationExpression.context = current} ('.'| isStatic ?= '::') operation = [uml::Operation|Name] parameters = Tuple |
+    {FilterExpression.context = current} operator=FilterCallCharacter 'filter(' declaration = FilterVariableDeclaration lambdaOperator=LambdaCharacter expression = Expression ')' |
     //{PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
@@ -72,7 +73,7 @@ BaseExpression returns Expression :
 //    BehaviorInvocationExpression |
     NameExpression | 
     PropertyAccessExpression | 
-    ParenthesizedExpression
+    ParenthesizedExpression 
 ;
 
 /* LITERAL EXPRESSIONS */
@@ -217,19 +218,20 @@ TypeDeclaration: //TODO define collection types as well
 Index returns Expression : 
     '[' Expression ']'
 ;
+
+
+/* FILTER EXPRESSION */
     
-    //{FilterExpression.context = current} '.filter('')' | 
-FilterExpression :
-	/*context = NameExpression '.' */'filter(' expression = FilterConditionExpression ')'
+FilterVariableDeclaration returns Variable: 
+	{FilterVariable} (type = TypeDeclaration)? name = Name 
 ;
 
-FilterConditionExpression :
-	declaration = FilterVariableDefinition '|' expression = Expression
+enum LambdaCharacter :
+	pipe = '|' | arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>'
 ;
 
-FilterVariableDefinition returns Variable: 
-     {FilterVariable} 
-     (type = TypeDeclaration name = Name) 
+enum FilterCallCharacter :
+	dot = '.' | colon = '::' |  arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>'
 ;
 
 /* SEQUENCE OPERATION, REDUCTION AND EXPANSION EXPRESSIONS */
@@ -458,8 +460,7 @@ Statement :
     BreakStatement |
     ReturnStatement |
     ClassifyStatement |
-    SendSignalStatement |
-    FilterExpression
+    SendSignalStatement 
 ;
 
 SimpleStatement:
@@ -578,13 +579,13 @@ ForStatement :
 ;
 
 ForEachStatement : 
-    'for' '(' variableDefinition = LoopVariableDefinition ')' 
+    'for' '(' variableDefinition = LoopVariableDefinition 'in' expression = Expression')' 
     body = Block
 ;
 
 LoopVariableDefinition returns Variable: 
      {LoopVariable} 
-     (type = TypeDeclaration name = Name) 'in' expression = Expression
+     (type = TypeDeclaration)? name = Name
 ;
 
 /* BREAK STATEMENTS */

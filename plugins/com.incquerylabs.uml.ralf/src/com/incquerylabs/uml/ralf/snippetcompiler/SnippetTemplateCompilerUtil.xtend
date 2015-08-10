@@ -2,7 +2,6 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.cpp.common.modelaccess.IModelAccess
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
@@ -33,12 +32,10 @@ import java.util.List
 class SnippetTemplateCompilerUtil {
 	
 	public IUmlDescriptorFactory descriptorFactory;
-	public IModelAccess modelAccess;
 	public IUMLContextProvider context
 	
-	new(IUmlDescriptorFactory factory, IModelAccess modelAccess, IUMLContextProvider context){
+	new(IUmlDescriptorFactory factory, IUMLContextProvider context){
 		descriptorFactory = factory
-		this.modelAccess = modelAccess
 		this.context = context
 	}
 
@@ -133,7 +130,7 @@ class SnippetTemplateCompilerUtil {
 			}
 		}	
 		
-		val descriptor = (modelAccess.createOperationCallBuilder => [
+		val descriptor = (descriptorFactory.createOperationCallBuilder => [
 			variable = getDescriptor(ex.context)
 			operation = ex.operation
 			parameters = descriptors
@@ -143,14 +140,14 @@ class SnippetTemplateCompilerUtil {
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(PropertyAccessExpression ex){
-		(modelAccess.createPropertyReadBuilder => [
+		(descriptorFactory.createPropertyReadBuilder => [
 			variable = getDescriptor(ex.context)
 			property = ex.property
 		]).build
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(AssociationAccessExpression ex){
-		(modelAccess.createPropertyReadBuilder => [
+		(descriptorFactory.createPropertyReadBuilder => [
 			variable = getDescriptor(ex.context)
 			property = ex.association
 		]).build
@@ -159,7 +156,7 @@ class SnippetTemplateCompilerUtil {
 	def dispatch ValueDescriptor getDescriptor(AssignmentExpression ex){
 		val lhs = ex.leftHandSide as FeatureLeftHandSide
 		if(lhs!=null){
-			return (modelAccess.createPropertyWriteBuilder => [
+			return (descriptorFactory.createPropertyWriteBuilder => [
 				variable = getDescriptor(lhs.expression.context)
 				property = lhs.expression.property
 				newValue = getDescriptor(ex.rightHandSide)
@@ -169,7 +166,7 @@ class SnippetTemplateCompilerUtil {
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(FeatureLeftHandSide lhs){
-		(modelAccess.createPropertyReadBuilder => [
+		(descriptorFactory.createPropertyReadBuilder => [
 			variable = getDescriptor(lhs.expression.context)
 			property = lhs.expression.property
 		]).build
@@ -205,28 +202,28 @@ class SnippetTemplateCompilerUtil {
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(NaturalLiteralExpression ex){
-		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+		(descriptorFactory.createLiteralDescriptorBuilder => [
 			literal = ex.value
 			type = context.getPrimitiveType(IUMLContextProvider.INTEGER_TYPE)
 		]).build
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(RealLiteralExpression ex){
-		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+		(descriptorFactory.createLiteralDescriptorBuilder => [
 			literal = ex.value
 			type = context.getPrimitiveType(IUMLContextProvider.REAL_TYPE)
 		]).build
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(StringLiteralExpression ex){
-		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+		(descriptorFactory.createLiteralDescriptorBuilder => [
 			literal = ex.value
 			type = context.getPrimitiveType(IUMLContextProvider.STRING_TYPE)
 		]).build
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(BooleanLiteralExpression ex){
-		(descriptorFactory.createSingleVariableDescriptorBuilder => [
+		(descriptorFactory.createLiteralDescriptorBuilder => [
 			literal = ex.value
 			type = context.getPrimitiveType(IUMLContextProvider.BOOLEAN_TYPE)
 		]).build

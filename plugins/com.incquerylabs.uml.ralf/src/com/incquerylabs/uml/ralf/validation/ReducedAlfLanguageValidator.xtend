@@ -10,7 +10,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReducedAlfLanguagePackage
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
@@ -19,9 +18,9 @@ import com.incquerylabs.uml.ralf.scoping.ReducedAlfLanguageScopeProvider
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.validation.Check
-import org.eclipse.uml2.uml.UMLPackage
 
 //import org.eclipse.xtext.validation.Check
+
 
 /**
  * This class contains custom validation rules. 
@@ -47,12 +46,12 @@ class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 		}
 	}
 	
-	@Check
-	def duplicateLocalVariables(LoopVariable decl) {
-	    if (isDuplicateInScope(decl, decl.name)) {
-	        error("Duplicate local variable " + decl.name, UMLPackage.Literals.NAMED_ELEMENT__NAME)
-	    }
-	}
+//	@Check
+//	def duplicateLocalVariables(LoopVariable decl) {
+//	    if (isDuplicateInScope(decl, decl.name)) {
+//	        error("Duplicate local variable " + decl.name, UMLPackage.Literals.NAMED_ELEMENT__NAME)
+//	    }
+//	}
 	
     private def isDuplicateInScope (EObject context, String name) {
         val variableScope = scopeProvider.scope_NamedElement(context)

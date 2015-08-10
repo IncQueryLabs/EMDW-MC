@@ -94,5 +94,29 @@ class XtumlValueDescriptorFactory {
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleVariableDescriptorForLiteral(ooplType, literal)
 	}
+	
+	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
+		checkArgument(elementType!=null, "Type (elementType) cannot be null")
+		val ooplCollectionType = mapper.convertType(collectionType)
+		val ooplElementType = mapper.convertType(elementType)
+		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType, localVariableName)
+	}
+	
+	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType) {
+		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
+		checkArgument(elementType!=null, "Type (elementType) cannot be null")
+		val ooplCollectionType = mapper.convertType(collectionType)
+		val ooplElementType = mapper.convertType(elementType)
+		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType)
+	}
+	
+	def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, Type elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
+		checkArgument(elementType!=null, "Type (elementType) cannot be null")
+		val ooplCollectionType = mapper.convertType(collectionType)
+		val ooplElementType = mapper.convertType(elementType)
+		return factory.prepareCollectionVariableDescriptorForExistingVariable(ooplCollectionType, ooplElementType, localVariableName)
+	}
 
 }

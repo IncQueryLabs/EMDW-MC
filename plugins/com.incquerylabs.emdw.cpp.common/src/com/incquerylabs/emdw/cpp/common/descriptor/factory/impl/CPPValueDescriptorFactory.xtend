@@ -1,15 +1,14 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
 import com.ericsson.xtumlrt.oopl.OOPLType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.incquerylabs.emdw.cpp.common.CPPLiteralConverter
 
 import static com.google.common.base.Preconditions.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 
 class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
-	private com.incquerylabs.emdw.cpp.common.CPPLiteralConverter converter
+	private CPPLiteralConverter converter
 	
 	private static final String LOCAL_VARIABLE_PREFIX = "ralf"
 	private static final String SEPARATOR = "__"
@@ -31,7 +30,7 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 	new(OOPLValueDescriptorFactory parent, int start_index) {
 		index = start_index
 		this.parent = parent
-		converter = new com.incquerylabs.emdw.cpp.common.CPPLiteralConverter
+		converter = new CPPLiteralConverter
 	}
 	
 	
@@ -70,11 +69,24 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 		return preparedDescriptor
 	}
 	
-	override prepareSingleVariableDescriptorForAttribute(SingleVariableDescriptor attributeOwner, CPPAttribute attribute) {
-		checkArgument(attributeOwner!=null, "Attribute owner cannot be null")
-		checkArgument(attribute!=null, "CPPAttribute cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(attribute.type, 
-									attributeOwner.stringRepresentation + attribute.cppQualifiedName)
+	override prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
+		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
+		return preparedDescriptor
+	}
+	
+	override prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType) {
+		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
+		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.qualifiedName)
+		return preparedDescriptor
+	}
+	
+	override prepareCollectionVariableDescriptorForExistingVariable(OOPLType collectionType, OOPLType elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
+		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
 		return preparedDescriptor
 	}
 	
@@ -85,6 +97,16 @@ class CPPValueDescriptorFactory extends OOPLValueDescriptorFactory {
 				it.stringRepresentation = localVariableName
 				it.baseType = (type as CPPQualifiedNamedElement).cppQualifiedName
 				it.fullType = it.baseType
+		]
+		return preparedDescriptor
+	}
+	
+	private def prepareCollectionVariableDescriptor(OOPLType collectionType, OOPLType elementType, String localVariableName) {
+		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
+				it.stringRepresentation = localVariableName
+				it.baseType = (collectionType as CPPQualifiedNamedElement).cppQualifiedName
+				it.templateTypes.add((elementType as CPPQualifiedNamedElement).cppQualifiedName)
+				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
 		]
 		return preparedDescriptor
 	}

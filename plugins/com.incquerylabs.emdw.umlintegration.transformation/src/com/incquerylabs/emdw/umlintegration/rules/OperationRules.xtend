@@ -164,6 +164,7 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
+		xtumlrtObject.name = '''~«(xtumlrtObject.eContainer as org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass)?.name»'''
 	}
 	
 	def getXtumlrtContainer(DestructorOperationMatch match) {

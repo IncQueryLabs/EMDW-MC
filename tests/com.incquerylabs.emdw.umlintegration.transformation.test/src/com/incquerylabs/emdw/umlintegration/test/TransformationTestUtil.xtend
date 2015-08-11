@@ -149,6 +149,15 @@ class TransformationTestUtil {
 		createClassInModel(umlRoot).ownedOperations += operation
 		operation
 	}
+	
+	static def createDestructor(Model umlRoot, String body) {
+		val destructor = umlFactory.createOperation => [
+			methods += createBehavior(body)
+			name = "destroy"
+		]
+		createClassInModel(umlRoot).ownedOperations += destructor
+		destructor
+	}
 
 	static def createPropertyForAttribute(Model umlRoot, Type type) {
 		val property = umlFactory.createProperty => [

@@ -152,69 +152,71 @@ class UMLModelTypesSnippetTest {
 		"model::Comp::Pong::doIntegerVoid")
 	}
 	
-//	@Test
-//	def operationIntegerParameterLiteral(){
-//		snippetCompilerTest(
-//		'''
-//			this.doIntegerVoid(1);'''
-//		,
-//		'''
-//			model::Comp::Pong p = 0;
-//			p = new model::Comp::Pong();
-//			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
-//			p->ping->generate_event(s);'''
-//		,
-//		"model::Comp::Pong::TestOperation")
-//	}
-//	
-//	@Test
-//	def operationIntegerParameterVariable(){
-//		snippetCompilerTest(
-//		'''
-//			Integer x = 2;
-//			this.doIntegerVoid(x);'''
-//		,
-//		''''''
-//		,
-//		"model::Comp::Pong::TestOperation")
-//	}
-//	
-//	@Test
-//	def operationIntegerParameterVariable_AltSyntax(){
-//		snippetCompilerTest(
-//		'''
-//			Integer x = 2;
-//			this.doIntegerVoid(parameter => x);
-//		'''
-//		,
-//		''''''
-//		,
-//		"model::Comp::Pong::TestOperation")
-//	}
-//	
-//	@Test
-//	def inParameterIntegerAssignment(){
-//		snippetCompilerTest(
-//		'''
-//			Integer x = 1;
-//			x = inParameter;'''
-//		,
-//		''''''
-//		,
-//		"model::Comp::Pong::TestOperation")
-//	}
-//	
-//	@Test
-//	def outParameterIntegerAssignment_Literal(){
-//		snippetCompilerTest(
-//		'''
-//			Integer x = 1;
-//			outParameter = x;'''
-//		,
-//		''''''
-//		,
-//		"model::Comp::Pong::TestOperation")
-//	}
+	@Test
+	@Ignore("Not supported at this time")
+	def operationIntegerParameterLiteral(){
+		snippetCompilerTest(
+		'''
+			this.doIntegerVoid(1);'''
+		,
+		'''
+		'''
+		,
+		"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	@Ignore("Not supported at this time")
+	def operationIntegerParameterVariable(){
+		snippetCompilerTest(
+		'''
+			Integer x = 2;
+			this.doIntegerVoid(x);'''
+		,
+		''''''
+		,
+		"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	@Ignore("Not supported at this time")
+	def operationIntegerParameterVariable_AltSyntax(){
+		snippetCompilerTest(
+		'''
+			Integer x = 2;
+			this.doIntegerVoid(parameter => x);
+		'''
+		,
+		''''''
+		,
+		"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	@Ignore("Not supported at this time")
+	def inParameterIntegerAssignment(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			x = inParameter;'''
+		,
+		''''''
+		,
+		"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	@Ignore("Not supported at this time")
+	def outParameterIntegerAssignment_Literal(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			outParameter = x;'''
+		,
+		''''''
+		,
+		"model::Comp::Pong::TestOperation")
+	}
 	
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
 		context.definedOperation = thisElementFQN

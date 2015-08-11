@@ -95,12 +95,12 @@ class ExpressionVisitor {
 				snippet.add(createStringSnippet => [value = '''->'''	])
 				snippet.add(createStringSnippet => [value = ex.property.name])
 			]
+		}else{
+			val descriptor = getDescriptor(ex)
+			return createCompositeSnippet =>[
+				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+			]
 		}
-		
-		val descriptor = getDescriptor(ex)
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-		]
 	}
 	
 	def dispatch Snippet visit(AssociationAccessExpression ex){
@@ -110,12 +110,12 @@ class ExpressionVisitor {
 				snippet.add(createStringSnippet => [value = '''->'''])
 				snippet.add(createStringSnippet => [value = ex.association.name])
 			]
+		}else{
+			val descriptor = getDescriptor(ex)
+			return createCompositeSnippet =>[
+				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+			]
 		}
-		
-		val descriptor = getDescriptor(ex)
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-		]
 	}
 	
 	def dispatch Snippet visit(FeatureInvocationExpression ex){
@@ -128,12 +128,12 @@ class ExpressionVisitor {
 				snippet.add(createStringSnippet => [value = ex.operation.name])
 				snippet.add(ex.parameters.visit)
 			]
+		}else{
+			val descriptor = util.getDescriptor(ex)
+			return createCompositeSnippet => [
+				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation	])
+			]
 		}
-	
-		val descriptor = util.getDescriptor(ex)
-		createCompositeSnippet => [
-			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation	])
-		]
 	}
 	
 	
@@ -144,15 +144,17 @@ class ExpressionVisitor {
 			return createCompositeSnippet =>[
 				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 			]
+		}else{
+			//If assignment has no property on the left hand side
+			return createCompositeSnippet =>[
+				snippet.add(ex.leftHandSide.visit)
+				snippet.add(createStringSnippet => [value = ''' '''	])
+				snippet.add(createStringSnippet => [value = ex.operator.literal])
+				snippet.add(createStringSnippet => [value = ''' '''	])
+				snippet.add(ex.rightHandSide.visit)
+			]
 		}
-		//If assignment has no property on the left hand side
-		createCompositeSnippet =>[
-			snippet.add(ex.leftHandSide.visit)
-			snippet.add(createStringSnippet => [value = ''' '''	])
-			snippet.add(createStringSnippet => [value = ex.operator.literal])
-			snippet.add(createStringSnippet => [value = ''' '''	])
-			snippet.add(ex.rightHandSide.visit)
-		]
+
 	}
 
 	def dispatch Snippet visit(ArithmeticExpression ex) {
@@ -371,6 +373,8 @@ class ExpressionVisitor {
 					value = descriptor.stringRepresentation
 				]
 			}
+		}else{
+			throw new UnsupportedOperationException
 		}
 		
 	}

@@ -12,11 +12,6 @@ import snippetTemplate.Snippet;
 
 public class ReducedAlfGenerator implements IReducedAlfGenerator {
       
-    //private ReducedAlfSnippetTemplateCompiler templateCompiler;
-    
-//    public ReducedAlfGenerator(ReducedAlfSnippetTemplateCompiler templateCompiler) {
-//        this.templateCompiler = templateCompiler;
-//    }
 
     @Override
     public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {

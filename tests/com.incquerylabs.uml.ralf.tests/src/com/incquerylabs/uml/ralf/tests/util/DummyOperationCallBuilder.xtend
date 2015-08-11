@@ -1,6 +1,6 @@
 package com.incquerylabs.uml.ralf.tests.util
 
-import com.incquerylabs.emdw.cpp.common.modelaccess.builder.IUmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlOperationCallBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List

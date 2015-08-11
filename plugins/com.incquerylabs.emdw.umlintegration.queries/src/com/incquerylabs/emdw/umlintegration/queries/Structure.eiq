@@ -160,9 +160,8 @@ pattern constructorByName(umlClass : Class, operation : Operation){
 pattern destructorByName(umlClass : Class, operation : Operation){
 	find entity(umlClass);
 	Class.ownedOperation(umlClass, operation);
-	Class.name(umlClass, name);
 	Operation.name(operation, opName);
-	check ( opName == "~"+name );
+	check ( opName == "destroy" );
 }
 
 private pattern entity(umlClass: Class) {

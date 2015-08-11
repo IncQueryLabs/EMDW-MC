@@ -52,6 +52,9 @@
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppDirectoryName" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="CPPDirectory" feature-name="name" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
   </extension>
+  <extension id="extension.derived.com.ericsson.xtumlrt.oopl.cppmodel.derived.cppReturnValueType" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
+    <wellbehaving-derived-feature classifier-name="CPPReturnValue" feature-name="type" package-nsUri="http://www.ericsson.com/xtumlrt/oopl/cpp"/>
+  </extension>
   <extension id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures"/>
   </extension>

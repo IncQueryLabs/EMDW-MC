@@ -1,0 +1,43 @@
+package com.incquerylabs.emdw.cpp.common.mapper.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+pattern ooplType2Type(
+	commonType : Type,
+	ooplType : OOPLType
+) {
+	OOPLDataType.commonType(ooplType, commonType);
+	neg find isXtClass(commonType);
+} or {
+	CPPClass.xtClass(ooplType, commonType);
+}
+
+pattern isXtClass(
+	xtType : Type
+) {
+	XTClass(xtType);
+}
+
+pattern cppAttribute2Attribute(
+	commonAttribute : Attribute,
+	ooplAttribute
+) {
+	CPPAttribute.commonAttribute(ooplAttribute, commonAttribute);
+}
+
+pattern ooplAssociation2Association(
+	commonRelation : XTAssociation,
+	ooplRelation : OOPLRelation
+) {
+	OOPLRelation.xtRelation(ooplRelation, commonRelation);
+}
+
+pattern cppOperation2Operation(
+	commonOperation : Operation,
+	cppOperation : CPPOperation
+) {
+	CPPOperation.commonOperation(cppOperation, commonOperation);
+}

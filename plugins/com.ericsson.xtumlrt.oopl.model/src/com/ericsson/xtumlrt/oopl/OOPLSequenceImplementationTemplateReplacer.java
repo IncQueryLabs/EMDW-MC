@@ -2,8 +2,8 @@ package com.ericsson.xtumlrt.oopl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
-import com.incquerylabs.emdw.valuedescriptor.CollectionValueDescriptor;
-import com.incquerylabs.emdw.valuedescriptor.SingleValueDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor;
 
 public class OOPLSequenceImplementationTemplateReplacer extends BaseContainerImplementationTemplateReplacer {
     
@@ -63,23 +63,23 @@ public class OOPLSequenceImplementationTemplateReplacer extends BaseContainerImp
     
     
     
-    public static String generateAny(OOPLSequenceImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor result) {
-        return generateAny(impl, context.getName(), result.getValueType(), result.getStringRepresentation());
+    public static String generateAny(OOPLSequenceImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor result) {
+        return generateAny(impl, context.getStringRepresentation(), result.getTemplateTypes().get(0), result.getStringRepresentation());
     }
 
-    public static String generateCountOf(OOPLSequenceImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToCount, SingleValueDescriptor result) {
-        return generateCountOf(impl, context.getName(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateCountOf(OOPLSequenceImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToCount, SingleVariableDescriptor result) {
+        return generateCountOf(impl, context.getStringRepresentation(), itemToCount.getStringRepresentation(), result.getStringRepresentation());
     }
     
-    public static String generateElementAtIndex(OOPLSequenceImplementation impl, CollectionValueDescriptor context, Integer index, SingleValueDescriptor result) {
-        return generateElementAtIndex(impl, context.getName(), context.getValueType(), index.toString(), result.getStringRepresentation());
+    public static String generateElementAtIndex(OOPLSequenceImplementation impl, CollectionVariableDescriptor context, Integer index, SingleVariableDescriptor result) {
+        return generateElementAtIndex(impl, context.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString(), result.getStringRepresentation());
     }
     
-    public static String generateInsertElementAtIndex(OOPLSequenceImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToInsert, Integer index) {
-        return generateInsertElementAtIndex(impl, context.getName(), itemToInsert.getStringRepresentation(), context.getValueType(), index.toString());
+    public static String generateInsertElementAtIndex(OOPLSequenceImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToInsert, Integer index) {
+        return generateInsertElementAtIndex(impl, context.getStringRepresentation(), itemToInsert.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString());
     }
     
-    public static String generateReplaceElementAtIndex(OOPLSequenceImplementation impl, CollectionValueDescriptor context, SingleValueDescriptor itemToReplace, Integer index) {
-        return generateReplaceElementAtIndex(impl, context.getName(), itemToReplace.getStringRepresentation(), context.getValueType(), index.toString());
+    public static String generateReplaceElementAtIndex(OOPLSequenceImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToReplace, Integer index) {
+        return generateReplaceElementAtIndex(impl, context.getStringRepresentation(), itemToReplace.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString());
     }
 }

@@ -20,87 +20,87 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
  */
 public class TraceFactoryImpl extends EFactoryImpl implements TraceFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
+     * Creates the default factory implementation.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public static TraceFactory init() {
-		try {
-			TraceFactory theTraceFactory = (TraceFactory)EPackage.Registry.INSTANCE.getEFactory(TracePackage.eNS_URI);
-			if (theTraceFactory != null) {
-				return theTraceFactory;
-			}
-		}
-		catch (Exception exception) {
-			EcorePlugin.INSTANCE.log(exception);
-		}
-		return new TraceFactoryImpl();
-	}
+        try {
+            TraceFactory theTraceFactory = (TraceFactory)EPackage.Registry.INSTANCE.getEFactory(TracePackage.eNS_URI);
+            if (theTraceFactory != null) {
+                return theTraceFactory;
+            }
+        }
+        catch (Exception exception) {
+            EcorePlugin.INSTANCE.log(exception);
+        }
+        return new TraceFactoryImpl();
+    }
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
+     * Creates an instance of the factory.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public TraceFactoryImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public EObject create(EClass eClass) {
-		switch (eClass.getClassifierID()) {
-			case TracePackage.ROOT_MAPPING: return createRootMapping();
-			case TracePackage.TRACE: return createTrace();
-			default:
-				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-		}
-	}
+        switch (eClass.getClassifierID()) {
+            case TracePackage.ROOT_MAPPING: return createRootMapping();
+            case TracePackage.TRACE: return createTrace();
+            default:
+                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        }
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public RootMapping createRootMapping() {
-		RootMappingImpl rootMapping = new RootMappingImpl();
-		return rootMapping;
-	}
+        RootMappingImpl rootMapping = new RootMappingImpl();
+        return rootMapping;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public Trace createTrace() {
-		TraceImpl trace = new TraceImpl();
-		return trace;
-	}
+        TraceImpl trace = new TraceImpl();
+        return trace;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public TracePackage getTracePackage() {
-		return (TracePackage)getEPackage();
-	}
+        return (TracePackage)getEPackage();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @deprecated
-	 * @generated
-	 */
+     * @deprecated
+     * @generated
+     */
 	@Deprecated
 	public static TracePackage getPackage() {
-		return TracePackage.eINSTANCE;
-	}
+        return TracePackage.eINSTANCE;
+    }
 
 } //TraceFactoryImpl

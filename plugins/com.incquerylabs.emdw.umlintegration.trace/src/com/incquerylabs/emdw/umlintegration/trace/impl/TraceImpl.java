@@ -18,147 +18,147 @@ import org.eclipse.uml2.uml.Element;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.TraceImpl#getUmlElements <em>Uml Elements</em>}</li>
  *   <li>{@link com.incquerylabs.emdw.umlintegration.trace.impl.TraceImpl#getXtumlrtElements <em>Xtumlrt Elements</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
 public class TraceImpl extends MinimalEObjectImpl.Container implements Trace {
 	/**
-	 * The cached value of the '{@link #getUmlElements() <em>Uml Elements</em>}' reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getUmlElements() <em>Uml Elements</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getUmlElements()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getUmlElements()
+     * @generated
+     * @ordered
+     */
 	protected EList<Element> umlElements;
 
 	/**
-	 * The cached value of the '{@link #getXtumlrtElements() <em>Xtumlrt Elements</em>}' reference list.
-	 * <!-- begin-user-doc -->
+     * The cached value of the '{@link #getXtumlrtElements() <em>Xtumlrt Elements</em>}' reference list.
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getXtumlrtElements()
-	 * @generated
-	 * @ordered
-	 */
+     * @see #getXtumlrtElements()
+     * @generated
+     * @ordered
+     */
 	protected EList<EObject> xtumlrtElements;
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	protected TraceImpl() {
-		super();
-	}
+        super();
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	protected EClass eStaticClass() {
-		return TracePackage.Literals.TRACE;
-	}
+        return TracePackage.Literals.TRACE;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList<Element> getUmlElements() {
-		if (umlElements == null) {
-			umlElements = new EObjectResolvingEList<Element>(Element.class, this, TracePackage.TRACE__UML_ELEMENTS);
-		}
-		return umlElements;
-	}
+        if (umlElements == null) {
+            umlElements = new EObjectResolvingEList<Element>(Element.class, this, TracePackage.TRACE__UML_ELEMENTS);
+        }
+        return umlElements;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	public EList<EObject> getXtumlrtElements() {
-		if (xtumlrtElements == null) {
-			xtumlrtElements = new EObjectResolvingEList<EObject>(EObject.class, this, TracePackage.TRACE__XTUMLRT_ELEMENTS);
-		}
-		return xtumlrtElements;
-	}
+        if (xtumlrtElements == null) {
+            xtumlrtElements = new EObjectResolvingEList<EObject>(EObject.class, this, TracePackage.TRACE__XTUMLRT_ELEMENTS);
+        }
+        return xtumlrtElements;
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
-		switch (featureID) {
-			case TracePackage.TRACE__UML_ELEMENTS:
-				return getUmlElements();
-			case TracePackage.TRACE__XTUMLRT_ELEMENTS:
-				return getXtumlrtElements();
-		}
-		return super.eGet(featureID, resolve, coreType);
-	}
+        switch (featureID) {
+            case TracePackage.TRACE__UML_ELEMENTS:
+                return getUmlElements();
+            case TracePackage.TRACE__XTUMLRT_ELEMENTS:
+                return getXtumlrtElements();
+        }
+        return super.eGet(featureID, resolve, coreType);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		switch (featureID) {
-			case TracePackage.TRACE__UML_ELEMENTS:
-				getUmlElements().clear();
-				getUmlElements().addAll((Collection<? extends Element>)newValue);
-				return;
-			case TracePackage.TRACE__XTUMLRT_ELEMENTS:
-				getXtumlrtElements().clear();
-				getXtumlrtElements().addAll((Collection<? extends EObject>)newValue);
-				return;
-		}
-		super.eSet(featureID, newValue);
-	}
+        switch (featureID) {
+            case TracePackage.TRACE__UML_ELEMENTS:
+                getUmlElements().clear();
+                getUmlElements().addAll((Collection<? extends Element>)newValue);
+                return;
+            case TracePackage.TRACE__XTUMLRT_ELEMENTS:
+                getXtumlrtElements().clear();
+                getXtumlrtElements().addAll((Collection<? extends EObject>)newValue);
+                return;
+        }
+        super.eSet(featureID, newValue);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public void eUnset(int featureID) {
-		switch (featureID) {
-			case TracePackage.TRACE__UML_ELEMENTS:
-				getUmlElements().clear();
-				return;
-			case TracePackage.TRACE__XTUMLRT_ELEMENTS:
-				getXtumlrtElements().clear();
-				return;
-		}
-		super.eUnset(featureID);
-	}
+        switch (featureID) {
+            case TracePackage.TRACE__UML_ELEMENTS:
+                getUmlElements().clear();
+                return;
+            case TracePackage.TRACE__XTUMLRT_ELEMENTS:
+                getXtumlrtElements().clear();
+                return;
+        }
+        super.eUnset(featureID);
+    }
 
 	/**
-	 * <!-- begin-user-doc -->
+     * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
+     * @generated
+     */
 	@Override
 	public boolean eIsSet(int featureID) {
-		switch (featureID) {
-			case TracePackage.TRACE__UML_ELEMENTS:
-				return umlElements != null && !umlElements.isEmpty();
-			case TracePackage.TRACE__XTUMLRT_ELEMENTS:
-				return xtumlrtElements != null && !xtumlrtElements.isEmpty();
-		}
-		return super.eIsSet(featureID);
-	}
+        switch (featureID) {
+            case TracePackage.TRACE__UML_ELEMENTS:
+                return umlElements != null && !umlElements.isEmpty();
+            case TracePackage.TRACE__XTUMLRT_ELEMENTS:
+                return xtumlrtElements != null && !xtumlrtElements.isEmpty();
+        }
+        return super.eIsSet(featureID);
+    }
 
 } //TraceImpl

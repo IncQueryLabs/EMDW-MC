@@ -7,15 +7,19 @@
   <foreignModel>valuedescriptor.ecore</foreignModel>
   <genPackages prefix="Valuedescriptor" basePackage="com.incquerylabs.emdw" disposableProviderFactory="true"
       ecorePackage="valuedescriptor.ecore#/">
-    <genClasses image="false" ecoreClass="valuedescriptor.ecore#//AbstractValueDescriptor"/>
-    <genClasses ecoreClass="valuedescriptor.ecore#//CollectionValueDescriptor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//CollectionValueDescriptor/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//CollectionValueDescriptor/collectionType"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//CollectionValueDescriptor/valueType"/>
+    <genClasses image="false" ecoreClass="valuedescriptor.ecore#//ValueDescriptor">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/baseType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/templateTypes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/fullType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/stringRepresentation"/>
     </genClasses>
-    <genClasses ecoreClass="valuedescriptor.ecore#//SingleValueDescriptor">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//SingleValueDescriptor/stringRepresentation"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//SingleValueDescriptor/valueType"/>
-    </genClasses>
+    <genClasses ecoreClass="valuedescriptor.ecore#//LiteralDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//VariableDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//OperationCallDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//SingleVariableDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//CollectionVariableDescriptor"/>
+    <genClasses image="false" ecoreClass="valuedescriptor.ecore#//PropertyAccessDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//PropertyReadDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//PropertyWriteDescriptor"/>
   </genPackages>
 </genmodel:GenModel>

@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
@@ -155,5 +156,38 @@ class CommonTestUtil {
 		]
 		umlPackage.packagedElements += umlClass
 		return umlClass
+	}
+	
+	static def createAttribute(Class umlClass, org.eclipse.uml2.uml.Type type, String name) {
+		val attribute = umlFactory.createProperty => [
+			it.type = type
+			it.name = name
+		]
+		umlClass.ownedAttributes += attribute
+		return attribute
+	}
+
+	static def createAssociation(Component comp, Class source, Class target, String assocName, String sourceEndName, String targetEndName) {
+		val endAtSource = umlFactory.createProperty => [
+			it.type = target
+			it.name = sourceEndName
+			it.lower = 1
+			it.upper = 1
+		]
+		val endAtTarget = umlFactory.createProperty => [
+			it.type = source
+			it.name = targetEndName
+			it.lower = 1
+			it.upper = 1
+		]
+		val association = umlFactory.createAssociation => [
+			it.ownedEnds.addAll(
+				endAtSource,
+				endAtTarget
+			)
+			it.name = assocName
+		]
+		comp.nestedClassifiers += association
+		endAtSource
 	}
 }

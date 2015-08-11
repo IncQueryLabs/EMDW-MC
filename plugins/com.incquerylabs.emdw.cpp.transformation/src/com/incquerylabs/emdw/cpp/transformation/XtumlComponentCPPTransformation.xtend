@@ -20,6 +20,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.transformation.rules.FormalParameterRules
 
 class XtumlComponentCPPTransformation {
 
@@ -37,6 +38,7 @@ class XtumlComponentCPPTransformation {
 	ClassRules classRules
 	AttributeRules attributeRules
 	OperationRules operationRules
+	FormalParameterRules formalParameterRules
 	AssociationRules associationRules
 	SequenceRules sequenceRules
 	IncludeRules includeRules
@@ -59,15 +61,17 @@ class XtumlComponentCPPTransformation {
 			
 			includeRules = new IncludeRules(engine, statements)
 			sequenceRules = new SequenceRules(statements)
+			formalParameterRules = new FormalParameterRules(statements, sequenceRules, includeRules)
 			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
-			operationRules = new OperationRules(statements, sequenceRules, includeRules)
-			associationRules = new AssociationRules(statements, includeRules)
+			operationRules = new OperationRules(statements, formalParameterRules)
+			associationRules = new AssociationRules(statements)
 			classRules = new ClassRules(statements, associationRules, attributeRules, operationRules, includeRules)
 			packageRules = new PackageRules(statements, classRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)
 			
 			includeRules.addRules(transform)
 			sequenceRules.addRules(transform)
+			formalParameterRules.addRules(transform)
 			attributeRules.addRules(transform)
 			operationRules.addRules(transform)
 			associationRules.addRules(transform)

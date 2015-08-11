@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
@@ -19,13 +19,11 @@ class OperationRules {
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
-	extension val SequenceRules sequenceRules
-	extension val IncludeRules includeRules
+	extension val FormalParameterRules formalParameterRules
 	
-	new(BatchTransformationStatements statements, SequenceRules sequenceRules, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements, FormalParameterRules formalParameterRules) {
 		this.statements = statements
-		this.sequenceRules = sequenceRules
-		this.includeRules = includeRules
+		this.formalParameterRules = formalParameterRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -44,25 +42,12 @@ class OperationRules {
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = operation ]
 		]
 		cppElement.subElements += cppOperation
-		operation.parameters.forEach[ param |
-			val cppFormalParameter = createCPPFormalParameter => [
-				commonParameter = param
-				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
-				if(param.multiValue){
-					unnamedSequenceType = generateCPPSequence(param)
-				}
-			]
-			cppOperation.subElements += cppFormalParameter
-			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
-			if(cppFormalParameter.unnamedSequenceType != null){
-				fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppFormalParameter.unnamedSequenceType])
-			}
-			addIncludes(cppFormalParameter)
-		]
+		
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
+		transformSubElements(cppOperation)
 	].build
 	
-	def addIncludes(CPPQualifiedNamedElement cppElement) {
-		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
+	def transformSubElements(CPPOperation cppOperation){
+		fireAllCurrent(operationParameterRule, [it.cppOperation == cppOperation])
 	}
 }

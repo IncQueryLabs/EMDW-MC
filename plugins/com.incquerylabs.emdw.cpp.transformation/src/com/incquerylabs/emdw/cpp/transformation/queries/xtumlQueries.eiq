@@ -274,6 +274,15 @@ pattern cppEntityOperations(
 	Entity.operations(xtEntity, operation);
 }
 
+pattern cppOperationParameter(
+	operation : Operation,
+	cppOperation : CPPOperation,
+	parameter : Parameter
+) {
+	Operation.parameters(operation, parameter);
+	CPPOperation.commonOperation(cppOperation, operation);
+}
+
 pattern cppComponents(
 	xtComponent : XTComponent,
 	cppComponent : CPPComponent

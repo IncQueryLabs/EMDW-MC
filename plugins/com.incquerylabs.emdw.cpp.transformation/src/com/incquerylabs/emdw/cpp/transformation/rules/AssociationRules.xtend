@@ -25,11 +25,9 @@ class AssociationRules {
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
-	extension val IncludeRules includeRules
 	
-	new(BatchTransformationStatements statements, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements) {
 		this.statements = statements
-		this.includeRules = includeRules
 	}
 	
 	def addRules(BatchTransformation transformation){

@@ -4,6 +4,7 @@ import com.google.inject.Injector
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
 import com.incquerylabs.uml.ralf.tests.example.util.ReducedAlfLanguagePluginInjectorProvider
 import com.incquerylabs.uml.ralf.tests.example.util.TestModelUMLContextProvider
 import org.junit.Before
@@ -16,6 +17,7 @@ class PluginUMLTypeExampleTest {
 	Injector injector;
 	IReducedAlfGenerator generator
 	IReducedAlfParser parser
+	ReducedAlfSnippetTemplateCompiler compiler
 	//The UML context provider informs the parser about classes, types and signals defined in the UML model,
 	//and the "this" object as well. (The object the action code under parsing belongs to.) 
 	TestModelUMLContextProvider context
@@ -29,6 +31,7 @@ class PluginUMLTypeExampleTest {
 		injector = provider.injector
 		generator = injector.getInstance(IReducedAlfGenerator)
 		parser = injector.getInstance(IReducedAlfParser)
+		compiler = injector.getInstance(ReducedAlfSnippetTemplateCompiler)
 		context = injector.getInstance(TestModelUMLContextProvider)
 	}
 	
@@ -52,7 +55,7 @@ class PluginUMLTypeExampleTest {
 		//create AST
 		val ast = parser.parse(input, context)
 		//generate snippets
-		val snippet = generator.createSnippet(ast)
+		val snippet = generator.createSnippet(ast, compiler)
 		val serializer = new ReducedAlfSnippetTemplateSerializer
         val serializedSnippet = serializer.serialize(snippet)
 		//compare results
@@ -77,7 +80,7 @@ class PluginUMLTypeExampleTest {
 		//create AST
 		val ast = parser.parse(input, context)
 		//generate snippets
-		val snippet = generator.createSnippet(ast)
+		val snippet = generator.createSnippet(ast, compiler)
 		val serializer = new ReducedAlfSnippetTemplateSerializer
 		val serializedSnippet = serializer.serialize(snippet)
 		//compare results

@@ -17,11 +17,12 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import com.incquerylabs.uml.ralf.scoping.ReducedAlfLanguageScopeProvider
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.UMLPackage
 import org.eclipse.xtext.naming.QualifiedName
 import org.eclipse.xtext.validation.Check
-import org.eclipse.uml2.uml.UMLPackage
 
 //import org.eclipse.xtext.validation.Check
+
 
 /**
  * This class contains custom validation rules. 
@@ -49,7 +50,7 @@ class ReducedAlfLanguageValidator extends ReducedAlfSystemValidator {
 	
 	@Check
 	def duplicateLocalVariables(LoopVariable decl) {
-	    if (isDuplicateInScope(decl, decl.name)) {
+	    if (isDuplicateInScope(decl.eContainer, decl.name)) {
 	        error("Duplicate local variable " + decl.name, UMLPackage.Literals.NAMED_ELEMENT__NAME)
 	    }
 	}

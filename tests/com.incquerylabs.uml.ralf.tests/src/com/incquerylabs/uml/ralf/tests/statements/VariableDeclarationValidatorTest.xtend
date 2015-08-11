@@ -29,6 +29,25 @@ class VariableDeclarationValidatorTest {
 	
 	
 	//Local variable definition
+	@Test
+	def localVariableReal_NoRHS() {
+		localVariableOK('''Real x;''')
+	}
+	
+	@Test
+	def localVariableInteger_NoRHS() {
+		localVariableOK('''Integer x;''')
+	}
+	
+	@Test
+	def localVariableString_NoRHS() {
+		localVariableOK('''String x;''')
+	}
+	
+	@Test
+	def localVariableBoolean_NoRHS() {
+		localVariableOK('''Boolean x;''')
+	}
 	
 	@Test
 	def localVariableSimple() {

@@ -9,11 +9,13 @@ import org.junit.Before
 import org.junit.Test
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
 
 class JUnitPrimitiveTypeExampleTest {
 	// Injector that creates the parser and the generator
 	Injector injector;
 	IReducedAlfGenerator generator
+	ReducedAlfSnippetTemplateCompiler compiler
 	IReducedAlfParser parser
 
 	@Before
@@ -25,6 +27,7 @@ class JUnitPrimitiveTypeExampleTest {
 		injector = provider.injector
 		generator = injector.getInstance(IReducedAlfGenerator)
 		parser = injector.getInstance(IReducedAlfParser)
+		compiler = injector.getInstance(ReducedAlfSnippetTemplateCompiler)
 	}
 
 	@Test
@@ -51,7 +54,7 @@ class JUnitPrimitiveTypeExampleTest {
 		val ast = parser.parse(input)
 		//generate snippet from AST
 		val serializer = new ReducedAlfSnippetTemplateSerializer
-		val snippet = generator.createSnippet(ast)
+		val snippet = generator.createSnippet(ast, compiler)
 		val serializedSnippet = serializer.serialize(snippet)
 		assertEquals("The created snippet does not match the expected result", expected, serializedSnippet)
 	}

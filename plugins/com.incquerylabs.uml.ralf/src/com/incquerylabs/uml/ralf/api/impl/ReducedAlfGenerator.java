@@ -1,11 +1,8 @@
 package com.incquerylabs.uml.ralf.api.impl;
 
-import java.util.Map;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 
-import com.google.common.collect.Maps;
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
@@ -15,41 +12,33 @@ import snippetTemplate.Snippet;
 
 public class ReducedAlfGenerator implements IReducedAlfGenerator {
       
-    private ReducedAlfSnippetTemplateCompiler templateCompiler;
-    
-    private Map<Snippet, String> snippetMap;
-    
-    public ReducedAlfGenerator() {
-        snippetMap = Maps.newHashMap();
-        templateCompiler = new ReducedAlfSnippetTemplateCompiler();
-    }
 
     @Override
-    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser) throws SnippetCompilerException {
+    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
         ParsingResults result = parser.parse(behavior);
-        return createSnippet(result);
+        return createSnippet(result, templateCompiler);
     }
     
     @Override
-    public Snippet createSnippet(String behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser) throws SnippetCompilerException {
+    public Snippet createSnippet(String behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
     	ParsingResults result = parser.parse(behavior, contextProvider);
-    	return createSnippet(result);
+    	return createSnippet(result, templateCompiler);
     }
     @Override
-    public Snippet createSnippet(String behavior, IReducedAlfParser parser) throws SnippetCompilerException {
+    public Snippet createSnippet(String behavior, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
         ParsingResults result = parser.parse(behavior);
-        return createSnippet(result);
+        return createSnippet(result, templateCompiler);
     }
 
     @Override
-    public Snippet createSnippet(ParsingResults result) throws SnippetCompilerException {
+    public Snippet createSnippet(ParsingResults result, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
         if(result.validationOK()){
-            return createSnippet(result.getModel());
+            return createSnippet(result.getModel(), templateCompiler);
         }
         throw new SnippetCompilerException("Validation: "+result.toString());
     }
     
-    private Snippet createSnippet(EObject actionCode) {
+    private Snippet createSnippet(EObject actionCode, ReducedAlfSnippetTemplateCompiler templateCompiler) {
         return templateCompiler.visit(actionCode);
     }
 

@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -20,10 +21,13 @@ import static org.junit.Assert.*
 class PrimitiveTypesSnippetTest {
 		
 	@Inject
-	IReducedAlfGenerator compiler
+	IReducedAlfGenerator generator
 	
 	@Inject
 	IReducedAlfParser parser
+	
+	@Inject
+	ReducedAlfSnippetTemplateCompiler compiler
 	
 	ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
 	
@@ -81,9 +85,9 @@ class PrimitiveTypesSnippetTest {
 			PrimitiveTypes::Integer x = (1 + 2) * 3 + 4;
 			++x;
 			if (x > 3) {
-				x--;
+			x--;
 			} else {
-				x++;
+			x++;
 			}''')
 	}
 	
@@ -94,14 +98,14 @@ class PrimitiveTypesSnippetTest {
 			Integer x = (1 + 2) * 3 + 4;
 			++x;
 			if (x > -3) {
-				x--;
+			x--;
 			}'''
 		, 
 		'''
 			PrimitiveTypes::Integer x = (1 + 2) * 3 + 4;
 			++x;
 			if (x > -3) {
-				x--;
+			x--;
 			}''')
 	}
 	
@@ -114,7 +118,7 @@ class PrimitiveTypesSnippetTest {
 			Integer y = x;
 			y = x - 15;
 			if ((x > 3) && !(y < -5)) {
-				x--;
+			x--;
 			}'''
 		, 
 		'''
@@ -123,7 +127,7 @@ class PrimitiveTypesSnippetTest {
 			PrimitiveTypes::Integer y = x;
 			y = x - 15;
 			if ((x > 3) && !(y < -5)) {
-				x--;
+			x--;
 			}''')
 	}
 	
@@ -139,8 +143,147 @@ class PrimitiveTypesSnippetTest {
 			++x;''')
 	}
 	
+	@Test
+	def SwitchTest(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			switch (x){
+				case 1 : x++; break;
+				default : x++;
+			}'''
+		, 
+		'''
+			PrimitiveTypes::Integer x = 1;
+			switch (x) {
+			case 1 : {
+			x++;
+			break;
+			}
+			default : {
+			x++;
+			}
+			}''')
+	}
+	
+	@Test
+	def DoWhileTest(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;	
+			do{
+				x++;
+			} while (true);'''
+		, 
+		'''
+			PrimitiveTypes::Integer x = 1;
+			do {
+			x++;
+			}while (true);''')
+	}
+	
+	@Test
+	def WhileTest(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			while (true) {
+				x++;
+			}'''
+		, 
+		'''
+			PrimitiveTypes::Integer x = 1;
+			while (true) {
+			x++;
+			}''')
+	}
+	
+	@Test
+	def ForTest(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			for (Integer i = 0; i < 5; i++) {
+				x++; 
+			}'''
+		, 
+		'''
+			PrimitiveTypes::Integer x = 1;
+			for (PrimitiveTypes::Integer i = 0; i < 5; i++) {
+			x++;
+			}''')
+	}
+	
+	@Test
+	def IfTest_IfElse(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			if(true){
+				x++;
+			}
+			else if (false){
+				x++;
+			}else if (true){
+				x++;
+			}else{
+				x++;
+			}'''
+		, 
+		'''
+			PrimitiveTypes::Integer x = 1;
+			if (true) {
+			x++;
+			} else if (false) {
+			x++;
+			} else if (true) {
+			x++;
+			} else {
+			x++;
+			}''')
+	}
+	
+	@Test
+	def IfTest_Nested(){
+		snippetCompilerTest(
+		'''
+			Integer x = 1;
+			if(true){
+				x++;
+			}else {
+				if(false){
+					x++;
+				}else{
+					if(true){
+						x++;
+					}
+					else{
+						x++;
+					}
+				}
+			}'''
+		, 
+		'''
+			PrimitiveTypes::Integer x = 1;
+			if (true) {
+			x++;
+			} else {
+			if (false) {
+			x++;
+			} else {
+			if (true) {
+			x++;
+			} else {
+			x++;
+			}
+			}
+			}''')
+	}
+	
+
+	
 	def snippetCompilerTest(String input, String expected) {	
-		val snippet = compiler.createSnippet(input, parser)
+		val snippet = generator.createSnippet(input, parser,compiler)
 		val serializedSnippet = serializer.serialize(snippet)
 		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
 	}

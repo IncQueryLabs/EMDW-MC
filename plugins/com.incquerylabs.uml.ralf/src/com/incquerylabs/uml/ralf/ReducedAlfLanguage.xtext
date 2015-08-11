@@ -39,7 +39,7 @@ QualifiedName :
 * EXPRESSIONS *
 ***************/
 Expression :
-  AssignmentExpression | ConditionalExpression
+  AssignmentExpression | ConditionalExpression 
 ;
 
 /* PRIMARY EXPRESSIONS */
@@ -47,6 +47,7 @@ Expression :
 PrimaryExpression returns Expression :
   BaseExpression
   ( {FeatureInvocationExpression.context = current} ('.'| isStatic ?= '::') operation = [uml::Operation|Name] parameters = Tuple |
+    {FilterExpression.context = current} operator=FilterCallCharacter 'filter(' declaration = FilterVariableDeclaration lambdaOperator=LambdaCharacter expression = Expression ')' |
     {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
@@ -70,8 +71,8 @@ BaseExpression returns Expression :
     NullExpression |
 //  SequenceOperationOrReductionOrExpansionExpression |
 //    BehaviorInvocationExpression |
-    NameExpression |
-    ParenthesizedExpression
+    NameExpression | 
+    ParenthesizedExpression 
 ;
 
 /* LITERAL EXPRESSIONS */
@@ -215,6 +216,21 @@ TypeDeclaration: //TODO define collection types as well
 /* SEQUENCE ACCESS EXPRESSIONS */
 Index returns Expression : 
     '[' Expression ']'
+;
+
+
+/* FILTER EXPRESSION */
+    
+FilterVariableDeclaration returns Variable: 
+	{FilterVariable} name = Name 
+;
+
+enum LambdaCharacter :
+	pipe = '|' | arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>'
+;
+
+enum FilterCallCharacter :
+	dot = '.' | colon = '::' |  arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>'
 ;
 
 /* SEQUENCE OPERATION, REDUCTION AND EXPANSION EXPRESSIONS */
@@ -443,7 +459,7 @@ Statement :
     BreakStatement |
     ReturnStatement |
     ClassifyStatement |
-    SendSignalStatement
+    SendSignalStatement 
 ;
 
 SimpleStatement:
@@ -562,14 +578,13 @@ ForStatement :
 ;
 
 ForEachStatement : 
-    'for' '(' variableDefinition = LoopVariableDefinition')' 
+    'for' '(' variableDefinition = LoopVariableDefinition 'in' expression = Expression')' 
     body = Block
 ;
 
 LoopVariableDefinition returns Variable: 
      {LoopVariable} 
-       (name = Name | type = TypeDeclaration name = Name)
-       ':' expression = Expression
+     (type = TypeDeclaration)? name = Name
 ;
 
 /* BREAK STATEMENTS */

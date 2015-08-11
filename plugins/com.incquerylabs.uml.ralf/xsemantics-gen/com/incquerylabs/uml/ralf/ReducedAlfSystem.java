@@ -18,6 +18,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterVariable;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
@@ -102,6 +104,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   public final static String LOOPVARIABLE = "com.incquerylabs.uml.ralf.LoopVariable";
   
+  public final static String FILTERVARIABLE = "com.incquerylabs.uml.ralf.FilterVariable";
+  
   public final static String PARAMETER = "com.incquerylabs.uml.ralf.Parameter";
   
   public final static String NULLSUBTYPING = "com.incquerylabs.uml.ralf.NullSubtyping";
@@ -135,6 +139,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String ARITHMETICEXPRESSION = "com.incquerylabs.uml.ralf.ArithmeticExpression";
   
   public final static String NAMEEXPRESSION = "com.incquerylabs.uml.ralf.NameExpression";
+  
+  public final static String FILTEREXPRESSION = "com.incquerylabs.uml.ralf.FilterExpression";
   
   public final static String ASSIGNMENTEXPRESSION = "com.incquerylabs.uml.ralf.AssignmentExpression";
   
@@ -492,15 +498,19 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
     varType = (IUMLTypeReference) result.getFirst();
     
-    /* empty |- st.expression : var IUMLTypeReference valueType */
     Expression _expression = st.getExpression();
-    IUMLTypeReference valueType = null;
-    Result<IUMLTypeReference> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression);
-    checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
-    valueType = (IUMLTypeReference) result_1.getFirst();
-    
-    /* empty |- varType <: valueType */
-    subtypeReferenceInternal(emptyEnvironment(), _trace_, varType, valueType);
+    boolean _notEquals = (!Objects.equal(_expression, null));
+    if (_notEquals) {
+      /* empty |- st.expression : var IUMLTypeReference valueType */
+      Expression _expression_1 = st.getExpression();
+      IUMLTypeReference valueType = null;
+      Result<IUMLTypeReference> result_1 = typeInternal(emptyEnvironment(), _trace_, _expression_1);
+      checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
+      valueType = (IUMLTypeReference) result_1.getFirst();
+      
+      /* empty |- varType <: valueType */
+      subtypeReferenceInternal(emptyEnvironment(), _trace_, varType, valueType);
+    }
     return new Result<Boolean>(true);
   }
   
@@ -569,18 +579,28 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   }
   
   protected Result<Boolean> forEachStatementInternal(final RuleApplicationTrace _trace_, final ForEachStatement st) throws RuleFailedException {
-    Variable _variableDefinition = st.getVariableDefinition();
-    final LoopVariable loopVariable = ((LoopVariable) _variableDefinition);
-    /* empty |- loopVariable.expression : var IUMLTypeReference exType */
-    Expression _expression = loopVariable.getExpression();
+    /* empty |- st.expression : var IUMLTypeReference exType */
+    Expression _expression = st.getExpression();
     IUMLTypeReference exType = null;
     Result<IUMLTypeReference> result = typeInternal(emptyEnvironment(), _trace_, _expression);
     checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
     exType = (IUMLTypeReference) result.getFirst();
     
-    /* exType instanceof CollectionTypeReference */
-    if (!(exType instanceof CollectionTypeReference)) {
-      sneakyThrowRuleFailedException("exType instanceof CollectionTypeReference");
+    /* empty |- st.variableDefinition : var IUMLTypeReference defType */
+    Variable _variableDefinition = st.getVariableDefinition();
+    IUMLTypeReference defType = null;
+    Result<IUMLTypeReference> result_1 = typeInternal(emptyEnvironment(), _trace_, _variableDefinition);
+    checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
+    defType = (IUMLTypeReference) result_1.getFirst();
+    
+    if ((exType instanceof CollectionTypeReference)) {
+      /* empty |- exType.valueType <: defType */
+      IUMLTypeReference _valueType = ((CollectionTypeReference)exType).getValueType();
+      subtypeReferenceInternal(emptyEnvironment(), _trace_, _valueType, defType);
+    } else {
+      /* fail error "Invalid collection type " */
+      String error = "Invalid collection type ";
+      throwForExplicitFail(error, new ErrorInformation(null, null));
     }
     return new Result<Boolean>(true);
   }
@@ -1203,13 +1223,49 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
       TypeDeclaration _type_1 = variable.getType();
       IUMLTypeReference _typeReference = this.typeReferenceInternal(_trace_, _type_1);
       result = _typeReference;
+    }
+    return new Result<IUMLTypeReference>(result);
+  }
+  
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FilterVariable variable) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<IUMLTypeReference> _result_ = applyRuleFilterVariable(G, _subtrace_, variable);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("FilterVariable") + stringRepForEnv(G) + " |- " + stringRep(variable) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleFilterVariable) {
+    	typeThrowException(ruleName("FilterVariable") + stringRepForEnv(G) + " |- " + stringRep(variable) + " : " + "IUMLTypeReference",
+    		FILTERVARIABLE,
+    		e_applyRuleFilterVariable, variable, new ErrorInformation[] {new ErrorInformation(variable)});
+    	return null;
+    }
+  }
+  
+  protected Result<IUMLTypeReference> applyRuleFilterVariable(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FilterVariable variable) throws RuleFailedException {
+    IUMLTypeReference result = null; // output parameter
+    TypeDeclaration _type = variable.getType();
+    boolean _notEquals = (!Objects.equal(_type, null));
+    if (_notEquals) {
+      TypeDeclaration _type_1 = variable.getType();
+      IUMLTypeReference _typeReference = this.typeReferenceInternal(_trace_, _type_1);
+      result = _typeReference;
     } else {
-      /* G |- variable.expression : result */
-      Expression _expression = variable.getExpression();
-      Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _expression);
-      checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
-      result = (IUMLTypeReference) result_1.getFirst();
+      EObject _eContainer = variable.eContainer();
+      FilterExpression filterExp = ((FilterExpression) _eContainer);
+      /* G |- filterExp.context : var CollectionTypeReference contextType */
+      Expression _context = filterExp.getContext();
+      CollectionTypeReference contextType = null;
+      Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _context);
+      checkAssignableTo(result_1.getFirst(), CollectionTypeReference.class);
+      contextType = (CollectionTypeReference) result_1.getFirst();
       
+      IUMLTypeReference _valueType = contextType.getValueType();
+      result = _valueType;
     }
     return new Result<IUMLTypeReference>(result);
   }
@@ -1971,6 +2027,61 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     varType = (IUMLTypeReference) result_1.getFirst();
     
     result = varType;
+    return new Result<IUMLTypeReference>(result);
+  }
+  
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FilterExpression ex) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<IUMLTypeReference> _result_ = applyRuleFilterExpression(G, _subtrace_, ex);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("FilterExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleFilterExpression) {
+    	typeThrowException(ruleName("FilterExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + "IUMLTypeReference",
+    		FILTEREXPRESSION,
+    		e_applyRuleFilterExpression, ex, new ErrorInformation[] {new ErrorInformation(ex)});
+    	return null;
+    }
+  }
+  
+  protected Result<IUMLTypeReference> applyRuleFilterExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FilterExpression ex) throws RuleFailedException {
+    IUMLTypeReference result = null; // output parameter
+    /* G |- ex.declaration : var IUMLTypeReference declarationType */
+    Variable _declaration = ex.getDeclaration();
+    IUMLTypeReference declarationType = null;
+    Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _declaration);
+    checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
+    declarationType = (IUMLTypeReference) result_1.getFirst();
+    
+    /* G |- ex.expression : var IUMLTypeReference expType */
+    Expression _expression = ex.getExpression();
+    IUMLTypeReference expType = null;
+    Result<IUMLTypeReference> result_2 = typeInternal(G, _trace_, _expression);
+    checkAssignableTo(result_2.getFirst(), IUMLTypeReference.class);
+    expType = (IUMLTypeReference) result_2.getFirst();
+    
+    /* G |- ex.context : var CollectionTypeReference contextType */
+    Expression _context = ex.getContext();
+    CollectionTypeReference contextType = null;
+    Result<IUMLTypeReference> result_3 = typeInternal(G, _trace_, _context);
+    checkAssignableTo(result_3.getFirst(), CollectionTypeReference.class);
+    contextType = (CollectionTypeReference) result_3.getFirst();
+    
+    /* G |- contextType.valueType <: declarationType */
+    IUMLTypeReference _valueType = contextType.getValueType();
+    subtypeReferenceInternal(G, _trace_, _valueType, declarationType);
+    PrimitiveTypeReference _primitiveTypeReference = this.typeFactory.primitiveTypeReference(this.BOOLEAN);
+    boolean _equals = Objects.equal(expType, _primitiveTypeReference);
+    /* expType == BOOLEAN.primitiveTypeReference */
+    if (!_equals) {
+      sneakyThrowRuleFailedException("expType == BOOLEAN.primitiveTypeReference");
+    }
+    result = contextType;
     return new Result<IUMLTypeReference>(result);
   }
   

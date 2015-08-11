@@ -25,9 +25,25 @@ pattern cppFormalParameterType(
 ) {
 	find cppFormalParameterUnnamedSequenceType(source, target);
 } or {
+	CPPFormalParameter.subElements(source, target);
+	CPPFormalParameter.commonParameter.type(source, commonType);
+	OOPLDataType.commonType(target, commonType);
+	find referenceType(target);
+} or {
 	CPPFormalParameter.commonParameter.type(source, commonType);
 	OOPLDataType.commonType(target, commonType);
 	neg find cppFormalParameterUnnamedSequenceType(source, _sequence);
+	neg find referenceType(target);
+}
+
+private pattern referenceType(
+	referenceType : OOPLDataType
+) {
+	CPPClassReference(referenceType);
+} or {
+	CPPClassRefSimpleCollection(referenceType);
+} or {
+	CPPClassRefAssocCollection(referenceType);
 }
 
 @QueryBasedFeature(feature = "cppName")

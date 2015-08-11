@@ -222,7 +222,7 @@ Index returns Expression :
 /* FILTER EXPRESSION */
     
 FilterVariableDeclaration returns Variable: 
-	{FilterVariable} (type = TypeDeclaration)? name = Name 
+	{FilterVariable} name = Name 
 ;
 
 enum LambdaCharacter :

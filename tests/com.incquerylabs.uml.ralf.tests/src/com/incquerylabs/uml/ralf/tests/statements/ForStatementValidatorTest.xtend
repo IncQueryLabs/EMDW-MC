@@ -93,7 +93,7 @@ class ForStatementValidatorTest {
 	def forEachStatement_LiteralCollection_DefinitionBefore() {
 		//TODO SCOPING
 		forStatementError('''
-		String i = "1";'
+		String i = "1";
 		for(String i in {"1"}){
 			i = "ASD";
 		}

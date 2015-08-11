@@ -9,6 +9,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
@@ -155,6 +156,19 @@ from {
         result = variable.type.typeReference
     } 
 }
+
+rule FilterVariable
+    derives G |- FilterVariable variable : IUMLTypeReference result
+from {
+    if (variable.type != null) {
+        result = variable.type.typeReference
+    }else{
+    	var filterExp = variable.eContainer as FilterExpression
+    	G |- filterExp.context : var CollectionTypeReference contextType
+    	result = contextType.valueType
+    } 
+}
+
 rule Parameter
     derives G |- Parameter parameter : IUMLTypeReference result
 from {
@@ -323,22 +337,14 @@ from {
 rule FilterExpression
     G |- FilterExpression ex : IUMLTypeReference result
 from {
-    G |- ex.declaration : var IUMLTypeReference declarationType
+	G |- ex.declaration : var IUMLTypeReference declarationType
     G |- ex.expression : var IUMLTypeReference expType
-    G |- ex.context : var IUMLTypeReference contextType
-    if(contextType instanceof CollectionTypeReference){
-    	G |- contextType.valueType <: declarationType 
-    }    
+    G |- ex.context : var CollectionTypeReference contextType
+    
+	G |- contextType.valueType <: declarationType 
     expType == BOOLEAN.primitiveTypeReference
     result = contextType
 }
-
-//rule FilterVariableDefinition
-//    G |- FilterVariable ex : IUMLTypeReference result
-//from {
-//    G |- ex.type.type : var IUMLTypeReference varType
-//    result = varType
-//}
 
 rule AssignmentExpression
     G |- AssignmentExpression ex : IUMLTypeReference result

@@ -24,6 +24,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.google.common.collect.Iterables
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 
 /**
  * This class contains custom scoping description.
@@ -127,6 +128,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
                 flatten
           ForStatement: variableDeclarations(container.initialization, container)
           ForEachStatement : newArrayList(container.variableDefinition)
+          FilterExpression : newArrayList(container.declaration)
           Statement: 
             container.eContents.
                 takeWhile[it != until].

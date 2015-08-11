@@ -22,6 +22,8 @@ import com.incquerylabs.uml.ralf.types.UMLTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
+import com.google.common.collect.Iterables
 
 /**
  * This class contains custom scoping description.
@@ -108,9 +110,15 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     
     private def Iterable<Variable> variableDeclarations(EObject container, EObject until) {
         switch (container) {
-          Block:  
+          Block:
+            // Assumes all variable instances are directly contained in a declaration statement  
             container.statement.
                 takeWhile[it != until].
+                filter[
+                	// The loop variable of a for each statement should not be visible
+                	!(it instanceof ForEachStatement)
+                	// It is not necessary to filter ForStatement as its variable is not directly contained
+                ].
                 map[eContents.filter(Variable)].
                 flatten
           Statements: container.statement.
@@ -118,6 +126,7 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
                 map[eContents.filter(Variable)].
                 flatten
           ForStatement: variableDeclarations(container.initialization, container)
+          ForEachStatement : newArrayList(container.variableDefinition)
           Statement: 
             container.eContents.
                 takeWhile[it != until].

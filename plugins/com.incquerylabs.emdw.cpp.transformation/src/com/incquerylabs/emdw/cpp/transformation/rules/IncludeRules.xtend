@@ -21,6 +21,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 
 class IncludeRules {
 	static extension val CppQueries cppQueries = CppQueries.instance
@@ -101,27 +102,30 @@ class IncludeRules {
 	
 	dispatch def addIncludesForMultiplicityElement(CPPAttribute cppAttribute, CPPSourceFile cppSourceFile){
 		val type = cppAttribute.type
-		addIncludesForOOPLType(type, cppSourceFile, '''CPPAttribute «cppAttribute.cppName»''')
+		addIncludesForOOPLDataType(type, cppSourceFile, '''CPPAttribute «cppAttribute.cppName»''')
 	}
 	
 	dispatch def addIncludesForMultiplicityElement(CPPFormalParameter cppFormalParameter, CPPSourceFile cppSourceFile){
 		val type = cppFormalParameter.type
-		addIncludesForOOPLType(type, cppSourceFile, '''CPPFormalParameter «cppFormalParameter.cppName»''')
+		addIncludesForOOPLDataType(type, cppSourceFile, '''CPPFormalParameter «cppFormalParameter.cppName»''')
 	}
 	
-	dispatch def void addIncludesForOOPLType(CPPBasicType cppBasicType, CPPSourceFile cppSourceFile, String comment){
+	dispatch def void addIncludesForOOPLDataType(CPPBasicType cppBasicType, CPPSourceFile cppSourceFile, String comment){
 		if(cppBasicType.commonType.name == "String"){
 			cppSourceFile.addInclude(getExternalHeader("<string>"), comment)
 		}
 	}
 	
-	dispatch def void addIncludesForOOPLType(CPPSequence cppSequence, CPPSourceFile cppSourceFile, String comment){
+	dispatch def void addIncludesForOOPLDataType(CPPSequence cppSequence, CPPSourceFile cppSourceFile, String comment){
 		val externalHeaders = getExternalHeaders(cppSequence)
 		externalHeaders.forEach[ externalHeader |
 			cppSourceFile.addInclude(externalHeader, comment)
 		]
 		val typeOfSequence = cppSequence.elementType
-		addIncludesForOOPLType(typeOfSequence, cppSourceFile, comment)
+		addIncludesForOOPLDataType(typeOfSequence, cppSourceFile, comment)
+	}
+	
+	dispatch def void addIncludesForOOPLDataType(CPPClassReference cppClassReference, CPPSourceFile cppSourceFile, String comment){
 	}
 	
 	def addIncludesBetweenOwnFiles(CPPComponent cppComponent){

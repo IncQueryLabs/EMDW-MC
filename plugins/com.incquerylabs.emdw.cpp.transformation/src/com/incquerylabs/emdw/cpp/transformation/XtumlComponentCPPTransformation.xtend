@@ -5,8 +5,10 @@ import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.AttributeRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassReferenceRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
+import com.incquerylabs.emdw.cpp.transformation.rules.FormalParameterRules
 import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.OperationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
@@ -20,7 +22,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.transformation.rules.FormalParameterRules
 
 class XtumlComponentCPPTransformation {
 
@@ -40,6 +41,7 @@ class XtumlComponentCPPTransformation {
 	OperationRules operationRules
 	FormalParameterRules formalParameterRules
 	AssociationRules associationRules
+	ClassReferenceRules classReferenceRules
 	SequenceRules sequenceRules
 	IncludeRules includeRules
 	
@@ -61,10 +63,11 @@ class XtumlComponentCPPTransformation {
 			
 			includeRules = new IncludeRules(engine, statements)
 			sequenceRules = new SequenceRules(statements)
-			formalParameterRules = new FormalParameterRules(statements, sequenceRules, includeRules)
+			classReferenceRules = new ClassReferenceRules(statements)
+			formalParameterRules = new FormalParameterRules(engine, statements, classReferenceRules, sequenceRules, includeRules)
 			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
 			operationRules = new OperationRules(statements, formalParameterRules)
-			associationRules = new AssociationRules(statements)
+			associationRules = new AssociationRules(statements, classReferenceRules)
 			classRules = new ClassRules(statements, associationRules, attributeRules, operationRules, includeRules)
 			packageRules = new PackageRules(statements, classRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)

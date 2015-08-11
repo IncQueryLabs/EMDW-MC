@@ -2,7 +2,6 @@ package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
@@ -25,9 +24,11 @@ class AssociationRules {
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
+	extension val ClassReferenceRules classReferenceRules
 	
-	new(BatchTransformationStatements statements) {
+	new(BatchTransformationStatements statements, ClassReferenceRules classReferenceRules) {
 		this.statements = statements
+		this.classReferenceRules = classReferenceRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -69,29 +70,6 @@ class AssociationRules {
 		collection.implementation = implementation
 		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
 	].build
-	
-	def OOPLDataType createClassReference(CPPClass cppTargetClass, XTAssociation xtAssociation){
-		val xtTargetClass = xtAssociation.target
-		if (xtAssociation.upperBound != 1){
-			val referenceType = createCPPClassRefSimpleCollection => [
-				it.commonType = xtTargetClass
-				it.ooplClass = cppTargetClass
-				it.ooplNameProvider = createOOPLExistingNameProvider =>[
-					commonNamedElement = xtTargetClass
-				]
-			]
-			return referenceType
-		} else {
-			val referenceType = createCPPClassReference => [
-				it.commonType = xtTargetClass
-				it.ooplClass = cppTargetClass
-				it.ooplNameProvider = createOOPLExistingNameProvider =>[
-					commonNamedElement = xtTargetClass
-				]
-			]
-			return referenceType
-		}
-	}
 	
 	def createReferenceStorage(OOPLDataType cppClassReference, XTAssociation xtAssociation){
 		createCPPClassReferenceStorage => [

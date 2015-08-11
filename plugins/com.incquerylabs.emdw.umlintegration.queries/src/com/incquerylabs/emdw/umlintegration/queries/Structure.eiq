@@ -122,6 +122,9 @@ pattern xtClassInPackage(umlPackage: Package, umlClass: Class) {
 pattern xtClassInComponent(component: Component, umlClass: Class) {
 	Component.nestedClassifier(component, umlClass);
 	find xtClass(umlClass);
+} or {
+	Component.packagedElement(component, umlClass);
+	find xtClass(umlClass);
 }
 
 // Entity children

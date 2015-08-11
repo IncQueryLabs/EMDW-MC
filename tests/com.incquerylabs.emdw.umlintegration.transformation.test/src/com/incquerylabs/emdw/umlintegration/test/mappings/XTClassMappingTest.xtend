@@ -58,7 +58,7 @@ class XTClassInPackageMappingTest extends TransformationTest<Class, XTClass> {
 }
 
 @RunWith(Parameterized)
-class XTClassInComponentMappingTest extends TransformationTest<Class, XTClass> {
+class XTClassInComponentAsNestedClassifierMappingTest extends TransformationTest<Class, XTClass> {
 
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -68,6 +68,30 @@ class XTClassInComponentMappingTest extends TransformationTest<Class, XTClass> {
 		val class = createClass("class")
 		umlRoot.packagedElements += createComponent("component") => [
 			nestedClassifiers += class
+		]
+		class
+	}
+	
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
+		(xtumlrtRoot.entities.head as XTComponent).entities.filter(XTClass)
+	}
+
+	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
+	}
+	
+}
+
+@RunWith(Parameterized)
+class XTClassInComponentAsPackagedElementMappingTest extends TransformationTest<Class, XTClass> {
+
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+
+	override protected createUmlObject(Model umlRoot) {
+		val class = createClass("class")
+		umlRoot.packagedElements += createComponent("component") => [
+			packagedElements += class
 		]
 		class
 	}

@@ -80,7 +80,6 @@ class ForStatementValidatorTest {
 	}
 
 	@Test
-	@Ignore("Still not working...")
 	def forEachStatement_LiteralCollection_Definition() {
 		//TODO SCOPING
 		forStatementOK('''
@@ -91,7 +90,6 @@ class ForStatementValidatorTest {
 	}
 	
 	@Test
-	@Ignore("Still not working...")
 	def forEachStatement_LiteralCollection_DefinitionBefore() {
 		//TODO SCOPING
 		forStatementError('''

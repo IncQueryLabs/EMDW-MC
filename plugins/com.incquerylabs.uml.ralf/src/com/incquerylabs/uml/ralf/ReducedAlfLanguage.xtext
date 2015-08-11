@@ -48,7 +48,7 @@ PrimaryExpression returns Expression :
   BaseExpression
   ( {FeatureInvocationExpression.context = current} ('.'| isStatic ?= '::') operation = [uml::Operation|Name] parameters = Tuple |
     {FilterExpression.context = current} operator=FilterCallCharacter 'filter(' declaration = FilterVariableDeclaration lambdaOperator=LambdaCharacter expression = Expression ')' |
-    //{PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
+    {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
 //      ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple
@@ -72,7 +72,6 @@ BaseExpression returns Expression :
 //  SequenceOperationOrReductionOrExpansionExpression |
 //    BehaviorInvocationExpression |
     NameExpression | 
-    PropertyAccessExpression | 
     ParenthesizedExpression 
 ;
 
@@ -126,7 +125,7 @@ ParenthesizedExpression returns Expression :
 // Property chaining is not supported at this time
 // TODO: use primary expressions and filter using expression types
 PropertyAccessExpression:
-	context = NameExpression '.' property = [uml::Property|Name]
+	context = PrimaryExpression '.' property = [uml::Property|Name]
 ;
 
 

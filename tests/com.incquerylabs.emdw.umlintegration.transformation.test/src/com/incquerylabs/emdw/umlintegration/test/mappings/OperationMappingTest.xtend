@@ -37,3 +37,27 @@ class OperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Opera
 	}
 
 }
+
+@RunWith(Parameterized)
+class DestructorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Operation, Operation> {
+
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+
+	override protected createUmlObject(Model umlRoot) {
+		createDestructor(umlRoot, TEST_SIDE_EFFECT_1)
+	}
+
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.entities.filter(XTClass).head.operations
+	}
+
+	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Operation umlObject, Operation xtumlrtObject) {
+		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
+		assertEquals('''~«(xtumlrtObject.eContainer as org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass)?.name»'''.toString, xtumlrtObject.name)
+		assertEquals(umlObject.static, xtumlrtObject.static) 
+		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
+	}
+
+}

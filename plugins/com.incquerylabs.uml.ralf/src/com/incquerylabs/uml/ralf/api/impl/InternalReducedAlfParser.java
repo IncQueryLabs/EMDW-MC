@@ -2,6 +2,8 @@ package com.incquerylabs.uml.ralf.api.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.BasicDiagnostic;
@@ -13,10 +15,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.Diagnostician;
+import org.eclipse.xtext.diagnostics.Severity;
 import org.eclipse.xtext.resource.FileExtensionProvider;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.util.LazyStringInputStream;
+import org.eclipse.xtext.validation.IDiagnosticConverter;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,9 +39,46 @@ class InternalReducedAlfParser {
     
     @Inject
     private Diagnostician diagnostician;
+    
+    @Inject
+    private IDiagnosticConverter converter;
 
     private String fileExtension; 
 
+    private static class DiagnosticTreeIterator implements Iterable<Diagnostic>, Iterator<Diagnostic> {
+
+        private ArrayList<Iterator<Diagnostic>> iteratorStack = new ArrayList<Iterator<Diagnostic>>();
+
+        public DiagnosticTreeIterator(Diagnostic root) {
+            super();
+            iteratorStack.add(root.getChildren().iterator());
+        }
+
+        @Override
+        public boolean hasNext() {
+            while (iteratorStack.size() > 0 && !iteratorStack.get(iteratorStack.size() - 1).hasNext())
+                iteratorStack.remove(iteratorStack.size() - 1);
+            return iteratorStack.size() != 0;
+        }
+
+        @Override
+        public Iterator<Diagnostic> iterator() {
+            return this;
+        }
+
+        @Override
+        public Diagnostic next() {
+            Diagnostic d = iteratorStack.get(iteratorStack.size() - 1).next();
+            if (d.getChildren().size() > 0)
+                iteratorStack.add(d.getChildren().iterator());
+            return d;
+        }
+
+        @Override
+        public void remove() {
+            throw new RuntimeException("operation not supported");
+        }
+    }
     
     public ParsingResults parse(String text) {
         fileExtension = extensionProvider.getPrimaryFileExtension();
@@ -47,13 +88,21 @@ class InternalReducedAlfParser {
     protected ParsingResults parse(InputStream in, URI uriToUse, Map<?, ?> options, ResourceSet resourceSet) {
         Resource resource = resource(in, uriToUse, options, resourceSet);
         EList<EObject> contents = resource.getContents();
+        DiagnosticCollector collector = new DiagnosticCollector();
+        
+        for (org.eclipse.emf.ecore.resource.Resource.Diagnostic diagnostic : resource.getErrors()) {
+			converter.convertResourceDiagnostic(diagnostic, Severity.ERROR, collector);
+		}
         if (contents.isEmpty()) {
-            return new ParsingResults(new BasicDiagnostic(Diagnostic.ERROR, getClass().getName(), 1 , "Error while parsing input", new Object[0]) , ReducedAlfLanguageFactory.eINSTANCE.createStatements());
+            return new ParsingResults(collector, ReducedAlfLanguageFactory.eINSTANCE.createStatements());
         } else {
             Statements st = (Statements) contents.get(0);
             BasicDiagnostic diagnosticChain = new BasicDiagnostic();
             diagnostician.validate(st, diagnosticChain);
-            return new ParsingResults(diagnosticChain, st);
+            for (Diagnostic diag : new DiagnosticTreeIterator(diagnosticChain)) {
+            	converter.convertValidatorDiagnostic(diag, collector);
+            }
+            return new ParsingResults(collector, st);
         }
     }
 

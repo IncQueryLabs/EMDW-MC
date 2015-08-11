@@ -23,7 +23,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
-import com.google.common.collect.Iterables
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 
 /**
@@ -81,16 +80,21 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     def scope_NamedElement(Expression context, EReference reference) {
-        val scope = scope_NamedElement(context)
+        val typeScope = scopeOfTypes
+        val scope = scope_NamedElement(context, typeScope)
         scope
     }
     
     def IScope scope_NamedElement(EObject block) {
+        scope_NamedElement(block, scopeOfTypes)    
+    }
+    
+    def IScope scope_NamedElement(EObject block, IScope externalScope) {
         var parentBlock = block.eContainer
         if (parentBlock == null) {
-            parametersScope
+            getParametersScope(externalScope)
         } else {
-            val parentScope = scope_NamedElement(parentBlock)
+            val parentScope = scope_NamedElement(parentBlock, externalScope)
             val declarations = parentBlock.variableDeclarations(block)
             if (declarations.nullOrEmpty) {
                 parentScope
@@ -100,12 +104,16 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         }
     }
     
-    private def IScope getParametersScope() {
+    private def IScope scopeOfTypes() {
+        Scopes.scopeFor(umlContext.knownTypes)
+    }
+    
+    private def IScope getParametersScope(IScope parentScope) {
         val operation = umlContext.definedOperation
         if (operation == null) {
-            IScope.NULLSCOPE
+            parentScope
         } else {
-            Scopes.scopeFor(operation.ownedParameters)
+            Scopes.scopeFor(operation.ownedParameters, parentScope)
         }
     }
     

@@ -108,6 +108,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   public final static String PARAMETER = "com.incquerylabs.uml.ralf.Parameter";
   
+  public final static String TYPE = "com.incquerylabs.uml.ralf.Type";
+  
   public final static String NULLSUBTYPING = "com.incquerylabs.uml.ralf.NullSubtyping";
   
   public final static String ANYSUBTYPING = "com.incquerylabs.uml.ralf.AnySubtyping";
@@ -1293,6 +1295,32 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     IUMLTypeReference result = null; // output parameter
     Type _type = parameter.getType();
     IUMLTypeReference _typeReference = this.typeFactory.typeReference(_type);
+    result = _typeReference;
+    return new Result<IUMLTypeReference>(result);
+  }
+  
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Type type) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<IUMLTypeReference> _result_ = applyRuleType(G, _subtrace_, type);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("Type") + stringRepForEnv(G) + " |- " + stringRep(type) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleType) {
+    	typeThrowException(ruleName("Type") + stringRepForEnv(G) + " |- " + stringRep(type) + " : " + "IUMLTypeReference",
+    		TYPE,
+    		e_applyRuleType, type, new ErrorInformation[] {new ErrorInformation(type)});
+    	return null;
+    }
+  }
+  
+  protected Result<IUMLTypeReference> applyRuleType(final RuleEnvironment G, final RuleApplicationTrace _trace_, final Type type) throws RuleFailedException {
+    IUMLTypeReference result = null; // output parameter
+    IUMLTypeReference _typeReference = this.typeFactory.typeReference(type);
     result = _typeReference;
     return new Result<IUMLTypeReference>(result);
   }

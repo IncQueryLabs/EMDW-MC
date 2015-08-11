@@ -143,6 +143,9 @@
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxQvghmkEeWkDIIs2OLK7g" value="1"/>
       </ownedEnd>
     </nestedClassifier>
+    <packagedElement xmi:type="uml:Class" xmi:id="_5kpZ0EAoEeW6Nbb8DxSQBg" name="Pong2">
+      <generalization xmi:type="uml:Generalization" xmi:id="__5FMUEAoEeW6Nbb8DxSQBg" general="_LbgdgBmkEeWkDIIs2OLK7g"/>
+    </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:SignalEvent" xmi:id="_iBpxsBmpEeW8avfFxjlgXw" name="ping_se" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
   <packagedElement xmi:type="uml:SignalEvent" xmi:id="_mfmjsBmpEeW8avfFxjlgXw" name="pong_se" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>

@@ -67,9 +67,7 @@ class FormalParameterRules {
 	
 	def CPPQualifiedNamedElement createClassReference(Parameter parameter){
 		val xtReferenceClass = parameter.type as XTClass
-		val cppClassMatcher = engine.getCppClasses
-		val cppReferenceClass = cppClassMatcher.getAllValuesOfcppClass(xtReferenceClass).head
-		val classReference = createClassReference(cppReferenceClass, parameter) as CPPQualifiedNamedElement
+		val classReference = createClassReference(xtReferenceClass, parameter) as CPPQualifiedNamedElement
 		return classReference
 	}
 	

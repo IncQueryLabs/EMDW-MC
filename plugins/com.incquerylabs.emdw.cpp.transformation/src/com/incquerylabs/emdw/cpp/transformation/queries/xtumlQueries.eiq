@@ -406,11 +406,8 @@ pattern cppClassEvents(
 pattern cppClassAssociations(
 	xtClass: XTClass,
 	cppClass: CPPClass,
-	cppTargetClass: CPPClass,
 	association: XTAssociation
 ) {
 	find cppClasses(xtClass, cppClass);
 	XTAssociation.source(association, xtClass);
-	XTAssociation.target(association, xtTargetClass);
-	find cppClasses(xtTargetClass, cppTargetClass);
 }

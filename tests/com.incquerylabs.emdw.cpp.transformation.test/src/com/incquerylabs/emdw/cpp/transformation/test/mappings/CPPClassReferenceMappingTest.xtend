@@ -24,16 +24,17 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 import org.junit.Ignore
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 
 @SuiteClasses(#[
 	CPPClassReferenceMappingTest,
+	CPPClassReferenceReflectiveMappingTest,
 	CPPClassRefSimpleCollectionMappingTest,
 	CPPClassRefAssocCollectionMappingTest
 ])
 @RunWith(Suite)
 class CPPClassReferenceMappingTestSuite {}
 
-@Ignore("class reference is not in scope yet")
 @RunWith(Parameterized)
 class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir;
@@ -62,9 +63,7 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent
 		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
 		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
-		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
-		cppPackage.createCPPClass(sourceClass, null, null)
-		cppPackage.createCPPClass(targetClass, null, null)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
 		
 		return cppComponent
 	}
@@ -72,10 +71,10 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent
 	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val xtAssociations = xtObject.relations.filter(XTAssociation)
 		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
-		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
+		val cppRelations = cppClass.subElements.filter(CPPRelation)
+		val cppReferenceStorages = cppRelations.map[referenceStorage].flatten.filter(CPPClassReferenceStorage)
 		
-		assertEquals(xtAssociations.size,cppReferenceStorages.size)
-		assertEquals(xtAssociations.size,cppClass.referenceStorage.size)
+		assertEquals(xtAssociations.size,cppRelations.size)
 		cppReferenceStorages.forEach[ 
 			assertNotNull(type)
 			val references = subElements.filter(CPPClassReference)
@@ -95,14 +94,78 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent
 	
 	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
-		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
+		val cppRelations = cppClass.subElements.filter(CPPRelation)
+		val cppReferenceStorages = cppRelations.map[referenceStorage].flatten.filter(CPPClassReferenceStorage)
+		assertEquals(0, cppRelations.size)
 		assertEquals(0, cppReferenceStorages.size)
-		assertEquals(0, cppClass.referenceStorage.size)
 	}
 	
 }
 
-@Ignore("class reference is not in scope yet")
+@RunWith(Parameterized)
+class CPPClassReferenceReflectiveMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
+	CPPDirectory rootDir;
+	XTClass sourceClass;
+	
+	new(TransformationWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+	
+	override protected prepareXtUmlModel(Model model) {
+		val pack = model.createPackage("RootPackage")
+		val component = pack.createXtComponent("Component")
+		sourceClass = component.createXtClass("sourceClass")
+		sourceClass.createXtAssociation(sourceClass, "singleAssoc",false,false,1,1)
+		
+		sourceClass
+	}
+		
+	override  protected prepareCppModel(CPPModel cppModel) {
+		val res = cppModel.eResource
+		rootDir = res.createCPPDirectory
+		val xtmodel = cppModel.commonModel
+		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
+		val xtComponent = xtPackage.entities.filter(XTComponent).head
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
+		
+		return cppComponent
+	}
+	
+	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
+		val xtAssociations = xtObject.relations.filter(XTAssociation)
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppRelations = cppClass.subElements.filter(CPPRelation)
+		val cppReferenceStorages = cppRelations.map[referenceStorage].flatten.filter(CPPClassReferenceStorage)
+		
+		assertEquals(xtAssociations.size,cppRelations.size)
+		cppReferenceStorages.forEach[ 
+			assertNotNull(type)
+			val references = subElements.filter(CPPClassReference)
+			assertTrue(!references.isEmpty)
+			references.forEach[
+				assertNotNull(class)
+				assertNotNull(commonType)
+			]
+			
+		]
+	}
+	
+	override protected clearXtUmlElement(XTClass xtObject) {
+		val associations = xtObject.relations.filter(XTAssociation)
+		xtObject.relations.removeAll(associations)
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
+		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
+		val cppRelations = cppClass.subElements.filter(CPPRelation)
+		val cppReferenceStorages = cppRelations.map[referenceStorage].flatten.filter(CPPClassReferenceStorage)
+		assertEquals(0, cppRelations.size)
+		assertEquals(0, cppReferenceStorages.size)
+	}
+	
+}
+
 @RunWith(Parameterized)
 class CPPClassRefSimpleCollectionMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 CPPDirectory rootDir;
@@ -131,7 +194,7 @@ CPPDirectory rootDir;
 		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
 		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
-		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
 		
 		cppComponent.createCPPClass(sourceClass, null, null)
 		cppComponent.createCPPClass(targetClass, null, null)
@@ -142,10 +205,10 @@ CPPDirectory rootDir;
 	override protected assertResult(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val xtAssociations = xtObject.relations.filter(XTAssociation)
 		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
-		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
+		val cppRelations = cppClass.subElements.filter(CPPRelation)
+		val cppReferenceStorages = cppRelations.map[referenceStorage].flatten.filter(CPPClassReferenceStorage)
 		
-		assertEquals(xtAssociations.size,cppReferenceStorages.size)
-		assertEquals(xtAssociations.size,cppClass.referenceStorage.size)
+		assertEquals(xtAssociations.size,cppRelations.size)
 		cppReferenceStorages.forEach[ 
 			assertNotNull(type)
 			val collections = subElements.filter(CPPClassRefSimpleCollection)
@@ -165,14 +228,15 @@ CPPDirectory rootDir;
 	
 	override protected assertClear(Model input, CPPModel result, XTClass xtObject, CPPComponent cppObject) {
 		val cppClass = cppObject.subElements.filter(CPPClass).filter[it.xtClass == sourceClass].head
-		val cppReferenceStorages = cppClass.subElements.filter(CPPClassReferenceStorage)
-		assertEquals(0,cppReferenceStorages.size)
-		assertEquals(0,cppClass.referenceStorage.size)
+		val cppRelations = cppClass.subElements.filter(CPPRelation)
+		val cppReferenceStorages = cppRelations.map[referenceStorage].flatten.filter(CPPClassReferenceStorage)
+		assertEquals(0, cppRelations.size)
+		assertEquals(0, cppReferenceStorages.size)
 	}
 	
 }
 
-@Ignore("class reference is not in scope yet")
+@Ignore("class reference associative collection is not in scope yet")
 @RunWith(Parameterized)
 class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir
@@ -205,7 +269,7 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 		
 		
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
-		val cppComponent = cppPackage.createCPPComponent(xtComponent, null, null, null, null)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
 		cppComponent.createCPPClass(sourceClass, null, null)
 		cppComponent.createCPPClass(targetClass, null, null)
 		cppComponent.createCPPClass(assocClass, null, null)

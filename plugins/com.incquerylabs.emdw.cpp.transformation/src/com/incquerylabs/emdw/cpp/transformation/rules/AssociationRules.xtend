@@ -34,7 +34,8 @@ class AssociationRules {
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
 			associationRule,
-			classReferenceSimpleCollectionTypeRule
+			classReferenceSimpleCollectionTypeRule,
+			addReferencesRule
 		)
 		transformation.addRules(rules)
 	}
@@ -44,9 +45,9 @@ class AssociationRules {
 		val xtClass = match.xtClass
 		val cppClass = match.cppClass
 		val xtAssociation = match.association
-		val cppTargetClass = match.cppTargetClass
+		val xtTargetClass = xtAssociation.target
 		
-		val cppClassReference = createClassReference(cppTargetClass, xtAssociation)
+		val cppClassReference = createClassReference(xtTargetClass, xtAssociation)
 		val cppReferenceStorage = createReferenceStorage(cppClassReference, xtAssociation)
 		val cppRelation = createRelation(cppReferenceStorage, xtAssociation)
 		
@@ -69,6 +70,12 @@ class AssociationRules {
 		val implementation = match.containerImplementation
 		collection.implementation = implementation
 		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppRelationClassReference).action[ match |
+		val classReference = match.classReference
+		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
 	].build
 	
 	def createReferenceStorage(OOPLDataType cppClassReference, XTAssociation xtAssociation){

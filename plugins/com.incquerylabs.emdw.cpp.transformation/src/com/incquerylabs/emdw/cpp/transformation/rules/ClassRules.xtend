@@ -14,9 +14,11 @@ import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
 import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 
 class ClassRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
@@ -48,7 +50,8 @@ class ClassRules {
 			classInPackageRule,
 			stateRule,
 			transitionRule,
-			eventRule
+			eventRule,
+			addReferencesRule
 		)
 		transformation.addRules(rules)
 	}
@@ -113,6 +116,11 @@ class ClassRules {
 		fireAllCurrent(attributeRules.classEventAttributeRule, [it.cppEvent == cppEvent])
 	].build
 	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppClassInComponent).action[ match |
+		updateSubElements(match.cppClass)
+	].build
+	
 	def createCppClass(XTClass xtClass, CPPDirectory headerDir, CPPDirectory bodyDir){
 		val cppClass = createCPPClass => [
 			it.xtClass = xtClass
@@ -166,15 +174,18 @@ class ClassRules {
 	}
 
 	def transformSubElements(CPPClass cppClass){
-		// Association rules only have matches if both source and target CPPClasses are already created
-		// After the creation of the second CPPClass both directions of the association have to be added
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
-		fireAllCurrent(associationRules.associationRule, [it.cppTargetClass == cppClass && it.cppClass != cppClass])
 		fireAllCurrent(associationRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppClass])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppClass])
 		fireAllCurrent(stateRule, [it.cppClass == cppClass])
 		fireAllCurrent(transitionRule, [it.cppClass == cppClass])
 		fireAllCurrent(eventRule, [it.cppClass == cppClass])
+	}
+	
+	def updateSubElements(CPPClass cppClass){
+		fireAllCurrent(associationRules.addReferencesRule, [it.cppClass == cppClass])
+		// TODO: update operations of class
+		// TODO: update transitions of class
 	}
 }

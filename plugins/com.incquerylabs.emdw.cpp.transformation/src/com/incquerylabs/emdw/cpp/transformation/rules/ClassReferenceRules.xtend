@@ -1,15 +1,26 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
+import com.ericsson.xtumlrt.oopl.OOPLClassReference
+import com.ericsson.xtumlrt.oopl.OOPLClassReferenceCollection
 import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
+import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
+import org.eclipse.xtend.lib.annotations.Accessors
 
 class ClassReferenceRules {
+	static extension val CppQueries cppQueries = CppQueries.instance
+	
+	extension val Logger logger = Logger.getLogger(class)
+	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
+	
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
@@ -24,21 +35,19 @@ class ClassReferenceRules {
 		transformation.addRules(rules)
 	}
 	
-	def OOPLDataType createClassReference(CPPClass cppReferenceClass, MultiplicityElement multiplicityElement) {
+	def OOPLDataType createClassReference(XTClass xtReferenceClass, MultiplicityElement multiplicityElement) {
 		if(multiplicityElement.upperBound != 1) {
-			val classReference = createSimpleClassReference(cppReferenceClass)
-			return classReference
-		} else {
-			val classReferenceSimpleCollection = createClassReferenceSimpleCollection(cppReferenceClass)
+			val classReferenceSimpleCollection = createClassReferenceSimpleCollection(xtReferenceClass)
 			return classReferenceSimpleCollection
+		} else {
+			val classReference = createSimpleClassReference(xtReferenceClass)
+			return classReference
 		}
 	}
 	
-	def createSimpleClassReference(CPPClass cppReferenceClass){
-		val xtReferenceClass = cppReferenceClass.xtClass
+	def createSimpleClassReference(XTClass xtReferenceClass){
 		val referenceType = createCPPClassReference => [
 				it.commonType = xtReferenceClass
-				it.ooplClass = cppReferenceClass
 				it.ooplNameProvider = createOOPLExistingNameProvider =>[
 					commonNamedElement = xtReferenceClass
 				]
@@ -46,15 +55,26 @@ class ClassReferenceRules {
 		return referenceType
 	}
 	
-	def createClassReferenceSimpleCollection(CPPClass cppReferenceClass){
-		val xtReferenceClass = cppReferenceClass.xtClass
+	def createClassReferenceSimpleCollection(XTClass xtReferenceClass){
 		val referenceType = createCPPClassRefSimpleCollection => [
 			it.commonType = xtReferenceClass
-			it.ooplClass = cppReferenceClass
 			it.ooplNameProvider = createOOPLExistingNameProvider =>[
 				commonNamedElement = xtReferenceClass
 			]
 		]
 		return referenceType
 	}
+	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppClassReference).action[ match |
+		val cppClassReference = match.cppClassReference
+		val cppClass = match.cppClass
+		if(cppClassReference instanceof OOPLClassReference){
+			cppClassReference.ooplClass = cppClass
+			trace('''Set ooplClass of class reference «cppClassReference» to «cppClass»''')
+		} else if (cppClassReference instanceof OOPLClassReferenceCollection) {
+			cppClassReference.ooplClass = cppClass
+			trace('''Set ooplClass of class reference collection «cppClassReference» to «cppClass»''')
+		}
+	].build
 }

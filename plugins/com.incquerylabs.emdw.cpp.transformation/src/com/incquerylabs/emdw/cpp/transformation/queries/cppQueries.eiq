@@ -47,6 +47,29 @@ pattern cppPackageInPackage(
 	find cppPackageInQualifiedNamedElement(innerPackage, outerPackage);
 }
 
+pattern cppRelationClassReference(
+	cppClass : CPPClass,
+	classReference : OOPLDataType
+) {
+	CPPClass.subElements(cppClass, cppRelation);
+	CPPRelation.subElements(cppRelation, cppClassReferenceStorage);
+	CPPClassReferenceStorage.subElements(cppClassReferenceStorage, classReference);
+}
+
+pattern cppClassReference(
+	cppClassReference : OOPLDataType,
+	cppClass : CPPClass
+) {
+	CPPClassReference.commonType(cppClassReference, xtClass);
+	CPPClass.xtClass(cppClass, xtClass);
+} or {
+	CPPClassRefSimpleCollection.commonType(cppClassReference, xtClass);
+	CPPClass.xtClass(cppClass, xtClass);
+} or {
+	CPPClassRefAssocCollection.commonType(cppClassReference, xtClass);
+	CPPClass.xtClass(cppClass, xtClass);
+}
+
 // Elements in a package hierarchy
 pattern cppClassInComponentSubPackages(
 	cppClass : CPPClass,

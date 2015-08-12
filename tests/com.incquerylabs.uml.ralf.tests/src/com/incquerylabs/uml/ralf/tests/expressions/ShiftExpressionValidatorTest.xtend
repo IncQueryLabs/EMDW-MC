@@ -1,181 +1,124 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
-import com.google.inject.Inject
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class ShiftExpressionValidatorTest {
-	@Inject
-	ParseHelper<Statements> parseHelper
-	
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-	
-	@Test
-	def shiftExpressionInteger() {
-		shiftExpressionOK('''1 >> 2;''');
-	}
-	
-	@Test
-	def shiftExpressionParentheses() {
-		shiftExpressionOK('''1 >> (2+3);''')
-	}
-	
-	@Test
-	def shiftExpressionMultiplicative() {
-		shiftExpressionOK('''1 >> 2*3;''')
-	}
-	
-	@Test
-	def shiftExpressionAdditive() {
-		shiftExpressionOK('''1 >> 2+3;''')
-	}
-	
-	@Test
-	def shiftExpressionMultiple() {
-		shiftExpressionOK('''1 >> 2 >> 3 >> 4;''')
-	}
-	
-	@Test
-	def shiftExpressionVariable() {
-		shiftExpressionOK('''
-		Integer x = 1;
-		x >> 1;
-		''')
-	}
-	
-	@Test
-	def shiftExpressionNumericUnary() {
-		shiftExpressionOK('''1 >> -2;''')
-	}
-	
-	@Test
-	def shiftExpressionAffix() {
-		shiftExpressionOK('''
-		Integer x = 1;
-		--x >> 1;
-		''')
-	}
-	
-	@Test
-	def shiftExpressionPostfix() {
-		shiftExpressionOK('''
-		Integer x = 1;
-		x-- >> 1;
-		''')
-	}
-		
-		//Expected: Validation ERROR
-		
-	@Test
-	def shiftExpressionReal() {
-		shiftExpressionError('''1.3 >> 2.3;''')
-	}
-	
-	@Test
-	def shiftExpressionRealInteger() {
-		shiftExpressionError('''1.3 >> 2;''')
-	}
-	
-	@Test
-	def shiftExpressionIntegerReal() {
-		shiftExpressionError('''1 >> 2.3;''')
-	}
-	
-	@Test
-	def shiftExpressionString() {
-		shiftExpressionError('''"1" >> "2";''')
-	}
-	
-	@Test
-	def shiftExpressionMultiplicativeIntegerDivision() {
-		shiftExpressionOK('''1 >> 1/2;''')
-	}
-	
-	@Test
-	def shiftExpressionMultiplicativeReal() {
-		shiftExpressionError('''1 >> 1/2.5;''')
-	}
-	
-	@Test
-	def shiftExpressionIntegerString() {
-		shiftExpressionError('''1 >> "2";''')		
-	}
-	
-	@Test
-	def shiftExpressionRealString() {
-		shiftExpressionError('''1.3 >> "2";''')
-	}
-	
-	@Test
-	def shiftExpressionStringInteger() {
-		shiftExpressionError('''"1" >> 2;''')
-	}
-	
-	@Test
-	def shiftExpressionStringReal() {
-		shiftExpressionError('''"1" >> 2.3;''')
-	}
-	
-	@Test
-	def shiftExpressionBooleanReal() {
-		shiftExpressionError('''true >> 2.3;''')
-	}
-	
-	@Test
-	def shiftExpressionBooleanInteger() {
-		shiftExpressionError('''true >> 2;''')
-	}
-	
-	@Test
-	def shiftExpressionBooleanString() {
-		shiftExpressionError('''true >> "2";''')
-	}
-	
-	@Test
-	def shiftExpressionStringBoolean() {
-		shiftExpressionError('''"1" >> true;''')
-	}
-	
-	@Test
-	def shiftExpressionRealBoolean() {
-		shiftExpressionError('''1.3 >> true;''')
-	}
-	
-	@Test
-	def shiftExpressionIntegerBoolean() {
-		shiftExpressionError('''1 >> true;''')
-	}
-	
-	@Test
-	def shiftExpressionBoolean() {
-		shiftExpressionError('''false >> true;''')
-	}
-	
-	private def shiftExpressionOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def shiftExpressionError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.SHIFTEXPRESSION)
+class ShiftExpressionValidatorTest extends AbstractValidatorTest{
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "ShiftExpression: Parameter1 : IntegerLiteral, Parameter2: IntegerLiteral",
+			    '''1 >> 2;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : IntegerLiteral, Parameter2: Addition_Parentheses",
+			    '''1 >> (2+3);''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : IntegerLiteral, Parameter2: Multiplication",
+			    '''1 >> 2*3;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : IntegerLiteral, Parameter2: Addition",
+			    '''1 >> 2+3;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Multiple",
+			    '''1 >> 2 >> 3 >> 4;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : IntegerVariable, Parameter2: IntegerLiteral",
+			    '''
+				Integer x = 1;
+				x >> 1;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : IntegerLiteral, Parameter2: NumericUnary",
+			    '''1 >> -2;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : Prefix decrement, Parameter2: IntegerLiteral",
+			    '''
+				Integer x = 1;
+				--x >> 1;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : postfix decrement, Parameter2: IntegerLiteral",
+			    '''
+				Integer x = 1;
+				x-- >> 1;''',
+			    #[]
+			],
+			#[  "ShiftExpression: Parameter1 : IntegerLiteral, Parameter2: division",
+			    '''1 >> 1/2;''',
+			    #[]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : RealLiteral, Parameter2: RealLiteral",
+			    '''1.3 >> 2.3;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : RealLiteral, Parameter2: IntegerLiteral",
+			    '''1.3 >> 2;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : IntegerLiteral, Parameter2: RealLiteral",
+			    '''1 >> 2.3;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : StringLiteral, Parameter2: StringLiteral",
+			    '''"1" >> "2";''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : IntegerLiteral, Parameter2: Division_Real",
+			    '''1 >> 1/2.5;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : IntegerLiteral, Parameter2: StringLiteral",
+			    '''1 >> "2";''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : RealLiteral, Parameter2: StringLiteral",
+			    '''1.3 >> "2";''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : StringLiteral, Parameter2: IntegerLiteral",
+			    '''"1" >> 2;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : StringLiteral, Parameter2: RealLiteral",
+			    '''"1" >> 2.3;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : BooleanLiteral, Parameter2: RealLiteral",
+			    '''true >> 2.3;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : BooleanLiteral, Parameter2: IntegerLiteral",
+			    '''true >> 2;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : BooleanLiteral, Parameter2: StringLiteral",
+			    '''true >> "2";''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : StringLiteral, Parameter2: BooleanLiteral",
+			    '''"1" >> true;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : RealLiteral, Parameter2: BooleanLiteral",
+			    '''1.3 >> true;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : IntegerLiteral, Parameter2: BooleanLiteral",
+			    '''1 >> true;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			],
+			#[  "InvalidShiftExpression: Parameter1 : BooleanLiteral, Parameter2: BooleanLiteral",
+			    '''false >> true;''',
+			    #[ReducedAlfSystem.SHIFTEXPRESSION]
+			]
+		)
 	}
 }

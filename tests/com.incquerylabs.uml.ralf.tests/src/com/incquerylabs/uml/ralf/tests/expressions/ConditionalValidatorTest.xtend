@@ -1,334 +1,243 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
-import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class ConditionalValidatorTest {
-		
-	@Inject
-	ParseHelper<Statements> parseHelper
-	
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-		
-	@Test
-	def andExpressionMultiple() {
-		conditionalExpressionOK('''false && true && true;''')
-	}
-	
-	@Test
-	def andExpressionBoolean() {
-		conditionalExpressionOK('''false && true;''')
-	}
-	
-	@Test
-	def andExpressionParentheses() {
-		conditionalExpressionOK('''true && (2>3);''')
-	}
-	
-	@Test
-	def andExpressionRelational() {
-		conditionalExpressionOK('''true && 2>3;''')
-	}
-	
-	@Test
-	def andExpressionVariable() {
-		conditionalExpressionOK('''
-		Boolean x = true;
-		x && false;
-		''')
-	}
-	
-	@Test
-	def andExpressionMultipleVariables() {
-		conditionalExpressionOK('''
-		Boolean x = true;
-		Boolean y = true;
-		x && y;
-		''')
-	}
-	
-	//Expected: Error
-	
-	@Test
-	def andExpressionNumericUnary() {
-		conditionalLogicalExpressionError('''true && -2;''')
-	}
-		
-	@Test
-	def andExpressionMultiplicative() {
-		conditionalLogicalExpressionError('''true && 2*3;''')
-	}
-	
-	@Test
-	def andExpressionAdditive() {
-		conditionalLogicalExpressionError('''true && 2+3;''')
-	}
-	
-	@Test
-	def andExpressionShift() {
-		conditionalLogicalExpressionError('''true && 2>>3;''')
-	}
-				
-	@Test
-	def andExpressionInteger() {
-		conditionalLogicalExpressionError('''1 && 2;''');
-	}
-	
-	//OR
-	@Test
-	def orExpressionMultiple() {
-		conditionalExpressionOK('''false || true || true;''')
-	}
-	
-	@Test
-	def orExpressionBoolean() {
-		conditionalExpressionOK('''false || true;''')
-	}
-	
-	@Test
-	def orExpressionParentheses() {
-		conditionalExpressionOK('''true || (2>3);''')
-	}
-	
-	@Test
-	def orExpressionRelational() {
-		conditionalExpressionOK('''true || 2>3;''')
-	}
-	
-	@Test
-	def orExpressionLogicalAnd() {
-		conditionalExpressionOK('''true || true && false;''')
-	}
-	
-	@Test
-	def orExpressionVariable() {
-		conditionalExpressionOK('''
-		Boolean x = true;
-		x || false;
-		''')
-	}
-	
-	@Test
-	def orExpressionMultipleVariables() {
-		conditionalExpressionOK('''
-		Boolean x = true;
-		Boolean y = true;
-		x || y;
-		''')
-	}
-	
-	//Expected: Error
-	
-	@Test
-	def orExpressionNumericUnary() {
-		conditionalLogicalExpressionError('''true || -2;''')
-	}
-		
-	@Test
-	def orExpressionMultiplicative() {
-		conditionalLogicalExpressionError('''true || 2*3;''')
-	}
-	
-	@Test
-	def orExpressionAdditive() {
-		conditionalLogicalExpressionError('''true || 2+3;''')
-	}
-	
-	@Test
-	def orExpressionShift() {
-		conditionalLogicalExpressionError('''true || 2>>3;''')
-	}
-				
-	@Test
-	def orExpressionInteger() {
-		conditionalLogicalExpressionError('''1 || 2;''');
-	}
-	
-	//Conditional Test
-	@Test
-	def condTestExpressionInteger() {
-		conditionalExpressionOK('''(true) ? 1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionBoolean() {
-		conditionalExpressionOK('''(true) ? true : false;''');
-	}
-	
-	@Test
-	def condTestExpressionReal() {
-		conditionalExpressionOK('''(true) ? 1.1 : 2.1;''');
-	}
-	
-	@Test
-	def condTestExpressionString() {
-		conditionalExpressionOK('''(true) ? "1" : "2";''');
-	}
-	
-	@Test
-	def condTestExpressionPostIncrement() {
-		conditionalExpressionOK('''
-		Integer x = 1;
-		(true) ? x++ : 2;
-		''');
-	}
-	
-	@Test
-	def condTestExpressionPreIncrement() {
-		conditionalExpressionOK('''
-		Integer x = 1;
-		(true) ? ++x : 2;
-		''');
-	}
-	
-	@Test
-	def condTestExpressionMultiplicative() {
-		conditionalExpressionOK('''(true) ? 1*1 : 2;''');
-	}
-	
-	
-	@Test
-	def condTestExpressionAdditive() {
-		conditionalExpressionOK('''(true) ? 1+1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionShift() {
-		conditionalExpressionOK('''(true) ? 1>>1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionRelational() {
-		conditionalExpressionOK('''(true) ? 1>1 : true;''');
-	}
-	
-	@Test
-	def condTestExpressionEquality() {
-		conditionalExpressionOK('''(true) ? 1==1 : true;''');
-	}
-	
-	@Test
-	def condTestExpressionBitwiseOr() {
-		conditionalExpressionOK('''(true) ? 1|1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionBitwiseAnd() {
-		conditionalExpressionOK('''(true) ? 1&1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionBitwiseXor() {
-		conditionalExpressionOK('''(true) ? 1^1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionAnd() {
-		conditionalExpressionOK('''(true) ? true && false : true;''');
-	}
-	
-	@Test
-	def condTestExpressionOr() {
-		conditionalExpressionOK('''(true) ? true || false : true;''');
-	}
-	
-	@Test
-	def condTestExpressionCondTest() {
-		conditionalExpressionOK('''(true) ? (true) ? true : false : true;''');
-	}
-	
-	@Test
-	def condTestExpressionConditionBooleanUnary() {
-		conditionalExpressionOK('''(!true) ? 1 : 2;''');
-	}
-	@Test
-	def condTestExpressionConditionRelational() {
-		conditionalExpressionOK('''(1>2) ? 1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionConditionEquality() {
-		conditionalExpressionOK('''(2==1) ? 1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionConditionAnd() {
-		conditionalExpressionOK('''(true && false) ? 1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionConditionOr() {
-		conditionalExpressionOK('''(true || false) ? 1 : 2;''');
-	}
-	//Expected: Error
-	@Test
-	def condTestExpressionConditionInteger() {
-		conditionalTestExpressionError('''(1) ? 1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionConditionString() {
-		conditionalTestExpressionError('''("1") ? 1 : 2;''');
-	}
-	
-	@Test
-	def condTestExpressionConditionPostIncrement() {
-		conditionalTestExpressionError('''
-		Integer x = 1;
-		(x++) ? 1 : 2;
-		''');
-	}
-	
-	@Test
-	def condTestExpressionConditionPreIncrement() {
-		conditionalTestExpressionError('''
-		Integer x = 1;
-		(++x) ? 1 : 2;
-		''');
-	}
-	
-	@Test
-	def condTestExpressionConditionArithmetic() {
-		conditionalTestExpressionError('''(1+2) ? 1 : 2;''');
-	}
-	@Test
-	def condTestExpressionConditionShift() {
-		conditionalTestExpressionError('''(1>>2) ? 1 : 2;''');
-	}
-	
-	
-	private def conditionalExpressionOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def conditionalLogicalExpressionError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION)
-	}
-	
-	private def conditionalTestExpressionError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.CONDITIONALTESTEXPRESSION)
+class ConditionalValidatorTest extends AbstractValidatorTest{
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "AndExpression: Multiple",
+			    '''false && true && true;''',
+			    #[]
+			],
+			#[  "AndExpression: Boolean literal",
+			    '''false && true;''',
+			    #[]
+			],
+			#[  "AndExpression: Relation parenthesis",
+			    '''true && (2>3);''',
+			    #[]
+			],
+			#[  "AndExpression: Relation",
+			    '''true && 2>3;''',
+			    #[]
+			],
+			#[  "AndExpression: Boolean variable",
+			    '''
+				Boolean x = true;
+				x && false;''',
+			    #[]
+			],
+			#[  "AndExpression: 2 Boolean variables",
+			    '''
+				Boolean x = true;
+				Boolean y = true;
+				x && y;''',
+			    #[]
+			],
+			#[  "InvalidAndExpression: Invalid variable type",
+			    '''true && -2;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			],
+			#[  "InvalidAndExpression: Invalid variable type",
+			    '''true && 2*3;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			]
+			,
+			#[  "InvalidAndExpression: Invalid variable type",
+			    '''true && 2+3;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			]
+			,
+			#[  "InvalidAndExpression: Invalid variable type",
+			    '''true && 2>>3;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			]
+			,
+			#[  "InvalidAndExpression: Invalid variable type",
+			    '''1 && 2;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			],
+			#[  "OrExpression: Multiple",
+			    '''false || true || true;''',
+			    #[]
+			],
+			#[  "OrExpression: Boolean literal",
+			    '''false || true;''',
+			    #[]
+			],
+			#[  "OrExpression: Relation parenthesis",
+			    '''true || (2>3);''',
+			    #[]
+			],
+			#[  "OrExpression: Relation",
+			    '''true || 2>3;''',
+			    #[]
+			],
+			#[  "OrExpression: Boolean variable",
+			    '''
+				Boolean x = true;
+				x || false;''',
+			    #[]
+			],
+			#[  "OrExpression: 2 Boolean variables",
+			    '''
+				Boolean x = true;
+				Boolean y = true;
+				x || y;''',
+			    #[]
+			],
+			#[  "OrExpression: And expression",
+			    '''true || true && false;''',
+			    #[]
+			],
+			#[  "InvalidOrExpression: Invalid variable type",
+			    '''true || -2;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			],
+			#[  "InvalidOrExpression: Invalid variable type",
+			    '''true || 2*3;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			]
+			,
+			#[  "InvalidOrExpression: Invalid variable type",
+			    '''true || 2+3;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			]
+			,
+			#[  "InvalidOrExpression: Invalid variable type",
+			    '''true || 2>>3;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			]
+			,
+			#[  "InvalidOrExpression: Invalid variable type",
+			    '''1 || 2;''',
+			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
+			],
+			#[  "ConditionalTestExpression: Integer literal",
+			    '''(true) ? 1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Boolean literal",
+			    '''(true) ? true : false;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Real literal",
+			    '''(true) ? 1.1 : 2.1;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: String literal",
+			    '''(true) ? "1" : "2";''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: PostFix increment",
+			    '''
+				Integer x = 1;
+				(true) ? x++ : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Prefix increment",
+			    '''
+				Integer x = 1;
+				(true) ? ++x : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Multiplication",
+			    '''(true) ? 1*1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Addition",
+			    '''(true) ? 1+1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Shift",
+			    '''(true) ? 1>>1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Conditional",
+			    '''(true) ? 1>1 : true;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Equality",
+			    '''(true) ? 1==1 : true;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Bitwise OR",
+			    '''(true) ? 1|1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Bitwise AND",
+			    '''(true) ? 1&1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Bitwise XOR",
+			    '''(true) ? 1^1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Conditional AND",
+			    '''(true) ? true && false : true;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Conditional OR",
+			    '''(true) ? true || false : true;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Conditional test",
+			    '''(true) ? (true) ? true : false : true;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Condition: Boolean unary",
+			    '''(!true) ? 1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Condition: relational",
+			    '''(1>2) ? 1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Condition: equality",
+			    '''(2==1) ? 1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Condition: And expression",
+			    '''(true && false) ? 1 : 2;''',
+			    #[]
+			],
+			#[  "ConditionalTestExpression: Condition: or expression",
+			    '''(true || false) ? 1 : 2;''',
+			    #[]
+			],
+			#[  "InvalidConditionalTestExpression: Condition: Integer literal",
+			    '''(1) ? 1 : 2;''',
+			    #[ReducedAlfSystem.CONDITIONALTESTEXPRESSION]
+			],
+			#[  "InvalidConditionalTestExpression: Condition: String literal",
+			    '''("1") ? 1 : 2;''',
+			    #[ReducedAlfSystem.CONDITIONALTESTEXPRESSION]
+			],
+			#[  "InvalidConditionalTestExpression: Condition: Postfix increment",
+			    '''
+				Integer x = 1;
+				(x++) ? 1 : 2;''',
+			    #[ReducedAlfSystem.CONDITIONALTESTEXPRESSION]
+			],
+			#[  "InvalidConditionalTestExpression: Condition: Prefix increment",
+			    '''
+				Integer x = 1;
+				(++x) ? 1 : 2;''',
+			    #[ReducedAlfSystem.CONDITIONALTESTEXPRESSION]
+			],
+			#[  "InvalidConditionalTestExpression: Condition: addition",
+			    '''(1+2) ? 1 : 2;''',
+			    #[ReducedAlfSystem.CONDITIONALTESTEXPRESSION]
+			],
+			#[  "InvalidConditionalTestExpression: Condition: shift expression",
+			    '''(1>>2) ? 1 : 2;''',
+			    #[ReducedAlfSystem.CONDITIONALTESTEXPRESSION]
+			]
+		)
 	}
 }
 	

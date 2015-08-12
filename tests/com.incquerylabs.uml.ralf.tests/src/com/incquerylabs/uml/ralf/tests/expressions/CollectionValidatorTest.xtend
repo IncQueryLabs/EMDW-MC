@@ -1,133 +1,57 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
-import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
 import org.junit.Ignore
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
 @Ignore("Collections are not working")
-class CollectionValidatorTest {
-	@Inject
-	ParseHelper<Statements> parseHelper
+class CollectionValidatorTest extends AbstractValidatorTest{
 
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-	
-	@Test
-	def collectionConstructionIntegerLocal() {
-		collectionOK(
-		'''
-		any x = bag<Integer> {1, 2};		
-		'''
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "Collection: Integer",
+			    '''set<Integer> x = set<Integer> {1, 2};''',
+			    #[]
+			],
+			#[  "Collection: Real",
+			    '''set<Real> x = set<Real> {1.1, 2.1};''',
+			    #[]
+			],
+			#[  "Collection: String",
+			    '''set<String> x = set<String> {"1", "2"};	''',
+			    #[]
+			],
+			#[  "Collection: Boolean",
+			    '''set<Boolean> x = set<Boolean> {true, false};''',
+			    #[]
+			],
+			#[  "Collection: Integer, no explicit collection type",
+			    '''set<Integer> x = {1, 2};''',
+			    #[]
+			],
+			#[  "Collection: Real, no explicit collection type",
+			    '''set<Real> x = {1.1, 2.1};''',
+			    #[]
+			],
+			#[  "Collection: String, no explicit collection type",
+			    '''set<String> x = {"1", "2"};	''',
+			    #[]
+			],
+			#[  "Collection: Boolean, no explicit collection type",
+			    '''set<Boolean> x = {true, false};''',
+			    #[]
+			],
+			#[  "InvalidCollection: Invalid type",
+			    '''set<Integer> x = set<Integer> {1, "2"};''',
+			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			],
+			#[  "InvalidCollection: Invalid type, no explicit collection type",
+			    '''set<Integer> x = {1, "2"};''',
+			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			]
 		)
-	}
-	
-	@Test
-	def collectionConstructionRealLocal() {
-		collectionOK(
-		'''
-		any x = bag<Real> {1.1, 2.1};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionStringLocal() {
-		collectionOK(
-		'''
-		any x = bag<String> {"1", "2"};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionBooleanLocal() {
-		collectionOK(
-		'''
-		any x = bag<Boolean> {true, false};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionInvalidTypeLocal() {
-		collectionTypingError(
-		'''
-		any x = bag<Integer> {1, "1"};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionIntegerLocal_NoCollectionDef() {
-		collectionOK(
-		'''
-		any x = {1, 2};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionRealLocal_NoCollectionDef() {
-		collectionOK(
-		'''
-		any x = {1.1, 2.1};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionStringLocal_NoCollectionDef() {
-		collectionOK(
-		'''
-		any x = {"1", "2"};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionBooleanLocal_NoCollectionDef() {
-		collectionOK(
-		'''
-		any x = {true, false};		
-		'''
-		)
-	}
-	
-	@Test
-	def collectionConstructionInvalidTypeLocal_NoCollectionDef() {
-		collectionOK(
-		'''
-		any x = {1, "1"};		
-		'''
-		)
-	}
-
-	private def collectionOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	
-	private def collectionTypingError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.COLLECTIONSUBTYPING)
 	}
 }

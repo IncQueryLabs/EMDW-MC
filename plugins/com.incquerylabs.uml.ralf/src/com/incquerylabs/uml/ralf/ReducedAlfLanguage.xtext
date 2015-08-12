@@ -47,7 +47,7 @@ Expression :
 PrimaryExpression returns Expression :
   BaseExpression
   ( {FeatureInvocationExpression.context = current} '.' operation = [uml::Operation|Name] parameters = Tuple |
-    {FilterExpression.context = current} operator=FilterCallCharacter 'filter(' declaration = FilterVariableDeclaration lambdaOperator=LambdaCharacter expression = Expression ')' |
+    {FilterExpression.context = current} '->' 'filter' '(' declaration = FilterVariableDeclaration lambdaOperator=LambdaCharacter expression = Expression ')' |
     {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
@@ -232,11 +232,7 @@ FilterVariableDeclaration returns Variable:
 ;
 
 enum LambdaCharacter :
-	pipe = '|' | arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>'
-;
-
-enum FilterCallCharacter :
-	dot = '.' | colon = '::' |  arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>'
+	pipe = '|' | arrow = '->' | boldArrow = '=>' | doubleArrow = '-->' | doubleBold = '==>' | colon = ':'
 ;
 
 /* SEQUENCE OPERATION, REDUCTION AND EXPANSION EXPRESSIONS */

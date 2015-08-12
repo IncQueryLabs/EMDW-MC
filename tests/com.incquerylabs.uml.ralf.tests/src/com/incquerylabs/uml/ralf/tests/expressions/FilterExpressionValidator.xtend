@@ -31,31 +31,31 @@ class FilterExpressionValidator {
 	@Test
 	def filterExpressionInteger() {
 		filterExpressionOK('''
-		sequence<Integer>{1,2,3}.filter(s | s < 1);''')
+		sequence<Integer>{1,2,3}->filter(s | s < 1);''')
 	}
 	
 	@Test
 	def filterExpressionReal() {
 		filterExpressionOK('''
-		sequence<Real>{1.1,2.2,3.3}.filter(s | s < 1.0);''')
+		sequence<Real>{1.1,2.2,3.3}->filter(s | s < 1.0);''')
 	}
 	
 	@Test
 	def filterExpressionString() {
 		filterExpressionOK('''
-		sequence<String>{"1","2","3"}.filter(s | s == "2");''')
+		sequence<String>{"1","2","3"}->filter(s | s == "2");''')
 	}
 	
 	@Test
 	def filterExpressionBoolean() {
 		filterExpressionOK('''
-		sequence<Boolean>{true,false,true}.filter(s | s == true);''')
+		sequence<Boolean>{true,false,true}->filter(s | s == true);''')
 	}
 	
 	@Test
 	def filterExpressionFilter() {
 		filterExpressionOK('''
-		sequence<Boolean>{true,false,true}.filter(s | s == true).filter(s | s == true);''')
+		sequence<Boolean>{true,false,true}->filter(s | s == true).filter(s | s == true);''')
 	}
 		
 	//Expected: Validation ERROR
@@ -63,7 +63,7 @@ class FilterExpressionValidator {
 	@Test
 	def filterExpressionInvalidExpressionType() {
 		filterExpressionError('''
-		sequence<Integer>{1,2,3}.filter(s | s + 1);''')
+		sequence<Integer>{1,2,3}->filter(s | s + 1);''')
 	}
 	
 		

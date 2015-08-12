@@ -47,6 +47,21 @@ pattern cppPackageInPackage(
 	find cppPackageInQualifiedNamedElement(innerPackage, outerPackage);
 }
 
+pattern cppOperationInQualifiedNamedElement(
+	cppOperation : CPPOperation,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppOperation);
+}
+
+pattern cppFormalParameterClassReference(
+	cppOperation : CPPOperation,
+	classReference : OOPLDataType
+) {
+	CPPOperation.subElements(cppOperation, cppFormalParameter);
+	CPPFormalParameter.subElements(cppFormalParameter, classReference);
+}
+
 pattern cppRelationClassReference(
 	cppClass : CPPClass,
 	classReference : OOPLDataType

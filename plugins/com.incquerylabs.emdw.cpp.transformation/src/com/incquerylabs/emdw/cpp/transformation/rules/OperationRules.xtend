@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.transformation.rules
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
@@ -13,6 +14,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class OperationRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
@@ -28,7 +30,8 @@ class OperationRules {
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
-			entityOperationRule
+			entityOperationRule,
+			addReferencesRule
 		)
 		transformation.addRules(rules)
 	}
@@ -50,4 +53,10 @@ class OperationRules {
 	def transformSubElements(CPPOperation cppOperation){
 		fireAllCurrent(operationParameterRule, [it.cppOperation == cppOperation])
 	}
+	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppOperationInQualifiedNamedElement).action[ match |
+		val cppOperation = match.cppOperation
+		fireAllCurrent(formalParameterRules.addReferencesRule, [it.cppOperation == cppOperation])
+	].build
 }

@@ -21,6 +21,7 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 
 @SuiteClasses(#[
 	CPPFormalParameterBasicTypeTest,
@@ -212,6 +213,9 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 				assertNotNull(commonParameter)
 				assertNotNull("Type of parameter is not correctly converted", type)
 				assertNotNull("Type of parameter is not correctly converted", type.commonType)
+				assertTrue("Type of parameter is not correctly converted", type instanceof CPPClassReference)
+				val classReference = type as CPPClassReference
+				assertNotNull("Type of parameter is not correctly converted", classReference.ooplClass)
 			]
 		]
 	}
@@ -278,6 +282,7 @@ class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTe
 				assertTrue("Type of parameter is not correctly converted", type instanceof CPPClassRefSimpleCollection)
 				val classRefCollection = type as CPPClassRefSimpleCollection
 				assertEquals("Type of parameter is not correctly converted", xtClass2, classRefCollection.commonType)
+				assertNotNull("Type of parameter is not correctly converted", classRefCollection.ooplClass)
 			]
 		]
 	}

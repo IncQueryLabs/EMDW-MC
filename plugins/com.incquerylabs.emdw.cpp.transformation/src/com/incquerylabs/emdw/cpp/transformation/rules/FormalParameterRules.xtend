@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 import org.apache.log4j.Logger
@@ -18,6 +19,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class FormalParameterRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val IncQueryEngine engine
@@ -66,6 +68,12 @@ class FormalParameterRules {
 		
 		addIncludes(cppFormalParameter)
 		trace('''Mapped Parameter «parameter.name» in Operation «match.operation.name» to CPPFormalParameter''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppFormalParameterClassReference).action[ match |
+		val classReference = match.classReference
+		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
 	].build
 	
 	def CPPQualifiedNamedElement createClassReference(Parameter parameter){

@@ -188,7 +188,6 @@ class ClassRules {
 	
 	def updateSubElements(CPPClass cppClass){
 		fireAllCurrent(associationRules.addReferencesRule, [it.cppClass == cppClass])
-		// TODO: update operations of class
-		// TODO: update transitions of class
+		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppClass])
 	}
 }

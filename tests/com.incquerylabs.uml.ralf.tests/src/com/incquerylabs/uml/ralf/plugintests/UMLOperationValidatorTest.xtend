@@ -17,7 +17,6 @@ import org.junit.Ignore
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
-@Ignore("Operation calls not yet working")
 class UMLOperationValidatorTest {
 	
 	@Inject
@@ -73,6 +72,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation parameter validation not yet implemented")
 	def operationIntegerParameterAdditive_Invalid(){
 		operationErrorThis(
 		'''
@@ -130,7 +130,7 @@ class UMLOperationValidatorTest {
 	def operationStringParameterVariable(){
 		operationOKThis(
 		'''
-			String x = "1"
+			String x = "1";
 			this.doStringVoid(x);
 		'''
 		,"model::Comp::Pong::TestOperation")
@@ -140,7 +140,7 @@ class UMLOperationValidatorTest {
 	def operationStringParameterAddition(){
 		operationOKThis(
 		'''
-			String x = "1"
+			String x = "1";
 			this.doStringVoid(x + "1");
 		'''
 		,"model::Comp::Pong::TestOperation")
@@ -183,6 +183,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation parameter validation not yet implemented")
 	def operationBooleanParameterInvalid(){
 		operationErrorThis(
 		'''
@@ -221,6 +222,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationPongParameterIniline_NoThis(){
 		operationOKThis(
 		'''
@@ -250,6 +252,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation parameter validation not yet implemented")
 	def operationPongParameterOperation_Invalid(){
 		operationErrorThis(
 		'''
@@ -260,6 +263,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationPongParameterOperation_NoThis(){
 		operationOKThis(
 		'''
@@ -269,6 +273,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationPongParameterOperation_Invalid_NoThis(){
 		operationErrorThis(
 		'''
@@ -298,6 +303,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationPingSignalParameterInline_NoThis(){
 		operationOKThis(
 		'''
@@ -316,6 +322,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationPingSignalParameterOperation_NoThis(){
 		operationOKThis(
 		'''
@@ -401,6 +408,7 @@ class UMLOperationValidatorTest {
 	}
 		
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnPingSignalAssignment_NoThis(){
 		operationOKThis(
 		'''
@@ -411,6 +419,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnPingSignalAssignment_Invalid_NoThis(){
 		operationErrorThis(
 		'''
@@ -421,6 +430,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnPongAssignment_NoThis(){
 		operationOKThis(
 		'''
@@ -431,6 +441,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnPongOperationCall_NoThis(){
 		operationOKThis(
 		'''
@@ -440,6 +451,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnIntegerAssignment_NoThis(){
 		operationOKThis(
 		'''
@@ -450,6 +462,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnIntegerAdditive_NoThis(){
 		operationOKThis(
 		'''
@@ -459,6 +472,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnIntegerMultiplicative_NoThis(){
 		operationOKThis(
 		'''
@@ -468,6 +482,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationReturnIntegerShift_NoThis(){
 		operationOKThis(
 		'''
@@ -486,6 +501,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation parameter validation not yet implemented")
 	def operationMultipleParameters_InvalidParams(){
 		operationErrorThis(
 		'''
@@ -495,6 +511,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation parameter validation not yet implemented")
 	def operationMultipleParameters_MissingParams(){
 		operationErrorThis(
 		'''
@@ -523,6 +540,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationOptionalParameter_NoThis(){
 		operationOKThis(
 		'''
@@ -541,6 +559,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationOptionalParameter_Default_NoThis(){
 		operationOKThis(
 		'''
@@ -550,6 +569,7 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Operation parameter validation not yet implemented")
 	def operationOptionalParameter_Invalid(){
 		operationErrorThis(
 		'''
@@ -559,10 +579,22 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
+	@Ignore("Non-qualified operations not supported")
 	def operationOptionalParameter_Invalid_NoThis(){
 		operationErrorThis(
 		'''
 			doDefaultValue("1");
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	@Ignore("Non-qualified operations not supported")
+	def staticOptionalCall_Ok(){
+		operationErrorThis(
+		'''
+		  Integer a;
+		  Pong::staticTestOperation(1, a);
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}

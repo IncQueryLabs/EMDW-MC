@@ -55,9 +55,14 @@ class AbstractValidatorTest {
 		for (Issue i : issues) {
 			var found = false;
 			for (Entry<String, Boolean> e : consumed.entrySet())
-				if (!e.getValue() && e.getKey().equals(i.code)) {
+				if(i.code == null){
 					consumed.put(e.getKey(), Boolean.TRUE);
 					found = true;
+				}else{
+					if (!e.getValue() && e.getKey().equals(i.code)) {
+						consumed.put(e.getKey(), Boolean.TRUE);
+						found = true;
+					}
 				}
 			if (!found) {
 				if (issueCodes.length == 1){

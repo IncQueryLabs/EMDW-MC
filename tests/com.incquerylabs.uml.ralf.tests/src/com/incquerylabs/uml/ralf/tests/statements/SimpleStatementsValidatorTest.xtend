@@ -1,317 +1,210 @@
 package com.incquerylabs.uml.ralf.tests.statements
 
-import com.google.inject.Inject
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Ignore
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class SimpleStatementsValidatorTest {
-	@Inject
-	ParseHelper<Statements> parseHelper
-
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-	
-	//Empty Statement
-	@Test
-	def emptyStatement() {
-		simpleStatementOK(''';''')
-	}
-	
-	def emptyStatementComment() {
-		simpleStatementOK('''
-			/*Integer x = false*/;
-		''')
-	}
-	
-	//Expression Statement
-	//Conditional Test
-	@Test
-	def expressionStatementNaturalLiteral() {
-		simpleStatementOK('''1;''');
-	}
-	@Test
-	def expressionStatementRealLiteral() {
-		simpleStatementOK('''1.1;''');
-	}
-	
-	@Test
-	def expressionStatementBoolean() {
-		simpleStatementOK('''false;''');
-	}
-	
-	@Test
-	def expressionStatementString() {
-		simpleStatementOK('''"1";''');
-	}
-
-	
-	@Test
-	def expressionStatementMultiplicative() {
-		simpleStatementOK('''1*1;''');
-	}
-	
-	
-	@Test
-	def expressionStatementAdditive() {
-		simpleStatementOK('''1+1;''');
-	}
-	
-	@Test
-	def expressionStatementShift() {
-		simpleStatementOK('''1>>1;''');
-	}
-	
-	@Test
-	def expressionStatementRelational() {
-		simpleStatementOK('''1>1;''');
-	}
-	
-	@Test
-	def expressionStatementEquality() {
-		simpleStatementOK('''1==1;''');
-	}
-	
-	@Test
-	def expressionStatementBitwiseOr() {
-		simpleStatementOK('''1|1;''');
-	}
-	
-	@Test
-	def expressionStatementBitwiseAnd() {
-		simpleStatementOK('''1&1;''');
-	}
-	
-	@Test
-	def expressionStatementBitwiseXor() {
-		simpleStatementOK('''1^1;''');
-	}
-	
-	@Test
-	def expressionStatementAnd() {
-		simpleStatementOK('''true && false;''');
-	}
-	
-	@Test
-	def expressionStatementOr() {
-		simpleStatementOK('''true || false;''');
-	}
-	
-	@Test
-	def expressionStatementBooleanUnary() {
-		simpleStatementOK('''!true;''');
-	}
-	
-	@Test
-	def expressionStatementAssignment() {
-		simpleStatementOK('''
-		Integer x = 1;
-		x = 2;
-		''');
-	}
-	
-	//Break
-	
-	@Test
-	def breakStatementInvalid() {
-		simpleStatementError('''break;''');
-	}
-	
-	@Test
-	def breakStatementInvalidInBlock() {
-		simpleStatementError('''
-		{break;}
-		''');
-	}
-	
-	@Test
-	def breakStatementValidInSwitch() {
-		simpleStatementOK('''
-		Integer x =1;
-		switch(x){
-		case 1: break;
-		}
-		''');
-	}
-	
-	@Test
-	def breakStatementValidInSwitch2() {
-		simpleStatementOK('''
-		Integer x =1;
-		switch(x){
-		case 1: {break;}
-		}
-		''');
-	}
-	
-	@Test
-	def breakStatementValidInWhile() {
-		simpleStatementOK('''
-		while(true){
-			break;
-		}
-		''');
-	}
-	
-	@Test
-	def breakStatementValidInDoWhile() {
-		simpleStatementOK('''
-		do{
-			break;
-		}while(true);
-		''');
-	}
-	
-	@Test
-	@Ignore
-	def breakStatementValidInFor() {
-		simpleStatementError('''
-		for(i : { 9 }){
-			break;
-		}
-		''');
-	}
-	
-	@Test
-	def breakStatementInvalidInIf() {
-		simpleStatementError('''
-		if(true){
-			break;
-		}
-		''');
-	}
-	
-	//Return
-	
-	@Test
-	def returnStatement() {
-		simpleStatementOK('''return;''');
-	}
-	@Test
-	def returnStatementNaturalLiteral() {
-		// No return value allowed
-        simpleStatementError('''return 1;''');
-	}
-	@Test
-	def returnStatementRealLiteral() {
-		// No return value allowed
-        simpleStatementError('''return 1.1;''');
-	}
-	
-	@Test
-	def returnStatementBoolean() {
-		// No return value allowed
-        simpleStatementError('''return false;''');
-	}
-	
-	@Test
-	def returnStatementString() {
-		// No return value allowed
-        simpleStatementError('''return "1";''');
-	}
-
-	
-	@Test
-	def returnStatementMultiplicative() {
-		// No return value allowed
-        simpleStatementError('''return 1*1;''');
-	}
-	
-	
-	@Test
-	def returnStatementAdditive() {
-		// No return value allowed
-        simpleStatementError('''return 1+1;''');
-	}
-	
-	@Test
-	def returnStatementShift() {
-		// No return value allowed
-        simpleStatementError('''return 1>>1;''');
-	}
-	
-	@Test
-	def returnStatementRelational() {
-		// No return value allowed
-        simpleStatementError('''return 1>1;''');
-	}
-	
-	@Test
-	def returnStatementEquality() {
-		// No return value allowed
-        simpleStatementError('''return 1==1;''');
-	}
-	
-	@Test
-	def returnStatementBitwiseOr() {
-		// No return value allowed
-        simpleStatementError('''return 1|1;''');
-	}
-	
-	@Test
-	def returnStatementBitwiseAnd() {
-		// No return value allowed
-        simpleStatementError('''return 1&1;''');
-	}
-	
-	@Test
-	def returnStatementBitwiseXor() {
-		// No return value allowed
-        simpleStatementError('''return 1^1;''');
-	}
-	
-	@Test
-	def returnStatementAnd() {
-		// No return value allowed
-        simpleStatementError('''return true && false;''');
-	}
-	
-	@Test
-	def returnStatementOr() {
-		// No return value allowed
-        simpleStatementError('''return true || false;''');
-	}
-	
-	@Test
-	def returnStatementBooleanUnary() {
-		// No return value allowed
-		simpleStatementError('''return !true;''');
-	}
-	
-	@Test
-	def returnStatementAssignment() {
-		// No return value allowed
-        simpleStatementError('''
-		Integer x = 1;
-		return x = 2;
-		''');
-	}
-		
-	
-	
-	private def simpleStatementOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def simpleStatementError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(0)
+class SimpleStatementsValidatorTest extends AbstractValidatorTest{
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "EmptyStatement",
+			    ''';''',
+			    #[]
+			],
+			#[  "EmptyStatement: Comment",
+			    '''/*Integer x = false*/;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: IntegerLiteral",
+			    '''1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: RealLiteral",
+			    '''1.1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: BooleanLiteral",
+			    '''false;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: StringLiteral",
+			    '''"1";''',
+			    #[]
+			],
+			#[  "ExpressionStatement: Multiplication",
+			    '''1*1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: Addition",
+			    '''1+1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: Shift",
+			    '''1>>1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: Relation",
+			    '''1>1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: Equality",
+			    '''1==1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: BitwiseOR",
+			    '''1|1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: BitwiseAND",
+			    '''1&1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: BitwiseXOR",
+			    '''1^1;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: ConditionalAND",
+			    '''true && false;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: ConditionalOR",
+			    '''true || false;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: BooleanUnary",
+			    '''!true;''',
+			    #[]
+			],
+			#[  "ExpressionStatement: Assignment",
+			    '''
+				Integer x = 1;
+				x = 2;''',
+			    #[]
+			],
+			#[  "BreakStatement: BreakSwitch",
+			    '''
+				Integer x =1;
+				switch(x){
+					case 1: break;
+				}''',
+			    #[]
+			],
+			#[  "BreakStatement: BreakSwitch2",
+			    '''
+				Integer x =1;
+				switch(x){
+					case 1: {break;}
+				}''',
+			    #[]
+			],
+			#[  "BreakStatement: While",
+			    '''
+				while(true){
+					break;
+				}''',
+			    #[]
+			],
+			#[  "BreakStatement: Do...While",
+			    '''
+				do{
+					break;
+				}while(true);''',
+			    #[]
+			],
+			#[  "BreakStatement: For",
+			    '''
+				for(Integer i in { 9 }){
+					break;
+				}''',
+			    #[]
+			],
+			#[  "InvalidBreakStatement: InvalidBreak_in_Statements",
+			    '''break;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidBreakStatement: InvalidBreak_in_Block",
+			    '''{break;}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidBreakStatement: InvalidBreak_in_If",
+			    '''
+				if(true){
+					break;
+				}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "ReturnStatement: void return",
+			    '''return;''',
+			    #[]
+			],
+			#[  "InvalidReturnStatement: IntegerLiteral",
+			    '''return 1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: RealLiteral",
+			    '''return 1.1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: BooleanLiteral",
+			    '''return false;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: StringLiteral",
+			    '''return "1";''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: Multiplication",
+			    '''return 1*1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: Addition",
+			    '''return 1+1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: Shift",
+			    '''return 1>>1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: Relational",
+			    '''return 1>1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: Equality",
+			    '''return 1==1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: BitwiseOR",
+			    '''return 1|1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: BitwiseAND",
+			    '''return 1&1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: BitwiseXOR",
+			    '''return 1^1;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: ConditionalAND",
+			    '''return true && false;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: ConditionalOR",
+			    '''return true || false;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: BooleanUnary",
+			    '''return !true;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidReturnStatement: Assignment",
+			    '''
+				Integer x = 1;
+				return x = 2;''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			]
+		)
 	}
 }

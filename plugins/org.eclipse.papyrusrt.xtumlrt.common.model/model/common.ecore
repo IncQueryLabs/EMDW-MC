@@ -22,6 +22,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="default" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="readOnly" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
+        defaultValueLiteral="false"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="BaseContainer" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EReference" name="packages" upperBound="-1"
@@ -76,6 +78,12 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="partWithPort" eType="#//CapsulePart"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DeepHistory" eSuperTypes="#//Pseudostate"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Dependency" eSuperTypes="#//CommonElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supplier" lowerBound="1"
+        eType="#//NamedElement"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="client" lowerBound="1"
+        eType="#//NamedElement" eOpposite="#//NamedElement/dependencies"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DirectionKind">
     <eLiterals name="IN"/>
     <eLiterals name="OUT" value="1"/>
@@ -94,13 +102,18 @@
   <eClassifiers xsi:type="ecore:EClass" name="EnumerationLiteral" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExitPoint" eSuperTypes="#//Pseudostate"/>
   <eClassifiers xsi:type="ecore:EClass" name="ExternalType" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Generalization" eSuperTypes="#//CommonElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sub" lowerBound="1" eType="#//StructuredType"
+        eOpposite="#//StructuredType/generalizations"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="super" lowerBound="1" eType="#//StructuredType"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Guard" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//ActionCode"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InitialPoint" eSuperTypes="#//Pseudostate"/>
   <eClassifiers xsi:type="ecore:EClass" name="JunctionPoint" eSuperTypes="#//Pseudostate"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//NamedElement #//ProtocolContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//ProtocolContainer #//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="MultiplicityElement" eSuperTypes="#//CommonElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="unique" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ordered" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -112,6 +125,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
         eType="#//Annotation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependencies" upperBound="-1"
+        eType="#//Dependency" containment="true" eOpposite="#//Dependency/client"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//OperationSignature #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//ActionCode"
@@ -125,6 +140,8 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="visibility" eType="#//VisibilityKind"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="static" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
         defaultValueLiteral="false"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="abstract" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="query" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Package" eSuperTypes="#//NamedElement #//ProtocolContainer"/>
   <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//NamedElement #//TypedMultiplicityElement">
@@ -158,7 +175,7 @@
       eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="redefines" eType="#//RedefinableElement"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Signal" eSuperTypes="#//ProtocolBehaviourFeature">
+  <eClassifiers xsi:type="ecore:EClass" name="Signal" eSuperTypes="#//ProtocolBehaviourFeature #//RedefinableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
         eType="#//Parameter" containment="true"/>
   </eClassifiers>
@@ -177,11 +194,13 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="top" lowerBound="1" eType="#//CompositeState"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="StructuredType" eSuperTypes="#//Type">
+  <eClassifiers xsi:type="ecore:EClass" name="StructuredType" eSuperTypes="#//Type #//RedefinableElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//Attribute" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
         eType="#//Operation" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="generalizations" upperBound="-1"
+        eType="#//Generalization" containment="true" eOpposite="#//Generalization/sub"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="TerminatePoint" eSuperTypes="#//Pseudostate"/>
   <eClassifiers xsi:type="ecore:EClass" name="Transition" eSuperTypes="#//RedefinableElement">
@@ -203,6 +222,9 @@
   <eClassifiers xsi:type="ecore:EClass" name="TypeDefinition" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" eType="#//Type" containment="true"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedMultiplicityElement" eSuperTypes="#//MultiplicityElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UserDefinedType" eSuperTypes="#//Type">
     <eStructuralFeatures xsi:type="ecore:EReference" name="constraints" upperBound="-1"
         eType="#//TypeConstraint" containment="true"/>
@@ -222,8 +244,5 @@
     <eLiterals name="PUBLIC"/>
     <eLiterals name="PROTECTED" value="1"/>
     <eLiterals name="PRIVATE" value="2"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="TypedMultiplicityElement" eSuperTypes="#//MultiplicityElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
   </eClassifiers>
 </ecore:EPackage>

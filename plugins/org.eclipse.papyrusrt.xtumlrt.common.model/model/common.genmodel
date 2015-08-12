@@ -49,6 +49,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//Attribute/visibility"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//Attribute/default"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//Attribute/static"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//Attribute/readOnly"/>
     </genClasses>
     <genClasses image="false" ecoreClass="common.ecore#//BaseContainer">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//BaseContainer/packages"/>
@@ -83,6 +84,10 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//ConnectorEnd/partWithPort"/>
     </genClasses>
     <genClasses ecoreClass="common.ecore#//DeepHistory"/>
+    <genClasses ecoreClass="common.ecore#//Dependency">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//Dependency/supplier"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference common.ecore#//Dependency/client"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="common.ecore#//Entity">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//Entity/behaviour"/>
     </genClasses>
@@ -94,6 +99,10 @@
     <genClasses ecoreClass="common.ecore#//EnumerationLiteral"/>
     <genClasses ecoreClass="common.ecore#//ExitPoint"/>
     <genClasses ecoreClass="common.ecore#//ExternalType"/>
+    <genClasses ecoreClass="common.ecore#//Generalization">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//Generalization/sub"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//Generalization/super"/>
+    </genClasses>
     <genClasses ecoreClass="common.ecore#//Guard">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//Guard/body"/>
     </genClasses>
@@ -110,15 +119,19 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//NamedElement/name"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//NamedElement/description"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//NamedElement/annotations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//NamedElement/dependencies"/>
     </genClasses>
     <genClasses ecoreClass="common.ecore#//Operation">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//Operation/body"/>
     </genClasses>
     <genClasses image="false" ecoreClass="common.ecore#//OperationSignature">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//OperationSignature/returnType"/>
+      <genFeatures property="None" notify="false" children="true" createChild="true"
+          propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//OperationSignature/returnType"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//OperationSignature/parameters"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//OperationSignature/visibility"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//OperationSignature/static"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//OperationSignature/abstract"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//OperationSignature/query"/>
     </genClasses>
     <genClasses ecoreClass="common.ecore#//Package"/>
     <genClasses ecoreClass="common.ecore#//Parameter">
@@ -159,6 +172,7 @@
     <genClasses ecoreClass="common.ecore#//StructuredType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//StructuredType/attributes"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//StructuredType/operations"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//StructuredType/generalizations"/>
     </genClasses>
     <genClasses ecoreClass="common.ecore#//TerminatePoint"/>
     <genClasses ecoreClass="common.ecore#//Transition">
@@ -174,6 +188,9 @@
     <genClasses ecoreClass="common.ecore#//TypeDefinition">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//TypeDefinition/type"/>
     </genClasses>
+    <genClasses ecoreClass="common.ecore#//TypedMultiplicityElement">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//TypedMultiplicityElement/type"/>
+    </genClasses>
     <genClasses ecoreClass="common.ecore#//UserDefinedType">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//UserDefinedType/constraints"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//UserDefinedType/baseType"/>
@@ -181,9 +198,6 @@
     <genClasses ecoreClass="common.ecore#//Vertex">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//Vertex/incomingTransitions"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//Vertex/outgoingTransitions"/>
-    </genClasses>
-    <genClasses ecoreClass="common.ecore#//TypedMultiplicityElement">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//TypedMultiplicityElement/type"/>
     </genClasses>
   </genPackages>
 </genmodel:GenModel>

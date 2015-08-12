@@ -46,11 +46,6 @@ class SequenceRules {
 		trace('''Set CPPSequence implementation to «containerImplementation.containerQualifiedName»''')
 	].build
 	
-	def isMultiValue(MultiplicityElement multiplicityElement) {
-		val upperBound = multiplicityElement.upperBound
-		return upperBound > 1 || upperBound == -1
-	}
-	
 	def generateCPPSequence(MultiplicityElement multiplicityElement) {
 		createCPPSequence => [
 			if(multiplicityElement.unique) {

@@ -1,6 +1,7 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
@@ -10,6 +11,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
@@ -19,8 +21,6 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.junit.Ignore
 
 @SuiteClasses(#[
 	CPPFormalParameterBasicTypeTest,
@@ -157,23 +157,11 @@ class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTe
 	}
 }
 
-@Ignore("Not implemented")
 @RunWith(Parameterized)
 class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
-	}
-	
-	override protected clearXtUmlElement(XTComponent xtComponent) {
-		val xtClass = xtComponent.entities.filter(XTClass).head
-		xtClass.operations.clear
-	}
-	
-	override protected assertClear(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
-		val cppClass = cppComponent.subElements.filter(CPPClass).head
-		val cppOp = cppClass.subElements.filter(CPPOperation)
-		assertEquals(0,cppOp.size)
 	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
@@ -199,10 +187,22 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 		cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+	override protected clearXtUmlElement(XTComponent xtComponent) {
 		val xtClass = xtComponent.entities.filter(XTClass).head
+		xtClass.operations.clear
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+		val xtClass = xtComponent.entities.filter(XTClass).filter[it.name == "Class"].head
+		val cppClass = cppComponent.subElements.filter(CPPClass).filter[it.xtClass == xtClass].head
+		val cppOp = cppClass.subElements.filter(CPPOperation)
+		assertEquals(0,cppOp.size)
+	}
+	
+	override protected assertResult(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+		val xtClass = xtComponent.entities.filter(XTClass).filter[it.name == "Class"].head
 		val xtOperations = xtClass.operations
-		val cppClass = cppComponent.subElements.filter(CPPClass).head
+		val cppClass = cppComponent.subElements.filter(CPPClass).filter[it.xtClass == xtClass].head
 		val cppOperations = cppClass.subElements.filter(CPPOperation)
 		assertEquals(xtOperations.size, cppOperations.size)
 		cppOperations.forEach[
@@ -217,23 +217,11 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 	}
 }
 
-@Ignore("Not implemented")
 @RunWith(Parameterized)
 class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTest {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
-	}
-	
-	override protected clearXtUmlElement(XTComponent xtComponent) {
-		val xtClass = xtComponent.entities.filter(XTClass).head
-		xtClass.operations.clear
-	}
-	
-	override protected assertClear(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
-		val cppClass = cppComponent.subElements.filter(CPPClass).head
-		val cppOp = cppClass.subElements.filter(CPPOperation)
-		assertEquals(0,cppOp.size)
 	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
@@ -261,10 +249,23 @@ class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTe
 		cppComponent
 	}
 	
-	override protected assertResult(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+	override protected clearXtUmlElement(XTComponent xtComponent) {
 		val xtClass = xtComponent.entities.filter(XTClass).head
+		xtClass.operations.clear
+	}
+	
+	override protected assertClear(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+		val xtClass = xtComponent.entities.filter(XTClass).filter[it.name == "Class"].head
+		val cppClass = cppComponent.subElements.filter(CPPClass).filter[it.xtClass == xtClass].head
+		val cppOp = cppClass.subElements.filter(CPPOperation)
+		assertEquals(0,cppOp.size)
+	}
+	
+	override protected assertResult(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
+		val xtClass = xtComponent.entities.filter(XTClass).filter[it.name == "Class"].head
+		val xtClass2 = xtComponent.entities.filter(XTClass).filter[it.name == "Class2"].head
 		val xtOperations = xtClass.operations
-		val cppClass = cppComponent.subElements.filter(CPPClass).head
+		val cppClass = cppComponent.subElements.filter(CPPClass).filter[it.xtClass == xtClass].head
 		val cppOperations = cppClass.subElements.filter(CPPOperation)
 		assertEquals(xtOperations.size, cppOperations.size)
 		cppOperations.forEach[
@@ -273,8 +274,10 @@ class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTe
 				assertNotNull(ooplNameProvider)
 				assertNotNull(commonParameter)
 				assertNotNull("Type of parameter is not correctly converted", type)
-				assertNotNull("Type of parameter is not correctly converted", unnamedSequenceType)
-				assertNotNull("Type of parameter is not correctly converted", unnamedSequenceType.elementType)
+				assertNull("Type of parameter is not correctly converted", unnamedSequenceType)
+				assertTrue("Type of parameter is not correctly converted", type instanceof CPPClassRefSimpleCollection)
+				val classRefCollection = type as CPPClassRefSimpleCollection
+				assertEquals("Type of parameter is not correctly converted", xtClass2, classRefCollection.commonType)
 			]
 		]
 	}

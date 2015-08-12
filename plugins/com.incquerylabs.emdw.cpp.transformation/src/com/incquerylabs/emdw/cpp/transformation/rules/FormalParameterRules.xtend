@@ -5,6 +5,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
@@ -21,6 +22,7 @@ class FormalParameterRules {
 	extension val Logger logger = Logger.getLogger(class)
 	extension val IncQueryEngine engine
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
+	extension val CPPTransformationUtil transformationUtil = new CPPTransformationUtil
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
@@ -57,6 +59,7 @@ class FormalParameterRules {
 		if(parameter.type instanceof XTClass) {
 			val classReference = createClassReference(parameter)
 			cppFormalParameter.subElements.add(classReference)
+			fireAllCurrent(classReferenceSimpleCollectionTypeRule, [it.classReferenceSimpleCollection == classReference])
 		} else if(parameter.multiValue){
 			setSequence(cppFormalParameter, parameter)
 		}

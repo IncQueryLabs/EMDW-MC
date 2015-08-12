@@ -6,6 +6,7 @@ import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
+import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
@@ -20,6 +21,7 @@ class ClassReferenceRules {
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
+	extension val CPPTransformationUtil transformationUtil = new CPPTransformationUtil
 	
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
@@ -31,12 +33,15 @@ class ClassReferenceRules {
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
+			addReferencesRule,
+			classReferenceSimpleCollectionTypeRule,
+			classReferenceSimpleCollectionTypeRule4Instances
 		)
 		transformation.addRules(rules)
 	}
 	
 	def OOPLDataType createClassReference(XTClass xtReferenceClass, MultiplicityElement multiplicityElement) {
-		if(multiplicityElement.upperBound != 1) {
+		if(multiplicityElement.isMultiValue) {
 			val classReferenceSimpleCollection = createClassReferenceSimpleCollection(xtReferenceClass)
 			return classReferenceSimpleCollection
 		} else {
@@ -76,5 +81,21 @@ class ClassReferenceRules {
 			cppClassReference.ooplClass = cppClass
 			trace('''Set ooplClass of class reference collection «cppClassReference» to «cppClass»''')
 		}
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val classReferenceSimpleCollectionTypeRule = createRule.precondition(classReferenceSimpleCollectionContainerImplementation).action[ match |
+		val collection = match.classReferenceSimpleCollection
+		val implementation = match.containerImplementation
+		collection.implementation = implementation
+		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val classReferenceSimpleCollectionTypeRule4Instances = createRule.precondition(classReferenceSimpleCollectionContainerImplementation4Instances).action[ match |
+		val collection = match.classReferenceSimpleCollection
+		val implementation = match.containerImplementation
+		collection.implementation = implementation
+		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
 	].build
 }

@@ -34,7 +34,6 @@ class AssociationRules {
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
 			associationRule,
-			classReferenceSimpleCollectionTypeRule,
 			addReferencesRule
 		)
 		transformation.addRules(rules)
@@ -54,22 +53,6 @@ class AssociationRules {
 		cppClass.subElements += cppRelation
 		trace('''Mapped Association «xtAssociation.name» in Class «xtClass.name» to CPPRelation''')
 		fireAllCurrent(classReferenceSimpleCollectionTypeRule, [it.classReferenceSimpleCollection == cppClassReference])
-	].build
-	
-	@Accessors(PUBLIC_GETTER)
-	val classReferenceSimpleCollectionTypeRule = createRule.precondition(classReferenceSimpleCollectionContainerImplementation).action[ match |
-		val collection = match.classReferenceSimpleCollection
-		val implementation = match.containerImplementation
-		collection.implementation = implementation
-		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
-	].build
-	
-	@Accessors(PUBLIC_GETTER)
-	val classReferenceSimpleCollectionTypeRule4Instances = createRule.precondition(classReferenceSimpleCollectionContainerImplementation4Instances).action[ match |
-		val collection = match.classReferenceSimpleCollection
-		val implementation = match.containerImplementation
-		collection.implementation = implementation
-		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

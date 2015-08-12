@@ -68,7 +68,7 @@ class XtumlComponentCPPTransformation {
 			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
 			operationRules = new OperationRules(statements, formalParameterRules)
 			associationRules = new AssociationRules(statements, classReferenceRules)
-			classRules = new ClassRules(statements, associationRules, attributeRules, operationRules, includeRules)
+			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, includeRules)
 			packageRules = new PackageRules(statements, classRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)
 			

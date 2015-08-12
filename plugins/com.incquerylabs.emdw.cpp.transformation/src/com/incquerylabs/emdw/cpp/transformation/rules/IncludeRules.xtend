@@ -118,14 +118,17 @@ class IncludeRules {
 	
 	dispatch def void addIncludesForOOPLDataType(CPPSequence cppSequence, CPPSourceFile cppSourceFile, String comment){
 		val externalHeaders = getExternalHeaders(cppSequence)
-		externalHeaders.forEach[ externalHeader |
-			cppSourceFile.addInclude(externalHeader, comment)
-		]
+		cppSourceFile.addIncludes(externalHeaders, comment)
 		val typeOfSequence = cppSequence.elementType
 		addIncludesForOOPLDataType(typeOfSequence, cppSourceFile, comment)
 	}
 	
 	dispatch def void addIncludesForOOPLDataType(CPPClassReference cppClassReference, CPPSourceFile cppSourceFile, String comment){
+	}
+	
+	dispatch def void addIncludesForOOPLDataType(CPPClassRefSimpleCollection cppClassReference, CPPSourceFile cppSourceFile, String comment){
+		val externalHeaders = getExternalHeaders(cppClassReference)
+		cppSourceFile.addIncludes(externalHeaders, comment)
 	}
 	
 	def addIncludesBetweenOwnFiles(CPPComponent cppComponent){
@@ -170,6 +173,12 @@ class IncludeRules {
 			externalLibrary.externalHeader += externalHeader
 		}
 		return externalHeader
+	}
+	
+	protected def addIncludes(CPPSourceFile cppSourceFile, Iterable<CPPExternalHeader> externalHeaders, String comment){
+		externalHeaders.forEach[ externalHeader |
+			cppSourceFile.addInclude(externalHeader, comment)
+		]
 	}
 	
 	protected def addInclude(CPPSourceFile cppFile, CPPHeaderFile cppHeader){

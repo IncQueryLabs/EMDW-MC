@@ -26,18 +26,21 @@ class ClassRules {
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
+	val ClassReferenceRules classReferenceRules
 	val AssociationRules associationRules
 	val AttributeRules attributeRules
 	val OperationRules operationRules
 	extension val IncludeRules includeRules
 	
 	new(BatchTransformationStatements statements,
+		ClassReferenceRules classReferenceRules,
 		AssociationRules associationRules,
 		AttributeRules attributeRules,
 		OperationRules operationRules,
 		IncludeRules includeRules
 	) {
 		this.statements = statements
+		this.classReferenceRules = classReferenceRules
 		this.associationRules = associationRules
 		this.attributeRules = attributeRules
 		this.operationRules = operationRules
@@ -175,7 +178,7 @@ class ClassRules {
 
 	def transformSubElements(CPPClass cppClass){
 		fireAllCurrent(associationRules.associationRule, [it.cppClass == cppClass])
-		fireAllCurrent(associationRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
+		fireAllCurrent(classReferenceRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppClass])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppClass])
 		fireAllCurrent(stateRule, [it.cppClass == cppClass])

@@ -18,3 +18,8 @@ pattern associationsOfClass(cl : Class, association : Property) {
     find xtAssociation(_, sourceEnd, association);
     Property.type(sourceEnd, cl);
 }
+
+pattern staticOperations(op : Operation) {
+    find operation(_, op);
+    Operation.isStatic(op, true);
+}

@@ -46,7 +46,7 @@ class SimpleUMLContextProvider extends AbstractUMLContextProvider {
         return newArrayList
     }
     
-    override getStaticOperationsOfClass(Class cl) {
+    override getStaticOperations() {
         return newArrayList
     }
 

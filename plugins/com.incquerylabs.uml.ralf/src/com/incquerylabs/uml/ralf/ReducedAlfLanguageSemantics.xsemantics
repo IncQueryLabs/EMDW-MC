@@ -69,6 +69,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -547,6 +548,13 @@ from {
 
 rule FeatureInvocationExpression
     derives G |- FeatureInvocationExpression ex : IUMLTypeReference result
+from {
+    G |- ex.operation : result
+    //TODO parameter typing
+}
+
+rule StaticFeatureInvocationExpression
+    derives G |- StaticFeatureInvocationExpression ex : IUMLTypeReference result
 from {
     G |- ex.operation : result
     //TODO parameter typing

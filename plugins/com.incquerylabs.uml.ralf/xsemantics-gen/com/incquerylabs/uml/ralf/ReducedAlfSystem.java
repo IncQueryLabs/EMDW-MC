@@ -45,6 +45,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement;
@@ -179,6 +180,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String COLLECTIONCONSTRUCTIONEXPRESSION = "com.incquerylabs.uml.ralf.CollectionConstructionExpression";
   
   public final static String FEATUREINVOCATIONEXPRESSION = "com.incquerylabs.uml.ralf.FeatureInvocationExpression";
+  
+  public final static String STATICFEATUREINVOCATIONEXPRESSION = "com.incquerylabs.uml.ralf.StaticFeatureInvocationExpression";
   
   public final static String OPERATION = "com.incquerylabs.uml.ralf.Operation";
   
@@ -3004,6 +3007,36 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   }
   
   protected Result<IUMLTypeReference> applyRuleFeatureInvocationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureInvocationExpression ex) throws RuleFailedException {
+    IUMLTypeReference result = null; // output parameter
+    /* G |- ex.operation : result */
+    Operation _operation = ex.getOperation();
+    Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _operation);
+    checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
+    result = (IUMLTypeReference) result_1.getFirst();
+    
+    return new Result<IUMLTypeReference>(result);
+  }
+  
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final StaticFeatureInvocationExpression ex) throws RuleFailedException {
+    try {
+    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
+    	final Result<IUMLTypeReference> _result_ = applyRuleStaticFeatureInvocationExpression(G, _subtrace_, ex);
+    	addToTrace(_trace_, new Provider<Object>() {
+    		public Object get() {
+    			return ruleName("StaticFeatureInvocationExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + stringRep(_result_.getFirst());
+    		}
+    	});
+    	addAsSubtrace(_trace_, _subtrace_);
+    	return _result_;
+    } catch (Exception e_applyRuleStaticFeatureInvocationExpression) {
+    	typeThrowException(ruleName("StaticFeatureInvocationExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + "IUMLTypeReference",
+    		STATICFEATUREINVOCATIONEXPRESSION,
+    		e_applyRuleStaticFeatureInvocationExpression, ex, new ErrorInformation[] {new ErrorInformation(ex)});
+    	return null;
+    }
+  }
+  
+  protected Result<IUMLTypeReference> applyRuleStaticFeatureInvocationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final StaticFeatureInvocationExpression ex) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
     /* G |- ex.operation : result */
     Operation _operation = ex.getOperation();

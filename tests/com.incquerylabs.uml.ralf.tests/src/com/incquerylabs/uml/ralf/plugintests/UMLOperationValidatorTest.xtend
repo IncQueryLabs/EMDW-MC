@@ -589,9 +589,8 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
-	@Ignore("Non-qualified operations not supported")
 	def staticOptionalCall_Ok(){
-		operationErrorThis(
+		operationOKThis(
 		'''
 		  Integer a;
 		  Pong::staticTestOperation(1, a);

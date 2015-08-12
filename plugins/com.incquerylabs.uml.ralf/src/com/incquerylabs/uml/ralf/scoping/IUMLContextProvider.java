@@ -25,7 +25,7 @@ public interface IUMLContextProvider {
 	Iterable<Property> getPropertiesOfClass(Class cl);
 	Iterable<Property> getAssociationsOfClass(Class cl);
 	Iterable<Operation> getOperationsOfClass(Class cl);
-	Iterable<Operation> getStaticOperationsOfClass(Class cl);
+	Iterable<Operation> getStaticOperations();
 	
 	/**
 	 * Returns the type of the this expression. If no container can be calculated, might return null.

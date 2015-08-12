@@ -24,6 +24,9 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.types.IUMLTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
+import org.eclipse.xtext.naming.QualifiedName
+import org.eclipse.xtext.naming.IQualifiedNameConverter
 
 /**
  * This class contains custom scoping description.
@@ -39,6 +42,8 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     IUMLContextProvider umlContext
     @Inject
     ReducedAlfSystem system
+    @Inject
+    IQualifiedNameConverter nameConverter
     
 //    override getPredicate(EObject context, EClass type) {
 //        val methodName = "scope_" + type.name
@@ -158,27 +163,31 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
      
     def IScope scope_FeatureInvocationExpression_operation(FeatureInvocationExpression ctx, EReference ref) {
         if (ctx.context != null && !ctx.context.eIsProxy) {
-            scope_FeatureInvocationExpression_operation(ctx.context, ref, ctx.isIsStatic)    
+            scope_FeatureInvocationExpression_operation(ctx.context, ref)    
         } else {
             null
         }
     }
     
-    def IScope scope_FeatureInvocationExpression_operation(Expression ctx, EReference ref, boolean isStatic) {
+    def IScope scope_FeatureInvocationExpression_operation(Expression ctx, EReference ref) {
         val typeResult = system.type(ctx)
         if (typeResult.failed) {
             return null
         }
         val type = typeResult.value.classFromTypeReference
         if (type != null) {
-            if (isStatic) {
-                Scopes.scopeFor(umlContext.getStaticOperationsOfClass(type))
-            } else {
-                Scopes.scopeFor(umlContext.getOperationsOfClass(type))
-            }
+            Scopes.scopeFor(umlContext.getOperationsOfClass(type))
         } else {
             null
         }
+    }
+    
+    def IScope scope_StaticFeatureInvocationExpression_operation(StaticFeatureInvocationExpression ctx, EReference ref) {
+        Scopes.scopeFor(umlContext.getStaticOperations(),
+            //XXX is this name conversion correct?
+            [nameConverter.toQualifiedName('''«namespace.name»::«name»''')],
+            IScope.NULLSCOPE
+        )
     }
     
     def IScope scope_PropertyAccessExpression_property(PropertyAccessExpression ctx, EReference ref) {

@@ -46,7 +46,7 @@ Expression :
 
 PrimaryExpression returns Expression :
   BaseExpression
-  ( {FeatureInvocationExpression.context = current} ('.'| isStatic ?= '::') operation = [uml::Operation|Name] parameters = Tuple |
+  ( {FeatureInvocationExpression.context = current} '.' operation = [uml::Operation|Name] parameters = Tuple |
     {FilterExpression.context = current} operator=FilterCallCharacter 'filter(' declaration = FilterVariableDeclaration lambdaOperator=LambdaCharacter expression = Expression ')' |
     {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
@@ -72,6 +72,7 @@ BaseExpression returns Expression :
 //  SequenceOperationOrReductionOrExpansionExpression |
 //    BehaviorInvocationExpression |
     NameExpression | 
+    StaticFeatureInvocationExpression |
     ParenthesizedExpression 
 ;
 
@@ -107,6 +108,11 @@ StringLiteralExpression :
 /* Name EXPRESSIONS */
 NameExpression :
     reference = [uml::NamedElement|QualifiedName]
+;
+
+/* Static Feature invocation */
+StaticFeatureInvocationExpression:
+     operation = [uml::Operation|QualifiedName] parameters = Tuple 
 ;
 
 /* THIS EXPRESSIONS */

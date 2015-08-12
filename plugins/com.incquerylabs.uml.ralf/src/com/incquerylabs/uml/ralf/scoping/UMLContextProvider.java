@@ -30,6 +30,7 @@ import com.incquerylabs.emdw.umlintegration.queries.AssociationsOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.AttributesOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.OperationMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.SignalsMatcher;
+import com.incquerylabs.emdw.umlintegration.queries.StaticOperationsMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.UmlTypesMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.XtClassMatcher;
 
@@ -45,7 +46,8 @@ public abstract class UMLContextProvider extends AbstractUMLContextProvider {
 					AttributesOfClassMatcher.querySpecification(),
 					SignalsMatcher.querySpecification(),
 					UmlTypesMatcher.querySpecification(),
-					OperationMatcher.querySpecification()
+					OperationMatcher.querySpecification(),
+					StaticOperationsMatcher.querySpecification()
 					);
 			queries.prepare(engine);			
 		}
@@ -151,8 +153,16 @@ public abstract class UMLContextProvider extends AbstractUMLContextProvider {
 	}
 
 	@Override
-	public Set<Operation> getStaticOperationsOfClass(Class cl) {
-		return getOperationsOfClass(cl, true);
+	public Set<Operation> getStaticOperations() {
+		StaticOperationsMatcher matcher;
+		try {
+			matcher = StaticOperationsMatcher.on(getEngine());
+			return matcher.getAllValuesOfop();
+		} catch (IncQueryException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Sets.newHashSet();
 	}
 
 	public Set<Operation> getOperationsOfClass(Class cl, final boolean staticClass) {

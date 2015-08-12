@@ -28,7 +28,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 import com.incquerylabs.emdw.umlintegration.queries.AssociationsOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.AttributesOfClassMatcher;
-import com.incquerylabs.emdw.umlintegration.queries.OperationMatcher;
+import com.incquerylabs.emdw.umlintegration.queries.OperationsOfClassMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.SignalsMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.StaticOperationsMatcher;
 import com.incquerylabs.emdw.umlintegration.queries.UmlTypesMatcher;
@@ -46,7 +46,7 @@ public abstract class UMLContextProvider extends AbstractUMLContextProvider {
 					AttributesOfClassMatcher.querySpecification(),
 					SignalsMatcher.querySpecification(),
 					UmlTypesMatcher.querySpecification(),
-					OperationMatcher.querySpecification(),
+					OperationsOfClassMatcher.querySpecification(),
 					StaticOperationsMatcher.querySpecification()
 					);
 			queries.prepare(engine);			
@@ -166,10 +166,10 @@ public abstract class UMLContextProvider extends AbstractUMLContextProvider {
 	}
 
 	public Set<Operation> getOperationsOfClass(Class cl, final boolean staticClass) {
-		OperationMatcher matcher;
+		OperationsOfClassMatcher matcher;
 		try {
-			matcher = OperationMatcher.on(getEngine());
-			return Sets.filter(matcher.getAllValuesOfoperation(cl), (Operation op) -> op.isStatic() == staticClass);
+			matcher = OperationsOfClassMatcher.on(getEngine());
+			return Sets.filter(matcher.getAllValuesOfop(cl), (Operation op) -> op.isStatic() == staticClass);
 		} catch (IncQueryException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

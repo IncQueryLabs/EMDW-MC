@@ -12,6 +12,7 @@ import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
 
+@Deprecated
 public class ReducedAlfLanguagePluginInjectorProvider extends ReducedAlfLanguageInjectorProvider {
     
     @Override

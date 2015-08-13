@@ -11,7 +11,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule;
-import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider;
@@ -48,7 +47,7 @@ public class ReducedAlfParser implements IReducedAlfParser {
         Module customizations = binder -> {
 		    binder.bind(IUMLContextProvider.class).toInstance(umlContext);
 		    binder.bind(IReducedAlfParser.class).toInstance(this);
-		    binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
+		    //binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
 		};
         return Guice.createInjector(module, customizations);
     }

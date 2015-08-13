@@ -52,7 +52,8 @@
 		<module>../../plugins/com.incquerylabs.uml.ralf.ui</module>
 		<module>../../tests/com.incquerylabs.uml.ralf.tests</module>
 		<module>../../tests/com.incquerylabs.uml.ralf.tests.examples</module>
-
+		<module>../../plugins/com.incquerylabs.uml.ralf.snippetcompiler</module>
+		
 		<!-- Releng -->
 		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>

@@ -1,15 +1,8 @@
 package com.incquerylabs.uml.ralf.api.impl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.xtext.validation.Issue;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements;
 
 public class ParsingResults {

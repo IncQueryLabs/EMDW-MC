@@ -15,6 +15,7 @@ import com.incquerylabs.emdw.umlintegration.rules.ConnectorEndRules
 import com.incquerylabs.emdw.umlintegration.rules.ConnectorRules
 import com.incquerylabs.emdw.umlintegration.rules.DeepHistoryRules
 import com.incquerylabs.emdw.umlintegration.rules.EntryPointRules
+import com.incquerylabs.emdw.umlintegration.rules.EnumerationLiteralRules
 import com.incquerylabs.emdw.umlintegration.rules.EnumerationRules
 import com.incquerylabs.emdw.umlintegration.rules.ExitPointRules
 import com.incquerylabs.emdw.umlintegration.rules.GuardRules
@@ -27,6 +28,7 @@ import com.incquerylabs.emdw.umlintegration.rules.MultiplicityElementRules
 import com.incquerylabs.emdw.umlintegration.rules.OperationRules
 import com.incquerylabs.emdw.umlintegration.rules.ParameterRules
 import com.incquerylabs.emdw.umlintegration.rules.PrimitiveTypeRules
+import com.incquerylabs.emdw.umlintegration.rules.ReturnTypeRules
 import com.incquerylabs.emdw.umlintegration.rules.SimpleStateRules
 import com.incquerylabs.emdw.umlintegration.rules.StateEntryRules
 import com.incquerylabs.emdw.umlintegration.rules.StateExitRules
@@ -58,7 +60,6 @@ import org.eclipse.incquery.runtime.evm.specific.resolver.FixedPriorityConflictR
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
-import com.incquerylabs.emdw.umlintegration.rules.EnumerationLiteralRules
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -101,6 +102,7 @@ class RuleProvider {
 		OperationRules.getRules(engine).initRules
 		ParameterRules.getRules(engine).initRules
 		PrimitiveTypeRules.getRules(engine).initRules
+		ReturnTypeRules.getRules(engine).initRules
 		SimpleStateRules.getRules(engine).initRules
 		StateEntryRules.getRules(engine).initRules
 		StateExitRules.getRules(engine).initRules

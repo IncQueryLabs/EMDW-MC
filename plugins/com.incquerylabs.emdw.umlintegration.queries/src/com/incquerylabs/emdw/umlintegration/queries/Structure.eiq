@@ -207,6 +207,17 @@ private pattern notReturnParameter(parameter) {
 	direction != ParameterDirectionKind::^return;
 }
 
+pattern returnParameterInOperation(operation: Operation, returnParameter: Parameter) {
+	find regularOperation(_, operation);
+	Operation.ownedParameter(operation, returnParameter);
+	Parameter.direction(returnParameter, ParameterDirectionKind::^return);
+}
+
+pattern voidOperation(operation : Operation) {
+	find regularOperation(_, operation);
+	neg find returnParameterInOperation(operation, _);
+}
+
 // Relations
 
 pattern xtAssociation(association: Association, sourceEnd: Property, targetEnd: Property) {

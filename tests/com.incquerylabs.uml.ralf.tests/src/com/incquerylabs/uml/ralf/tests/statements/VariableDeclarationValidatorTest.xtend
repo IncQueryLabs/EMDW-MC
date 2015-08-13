@@ -32,89 +32,89 @@ class VariableDeclarationValidatorTest extends AbstractValidatorTest{
 			],
 			#[  "InvalidVariableDeclarationStatement: String_cannot_be_null",
 			    '''String x = null;''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
 			],
 			#[  "InvalidVariableDeclarationStatement: Integer_cannot_be_null",
 			    '''Integer x = null;''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
 			],
 			#[  "InvalidVariableDeclarationStatement: Real_cannot_be_null",
 			    '''Real x = null;''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
 			],
 			#[  "InvalidVariableDeclarationStatement: Boolean_cannot_be_null",
 			    '''Boolean x = null;''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
 			],
 			#[  "VariableDeclarationStatement: RHS: IntegerLiteral",
 			    '''Integer x = 1+2;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: Multiplication",
 			    '''Integer x = 1*2;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: NumericUnary",
 			    '''Integer x = -1;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: Shift",
 			    '''Integer x = 1>>2;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: Relational",
 			    '''Boolean x = 1 < 2;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: Equality",
 			    '''Boolean x = 1 == 2;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: BooleanUnary",
 			    '''Boolean x = !(1 < 2);''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: BitwiseXor",
 			    '''Boolean x = 1 < 2 ^ false;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: BitwiseOr",
 			    '''Boolean x = 1 < 2 | false;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: BitwiseAnd",
 			    '''Boolean x = 1 < 2 & false;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: ConditionalAnd",
 			    '''Boolean x = 1 < 2 && false;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: ConditionalOR",
 			    '''Boolean x = 1 < 2 || false;''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: ConditionalTest",
 			    '''String x = (1 != 2) ? "test" : "test2";''',
 			    #[]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: RHS: Variable",
 			    '''
 				Integer x = 1 + 2;
 				Integer y = x + 2;''',
 			    #[]
 			],
-			#[  "InvalidVariableDeclarationStatement: ",
+			#[  "InvalidVariableDeclarationStatement: InvalidType",
 			    '''Integer y = "String";''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
 			],
-			#[  "InvalidVariableDeclarationStatement: ",
+			#[  "InvalidVariableDeclarationStatement: Duplicate Variable",
 			    '''
 				Integer x = 1;
 				Integer x = 1;''',
 			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
 			],
-			#[  "VariableDeclarationStatement: ",
+			#[  "VariableDeclarationStatement: Redefine after block",
 			    '''
 				{
 					String z = "1";
@@ -122,7 +122,7 @@ class VariableDeclarationValidatorTest extends AbstractValidatorTest{
 				String z = "2";''',
 			    #[]
 			],
-			#[  "InvalidVariableDeclarationStatement: ",
+			#[  "InvalidVariableDeclarationStatement: Redefine In block",
 			    '''
 				String z = "2";
 				{

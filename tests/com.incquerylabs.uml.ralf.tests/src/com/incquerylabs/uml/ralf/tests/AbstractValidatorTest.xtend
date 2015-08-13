@@ -26,7 +26,7 @@ import static org.junit.Assert.*
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class AbstractValidatorTest {
+abstract class AbstractValidatorTest {
 	@Parameter(0)
     public String name
 

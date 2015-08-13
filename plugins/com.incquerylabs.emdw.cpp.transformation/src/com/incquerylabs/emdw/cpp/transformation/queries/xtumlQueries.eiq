@@ -283,6 +283,15 @@ pattern cppOperationParameter(
 	CPPOperation.commonOperation(cppOperation, operation);
 }
 
+pattern cppOperationReturnValue(
+	operation : Operation,
+	cppOperation : CPPOperation,
+	returnType : TypedMultiplicityElement
+) {
+	Operation.returnType(operation, returnType);
+	CPPOperation.commonOperation(cppOperation, operation);
+}
+
 pattern cppComponents(
 	xtComponent : XTComponent,
 	cppComponent : CPPComponent

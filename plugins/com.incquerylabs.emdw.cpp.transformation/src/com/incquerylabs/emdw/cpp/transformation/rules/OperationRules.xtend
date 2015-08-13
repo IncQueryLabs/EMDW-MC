@@ -22,10 +22,12 @@ class OperationRules {
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	extension val FormalParameterRules formalParameterRules
+	extension val ReturnValueRules returnValueRules
 	
-	new(BatchTransformationStatements statements, FormalParameterRules formalParameterRules) {
+	new(BatchTransformationStatements statements, FormalParameterRules formalParameterRules, ReturnValueRules returnValueRules) {
 		this.statements = statements
 		this.formalParameterRules = formalParameterRules
+		this.returnValueRules = returnValueRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -52,6 +54,7 @@ class OperationRules {
 	
 	def transformSubElements(CPPOperation cppOperation){
 		fireAllCurrent(operationParameterRule, [it.cppOperation == cppOperation])
+		fireAllCurrent(operationReturnValueRule, [it.cppOperation == cppOperation])
 	}
 	
 	@Accessors(PUBLIC_GETTER)

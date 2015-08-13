@@ -22,6 +22,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 
 class XtumlComponentCPPTransformation {
 
@@ -39,6 +40,7 @@ class XtumlComponentCPPTransformation {
 	ClassRules classRules
 	AttributeRules attributeRules
 	OperationRules operationRules
+	ReturnValueRules returnValueRules
 	FormalParameterRules formalParameterRules
 	AssociationRules associationRules
 	ClassReferenceRules classReferenceRules
@@ -64,9 +66,10 @@ class XtumlComponentCPPTransformation {
 			includeRules = new IncludeRules(engine, statements)
 			sequenceRules = new SequenceRules(statements)
 			classReferenceRules = new ClassReferenceRules(statements)
+			returnValueRules = new ReturnValueRules(statements, classReferenceRules, sequenceRules, includeRules)
 			formalParameterRules = new FormalParameterRules(engine, statements, classReferenceRules, sequenceRules, includeRules)
 			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
-			operationRules = new OperationRules(statements, formalParameterRules)
+			operationRules = new OperationRules(statements, formalParameterRules, returnValueRules)
 			associationRules = new AssociationRules(statements, classReferenceRules)
 			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, includeRules)
 			packageRules = new PackageRules(statements, classRules, includeRules)

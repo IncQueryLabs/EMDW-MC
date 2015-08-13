@@ -58,6 +58,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
+import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -417,6 +418,14 @@ class TransformationTestUtil {
 		aChain
 	}
 
+	static def createActionChain(Transition root, String name) {
+		val aChain = commonFactory.createActionChain => [
+			it.name = name
+		]
+		root.actionChain = aChain
+		aChain
+	}
+
 	static def createXTEventTrigger(Transition root, XTEvent signal, String name) {
 		val xtevent = xtumlFactory.createXTEventTrigger => [
 			it.name = name
@@ -445,7 +454,7 @@ class TransformationTestUtil {
 		parameter
 	}
 
-	static def createTypeDefinition(Package root, Type type, String name) {
+	static def createTypeDefinition(BaseContainer root, Type type, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type
@@ -468,6 +477,14 @@ class TransformationTestUtil {
 			it.name = name
 		]
 		typedef.type = type
+		type
+	}
+
+	static def createPrimitiveType(BaseContainer root, String name) {
+		val type = commonFactory.createPrimitiveType => [
+			it.name = name
+		]
+		root.createTypeDefinition(type, '''«name»Definition''')
 		type
 	}
 

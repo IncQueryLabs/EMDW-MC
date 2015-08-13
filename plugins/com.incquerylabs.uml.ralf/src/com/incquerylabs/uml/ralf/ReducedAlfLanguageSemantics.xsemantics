@@ -348,7 +348,7 @@ from {
     G |- ex.expression : var IUMLTypeReference expType
     G |- ex.context : var CollectionTypeReference contextType
     
-	G |- contextType.valueType <: declarationType 
+	G |- contextType.valueType <: declarationType
     expType == BOOLEAN.primitiveTypeReference
     result = contextType
 }

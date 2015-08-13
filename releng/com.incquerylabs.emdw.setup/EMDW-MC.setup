@@ -5,13 +5,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:git="http://www.eclipse.org/oomph/setup/git/1.0"
     xmlns:jdt="http://www.eclipse.org/oomph/setup/jdt/1.0"
+    xmlns:mylyn="http://www.eclipse.org/oomph/setup/mylyn/1.0"
     xmlns:predicates="http://www.eclipse.org/oomph/predicates/1.0"
     xmlns:projects="http://www.eclipse.org/oomph/setup/projects/1.0"
     xmlns:setup="http://www.eclipse.org/oomph/setup/1.0"
     xmlns:setup.p2="http://www.eclipse.org/oomph/setup/p2/1.0"
     xmlns:setup.targlets="http://www.eclipse.org/oomph/setup/targlets/1.0"
     xmlns:setup.workingsets="http://www.eclipse.org/oomph/setup/workingsets/1.0"
-    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
+    xsi:schemaLocation="http://www.eclipse.org/oomph/setup/git/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Git.ecore http://www.eclipse.org/oomph/setup/jdt/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/JDT.ecore http://www.eclipse.org/oomph/setup/mylyn/1.0 index:/models/Mylyn.ecore http://www.eclipse.org/oomph/predicates/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Predicates.ecore http://www.eclipse.org/oomph/setup/projects/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/Projects.ecore http://www.eclipse.org/oomph/setup/targlets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupTarglets.ecore http://www.eclipse.org/oomph/setup/workingsets/1.0 http://git.eclipse.org/c/oomph/org.eclipse.oomph.git/plain/setups/models/SetupWorkingSets.ecore"
     name="emdw.mc"
     label="EMDW-MC">
   <setupTask
@@ -182,7 +183,7 @@
             project="com.incquerylabs.emdw.umlintegration.transformation"/>
         <operand
             xsi:type="predicates:NamePredicate"
-            pattern=".*xtumlrt.*"/>
+            pattern=".*model"/>
         <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/plugins/.*"/>
@@ -196,16 +197,19 @@
             xsi:type="predicates:RepositoryPredicate"
             project="com.incquerylabs.emdw.umlintegration.transformation"/>
         <operand
-            xsi:type="predicates:NamePredicate"
-            pattern="com\.incquerylabs\.emdw.*"/>
-        <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/plugins/.*"/>
         <operand
             xsi:type="predicates:NotPredicate">
           <operand
               xsi:type="predicates:NamePredicate"
-              pattern="com\.incquerylabs\.emdw\.alf.*"/>
+              pattern=".*alf.*"/>
+        </operand>
+        <operand
+            xsi:type="predicates:NotPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*model"/>
         </operand>
       </predicate>
     </workingSet>
@@ -255,6 +259,89 @@
       </predicate>
     </workingSet>
   </setupTask>
+  <project name="mylyn"
+      label="Mylyn">
+    <setupTask
+        xsi:type="mylyn:MylynQueriesTask"
+        connectorKind="github"
+        repositoryURL="https://github.com/IncQueryLabs/EMDW-MC"
+        userID="${github.user.id}"
+        password="${github.user.password}">
+      <query
+          summary="EMDW MC bugs">
+        <attribute
+            key="labels"
+            value="bug::"/>
+      </query>
+      <query
+          summary="EMDW MC features">
+        <attribute
+            key="labels"
+            value="enhancement::"/>
+      </query>
+    </setupTask>
+    <setupTask
+        xsi:type="mylyn:MylynQueriesTask"
+        connectorKind="githubPullRequests"
+        repositoryURL="https://github.com/IncQueryLabs/EMDW-MC/pulls"
+        userID="${github.user.id}"
+        password="${github.user.password}">
+      <query
+          summary="Massif pull requests"
+          url="">
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+    </setupTask>
+    <setupTask
+        xsi:type="mylyn:MylynBuildsTask"
+        serverURL="https://build.inf.mit.bme.hu/jenkins"
+        userID=""
+        password="">
+      <buildPlan
+          name="ericsson-emdw-modelcompiler"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.p2:P2Task">
+      <requirement
+          name="org.eclipse.mylyn.ide_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.java_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.pde_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.team_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn_feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.git.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.github.feature.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.builds.feature.group"/>
+      <requirement
+          name="org.eclipse.mylyn.hudson.feature.group"/>
+      <requirement
+          name="org.eclipse.egit.mylyn.feature.group"/>
+      <repository
+          url="http://download.eclipse.org/releases/mars"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup:CompoundTask"
+        name="Preferences">
+      <setupTask
+          xsi:type="setup:CompoundTask"
+          name="org.eclipse.mylyn.team.ui">
+        <setupTask
+            xsi:type="setup:PreferenceTask"
+            key="/instance/org.eclipse.mylyn.team.ui/org.eclipse.mylyn.team.commit.template"
+            value="#$${task.key}: $${task.description} "/>
+      </setupTask>
+    </setupTask>
+    <stream
+        name="master"/>
+  </project>
   <stream name="master"/>
   <logicalProjectContainer
       xsi:type="setup:ProjectCatalog"

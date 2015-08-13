@@ -705,9 +705,17 @@ from {
         returnValue == null    
         st.expression == null
     } or {
+        returnValue != null    
+        st.expression != null
         empty |- st.expression : var IUMLTypeReference exprType
         val returnType = returnValue.type.typeReference
         empty |- returnType <: exprType
+    } or {
+        returnValue == null    
+        st.expression != null
+        fail
+            error "Unexpected return value " + st.expression.stringRep
+            source st.expression
     }
 }
 

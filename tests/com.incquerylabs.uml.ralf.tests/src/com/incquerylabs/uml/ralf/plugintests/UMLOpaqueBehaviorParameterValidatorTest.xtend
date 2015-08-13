@@ -234,6 +234,16 @@ class UMLOpaqueBehaviorParameterValidatorTest {
 		"model::Comp::Pong::TestOperation")
 	}
 	
+	@Test
+	def returnParameter_Operation_Unexpected_ReturnValue(){
+		parameterError(
+		'''
+			Pong x = this.returnPong();
+			return x;
+		''',
+		"model::Comp::Pong::doIntegerVoid")
+	}
+	
 	def parameterOK(String input, String opaqueFQN) {
 		//Set Opaque behavior ID	
 		context.definedOperation = opaqueFQN

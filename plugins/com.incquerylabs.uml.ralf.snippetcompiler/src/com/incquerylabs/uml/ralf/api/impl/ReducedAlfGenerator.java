@@ -5,6 +5,8 @@ import org.eclipse.uml2.uml.OpaqueBehavior;
 
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
+import com.incquerylabs.uml.ralf.api.impl.ParsingResults;
+import com.incquerylabs.uml.ralf.api.impl.SnippetCompilerException;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
 

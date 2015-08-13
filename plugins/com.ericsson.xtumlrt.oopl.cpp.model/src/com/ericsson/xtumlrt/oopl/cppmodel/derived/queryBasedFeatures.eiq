@@ -36,6 +36,24 @@ pattern cppFormalParameterType(
 	neg find referenceType(target);
 }
 
+@QueryBasedFeature(feature = "type")
+pattern cppReturnValueType(
+	source : CPPReturnValue,
+	target : OOPLDataType
+) {
+	find cppReturnValueUnnamedSequenceType(source, target);
+} or {
+	CPPReturnValue.subElements(source, target);
+	CPPReturnValue.commonTypedMultiplicityElement.type(source, commonType);
+	OOPLDataType.commonType(target, commonType);
+	find referenceType(target);
+} or {
+	CPPReturnValue.commonTypedMultiplicityElement.type(source, commonType);
+	OOPLDataType.commonType(target, commonType);
+	neg find cppReturnValueUnnamedSequenceType(source, _sequence);
+	neg find referenceType(target);
+}
+
 private pattern referenceType(
 	referenceType : OOPLDataType
 ) {
@@ -384,4 +402,11 @@ pattern cppFormalParameterUnnamedSequenceType(
 	cppSequence : CPPSequence
 ) {
 	CPPFormalParameter.unnamedSequenceType(cppFormalParameter, cppSequence);
+}
+
+pattern cppReturnValueUnnamedSequenceType(
+	cppReturnValue : CPPReturnValue,
+	cppSequence : CPPSequence
+) {
+	CPPReturnValue.unnamedSequenceType(cppReturnValue, cppSequence);
 }

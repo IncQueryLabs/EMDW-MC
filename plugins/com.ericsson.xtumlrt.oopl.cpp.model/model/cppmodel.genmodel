@@ -136,6 +136,11 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPFormalParameter/unnamedSequenceType"/>
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPFormalParameter/type"/>
     </genClasses>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPReturnValue">
+      <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPReturnValue/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPReturnValue/unnamedSequenceType"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPReturnValue/commonTypedMultiplicityElement"/>
+    </genClasses>
     <genClasses ecoreClass="cppmodel.ecore#//CPPExternalLibrary">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalLibrary/externalHeader"/>
     </genClasses>

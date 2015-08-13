@@ -8,25 +8,24 @@ import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.types.IUMLTypeReference
+import com.incquerylabs.uml.ralf.types.UMLTypeReference
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.uml2.uml.Class
+import org.eclipse.xtext.naming.IQualifiedNameConverter
 import org.eclipse.xtext.scoping.IScope
 import org.eclipse.xtext.scoping.Scopes
 import org.eclipse.xtext.scoping.impl.AbstractDeclarativeScopeProvider
-import com.incquerylabs.uml.ralf.types.UMLTypeReference
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
-import com.incquerylabs.uml.ralf.types.IUMLTypeReference
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
-import org.eclipse.xtext.naming.QualifiedName
-import org.eclipse.xtext.naming.IQualifiedNameConverter
 
 /**
  * This class contains custom scoping description.
@@ -183,11 +182,20 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     }
     
     def IScope scope_StaticFeatureInvocationExpression_operation(StaticFeatureInvocationExpression ctx, EReference ref) {
-        Scopes.scopeFor(umlContext.getStaticOperations(),
+        val staticScope = Scopes.scopeFor(umlContext.getStaticOperations(),
             //XXX is this name conversion correct?
             [nameConverter.toQualifiedName('''«namespace.name»::«name»''')],
             IScope.NULLSCOPE
         )
+        val thisType = umlContext.thisType
+        if (thisType != null) {
+            Scopes.scopeFor(umlContext.getOperationsOfClass(thisType),
+                [nameConverter.toQualifiedName(name)],
+                staticScope
+            )
+        } else {
+            staticScope            
+        }
     }
     
     def IScope scope_PropertyAccessExpression_property(PropertyAccessExpression ctx, EReference ref) {

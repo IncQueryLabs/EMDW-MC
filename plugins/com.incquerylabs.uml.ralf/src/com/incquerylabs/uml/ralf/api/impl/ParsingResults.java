@@ -29,6 +29,14 @@ public class ParsingResults {
     public Iterable<Issue> getAllDiagnostics() {
         return Iterables.concat(diag.getErrors(), diag.getWarnings());
     }
+    
+    public Iterable<Issue> getErrors() {
+        return diag.getErrors();
+    }
+   
+    public Iterable<Issue> getWarnings() {
+        return diag.getWarnings();
+    }
 
     @Override
     public String toString() {

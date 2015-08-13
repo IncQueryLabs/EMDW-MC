@@ -1,207 +1,135 @@
 package com.incquerylabs.uml.ralf.tests.statements
 
-import com.google.inject.Inject
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class VariableDeclarationValidatorTest {
+class VariableDeclarationValidatorTest extends AbstractValidatorTest{
 	
-	@Inject
-	ParseHelper<Statements> parseHelper
-
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-	
-	
-	//Local variable definition
-	@Test
-	def localVariableReal_NoRHS() {
-		localVariableOK('''Real x;''')
-	}
-	
-	@Test
-	def localVariableInteger_NoRHS() {
-		localVariableOK('''Integer x;''')
-	}
-	
-	@Test
-	def localVariableString_NoRHS() {
-		localVariableOK('''String x;''')
-	}
-	
-	@Test
-	def localVariableBoolean_NoRHS() {
-		localVariableOK('''Boolean x;''')
-	}
-	
-	@Test
-	def localVariableSimple() {
-		localVariableOK('''Integer x = 1;''')
-	}
-	
-	@Test
-	def localVariableStringNull() {
-		localVariableError('''String x = null;''')
-	}
-	
-	@Test
-	def localVariableIntegerNull() {
-		localVariableError('''Integer x = null;''')
-	}
-	
-	@Test
-	def localVariableRealNull() {
-		localVariableError('''Real x = null;''')
-	}
-	
-	@Test
-	def localVariableBooleanNull() {
-		localVariableError('''Boolean x = null;''')
-	}
-	
-	@Test
-	def localVariableAdditive() {
-		localVariableOK('''Integer x = 1+2;''')
-	}
-	
-	@Test
-	def localVariableMultiplicative() {
-		localVariableOK('''Integer x = 1*2;''')
-	}
-	
-	@Test
-	def localVariableNumericUnary() {
-		localVariableOK('''Integer x = -1;''')
-	}
-	
-	@Test
-	def localVariableShift() {
-		localVariableOK('''Integer x = 1>>2;''')
-	}
-	
-	@Test
-	def localVariableRelation() {
-		localVariableOK('''Boolean x = 1 < 2;''')
-	}
-	
-	@Test
-	def localVariableEquality() {
-		localVariableOK('''Boolean x = 1 == 2;''')
-	}
-	
-	@Test
-	def localVariableBooleanUnary() {
-		localVariableOK('''Boolean x = !(1 < 2);''')
-	}
-	
-	@Test
-	def localVariableBooleanXor() {
-		localVariableOK('''Boolean x = 1 < 2 ^ false;''')
-	}
-	
-	@Test
-	def localVariableBooleanOr() {
-		localVariableOK('''Boolean x = 1 < 2 | false;''')
-	}
-	
-	@Test
-	def localVariableBooleanAnd() {
-		localVariableOK('''Boolean x = 1 < 2 & false;''')
-	}
-	
-	@Test
-	def localVariableBooleanConditionalAnd() {
-		localVariableOK('''Boolean x = 1 < 2 && false;''')
-	}
-	
-	@Test
-	def localVariableBooleanConditionalOr() {
-		localVariableOK('''Boolean x = 1 < 2 || false;''')
-	}
-	
-	@Test
-	def localVariableConditionalTest() {
-		localVariableOK('''String x = (1 != 2) ? "test" : "test2";''')
-	}
-	
-	@Test
-	def localVariableReference() {
-		localVariableOK(
-		'''
-		Integer x = 1 + 2;
-		Integer y = x + 2;
-		'''
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "VariableDeclarationStatement: RealVariable_NORHS",
+			    '''Real x;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: IntegerVariable_NORHS",
+			    '''Integer x;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: StringVariable_NORHS",
+			    '''String x;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: BooleanVariable_NORHS",
+			    '''Boolean x;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: IntegerLiteral",
+			    '''Integer x = 1;''',
+			    #[]
+			],
+			#[  "InvalidVariableDeclarationStatement: String_cannot_be_null",
+			    '''String x = null;''',
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
+			],
+			#[  "InvalidVariableDeclarationStatement: Integer_cannot_be_null",
+			    '''Integer x = null;''',
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
+			],
+			#[  "InvalidVariableDeclarationStatement: Real_cannot_be_null",
+			    '''Real x = null;''',
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
+			],
+			#[  "InvalidVariableDeclarationStatement: Boolean_cannot_be_null",
+			    '''Boolean x = null;''',
+			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
+			],
+			#[  "VariableDeclarationStatement: RHS: IntegerLiteral",
+			    '''Integer x = 1+2;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: Multiplication",
+			    '''Integer x = 1*2;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: NumericUnary",
+			    '''Integer x = -1;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: Shift",
+			    '''Integer x = 1>>2;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: Relational",
+			    '''Boolean x = 1 < 2;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: Equality",
+			    '''Boolean x = 1 == 2;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: BooleanUnary",
+			    '''Boolean x = !(1 < 2);''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: BitwiseXor",
+			    '''Boolean x = 1 < 2 ^ false;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: BitwiseOr",
+			    '''Boolean x = 1 < 2 | false;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: BitwiseAnd",
+			    '''Boolean x = 1 < 2 & false;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: ConditionalAnd",
+			    '''Boolean x = 1 < 2 && false;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: ConditionalOR",
+			    '''Boolean x = 1 < 2 || false;''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: ConditionalTest",
+			    '''String x = (1 != 2) ? "test" : "test2";''',
+			    #[]
+			],
+			#[  "VariableDeclarationStatement: RHS: Variable",
+			    '''
+				Integer x = 1 + 2;
+				Integer y = x + 2;''',
+			    #[]
+			],
+			#[  "InvalidVariableDeclarationStatement: InvalidType",
+			    '''Integer y = "String";''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "InvalidVariableDeclarationStatement: Duplicate Variable",
+			    '''
+				Integer x = 1;
+				Integer x = 1;''',
+			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			],
+			#[  "VariableDeclarationStatement: Redefine after block",
+			    '''
+				{
+					String z = "1";
+				}
+				String z = "2";''',
+			    #[]
+			],
+			#[  "InvalidVariableDeclarationStatement: Redefine In block",
+			    '''
+				String z = "2";
+				{
+					String z = "1";
+				}''',
+			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			]
 		)
-	}
-	
-	@Test
-	def localVariableDifferentType() {
-		localVariableError(
-		'''
-		Integer y = "String";
-		'''
-		)
-	}
-	
-	@Test
-	def localVariableSameName() {
-		localVariableError(
-		'''
-		Integer x = 1;
-		Integer x = 1;
-		'''
-		)
-	}
-	
-	@Test
-	def localVariableSameNameAfterBlock() {
-		localVariableOK(
-		'''
-		{
-			String z = "1";
-		}
-		String z = "2";
-		'''
-		)
-	}
-	
-	@Test
-	def localVariableSameNameBeforeBlock() {
-		localVariableError(
-		'''
-		String z = "2";
-		{
-			String z = "1";
-		}
-		
-		'''
-		)
-	}
-
-	private def localVariableOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def localVariableError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(0)
-	}
-	
+	}	
 }

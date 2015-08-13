@@ -1,238 +1,163 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
-import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
-import org.junit.Ignore
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class AssignmentExpressionValidatorTest {
+class AssignmentExpressionValidatorTest extends AbstractValidatorTest{
 			
-	@Inject
-	ParseHelper<Statements> parseHelper
-	
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-		
-	
-	@Test
-	def assignmentExpressionInteger() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionBoolean() {
-		assignmentOK('''
-		Boolean x = true;
-		x = false;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionReal() {
-		assignmentOK('''
-		Real x = 1.1;
-		x = 1.2;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionString() {
-		assignmentOK('''
-		String x = "";
-		x = "2";
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionVariable() {
-		assignmentOK('''
-		Integer x = 1;
-		Integer y = 2;
-		y = x;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionVariableInvalidType() {
-		assignmentError('''
-		String x = "1";
-		Integer y = 2;
-		y = x;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionPostIncrement() {
-		assignmentOK('''
-		Integer x = 1;
-		Integer y = 1;
-		y = x++;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionPreIncrement() {
-		assignmentOK('''
-		Integer x = 1;
-		Integer y = 1;
-		y = ++x;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionMultiplicative() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1*1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionMultiplicativeReal() {
-		assignmentError('''
-		Integer x = 1;
-		x = 0.5 /1;
-		''');
-	}
-	
-	
-	@Test
-	def assignmentExpressionAdditive() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1+1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionShift() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1>>1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionRelational() {
-		assignmentOK('''
-		Boolean x = true;
-		x = 1>1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionEquality() {
-		assignmentOK('''
-		Boolean x = true;
-		x = 1==1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionBitwiseOr() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1|1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionBitwiseAnd() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1&1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionBitwiseXor() {
-		assignmentOK('''
-		Integer x = 1;
-		x = 1^1;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionAnd() {
-		assignmentOK('''
-		Boolean x = true;
-		x = true && false;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionOr() {
-		assignmentOK('''
-		Boolean x = true;
-		x = true || false;''');
-	}
-	
-	@Test
-	def assignmentExpressionCondTest() {
-		assignmentOK('''
-		Integer x = 1;
-		x = (true) ? 2 : 3;''');
-	}
-	
-	@Test
-	def assignmentExpressionIntegerNull() {
-		assignmentError('''
-		Integer x = 1;
-		x = null;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionRealNull() {
-		assignmentError('''
-		Real x = 1.1;
-		x = null;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionStringNull() {
-		assignmentError('''
-		String x = "1";
-		x = null;
-		''');
-	}
-	
-	@Test
-	def assignmentExpressionBooleanNull() {
-		assignmentError('''
-		Boolean x = true;
-		x = null;
-		''');
-	}
-	
-	private def assignmentOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def assignmentError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.ASSIGNMENTEXPRESSION)
-	}
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "AssignmentExpression: Integer variable",
+			    '''
+				Integer x = 1;
+				x = 1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Boolean variable",
+			    '''
+				Boolean x = true;
+				x = false;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Real variable",
+			    '''
+				Real x = 1.1;
+				x = 1.2;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: String variable",
+			    '''
+				String x = "";
+				x = "2";''',
+			    #[]
+			],
+			#[  "AssignmentExpression: 2 variables",
+			    '''
+				Integer x = 1;
+				Integer y = 2;
+				y = x;''',
+			    #[]
+			],
+			#[  "InvalidAssignmentExpression: Invalid variable type",
+			    '''
+				String x = "1";
+				Integer y = 2;
+				y = x;''',
+			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[  "AssignmentExpression: PostFix Increment",
+			    '''
+				Integer x = 1;
+				Integer y = 1;
+				y = x++;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Prefix Increment",
+			    '''
+				Integer x = 1;
+				Integer y = 1;
+				y = ++x;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Multiplication",
+			    '''
+				Integer x = 1;
+				x = 1*1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Invalid result type",
+			    '''
+				Integer x = 1;
+				x = 0.5 /1;''',
+			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[  "AssignmentExpression: Addition",
+			    '''
+				Integer x = 1;
+				x = 1+1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Shift",
+			    '''
+				Integer x = 1;
+				x = 1>>1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Relational",
+			    '''
+				Boolean x = true;
+				x = 1>1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Equality",
+			    '''
+				Boolean x = true;
+				x = 1==1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Bitwise OR",
+			    '''
+				Integer x = 1;
+				x = 1|1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Bitwise AND",
+			    '''
+				Integer x = 1;
+				x = 1&1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Bitwise XOR",
+			    '''
+				Integer x = 1;
+				x = 1^1;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Conditional AND",
+			    '''
+				Boolean x = true;
+				x = true && false;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Conditional OR",
+			    '''
+				Boolean x = true;
+				x = true || false;''',
+			    #[]
+			],
+			#[  "AssignmentExpression: Conditional test",
+			    '''
+				Integer x = 1;
+				x = (true) ? 2 : 3;''',
+			    #[]
+			],
+			#[  "InvalidAssignmentExpression: Integer null",
+			    '''
+				Integer x = 1;
+				x = null;''',
+			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[  "InvalidAssignmentExpression: Real null",
+			    '''
+				Real x = 1.1;
+				x = null;''',
+			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[  "InvalidAssignmentExpression: String null",
+			    '''
+				String x = "1";
+				x = null;''',
+			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[  "InvalidAssignmentExpression: Boolean null",
+			    '''
+				Boolean x = true;
+				x = null;''',
+			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			]
+		)
+	}			
 }

@@ -1,211 +1,128 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
-
-import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
-import org.junit.Assert
-import org.junit.Ignore
+import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class EqualityExpressionValidatorTest {
-		
-	@Inject
-	ParseHelper<Statements> parseHelper
-	
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-	
-	@Test
-	def equalityExpressionInteger() {
-		equalityExpressionOK('''1 == 2;''');
-	}
-	
-			
-	@Test
-	def equalityExpressionMultiple() {
-		equalityExpressionOK('''1 == 2 == true;''')
-	}
-	
-	@Test
-	def equalityExpressionString() {
-		equalityExpressionOK('''"1" == "2";''')
-	}
-	
-	@Test
-	def equalityExpressionBoolean() {
-		equalityExpressionOK('''false == true;''')
-	}
-	
-	@Test
-	def equalityExpressionParentheses() {
-		equalityExpressionOK('''1 == (2+3);''')
-	}
-	
-	@Test
-	def equalityExpressionMultiplicative() {
-		equalityExpressionOK('''1 == 2*3;''')
-	}
-	
-	@Test
-	def equalityExpressionAdditive() {
-		equalityExpressionOK('''1 == 2+3;''')
-	}
-	
-	@Test
-	def equalityExpressionShift() {
-		equalityExpressionOK('''1 == 2>>3;''')
-	}
-	
-	@Test
-	def equalityExpressionRelational() {
-		equalityExpressionOK('''true == 2>3;''')
-	}
-	
-	@Test
-	def equalityExpressionVariable() {
-		equalityExpressionOK('''
-		Integer x = 1;
-		x == 1;
-		''')
-	}
-	
-	@Test
-	def equalityExpressionMultipleVariables() {
-		equalityExpressionOK('''
-		Integer x = 1;
-		Integer y = 1;
-		x == y;
-		''')
-	}
-	
-	@Test
-	def equalityExpressionNumericUnary() {
-		equalityExpressionOK('''1 == -2;''')
-	}
-	
-	@Test
-	def equalityExpressionBinaryUnary() {
-		equalityExpressionOK('''false == !true;''')
-	}
-		
-	@Test
-	def equalityExpressionReal() {
-		equalityExpressionOK('''1.3 == 2.3;''')
-	}
-	
-	@Test
-	@Ignore("Does not work in Jenkins build")
-	def equalityExpressionRealInteger() {
-		equalityExpressionOK('''1.3 == 2;''')
-	}
-	
-	@Test
-	@Ignore("Does not work in Jenkins build")
-	def equalityExpressionIntegerReal() {
-		equalityExpressionOK('''1 == 2.3;''')
-	}
-	
-	@Test
-	def equalityExpressionMultiplicativeReal() {
-		equalityExpressionOK('''1 == 1/2;''')
-	}	
-	
-	@Test
-	def equalityExpressionAffix() {
-		equalityExpressionOK('''
-		Integer x = 1;
-		--x == 1;
-		''')
-	}
-	
-	@Test
-	def equalityExpressionPostfix() {
-		equalityExpressionOK('''
-		Integer x = 1;
-		x-- == 1;
-		''')
-	}
-		
-		//Expected: Validation ERROR
-		
-	@Test
-	def equalityExpressionIntegerString() {
-		equalityExpressionError('''1 == "2";''')		
-	}
-	
-	@Test
-	def equalityExpressionRealString() {
-		equalityExpressionError('''1.3 == "2";''')
-	}
-	
-	@Test
-	def equalityExpressionStringInteger() {
-		equalityExpressionError('''"1" == 2;''')
-	}
-	
-	@Test
-	def equalityExpressionStringReal() {
-		equalityExpressionError('''"1" == 2.3;''')
-	}
-	
-	@Test
-	def equalityExpressionBooleanReal() {
-		equalityExpressionError('''true == 2.3;''')
-	}
-	
-	@Test
-	def equalityExpressionBooleanInteger() {
-		equalityExpressionError('''true == 2;''')
-	}
-	
-	@Test
-	def equalityExpressionBooleanString() {
-		equalityExpressionError('''true == "2";''')
-	}
-	
-	@Test
-	def equalityExpressionStringBoolean() {
-		equalityExpressionError('''"1" == true;''')
-	}
-	
-	@Test
-	def equalityExpressionRealBoolean() {
-		equalityExpressionError('''1.3 == true;''')
-	}
-	
-	@Test
-	def equalityExpressionIntegerBoolean() {
-		equalityExpressionError('''1 == true;''')
-	}
-	
-	
-	private def equalityExpressionOK(String code){
-		val model = parseHelper.parse(code)
-		val diag = tester.validate(model)
-		Assert.assertEquals('''There are expected to be no diagnostics but found the following: «diag»''', 0, diag.diagnostic.children.size)
-		
-		model.assertNoErrors
-	}
-	
-	private def equalityExpressionError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(ReducedAlfSystem.EQUALITYEXPRESSION)
+class EqualityExpressionValidatorTest extends AbstractValidatorTest{
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: IntegerLiteral",
+			    '''1 == 2;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Multiple",
+			    '''1 == 2 == true;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : StringLiteral, Parameter2: StringLiteral",
+			    '''"1" == "2";''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : BooleanLiteral, Parameter2: BooleanLiteral",
+			    '''false == true;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: Parenthesis",
+			    '''1 == (2+3);''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: Multiplication",
+			    '''1 == 2*3;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: Addition",
+			    '''1 == 2+3;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: Shift",
+			    '''1 == 2>>3;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : BooleanLiteral, Parameter2: Relational",
+			    '''true == 2>3;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerVariable, Parameter2: IntegerLiteral",
+			    '''
+				Integer x = 1;
+				x == 1;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerVariable, Parameter2: IntegerVariable",
+			    '''
+				Integer x = 1;
+				Integer y = 1;
+				x == y;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: NumericUnary",
+			    '''1 == -2;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : BooleanLiteral, Parameter2: BooleanUnary",
+			    '''false == !true;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : RealLiteral, Parameter2: RealLiteral",
+			    '''1.3 == 2.3;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : IntegerLiteral, Parameter2: Division(Integer)",
+			    '''1 == 1/2;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : PrefixDecrement, Parameter2: IntegerLiteral",
+			    '''
+				Integer x = 1;
+				--x == 1;''',
+			    #[]
+			],
+			#[  "EqualityExpression: Parameter1 : PostfixDecrement, Parameter2: IntegerLiteral",
+			    '''
+				Integer x = 1;
+				x-- == 1;''',
+			    #[]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : IntegerLiteral, Parameter2: StringLiteral",
+			    '''1 == "2";''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : RealLiteral, Parameter2: StringLiteral",
+			    '''1.3 == "2";''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : StringLiteral, Parameter2: IntegerLiteral",
+			    '''"1" == 2;''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : BooleanLiteral, Parameter2: RealLiteral",
+			    '''true == 2.3;''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : BooleanLiteral, Parameter2: IntegerLiteral",
+			    '''true == 2;''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : BooleanLiteral, Parameter2: StringLiteral",
+			    '''true == "2";''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : StringLiteral, Parameter2: BooleanLiteral",
+			    '''"1" == true;''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : RealLiteral, Parameter2: BooleanLiteral",
+			    '''1.3 == true;''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			],
+			#[  "InvalidEqualityExpression: Parameter1 : IntegerLiteral, Parameter2: BooleanLiteral",
+			    '''1 == true;''',
+			    #[ReducedAlfSystem.EQUALITYEXPRESSION]
+			]
+		)
 	}
 }
 	

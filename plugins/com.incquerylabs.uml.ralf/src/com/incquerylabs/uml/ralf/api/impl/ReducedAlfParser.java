@@ -47,7 +47,6 @@ public class ReducedAlfParser implements IReducedAlfParser {
         Module customizations = binder -> {
 		    binder.bind(IUMLContextProvider.class).toInstance(umlContext);
 		    binder.bind(IReducedAlfParser.class).toInstance(this);
-		    //binder.bind(IReducedAlfGenerator.class).to(ReducedAlfGenerator.class);
 		};
         return Guice.createInjector(module, customizations);
     }

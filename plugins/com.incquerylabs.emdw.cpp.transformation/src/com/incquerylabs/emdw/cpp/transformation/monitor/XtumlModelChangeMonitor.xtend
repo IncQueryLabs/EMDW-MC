@@ -1,6 +1,29 @@
 package com.incquerylabs.emdw.cpp.transformation.monitor
 
 import com.google.common.collect.Multimap
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedActionCodesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedAssociationTargetQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedAttributeTypesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedAttributesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedClassEventDefiningEventsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedClassesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedComponentsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedEventsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedGeneralizationClassesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedGuardsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedOperationSignaturesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedPackagesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedParameterTypesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedParametersQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedRedefinesInClassesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedRelationsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedStateMachinesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedTransitionsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedTriggerSignalsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedTriggersQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedTypedMultiplicityElementTypesQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedTypedMultiplicityElementsQuerySpecification
+import com.incquerylabs.emdw.cpp.transformation.queries.util.ChangedVerticesQuerySpecification
 import java.util.HashMap
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
@@ -10,9 +33,6 @@ import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryMatcher
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.runtime.changemonitor.ChangeMonitor
-import com.incquerylabs.emdw.cpp.transformation.queries.util.XtComponentXTClassesQuerySpecification
-import com.incquerylabs.emdw.cpp.transformation.queries.util.XtComponentXTPackagesQuerySpecification
-import com.incquerylabs.emdw.cpp.transformation.queries.util.AllXTComponentsOfModelQuerySpecification
 
 class XtumlModelChangeMonitor {
 	
@@ -30,12 +50,29 @@ class XtumlModelChangeMonitor {
 		
 		engine.addLifecycleListener(new XtumlMonitorEngineLifecycleListener(this))
 		
-		XtComponentXTClassesQuerySpecification.instance.registerQuerySpecification(1)
-		XtComponentXTPackagesQuerySpecification.instance.registerQuerySpecification(1)
-		
-		// 
-		AllXTComponentsOfModelQuerySpecification.instance.registerQuerySpecification(1)
-		// TODO: register further query specifications if needed
+		ChangedActionCodesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedAssociationTargetQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedAttributesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedAttributeTypesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedClassesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedClassEventDefiningEventsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedComponentsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedEventsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedGeneralizationClassesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedGuardsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedOperationSignaturesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedPackagesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedParametersQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedParameterTypesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedRedefinesInClassesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedRelationsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedStateMachinesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedTransitionsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedTriggerSignalsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedTriggersQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedTypedMultiplicityElementsQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedTypedMultiplicityElementTypesQuerySpecification.instance.registerQuerySpecification(0)
+		ChangedVerticesQuerySpecification.instance.registerQuerySpecification(0)
 	}
 	
 	def startMonitoring() {

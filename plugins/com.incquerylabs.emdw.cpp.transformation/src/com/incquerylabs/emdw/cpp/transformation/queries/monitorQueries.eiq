@@ -1,0 +1,158 @@
+package com.incquerylabs.emdw.cpp.transformation.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+
+//* Component changes
+pattern changedComponents(
+	monitoredElement : XTComponent
+) {
+	XTComponent(monitoredElement);
+}
+
+//* Package changes
+pattern changedPackages(
+	monitoredElement : Package
+) {
+	Package(monitoredElement);
+}
+
+//* Class changes
+pattern changedClasses(
+	monitoredElement : XTClass
+) {
+	XTClass(monitoredElement);
+}
+
+//* Event changes
+pattern changedEvents(
+	monitoredElement : XTEvent
+) {
+	XTEvent(monitoredElement);
+}
+
+pattern changedClassEventDefiningEvents(
+	monitoredElement : XTClassEvent
+) {
+	XTClassEvent.definingEvents(monitoredElement, _);
+}
+
+//* Relation changes
+pattern changedRelations(
+	monitoredElement : XTRelation
+) {
+	XTRelation(monitoredElement);
+}
+
+pattern changedAssociationTarget(
+	monitoredElement : XTAssociation
+) {
+	XTAssociation.target(monitoredElement, _);
+}
+
+//* Attribute changes
+pattern changedAttributes(
+	monitoredElement : Attribute
+) {
+	Attribute(monitoredElement);
+}
+
+pattern changedAttributeTypes(
+	monitoredElement : Attribute
+) {
+	Attribute.type(monitoredElement, _);
+}
+
+//* Generalization changes
+pattern changedGeneralizationClasses(
+	monitoredElement : XTClass
+) {
+	Generalization.^super(generalization, _);
+	Generalization.sub(generalization, monitoredElement);
+}
+
+//* Operation changes
+pattern changedOperationSignatures(
+	monitoredElement : OperationSignature
+) {
+	OperationSignature(monitoredElement);
+}
+
+pattern changedTypedMultiplicityElements(
+	monitoredElement : TypedMultiplicityElement
+) {
+	TypedMultiplicityElement(monitoredElement);
+}
+
+pattern changedTypedMultiplicityElementTypes(
+	monitoredElement : TypedMultiplicityElement
+) {
+	TypedMultiplicityElement.type(monitoredElement, _);
+}
+
+pattern changedParameters(
+	monitoredElement : Parameter
+) {
+	Parameter(monitoredElement);
+}
+
+pattern changedParameterTypes(
+	monitoredElement : Parameter
+) {
+	Parameter.type(monitoredElement, _);
+}
+
+//* Class changes (inherited from RedefinableElement) - redefines 
+pattern changedRedefinesInClasses(
+	monitoredElement : XTClass
+) {
+	XTClass.redefines(monitoredElement, _);
+}
+
+//* Class changes (inherited from Entity) - behaviour 
+pattern changedStateMachines(
+	monitoredElement : StateMachine
+) {
+	StateMachine(monitoredElement);
+}
+
+//* Vertex changes 
+pattern changedVertices(
+	monitoredElement : Vertex
+) {
+	Vertex(monitoredElement);
+}
+
+//* ActionCode changes 
+pattern changedActionCodes(
+	monitoredElement : ActionCode
+) {
+	ActionCode(monitoredElement);
+}
+
+//* Transition changes 
+pattern changedTransitions(
+	monitoredElement : Transition
+) {
+	Transition(monitoredElement);
+}
+
+//* Trigger changes 
+pattern changedTriggers(
+	monitoredElement : Trigger
+) {
+	Trigger(monitoredElement);
+}
+
+pattern changedTriggerSignals(
+	monitoredElement : XTEventTrigger
+) {
+	XTEventTrigger.signal(monitoredElement, _);
+}
+
+//* Guard changes 
+pattern changedGuards(
+	monitoredElement : Guard
+) {
+	Guard(monitoredElement);
+}

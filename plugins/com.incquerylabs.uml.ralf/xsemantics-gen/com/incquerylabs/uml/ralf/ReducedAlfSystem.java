@@ -781,7 +781,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   protected Result<Boolean> returnStatementInternal(final RuleApplicationTrace _trace_, final ReturnStatement st) throws RuleFailedException {
     Operation _definedOperation = this.umlContext.getDefinedOperation();
     final Parameter returnValue = this.scopeHelper.getReturnParameter(_definedOperation);
-    /* { returnValue == null st.expression == null } or { empty |- st.expression : var IUMLTypeReference exprType val returnType = returnValue.type.typeReference empty |- returnType <: exprType } */
+    /* { returnValue == null st.expression == null } or { returnValue != null st.expression != null empty |- st.expression : var IUMLTypeReference exprType val returnType = returnValue.type.typeReference empty |- returnType <: exprType } or { returnValue == null st.expression != null fail error "Unexpected return value " + st.expression.stringRep source st.expression } */
     {
       RuleFailedException previousFailure = null;
       try {
@@ -797,17 +797,54 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
         }
       } catch (Exception e) {
         previousFailure = extractRuleFailedException(e);
-        /* empty |- st.expression : var IUMLTypeReference exprType */
-        Expression _expression_1 = st.getExpression();
-        IUMLTypeReference exprType = null;
-        Result<IUMLTypeReference> result = typeInternal(emptyEnvironment(), _trace_, _expression_1);
-        checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
-        exprType = (IUMLTypeReference) result.getFirst();
-        
-        Type _type = returnValue.getType();
-        final IUMLTypeReference returnType = this.typeFactory.typeReference(_type);
-        /* empty |- returnType <: exprType */
-        subtypeReferenceInternal(emptyEnvironment(), _trace_, returnType, exprType);
+        /* { returnValue != null st.expression != null empty |- st.expression : var IUMLTypeReference exprType val returnType = returnValue.type.typeReference empty |- returnType <: exprType } or { returnValue == null st.expression != null fail error "Unexpected return value " + st.expression.stringRep source st.expression } */
+        {
+          try {
+            boolean _notEquals = (!Objects.equal(returnValue, null));
+            /* returnValue != null */
+            if (!_notEquals) {
+              sneakyThrowRuleFailedException("returnValue != null");
+            }
+            Expression _expression_1 = st.getExpression();
+            boolean _notEquals_1 = (!Objects.equal(_expression_1, null));
+            /* st.expression != null */
+            if (!_notEquals_1) {
+              sneakyThrowRuleFailedException("st.expression != null");
+            }
+            /* empty |- st.expression : var IUMLTypeReference exprType */
+            Expression _expression_2 = st.getExpression();
+            IUMLTypeReference exprType = null;
+            Result<IUMLTypeReference> result = typeInternal(emptyEnvironment(), _trace_, _expression_2);
+            checkAssignableTo(result.getFirst(), IUMLTypeReference.class);
+            exprType = (IUMLTypeReference) result.getFirst();
+            
+            Type _type = returnValue.getType();
+            final IUMLTypeReference returnType = this.typeFactory.typeReference(_type);
+            /* empty |- returnType <: exprType */
+            subtypeReferenceInternal(emptyEnvironment(), _trace_, returnType, exprType);
+          } catch (Exception e_1) {
+            previousFailure = extractRuleFailedException(e_1);
+            boolean _equals_1 = Objects.equal(returnValue, null);
+            /* returnValue == null */
+            if (!_equals_1) {
+              sneakyThrowRuleFailedException("returnValue == null");
+            }
+            Expression _expression_3 = st.getExpression();
+            boolean _notEquals_2 = (!Objects.equal(_expression_3, null));
+            /* st.expression != null */
+            if (!_notEquals_2) {
+              sneakyThrowRuleFailedException("st.expression != null");
+            }
+            /* fail error "Unexpected return value " + st.expression.stringRep source st.expression */
+            Expression _expression_4 = st.getExpression();
+            String _stringRep = this.stringRep(_expression_4);
+            String _plus = ("Unexpected return value " + _stringRep);
+            String error = _plus;
+            Expression _expression_5 = st.getExpression();
+            EObject source = _expression_5;
+            throwForExplicitFail(error, new ErrorInformation(source, null));
+          }
+        }
       }
     }
     return new Result<Boolean>(true);

@@ -105,7 +105,6 @@ class OperationTemplates {
 	}
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){
-		val type = param.type
-		typeConverter.convertType(type)
+		typeConverter.convertType(param)
 	}
 }

@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 import org.apache.log4j.Logger
@@ -17,6 +18,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class ReturnValueRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
@@ -54,7 +56,7 @@ class ReturnValueRules {
 		]
 		cppOperation.subElements += cppReturnValue
 		
-		if(cppReturnValue.type instanceof XTClass) {
+		if(xtReturnType.type instanceof XTClass) {
 			val classReference = createClassReference(xtReturnType)
 			cppReturnValue.subElements.add(classReference)
 			fireAllCurrent(classReferenceSimpleCollectionTypeRule, [it.classReferenceSimpleCollection == classReference])
@@ -79,6 +81,13 @@ class ReturnValueRules {
 		val classReference = createClassReference(xtReferenceClass, returnType) as CPPQualifiedNamedElement
 		return classReference
 	}
+	
+		
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppReturnValueClassReference).action[ match |
+		val classReference = match.classReference
+		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
+	].build
 	
 	def addIncludes(CPPQualifiedNamedElement cppElement) {
 		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])

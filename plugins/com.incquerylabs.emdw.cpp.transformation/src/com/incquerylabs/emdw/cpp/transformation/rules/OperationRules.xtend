@@ -61,5 +61,6 @@ class OperationRules {
 	val addReferencesRule = createRule.precondition(cppOperationInQualifiedNamedElement).action[ match |
 		val cppOperation = match.cppOperation
 		fireAllCurrent(formalParameterRules.addReferencesRule, [it.cppOperation == cppOperation])
+		fireAllCurrent(returnValueRules.addReferencesRule, [it.cppOperation == cppOperation])
 	].build
 }

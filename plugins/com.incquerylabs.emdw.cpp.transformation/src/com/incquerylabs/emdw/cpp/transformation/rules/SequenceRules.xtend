@@ -37,7 +37,7 @@ class SequenceRules {
 	@Accessors(PUBLIC_GETTER)
 	val cppSequenceTypeRule = createRule.precondition(cppSequenceType).action[
 		cppSequence.elementType = ooplType
-		trace('''Set CPPSequence type of «typedElement.name» to «ooplType.commonType.name»''')
+		trace('''Set CPPSequence type of «typedElement» to «ooplType.commonType.name»''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

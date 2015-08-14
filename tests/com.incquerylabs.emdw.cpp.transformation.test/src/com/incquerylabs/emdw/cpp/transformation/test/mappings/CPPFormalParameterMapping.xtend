@@ -22,6 +22,7 @@ import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 
 @SuiteClasses(#[
 	CPPFormalParameterBasicTypeTest,
@@ -88,6 +89,7 @@ class CPPFormalParameterBasicTypeTest extends SingleComponentTransformTest {
 				assertNotNull(commonParameter)
 				assertNotNull("Type of parameter is not correctly converted", type)
 				assertNotNull("Type of parameter is not correctly converted", type.commonType)
+				assertEquals(CPPParameterPassingKind.BY_VALUE, passingMode)
 			]
 		]
 	}
@@ -118,7 +120,7 @@ class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTe
 		val xtClass = component.createXtClass("Class")
 		val xtTypeDef = pack.createTypeDefinition("td")
 		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
-		val xtParam = createParameter(xtType,"Param",DirectionKind.IN) => [
+		val xtParam = createParameter(xtType,"Param",DirectionKind.IN_OUT) => [
 			upperBound = 5
 		]
 		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
@@ -153,6 +155,7 @@ class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTe
 				assertNotNull("Type of parameter is not correctly converted", type)
 				assertNotNull("Type of parameter is not correctly converted", unnamedSequenceType)
 				assertNotNull("Type of parameter is not correctly converted", unnamedSequenceType.elementType)
+				assertEquals(CPPParameterPassingKind.BY_REFERENCE, passingMode)
 			]
 		]
 	}
@@ -216,6 +219,7 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 				assertTrue("Type of parameter is not correctly converted", type instanceof CPPClassReference)
 				val classReference = type as CPPClassReference
 				assertNotNull("Type of parameter is not correctly converted", classReference.ooplClass)
+				assertEquals(CPPParameterPassingKind.BY_REFERENCE, passingMode)
 			]
 		]
 	}
@@ -283,6 +287,7 @@ class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTe
 				val classRefCollection = type as CPPClassRefSimpleCollection
 				assertEquals("Type of parameter is not correctly converted", xtClass2, classRefCollection.commonType)
 				assertNotNull("Type of parameter is not correctly converted", classRefCollection.ooplClass)
+				assertEquals(CPPParameterPassingKind.BY_VALUE, passingMode)
 			]
 		]
 	}

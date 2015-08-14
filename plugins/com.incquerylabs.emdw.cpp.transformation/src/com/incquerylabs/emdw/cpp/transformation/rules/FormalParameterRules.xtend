@@ -16,6 +16,8 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 
 class FormalParameterRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -66,6 +68,9 @@ class FormalParameterRules {
 			setSequence(cppFormalParameter, parameter)
 		}
 		
+		cppFormalParameter.setPassingKind(parameter)
+		
+		
 		addIncludes(cppFormalParameter)
 		trace('''Mapped Parameter «parameter.name» in Operation «match.operation.name» to CPPFormalParameter''')
 	].build
@@ -93,4 +98,18 @@ class FormalParameterRules {
 	def addIncludes(CPPQualifiedNamedElement cppElement) {
 		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
 	}
+	
+	def setPassingKind(CPPFormalParameter cppFormalParameter, Parameter parameter) {
+		if (parameter.type instanceof XTClass && !parameter.multiValue) {
+			cppFormalParameter.passingMode = CPPParameterPassingKind.BY_REFERENCE
+		} else {
+			switch parameter.direction {
+				case DirectionKind.IN : cppFormalParameter.passingMode = CPPParameterPassingKind.BY_VALUE
+				case DirectionKind.OUT : cppFormalParameter.passingMode = CPPParameterPassingKind.BY_REFERENCE
+				case DirectionKind.IN_OUT : cppFormalParameter.passingMode = CPPParameterPassingKind.BY_REFERENCE
+			}
+		}
+		return;
+	}
+	
 }

@@ -81,7 +81,6 @@ LiteralExpression returns LiteralExpression :
     BooleanLiteralExpression |
     NaturalLiteralExpression |
     RealLiteralExpression |
-    UnboundedLiteralExpression |
     StringLiteralExpression
 ;
 
@@ -95,10 +94,6 @@ NaturalLiteralExpression :
 
 RealLiteralExpression :
     value = REAL_VALUE
-;
-
-UnboundedLiteralExpression :
-    {UnboundedLiteralExpression} value = '*'
 ;
 
 StringLiteralExpression :
@@ -519,16 +514,12 @@ ExpressionStatement :
 
 /* IF STATEMENTS */
 IfStatement : 
-    'if' nonFinalClauses += ConcurrentClauses ( 'else' 'if' nonFinalClauses += ConcurrentClauses )*
-    ( 'else' finalClause = Block )?
+    'if' clauses += IfClause ( 'else' 'if' clauses += IfClause )*
+    ( 'else' clauses += BlockStatement )?
 ;
 
-ConcurrentClauses : 
-    clause += NonFinalClause ( 'or' 'if' clause += NonFinalClause )*
-;
-
-NonFinalClause : 
-    '(' condition = Expression ')' body = Block
+IfClause : 
+    '(' condition = Expression ')' body = BlockStatement
 ;
 
 /* SWITCH STATEMENTS */

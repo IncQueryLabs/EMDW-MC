@@ -26,7 +26,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
@@ -70,6 +69,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -621,8 +621,8 @@ from {
        
 }
 
-checkrule NonFinalClause for
-    NonFinalClause cl
+checkrule IfClause for
+    IfClause cl
 from {
     empty |- cl.^condition : var IUMLTypeReference condType
     empty |- condType <: BOOLEAN.primitiveTypeReference

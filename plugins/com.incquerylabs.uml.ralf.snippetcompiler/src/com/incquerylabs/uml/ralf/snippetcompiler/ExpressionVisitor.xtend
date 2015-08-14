@@ -28,7 +28,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SequenceAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.UnboundedLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
@@ -417,7 +416,4 @@ class ExpressionVisitor {
 		createStringSnippet => [value = ex.value]
 	}
 	
-	def dispatch Snippet visit(UnboundedLiteralExpression ex){
-		createStringSnippet => [value = ex.value]
-	}
 }

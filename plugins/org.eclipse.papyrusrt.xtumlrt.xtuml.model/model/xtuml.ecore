@@ -8,10 +8,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1"
         eType="#//XTEvent" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="XTGeneralization" eSuperTypes="#//XTRelation">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="super" eType="#//XTClass"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="sub" eType="#//XTClass"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTRelation" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//NamedElement ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//MultiplicityElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="XTAssociation" eSuperTypes="#//XTRelation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="opposite" eType="#//XTAssociation"/>

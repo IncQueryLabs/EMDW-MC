@@ -14,10 +14,6 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClass/relations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClass/events"/>
     </genClasses>
-    <genClasses ecoreClass="xtuml.ecore#//XTGeneralization">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTGeneralization/super"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTGeneralization/sub"/>
-    </genClasses>
     <genClasses ecoreClass="xtuml.ecore#//XTRelation"/>
     <genClasses ecoreClass="xtuml.ecore#//XTAssociation">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAssociation/opposite"/>

@@ -2,7 +2,6 @@ package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.XtGeneralizationMatch
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTGeneralization
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Element
@@ -20,14 +19,14 @@ class XTGeneralizationRules{
  * Transforms Generalizations which are a Class's generalizations to the transformed XTClass's relations (which is the subclass).
  * Transformed fields: sub, super.
  */
-class XTGeneralizationMapping extends AbstractObjectMapping<XtGeneralizationMatch, Generalization, XTGeneralization> {
+class XTGeneralizationMapping extends AbstractObjectMapping<XtGeneralizationMatch, Generalization, org.eclipse.papyrusrt.xtumlrt.common.Generalization> {
 
 	new(IncQueryEngine engine) {
 		super(engine)
 	}
 	
 	override getXtumlrtClass() {
-		XTGeneralization
+		org.eclipse.papyrusrt.xtumlrt.common.Generalization
 	}
 	
 	public static val PRIORITY = XTClassMapping.PRIORITY + 1
@@ -45,10 +44,10 @@ class XTGeneralizationMapping extends AbstractObjectMapping<XtGeneralizationMatc
 	}
 
 	override createXtumlrtObject() {
-		xtumlFactory.createXTGeneralization
+		commonFactory.createGeneralization
 	}
 
-	override updateXtumlrtObject(XTGeneralization xtumlrtObject, XtGeneralizationMatch match) {
+	override updateXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Generalization xtumlrtObject, XtGeneralizationMatch match) {
 		xtumlrtObject.sub = match.subClass.findClass
 		xtumlrtObject.^super = match.generalization.general.findClass
 	}
@@ -57,8 +56,8 @@ class XTGeneralizationMapping extends AbstractObjectMapping<XtGeneralizationMatc
 		element.findXtumlrtObject(XTClass)
 	}
 
-	override protected insertXtumlrtObject(XTGeneralization xtumlrtObject, XtGeneralizationMatch match) {
-		match.subClass.findClass.relations += xtumlrtObject
+	override protected insertXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Generalization xtumlrtObject, XtGeneralizationMatch match) {
+		match.subClass.findClass.generalizations += xtumlrtObject
 	}
 
 }

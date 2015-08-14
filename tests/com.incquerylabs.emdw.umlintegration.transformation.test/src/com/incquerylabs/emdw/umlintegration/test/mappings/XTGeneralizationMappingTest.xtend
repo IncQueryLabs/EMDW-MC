@@ -4,7 +4,6 @@ import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTGeneralization
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Generalization
 import org.junit.runner.RunWith
@@ -14,7 +13,7 @@ import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
 @RunWith(Parameterized)
-class XTGeneralizationMappingTest extends TransformationTest<Generalization, XTGeneralization> {
+class XTGeneralizationMappingTest extends TransformationTest<Generalization, org.eclipse.papyrusrt.xtumlrt.common.Generalization> {
 	
 	new(TransformationWrapper wrapper, String wrapperType) {
 		super(wrapper, wrapperType)
@@ -35,10 +34,10 @@ class XTGeneralizationMappingTest extends TransformationTest<Generalization, XTG
 	}
 
 	override protected getXtumlrtObjects(Model xtumlrtRoot) {
-		xtumlrtRoot.entities.filter(XTClass).findFirst[name == subClassName].relations.filter(XTGeneralization)
+		xtumlrtRoot.entities.filter(XTClass).findFirst[name == subClassName].generalizations
 	}
 	
-	override protected checkXtumlrtObject(RootMapping mapping, Generalization umlObject, XTGeneralization xtumlrtObject) {
+	override protected checkXtumlrtObject(RootMapping mapping, Generalization umlObject, org.eclipse.papyrusrt.xtumlrt.common.Generalization xtumlrtObject) {
 		assertEquals(findClass(mapping, superClassName), xtumlrtObject.^super)
 		assertEquals(findClass(mapping, subClassName), xtumlrtObject.sub)
 	}

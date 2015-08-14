@@ -69,9 +69,8 @@ class EventTemplates {
 	def getSuperEvents(CPPEvent cppEvent){
 		val xtEvent = cppEvent.xtEvent
 		if(xtEvent instanceof XTClassEvent){
-			val cppSuperEvents = xtEvent.definingEvents.map[ xtSuperEvent |
-				engine.getCppEvents().getAllValuesOfcppEvent(xtSuperEvent).head
-			]
+			val xtSuperEvent = xtEvent.redefines as XTClassEvent
+			val cppSuperEvents = engine.getCppEvents().getAllValuesOfcppEvent(xtSuperEvent)
 			return cppSuperEvents
 		}
 		return #[]

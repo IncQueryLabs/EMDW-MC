@@ -85,12 +85,12 @@ class XTClassEventGeneralizationMapping extends AbstractRecursiveReferenceMappin
 	}
 	
 	override protected addTarget(XTClassEvent source, XTClassEvent target) {
-		source.definingEvents += target
+		source.redefines = target
 	}
 	
 	override protected removeTarget(XTClassEvent source, XTClassEvent target) {
-		if (source.definingEvents.contains(target)) {
-			source.definingEvents.remove(target)
+		if (source.redefines == target) {
+			source.redefines = null
 		}
 	}
 

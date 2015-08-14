@@ -108,8 +108,8 @@ class ComponentRules {
 	
 	def updateSubElements(CPPComponent cppComponent) {
 		trace('''Transforming references between subelements of Component «cppComponent.xtComponent.name»''')
-		// TODO: update operations of component
-		fireAllCurrent(classRules.addReferencesRule, [it.cppComponent == cppComponent])
-		// TODO: update packages of component
+		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppComponent])
+		fireAllCurrent(classRules.addReferencesRule, [it.container == cppComponent])
+		fireAllCurrent(packageRules.addReferencesRule, [it.container == cppComponent])
 	}
 }

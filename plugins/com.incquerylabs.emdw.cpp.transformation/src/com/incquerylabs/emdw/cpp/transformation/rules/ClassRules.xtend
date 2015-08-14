@@ -120,7 +120,7 @@ class ClassRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val addReferencesRule = createRule.precondition(cppClassInComponent).action[ match |
+	val addReferencesRule = createRule.precondition(cppClassInQualifiedNamedElement).action[ match |
 		updateSubElements(match.cppClass)
 	].build
 	

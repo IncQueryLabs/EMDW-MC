@@ -2,7 +2,6 @@ package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
@@ -25,17 +24,17 @@ class AssociationRules {
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
-	extension val IncludeRules includeRules
+	extension val ClassReferenceRules classReferenceRules
 	
-	new(BatchTransformationStatements statements, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements, ClassReferenceRules classReferenceRules) {
 		this.statements = statements
-		this.includeRules = includeRules
+		this.classReferenceRules = classReferenceRules
 	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
 			associationRule,
-			classReferenceSimpleCollectionTypeRule
+			addReferencesRule
 		)
 		transformation.addRules(rules)
 	}
@@ -45,9 +44,9 @@ class AssociationRules {
 		val xtClass = match.xtClass
 		val cppClass = match.cppClass
 		val xtAssociation = match.association
-		val cppTargetClass = match.cppTargetClass
+		val xtTargetClass = xtAssociation.target
 		
-		val cppClassReference = createClassReference(cppTargetClass, xtAssociation)
+		val cppClassReference = createClassReference(xtTargetClass, xtAssociation)
 		val cppReferenceStorage = createReferenceStorage(cppClassReference, xtAssociation)
 		val cppRelation = createRelation(cppReferenceStorage, xtAssociation)
 		
@@ -57,43 +56,10 @@ class AssociationRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val classReferenceSimpleCollectionTypeRule = createRule.precondition(classReferenceSimpleCollectionContainerImplementation).action[ match |
-		val collection = match.classReferenceSimpleCollection
-		val implementation = match.containerImplementation
-		collection.implementation = implementation
-		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
+	val addReferencesRule = createRule.precondition(cppRelationClassReference).action[ match |
+		val classReference = match.classReference
+		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
 	].build
-	
-	@Accessors(PUBLIC_GETTER)
-	val classReferenceSimpleCollectionTypeRule4Instances = createRule.precondition(classReferenceSimpleCollectionContainerImplementation4Instances).action[ match |
-		val collection = match.classReferenceSimpleCollection
-		val implementation = match.containerImplementation
-		collection.implementation = implementation
-		trace('''Set CPPClassReferenceSimpleCollection implementation to «implementation.containerQualifiedName»''')
-	].build
-	
-	def OOPLDataType createClassReference(CPPClass cppTargetClass, XTAssociation xtAssociation){
-		val xtTargetClass = xtAssociation.target
-		if (xtAssociation.upperBound != 1){
-			val referenceType = createCPPClassRefSimpleCollection => [
-				it.commonType = xtTargetClass
-				it.ooplClass = cppTargetClass
-				it.ooplNameProvider = createOOPLExistingNameProvider =>[
-					commonNamedElement = xtTargetClass
-				]
-			]
-			return referenceType
-		} else {
-			val referenceType = createCPPClassReference => [
-				it.commonType = xtTargetClass
-				it.ooplClass = cppTargetClass
-				it.ooplNameProvider = createOOPLExistingNameProvider =>[
-					commonNamedElement = xtTargetClass
-				]
-			]
-			return referenceType
-		}
-	}
 	
 	def createReferenceStorage(OOPLDataType cppClassReference, XTAssociation xtAssociation){
 		createCPPClassReferenceStorage => [

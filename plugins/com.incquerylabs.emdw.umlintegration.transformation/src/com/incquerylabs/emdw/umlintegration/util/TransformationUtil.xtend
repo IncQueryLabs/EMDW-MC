@@ -47,7 +47,7 @@ class TransformationUtil {
 		trace
 	}
 	
-	static def TypedMultiplicityElement getCommonType(org.eclipse.uml2.uml.Type umlType, IncQueryEngine engine) {
+	static def Type getCommonType(org.eclipse.uml2.uml.Type umlType, IncQueryEngine engine) {
 		extension val Trace tracePatterns = Trace.instance
 		val Structure structurePatterns = Structure.instance
 		val voidDummyTypeMatcher = structurePatterns.getNamedDataType(engine)
@@ -62,9 +62,7 @@ class TransformationUtil {
 		val commonType = engine.trace.getAllValuesOfxtumlrtElement(null, null, typeToConvert).head
 		
 		if(commonType instanceof Type){
-			return commonFactory.createTypedMultiplicityElement => [
-				type = commonType
-			]
+			return commonType
 		} else {
 			return null
 		}

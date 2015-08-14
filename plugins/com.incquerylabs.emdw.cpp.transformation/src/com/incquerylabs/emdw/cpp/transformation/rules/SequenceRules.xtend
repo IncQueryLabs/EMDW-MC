@@ -37,7 +37,7 @@ class SequenceRules {
 	@Accessors(PUBLIC_GETTER)
 	val cppSequenceTypeRule = createRule.precondition(cppSequenceType).action[
 		cppSequence.elementType = ooplType
-		trace('''Set CPPSequence type of «typedElement.name» to «ooplType.commonType.name»''')
+		trace('''Set CPPSequence type of «typedElement» to «ooplType.commonType.name»''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -45,11 +45,6 @@ class SequenceRules {
 		cppSequence.implementation = containerImplementation
 		trace('''Set CPPSequence implementation to «containerImplementation.containerQualifiedName»''')
 	].build
-	
-	def isMultiValue(MultiplicityElement multiplicityElement) {
-		val upperBound = multiplicityElement.upperBound
-		return upperBound > 1 || upperBound == -1
-	}
 	
 	def generateCPPSequence(MultiplicityElement multiplicityElement) {
 		createCPPSequence => [

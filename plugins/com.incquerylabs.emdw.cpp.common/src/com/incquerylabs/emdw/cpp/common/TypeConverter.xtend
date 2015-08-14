@@ -7,8 +7,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 
 class TypeConverter {
+	
+	def dispatch String convertType(CPPReturnValue cppReturnValue) {
+		val type = cppReturnValue.type
+		return convertType(type);
+	}
 	
 	def dispatch String convertType(CPPClassReference classReference){
 		val cppType = convertType(classReference.ooplClass)

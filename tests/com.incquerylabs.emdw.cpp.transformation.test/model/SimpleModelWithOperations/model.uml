@@ -13,10 +13,10 @@
         </ownedBehavior>
         <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_hXYOgPsREeSpTK3KK0hlnw" name="myMultiParamOpaqueBehavior" specification="_9H-a8Po9EeSpnsHyI6QRfw">
           <language>C++</language>
-          <body>myOutParam = true;&#xD;
-if(myInParam > 0 &amp;&amp; myInOutParam &lt;10)&#xD;
+          <body>*myOutParam = true;&#xD;
+if(myInParam > 0 &amp;&amp; *myInOutParam &lt;10)&#xD;
 {&#xD;
-	myOutParam = false;&#xD;
+	*myOutParam = false;&#xD;
 	myInOutParam += 2;&#xD;
 	return true;&#xD;
 }&#xD;
@@ -33,6 +33,10 @@ return false;</body>
         <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_WnUioBs5EeWj4Pc_Ym9a1g" name="myPrivateConstructorBehavior" specification="_MLCJ8Bs5EeWj4Pc_Ym9a1g">
           <language>C++</language>
           <body>// This is my private constructor action code</body>
+        </ownedBehavior>
+        <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_pAp0IEJ6EeWAGYC8yFHPNQ" name="myClassRefOpaqueBehavior" specification="_OPrE8EJ6EeWAGYC8yFHPNQ">
+          <language>C++</language>
+          <body>return myClassOutParam;</body>
         </ownedBehavior>
         <ownedOperation xmi:type="uml:Operation" xmi:id="_iH7VAPo9EeSpnsHyI6QRfw" name="myVoidOperation" method="_IS8MYPrfEeS4YfcvM01t0Q">
           <ownedParameter xmi:type="uml:Parameter" xmi:id="_ttzzAPo9EeSpnsHyI6QRfw" name="toPrintParameter">
@@ -65,6 +69,11 @@ return false;</body>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_dUtAoBs5EeWj4Pc_Ym9a1g"/>
             <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_dUtnsBs5EeWj4Pc_Ym9a1g" value="*"/>
           </ownedParameter>
+        </ownedOperation>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_OPrE8EJ6EeWAGYC8yFHPNQ" name="myClassRefOperation" method="_pAp0IEJ6EeWAGYC8yFHPNQ">
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_U2WeAEJ6EeWAGYC8yFHPNQ" type="_I2LZYPo8EeSpnsHyI6QRfw" direction="return"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_dPWJQEJ6EeWAGYC8yFHPNQ" name="myClassListInParam" type="_I2LZYPo8EeSpnsHyI6QRfw" isOrdered="true" isUnique="false"/>
+          <ownedParameter xmi:type="uml:Parameter" xmi:id="_gorckEJ6EeWAGYC8yFHPNQ" name="myClassOutParam" type="_I2LZYPo8EeSpnsHyI6QRfw" isOrdered="true" direction="out"/>
         </ownedOperation>
       </nestedClassifier>
     </packagedElement>

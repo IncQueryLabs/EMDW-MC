@@ -60,7 +60,7 @@ class ClassTemplates {
 		
 		«cppClass.namespaceOpenerTemplate»
 		
-		class «cppClassName»«IF hasStateMachine» : public «StatefulClassFQN»«ENDIF» {
+		class «cppClassName»«classInheritance(cppClass, hasStateMachine)» {
 		
 		public:
 		
@@ -152,6 +152,22 @@ class ClassTemplates {
 		static ::unique_number __get_static_type_number() { return ::type_number<«cppClass.cppName»*>::number; }
 		virtual ::unique_number __get_dynamic_type_number() { return __get_static_type_number(); }
 		'''
+	}
+	
+	def classInheritance(CPPClass cppClass, boolean hasStateMachine) {
+		val List<String> superClassStrings = newArrayList()
+		val cppSuperClassMatcher = codeGenQueries.getCppSuperClasses(engine)
+		val cppSuperClasses = cppSuperClassMatcher.getAllValuesOfcppSuperClass(cppClass)
+		
+		if(hasStateMachine){
+			superClassStrings += '''public «StatefulClassFQN»'''
+		}
+		cppSuperClasses.forEach[ superClass |
+			superClassStrings += '''public «superClass.cppQualifiedName»'''
+		]
+		
+		val inheritanceString = '''«FOR superClassString : superClassStrings BEFORE ': ' SEPARATOR ', '»«superClassString»«ENDFOR»'''
+		inheritanceString
 	}
 	
 	def attributesInClassHeader(CPPClass cppClass, VisibilityKind visibility) {

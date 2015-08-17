@@ -3,8 +3,6 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
@@ -15,6 +13,7 @@ import org.eclipse.emf.ecore.EObject
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 class ReducedAlfSnippetTemplateCompiler {
 	
@@ -87,22 +86,22 @@ class ReducedAlfSnippetTemplateCompiler {
 		]
 	}
 	
-	def dispatch Snippet visit(NameLeftHandSide lhs){
-		createCompositeSnippet =>[
-			snippet.add(lhs.expression.visit)
-			if(lhs.index != null){
-				snippet.add(createStringSnippet => [
-					value = '''['''
-				])
-				snippet.add(lhs.index.visit)
-				snippet.add(createStringSnippet => [
-					value = ''']'''
-				])
-			}
-		]
-	}
+//	def dispatch Snippet visit(NameLeftHandSide lhs){
+//		createCompositeSnippet =>[
+//			snippet.add(lhs.expression.visit)
+//			if(lhs.index != null){
+//				snippet.add(createStringSnippet => [
+//					value = '''['''
+//				])
+//				snippet.add(lhs.index.visit)
+//				snippet.add(createStringSnippet => [
+//					value = ''']'''
+//				])
+//			}
+//		]
+//	}
 	
-	def dispatch Snippet visit(FeatureLeftHandSide lhs){
+	def dispatch Snippet visit(LeftHandSide lhs){
 		createCompositeSnippet =>[
 			snippet.add(lhs.expression.visit)
 		]

@@ -41,11 +41,7 @@ abstract class AbstractValidatorTest {
 		val parser = new ReducedAlfParser
 	    val context = new SimpleUMLContextProvider()
     	val result = parser.parse(input, context)
-		if(issueCodes.size == 0){
-			assertTrue(result.validationOK)
-		}else{
-			assertAll(result.errors, issueCodes)
-		}
+		assertAll(result.errors, issueCodes)
 	}
 		
 	protected def void assertAll(Iterable<Issue> issues, String... issueCodes) {

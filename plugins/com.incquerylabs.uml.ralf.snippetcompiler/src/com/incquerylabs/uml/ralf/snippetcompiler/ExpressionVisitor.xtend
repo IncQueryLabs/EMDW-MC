@@ -11,7 +11,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
@@ -21,7 +20,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SequenceAccessExpression
@@ -31,6 +29,9 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
+import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.Property
 
 class ExpressionVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -80,26 +81,11 @@ class ExpressionVisitor {
 	
 	def dispatch Snippet visit(LinkOperationExpression ex){
 		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = ex.association.name])
+			snippet.add(createStringSnippet => [value = ex.association.reference.name])
 			snippet.add(createStringSnippet => [value = '''->'''])
-			snippet.add(createStringSnippet => [value = ex.operation.getName()])
-			snippet.add(ex.tuple.visit)
+			snippet.add(createStringSnippet => [value = ex.linkOperation.getName()])
+			snippet.add(ex.parameters.visit)
 		]
-	}
-	
-	def dispatch Snippet visit(PropertyAccessExpression ex){
-		if(ex.context instanceof ThisExpression){
-			return createCompositeSnippet =>[
-				snippet.add(ex.context.visit)
-				snippet.add(createStringSnippet => [value = '''->'''	])
-				snippet.add(createStringSnippet => [value = ex.property.name])
-			]
-		}else{
-			val descriptor = getDescriptor(ex)
-			return createCompositeSnippet =>[
-				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			]
-		}
 	}
 	
 	def dispatch Snippet visit(AssociationAccessExpression ex){
@@ -117,17 +103,35 @@ class ExpressionVisitor {
 		}
 	}
 	
+    private def Snippet createThisInvocationSnippet(ThisExpression context, Property property) {
+        if(context instanceof ThisExpression){
+            return createCompositeSnippet => [
+                snippet.add(context.visit)
+                snippet.add(createStringSnippet => [value = '''->'''    ])
+                snippet.add(createStringSnippet => [value = property.name])
+            ]
+        }
+    }
+	
+	private def Snippet createThisInvocationSnippet(ThisExpression context, Operation op, Tuple parameters) {
+        createCompositeSnippet => [
+            snippet.add(context.visit)
+            snippet.add(createStringSnippet => [
+                value = '''.'''
+            ])
+            snippet.add(createStringSnippet => [value = op.name])
+            snippet.add(parameters.visit)
+        ]
+    }
+	
 	def dispatch Snippet visit(FeatureInvocationExpression ex){
 		if(ex.context instanceof ThisExpression){
-			return createCompositeSnippet =>[
-				snippet.add(ex.context.visit)
-				snippet.add(createStringSnippet => [
-					value = '''.'''
-				])
-				snippet.add(createStringSnippet => [value = ex.operation.name])
-				snippet.add(ex.parameters.visit)
-			]
-		}else{
+			return if (ex.feature instanceof Operation) {
+			    createThisInvocationSnippet(ex.context as ThisExpression, ex.feature as Operation, ex.parameters)
+			} else if (ex.feature instanceof Property) {
+			    createThisInvocationSnippet(ex.context as ThisExpression, ex.feature as Property)
+			}
+		} else {
 			val descriptor = util.getDescriptor(ex)
 			return createCompositeSnippet => [
 				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation	])
@@ -137,13 +141,14 @@ class ExpressionVisitor {
 	
 	
 	def dispatch Snippet visit(AssignmentExpression ex){
+	    //TODO revisit the left hand side expressions correctly
 		//If the left hand side is a property
-		if(ex.leftHandSide instanceof FeatureLeftHandSide){
+		if(ex.leftHandSide instanceof FeatureInvocationExpression) {
 			val descriptor = getDescriptor(ex)
 			return createCompositeSnippet =>[
 				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 			]
-		}else{
+		} else {
 			//If assignment has no property on the left hand side
 			return createCompositeSnippet =>[
 				snippet.add(ex.leftHandSide.visit)

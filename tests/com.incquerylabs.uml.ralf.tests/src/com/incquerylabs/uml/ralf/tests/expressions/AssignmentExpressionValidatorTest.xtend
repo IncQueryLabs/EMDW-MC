@@ -4,6 +4,7 @@ import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
+import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 
 class AssignmentExpressionValidatorTest extends AbstractValidatorTest{
 			
@@ -157,6 +158,31 @@ class AssignmentExpressionValidatorTest extends AbstractValidatorTest{
 				Boolean x = true;
 				x = null;''',
 			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[
+			    "InvalidAssignmentExpression: Integer Literal Assignment",
+			    '''1 = 2;''',
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
+			],
+			#[
+			    "InvalidAssignmentExpression: String Literal Assignment",
+			    '''"1" = "2";''',
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
+			],
+			#[
+			    "InvalidAssignmentExpression: Real Literal Assignment",
+			    '''1.1 = 2.2;''',
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
+			],
+			#[
+			    "InvalidAssignmentExpression: Boolean Literal Assignment",
+			    '''true = false;''',
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
+			],
+			#[
+			    "InvalidAssignmentExpression: Integer Literal Assignment",
+			    '''1 = 2;''',
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
 			]
 		)
 	}			

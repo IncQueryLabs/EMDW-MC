@@ -39,16 +39,31 @@ QualifiedName :
 * EXPRESSIONS *
 ***************/
 Expression :
-  AssignmentExpression | ConditionalExpression 
+  (
+    ConditionalOrExpression
+    (
+        {AssignmentExpression.leftHandSide=current} operator = AssignmentOperator rightHandSide = Expression
+        |
+        ( {ConditionalTestExpression.operand1 = current} 
+            '?' operand2 = Expression ':' operand3 = ConditionalExpression 
+        )?        
+    )
+  ) | {InstanceDeletionExpression} 'delete' reference = PrimaryExpression
+;
+
+ConditionalExpression returns Expression : 
+    ConditionalOrExpression
+    ( {ConditionalTestExpression.operand1 = current} 
+      '?' operand2 = Expression ':' operand3 = ConditionalExpression 
+    )?
 ;
 
 /* PRIMARY EXPRESSIONS */
 
 PrimaryExpression returns Expression :
   BaseExpression
-  ( {FeatureInvocationExpression.context = current} '.' operation = [uml::Operation|Name] parameters = Tuple |
+  ( {FeatureInvocationExpression.context = current} '.' feature = [uml::Feature|Name] (-> parameters = Tuple)? |
     {FilterExpression.context = current} '->' 'filter' '(' declaration = FilterVariableDeclaration ':' expression = Expression ')' |
-    {PropertyAccessExpression.context = current} '.' property = [uml::Property|Name]  | 
     {AssociationAccessExpression.context = current} '->' association = [uml::Property|Name]  | 
 //    {ExtentOrExpression.nonNameExpression = current} '->' 
 //      ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple
@@ -61,18 +76,13 @@ PrimaryExpression returns Expression :
 
 BaseExpression returns Expression : 
     LiteralExpression |
+    InstanceInitializationExpression |
     CollectionLiteralExpression |
     ThisExpression |
     SuperInvocationExpression |
-    InstanceCreationOrSequenceConstructionExpression |
-    InstanceDeletionExpression |
-    ClassExtentExpression |
-    LinkOperationExpression |
+    FeatureExpression |
     NullExpression |
-//  SequenceOperationOrReductionOrExpansionExpression |
-//    BehaviorInvocationExpression |
     NameExpression | 
-    StaticFeatureInvocationExpression |
     ParenthesizedExpression 
 ;
 
@@ -105,15 +115,11 @@ NameExpression :
     reference = [uml::NamedElement|QualifiedName]
 ;
 
-/* Static Feature invocation */
-StaticFeatureInvocationExpression:
-     operation = [uml::Operation|QualifiedName] parameters = Tuple 
-;
-
 /* THIS EXPRESSIONS */
 ThisExpression returns Expression : 
-    {FeatureInvocationExpression} 'this' tuple = Tuple | 
-    {ThisExpression} 'this'
+    'this'
+//    ({FeatureInvocationExpression} -> (tuple = Tuple) | 
+    {ThisExpression}//)
 ;
 
 /* PARENTHESIZED EXPRESSIONS */
@@ -125,9 +131,9 @@ ParenthesizedExpression returns Expression :
 // At this point in case of affix and postfix ++/-- operators, only variable names and properties can be used
 // Property chaining is not supported at this time
 // TODO: use primary expressions and filter using expression types
-PropertyAccessExpression:
-	context = PrimaryExpression '.' property = [uml::Property|Name]
-;
+//PropertyAccessExpression:
+//	context = BaseExpression '.' property = [uml::Property|Name]
+//;
 
 
 //FeatureReference :
@@ -155,7 +161,7 @@ Tuple returns Tuple:
 ;
 
 ExpressionList:
-    {ExpressionList} ( expressions += Expression (',' expressions += Expression)* )?
+    {ExpressionList} ( expressions += Expression (',' expressions += Expression)*)
 ;
 
 NamedTupleExpressionList returns NamedTuple : 
@@ -170,23 +176,23 @@ SuperInvocationExpression :
     'super' ( '.' target = [uml::Operation|QualifiedName])? tuple = Tuple
 ;
 
-/* INSTANCE CREATION EXPRESSIONS */
-InstanceCreationOrSequenceConstructionExpression returns Expression : 
-    {InstanceCreationExpression} 'new' instance = [uml::Classifier|QualifiedName] tuple = Tuple
-;
-
 /* LINK OPERATION EXPRESSIONS */
-LinkOperationExpression :
-  association = [uml::Association|QualifiedName] '::' operation = LinkOperation tuple = Tuple
+FeatureExpression :
+  NameExpression
+    (
+        {ClassExtentExpression.class = current}
+        '::' 'instances' '(' ')'
+    |
+        {LinkOperationExpression.association=current}
+        '::' linkOperation = LinkOperation parameters = Tuple
+    |
+        {StaticFeatureInvocationExpression.operation=current}
+        parameters = Tuple
+    )
 ;
 
 enum LinkOperation :
 link = 'link' | unlink = 'unlink'
-;
-
-/* CLASS EXTENT EXPRESSIONS */
-ClassExtentExpression :
-  class = [uml::Class|QualifiedName] '::' 'instances' '(' ')'
 ;
 
 /* NULL EXPRESSION */
@@ -196,8 +202,6 @@ NullExpression:
 
 /* SEQUENCE CONSTRUCTION EXPRESSIONS */
 CollectionLiteralExpression returns CollectionLiteralExpression:
-//    {RangeCollectionExpression}
-//    collectionType = CollectionType '<' typeDeclaration = TypeDeclaration '>' '{' ( range = SequenceRange)? '}' |
     {ElementCollectionExpression}
     (collectionType = CollectionType '<' typeDeclaration = TypeDeclaration '>')? '{' ( elements = ExpressionList )? '}'
 ;
@@ -226,16 +230,6 @@ FilterVariableDeclaration returns Variable:
 	{FilterVariable} name = Name 
 ;
 
-/* SEQUENCE OPERATION, REDUCTION AND EXPANSION EXPRESSIONS */
-// NOTE: This only covers the case when the primary is a class extent shorthand.
-//SequenceOperationOrReductionOrExpansionExpression returns Expression :
-//  {ExtentOrExpression} name = /*PotentiallyAmbiguous*/QualifiedName '->' 
-//    ( {SequenceOperationExpression.primary = current} operation = [uml::Operation|QualifiedName] tuple = Tuple 
-//    // CHANGE: Made SequenceExpansionExpression concrete.
-//    | {SequenceExpansionExpression.primary = current} operation = ID variable = Name '(' argument = Expression ')'
-//    )
-//;
-    
 /* INCREMENT OR DECREMENT EXPRESSIONS */
 PrefixExpression returns Expression : 
   // CHANGE: Added operator to IncrementOrDecrementExpression in the metamodel.
@@ -250,11 +244,11 @@ increment = '++' | decrement = '--'
 
 /* UNARY EXPRESSIONS */
 UnaryExpression returns Expression :
-  PostfixOrCastExpression | NonPostfixNonCastUnaryExpression | PrefixExpression
+  PostfixOrCastExpression | NonPostfixNonCastUnaryExpression
 ;
 
 PostfixOrCastExpression returns Expression :
-  PostfixExpression | CastExpression | PrimaryExpression
+  => CastExpression | => PostfixExpression | PrimaryExpression
 ;
 
 PostfixExpression returns Expression :
@@ -263,7 +257,7 @@ PostfixExpression returns Expression :
 ;
 
 NonPostfixNonCastUnaryExpression returns Expression : 
-    //PrefixExpression | 
+    PrefixExpression | 
     NumericUnaryExpression | 
     BooleanUnaryExpression  | 
     BitStringUnaryExpression    | 
@@ -279,8 +273,8 @@ BitStringUnaryExpression :
 ;
 
 NumericUnaryExpression : 
-    operator = NumericUnaryOperator operand = (PostfixOrCastExpression | NonPostfixNonCastUnaryExpression) |
-    operator = NumericUnaryOperator '('operand = PrefixExpression ')'
+    operator = NumericUnaryOperator 
+    operand = (PostfixOrCastExpression | NonPostfixNonCastUnaryExpression)
 ;
 
 enum NumericUnaryOperator :
@@ -327,7 +321,7 @@ AdditiveOperator:
 
 ShiftExpression returns Expression : 
     AdditiveExpression
-    ( {ShiftExpression.operand1 = current} operator = ShiftOperator operand2 = AdditiveExpression )*
+    => ( {ShiftExpression.operand1 = current} operator = ShiftOperator operand2 = AdditiveExpression )*
 ;
 
 enum ShiftOperator :
@@ -392,33 +386,10 @@ ConditionalOrExpression returns Expression :
     ( {ConditionalLogicalExpression.operand1 = current} operator = '||' operand2 = ConditionalAndExpression )*
 ;
 
-/* CONDITIONAL-TEST EXPRESSIONS */
-ConditionalExpression returns Expression : 
-    ConditionalOrExpression
-  ( {ConditionalTestExpression.operand1 = current} 
-    '?' operand2 = Expression ':' operand3 = ConditionalExpression 
-  )?
-;
-
 /* ASSIGNMENT EXPRESSIONS */
-AssignmentExpression returns AssignmentExpression :
-  leftHandSide = LeftHandSide operator = AssignmentOperator rightHandSide = Expression
-;
 
 LeftHandSide :
-  NameLeftHandSide | 
-  FeatureLeftHandSide // ( index = Index )? | //TODO Indexing
-//  "(" LeftHandSide ")"
-;
-
-NameLeftHandSide :
-  // CHANGE: Moved the index property from LeftHandSide down to just NameLeftHandSide.
-  expression = NameExpression ( index = Index )? 
-;
-
-FeatureLeftHandSide :
-  // CHANGE: Replaced the feature property of a FeatureLeftHandSide with expression.
-  expression = PropertyAccessExpression
+    expression = PrimaryExpression
 ;
 
 enum AssignmentOperator :
@@ -441,13 +412,12 @@ enum AssignmentOperator :
  * STATEMENTS *
  **************/
 Statement : 
+    -> BlockStatement |
     SimpleStatement ';'|
-    BlockStatement |
     IfStatement |
     SwitchStatement |
     WhileStatement |
     ForStatement |
-    ForEachStatement |
     DoStatement |
     BreakStatement |
     ReturnStatement |
@@ -456,21 +426,14 @@ Statement :
 ;
 
 SimpleStatement:
-    (
-      LocalNameDeclarationStatement |
-      ExpressionStatement |  
-      EmptyStatement
-    )
-;
-
-/* BLOCK */
-Block : 
-    {Block} '{' ( statement += Statement )* '}'
+    ExpressionStatement |  
+    LocalNameDeclarationStatement |
+    EmptyStatement
 ;
 
 /* BLOCK STATEMENTS */
 BlockStatement :
-    Block
+    {Block} '{' ( statement += Statement )* '}'
 ;
 
 /* EMPTY STATEMENTS */
@@ -490,21 +453,11 @@ VariableDeclaration returns uml::NamedElement :
 /* LOCAL NAME DECLARATION STATEMENTS */
 LocalNameDeclarationStatement : 
     //TODO test optional initialization
-    variable = VariableDeclaration ('=' expression = InitializationExpression)?
-;
-
-InitializationExpression returns Expression :
-    Expression
-| InstanceInitializationExpression
+    variable = VariableDeclaration ('=' expression = Expression)?
 ;
 
 InstanceInitializationExpression returns InstanceCreationExpression : 
     'new' instance = [uml::Classifier|QualifiedName] tuple = Tuple
-;
-
-InstanceDeletionExpression returns Expression : 
-    {InstanceDeletionExpression}
-    'delete' reference = Expression
 ;
 
 /* EXPRESSION STATEMENTS */
@@ -548,27 +501,28 @@ NonEmptyStatementSequence returns Block :
 
 /* WHILE STATEMENTS */
 WhileStatement : 
-    'while' '(' condition = Expression ')' body = Block
+    'while' '(' condition = Expression ')' body = BlockStatement
 ;
 
 /* DO STATEMENTS */
 DoStatement : 
-    'do' body = Block 'while' '(' condition = Expression ')' ';'
+    'do' body = BlockStatement 'while' '(' condition = Expression ')' ';'
 ;
 
 /* FOR STATEMENTS */
-ForStatement :
+ForStatement returns Statement:
     'for' '(' 
-        initialization = SimpleStatement ';'
-        condition = Expression ';'
-        update = SimpleStatement
+        (
+            {ForStatement}
+            initialization = SimpleStatement ';'
+            condition = Expression ';'
+            update = SimpleStatement
+         |
+            {ForEachStatement}
+            variableDefinition = LoopVariableDefinition 'in' expression = Expression           
+        )
     ')'
-    body = Block
-;
-
-ForEachStatement : 
-    'for' '(' variableDefinition = LoopVariableDefinition 'in' expression = Expression')' 
-    body = Block
+    body = BlockStatement
 ;
 
 LoopVariableDefinition returns Variable: 

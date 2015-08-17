@@ -14,7 +14,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
@@ -24,12 +23,10 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatemen
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
@@ -51,6 +48,7 @@ import com.incquerylabs.uml.ralf.types.UMLTypeReference
 import com.incquerylabs.uml.ralf.validation.AbstractReducedAlfLanguageValidator
 import java.util.List
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.Association
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Classifier
 import org.eclipse.uml2.uml.PrimitiveType
@@ -70,6 +68,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
+import org.eclipse.uml2.uml.Property
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 inject extension IUMLContextProvider umlContext
 inject extension TypeFactory typeFactory
@@ -491,24 +491,6 @@ from {
     }
 }
 
-rule PropertyAccessExpression
-    G |- PropertyAccessExpression ex : IUMLTypeReference result
-from {
-    {
-        !ex.property.multivalued
-        result = ex.property.type.typeReference
-    } or {
-        ex.property.multivalued && ex.property.ordered 
-        result = ex.property.type.sequenceOf
-    } or {
-        ex.property.multivalued && !ex.property.ordered && ex.property.unique
-        result = ex.property.type.setOf
-    } or {
-        ex.property.multivalued && !ex.property.ordered && !ex.property.unique
-        result = ex.property.type.bagOf
-    }
-}
-
 rule AssociationAccessExpression
     G |- AssociationAccessExpression ex : IUMLTypeReference result
 from {
@@ -519,8 +501,8 @@ rule LinkOperationExpression
     G |- LinkOperationExpression ex : IUMLTypeReference result
 from {
     {
-        ex.operation == LinkOperation.LINK
-        result = ex.association.typeReference
+        ex.linkOperation == LinkOperation.LINK
+        result = (ex.association as Association).typeReference
     }  or {
         result = null
     } 
@@ -549,8 +531,28 @@ from {
 rule FeatureInvocationExpression
     derives G |- FeatureInvocationExpression ex : IUMLTypeReference result
 from {
-    G |- ex.operation : result
-    //TODO parameter typing
+    {
+        ex.^feature instanceof Operation
+        G |- ex.^feature : result
+        // TODO parameter typing
+    } or {
+        ex.^feature instanceof Property
+        val property = ex.^feature as Property
+        !property.eIsProxy
+        {
+            !property.multivalued
+            result = property.type.typeReference
+        } or {
+            property.multivalued && property.ordered 
+            result = property.type.sequenceOf
+        } or {
+            property.multivalued && !property.ordered && property.unique
+            result = property.type.setOf
+        } or {
+            property.multivalued && !property.ordered && !property.unique
+            result = property.type.bagOf
+        }
+    }
 }
 
 rule StaticFeatureInvocationExpression
@@ -574,23 +576,10 @@ from {
 //Non-expression types
 
 rule FeatureLeftHandSide
-    G |- FeatureLeftHandSide lhs : IUMLTypeReference result
+    G |- LeftHandSide lhs : IUMLTypeReference result
 from {
     G |- lhs.expression : var IUMLTypeReference exType
     result = exType
-}
-
-rule NameLeftHandSide
-    G |- NameLeftHandSide lhs : IUMLTypeReference result
-from {
-    {
-        lhs.index == null
-        G |- lhs.expression : var IUMLTypeReference varType
-        result = varType
-    } or {
-        G |- lhs.expression : var AbstractTypeReference varType
-        result = varType.umlType.bagOf
-    }
 }
 
 

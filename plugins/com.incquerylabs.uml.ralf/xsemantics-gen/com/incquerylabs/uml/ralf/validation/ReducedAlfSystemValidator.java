@@ -7,8 +7,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement;
@@ -52,9 +52,9 @@ public class ReducedAlfSystemValidator extends AbstractReducedAlfLanguageValidat
   }
   
   @Check
-  public void nonFinalClause(final NonFinalClause cl) {
+  public void ifClause(final IfClause cl) {
     errorGenerator.generateErrors(this,
-    	getXsemanticsSystem().nonFinalClause(cl),
+    	getXsemanticsSystem().ifClause(cl),
     		cl);
   }
   

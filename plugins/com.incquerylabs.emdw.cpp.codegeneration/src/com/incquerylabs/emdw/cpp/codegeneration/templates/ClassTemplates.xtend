@@ -11,6 +11,7 @@ import com.incquerylabs.emdw.cpp.common.TypeConverter
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 
 class ClassTemplates {
 	
@@ -247,10 +248,21 @@ class ClassTemplates {
 		'''
 		«FOR operation : operations»
 			«IF cppOpMatcher.hasMatch(cppClass, operation, visibility)»
-				«operationTemplates.operationDeclarationInClassHeader(operation, hasReturnType, false)»
+				«operationTemplates.operationDeclarationInClassHeader(operation, hasReturnType, isVirtual(operation, cppClass))»
 			«ENDIF»
 		«ENDFOR»
 		'''
+	}
+	
+	def isVirtual(CPPOperation cppOperation, CPPClass cppClass) {
+		val cppVirtualOperationMatcher = codeGenQueries.getCppVirtualOperation(engine)
+		val overridingOperations = cppVirtualOperationMatcher.getAllValuesOfcppOverridingOperation(cppClass, cppOperation)
+		val parameters = cppOperation.subElements.filter(CPPFormalParameter)
+		val result = overridingOperations.exists[
+			val overridingParameters = it.subElements.filter(CPPFormalParameter)
+			return parameters.map[type].toList.equals(overridingParameters.map[type].toList)
+		]
+		return result
 	}
 	
 	def destructorDeclarations(CPPClass cppClass, VisibilityKind visibility, List<CPPOperation> operations, boolean hasReturnType){

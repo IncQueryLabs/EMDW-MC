@@ -140,6 +140,19 @@ pattern cppClassOperations(
 	Operation.visibility(operation, visibility);
 }
 
+pattern cppVirtualOperation(
+	cppClass : CPPClass,
+	cppOperation : CPPOperation,
+	cppOverridingOperation : CPPOperation
+) {
+	find cppClassOperations(cppClass, cppOperation, _);
+	find cppSuperClasses+(cppSubClass, cppClass);
+	find cppClassOperations(cppSubClass, cppOverridingOperation, _);
+	CPPOperation.commonOperation.name(cppOperation, cppOperationName);
+	CPPOperation.commonOperation.name(cppOverridingOperation, cppOverridingOperationName);
+	check (cppOperationName.equals(cppOverridingOperationName));
+}
+
 pattern cppRelationReferenceStorage(
 	cppRelation: CPPRelation,
 	cppReferenceStorage: CPPClassReferenceStorage

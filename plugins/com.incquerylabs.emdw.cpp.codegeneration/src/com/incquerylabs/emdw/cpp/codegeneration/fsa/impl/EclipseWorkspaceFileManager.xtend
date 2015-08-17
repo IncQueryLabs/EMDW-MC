@@ -42,8 +42,10 @@ class EclipseWorkspaceFileManager extends FileManager {
 				iproject.create(null)
 				iproject.open(null)
 			}
-			case IResource.FOLDER:
+			case IResource.FOLDER: {
+				resource.parent.members.findFirst[it.name.toLowerCase == resource.name.toLowerCase]?.delete(true, null)
 				(resource as IFolder).create(IResource.FORCE, true, null)
+			}
 		}
 	}
 

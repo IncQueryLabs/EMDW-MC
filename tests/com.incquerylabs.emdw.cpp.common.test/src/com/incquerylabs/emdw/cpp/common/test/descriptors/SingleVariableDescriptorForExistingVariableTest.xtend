@@ -35,7 +35,7 @@ class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBas
 		return cl
 	}
 	
-	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
 			type = element
 			isExistingVariable = true
@@ -51,7 +51,7 @@ class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBas
 					descriptor.stringRepresentation=="classVariable")
 	}
 	
-	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		val chachedDescriptor = (factory.createSingleVariableDescriptorBuilder => [
 			type = element
 			isExistingVariable = true

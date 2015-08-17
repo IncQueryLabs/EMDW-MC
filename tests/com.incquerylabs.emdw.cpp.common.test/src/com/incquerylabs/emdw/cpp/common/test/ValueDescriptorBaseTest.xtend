@@ -49,7 +49,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		initializeTransformation(rs, primitiveTypeMapping)
 		executeTransformation
 		val factory = new UmlValueDescriptorFactory(engine)
-		val valueDescriptor = factory.prepareSingleValueDescriptor(umlObject)
+		val valueDescriptor = factory.prepareValueDescriptor(umlObject)
 		assertResult(umlObject, valueDescriptor)
 		endTest(testId)
 	}
@@ -68,17 +68,17 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		initializeTransformation(rs, primitiveTypeMapping)
 		executeTransformation
 		val factory = new UmlValueDescriptorFactory(engine)
-		val valueDescriptor = factory.prepareSingleValueDescriptor(umlObject)
-		val cachedDescriptor = factory.getCachedSingleValueDescriptor(umlObject)
+		val valueDescriptor = factory.prepareValueDescriptor(umlObject)
+		val cachedDescriptor = factory.getCachedValueDescriptor(umlObject)
 		assertResult(valueDescriptor, cachedDescriptor)
 		endTest(testId)
 	}
 	
-	protected def IValueDescriptor getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
+	protected def IValueDescriptor getCachedValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
 	protected def UmlObject createUmlObject(Model umlModel)
 	
-	protected def IValueDescriptor prepareSingleValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
+	protected def IValueDescriptor prepareValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
 	protected def void assertResult(UmlObject object, IValueDescriptor descriptor)
 	

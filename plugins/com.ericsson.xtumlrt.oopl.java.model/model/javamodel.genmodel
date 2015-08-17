@@ -5,5 +5,7 @@
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0" copyrightFields="false"
     operationReflection="true" importOrganizing="true">
   <foreignModel>javamodel.ecore</foreignModel>
-  <genPackages prefix="Javamodel" disposableProviderFactory="true" ecorePackage="javamodel.ecore#/"/>
+  <genPackages prefix="Javamodel" disposableProviderFactory="true" ecorePackage="javamodel.ecore#/">
+    <genClasses ecoreClass="javamodel.ecore#//JavaSourceFile"/>
+  </genPackages>
 </genmodel:GenModel>

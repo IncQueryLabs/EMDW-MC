@@ -157,8 +157,7 @@ class ClassTemplates {
 	
 	def classInheritance(CPPClass cppClass, boolean hasStateMachine) {
 		val List<String> superClassStrings = newArrayList()
-		val cppSuperClassMatcher = codeGenQueries.getCppSuperClasses(engine)
-		val cppSuperClasses = cppSuperClassMatcher.getAllValuesOfcppSuperClass(cppClass)
+		val cppSuperClasses = getSuperClasses(cppClass)
 		
 		if(hasStateMachine){
 			superClassStrings += '''public «StatefulClassFQN»'''
@@ -347,23 +346,71 @@ class ClassTemplates {
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 		
 		var initStateName = ""
-		var fieldInitialization = ""
+		val List<CharSequence> fieldInitializations = newArrayList()
+		
 		if(cppInitStateMatch != null){
 			 initStateName = '''«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»'''
-			 fieldInitialization = ''': current_state(«initStateName»)'''
+			 fieldInitializations += '''current_state(«initStateName»)'''
 		}
 		
 		'''
 		// Constructors
 		«IF constructors.size == 0»
-			«cppFQN»::«cppClassName»()«fieldInitialization» {
+			«cppFQN»::«cppClassName»()«getFieldInitialization(cppClass, null, fieldInitializations.unmodifiableView)» {
 				«operationTemplates.instancesAddTemplates(cppClass)»
 			}
 		«ENDIF»
 		«FOR constructor : constructors»
+			«val fieldInitialization = getFieldInitialization(cppClass, constructor, fieldInitializations.unmodifiableView)»
 			«operationTemplates.constructorDefinitionInClassBody(cppClass, constructor, fieldInitialization)»
 		«ENDFOR»
 		'''
+	}
+	
+	def getFieldInitialization(CPPClass cppClass, CPPOperation constructor, List<CharSequence> fieldInitializations) {
+		val List<CharSequence> currentInitializations = newArrayList(fieldInitializations)
+		val superClasses = cppClass.superClasses
+		val superConstructors = superClasses.map[ superClass | superClass -> bestSuperConstructor(constructor, superClass)]
+		superConstructors.forEach[currentInitializations += superConstructorInitialization(it.key, it.value)]
+		'''«FOR singleFieldInitialization : currentInitializations BEFORE ': ' SEPARATOR ', '»«singleFieldInitialization»«ENDFOR»'''
+	}
+	
+	def bestSuperConstructor(CPPOperation currentConstructor, CPPClass baseClass) {
+		if(currentConstructor == null){
+			return null
+		}
+		val superConstructors = baseClass.subElements.filter(CPPOperation).filter[it.cppName == baseClass.cppName]
+		val applicableSuperConstructors = superConstructors.filter[ superConstructor |
+			superConstructor.parameters.forall[ superConstructorParameter |
+				currentConstructor.parameters.exists[ currentConstructorParameter |
+					val hasSameName = (superConstructorParameter.cppName == currentConstructorParameter.cppName)
+					val hasSameType = (superConstructorParameter.type == currentConstructorParameter.type)
+					return hasSameName && hasSameType
+				]
+			]
+		]
+		if(applicableSuperConstructors.isNullOrEmpty){
+			return null
+		}
+		val bestSuperConstructor = applicableSuperConstructors.maxBy[parameters.length]
+		return bestSuperConstructor
+	}
+	
+	def superConstructorInitialization(CPPClass superClass, CPPOperation superConstructor) {
+		if(superConstructor == null){
+			return '''«superClass.cppQualifiedName»()'''
+		}
+		'''«superClass.cppQualifiedName»(«FOR parameter : superConstructor.parameters SEPARATOR ', '»«parameter.cppName»«ENDFOR»)'''
+	}
+	
+	def Iterable<CPPClass> getSuperClasses(CPPClass cppClass) {
+		val cppSuperClassMatcher = codeGenQueries.getCppSuperClasses(engine)
+		val cppSuperClasses = cppSuperClassMatcher.getAllValuesOfcppSuperClass(cppClass)
+		return cppSuperClasses
+	}
+	
+	def parameters(CPPOperation cppOperation) {
+		return cppOperation.subElements.filter(CPPFormalParameter)
 	}
 	
 	def destructorDefinitionsInClassBody(CPPClass cppClass) {

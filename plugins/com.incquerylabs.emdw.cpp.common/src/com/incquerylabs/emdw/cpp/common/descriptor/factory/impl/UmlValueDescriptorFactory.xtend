@@ -17,6 +17,7 @@ import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -181,7 +182,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		throw new UnsupportedOperationException("TODO: not implemented yet")
 	}
 	
 	override createPropertyReadBuilder() {
@@ -193,7 +194,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createOperationCallBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new UmlOperationCallBuilder(engine)
 	}
 	
 	

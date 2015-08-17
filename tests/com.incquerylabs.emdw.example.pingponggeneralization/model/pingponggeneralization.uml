@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_ZvNCEBmjEeWkDIIs2OLK7g" name="PingPongGeneralization">
+    <packagedElement xmi:type="uml:Component" xmi:id="_U_BbIBmkEeWkDIIs2OLK7g" name="Component">
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_LbgdgBmkEeWkDIIs2OLK7g" name="Pong" classifierBehavior="_a8SY4BmmEeWkDIIs2OLK7g" isActive="true">
+        <generalization xmi:type="uml:Generalization" xmi:id="_UF-zMEAYEeWnpYHf9QshLQ" general="_PFxosEAYEeWnpYHf9QshLQ"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_AqDJgEAZEeWnpYHf9QshLQ" name="working" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedAttribute>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a8SY4BmmEeWkDIIs2OLK7g" name="Pong_SM">
+          <region xmi:type="uml:Region" xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
+            <transition xmi:type="uml:Transition" xmi:id="_hewAUBmmEeWkDIIs2OLK7g" name="i" source="_faJEQBmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g"/>
+            <transition xmi:type="uml:Transition" xmi:id="_jASEgBmmEeWkDIIs2OLK7g" name="e1" source="_cUor4BmmEeWkDIIs2OLK7g" target="_d8s14BmmEeWkDIIs2OLK7g">
+              <trigger xmi:type="uml:Trigger" xmi:id="_w4mfMBmmEeWkDIIs2OLK7g" name="ping_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_kKvFcBmmEeWkDIIs2OLK7g" name="e2" source="_d8s14BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_MmBIkBpDEeWJmP2mki6rxQ" name="sendPong">
+                <language>C++</language>
+                <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
+new_event->count = casted_const_event->count + 1;&#xD;
+new_event->myString = casted_const_event->myString;&#xD;
+if(new_event->count % 10 == 0) {&#xD;
+	new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;
+}&#xD;
+::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;
+R1_ping->generate_event(new_event);</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_f6aKYBpDEeWgOeVNG9guWg" name="ping_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
+            </transition>
+            <subvertex xmi:type="uml:State" xmi:id="_cUor4BmmEeWkDIIs2OLK7g" name="s1"/>
+            <subvertex xmi:type="uml:State" xmi:id="_d8s14BmmEeWkDIIs2OLK7g" name="s2">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_Dxv2kBpDEeWJmP2mki6rxQ" name="sendPong">
+                <language>C++</language>
+                <language>rALF</language>
+                <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
+new_event->count = casted_const_event->count + 1;&#xD;
+new_event->myString = casted_const_event->myString;&#xD;
+if(new_event->count % 10 == 0) {&#xD;
+	new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;
+}&#xD;
+::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;
+R1_ping->generate_event(new_event);</body>
+                <body>send new pong_s() to this->ping;</body>
+              </entry>
+            </subvertex>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
+          </region>
+        </ownedBehavior>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_rpp7gDXpEeWehOPkD9Ij_w" name="ReceptionForBaseSignal" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_rpp7gTXpEeWehOPkD9Ij_w" name="ReceptionForDerivedSignal" signal="_iEdYUDXoEeWehOPkD9Ij_w"/>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_I9qiEBmkEeWkDIIs2OLK7g" name="Ping" classifierBehavior="_kQ9UIBmkEeWkDIIs2OLK7g" isActive="true">
+        <generalization xmi:type="uml:Generalization" xmi:id="_U3UwkEAYEeWnpYHf9QshLQ" general="_PFxosEAYEeWnpYHf9QshLQ"/>
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_kQ9UIBmkEeWkDIIs2OLK7g" name="Ping_SM">
+          <region xmi:type="uml:Region" xmi:id="_kfjJwBmkEeWkDIIs2OLK7g" name="Region1">
+            <transition xmi:type="uml:Transition" xmi:id="_su_QYBmkEeWkDIIs2OLK7g" name="i" source="_rax2gBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_UwNk8DXxEeWvR7lYJDrnpw" name="createPing">
+                <language>C++</language>
+                <body>R1_pong->generate_event(new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false));</body>
+              </effect>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_76OrgBmkEeWkDIIs2OLK7g" name="e1" source="_oUtdcBmkEeWkDIIs2OLK7g" target="_oolbsBmkEeWkDIIs2OLK7g">
+              <trigger xmi:type="uml:Trigger" xmi:id="_lJ01kBpDEeWgOeVNG9guWg" name="pong_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_84_Z0BmkEeWkDIIs2OLK7g" name="e2" source="_oolbsBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_E1LroDXxEeWvR7lYJDrnpw" name="sendPing">
+                <language>C++</language>
+                <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
+new_event->count = casted_const_event->count + 1;&#xD;
+new_event->myString = casted_const_event->myString;&#xD;
+if(new_event->count % 10 == 0) {&#xD;
+	new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;
+}&#xD;
+::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;
+R1_pong->generate_event(new_event);</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_KxVNMBmmEeWkDIIs2OLK7g" name="pong_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
+            </transition>
+            <subvertex xmi:type="uml:State" xmi:id="_oUtdcBmkEeWkDIIs2OLK7g" name="s1"/>
+            <subvertex xmi:type="uml:State" xmi:id="_oolbsBmkEeWkDIIs2OLK7g" name="s2">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_AiVCkBmmEeWkDIIs2OLK7g" name="sendPing">
+                <language>C++</language>
+                <language>rALF</language>
+                <body>::PingPongAdvanced::Component::Ping::DerivedSignal_event* new_event = new ::PingPongAdvanced::Component::Ping::DerivedSignal_event(false);&#xD;
+new_event->count = casted_const_event->count + 1;&#xD;
+new_event->myString = casted_const_event->myString;&#xD;
+if(new_event->count % 10 == 0) {&#xD;
+	new_event->myString = new_event->myString.append(&quot;s&quot;);&#xD;
+}&#xD;
+::std::cout &lt;&lt; new_event->myString &lt;&lt; new_event->count &lt;&lt; ::std::endl;&#xD;
+R1_pong->generate_event(new_event);</body>
+                <body>send new ping_s() to this->pong;</body>
+              </entry>
+            </subvertex>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_rax2gBmkEeWkDIIs2OLK7g" name="initial"/>
+          </region>
+        </ownedBehavior>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_Sdrz8D_9EeWOmO43WB8Qsw" name="destroy" method="_jmDDED_9EeWOmO43WB8Qsw"/>
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_7HLzEBmmEeWkDIIs2OLK7g" name="BaseSignal">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_KP7r0DXrEeWehOPkD9Ij_w" name="myString">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_iEdYUDXoEeWehOPkD9Ij_w" name="DerivedSignal">
+          <generalization xmi:type="uml:Generalization" xmi:id="_lOo1UDXoEeWehOPkD9Ij_w" general="_7HLzEBmmEeWkDIIs2OLK7g"/>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_PRCOMDXrEeWehOPkD9Ij_w" name="count">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+        </nestedClassifier>
+        <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_jmDDED_9EeWOmO43WB8Qsw" name="destroyBehavior" specification="_Sdrz8D_9EeWOmO43WB8Qsw">
+          <language>C++</language>
+          <body>::std::cout &lt;&lt; &quot;Destroy Ping&quot;;</body>
+        </nestedClassifier>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_oCpAUBpEEeWgOeVNG9guWg" name="ReceptionForBaseSignal" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
+        <ownedReception xmi:type="uml:Reception" xmi:id="__sLEEDXoEeWehOPkD9Ij_w" name="ReceptionForDerivedSignal" signal="_iEdYUDXoEeWehOPkD9Ij_w"/>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Association" xmi:id="_MxR9oBmkEeWkDIIs2OLK7g" name="R1" memberEnd="_MxR9oRmkEeWkDIIs2OLK7g _MxQvgBmkEeWkDIIs2OLK7g">
+        <ownedEnd xmi:type="uml:Property" xmi:id="_MxR9oRmkEeWkDIIs2OLK7g" name="ping" type="_I9qiEBmkEeWkDIIs2OLK7g" association="_MxR9oBmkEeWkDIIs2OLK7g">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MxR9ohmkEeWkDIIs2OLK7g" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxR9oxmkEeWkDIIs2OLK7g" value="1"/>
+        </ownedEnd>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_MxQvgBmkEeWkDIIs2OLK7g" name="pong" type="_LbgdgBmkEeWkDIIs2OLK7g" association="_MxR9oBmkEeWkDIIs2OLK7g">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MxQvgRmkEeWkDIIs2OLK7g" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxQvghmkEeWkDIIs2OLK7g" value="1"/>
+        </ownedEnd>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Class" xmi:id="_bE2e4DYJEeWmmJp6IIlHIg" name="Manager">
+        <generalization xmi:type="uml:Generalization" xmi:id="_jQpKEEAZEeWnpYHf9QshLQ" general="_axSYIEAZEeWnpYHf9QshLQ"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_52m74DYJEeWmmJp6IIlHIg" name="intList" isOrdered="true">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_-uxksDYJEeWmmJp6IIlHIg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_-u6uoDYJEeWmmJp6IIlHIg" value="*"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_USQUQDYKEeWmmJp6IIlHIg" name="realList" isUnique="false">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Xat6ADYKEeWmmJp6IIlHIg" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Xa3D8DYKEeWmmJp6IIlHIg" value="*"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_aZ3ywDYKEeWmmJp6IIlHIg" name="boolList">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_e9NbEDYKEeWmmJp6IIlHIg" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_e9XMEDYKEeWmmJp6IIlHIg" value="*"/>
+        </ownedAttribute>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Association" xmi:id="_f6Tx8DYJEeWmmJp6IIlHIg" name="pingAssoc" memberEnd="_f6Tx8zYJEeWmmJp6IIlHIg _f6Tx9DYJEeWmmJp6IIlHIg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_f6Tx8TYJEeWmmJp6IIlHIg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_f6Tx8jYJEeWmmJp6IIlHIg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_f6Tx8zYJEeWmmJp6IIlHIg" name="ping" type="_I9qiEBmkEeWkDIIs2OLK7g" association="_f6Tx8DYJEeWmmJp6IIlHIg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jFhJsDYJEeWmmJp6IIlHIg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jFqToDYJEeWmmJp6IIlHIg" value="*"/>
+        </ownedEnd>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_f6Tx9DYJEeWmmJp6IIlHIg" name="manager" type="_bE2e4DYJEeWmmJp6IIlHIg" association="_f6Tx8DYJEeWmmJp6IIlHIg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_jhSfsDYJEeWmmJp6IIlHIg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_jhSfsTYJEeWmmJp6IIlHIg" value="*"/>
+        </ownedEnd>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Association" xmi:id="_w4zTYDYJEeWmmJp6IIlHIg" name="pongAssoc" memberEnd="_w4zTYzYJEeWmmJp6IIlHIg _w4zTZDYJEeWmmJp6IIlHIg">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_w4zTYTYJEeWmmJp6IIlHIg" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_w4zTYjYJEeWmmJp6IIlHIg" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_w4zTYzYJEeWmmJp6IIlHIg" name="pong" type="_LbgdgBmkEeWkDIIs2OLK7g" isUnique="false" association="_w4zTYDYJEeWmmJp6IIlHIg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_C7mxgDYKEeWmmJp6IIlHIg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_C7wigDYKEeWmmJp6IIlHIg" value="*"/>
+        </ownedEnd>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_w4zTZDYJEeWmmJp6IIlHIg" name="manager" type="_bE2e4DYJEeWmmJp6IIlHIg" isUnique="false" association="_w4zTYDYJEeWmmJp6IIlHIg">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_DKVKADYKEeWmmJp6IIlHIg"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_DKe7ADYKEeWmmJp6IIlHIg" value="*"/>
+        </ownedEnd>
+      </nestedClassifier>
+      <packagedElement xmi:type="uml:Class" xmi:id="_PFxosEAYEeWnpYHf9QshLQ" name="IdentifiableElement" isAbstract="true">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_cBpCMEAYEeWnpYHf9QshLQ" name="id" visibility="public">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_axSYIEAZEeWnpYHf9QshLQ" name="OperableElement">
+        <ownedOperation xmi:type="uml:Operation" xmi:id="_fpZ9oEAZEeWnpYHf9QshLQ" name="operate" method="_IZK74EAaEeWnpYHf9QshLQ"/>
+        <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_IZK74EAaEeWnpYHf9QshLQ" name="operateBehavior" specification="_fpZ9oEAZEeWnpYHf9QshLQ">
+          <language>C++</language>
+          <language>rALF</language>
+          <body>::std::cout &lt;&lt; &quot;Operate on OperableElement&quot;;</body>
+          <body></body>
+        </nestedClassifier>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_vHcY8EAZEeWnpYHf9QshLQ" name="AdvancedManager">
+        <generalization xmi:type="uml:Generalization" xmi:id="_1iqv8EAZEeWnpYHf9QshLQ" general="_bE2e4DYJEeWmmJp6IIlHIg"/>
+        <generalization xmi:type="uml:Generalization" xmi:id="_3D88gEAZEeWnpYHf9QshLQ" general="_PFxosEAYEeWnpYHf9QshLQ"/>
+        <ownedOperation xmi:type="uml:Operation" xmi:id="__IqZ0EAZEeWnpYHf9QshLQ" name="operate" method="_UZD1UEAaEeWnpYHf9QshLQ"/>
+        <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_UZD1UEAaEeWnpYHf9QshLQ" name="operateBehavior" specification="__IqZ0EAZEeWnpYHf9QshLQ">
+          <language>C++</language>
+          <body>::std::cout &lt;&lt; &quot;Operate on AdvancedManager&quot;;</body>
+        </nestedClassifier>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:SignalEvent" xmi:id="_iBpxsBmpEeW8avfFxjlgXw" name="BaseSignalEvent" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
+    <packagedElement xmi:type="uml:SignalEvent" xmi:id="_mfmjsBmpEeW8avfFxjlgXw" name="DerivedSignalEvent" signal="_iEdYUDXoEeWehOPkD9Ij_w"/>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_ocG7YBmjEeWkDIIs2OLK7g">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ocQsYBmjEeWkDIIs2OLK7g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_VpY68D_9EeWOmO43WB8Qsw">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_VpZiAD_9EeWOmO43WB8Qsw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Model>
+  <standard:Destroy xmi:id="_WqPT8D_9EeWOmO43WB8Qsw" base_BehavioralFeature="_Sdrz8D_9EeWOmO43WB8Qsw"/>
+</xmi:XMI>

@@ -57,7 +57,6 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 	override updateXtumlrtObject(Operation xtumlrtObject, RegularOperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -109,7 +108,6 @@ class ConstructorMapping extends AbstractObjectMapping<ConstructorOperationMatch
 	override updateXtumlrtObject(Operation xtumlrtObject, ConstructorOperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -161,10 +159,8 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 	override updateXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
 		val umlObject = match.umlObject
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		xtumlrtObject.returnType = TransformationUtil.getCommonType(umlObject.type, engine)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
-		xtumlrtObject.name = '''~«(xtumlrtObject.eContainer as org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass)?.name»'''
 	}
 	
 	def getXtumlrtContainer(DestructorOperationMatch match) {

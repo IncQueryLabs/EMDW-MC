@@ -55,7 +55,7 @@ class DestructorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Oper
 
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Operation umlObject, Operation xtumlrtObject) {
 		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
-		assertEquals('''~«(xtumlrtObject.eContainer as org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass)?.name»'''.toString, xtumlrtObject.name)
+		assertEquals(umlObject.name, xtumlrtObject.name)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
 		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
 	}

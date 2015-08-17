@@ -34,7 +34,7 @@ pattern changedEvents(
 pattern changedClassEventDefiningEvents(
 	monitoredElement : XTClassEvent
 ) {
-	XTClassEvent.definingEvents(monitoredElement, _);
+	XTClassEvent.redefines(monitoredElement, _);
 }
 
 //* Relation changes

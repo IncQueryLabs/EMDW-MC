@@ -1,8 +1,9 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
@@ -13,24 +14,27 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 class OperationRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
-	extension val SequenceRules sequenceRules
-	extension val IncludeRules includeRules
+	extension val FormalParameterRules formalParameterRules
+	extension val ReturnValueRules returnValueRules
 	
-	new(BatchTransformationStatements statements, SequenceRules sequenceRules, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements, FormalParameterRules formalParameterRules, ReturnValueRules returnValueRules) {
 		this.statements = statements
-		this.sequenceRules = sequenceRules
-		this.includeRules = includeRules
+		this.formalParameterRules = formalParameterRules
+		this.returnValueRules = returnValueRules
 	}
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
-			entityOperationRule
+			entityOperationRule,
+			entityDestructorRule,
+			addReferencesRule
 		)
 		transformation.addRules(rules)
 	}
@@ -44,25 +48,34 @@ class OperationRules {
 			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = operation ]
 		]
 		cppElement.subElements += cppOperation
-		operation.parameters.forEach[ param |
-			val cppFormalParameter = createCPPFormalParameter => [
-				commonParameter = param
-				ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = param ]
-				if(param.multiValue){
-					unnamedSequenceType = generateCPPSequence(param)
-				}
-			]
-			cppOperation.subElements += cppFormalParameter
-			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
-			if(cppFormalParameter.unnamedSequenceType != null){
-				fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppFormalParameter.unnamedSequenceType])
-			}
-			addIncludes(cppFormalParameter)
-		]
+		
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
+		transformSubElements(cppOperation)
 	].build
 	
-	def addIncludes(CPPQualifiedNamedElement cppElement) {
-		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
+	@Accessors(PUBLIC_GETTER)
+	val entityDestructorRule = createRule.precondition(cppEntityDestructor).action[ match |
+		val cppElement = match.cppElement
+		val operation = match.operation
+		val cppOperation = createCPPOperation => [
+			commonOperation = operation
+			ooplNameProvider = createOOPLDerivedNameProvider => [ name = '''~«cppElement.cppName»''' ]
+		]
+		cppElement.subElements += cppOperation
+		
+		trace('''Mapped Destructor «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
+		transformSubElements(cppOperation)
+	].build
+	
+	def transformSubElements(CPPOperation cppOperation){
+		fireAllCurrent(operationParameterRule, [it.cppOperation == cppOperation])
+		fireAllCurrent(operationReturnValueRule, [it.cppOperation == cppOperation])
 	}
+	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppOperationInQualifiedNamedElement).action[ match |
+		val cppOperation = match.cppOperation
+		fireAllCurrent(formalParameterRules.addReferencesRule, [it.cppOperation == cppOperation])
+		fireAllCurrent(returnValueRules.addReferencesRule, [it.cppOperation == cppOperation])
+	].build
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_7Xz3EEHJEeW93rsP3e6yLw" name="CollectionModel">
+  <packagedElement xmi:type="uml:Class" xmi:id="_2CoQMEHLEeW93rsP3e6yLw" name="Collection" isAbstract="true">
+    <ownedTemplateSignature xmi:type="uml:RedefinableTemplateSignature" xmi:id="_6U5WoEHLEeW93rsP3e6yLw" parameter="_Z0mewEHMEeW93rsP3e6yLw">
+      <ownedParameter xmi:type="uml:ClassifierTemplateParameter" xmi:id="_Z0mewEHMEeW93rsP3e6yLw" parameteredElement="_7lvMEEHOEeW93rsP3e6yLw">
+        <ownedParameteredElement xmi:type="uml:Class" xmi:id="_7lvMEEHOEeW93rsP3e6yLw" name="E" templateParameter="_Z0mewEHMEeW93rsP3e6yLw"/>
+      </ownedParameter>
+    </ownedTemplateSignature>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Class" xmi:id="_mFYXEEHQEeWcBfgUsqIwFQ" name="Set">
+    <generalization xmi:type="uml:Generalization" xmi:id="_iD_ocEHUEeWcBfgUsqIwFQ" general="_2CoQMEHLEeW93rsP3e6yLw"/>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_H8qlIEHSEeWcBfgUsqIwFQ" name="add">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_jVMAAEHTEeWcBfgUsqIwFQ" name="element" type="_7lvMEEHOEeW93rsP3e6yLw"/>
+    </ownedOperation>
+    <ownedOperation xmi:type="uml:Operation" xmi:id="_psaAwEHTEeWcBfgUsqIwFQ" name="addAll">
+      <ownedParameter xmi:type="uml:Parameter" xmi:id="_39I7cEHTEeWcBfgUsqIwFQ" name="collection" type="_2CoQMEHLEeW93rsP3e6yLw"/>
+    </ownedOperation>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_s_JBAEHMEeW93rsP3e6yLw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_s_K2MEHMEeW93rsP3e6yLw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+  </profileApplication>
+</uml:Model>

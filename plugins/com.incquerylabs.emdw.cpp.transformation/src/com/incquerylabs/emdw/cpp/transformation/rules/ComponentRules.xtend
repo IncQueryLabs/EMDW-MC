@@ -7,6 +7,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 
 class ComponentRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -87,12 +88,29 @@ class ComponentRules {
 	@Accessors(PUBLIC_GETTER)
 	val componentRule = createRule.precondition(cppComponents).action[match |
 		val cppComponent = match.cppComponent
+		addIncludes(cppComponent)
+		transformSubElements(cppComponent)
+		updateSubElements(cppComponent)
+	].build
+	
+	def addIncludes(CPPComponent cppComponent) {
 		cppComponent.addIncludesBetweenOwnFiles
 		fireAllCurrent(includeRules.componentRuntimeIncludesRule, [it.cppComponent == cppComponent])
+	}
+	
+	def transformSubElements(CPPComponent cppComponent) {
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppComponent])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppComponent])
+		fireAllCurrent(operationRules.entityDestructorRule, [it.cppElement == cppComponent])
 		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
-	].build
+	}
+	
+	def updateSubElements(CPPComponent cppComponent) {
+		trace('''Transforming references between subelements of Component «cppComponent.xtComponent.name»''')
+		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppComponent])
+		fireAllCurrent(classRules.addReferencesRule, [it.container == cppComponent])
+		fireAllCurrent(packageRules.addReferencesRule, [it.container == cppComponent])
+	}
 }

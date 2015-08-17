@@ -2,19 +2,24 @@ package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppPackageInQualifiedNamedElementMatch
+import com.incquerylabs.emdw.cpp.transformation.queries.CppPackageInQualifiedNamedElementMatcher
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 
 class PackageRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
@@ -61,6 +66,11 @@ class PackageRules {
 		transformSubElements(cppPackage)
 	].build
 	
+	@Accessors(PUBLIC_GETTER)
+	val BatchTransformationRule<CppPackageInQualifiedNamedElementMatch, CppPackageInQualifiedNamedElementMatcher> addReferencesRule = createRule.precondition(cppPackageInQualifiedNamedElement).action[ match |
+		updateSubElements(match.cppPackage)
+	].build
+	
 	def addIncludes(CPPPackage cppPackage){
 		cppPackage.addIncludesBetweenOwnFiles
 		fireAllCurrent(includeRules.packageComponentIncludeRule, [it.cppPackage == cppPackage])
@@ -95,5 +105,10 @@ class PackageRules {
 		]
 		
 		return cppPackage
+	}
+	
+	def updateSubElements(CPPPackage cppPackage) {
+		fireAllCurrent(classRules.addReferencesRule, [it.container == cppPackage])
+		fireAllCurrent(this.addReferencesRule, [it.container == cppPackage])
 	}
 }

@@ -47,6 +47,52 @@ pattern cppPackageInPackage(
 	find cppPackageInQualifiedNamedElement(innerPackage, outerPackage);
 }
 
+pattern cppOperationInQualifiedNamedElement(
+	cppOperation : CPPOperation,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppOperation);
+}
+
+pattern cppFormalParameterClassReference(
+	cppOperation : CPPOperation,
+	classReference : OOPLDataType
+) {
+	CPPOperation.subElements(cppOperation, cppFormalParameter);
+	CPPFormalParameter.subElements(cppFormalParameter, classReference);
+}
+
+pattern cppReturnValueClassReference(
+	cppOperation : CPPOperation,
+	classReference : OOPLDataType
+) {
+	CPPOperation.subElements(cppOperation, cppReturnValue);
+	CPPReturnValue.subElements(cppReturnValue, classReference);
+}
+
+pattern cppRelationClassReference(
+	cppClass : CPPClass,
+	classReference : OOPLDataType
+) {
+	CPPClass.subElements(cppClass, cppRelation);
+	CPPRelation.subElements(cppRelation, cppClassReferenceStorage);
+	CPPClassReferenceStorage.subElements(cppClassReferenceStorage, classReference);
+}
+
+pattern cppClassReference(
+	cppClassReference : OOPLDataType,
+	cppClass : CPPClass
+) {
+	CPPClassReference.commonType(cppClassReference, xtClass);
+	CPPClass.xtClass(cppClass, xtClass);
+} or {
+	CPPClassRefSimpleCollection.commonType(cppClassReference, xtClass);
+	CPPClass.xtClass(cppClass, xtClass);
+} or {
+	CPPClassRefAssocCollection.commonType(cppClassReference, xtClass);
+	CPPClass.xtClass(cppClass, xtClass);
+}
+
 // Elements in a package hierarchy
 pattern cppClassInComponentSubPackages(
 	cppClass : CPPClass,
@@ -156,4 +202,6 @@ pattern cppElementSequence(
 	CPPAttribute.unnamedSequenceType(cppElement, cppSequence);
 } or {
 	CPPFormalParameter.unnamedSequenceType(cppElement, cppSequence);
+} or {
+	CPPReturnValue.unnamedSequenceType(cppElement, cppSequence);
 }

@@ -1,10 +1,11 @@
 package com.incquerylabs.emdw.cpp.transformation.util
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
 
 class CPPTransformationUtil {
 	
@@ -163,5 +164,10 @@ class CPPTransformationUtil {
 	
 	private def removeDirectory(CPPDirectory parent, CPPDirectory directory) {
 		parent.subDirectories.remove(directory)
+	}
+	
+	def isMultiValue(MultiplicityElement multiplicityElement) {
+		val upperBound = multiplicityElement.upperBound
+		return upperBound > 1 || upperBound == -1
 	}
 }

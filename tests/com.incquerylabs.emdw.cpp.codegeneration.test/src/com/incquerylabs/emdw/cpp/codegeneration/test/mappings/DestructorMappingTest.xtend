@@ -27,14 +27,14 @@ class DestructorMappingTest extends TransformationTest<State, CPPClass> {
 		val xtComponent = xtPackage.createXtComponent("Component")
 		val xtClass = xtComponent.createXtClass("TEST_CLASS")
 		val xtTypeVoid = xtPackage.createTypeDefinition("VoidDef").createPrimitiveType("Void")
-		val xtConstructor = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtTypeVoid, "~TEST_CLASS", "// body comment")
+		val xtDestructor = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtTypeVoid, "destroy", "// body comment")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
 		val cppClassHeader = createCPPHeaderFile(cppComponent.headerDirectory)
 		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
 		val cppClass = createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)
-		createCPPOperation(cppClass, xtConstructor)
+		createCPPOperation(cppClass, xtDestructor)
 		
 		cppClass
 	}

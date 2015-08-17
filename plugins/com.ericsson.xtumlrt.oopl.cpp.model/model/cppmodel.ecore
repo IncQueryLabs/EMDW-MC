@@ -406,6 +406,22 @@
     <eLiterals name="BY_REFERENCE" value="1"/>
     <eLiterals name="BY_CONSTANT_REFERENCE" value="2"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPReturnValue" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="ecore:EClass ../../com.ericsson.xtumlrt.oopl.model/model/oopl.ecore#//OOPLDataType"
+        changeable="false" volatile="true" transient="true" derived="true">
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.cppmodel.derived.cppReturnValueType"/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unnamedSequenceType" eType="#//CPPSequence"
+        containment="true">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="documentation" value="This reference shall be used only for containing a CPPSequence."/>
+      </eAnnotations>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="commonTypedMultiplicityElement"
+        lowerBound="1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//TypedMultiplicityElement"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPExternalLibrary">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Artificial root for all {@link com.ericsson.xtumlrt.cppmodel.CPPExternalHeader} elements."/>

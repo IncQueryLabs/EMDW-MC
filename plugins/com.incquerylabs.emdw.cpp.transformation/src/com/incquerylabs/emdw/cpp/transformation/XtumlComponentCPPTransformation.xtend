@@ -5,8 +5,10 @@ import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.AttributeRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassReferenceRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
+import com.incquerylabs.emdw.cpp.transformation.rules.FormalParameterRules
 import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.OperationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
@@ -20,6 +22,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 
 class XtumlComponentCPPTransformation {
 
@@ -37,7 +40,10 @@ class XtumlComponentCPPTransformation {
 	ClassRules classRules
 	AttributeRules attributeRules
 	OperationRules operationRules
+	ReturnValueRules returnValueRules
+	FormalParameterRules formalParameterRules
 	AssociationRules associationRules
+	ClassReferenceRules classReferenceRules
 	SequenceRules sequenceRules
 	IncludeRules includeRules
 	
@@ -59,15 +65,19 @@ class XtumlComponentCPPTransformation {
 			
 			includeRules = new IncludeRules(engine, statements)
 			sequenceRules = new SequenceRules(statements)
+			classReferenceRules = new ClassReferenceRules(statements)
+			returnValueRules = new ReturnValueRules(statements, classReferenceRules, sequenceRules, includeRules)
+			formalParameterRules = new FormalParameterRules(engine, statements, classReferenceRules, sequenceRules, includeRules)
 			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
-			operationRules = new OperationRules(statements, sequenceRules, includeRules)
-			associationRules = new AssociationRules(statements, includeRules)
-			classRules = new ClassRules(statements, associationRules, attributeRules, operationRules, includeRules)
+			operationRules = new OperationRules(statements, formalParameterRules, returnValueRules)
+			associationRules = new AssociationRules(statements, classReferenceRules)
+			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, includeRules)
 			packageRules = new PackageRules(statements, classRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)
 			
 			includeRules.addRules(transform)
 			sequenceRules.addRules(transform)
+			formalParameterRules.addRules(transform)
 			attributeRules.addRules(transform)
 			operationRules.addRules(transform)
 			associationRules.addRules(transform)

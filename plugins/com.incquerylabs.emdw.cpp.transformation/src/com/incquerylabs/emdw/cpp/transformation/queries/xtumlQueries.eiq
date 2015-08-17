@@ -247,7 +247,7 @@ pattern cppEventAttributes(
 
 pattern cppSequenceType(
 	cppElement : CPPQualifiedNamedElement,
-	typedElement : NamedElement,
+	typedElement : CommonElement,
 	cppSequence : CPPSequence,
 	ooplType : OOPLDataType
 ) {
@@ -260,9 +260,34 @@ pattern cppSequenceType(
 	CPPFormalParameter.commonParameter(cppElement, typedElement);
 	Parameter.type(typedElement, type);
 	find typeToOOPLType(type, ooplType);
+} or {
+	CPPReturnValue.unnamedSequenceType(cppElement, cppSequence);
+	CPPReturnValue.commonTypedMultiplicityElement(cppElement, typedElement);
+	TypedMultiplicityElement.type(typedElement, type);
+	find typeToOOPLType(type, ooplType);
 }
 
 pattern cppEntityOperations(
+	xtEntity : Entity,
+	cppElement : CPPQualifiedNamedElement,
+	operation : Operation
+) {
+	find cppEntityAllOperations(xtEntity, cppElement, operation);
+	Operation.name(operation, opName);
+	check( opName != "destroy");
+}
+
+pattern cppEntityDestructor(
+	xtEntity : Entity,
+	cppElement : CPPQualifiedNamedElement,
+	operation : Operation
+) {
+	find cppEntityAllOperations(xtEntity, cppElement, operation);
+	Operation.name(operation, opName);
+	check( opName == "destroy");
+}
+
+pattern cppEntityAllOperations(
 	xtEntity : Entity,
 	cppElement : CPPQualifiedNamedElement,
 	operation : Operation
@@ -272,6 +297,24 @@ pattern cppEntityOperations(
 } or {
 	find cppComponents(xtEntity, cppElement);
 	Entity.operations(xtEntity, operation);
+}
+
+pattern cppOperationParameter(
+	operation : Operation,
+	cppOperation : CPPOperation,
+	parameter : Parameter
+) {
+	Operation.parameters(operation, parameter);
+	CPPOperation.commonOperation(cppOperation, operation);
+}
+
+pattern cppOperationReturnValue(
+	operation : Operation,
+	cppOperation : CPPOperation,
+	returnType : TypedMultiplicityElement
+) {
+	Operation.returnType(operation, returnType);
+	CPPOperation.commonOperation(cppOperation, operation);
 }
 
 pattern cppComponents(
@@ -397,11 +440,8 @@ pattern cppClassEvents(
 pattern cppClassAssociations(
 	xtClass: XTClass,
 	cppClass: CPPClass,
-	cppTargetClass: CPPClass,
 	association: XTAssociation
 ) {
 	find cppClasses(xtClass, cppClass);
 	XTAssociation.source(association, xtClass);
-	XTAssociation.target(association, xtTargetClass);
-	find cppClasses(xtTargetClass, cppTargetClass);
 }

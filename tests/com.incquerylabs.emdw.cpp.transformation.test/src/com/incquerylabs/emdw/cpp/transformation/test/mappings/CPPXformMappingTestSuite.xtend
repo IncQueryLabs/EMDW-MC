@@ -17,6 +17,7 @@ import org.junit.runners.Suite.SuiteClasses
 	CPPProtocolMappingTestSuite,
 	CPPProtocolOperationDefinitionMappingTestSuite,
 	CPPProtocolOperationImplMappingTestSuite,
+	CPPReturnValueMappingTestSuite,
 	CPPSignalMappingTestSuite,
 	CPPStateMappingTestSuite,
 	CPPTransitionMappingTestSuite

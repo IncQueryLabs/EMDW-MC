@@ -58,7 +58,7 @@ class XTClassEventGeneralizationMappingTest extends TransformationTest<Signal, X
 
 	override protected checkXtumlrtObject(RootMapping mapping, Signal umlObject, XTClassEvent xtClassEvent) {
 		val superEvents = mapping.xtumlrtRoot.entities.filter(XTClass).map[events].flatten.filter(XTClassEvent).filter[name == "superSignal"]
-		assertArrayEquals(superEvents, xtClassEvent.definingEvents)
+		assertEquals(superEvents.head, xtClassEvent.redefines)
 	}
 
 }

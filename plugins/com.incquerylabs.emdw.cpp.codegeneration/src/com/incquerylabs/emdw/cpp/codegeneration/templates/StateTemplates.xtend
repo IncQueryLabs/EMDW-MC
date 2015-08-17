@@ -381,7 +381,7 @@ class StateTemplates {
 		}
 		var currentXtEvent = event1.xtEvent as XTClassEvent
 		while(!commonXtAncestors.contains(currentXtEvent)){
-			currentXtEvent = currentXtEvent.definingEvents.head
+			currentXtEvent = currentXtEvent.redefines as XTClassEvent
 		}
 		val lowestCommonAncestor = cppEventMatcher.getAllValuesOfcppEvent(currentXtEvent).head
 		return lowestCommonAncestor

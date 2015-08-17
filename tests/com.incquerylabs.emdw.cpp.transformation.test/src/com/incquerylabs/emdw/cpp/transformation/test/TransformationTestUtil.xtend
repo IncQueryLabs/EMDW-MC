@@ -463,7 +463,7 @@ class TransformationTestUtil {
 		typeDef
 	}
 
-	static def createTypeDefinition(Package root, String name) {
+	static def createTypeDefinition(BaseContainer root, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
 			it.type = type

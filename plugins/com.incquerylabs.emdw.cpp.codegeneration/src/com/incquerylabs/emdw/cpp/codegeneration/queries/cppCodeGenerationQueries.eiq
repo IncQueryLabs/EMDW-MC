@@ -243,7 +243,8 @@ pattern cppParentEvent(
 ) {
 	CPPEvent.xtEvent(childEvent, xtChildEvent);
 	CPPEvent.xtEvent(parentEvent, xtParentEvent);
-	XTClassEvent.definingEvents(xtChildEvent, xtParentEvent);
+	XTClassEvent(xtParentEvent);
+	XTClassEvent.redefines(xtChildEvent, xtParentEvent);
 }
 
 pattern cppAncestorEvent(

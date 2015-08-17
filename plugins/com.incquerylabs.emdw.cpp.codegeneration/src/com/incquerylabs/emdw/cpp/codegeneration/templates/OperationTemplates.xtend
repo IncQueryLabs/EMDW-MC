@@ -8,6 +8,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 
 class OperationTemplates {
 	
@@ -27,13 +28,12 @@ class OperationTemplates {
 	
 	def operationSignature(CPPOperation operation, boolean useQualifiedName, boolean hasReturnType, boolean isVirtual, boolean isStatic) {
 		
-		val commonOp = operation.commonOperation
-		val returnType = commonOp.returnType
+		val returnType = operation.subElements.filter(CPPReturnValue).head
 		val parameters = operation.subElements.filter(CPPFormalParameter)
 		
 		val staticKeyword = '''«IF isStatic»static «ENDIF»'''
 		val virtualKeyword = '''«IF isVirtual»virtual «ENDIF»'''
-		val returnTypeString = '''«IF hasReturnType»«typeConverter.convertType(returnType.type)» «ENDIF»'''
+		val returnTypeString = '''«IF hasReturnType»«typeConverter.convertType(returnType)» «ENDIF»'''
 		val operationName = '''«IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»'''
 		val parenthesizedName = '''«IF hasReturnType && useQualifiedName»(«operationName»)«ELSE»«operationName»«ENDIF»'''
 		val operationParameters = '''«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»'''
@@ -105,7 +105,6 @@ class OperationTemplates {
 	}
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){
-		val type = param.type
-		typeConverter.convertType(type)
+		typeConverter.convertType(param)
 	}
 }

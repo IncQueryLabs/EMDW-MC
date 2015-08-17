@@ -5,7 +5,7 @@ import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
-import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
@@ -17,6 +17,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import org.eclipse.emf.ecore.resource.Resource
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import org.eclipse.uml2.uml.Parameter
+import org.eclipse.uml2.uml.ParameterDirectionKind
 
 class CommonTestUtil {
 
@@ -28,10 +30,11 @@ class CommonTestUtil {
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	
 	private static final String COMMON_TYPES_PATH = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
+	private static final String CPP_COLLECTIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	private static final String CPP_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
 	
 	static def createPrimitiveTypeMapping(ResourceSet rs){
-		val primitiveTypeMapping = <org.eclipse.uml2.uml.Type, Type>newHashMap
+		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
 		val commonTypesResource = rs.getResource(URI.createPlatformPluginURI(COMMON_TYPES_PATH, true), true)
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
@@ -49,6 +52,7 @@ class CommonTestUtil {
 		]
 		
 		logger.debug("Created primitive type mapping")
+		rs.getResource(URI.createPlatformPluginURI(CPP_COLLECTIONS_PATH, true), true)
 		rs.getResource(URI.createPlatformPluginURI(CPP_TYPES_PATH, true), true)
 		primitiveTypeMapping
 	}
@@ -158,7 +162,7 @@ class CommonTestUtil {
 		return umlClass
 	}
 	
-	static def createAttribute(Class umlClass, org.eclipse.uml2.uml.Type type, String name) {
+	static def createAttribute(Class umlClass, Type type, String name) {
 		val attribute = umlFactory.createProperty => [
 			it.type = type
 			it.name = name
@@ -189,5 +193,26 @@ class CommonTestUtil {
 		]
 		comp.nestedClassifiers += association
 		endAtSource
+	}
+	
+	static def createOperation(Class umlClass, String name, Parameter... parameters) {
+		val operation = umlFactory.createOperation => [
+			it.name = name
+			it.ownedParameters += parameters
+		]
+		umlClass.ownedOperations += operation
+		return operation
+	}
+	
+	static def createParameter(Type type, String name, ParameterDirectionKind direction, int lowerBound, int upperBound) {
+		val parameter = umlFactory.createParameter => [
+			it.name = name
+			it.direction = direction
+			it.type = type
+			it.lower = lowerBound
+			it.upper = upperBound
+			it.isUnique = true
+		]
+		return parameter
 	}
 }

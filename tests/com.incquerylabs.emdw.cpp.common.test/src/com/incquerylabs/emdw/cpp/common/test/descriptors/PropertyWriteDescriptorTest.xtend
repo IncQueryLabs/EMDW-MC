@@ -52,7 +52,7 @@ class PropertyWriteDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pr
 		return prop
 	}
 	
-	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Property object) {
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Property object) {
 		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
 			it.isExistingVariable = true
 			it.name = VARIABLE_NAME
@@ -84,7 +84,7 @@ class PropertyWriteDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pr
 		
 	}
 	
-	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Property object) {
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Property object) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
@@ -121,7 +121,7 @@ class PropertyWriteDescriptorForAssociationTest extends ValueDescriptorBaseTest<
 		return prop
 	}
 	
-	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Property object) {
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Property object) {
 		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
 			it.isExistingVariable = true
 			it.name = VARIABLE_NAME
@@ -154,7 +154,7 @@ class PropertyWriteDescriptorForAssociationTest extends ValueDescriptorBaseTest<
 		
 	}
 	
-	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Property object) {
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Property object) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	

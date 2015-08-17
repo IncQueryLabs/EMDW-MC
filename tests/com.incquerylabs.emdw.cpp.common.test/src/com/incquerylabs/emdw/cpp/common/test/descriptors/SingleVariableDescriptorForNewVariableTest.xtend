@@ -43,7 +43,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 		return cl
 	}
 	
-	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
 			type = element
 			name = VARIABLE_NAME
@@ -58,7 +58,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 					descriptor.stringRepresentation==EXPECTED_REPRESENTATION)
 	}
 	
-	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
 			type = element
 			isExistingVariable = true
@@ -93,7 +93,7 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescrip
 		return cl
 	}
 	
-	override protected prepareSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		val svd = (factory.createSingleVariableDescriptorBuilder => [
 			type = element
 		]).build
@@ -114,7 +114,7 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescrip
 		
 	}
 	
-	override protected getCachedSingleValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Class element) {
 		throw new UnsupportedOperationException("We cannot cache variable descriptor for an unnamed element.")
 	}
 	

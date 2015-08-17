@@ -8,6 +8,8 @@ import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import java.util.List
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppOperationCallBuilder implements IOoplOperationCallBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -28,9 +30,16 @@ class CppOperationCallBuilder implements IOoplOperationCallBuilder {
 	
 	override build() {
 		val cppOperation = mapper.convertOperation(operation)
+		val retType = cppOperation.subElements.filter(CPPReturnValue).head
+		var baseType = retType.type
+		if(baseType instanceof CPPSequence) {
+			baseType = baseType.elementType
+		}
+		val baseTypeFinal = baseType
 		val ocd = factory.createOperationCallDescriptor => [
-			//it.fullType = converter.convertType(cppOperation.) // TODO
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»)'''
+			it.baseType = converter.convertType(baseTypeFinal)
+			it.fullType = converter.convertType(retType)
+			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
 		]
 		return ocd
 	}

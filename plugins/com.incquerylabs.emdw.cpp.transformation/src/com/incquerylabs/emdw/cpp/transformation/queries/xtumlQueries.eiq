@@ -375,6 +375,16 @@ pattern cppClasses(
 	CPPClass.xtClass(cppClass, xtClass);
 }
 
+pattern cppSuperClasses(
+	cppClass : CPPClass,
+	cppSuperClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+	XTClass.generalizations(xtClass, generalization);
+	Generalization.^super(generalization, xtSuperClass);
+	CPPClass.xtClass(cppSuperClass, xtSuperClass);
+}
+
 pattern cppEvents(
 	xtEvent : XTEvent,
 	cppEvent : CPPEvent

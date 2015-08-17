@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.ConstructorOperationMatch
-import com.incquerylabs.emdw.umlintegration.queries.DestructorOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.RegularOperationMatch
 import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
@@ -14,8 +13,8 @@ class OperationRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
 			new OperationMapping(engine),
-			new ConstructorMapping(engine),
-			new DestructorMapping(engine)
+			new ConstructorMapping(engine)/*,
+			new DestructorMapping(engine)*/
 		}
 	}
 }
@@ -120,55 +119,4 @@ class ConstructorMapping extends AbstractObjectMapping<ConstructorOperationMatch
 		match.xtumlrtContainer.operations += xtumlrtObject
 	}
 
-}
-
-/**
- * Transforms Operations which are a Class's or Component's owned operations named '~ClassName' with the Destroy stereotype 
- * to the transformed Entity's operations. Transformed fields: body, static, visibility.
- */
-class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, org.eclipse.uml2.uml.Operation, Operation> {
-
-	new(IncQueryEngine engine) {
-		super(engine)
-	}
-
-	override getXtumlrtClass() {
-		Operation
-	}
-	
-	public static val PRIORITY = CommonPriorities.OPERATION_MAPPING_PRIORITY
-
-	override getRulePriority() {
-		PRIORITY
-	}
-
-	override getQuerySpecification() {
-		destructorOperation
-	}
-
-	override getUmlObject(DestructorOperationMatch match) {
-		match.operation
-	}
-
-	override createXtumlrtObject() {
-		commonFactory.createOperation => [
-			body = commonFactory.createActionCode
-		]
-	}
-
-	override updateXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
-		val umlObject = match.umlObject
-		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
-		xtumlrtObject.static = umlObject.static
-		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
-		xtumlrtObject.name = '''~«(xtumlrtObject.eContainer as org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass)?.name»'''
-	}
-	
-	def getXtumlrtContainer(DestructorOperationMatch match) {
-		match.umlClass.findXtumlrtObject(Entity)
-	}
-
-	override protected insertXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
-		match.xtumlrtContainer.operations += xtumlrtObject
-	}
 }

@@ -138,7 +138,6 @@ pattern regularOperation(umlClass: Class, operation: Operation) {
 	find entity(umlClass);
 	Class.ownedOperation(umlClass, operation);
 	neg find constructorByName(umlClass, operation);
-	neg find destructorByName(umlClass, operation);
 }
 
 pattern constructorOperation(umlClass: Class, operation: Operation) {
@@ -147,24 +146,17 @@ pattern constructorOperation(umlClass: Class, operation: Operation) {
 	find constructorByName(umlClass, operation);
 }
 
-pattern destructorOperation(umlClass: Class, operation: Operation) {
-// not checked since there are issues with Maven compilation
-//	standard::Destroy.base_BehavioralFeature(_, operation);
-	find destructorByName(umlClass, operation);
-}
+//pattern destructorOperation(umlClass: Class, operation: Operation) {
+//// not checked since there are issues with Maven compilation
+////	standard::Destroy.base_BehavioralFeature(_, operation);
+//	find destructorByName(umlClass, operation);
+//}
 
 pattern constructorByName(umlClass : Class, operation : Operation){
 	find entity(umlClass);
 	Class.ownedOperation(umlClass, operation);
 	Class.name(umlClass, name);
 	Operation.name(operation, name);
-}
-
-pattern destructorByName(umlClass : Class, operation : Operation){
-	find entity(umlClass);
-	Class.ownedOperation(umlClass, operation);
-	Operation.name(operation, opName);
-	check ( opName == "destroy" );
 }
 
 private pattern entity(umlClass: Class) {

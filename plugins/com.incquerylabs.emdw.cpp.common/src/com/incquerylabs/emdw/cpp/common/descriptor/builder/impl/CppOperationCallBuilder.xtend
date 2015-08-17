@@ -39,7 +39,7 @@ class CppOperationCallBuilder implements IOoplOperationCallBuilder {
 		val ocd = factory.createOperationCallDescriptor => [
 			it.baseType = converter.convertType(baseTypeFinal)
 			it.fullType = converter.convertType(retType)
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»)'''
+			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
 		]
 		return ocd
 	}

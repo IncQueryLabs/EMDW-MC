@@ -30,6 +30,7 @@ class CommonTestUtil {
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	
 	private static final String COMMON_TYPES_PATH = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
+	private static final String CPP_COLLECTIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	private static final String CPP_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
 	
 	static def createPrimitiveTypeMapping(ResourceSet rs){
@@ -51,6 +52,7 @@ class CommonTestUtil {
 		]
 		
 		logger.debug("Created primitive type mapping")
+		rs.getResource(URI.createPlatformPluginURI(CPP_COLLECTIONS_PATH, true), true)
 		rs.getResource(URI.createPlatformPluginURI(CPP_TYPES_PATH, true), true)
 		primitiveTypeMapping
 	}
@@ -198,7 +200,7 @@ class CommonTestUtil {
 			it.name = name
 			it.ownedParameters += parameters
 		]
-		umlClass.operations += operation
+		umlClass.ownedOperations += operation
 		return operation
 	}
 	
@@ -209,6 +211,7 @@ class CommonTestUtil {
 			it.type = type
 			it.lower = lowerBound
 			it.upper = upperBound
+			it.isUnique = true
 		]
 		return parameter
 	}

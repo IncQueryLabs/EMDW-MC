@@ -30,11 +30,6 @@
     <description>Set the heap space needed to work with the projects of ${scope.project.label}</description>
   </setupTask>
   <setupTask
-      xsi:type="setup:EclipseIniTask"
-      option="-XX:MaxPermSize="
-      value="256M"
-      vm="true"/>
-  <setupTask
       xsi:type="jdt:JRETask"
       version="JavaSE-1.8"
       location="${jre.location-1.8}"/>
@@ -71,6 +66,28 @@
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
+      id="git.clone.emdw-common"
+      remoteURI="IncQueryLabs/EMDW-Common"
+      checkoutBranch="master">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/InducedChoices">
+      <detail
+          key="inherit">
+        <value>github.remoteURIs</value>
+      </detail>
+      <detail
+          key="label">
+        <value>EMDW-Common Git Repository</value>
+      </detail>
+      <detail
+          key="target">
+        <value>remoteURI</value>
+      </detail>
+    </annotation>
+    <description>EMDW-Common</description>
+  </setupTask>
+  <setupTask
+      xsi:type="git:GitCloneTask"
       id="git.clone.emdw-mc"
       remoteURI="IncQueryLabs/EMDW-MC"
       checkoutBranch="master">
@@ -93,6 +110,8 @@
   </setupTask>
   <setupTask
       xsi:type="projects:ProjectsImportTask">
+    <sourceLocator
+        rootFolder="${git.clone.emdw-common.location}"/>
     <sourceLocator
         rootFolder="${git.clone.emdw-mc.location}"/>
   </setupTask>
@@ -179,23 +198,26 @@
       <predicate
           xsi:type="predicates:AndPredicate">
         <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="com.incquerylabs.emdw.umlintegration.transformation"/>
-        <operand
             xsi:type="predicates:NamePredicate"
             pattern=".*model"/>
         <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/plugins/.*"/>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.parent"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.common.parent"/>
+        </operand>
       </predicate>
     </workingSet>
     <workingSet
         name="Model Compiler">
       <predicate
           xsi:type="predicates:AndPredicate">
-        <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="com.incquerylabs.emdw.umlintegration.transformation"/>
         <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/plugins/.*"/>
@@ -211,15 +233,21 @@
               xsi:type="predicates:NamePredicate"
               pattern=".*model"/>
         </operand>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.parent"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.common.parent"/>
+        </operand>
       </predicate>
     </workingSet>
     <workingSet
         name="Alf">
       <predicate
           xsi:type="predicates:AndPredicate">
-        <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="com.incquerylabs.emdw.umlintegration.transformation"/>
         <operand
             xsi:type="predicates:OrPredicate">
           <operand
@@ -232,6 +260,15 @@
         <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/plugins/.*"/>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.parent"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.common.parent"/>
+        </operand>
       </predicate>
     </workingSet>
     <workingSet
@@ -239,11 +276,17 @@
       <predicate
           xsi:type="predicates:AndPredicate">
         <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="com.incquerylabs.emdw.umlintegration.transformation"/>
-        <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/tests/.*"/>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.parent"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.common.parent"/>
+        </operand>
       </predicate>
     </workingSet>
     <workingSet
@@ -251,16 +294,29 @@
       <predicate
           xsi:type="predicates:AndPredicate">
         <operand
-            xsi:type="predicates:RepositoryPredicate"
-            project="com.incquerylabs.emdw.umlintegration.transformation"/>
-        <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/releng/.*"/>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.parent"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.common.parent"/>
+        </operand>
       </predicate>
     </workingSet>
   </setupTask>
   <project name="mylyn"
       label="Mylyn">
+    <setupTask
+        xsi:type="setup:VariableTask"
+        id=""
+        type="PASSWORD"
+        name="github.user.password">
+      <description>Github password for Mylyn access</description>
+    </setupTask>
     <setupTask
         xsi:type="mylyn:MylynQueriesTask"
         connectorKind="github"
@@ -268,17 +324,34 @@
         userID="${github.user.id}"
         password="${github.user.password}">
       <query
-          summary="EMDW MC bugs">
+          summary="EMDW MC - August 2015">
         <attribute
-            key="labels"
-            value="bug::"/>
+            key="milestone"
+            value="4"/>
+        <attribute
+            key="state"
+            value="open::closed::"/>
       </query>
       <query
-          summary="EMDW MC features">
+          summary="EMDW MC - September 2015">
         <attribute
-            key="labels"
-            value="enhancement::"/>
+            key="milestone"
+            value="5"/>
+        <attribute
+            key="state"
+            value="open::closed::"/>
       </query>
+      <query
+          summary="EMDW MC - Future"
+          url="">
+        <attribute
+            key="milestone"
+            value="3"/>
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+      <description></description>
     </setupTask>
     <setupTask
         xsi:type="mylyn:MylynQueriesTask"
@@ -287,7 +360,34 @@
         userID="${github.user.id}"
         password="${github.user.password}">
       <query
-          summary="Massif pull requests"
+          summary="EMDW-MC pull requests"
+          url="">
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+    </setupTask>
+    <setupTask
+        xsi:type="mylyn:MylynQueriesTask"
+        connectorKind="github"
+        repositoryURL="https://github.com/IncQueryLabs/EMDW-Common"
+        userID="${github.user.id}"
+        password="${github.user.password}">
+      <query
+          summary="EMDW Common">
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+    </setupTask>
+    <setupTask
+        xsi:type="mylyn:MylynQueriesTask"
+        connectorKind="githubPullRequests"
+        repositoryURL="https://github.com/IncQueryLabs/EMDW-Common/pulls"
+        userID="${github.user.id}"
+        password="${github.user.password}">
+      <query
+          summary="EMDW-Common pull requests"
           url="">
         <attribute
             key="state"
@@ -301,6 +401,12 @@
         password="">
       <buildPlan
           name="ericsson-emdw-modelcompiler"/>
+      <buildPlan
+          name="ericsson-emdw-common"/>
+      <buildPlan
+          name="ericsson-emdw-modelcompiler-pulls"/>
+      <buildPlan
+          name="ericsson-emdw-common-pulls"/>
     </setupTask>
     <setupTask
         xsi:type="setup.p2:P2Task">

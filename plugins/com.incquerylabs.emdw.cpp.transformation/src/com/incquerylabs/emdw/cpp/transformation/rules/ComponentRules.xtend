@@ -103,6 +103,7 @@ class ComponentRules {
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppComponent])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppComponent])
+		fireAllCurrent(operationRules.entityDestructorRule, [it.cppElement == cppComponent])
 		fireAllCurrent(packageRules.packageInComponentRule, [it.cppComponent == cppComponent])
 	}
 	

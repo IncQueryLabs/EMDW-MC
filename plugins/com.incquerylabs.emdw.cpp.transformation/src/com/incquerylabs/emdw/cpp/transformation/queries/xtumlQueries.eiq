@@ -272,6 +272,26 @@ pattern cppEntityOperations(
 	cppElement : CPPQualifiedNamedElement,
 	operation : Operation
 ) {
+	find cppEntityAllOperations(xtEntity, cppElement, operation);
+	Operation.name(operation, opName);
+	check( opName != "destroy");
+}
+
+pattern cppEntityDestructor(
+	xtEntity : Entity,
+	cppElement : CPPQualifiedNamedElement,
+	operation : Operation
+) {
+	find cppEntityAllOperations(xtEntity, cppElement, operation);
+	Operation.name(operation, opName);
+	check( opName == "destroy");
+}
+
+pattern cppEntityAllOperations(
+	xtEntity : Entity,
+	cppElement : CPPQualifiedNamedElement,
+	operation : Operation
+) {
 	find cppClasses(xtEntity, cppElement);
 	Entity.operations(xtEntity, operation);
 } or {

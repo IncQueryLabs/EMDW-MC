@@ -86,7 +86,7 @@ public class GeneratorHelper {
 		        if(object instanceof Model) {
 		            name = ((Model)object).getName();
 		        }
-		        parent = getOrCreateProject(generationProjectPrefix+name);
+		        parent = getOrCreateProject(generationProjectPrefix+name.toLowerCase());
 		    }
 		} else {
 			parent = getOrCreateProject(generationProjectPrefix);

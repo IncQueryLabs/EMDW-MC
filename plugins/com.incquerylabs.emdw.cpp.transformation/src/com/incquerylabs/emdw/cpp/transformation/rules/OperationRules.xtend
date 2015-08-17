@@ -33,6 +33,7 @@ class OperationRules {
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
 			entityOperationRule,
+			entityDestructorRule,
 			addReferencesRule
 		)
 		transformation.addRules(rules)
@@ -49,6 +50,20 @@ class OperationRules {
 		cppElement.subElements += cppOperation
 		
 		trace('''Mapped Operation «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
+		transformSubElements(cppOperation)
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val entityDestructorRule = createRule.precondition(cppEntityDestructor).action[ match |
+		val cppElement = match.cppElement
+		val operation = match.operation
+		val cppOperation = createCPPOperation => [
+			commonOperation = operation
+			ooplNameProvider = createOOPLDerivedNameProvider => [ name = '''~«cppElement.cppName»''' ]
+		]
+		cppElement.subElements += cppOperation
+		
+		trace('''Mapped Destructor «operation.name» in entity «match.xtEntity.name» to CPPOperation''')
 		transformSubElements(cppOperation)
 	].build
 	

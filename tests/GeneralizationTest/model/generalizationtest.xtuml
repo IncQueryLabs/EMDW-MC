@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="GeneralizationTest">
+  <entities xsi:type="xtuml:XTComponent" name="Component">
+    <entities xsi:type="xtuml:XTClass" name="D">
+      <operations name="d_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;d_operation&quot;;"/>
+      </operations>
+      <relations xsi:type="xtuml:XTGeneralization" super="//@entities.0/@entities.2" sub="//@entities.0/@entities.0"/>
+      <relations xsi:type="xtuml:XTGeneralization" super="//@entities.0/@entities.6" sub="//@entities.0/@entities.0"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="E">
+      <operations name="d_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;d_operation in E&quot;;"/>
+      </operations>
+      <relations xsi:type="xtuml:XTGeneralization" super="//@entities.0/@entities.0" sub="//@entities.0/@entities.1"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="A">
+      <attributes name="a_property" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+      </attributes>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="B">
+      <attributes name="b_property" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+      </attributes>
+      <operations name="b_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;b_operation&quot;;"/>
+      </operations>
+      <relations xsi:type="xtuml:XTGeneralization" super="//@entities.0/@entities.2" sub="//@entities.0/@entities.3"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="F">
+      <operations name="c_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <parameters name="bool_param" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
+        </parameters>
+        <body source="::std::cout &lt;&lt; &quot;c_operation with bool_param: &quot; &lt;&lt; bool_param;"/>
+      </operations>
+      <relations xsi:type="xtuml:XTGeneralization" super="//@entities.0/@entities.0" sub="//@entities.0/@entities.4"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="G">
+      <attributes name="g_property" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+      </attributes>
+      <relations xsi:type="xtuml:XTGeneralization" super="//@entities.0/@entities.6" sub="//@entities.0/@entities.5"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="C">
+      <operations name="c_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;c_operation&quot;;"/>
+      </operations>
+    </entities>
+  </entities>
+</common:Model>

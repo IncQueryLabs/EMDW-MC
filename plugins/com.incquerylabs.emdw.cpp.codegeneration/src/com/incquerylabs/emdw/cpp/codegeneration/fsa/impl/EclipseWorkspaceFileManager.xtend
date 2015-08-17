@@ -42,7 +42,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 				iproject.create(null)
 				iproject.open(null)
 			}
-			case IResource.FOLDER:
+			case IResource.FOLDER: 
 				(resource as IFolder).create(IResource.NONE, true, null)
 		}
 	}

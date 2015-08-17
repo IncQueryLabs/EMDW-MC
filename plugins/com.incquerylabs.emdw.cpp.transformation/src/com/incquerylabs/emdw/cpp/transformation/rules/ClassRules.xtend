@@ -181,6 +181,7 @@ class ClassRules {
 		fireAllCurrent(classReferenceRules.classReferenceSimpleCollectionTypeRule4Instances, [it.cppClass == cppClass])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppClass])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppClass])
+		fireAllCurrent(operationRules.entityDestructorRule, [it.cppElement == cppClass])
 		fireAllCurrent(stateRule, [it.cppClass == cppClass])
 		fireAllCurrent(transitionRule, [it.cppClass == cppClass])
 		fireAllCurrent(eventRule, [it.cppClass == cppClass])

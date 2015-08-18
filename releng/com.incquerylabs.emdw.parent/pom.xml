@@ -68,7 +68,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
-		<emdw.common.repository.url>https://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
+		<emdw.common.repository.url>http://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
 		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>

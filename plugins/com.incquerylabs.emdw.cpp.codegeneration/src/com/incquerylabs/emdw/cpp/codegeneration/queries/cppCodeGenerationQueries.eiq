@@ -149,8 +149,7 @@ pattern cppVirtualOperation(
 	find cppSuperClasses+(cppSubClass, cppClass);
 	find cppClassOperations(cppSubClass, cppOverridingOperation, _);
 	CPPOperation.commonOperation.name(cppOperation, cppOperationName);
-	CPPOperation.commonOperation.name(cppOverridingOperation, cppOverridingOperationName);
-	check (cppOperationName.equals(cppOverridingOperationName));
+	CPPOperation.commonOperation.name(cppOverridingOperation, cppOperationName);
 }
 
 pattern cppRelationReferenceStorage(

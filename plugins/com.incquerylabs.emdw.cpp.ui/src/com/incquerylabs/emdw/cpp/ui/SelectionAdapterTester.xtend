@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.ui
 import org.eclipse.core.expressions.PropertyTester
 import org.eclipse.core.runtime.IAdaptable
 import org.eclipse.uml2.uml.Model
+import org.eclipse.core.resources.ResourcesPlugin
 
 class SelectionAdapterTester extends PropertyTester {
 	
@@ -11,7 +12,15 @@ class SelectionAdapterTester extends PropertyTester {
 			if(property == "isumlmodel"){
 				val model = receiver.getAdapter(Model) as Model
 				if(model != null){
-					return true
+					val modelPlatformPath = model.eResource.URI.toPlatformString(true)
+					if(modelPlatformPath == null) {
+						return false
+					}
+					val modelResource = ResourcesPlugin.workspace.root.findMember(modelPlatformPath)
+					val project = modelResource.project
+					if(project.hasNature("com.incquerylabs.emdw.common.nature")) {
+						return true
+					}
 				}
 			} else if(property == "isumlcomponent"){
 				return false

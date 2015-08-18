@@ -9,6 +9,7 @@ import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.apache.log4j.RollingFileAppender
 import org.apache.log4j.SimpleLayout
+import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
@@ -56,6 +57,10 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 		try{
 			// this is required to find only the loaded models at the start
 			val defaultUMLResources = ImmutableList.copyOf(modelSet.resources.filter(UMLResource))
+			if(!defaultUMLResources.exists[hasEMDWCommonProjectNature]) {
+				logger.debug('''The project does not have the EMDW common project nature.''')
+				return
+			}
 			
 			val engine = getEngineManager(modelSet).getOrCreateEngine(modelSet)
 			// we need to expand the indexing to the additional resource set
@@ -82,7 +87,7 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 				transformation.execute
 				logger.debug("First execution of UML integration transformation finished")
 			} else {
-				logger.error("More than one root mapping found, UML integration cannot continue!")
+				logger.error('''Exactly 1 root mapping is expected, but found «mappings.size». UML integration cannot continue!''')
 			}
 		} catch (IncQueryException e) {
 			logger.error("Could not setup UML integration transformation!", e)
@@ -147,6 +152,16 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 		logger.debug("Created primitive type mapping")
 
 		primitiveTypeMapping
+	}
+	
+	def hasEMDWCommonProjectNature(Resource resource) {
+		val modelPlatformPath = resource.URI.toPlatformString(true)
+		if(modelPlatformPath == null) {
+			return false
+		}
+		val modelResource = ResourcesPlugin.workspace.root.findMember(modelPlatformPath)
+		val project = modelResource.project
+		return project.hasNature("com.incquerylabs.emdw.common.nature")
 	}
 
 }

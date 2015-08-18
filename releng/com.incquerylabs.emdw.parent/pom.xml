@@ -26,7 +26,6 @@
 		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
 
 		<!-- Papyrus integration -->
-		<module>../../plugins/com.incquerylabs.uml.papyrus</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
 
 		<!-- Validation -->
@@ -43,8 +42,7 @@
 		<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
 		<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
 		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
-		<module>../../examples/com.incquerylabs.emdw.examples</module>
-
+		
 		<!-- rALF Language -->
 		<module>../../plugins/com.incquerylabs.uml.ralf</module>
 		<module>../../plugins/com.incquerylabs.uml.ralf.languagegenerator</module>
@@ -59,7 +57,6 @@
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
 		<module>../com.incquerylabs.emdw.umlintegration.feature</module>
-		<module>../com.incquerylabs.uml.papyrus.feature</module>
 		<module>../com.incquerylabs.uml.ralf.feature</module>
 		<module>../com.incquerylabs.emdw.update</module>
 
@@ -71,6 +68,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
+		<emdw.common.repository.url>https://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
 		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
 		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>

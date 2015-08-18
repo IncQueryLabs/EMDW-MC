@@ -13,6 +13,9 @@ class SelectionAdapterTester extends PropertyTester {
 				val model = receiver.getAdapter(Model) as Model
 				if(model != null){
 					val modelPlatformPath = model.eResource.URI.toPlatformString(true)
+					if(modelPlatformPath == null) {
+						return false
+					}
 					val modelResource = ResourcesPlugin.workspace.root.findMember(modelPlatformPath)
 					val project = modelResource.project
 					if(project.hasNature("com.incquerylabs.emdw.common.nature")) {

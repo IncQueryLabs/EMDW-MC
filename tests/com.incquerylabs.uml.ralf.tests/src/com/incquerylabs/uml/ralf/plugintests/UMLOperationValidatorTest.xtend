@@ -361,7 +361,7 @@ class UMLOperationValidatorTest {
 	def operationReturnPongOperationCall(){
 		operationOKThis(
 		'''
-			this.returnPong().doInteger(1);
+			this.returnPong().doIntegerVoid(1);
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}
@@ -437,7 +437,7 @@ class UMLOperationValidatorTest {
 	def operationReturnPongOperationCall_NoThis(){
 		operationOKThis(
 		'''
-			returnPong().doInteger(1);
+			returnPong().doIntegerVoid(1);
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}
@@ -579,7 +579,7 @@ class UMLOperationValidatorTest {
 		operationOKThis(
 		'''
 		  Integer a;
-		  Pong::staticTestOperation(1, a);
+		  Pong::TestOperation(1, a);
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}

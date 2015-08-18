@@ -1,14 +1,10 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConcurrentClauses
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
@@ -16,6 +12,8 @@ import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import org.eclipse.emf.ecore.EObject
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 class ReducedAlfSnippetTemplateCompiler {
 	
@@ -88,22 +86,22 @@ class ReducedAlfSnippetTemplateCompiler {
 		]
 	}
 	
-	def dispatch Snippet visit(NameLeftHandSide lhs){
-		createCompositeSnippet =>[
-			snippet.add(lhs.expression.visit)
-			if(lhs.index != null){
-				snippet.add(createStringSnippet => [
-					value = '''['''
-				])
-				snippet.add(lhs.index.visit)
-				snippet.add(createStringSnippet => [
-					value = ''']'''
-				])
-			}
-		]
-	}
+//	def dispatch Snippet visit(NameLeftHandSide lhs){
+//		createCompositeSnippet =>[
+//			snippet.add(lhs.expression.visit)
+//			if(lhs.index != null){
+//				snippet.add(createStringSnippet => [
+//					value = '''['''
+//				])
+//				snippet.add(lhs.index.visit)
+//				snippet.add(createStringSnippet => [
+//					value = ''']'''
+//				])
+//			}
+//		]
+//	}
 	
-	def dispatch Snippet visit(FeatureLeftHandSide lhs){
+	def dispatch Snippet visit(LeftHandSide lhs){
 		createCompositeSnippet =>[
 			snippet.add(lhs.expression.visit)
 		]
@@ -119,17 +117,7 @@ class ReducedAlfSnippetTemplateCompiler {
 		]
 	}
 	
-	def dispatch Snippet visit(ConcurrentClauses cc){
-		createCompositeSnippet => [ f | 
-				cc.clause.forEach[
-    				f.snippet.add(visit)
-    				f.snippet.add(createStringSnippet => [value = '\n'])
-    			]
-    			f.snippet.remove(f.snippet.size-1)
-		]
-	}
-	
-	def dispatch Snippet visit(NonFinalClause nfc){
+	def dispatch Snippet visit(IfClause nfc){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''('''])
 			snippet.add(nfc.condition.visit)

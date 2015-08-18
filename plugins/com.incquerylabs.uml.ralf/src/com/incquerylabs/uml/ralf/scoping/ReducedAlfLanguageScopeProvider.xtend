@@ -12,7 +12,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
@@ -44,18 +43,6 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     @Inject
     IQualifiedNameConverter nameConverter
     
-//    override getPredicate(EObject context, EClass type) {
-//        val methodName = "scope_" + type.name
-//        println(methodName + " with context " + context.eClass.name)
-//        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
-//    }
-//
-//    override getPredicate(EObject context, EReference reference) {
-//        val methodName = "scope_" + reference.EContainingClass.name + "_" + reference.name
-//        println(methodName + " with context " + context.eClass.name)
-//        return PolymorphicDispatcher.Predicates.forName(methodName, 2)
-//    }
-    
     def IScope scope_Type(EObject context, EReference reference) {
         if (umlContext == null) {
             IScope.NULLSCOPE
@@ -85,7 +72,11 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     
     def scope_NamedElement(Expression context, EReference reference) {
         val typeScope = scopeOfTypes
-        val scope = scope_NamedElement(context, typeScope)
+        val scope = if (context.eContainer instanceof StaticFeatureInvocationExpression) {
+            scope_NamedElement(context, scope_StaticFeatureInvocationExpression_operation(context.eContainer as StaticFeatureInvocationExpression, reference))
+        } else {
+            scope_NamedElement(context, typeScope)
+        }
         scope
     }
     
@@ -160,22 +151,24 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
         return null
     }
      
-    def IScope scope_FeatureInvocationExpression_operation(FeatureInvocationExpression ctx, EReference ref) {
+    def IScope scope_FeatureInvocationExpression_feature(FeatureInvocationExpression ctx, EReference ref) {
         if (ctx.context != null && !ctx.context.eIsProxy) {
-            scope_FeatureInvocationExpression_operation(ctx.context, ref)    
+            scope_FeatureInvocationExpression_feature(ctx.context, ref)    
         } else {
             null
         }
     }
     
-    def IScope scope_FeatureInvocationExpression_operation(Expression ctx, EReference ref) {
+    def IScope scope_FeatureInvocationExpression_feature(Expression ctx, EReference ref) {
         val typeResult = system.type(ctx)
         if (typeResult.failed) {
             return null
         }
         val type = typeResult.value.classFromTypeReference
         if (type != null) {
-            Scopes.scopeFor(umlContext.getOperationsOfClass(type))
+            Scopes.scopeFor(umlContext.getPropertiesOfClass(type),
+                Scopes.scopeFor(umlContext.getOperationsOfClass(type))
+            )
         } else {
             null
         }
@@ -184,38 +177,22 @@ class ReducedAlfLanguageScopeProvider extends AbstractDeclarativeScopeProvider {
     def IScope scope_StaticFeatureInvocationExpression_operation(StaticFeatureInvocationExpression ctx, EReference ref) {
         val staticScope = Scopes.scopeFor(umlContext.getStaticOperations(),
             //XXX is this name conversion correct?
-            [nameConverter.toQualifiedName('''«namespace.name»::«name»''')],
+            [
+                nameConverter.toQualifiedName('''«namespace.name»::«name»''')
+            ],
             IScope.NULLSCOPE
         )
         val thisType = umlContext.thisType
         if (thisType != null) {
             Scopes.scopeFor(umlContext.getOperationsOfClass(thisType),
-                [nameConverter.toQualifiedName(name)],
+                [
+                    nameConverter.toQualifiedName(name)
+                ],
                 staticScope
             )
         } else {
             staticScope            
         }
-    }
-    
-    def IScope scope_PropertyAccessExpression_property(PropertyAccessExpression ctx, EReference ref) {
-        if (ctx.context != null && !(ctx.context.eIsProxy)) {
-            scope_PropertyAccessExpression_property(ctx.context, ref)
-        } else {
-            null
-        }
-    }
-    
-    def IScope scope_PropertyAccessExpression_property(Expression ctx, EReference ref) {
-        val typeResult = system.type(ctx)
-        if (typeResult.failed) {
-            return null
-        }
-        val type = typeResult.value.classFromTypeReference
-        if (type != null) {
-            return Scopes.scopeFor(umlContext.getPropertiesOfClass(type))
-        }
-        return null
     }
     
     def IScope scope_AssociationAccessExpression_association(AssociationAccessExpression ctx, EReference ref) {

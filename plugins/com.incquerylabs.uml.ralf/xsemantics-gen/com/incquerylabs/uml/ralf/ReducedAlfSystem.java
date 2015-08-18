@@ -17,11 +17,11 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterVariable;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement;
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide;
@@ -31,15 +31,12 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatemen
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LoopVariable;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameLeftHandSide;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NonFinalClause;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression;
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression;
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement;
@@ -73,6 +70,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.Association;
 import org.eclipse.uml2.uml.Classifier;
+import org.eclipse.uml2.uml.Feature;
 import org.eclipse.uml2.uml.NamedElement;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Parameter;
@@ -171,8 +169,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   public final static String THISEXPRESSION = "com.incquerylabs.uml.ralf.ThisExpression";
   
-  public final static String PROPERTYACCESSEXPRESSION = "com.incquerylabs.uml.ralf.PropertyAccessExpression";
-  
   public final static String ASSOCIATIONACCESSEXPRESSION = "com.incquerylabs.uml.ralf.AssociationAccessExpression";
   
   public final static String LINKOPERATIONEXPRESSION = "com.incquerylabs.uml.ralf.LinkOperationExpression";
@@ -186,8 +182,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   public final static String OPERATION = "com.incquerylabs.uml.ralf.Operation";
   
   public final static String FEATURELEFTHANDSIDE = "com.incquerylabs.uml.ralf.FeatureLeftHandSide";
-  
-  public final static String NAMELEFTHANDSIDE = "com.incquerylabs.uml.ralf.NameLeftHandSide";
   
   @Extension
   @Inject
@@ -519,19 +513,19 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<Boolean>(true);
   }
   
-  public Result<Boolean> nonFinalClause(final NonFinalClause cl) {
-    return nonFinalClause(null, cl);
+  public Result<Boolean> ifClause(final IfClause cl) {
+    return ifClause(null, cl);
   }
   
-  public Result<Boolean> nonFinalClause(final RuleApplicationTrace _trace_, final NonFinalClause cl) {
+  public Result<Boolean> ifClause(final RuleApplicationTrace _trace_, final IfClause cl) {
     try {
-    	return nonFinalClauseInternal(_trace_, cl);
-    } catch (Exception _e_NonFinalClause) {
-    	return resultForFailure(_e_NonFinalClause);
+    	return ifClauseInternal(_trace_, cl);
+    } catch (Exception _e_IfClause) {
+    	return resultForFailure(_e_IfClause);
     }
   }
   
-  protected Result<Boolean> nonFinalClauseInternal(final RuleApplicationTrace _trace_, final NonFinalClause cl) throws RuleFailedException {
+  protected Result<Boolean> ifClauseInternal(final RuleApplicationTrace _trace_, final IfClause cl) throws RuleFailedException {
     /* empty |- cl.^condition : var IUMLTypeReference condType */
     Expression _condition = cl.getCondition();
     IUMLTypeReference condType = null;
@@ -2175,7 +2169,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   protected Result<IUMLTypeReference> applyRuleAssignmentExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final AssignmentExpression ex) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
     /* G |- ex.leftHandSide : var IUMLTypeReference leftType */
-    LeftHandSide _leftHandSide = ex.getLeftHandSide();
+    Expression _leftHandSide = ex.getLeftHandSide();
     IUMLTypeReference leftType = null;
     Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _leftHandSide);
     checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
@@ -2768,136 +2762,6 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<IUMLTypeReference>(result);
   }
   
-  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final PropertyAccessExpression ex) throws RuleFailedException {
-    try {
-    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
-    	final Result<IUMLTypeReference> _result_ = applyRulePropertyAccessExpression(G, _subtrace_, ex);
-    	addToTrace(_trace_, new Provider<Object>() {
-    		public Object get() {
-    			return ruleName("PropertyAccessExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + stringRep(_result_.getFirst());
-    		}
-    	});
-    	addAsSubtrace(_trace_, _subtrace_);
-    	return _result_;
-    } catch (Exception e_applyRulePropertyAccessExpression) {
-    	typeThrowException(ruleName("PropertyAccessExpression") + stringRepForEnv(G) + " |- " + stringRep(ex) + " : " + "IUMLTypeReference",
-    		PROPERTYACCESSEXPRESSION,
-    		e_applyRulePropertyAccessExpression, ex, new ErrorInformation[] {new ErrorInformation(ex)});
-    	return null;
-    }
-  }
-  
-  protected Result<IUMLTypeReference> applyRulePropertyAccessExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final PropertyAccessExpression ex) throws RuleFailedException {
-    IUMLTypeReference result = null; // output parameter
-    /* { !ex.property.multivalued result = ex.property.type.typeReference } or { ex.property.multivalued && ex.property.ordered result = ex.property.type.sequenceOf } or { ex.property.multivalued && !ex.property.ordered && ex.property.unique result = ex.property.type.setOf } or { ex.property.multivalued && !ex.property.ordered && !ex.property.unique result = ex.property.type.bagOf } */
-    {
-      RuleFailedException previousFailure = null;
-      try {
-        Property _property = ex.getProperty();
-        boolean _isMultivalued = _property.isMultivalued();
-        boolean _not = (!_isMultivalued);
-        /* !ex.property.multivalued */
-        if (!_not) {
-          sneakyThrowRuleFailedException("!ex.property.multivalued");
-        }
-        Property _property_1 = ex.getProperty();
-        Type _type = _property_1.getType();
-        IUMLTypeReference _typeReference = this.typeFactory.typeReference(_type);
-        result = _typeReference;
-      } catch (Exception e) {
-        previousFailure = extractRuleFailedException(e);
-        /* { ex.property.multivalued && ex.property.ordered result = ex.property.type.sequenceOf } or { ex.property.multivalued && !ex.property.ordered && ex.property.unique result = ex.property.type.setOf } or { ex.property.multivalued && !ex.property.ordered && !ex.property.unique result = ex.property.type.bagOf } */
-        {
-          try {
-            boolean _and = false;
-            Property _property_2 = ex.getProperty();
-            boolean _isMultivalued_1 = _property_2.isMultivalued();
-            if (!_isMultivalued_1) {
-              _and = false;
-            } else {
-              Property _property_3 = ex.getProperty();
-              boolean _isOrdered = _property_3.isOrdered();
-              _and = _isOrdered;
-            }
-            /* ex.property.multivalued && ex.property.ordered */
-            if (!_and) {
-              sneakyThrowRuleFailedException("ex.property.multivalued && ex.property.ordered");
-            }
-            Property _property_4 = ex.getProperty();
-            Type _type_1 = _property_4.getType();
-            CollectionTypeReference _sequenceOf = this.typeFactory.sequenceOf(_type_1);
-            result = _sequenceOf;
-          } catch (Exception e_1) {
-            previousFailure = extractRuleFailedException(e_1);
-            /* { ex.property.multivalued && !ex.property.ordered && ex.property.unique result = ex.property.type.setOf } or { ex.property.multivalued && !ex.property.ordered && !ex.property.unique result = ex.property.type.bagOf } */
-            {
-              try {
-                boolean _and_1 = false;
-                boolean _and_2 = false;
-                Property _property_5 = ex.getProperty();
-                boolean _isMultivalued_2 = _property_5.isMultivalued();
-                if (!_isMultivalued_2) {
-                  _and_2 = false;
-                } else {
-                  Property _property_6 = ex.getProperty();
-                  boolean _isOrdered_1 = _property_6.isOrdered();
-                  boolean _not_1 = (!_isOrdered_1);
-                  _and_2 = _not_1;
-                }
-                if (!_and_2) {
-                  _and_1 = false;
-                } else {
-                  Property _property_7 = ex.getProperty();
-                  boolean _isUnique = _property_7.isUnique();
-                  _and_1 = _isUnique;
-                }
-                /* ex.property.multivalued && !ex.property.ordered && ex.property.unique */
-                if (!_and_1) {
-                  sneakyThrowRuleFailedException("ex.property.multivalued && !ex.property.ordered && ex.property.unique");
-                }
-                Property _property_8 = ex.getProperty();
-                Type _type_2 = _property_8.getType();
-                CollectionTypeReference _setOf = this.typeFactory.setOf(_type_2);
-                result = _setOf;
-              } catch (Exception e_2) {
-                previousFailure = extractRuleFailedException(e_2);
-                boolean _and_3 = false;
-                boolean _and_4 = false;
-                Property _property_9 = ex.getProperty();
-                boolean _isMultivalued_3 = _property_9.isMultivalued();
-                if (!_isMultivalued_3) {
-                  _and_4 = false;
-                } else {
-                  Property _property_10 = ex.getProperty();
-                  boolean _isOrdered_2 = _property_10.isOrdered();
-                  boolean _not_2 = (!_isOrdered_2);
-                  _and_4 = _not_2;
-                }
-                if (!_and_4) {
-                  _and_3 = false;
-                } else {
-                  Property _property_11 = ex.getProperty();
-                  boolean _isUnique_1 = _property_11.isUnique();
-                  boolean _not_3 = (!_isUnique_1);
-                  _and_3 = _not_3;
-                }
-                /* ex.property.multivalued && !ex.property.ordered && !ex.property.unique */
-                if (!_and_3) {
-                  sneakyThrowRuleFailedException("ex.property.multivalued && !ex.property.ordered && !ex.property.unique");
-                }
-                Property _property_12 = ex.getProperty();
-                Type _type_3 = _property_12.getType();
-                CollectionTypeReference _bagOf = this.typeFactory.bagOf(_type_3);
-                result = _bagOf;
-              }
-            }
-          }
-        }
-      }
-    }
-    return new Result<IUMLTypeReference>(result);
-  }
-  
   protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final AssociationAccessExpression ex) throws RuleFailedException {
     try {
     	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
@@ -2947,18 +2811,18 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   protected Result<IUMLTypeReference> applyRuleLinkOperationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LinkOperationExpression ex) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
-    /* { ex.operation == LinkOperation.LINK result = ex.association.typeReference } or { result = null } */
+    /* { ex.linkOperation == LinkOperation.LINK result = (ex.association as Association).typeReference } or { result = null } */
     {
       RuleFailedException previousFailure = null;
       try {
-        LinkOperation _operation = ex.getOperation();
-        boolean _equals = Objects.equal(_operation, LinkOperation.LINK);
-        /* ex.operation == LinkOperation.LINK */
+        LinkOperation _linkOperation = ex.getLinkOperation();
+        boolean _equals = Objects.equal(_linkOperation, LinkOperation.LINK);
+        /* ex.linkOperation == LinkOperation.LINK */
         if (!_equals) {
-          sneakyThrowRuleFailedException("ex.operation == LinkOperation.LINK");
+          sneakyThrowRuleFailedException("ex.linkOperation == LinkOperation.LINK");
         }
-        Association _association = ex.getAssociation();
-        IUMLTypeReference _typeReference = this.typeFactory.typeReference(_association);
+        NameExpression _association = ex.getAssociation();
+        IUMLTypeReference _typeReference = this.typeFactory.typeReference(((Association) _association));
         result = _typeReference;
       } catch (Exception e) {
         previousFailure = extractRuleFailedException(e);
@@ -3045,12 +2909,130 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   
   protected Result<IUMLTypeReference> applyRuleFeatureInvocationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureInvocationExpression ex) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
-    /* G |- ex.operation : result */
-    Operation _operation = ex.getOperation();
-    Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _operation);
-    checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
-    result = (IUMLTypeReference) result_1.getFirst();
-    
+    /* { ex.^feature instanceof Operation G |- ex.^feature : result } or { ex.^feature instanceof Property val property = ex.^feature as Property !property.eIsProxy { !property.multivalued result = property.type.typeReference } or { property.multivalued && property.ordered result = property.type.sequenceOf } or { property.multivalued && !property.ordered && property.unique result = property.type.setOf } or { property.multivalued && !property.ordered && !property.unique result = property.type.bagOf } } */
+    {
+      RuleFailedException previousFailure = null;
+      try {
+        Feature _feature = ex.getFeature();
+        /* ex.^feature instanceof Operation */
+        if (!(_feature instanceof Operation)) {
+          sneakyThrowRuleFailedException("ex.^feature instanceof Operation");
+        }
+        /* G |- ex.^feature : result */
+        Feature _feature_1 = ex.getFeature();
+        Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _feature_1);
+        checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
+        result = (IUMLTypeReference) result_1.getFirst();
+        
+      } catch (Exception e) {
+        previousFailure = extractRuleFailedException(e);
+        Feature _feature_2 = ex.getFeature();
+        /* ex.^feature instanceof Property */
+        if (!(_feature_2 instanceof Property)) {
+          sneakyThrowRuleFailedException("ex.^feature instanceof Property");
+        }
+        Feature _feature_3 = ex.getFeature();
+        final Property property = ((Property) _feature_3);
+        boolean _eIsProxy = property.eIsProxy();
+        boolean _not = (!_eIsProxy);
+        /* !property.eIsProxy */
+        if (!_not) {
+          sneakyThrowRuleFailedException("!property.eIsProxy");
+        }
+        /* { !property.multivalued result = property.type.typeReference } or { property.multivalued && property.ordered result = property.type.sequenceOf } or { property.multivalued && !property.ordered && property.unique result = property.type.setOf } or { property.multivalued && !property.ordered && !property.unique result = property.type.bagOf } */
+        {
+          try {
+            boolean _isMultivalued = property.isMultivalued();
+            boolean _not_1 = (!_isMultivalued);
+            /* !property.multivalued */
+            if (!_not_1) {
+              sneakyThrowRuleFailedException("!property.multivalued");
+            }
+            Type _type = property.getType();
+            IUMLTypeReference _typeReference = this.typeFactory.typeReference(_type);
+            result = _typeReference;
+          } catch (Exception e_1) {
+            previousFailure = extractRuleFailedException(e_1);
+            /* { property.multivalued && property.ordered result = property.type.sequenceOf } or { property.multivalued && !property.ordered && property.unique result = property.type.setOf } or { property.multivalued && !property.ordered && !property.unique result = property.type.bagOf } */
+            {
+              try {
+                boolean _and = false;
+                boolean _isMultivalued_1 = property.isMultivalued();
+                if (!_isMultivalued_1) {
+                  _and = false;
+                } else {
+                  boolean _isOrdered = property.isOrdered();
+                  _and = _isOrdered;
+                }
+                /* property.multivalued && property.ordered */
+                if (!_and) {
+                  sneakyThrowRuleFailedException("property.multivalued && property.ordered");
+                }
+                Type _type_1 = property.getType();
+                CollectionTypeReference _sequenceOf = this.typeFactory.sequenceOf(_type_1);
+                result = _sequenceOf;
+              } catch (Exception e_2) {
+                previousFailure = extractRuleFailedException(e_2);
+                /* { property.multivalued && !property.ordered && property.unique result = property.type.setOf } or { property.multivalued && !property.ordered && !property.unique result = property.type.bagOf } */
+                {
+                  try {
+                    boolean _and_1 = false;
+                    boolean _and_2 = false;
+                    boolean _isMultivalued_2 = property.isMultivalued();
+                    if (!_isMultivalued_2) {
+                      _and_2 = false;
+                    } else {
+                      boolean _isOrdered_1 = property.isOrdered();
+                      boolean _not_2 = (!_isOrdered_1);
+                      _and_2 = _not_2;
+                    }
+                    if (!_and_2) {
+                      _and_1 = false;
+                    } else {
+                      boolean _isUnique = property.isUnique();
+                      _and_1 = _isUnique;
+                    }
+                    /* property.multivalued && !property.ordered && property.unique */
+                    if (!_and_1) {
+                      sneakyThrowRuleFailedException("property.multivalued && !property.ordered && property.unique");
+                    }
+                    Type _type_2 = property.getType();
+                    CollectionTypeReference _setOf = this.typeFactory.setOf(_type_2);
+                    result = _setOf;
+                  } catch (Exception e_3) {
+                    previousFailure = extractRuleFailedException(e_3);
+                    boolean _and_3 = false;
+                    boolean _and_4 = false;
+                    boolean _isMultivalued_3 = property.isMultivalued();
+                    if (!_isMultivalued_3) {
+                      _and_4 = false;
+                    } else {
+                      boolean _isOrdered_2 = property.isOrdered();
+                      boolean _not_3 = (!_isOrdered_2);
+                      _and_4 = _not_3;
+                    }
+                    if (!_and_4) {
+                      _and_3 = false;
+                    } else {
+                      boolean _isUnique_1 = property.isUnique();
+                      boolean _not_4 = (!_isUnique_1);
+                      _and_3 = _not_4;
+                    }
+                    /* property.multivalued && !property.ordered && !property.unique */
+                    if (!_and_3) {
+                      sneakyThrowRuleFailedException("property.multivalued && !property.ordered && !property.unique");
+                    }
+                    Type _type_3 = property.getType();
+                    CollectionTypeReference _bagOf = this.typeFactory.bagOf(_type_3);
+                    result = _bagOf;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
     return new Result<IUMLTypeReference>(result);
   }
   
@@ -3076,7 +3058,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   protected Result<IUMLTypeReference> applyRuleStaticFeatureInvocationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final StaticFeatureInvocationExpression ex) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
     /* G |- ex.operation : result */
-    Operation _operation = ex.getOperation();
+    NameExpression _operation = ex.getOperation();
     Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _operation);
     checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
     result = (IUMLTypeReference) result_1.getFirst();
@@ -3127,7 +3109,7 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     return new Result<IUMLTypeReference>(result);
   }
   
-  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureLeftHandSide lhs) throws RuleFailedException {
+  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LeftHandSide lhs) throws RuleFailedException {
     try {
     	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
     	final Result<IUMLTypeReference> _result_ = applyRuleFeatureLeftHandSide(G, _subtrace_, lhs);
@@ -3146,72 +3128,16 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     }
   }
   
-  protected Result<IUMLTypeReference> applyRuleFeatureLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final FeatureLeftHandSide lhs) throws RuleFailedException {
+  protected Result<IUMLTypeReference> applyRuleFeatureLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final LeftHandSide lhs) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
     /* G |- lhs.expression : var IUMLTypeReference exType */
-    PropertyAccessExpression _expression = lhs.getExpression();
+    Expression _expression = lhs.getExpression();
     IUMLTypeReference exType = null;
     Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _expression);
     checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
     exType = (IUMLTypeReference) result_1.getFirst();
     
     result = exType;
-    return new Result<IUMLTypeReference>(result);
-  }
-  
-  protected Result<IUMLTypeReference> typeImpl(final RuleEnvironment G, final RuleApplicationTrace _trace_, final NameLeftHandSide lhs) throws RuleFailedException {
-    try {
-    	final RuleApplicationTrace _subtrace_ = newTrace(_trace_);
-    	final Result<IUMLTypeReference> _result_ = applyRuleNameLeftHandSide(G, _subtrace_, lhs);
-    	addToTrace(_trace_, new Provider<Object>() {
-    		public Object get() {
-    			return ruleName("NameLeftHandSide") + stringRepForEnv(G) + " |- " + stringRep(lhs) + " : " + stringRep(_result_.getFirst());
-    		}
-    	});
-    	addAsSubtrace(_trace_, _subtrace_);
-    	return _result_;
-    } catch (Exception e_applyRuleNameLeftHandSide) {
-    	typeThrowException(ruleName("NameLeftHandSide") + stringRepForEnv(G) + " |- " + stringRep(lhs) + " : " + "IUMLTypeReference",
-    		NAMELEFTHANDSIDE,
-    		e_applyRuleNameLeftHandSide, lhs, new ErrorInformation[] {new ErrorInformation(lhs)});
-    	return null;
-    }
-  }
-  
-  protected Result<IUMLTypeReference> applyRuleNameLeftHandSide(final RuleEnvironment G, final RuleApplicationTrace _trace_, final NameLeftHandSide lhs) throws RuleFailedException {
-    IUMLTypeReference result = null; // output parameter
-    /* { lhs.index == null G |- lhs.expression : var IUMLTypeReference varType result = varType } or { G |- lhs.expression : var AbstractTypeReference varType result = varType.umlType.bagOf } */
-    {
-      RuleFailedException previousFailure = null;
-      try {
-        Expression _index = lhs.getIndex();
-        boolean _equals = Objects.equal(_index, null);
-        /* lhs.index == null */
-        if (!_equals) {
-          sneakyThrowRuleFailedException("lhs.index == null");
-        }
-        /* G |- lhs.expression : var IUMLTypeReference varType */
-        NameExpression _expression = lhs.getExpression();
-        IUMLTypeReference varType = null;
-        Result<IUMLTypeReference> result_1 = typeInternal(G, _trace_, _expression);
-        checkAssignableTo(result_1.getFirst(), IUMLTypeReference.class);
-        varType = (IUMLTypeReference) result_1.getFirst();
-        
-        result = varType;
-      } catch (Exception e) {
-        previousFailure = extractRuleFailedException(e);
-        /* G |- lhs.expression : var AbstractTypeReference varType */
-        NameExpression _expression_1 = lhs.getExpression();
-        AbstractTypeReference varType_1 = null;
-        Result<IUMLTypeReference> result_2 = typeInternal(G, _trace_, _expression_1);
-        checkAssignableTo(result_2.getFirst(), AbstractTypeReference.class);
-        varType_1 = (AbstractTypeReference) result_2.getFirst();
-        
-        Type _umlType = varType_1.getUmlType();
-        CollectionTypeReference _bagOf = this.typeFactory.bagOf(_umlType);
-        result = _bagOf;
-      }
-    }
     return new Result<IUMLTypeReference>(result);
   }
 }

@@ -445,7 +445,7 @@ class ForStatementValidatorTest {
     
 	private def forStatementOK(String code){
 		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
+		tester.validate(model).assertAll()
 		model.assertNoErrors
 	}
 	

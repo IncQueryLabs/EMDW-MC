@@ -14,13 +14,11 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureLeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.PropertyAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
@@ -28,6 +26,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import java.util.List
+import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.Property
 
 class SnippetTemplateCompilerUtil {
 	
@@ -119,7 +119,15 @@ class SnippetTemplateCompilerUtil {
 	//Descriptors
 	//Model Access
 	
-	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex){
+	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex) {
+	    switch (ex.feature) {
+	        Operation: getDescriptor(ex, ex.feature as Operation)
+	        Property: getDescriptor(ex, ex.feature as Property)
+	        default: throw new UnsupportedOperationException("Invalid feature invocation")
+	    } 
+	}
+	    
+	private def ValueDescriptor getDescriptor(FeatureInvocationExpression ex, Operation op){
 		val parameters = ex.parameters
 		val List<ValueDescriptor> descriptors = Lists.newArrayList
 		
@@ -132,17 +140,17 @@ class SnippetTemplateCompilerUtil {
 		
 		val descriptor = (descriptorFactory.createOperationCallBuilder => [
 			variable = getDescriptor(ex.context)
-			operation = ex.operation
+			operation = op
 			parameters = descriptors
 		]).build
 		descriptor
 			
 	}
 	
-	def dispatch ValueDescriptor getDescriptor(PropertyAccessExpression ex){
+	private def ValueDescriptor getDescriptor(FeatureInvocationExpression ex, Property prop){
 		(descriptorFactory.createPropertyReadBuilder => [
 			variable = getDescriptor(ex.context)
-			property = ex.property
+			property = prop
 		]).build
 	}
 	
@@ -154,23 +162,24 @@ class SnippetTemplateCompilerUtil {
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(AssignmentExpression ex){
-		val lhs = ex.leftHandSide as FeatureLeftHandSide
-		if(lhs!=null){
+		val lhs = ex.leftHandSide
+		if (lhs != null) {
 			return (descriptorFactory.createPropertyWriteBuilder => [
-				variable = getDescriptor(lhs.expression.context)
-				property = lhs.expression.property
+			    //TODO update property write builder
+				variable = getDescriptor(lhs)
+//				property = lhs.property
 				newValue = getDescriptor(ex.rightHandSide)
 			]).build
 		}
 		return null
 	}
-	
-	def dispatch ValueDescriptor getDescriptor(FeatureLeftHandSide lhs){
-		(descriptorFactory.createPropertyReadBuilder => [
-			variable = getDescriptor(lhs.expression.context)
-			property = lhs.expression.property
-		]).build
-	}
+	 
+//	def dispatch ValueDescriptor getDescriptor(FeatureLeftHandSide lhs){
+//		(descriptorFactory.createPropertyReadBuilder => [
+//			variable = getDescriptor(lhs.expression.context)
+//			property = lhs.expression.property
+//		]).build
+//	}
 	
 	//Variables
 	

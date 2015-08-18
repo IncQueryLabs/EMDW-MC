@@ -81,19 +81,18 @@ class StatementVisitor {
 	
 	def dispatch Snippet visit(IfStatement st){
 		createCompositeSnippet => [ f | 
-				st.nonFinalClauses.forEach[ clause |
-					if(st.nonFinalClauses.indexOf(clause) == 0){
+				st.clauses.forEach[ clause |
+					if(st.clauses.indexOf(clause) == 0){
 						f.snippet.add(createStringSnippet => [value = '''if '''])
 						f.snippet.add(clause.visit)
-					}else {
+					} else if (clause == st.clauses.last) {
+        				f.snippet.add(createStringSnippet => [value = ''' else '''])
+        				f.snippet.add(clause.visit)	
+					} else {
 						f.snippet.add(createStringSnippet => [value = ''' else if '''])
 						f.snippet.add(clause.visit)
 					}
     			]
-    			if(st.finalClause != null){
-    				f.snippet.add(createStringSnippet => [value = ''' else '''])
-    				f.snippet.add(st.finalClause.visit)	
-    			}
 		]
 	}
 	

@@ -70,14 +70,13 @@ class FormalParameterRules {
 		
 		cppFormalParameter.setPassingKind(parameter)
 		
-		
-		addIncludes(cppFormalParameter)
 		trace('''Mapped Parameter «parameter.name» in Operation «match.operation.name» to CPPFormalParameter''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val addReferencesRule = createRule.precondition(cppFormalParameterClassReference).action[ match |
 		val classReference = match.classReference
+		addIncludes(match.cppFormalParameter)
 		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
 	].build
 	

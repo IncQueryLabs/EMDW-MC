@@ -64,7 +64,6 @@ class ReturnValueRules {
 			setSequence(cppReturnValue, xtReturnType)
 		}
 		
-		addIncludes(cppReturnValue)
 		trace('''Mapped return type «xtReturnType» in Operation «xtOperation.name» to CPPReturnValue «cppReturnValue»''')
 	].build
 	
@@ -86,6 +85,7 @@ class ReturnValueRules {
 	@Accessors(PUBLIC_GETTER)
 	val addReferencesRule = createRule.precondition(cppReturnValueClassReference).action[ match |
 		val classReference = match.classReference
+		addIncludes(match.cppReturnValue)
 		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
 	].build
 	

@@ -22,6 +22,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
+import org.eclipse.incquery.runtime.matchers.psystem.EnumerablePConstraint
 
 class IncludeRules {
 	static extension val CppQueries cppQueries = CppQueries.instance
@@ -41,7 +42,11 @@ class IncludeRules {
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
 			classComponentIncludeRule,
-			packageComponentIncludeRule
+			packageComponentIncludeRule,
+			superClassIncludeRule,
+			sequenceIncludeRule,
+			statemachineRuntimeIncludeRule,
+			componentRuntimeIncludesRule
 		)
 		transformation.addRules(rules)
 	}
@@ -75,6 +80,13 @@ class IncludeRules {
 		packageBody.includedHeaders += componentDefHeader
 		componentDefHeader.includedHeaders += packageHeader
 		trace('''Added includes between «cppPackage.cppName» and «cppComponent.cppName»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val superClassIncludeRule = createRule.precondition(cppSuperClasses).action[ match |
+		val cppClass = match.cppClass
+		val superClass = match.cppSuperClass
+		cppClass.headerFile.addInclude(superClass.headerFile)
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

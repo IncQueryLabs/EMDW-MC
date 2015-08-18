@@ -51,7 +51,6 @@ class PackageRules {
 		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppComponent.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in component «match.xtComponent.name» to CPPPackage''')
-		addIncludes(cppPackage)
 		transformSubElements(cppPackage)
 	].build
 	
@@ -62,7 +61,6 @@ class PackageRules {
 		val cppPackage = createCppPackage(xtPackage, parentBodyDir)
 		match.cppParentPackage.subElements += cppPackage
 		trace('''Mapped Package «xtPackage.name» in package «match.xtParentPackage.name» to CPPPackage''')
-		addIncludes(cppPackage)
 		transformSubElements(cppPackage)
 	].build
 	
@@ -108,6 +106,7 @@ class PackageRules {
 	}
 	
 	def updateSubElements(CPPPackage cppPackage) {
+		addIncludes(cppPackage)
 		fireAllCurrent(classRules.addReferencesRule, [it.container == cppPackage])
 		fireAllCurrent(this.addReferencesRule, [it.container == cppPackage])
 	}

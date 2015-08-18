@@ -70,6 +70,8 @@ import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.OOPLClassRefAssocCollectionImplementation
 import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
+import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -150,6 +152,15 @@ class TransformationTestUtil {
 		]
 		root.entities += xtclass
 		xtclass
+	}
+	
+	static def createGeneralization(XTClass derivedClass, XTClass superClass) {
+		var generalization = commonFactory.createGeneralization => [
+			it.sub = derivedClass
+			it.^super = superClass
+		]
+		derivedClass.generalizations += generalization
+		return generalization
 	}
 
 	static def createStateMachine(XTClass root, String name) {
@@ -425,6 +436,18 @@ class TransformationTestUtil {
 		op
 	}
 	
+	static def createTypedMultiplicityElement(Type type, int lower, int upper, boolean isOrdered, boolean isUnique){
+		val typedMultiplicityElement = commonFactory.createTypedMultiplicityElement => [ element |
+			element.type = type
+			element.lowerBound = lower
+			element.upperBound = upper
+			element.ordered = isOrdered
+			element.unique = isUnique
+		]
+		
+		return typedMultiplicityElement
+	}
+	
 	static def createAssociation(XTClass source, XTClass target, String name, int upperBound) {
 		val assoc = xtumlFactory.createXTAssociation => [
 			it.source = source
@@ -668,6 +691,15 @@ class TransformationTestUtil {
 		]
 		root.subElements += cppFormalParameter
 		cppFormalParameter
+	}
+	
+	static def CPPReturnValue createCPPReturnValue(CPPOperation operation, TypedMultiplicityElement xtReturnValue) {
+		val cppReturnValue = cppFactory.createCPPReturnValue => [
+			it.commonTypedMultiplicityElement = xtReturnValue
+		]
+		operation.subElements += cppReturnValue
+		
+		return cppReturnValue
 	}
 	
 	static def CPPSequence createCPPSequence(CPPFormalParameter root, OOPLDataType type, boolean ordered, boolean unique) {

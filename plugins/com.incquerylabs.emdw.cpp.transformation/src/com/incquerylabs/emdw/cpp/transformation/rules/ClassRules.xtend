@@ -68,7 +68,6 @@ class ClassRules {
 		val cppClass = createCppClass(xtCls, headerDir, bodyDir)
 		cppComponent.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in component «match.xtComponent.name» to CPPClass''')
-		addIncludes(cppClass)
 		transformSubElements(cppClass)
 	].build	
 	
@@ -81,7 +80,6 @@ class ClassRules {
 		val cppClass = createCppClass(xtCls, headerDir, bodyDir)
 		cppPackage.subElements += cppClass
 		trace('''Mapped Class «xtCls.name» in package «match.xtPackage.name» to CPPClass''')
-		addIncludes(cppClass)
 		transformSubElements(cppClass)
 	].build	
 	
@@ -157,6 +155,7 @@ class ClassRules {
 	def addIncludes(CPPClass cppClass){
 		cppClass.addIncludesBetweenOwnFiles
 		fireAllCurrent(includeRules.classComponentIncludeRule, [it.cppClass == cppClass])
+		fireAllCurrent(includeRules.superClassIncludeRule, [it.cppClass == cppClass])
 		
 		// TODO: some of these should be generated based on action code
 		// External includes for model independent generated code
@@ -188,6 +187,7 @@ class ClassRules {
 	}
 	
 	def updateSubElements(CPPClass cppClass){
+		addIncludes(cppClass)
 		fireAllCurrent(associationRules.addReferencesRule, [it.cppClass == cppClass])
 		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppClass])
 	}

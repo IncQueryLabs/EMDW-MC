@@ -56,7 +56,7 @@ class OperationTemplates {
 		'''
 	}
 	
-	def constructorDefinitionInClassBody(CPPClass cppClass, CPPOperation constructor, String fieldInitialization) {		
+	def constructorDefinitionInClassBody(CPPClass cppClass, CPPOperation constructor, CharSequence fieldInitialization) {		
 		'''
 			«operationSignature(constructor, true, false, false, false)»«fieldInitialization» {
 				«actionCodeTemplates.generateActionCode(constructor.commonOperation.body)»

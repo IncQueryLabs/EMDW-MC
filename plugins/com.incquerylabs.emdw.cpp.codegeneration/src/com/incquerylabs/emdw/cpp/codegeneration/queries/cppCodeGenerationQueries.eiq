@@ -20,6 +20,16 @@ pattern cppClasses(
 	CPPClass.xtClass(cppClass, xtClass);
 }
 
+pattern cppSuperClasses(
+	cppClass : CPPClass,
+	cppSuperClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+	XTClass.generalizations(xtClass, generalization);
+	Generalization.^super(generalization, xtSuperClass);
+	CPPClass.xtClass(cppSuperClass, xtSuperClass);
+}
+
 // Elements directly in containers
 pattern cppClassInQualifiedNamedElement(
 	cppClass : CPPClass,
@@ -128,6 +138,18 @@ pattern cppClassOperations(
 	CPPClass.subElements(cppClass, cppOperation);
 	CPPOperation.commonOperation(cppOperation, operation);
 	Operation.visibility(operation, visibility);
+}
+
+pattern cppVirtualOperation(
+	cppClass : CPPClass,
+	cppOperation : CPPOperation,
+	cppOverridingOperation : CPPOperation
+) {
+	find cppClassOperations(cppClass, cppOperation, _);
+	find cppSuperClasses+(cppSubClass, cppClass);
+	find cppClassOperations(cppSubClass, cppOverridingOperation, _);
+	CPPOperation.commonOperation.name(cppOperation, cppOperationName);
+	CPPOperation.commonOperation.name(cppOverridingOperation, cppOperationName);
 }
 
 pattern cppRelationReferenceStorage(

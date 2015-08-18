@@ -79,6 +79,11 @@
 
 	<repositories>
 		<repository>
+			<id>emdw-common</id>
+			<url>${emdw.common.repository.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
 			<id>mars</id>
 			<url>${mars.repo.url}</url>
 			<layout>p2</layout>

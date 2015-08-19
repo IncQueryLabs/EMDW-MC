@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="__XW3oEZwEeWd4_M2m-7AqQ" name="SimpleGeneralization1">
+  <packagedElement xmi:type="uml:Component" xmi:id="_CleZcEZxEeWd4_M2m-7AqQ" name="Component">
+    <packagedElement xmi:type="uml:Class" xmi:id="_sF-REEZxEeWd4_M2m-7AqQ" name="A">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_PUPVoEZyEeWd4_M2m-7AqQ" name="a" method="_SB-HMEZyEeWd4_M2m-7AqQ"/>
+      <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_SB-HMEZyEeWd4_M2m-7AqQ" name="a_behavior" specification="_PUPVoEZyEeWd4_M2m-7AqQ">
+        <language>C++</language>
+        <body>::std::cout &lt;&lt; &quot;a&quot; &lt;&lt; ::std::endl;</body>
+      </nestedClassifier>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_sq3G0EZxEeWd4_M2m-7AqQ" name="B">
+      <generalization xmi:type="uml:Generalization" xmi:id="_u42oYEZxEeWd4_M2m-7AqQ" general="_sF-REEZxEeWd4_M2m-7AqQ"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

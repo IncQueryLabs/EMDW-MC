@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="GeneralizationTest">
+  <entities xsi:type="xtuml:XTComponent" name="Component">
+    <entities xsi:type="xtuml:XTClass" name="E">
+      <operations name="d_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;d_operation in E&quot; &lt;&lt; ::std::endl;"/>
+      </operations>
+      <generalizations super="//@entities.0/@entities.9"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="G">
+      <attributes name="g_property" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+      </attributes>
+      <generalizations super="//@entities.0/@entities.2"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="C">
+      <operations name="c_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;c_operation&quot; &lt;&lt; ::std::endl;"/>
+      </operations>
+      <behaviour name="sm_c">
+        <top>
+          <initial name="init" outgoingTransitions="//@entities.0/@entities.2/@behaviour/@top/@transitions.0"/>
+          <substates xsi:type="common:SimpleState" name="a" incomingTransitions="//@entities.0/@entities.2/@behaviour/@top/@transitions.0"/>
+          <transitions name="init-a" sourceVertex="//@entities.0/@entities.2/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.2/@behaviour/@top/@substates.0"/>
+        </top>
+      </behaviour>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="B">
+      <attributes name="b_property" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+      </attributes>
+      <operations name="b_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;b_operation&quot; &lt;&lt; ::std::endl;"/>
+      </operations>
+      <generalizations super="//@entities.0/@entities.8"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="I">
+      <operations name="d_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;d_operation in I&quot; &lt;&lt; ::std::endl;"/>
+      </operations>
+      <generalizations super="//@entities.0/@entities.0"/>
+      <generalizations super="//@entities.0/@entities.1"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="J">
+      <generalizations super="//@entities.0/@entities.2"/>
+      <generalizations super="//@entities.0/@entities.7"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="H">
+      <generalizations super="//@entities.0/@entities.7"/>
+      <generalizations super="//@entities.0/@entities.0"/>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="F">
+      <operations name="c_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <parameters name="bool_param" unique="true" lowerBound="1" upperBound="1">
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
+        </parameters>
+        <body source="::std::cout &lt;&lt; &quot;c_operation with bool_param: &quot; &lt;&lt; bool_param;"/>
+      </operations>
+      <generalizations super="//@entities.0/@entities.9"/>
+      <behaviour name="sm_f">
+        <top>
+          <initial name="init" outgoingTransitions="//@entities.0/@entities.7/@behaviour/@top/@transitions.0"/>
+          <substates xsi:type="common:SimpleState" name="f" incomingTransitions="//@entities.0/@entities.7/@behaviour/@top/@transitions.0"/>
+          <transitions name="init-f" sourceVertex="//@entities.0/@entities.7/@behaviour/@top/@initial" targetVertex="//@entities.0/@entities.7/@behaviour/@top/@substates.0"/>
+        </top>
+      </behaviour>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="A">
+      <attributes name="a_property" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+      </attributes>
+    </entities>
+    <entities xsi:type="xtuml:XTClass" name="D">
+      <operations name="d_operation">
+        <returnType>
+          <type xsi:type="common:PrimitiveType" href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+        </returnType>
+        <body source="::std::cout &lt;&lt; &quot;d_operation&quot; &lt;&lt; ::std::endl;"/>
+      </operations>
+      <generalizations super="//@entities.0/@entities.8"/>
+      <generalizations super="//@entities.0/@entities.2"/>
+    </entities>
+  </entities>
+</common:Model>

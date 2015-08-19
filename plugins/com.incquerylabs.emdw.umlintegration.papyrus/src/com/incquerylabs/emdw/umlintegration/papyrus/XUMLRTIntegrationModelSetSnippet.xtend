@@ -47,9 +47,10 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
     private def getEngineManager(ModelSet modelSet) {
         val registry = ServiceUtilsForResourceSet.instance.getServiceRegistry(modelSet)
+        // TODO service registry is started by default after model set snippet
         val service = new IncQueryEngineService
         registry.add(IncQueryEngineService, 1, service)
-        //registry.getService(IncQueryEngineService)
+//        val service = registry.getService(IncQueryEngineService)
         service
     }
 

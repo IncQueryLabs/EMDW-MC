@@ -20,7 +20,6 @@
 		<module>../../plugins/com.incquerylabs.emdw.snippet.model</module>
 
 		<!-- UML integration -->
-		<module>../../plugins/com.incquerylabs.emdw.umlintegration.queries</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
 		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
@@ -44,10 +43,6 @@
 		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
 		
 		<!-- rALF Language -->
-		<module>../../plugins/com.incquerylabs.uml.ralf</module>
-		<module>../../plugins/com.incquerylabs.uml.ralf.languagegenerator</module>
-		<module>../../plugins/com.incquerylabs.uml.ralf.papyrus.ui</module>
-		<module>../../plugins/com.incquerylabs.uml.ralf.ui</module>
 		<module>../../tests/com.incquerylabs.uml.ralf.tests</module>
 		<module>../../tests/com.incquerylabs.uml.ralf.tests.examples</module>
 		<module>../../plugins/com.incquerylabs.uml.ralf.snippetcompiler</module>
@@ -57,7 +52,6 @@
 		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
 		<module>../com.incquerylabs.emdw.umlintegration.feature</module>
-		<module>../com.incquerylabs.uml.ralf.feature</module>
 		<module>../com.incquerylabs.emdw.update</module>
 
 		<!-- Maven plugins -->

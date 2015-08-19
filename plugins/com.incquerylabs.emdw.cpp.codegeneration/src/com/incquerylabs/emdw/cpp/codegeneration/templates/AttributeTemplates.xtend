@@ -1,23 +1,17 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
-class AttributeTemplates {
+class AttributeTemplates extends CPPTemplate {
 	
-	val codeGenQueries = CppCodeGenerationQueries.instance
 	val TypeConverter typeConverter
 	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val ActionCodeTemplates actionCodeTemplates
-	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 		typeConverter = new TypeConverter
 	}
@@ -33,5 +27,4 @@ class AttributeTemplates {
 		val type = attribute.type
 		typeConverter.convertType(type)
 	}
-	
 }

@@ -1,22 +1,16 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 
-class EventTemplates {
-
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-	extension val CppCodeGenerationQueries codeGenQueries = CppCodeGenerationQueries.instance
-	val IncQueryEngine engine
+class EventTemplates extends CPPTemplate {
 	val AttributeTemplates attributeTemplates
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 		this.attributeTemplates = new AttributeTemplates(engine)
 	}
 

@@ -1,17 +1,13 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
 import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
-import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class ActionCodeTemplates {
-	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-	val IncQueryEngine engine
+class ActionCodeTemplates extends CPPTemplate {
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 	}
 	
 	def generateActionCode(ActionChain actionChain) {

@@ -3,22 +3,17 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 
-class ClassTemplates {
+class ClassTemplates extends CPPTemplate {
 	
-	val codeGenQueries = CppCodeGenerationQueries.instance
-	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val TypeConverter typeConverter
 	public static val StatefulClassFQN = "::StatefulClass"
 	public static val EventFQN = "::Event"
@@ -32,11 +27,9 @@ class ClassTemplates {
 	StateTemplates stateTemplates 
 	EventTemplates eventTemplates
 	ActionCodeTemplates actionCodeTemplates
-	IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
-		
+		super(engine)
 		namespaceTemplates = new NamespaceTemplates
 		headerGuardTemplates = new HeaderGuardTemplates
 		includeTemplates = new IncludeTemplates
@@ -305,7 +298,6 @@ class ClassTemplates {
 	}
 	
 	def classBodyTemplate(CPPClass cppClass) {
-		val cppFQN = cppClass.cppQualifiedName
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 		
 		'''
@@ -546,14 +538,6 @@ class ClassTemplates {
 			}
 			process_event(evt);
 		}
-		'''
-	}
-	
-	def tracingMessage(String message) {
-		'''
-		«IF generateTracingCode»
-			::std::cout << "«message»" << ::std::endl;
-		«ENDIF»
 		'''
 	}
 }

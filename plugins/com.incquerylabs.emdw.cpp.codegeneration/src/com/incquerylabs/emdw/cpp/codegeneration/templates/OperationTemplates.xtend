@@ -4,25 +4,20 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPNamedElement
 
-class OperationTemplates {
+class OperationTemplates extends CPPTemplate{
 	
-	val codeGenQueries = CppCodeGenerationQueries.instance
 	val TypeConverter typeConverter
 	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val ActionCodeTemplates actionCodeTemplates
-	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 		typeConverter = new TypeConverter
 	}
@@ -115,13 +110,5 @@ class OperationTemplates {
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){
 		typeConverter.convertType(param)
-	}
-	
-	def tracingMessage(String message) {
-		'''
-		«IF generateTracingCode»
-			::std::cout << "«message»" << ::std::endl;
-		«ENDIF»
-		'''
 	}
 }

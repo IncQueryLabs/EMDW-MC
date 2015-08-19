@@ -1,22 +1,14 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
-class PackageTemplates {
-	val codeGenQueries = CppCodeGenerationQueries.instance
-	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
-
-	IncQueryEngine engine
-	
+class PackageTemplates extends CPPTemplate {
 	extension val HeaderGuardTemplates headerGuardTemplates
 	extension val IncludeTemplates includeTemplates
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 		headerGuardTemplates = new HeaderGuardTemplates
 		includeTemplates = new IncludeTemplates
 	}

@@ -21,7 +21,6 @@ import org.eclipse.incquery.runtime.evm.specific.TransactionalSchedulers
 import org.eclipse.incquery.runtime.exception.IncQueryException
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
-import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Model
@@ -46,12 +45,7 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 	}
 
     private def getEngineManager(ModelSet modelSet) {
-        val registry = ServiceUtilsForResourceSet.instance.getServiceRegistry(modelSet)
-        // TODO service registry is started by default after model set snippet
-        val service = new IncQueryEngineService
-        registry.add(IncQueryEngineService, 1, service)
-//        val service = registry.getService(IncQueryEngineService)
-        service
+    	IncQueryEngineService.getOrStartService(modelSet)
     }
 
 	override start(ModelSet modelSet) {
@@ -100,7 +94,7 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 	def createMapping(Resource umlResource, ModelSet modelSet, ResourceSet resourceSet) {
 		
 		val xtumlrtModel = CommonFactory.eINSTANCE.createModel
-		xtumlrtModel.name = umlResource.contents.filter(org.eclipse.uml2.uml.Model).head.name
+		xtumlrtModel.name = umlResource.contents.filter(Model).head.name
 		createResource(umlResource, "xtuml", xtumlrtModel, modelSet, resourceSet)
 
 		val mapping = TraceFactory.eINSTANCE.createRootMapping => [

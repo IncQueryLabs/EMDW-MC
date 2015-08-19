@@ -352,11 +352,14 @@ class ClassTemplates {
 			 initStateName = '''«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»'''
 			 fieldInitializations += '''current_state(«initStateName»)'''
 		}
+		val defaultConstructorSignature = '''«cppFQN»::«cppClassName»()'''
+		val defaultConstructorFieldInitialization = getFieldInitialization(cppClass, null, fieldInitializations.unmodifiableView)
 		
 		'''
 		// Constructors
 		«IF constructors.size == 0»
-			«cppFQN»::«cppClassName»()«getFieldInitialization(cppClass, null, fieldInitializations.unmodifiableView)» {
+			«defaultConstructorSignature»«defaultConstructorFieldInitialization» {
+				«tracingMessage('''[«cppClassName»] constructor call: «defaultConstructorSignature»''')»
 				«operationTemplates.instancesAddTemplates(cppClass)»
 			}
 		«ENDIF»
@@ -417,11 +420,13 @@ class ClassTemplates {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~" + cppClass.cppName].sortBy[cppName]
+		val defaultDestructorSignature = '''«cppFQN»::~«cppClassName»()'''
 		
 		'''
 		// Destructor
 		«IF destructors.size == 0»
-			«cppFQN»::~«cppClassName»() {
+			«defaultDestructorSignature» {
+				«tracingMessage('''[«cppClassName»] destructor call: «defaultDestructorSignature»''')»
 				«operationTemplates.instancesRemoveTemplates(cppClass)»
 			}
 		«ENDIF»
@@ -541,6 +546,14 @@ class ClassTemplates {
 			}
 			process_event(evt);
 		}
+		'''
+	}
+	
+	def tracingMessage(String message) {
+		'''
+		«IF generateTracingCode»
+			::std::cout << "«message»" << ::std::endl;
+		«ENDIF»
 		'''
 	}
 }

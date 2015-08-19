@@ -9,6 +9,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPNamedElement
 
 class OperationTemplates {
 	
@@ -48,17 +49,22 @@ class OperationTemplates {
 	}
 	
 	def operationDefinitionInClassBody(CPPOperation operation, boolean withReturnType) {
-		
+		val containerElement = operation.eContainer as CPPNamedElement
+		val operationSignature = operationSignature(operation, true, withReturnType, false, false)
 		'''
-			«operationSignature(operation, true, withReturnType, false, false)» {
+			«operationSignature» {
+				«tracingMessage('''[«containerElement.cppName»] operation call: «operationSignature»''')»
 				«actionCodeTemplates.generateActionCode(operation.commonOperation.body)»
 			}
 		'''
 	}
 	
 	def constructorDefinitionInClassBody(CPPClass cppClass, CPPOperation constructor, CharSequence fieldInitialization) {		
+		val containerElement = constructor.eContainer as CPPNamedElement
+		val constructorSignature = operationSignature(constructor, true, false, false, false)
 		'''
-			«operationSignature(constructor, true, false, false, false)»«fieldInitialization» {
+			«constructorSignature»«fieldInitialization» {
+				«tracingMessage('''[«containerElement.cppName»] constructor call: «constructorSignature»''')»
 				«actionCodeTemplates.generateActionCode(constructor.commonOperation.body)»
 				«instancesAddTemplates(cppClass)»
 			}
@@ -80,9 +86,12 @@ class OperationTemplates {
 		}
 	}
 	
-	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {		
+	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {
+		val containerElement = destructor.eContainer as CPPNamedElement
+		val destructorSignature = operationSignature(destructor, true, false, false, false)
 		'''
-			«operationSignature(destructor, true, false, false, false)» {
+			«destructorSignature» {
+				«tracingMessage('''[«containerElement.cppName»] destructor call: «destructorSignature»''')»
 				«actionCodeTemplates.generateActionCode(destructor.commonOperation.body)»
 				«instancesRemoveTemplates(cppClass)»
 			}
@@ -106,5 +115,13 @@ class OperationTemplates {
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){
 		typeConverter.convertType(param)
+	}
+	
+	def tracingMessage(String message) {
+		'''
+		«IF generateTracingCode»
+			::std::cout << "«message»" << ::std::endl;
+		«ENDIF»
+		'''
 	}
 }

@@ -70,7 +70,7 @@ class ExpressionVisitor {
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''new '''])
 			snippet.add(createStringSnippet => [value = ex.instance.qualifiedName])
-			snippet.add(ex.tuple.visit)
+			snippet.add(ex.parameters.visit)
 		]
 	}
 	

@@ -740,7 +740,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     targetType = (UMLTypeReference) result_1.getFirst();
     
     Type _umlType = signalType.getUmlType();
-    if ((!(_umlType instanceof Signal))) {
+    boolean _not = (!(_umlType instanceof Signal));
+    if (_not) {
       /* fail error "Invalid signal type " + signalType.umlType.name */
       Type _umlType_1 = signalType.getUmlType();
       String _name = _umlType_1.getName();
@@ -749,7 +750,8 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
       throwForExplicitFail(error, new ErrorInformation(null, null));
     }
     Type _umlType_2 = targetType.getUmlType();
-    if ((!(_umlType_2 instanceof org.eclipse.uml2.uml.Class))) {
+    boolean _not_1 = (!(_umlType_2 instanceof org.eclipse.uml2.uml.Class));
+    if (_not_1) {
       /* fail error "Invalid signal target " + targetType.umlType.name */
       Type _umlType_3 = targetType.getUmlType();
       String _name_1 = _umlType_3.getName();
@@ -2679,11 +2681,12 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
   protected Result<IUMLTypeReference> applyRuleInstanceCreationExpression(final RuleEnvironment G, final RuleApplicationTrace _trace_, final InstanceCreationExpression ex) throws RuleFailedException {
     IUMLTypeReference result = null; // output parameter
     Classifier _instance = ex.getInstance();
+    boolean _not = (!(_instance instanceof PrimitiveType));
     /* !(ex.instance instanceof PrimitiveType) */
-    if (!(!(_instance instanceof PrimitiveType))) {
+    if (!_not) {
       sneakyThrowRuleFailedException("!(ex.instance instanceof PrimitiveType)");
     }
-    ex.getTuple();
+    ex.getParameters();
     Classifier _instance_1 = ex.getInstance();
     IUMLTypeReference _typeReference = this.typeFactory.typeReference(_instance_1);
     result = _typeReference;
@@ -2719,8 +2722,9 @@ public class ReducedAlfSystem extends XsemanticsRuntimeSystem {
     refType = (UMLTypeReference) result_1.getFirst();
     
     Type _umlType = refType.getUmlType();
+    boolean _not = (!(_umlType instanceof PrimitiveType));
     /* !(refType.umlType instanceof PrimitiveType) */
-    if (!(!(_umlType instanceof PrimitiveType))) {
+    if (!_not) {
       sneakyThrowRuleFailedException("!(refType.umlType instanceof PrimitiveType)");
     }
     IUMLTypeReference.VoidTypeReference _voidType = this.typeFactory.voidType();

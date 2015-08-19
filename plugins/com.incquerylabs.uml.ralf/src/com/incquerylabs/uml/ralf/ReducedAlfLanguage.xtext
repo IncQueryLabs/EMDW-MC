@@ -173,7 +173,7 @@ NamedExpression :
 ;
 
 SuperInvocationExpression :
-    'super' ( '.' target = [uml::Operation|QualifiedName])? tuple = Tuple
+    'super' ( '.' target = [uml::Operation|QualifiedName])? parameters = Tuple
 ;
 
 /* LINK OPERATION EXPRESSIONS */
@@ -457,7 +457,7 @@ LocalNameDeclarationStatement :
 ;
 
 InstanceInitializationExpression returns InstanceCreationExpression : 
-    'new' instance = [uml::Classifier|QualifiedName] tuple = Tuple
+    'new' instance = [uml::Classifier|QualifiedName] parameters = Tuple
 ;
 
 /* EXPRESSION STATEMENTS */

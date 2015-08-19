@@ -464,7 +464,7 @@ from {
     !(ex.instance instanceof PrimitiveType)
     
     // TODO Parameter mapping
-    ex.tuple
+    ex.parameters
     
     // Return typing
     result = ex.instance.typeReference

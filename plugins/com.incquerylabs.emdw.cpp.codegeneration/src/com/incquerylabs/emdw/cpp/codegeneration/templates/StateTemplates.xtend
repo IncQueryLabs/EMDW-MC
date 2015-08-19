@@ -4,30 +4,23 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionInfoMatch
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionToTerminateMatch
 import com.incquerylabs.emdw.cpp.codegeneration.util.TransitionInfo
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 
-class StateTemplates {
+class StateTemplates extends CPPTemplate {
 	public static val TERMINATE_POSTFIX = "TERMINATE"
 	
-	val codeGenQueries = CppCodeGenerationQueries.instance
-	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	val ActionCodeTemplates actionCodeTemplates
 	val EventTemplates eventTemplates
-	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
 	}
@@ -469,13 +462,5 @@ class StateTemplates {
 		val xttrigger = trigger as XTEventTrigger
 		val cppEvent = cppEventMatcher.getAllValuesOfcppEvent(xttrigger.signal).head
 		return cppEvent
-	}
-	
-	def tracingMessage(String message) {
-		'''
-		«IF generateTracingCode»
-			::std::cout << "«message»" << ::std::endl;
-		«ENDIF»
-		'''
 	}
 }

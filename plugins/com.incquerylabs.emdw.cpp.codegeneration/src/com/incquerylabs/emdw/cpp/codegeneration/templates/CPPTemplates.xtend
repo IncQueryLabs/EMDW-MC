@@ -6,19 +6,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class CPPTemplates {
-	
 	public static boolean GENERATE_TRACING_CODE = true
 	
-	// TODO @Inject
-	boolean generateTracingCode = GENERATE_TRACING_CODE
 	val NamespaceTemplates namespaceTemplates
-	val IncQueryEngine engine
 	val ClassTemplates classTemplates
 	val ComponentTemplates componentTemplates
 	val PackageTemplates packageTemplates
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
 		namespaceTemplates = new NamespaceTemplates
 		packageTemplates = new PackageTemplates(engine)
 		componentTemplates = new ComponentTemplates(engine)

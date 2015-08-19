@@ -1,23 +1,16 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 
-class TransitionTemplates {
-	
-	val codeGenQueries = CppCodeGenerationQueries.instance
-	
-	// TODO @Inject
-	val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
+class TransitionTemplates extends CPPTemplate {
 	val ActionCodeTemplates actionCodeTemplates
-	val IncQueryEngine engine
 	
 	new(IncQueryEngine engine) {
-		this.engine = engine
+		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 	}
 	
@@ -52,5 +45,4 @@ class TransitionTemplates {
 		val cppEvent = cppEventMatcher.getAllValuesOfcppEvent(xttrigger.signal).head
 		cppEvent.cppName
 	}
-	
 }

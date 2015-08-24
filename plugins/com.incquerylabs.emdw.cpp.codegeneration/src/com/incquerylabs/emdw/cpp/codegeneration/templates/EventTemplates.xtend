@@ -8,31 +8,23 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 
 class EventTemplates extends CPPTemplate {
 	val AttributeTemplates attributeTemplates
+	val EnumTemplates enumTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
 		this.attributeTemplates = new AttributeTemplates(engine)
+		this.enumTemplates = new EnumTemplates
 	}
 
 	def enumInClassHeader(CPPClass cppClass) {
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
+		val eventEnumeratorNames = classEvents.map[ event | eventEnumeratorName(cppClass, event)]
 		'''
 		«IF !classEvents.isNullOrEmpty»
-		class «cppClass.eventEnumClassName» {
-		public:
-		  enum __val_type {
-		    «FOR event : classEvents SEPARATOR ","»
-				«eventEnumeratorName(cppClass, event)»
-			«ENDFOR»
-		  };
-		  «cppClass.eventEnumClassName»(): __val(«eventEnumeratorName(cppClass, classEvents.head)») {}
-		  «cppClass.eventEnumClassName»(__val_type v): __val(v) {}
-		  operator __val_type() const { return __val; }
-		private:
-		  __val_type __val;
-		};
+		// Event enum class
+		«enumTemplates.enumClassTemplate(cppClass.eventEnumClassName, eventEnumeratorNames)»
 		«ELSE»
-		// No event enum: there are no class events
+		// No event enum class
 		«ENDIF»
 		'''
 	}

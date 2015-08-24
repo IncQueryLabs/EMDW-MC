@@ -32,7 +32,7 @@ class StateTemplates extends CPPTemplate {
 		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
 		val cppStates = cppClass.subElements.filter(CPPState).sortBy[cppName]
 		val enumName = '''«cppClass.stateEnumClassName»'''
-		val List<CharSequence> enumeratorNames = cppStates.map[ state | stateEnumeratorName(cppClass, state) ]
+		val List<CharSequence> enumeratorNames = newArrayList(cppStates.map[ state | stateEnumeratorName(cppClass, state) ])
 		if(terminatePointCount > 0){
 			enumeratorNames += stateEnumeratorName(cppClass, TERMINATE_POSTFIX)
 		}
@@ -49,7 +49,7 @@ class StateTemplates extends CPPTemplate {
 	}
 	
 	def stateEnumeratorName(CPPClass cppClass, CharSequence cppStateName) {
-		'''«cppClass.cppName»_STATE_«cppStateName»'''
+		'''«cppStateName»'''
 	}
 	
 	def stateEnumeratorName(CPPClass cppClass, CPPState cppState) {

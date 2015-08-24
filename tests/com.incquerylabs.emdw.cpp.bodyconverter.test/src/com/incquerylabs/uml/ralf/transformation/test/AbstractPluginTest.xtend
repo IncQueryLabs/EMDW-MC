@@ -35,6 +35,8 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameter
 
 import static org.junit.Assert.*
+import org.junit.Ignore
+import java.util.List
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -51,21 +53,20 @@ abstract class AbstractPluginTest {
     
     @Parameter(3)
     public String expectedOutput
-	
 
-	@Before
-	def void prepareTest() {
-	    initTrafos()
+
+    @Test 
+    def void t01_createSnippet() {
+	    initTrafos("/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml")
 	    
 	    // *******************************************************************************
     	// Initialize body converter
     	// *******************************************************************************
     	bodyConverter = new BodyConverter
     	bodyConverter.initialize(engine, context)
-	}
-
-    @Test 
-    def void t01_createSnippet() {
+    	
+    	// Start test
+    	
     	executeTrafos()
 	    resolveTarget()
     	
@@ -94,6 +95,56 @@ abstract class AbstractPluginTest {
     	assertEquals("The created snippet does not match the expected result",expectedOutput,serializedSnippet)
 	
     }
+
+	@Test
+	def void t02_() {
+		initTrafos("/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml")
+	    
+	    // *******************************************************************************
+    	// Initialize body converter
+    	// *******************************************************************************
+    	bodyConverter = new BodyConverter
+    	bodyConverter.initialize(engine, context)
+    	
+    	// Start test
+    	
+    	executeTrafos()
+    	
+    	val exceptions = <Exception>newArrayList
+    	switch(conversionType) {
+    		case Operation: {
+    	// *******************************************************************************
+    	// Call body converter
+    	// *******************************************************************************
+       			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList
+       			operations.forEach[
+       				try {
+       					bodyConverter.convertOperation(it)
+       				} catch (Exception ex) {
+       					exceptions += ex
+       				}
+       			]
+       		}
+       		case StateEntry: {
+       			cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null]
+       															.forEach[bodyConverter.convertStateEntry(it)]
+       		}
+       		case StateExit: {
+       			cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null]
+       															.forEach[bodyConverter.convertStateExit(it)]
+       		}
+       		case Transition: {
+       			cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty]
+       															.forEach[bodyConverter.convertTransition(it)]
+       		}
+       		case TransitionGuard: {
+       			cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null]
+       															.forEach[bodyConverter.convertTransitionGuard(it)]
+       		}
+       	}
+       	
+       	assertEquals("Should not be any exception", 0, exceptions.size)
+	}
     
     @After
     def void cleanupTest() {
@@ -118,14 +169,14 @@ abstract class AbstractPluginTest {
 	private XtumlComponentCPPTransformation compTrafo
 	private BodyConverter bodyConverter
 	
-    private def initTrafos() {
+    private def initTrafos(String umlModelPath) {
     	val resourceSet = new ResourceSetImpl
     	
 	    engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(resourceSet))
 	    context =  new BasicUMLContextProvider(engine)
 		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 		QueryBasedFeatures.instance.prepare(managedEngine)
-        createRootMapping("/com.incquerylabs.uml.ralf.transformation.test/model/model.uml", resourceSet)
+        createRootMapping(umlModelPath, resourceSet)
     	val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet)
     	
 	    xtTrafo = new TransformationQrt

@@ -23,6 +23,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import java.util.List
@@ -118,6 +119,14 @@ class SnippetTemplateCompilerUtil {
 	
 	//Descriptors
 	//Model Access
+	
+	def dispatch ValueDescriptor getDescriptor(ThisExpression ex){
+		return (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			name = "this"
+			type = context.thisType
+			isExistingVariable = true
+		]).build	
+	}
 	
 	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex) {
 	    switch (ex.feature) {
@@ -237,4 +246,6 @@ class SnippetTemplateCompilerUtil {
 			type = context.getPrimitiveType(IUMLContextProvider.BOOLEAN_TYPE)
 		]).build
 	}
+	
+
 }

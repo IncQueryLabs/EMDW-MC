@@ -24,14 +24,16 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SequenceAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
-import snippetTemplate.Snippet
-import snippetTemplate.SnippetTemplateFactory
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Property
+import snippetTemplate.Snippet
+import snippetTemplate.SnippetTemplateFactory
 
 class ExpressionVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -76,7 +78,18 @@ class ExpressionVisitor {
 	
 
 	def dispatch Snippet visit(ThisExpression ex){
-		createStringSnippet => [value = '''this''']
+		val descriptor = getDescriptor(ex)
+		createStringSnippet => [value = descriptor.stringRepresentation]
+	}
+	
+	def dispatch Snippet visit(StaticFeatureInvocationExpression ex){
+		//TODO No flattening done yet
+		throw new UnsupportedOperationException("Static calls not supported yet")
+	}
+	
+	def dispatch Snippet visit(SuperInvocationExpression ex){
+		//TODO No flattening done yet
+		throw new UnsupportedOperationException("Super invocations not supported yet")
 	}
 	
 	def dispatch Snippet visit(LinkOperationExpression ex){

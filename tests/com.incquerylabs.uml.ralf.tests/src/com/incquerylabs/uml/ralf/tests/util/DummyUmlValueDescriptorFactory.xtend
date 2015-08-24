@@ -3,13 +3,15 @@ package com.incquerylabs.uml.ralf.tests.util
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 
 class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
+	public int number = 0;		
 			
 	override createChild() {
 		return this
 	}
 	
 	override createSingleVariableDescriptorBuilder() {
-		return new DummyUmlSingleVariableDescriptorBuilder
+		val builder = new DummyUmlSingleVariableDescriptorBuilder
+		builder.descrFactory = this
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {

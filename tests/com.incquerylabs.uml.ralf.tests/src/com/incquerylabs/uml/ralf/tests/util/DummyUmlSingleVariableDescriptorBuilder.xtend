@@ -10,6 +10,7 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 	private String name
 	private Type type
 	private boolean isExistingVariable
+	private DummyUmlValueDescriptorFactory descrFactory
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
@@ -20,6 +21,11 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 		
 	override setType(Type type) {
 		this.type=type
+		this
+	}
+	
+	def setDescrFactory(DummyUmlValueDescriptorFactory descrFactory) {
+		this.descrFactory = descrFactory
 		this
 	}
 	
@@ -51,7 +57,8 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 	
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
 		val descr = factory.createSingleVariableDescriptor()
-		descr.stringRepresentation = "name"
+		descr.stringRepresentation = "temp"+descrFactory.number
+		descrFactory.number++
 		if(type != null){
 			descr.baseType = type.qualifiedName
 			descr.fullType = type.qualifiedName

@@ -17,7 +17,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 class ReducedAlfSnippetTemplateCompiler {
 	
-	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
+	public extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
+	public extension ReducedAlfFlattener flattener
 		
 	public SnippetTemplateCompilerUtil util
 	public ExpressionVisitor expressionVisitor
@@ -25,10 +26,11 @@ class ReducedAlfSnippetTemplateCompiler {
 	
 	IUMLContextProvider context
 		
-	new(IUmlDescriptorFactory factory, IUMLContextProvider context){
-		util = new SnippetTemplateCompilerUtil(factory, context)
-		this.context = context
-		statementVisitor = new StatementVisitor(this)
+	new(IUmlDescriptorFactory factory, IUMLContextProvider umlcontext){
+		util = new SnippetTemplateCompilerUtil(factory, umlcontext)
+		context = umlcontext
+		flattener = new ReducedAlfFlattener(util)
+		statementVisitor = new StatementVisitor(this, flattener)
 		expressionVisitor = new ExpressionVisitor(this)
 	}
 
@@ -113,7 +115,16 @@ class ReducedAlfSnippetTemplateCompiler {
 					value = ex.name
 			])
 			snippet.add(createStringSnippet => [value = ''' => '''])
-			snippet.add(ex.expression.visit)
+			if(ex.expression.flatteningNotNeeded){
+				snippet.add(ex.expression.visit)
+			}else{
+				if(ex.expression.flatteningSupported){			
+					val variable = flatten(ex.expression, it)
+					snippet.add(createStringSnippet => [value = variable.descriptor.stringRepresentation])
+				}else{
+					throw new UnsupportedOperationException("Not supported expression type: "+ex.expression.eClass.name)
+				}
+			}
 		]
 	}
 	

@@ -37,7 +37,9 @@ class UMLModelTypesSnippetTest {
 		snippetCompilerTest(
 		'''Pong x = new Pong();'''
 		, 
-		'''model::Comp::Pong x = new model::Comp::Pong();''')
+		'''
+		model::Comp::Pong temp2 = new model::Comp::Pong();
+		model::Comp::Pong x = temp2;''')
 	}
 	
 	@Test
@@ -49,8 +51,10 @@ class UMLModelTypesSnippetTest {
 			send s to p->ping;'''
 		, 
 		'''
-			model::Comp::Pong p = new model::Comp::Pong();
-			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+			model::Comp::Pong temp3 = new model::Comp::Pong();
+			model::Comp::Pong p = temp3;
+			model::Comp::Pong::ping_s temp4 = new model::Comp::Pong::ping_s();
+			model::Comp::Pong::ping_s s = temp4;
 			p->ping->generate_event(s);''')
 	}
 	
@@ -77,8 +81,10 @@ class UMLModelTypesSnippetTest {
 		, 
 		'''
 			model::Comp::Pong p = 0;
-			p = new model::Comp::Pong();
-			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+			model::Comp::Pong temp0 = new model::Comp::Pong();
+			p = temp0;
+			model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+			model::Comp::Pong::ping_s s = temp1;
 			p->ping->generate_event(s);''')
 	}
 	

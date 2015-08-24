@@ -54,7 +54,10 @@ class PrimitiveTypesSnippetTest {
 	
 	@Test
 	def variableDefinitionTest(){
-		snippetCompilerTest('''Integer x = 1;''', '''PrimitiveTypes::Integer x = 1;''')
+		snippetCompilerTest('''Integer x = 1;''', 
+		'''
+		PrimitiveTypes::Integer temp8 = 1;
+		PrimitiveTypes::Integer x = temp8;''')
 	}
 	
 	@Test
@@ -65,7 +68,8 @@ class PrimitiveTypesSnippetTest {
 			++x;'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
+			PrimitiveTypes::Integer temp9 = 1;
+			PrimitiveTypes::Integer x = temp9;
 			++x;''')
 	}
 	
@@ -82,7 +86,14 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = (1 + 2) * 3 + 4;
+			PrimitiveTypes::Integer temp10 = 1;
+			PrimitiveTypes::Integer temp11 = 2;
+			PrimitiveTypes::Integer temp12 = temp10 + temp11;
+			PrimitiveTypes::Integer temp13 = 3;
+			PrimitiveTypes::Integer temp14 = temp12 * temp13;
+			PrimitiveTypes::Integer temp15 = 4;
+			PrimitiveTypes::Integer temp16 = temp14 + temp15;
+			PrimitiveTypes::Integer x = temp16;
 			++x;
 			if (x > 3) {
 			x--;
@@ -102,7 +113,14 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = (1 + 2) * 3 + 4;
+			PrimitiveTypes::Integer temp17 = 1;
+			PrimitiveTypes::Integer temp18 = 2;
+			PrimitiveTypes::Integer temp19 = temp17 + temp18;
+			PrimitiveTypes::Integer temp20 = 3;
+			PrimitiveTypes::Integer temp21 = temp19 * temp20;
+			PrimitiveTypes::Integer temp22 = 4;
+			PrimitiveTypes::Integer temp23 = temp21 + temp22;
+			PrimitiveTypes::Integer x = temp23;
 			++x;
 			if (x > -3) {
 			x--;
@@ -122,10 +140,20 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = (1 + 2) * 3 + -4;
+			PrimitiveTypes::Integer temp24 = 1;
+			PrimitiveTypes::Integer temp25 = 2;
+			PrimitiveTypes::Integer temp26 = temp24 + temp25;
+			PrimitiveTypes::Integer temp27 = 3;
+			PrimitiveTypes::Integer temp28 = temp26 * temp27;
+			PrimitiveTypes::Integer temp29 = 4;
+			PrimitiveTypes::Integer temp30 =  - temp29;
+			PrimitiveTypes::Integer temp31 = temp28 + temp30;
+			PrimitiveTypes::Integer x = temp31;
 			++x;
 			PrimitiveTypes::Integer y = x;
-			y = x - 15;
+			PrimitiveTypes::Integer temp32 = 15;
+			PrimitiveTypes::Integer temp33 = x - temp32;
+			y = temp33;
 			if ((x > 3) && !(y < -5)) {
 			x--;
 			}''')
@@ -139,7 +167,8 @@ class PrimitiveTypesSnippetTest {
 			++x;'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
+			PrimitiveTypes::Integer temp0 = 1;
+			PrimitiveTypes::Integer x = temp0;
 			++x;''')
 	}
 	
@@ -154,7 +183,8 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
+			PrimitiveTypes::Integer temp5 = 1;
+			PrimitiveTypes::Integer x = temp5;
 			switch (x) {
 			case 1 : {
 			x++;
@@ -176,10 +206,12 @@ class PrimitiveTypesSnippetTest {
 			} while (true);'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
+			PrimitiveTypes::Integer temp1 = 1;
+			PrimitiveTypes::Integer x = temp1;
+			PrimitiveTypes::Boolean temp2 = true;
 			do {
 			x++;
-			}while (true);''')
+			}while (temp2);''')
 	}
 	
 	@Test
@@ -192,8 +224,10 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
-			while (true) {
+			PrimitiveTypes::Integer temp6 = 1;
+			PrimitiveTypes::Integer x = temp6;
+			PrimitiveTypes::Boolean temp7 = true;
+			while (temp7) {
 			x++;
 			}''')
 	}
@@ -231,7 +265,8 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
+			PrimitiveTypes::Integer temp3 = 1;
+			PrimitiveTypes::Integer x = temp3;
 			if (true) {
 			x++;
 			} else if (false) {
@@ -264,7 +299,8 @@ class PrimitiveTypesSnippetTest {
 			}'''
 		, 
 		'''
-			PrimitiveTypes::Integer x = 1;
+			PrimitiveTypes::Integer temp4 = 1;
+			PrimitiveTypes::Integer x = temp4;
 			if (true) {
 			x++;
 			} else {

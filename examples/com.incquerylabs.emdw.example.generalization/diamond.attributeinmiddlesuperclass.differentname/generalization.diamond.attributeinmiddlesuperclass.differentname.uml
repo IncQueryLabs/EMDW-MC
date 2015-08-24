@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="__XW3oEZwEeWd4_M2m-7AqQ" name="DiamondGeneralization5">
+  <packagedElement xmi:type="uml:Component" xmi:id="_CleZcEZxEeWd4_M2m-7AqQ" name="Component">
+    <packagedElement xmi:type="uml:Class" xmi:id="_sF-REEZxEeWd4_M2m-7AqQ" name="A">
+      <generalization xmi:type="uml:Generalization" xmi:id="_0bD1QEaIEeWd4_M2m-7AqQ" general="_wX46wEaIEeWd4_M2m-7AqQ"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_SyM2gEoxEeWmloXIkYBqSQ" name="a">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_sq3G0EZxEeWd4_M2m-7AqQ" name="C">
+      <generalization xmi:type="uml:Generalization" xmi:id="_u42oYEZxEeWd4_M2m-7AqQ" general="_sF-REEZxEeWd4_M2m-7AqQ"/>
+      <generalization xmi:type="uml:Generalization" xmi:id="_ojp-4EaHEeWd4_M2m-7AqQ" general="_lLa3wEaHEeWd4_M2m-7AqQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_lLa3wEaHEeWd4_M2m-7AqQ" name="B">
+      <generalization xmi:type="uml:Generalization" xmi:id="_1BFTcEaIEeWd4_M2m-7AqQ" general="_wX46wEaIEeWd4_M2m-7AqQ"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_VnC8sEoxEeWmloXIkYBqSQ" name="b">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_wX46wEaIEeWd4_M2m-7AqQ" name="Z"/>
+  </packagedElement>
+</uml:Model>

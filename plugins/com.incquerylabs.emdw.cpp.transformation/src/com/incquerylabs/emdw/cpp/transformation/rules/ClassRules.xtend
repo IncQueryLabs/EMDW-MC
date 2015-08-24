@@ -160,6 +160,7 @@ class ClassRules {
 		// TODO: some of these should be generated based on action code
 		// External includes for model independent generated code
 		fireAllCurrent(includeRules.statemachineRuntimeIncludeRule, [it.cppClass == cppClass])
+		fireAllCurrent(includeRules.eventsIncludeRule, [it.cppClass == cppClass])
 		
 		val cppHeader = cppClass.headerFile
 		val uniqueNumberExternalHeader = getExternalHeader('''"Runtime/unique_number.hh"''')

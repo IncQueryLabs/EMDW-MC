@@ -44,6 +44,7 @@ class ClassTemplates extends CPPTemplate {
 	
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
+		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 		val headerGuardPostfix = "HEADER"
 		
@@ -58,7 +59,7 @@ class ClassTemplates extends CPPTemplate {
 		
 		public:
 		
-			«publicContentInClassHeader(cppClass, hasStateMachine)»
+			«publicContentInClassHeader(cppClass, hasEvents, hasStateMachine)»
 		
 		protected:
 		
@@ -75,7 +76,7 @@ class ClassTemplates extends CPPTemplate {
 		
 	}
 	
-	def publicContentInClassHeader(CPPClass cppClass, boolean hasStateMachine) {
+	def publicContentInClassHeader(CPPClass cppClass, boolean hasEvents, boolean hasStateMachine) {
 		'''
 		
 		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
@@ -96,6 +97,12 @@ class ClassTemplates extends CPPTemplate {
 		«cppComponent.cppQualifiedName»::«cppComponent.cppName»* _comp;
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
+		«IF hasEvents»
+			
+			«eventTemplates.enumInClassHeader(cppClass)»
+			
+			«eventTemplates.innerClassesInClassHeader(cppClass)»
+		«ENDIF»
 
 		«IF hasStateMachine»
 			«publicStateMachineCodeInClassHeader(cppClass)»
@@ -273,10 +280,6 @@ class ClassTemplates extends CPPTemplate {
 		'''
 		«stateTemplates.enumInClassHeader(cppClass)»
 		
-		«eventTemplates.enumInClassHeader(cppClass)»
-		
-		«eventTemplates.innerClassesInClassHeader(cppClass)»
-		
 
 		«cppClassName»_state current_state;
 
@@ -316,6 +319,8 @@ class ClassTemplates extends CPPTemplate {
 		«IF hasStateMachine»
 			«cppClass.stateMachineCodeInClassBody»
 		«ENDIF»
+		
+		«eventTemplates.innerClassesInClassBody(cppClass)»
 		
 		'''
 	}
@@ -505,8 +510,6 @@ class ClassTemplates extends CPPTemplate {
 		«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
 			«stateTemplates.methodDefinitionsInClassBody(state, cppClass)»
 		«ENDFOR»
-		
-		«eventTemplates.innerClassesInClassBody(cppClass)»
 		'''
 	}
 	

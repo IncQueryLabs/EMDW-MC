@@ -46,6 +46,7 @@ class IncludeRules {
 			superClassIncludeRule,
 			sequenceIncludeRule,
 			statemachineRuntimeIncludeRule,
+			eventsIncludeRule,
 			componentRuntimeIncludesRule
 		)
 		transformation.addRules(rules)
@@ -101,8 +102,14 @@ class IncludeRules {
 		val cppClass = match.cppClass
 		val cppHeader = cppClass.headerFile
 		val statefulClassExternalHeader = getExternalHeader('''"Runtime/StatefulClass.hh"''')
-		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
 		cppHeader.addInclude(statefulClassExternalHeader, "StatefulClass superclass in Runtime")
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val eventsIncludeRule = createRule.precondition(cppClassEvents).action[ match |
+		val cppClass = match.cppClass
+		val cppHeader = cppClass.headerFile
+		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
 		cppHeader.addInclude(eventExternalHeader, "Event class in Runtime")
 	].build
 	

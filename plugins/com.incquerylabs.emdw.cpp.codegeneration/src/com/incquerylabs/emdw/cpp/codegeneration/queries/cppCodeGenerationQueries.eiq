@@ -112,6 +112,15 @@ pattern cppClassStateMachine(
 	find cppClasses(xtClass, cppClass);
 }
 
+pattern cppClassEvent(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	event : XTEvent
+) {
+	find cppClasses(xtClass, cppClass);
+	XTClass.events(xtClass, event);
+}
+
 pattern cppClassAttributes(
 	cppClass : CPPClass,
 	cppAttribute : CPPAttribute,

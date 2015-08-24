@@ -48,7 +48,8 @@
     <requirement
         name="org.eclipse.emf.ecoretools.design.feature.group"/>
     <requirement
-        name="org.eclipse.papyrus.sdk.feature.feature.group"/>
+        name="org.eclipse.papyrus.sdk.feature.feature.group"
+        versionRange="[1.1.0,1.1.1)"/>
     <requirement
         name="org.eclipse.incquery.uml.feature.feature.group"/>
     <requirement
@@ -63,6 +64,8 @@
         url="http://download.eclipse.org/viatra2/emf/updates/release"/>
     <repository
         url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.8"/>
+    <repository
+        url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars"/>
   </setupTask>
   <setupTask
       xsi:type="git:GitCloneTask"
@@ -139,6 +142,7 @@
           name="org.eclipse.sdk.feature.group"/>
       <requirement
           name="org.eclipse.papyrus.sdk.feature.source.feature.group"
+          versionRange="[1.1.0,1.1.1)"
           optional="true"/>
       <requirement
           name="org.eclipse.incquery.uml.feature.feature.group"/>

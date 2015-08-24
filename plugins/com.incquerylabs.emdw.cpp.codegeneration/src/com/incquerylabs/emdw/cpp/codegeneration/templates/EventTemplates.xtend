@@ -15,15 +15,42 @@ class EventTemplates extends CPPTemplate {
 	}
 
 	def enumInClassHeader(CPPClass cppClass) {
-		val cppClassName = cppClass.cppName
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
-		enum «cppClassName»_event {
-			«FOR event : classEvents SEPARATOR ","»
-				«cppClassName»_EVENT_«event.cppName»
+		«IF !classEvents.isNullOrEmpty»
+		class «cppClass.eventEnumClassName» {
+		public:
+		  enum __val_type {
+		    «FOR event : classEvents SEPARATOR ","»
+				«eventEnumeratorName(cppClass, event)»
 			«ENDFOR»
+		  };
+		  «cppClass.eventEnumClassName»(): __val(«eventEnumeratorName(cppClass, classEvents.head)») {}
+		  «cppClass.eventEnumClassName»(__val_type v): __val(v) {}
+		  operator __val_type() const { return __val; }
+		private:
+		  __val_type __val;
 		};
+		«ELSE»
+		// No event enum: there are no class events
+		«ENDIF»
 		'''
+	}
+	
+	def eventEnumClassName(CPPClass cppClass) {
+		'''«cppClass.cppName»_event'''
+	}
+	
+	def eventEnumClassQualifiedName(CPPClass cppClass) {
+		'''«cppClass.cppQualifiedName»::«cppClass.cppName»_event'''
+	}
+	
+	def eventEnumeratorName(CPPClass cppClass, CPPEvent cppEvent) {
+		'''«cppClass.cppName»_EVENT_«cppEvent.cppName»'''
+	}
+	
+	def eventEnumeratorQualifiedName(CPPClass cppClass, CPPEvent cppEvent) {
+		'''«cppClass.eventEnumClassQualifiedName»::«eventEnumeratorName(cppClass, cppEvent)»'''
 	}
 	
 	def innerClassesInClassHeader(CPPClass cppClass) {
@@ -91,20 +118,19 @@ class EventTemplates extends CPPTemplate {
 	
 	def constructorTemplate(CPPEvent event){
 		var CPPClass cppClass = event.eContainer as CPPClass
-		val cppClassName = cppClass.cppName
 		val superEvents = event.superEvents
 		
 		if(superEvents.isNullOrEmpty){
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
-				«ClassTemplates.EventFQN»(«cppClassName»_EVENT_«event.cppName», isInternal){
+				«ClassTemplates.EventFQN»(«eventEnumeratorQualifiedName(cppClass, event)», isInternal){
 				}
 			'''
 		} else {
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
 				«superEvents.head.generatedEventClassQualifiedName»(isInternal){
-					this->::Event::_id = «cppClassName»_EVENT_«event.cppName»;
+					this->::Event::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
 				}
 			'''
 		}

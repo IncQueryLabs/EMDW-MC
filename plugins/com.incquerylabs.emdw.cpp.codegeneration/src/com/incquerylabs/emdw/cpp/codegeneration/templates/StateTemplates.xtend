@@ -444,13 +444,13 @@ class StateTemplates extends CPPTemplate {
 			val trigger = triggers.head
 			val cppEvent = trigger.getEvent
 			val cppClass = cppEvent.eContainer as CPPClass 
-			'''event->_id == «cppClass.cppQualifiedName»::«cppClass.cppName»_EVENT_«cppEvent.cppName»'''
+			'''event->_id == «eventTemplates.eventEnumeratorQualifiedName(cppClass, cppEvent)»'''
 		} else {
 			'''
 			(
 			«FOR trigger : triggers SEPARATOR " || "»
 				«val cppClass = trigger.getEvent.eContainer as CPPClass »
-				event->_id == «cppClass.cppQualifiedName»::«cppClass.cppName»_EVENT_«trigger.getEvent.cppName»
+				event->_id == «eventTemplates.eventEnumeratorQualifiedName(cppClass, trigger.getEvent)»
 			«ENDFOR»
 			)
 			'''

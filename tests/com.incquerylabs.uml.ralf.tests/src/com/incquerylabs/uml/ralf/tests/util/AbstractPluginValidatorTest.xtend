@@ -1,7 +1,6 @@
-package com.incquerylabs.uml.ralf.tests
+package com.incquerylabs.uml.ralf.tests.util
 
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
-import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider
 import java.util.ArrayList
 import java.util.Arrays
 import java.util.HashMap
@@ -26,7 +25,7 @@ import static org.junit.Assert.*
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-abstract class AbstractValidatorTest {
+abstract class AbstractPluginValidatorTest {
 	@Parameter(0)
     public String name
 
@@ -34,13 +33,28 @@ abstract class AbstractValidatorTest {
     public String input
     
     @Parameter(2)
+    public String thisName="";
+    
+    @Parameter(3)
     public List<String> issueCodes
+    
 	
 	@Test
-	public def validatorTest(){
-		val parser = new ReducedAlfParser
-	    val context = new SimpleUMLContextProvider()
-    	val result = parser.parse(input, context)
+	public def validatorPluginTest(){
+    	//Initiate components
+    	//Create parser
+    	val parser = new ReducedAlfParser
+    	//Create uml context provider
+    	//It is responsible for supplying the primitive and user defined UML types
+    	//in this case th UML model is loaded from an external resource
+    	//Its path needs to be specified here
+	    val context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
+	    //As in this test case there is no editor attached to the UML model, the qualified name of the current type needs to be specified.
+	    if(!thisName.equals("")){
+    		context.definedOperation = thisName
+    	}
+    	//Parse the action code
+       	val result = parser.parse(input, context)    	
 		assertAll(result.errors, issueCodes)
 	}
 		
@@ -62,10 +76,10 @@ abstract class AbstractValidatorTest {
 				}
 			if (!found) {
 				if (issueCodes.length == 1){
-					fail("Issue code " + issueCodes.get(0) + " does not match " + i);
+					fail("Issue code " + issueCodes.get(0) + " does not match " + i.code);
 				}
 				else{
-					fail("No issue code in " + Arrays.toString(issueCodes) + " matches " + i);
+					fail("No issue code in " + Arrays.toString(issueCodes) + " matches " + i.code);
 				}
 			}
 		}

@@ -339,7 +339,7 @@
       <element xmi:type="uml:StateMachine" href="model.uml#_a8SY4BmmEeWkDIIs2OLK7g"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bYo9vRmmEeWkDIIs2OLK7g" x="30" y="30" width="700" height="307"/>
     </children>
-    <styles xmi:type="notation:StringValueStyle" xmi:id="_bYo9vhmmEeWkDIIs2OLK7g" name="diagram_compatibility_version" stringValue="1.0.0"/>
+    <styles xmi:type="notation:StringValueStyle" xmi:id="_bYo9vhmmEeWkDIIs2OLK7g" name="diagram_compatibility_version" stringValue="1.1.0"/>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_bYo9vxmmEeWkDIIs2OLK7g"/>
     <styles xmi:type="style:PapyrusViewStyle" xmi:id="_bYo9wBmmEeWkDIIs2OLK7g">
       <owner xmi:type="uml:Class" href="model.uml#_LbgdgBmkEeWkDIIs2OLK7g"/>

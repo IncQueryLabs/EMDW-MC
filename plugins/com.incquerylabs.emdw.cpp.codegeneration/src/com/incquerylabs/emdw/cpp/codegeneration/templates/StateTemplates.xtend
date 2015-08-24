@@ -18,29 +18,50 @@ class StateTemplates extends CPPTemplate {
 	
 	val ActionCodeTemplates actionCodeTemplates
 	val EventTemplates eventTemplates
+	val EnumTemplates enumTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
+		enumTemplates = new EnumTemplates
 	}
 	
 	def enumInClassHeader(CPPClass cppClass) {
 		val terminatePointMatcher = codeGenQueries.getCppClassTerminatePoints(engine)
 		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
-		val cppClassName = cppClass.cppName
 		val cppStates = cppClass.subElements.filter(CPPState).sortBy[cppName]
-		'''
-		enum «cppClassName»_state {
-«««			Create exctly one terminate point state if there is at least one TerminatePoint in the xtUML model
-			«IF terminatePointCount > 0 »
-				«cppClassName»_STATE_«TERMINATE_POSTFIX»«IF cppStates.length > 0»,«ENDIF»
-			«ENDIF»
-			«FOR state : cppStates SEPARATOR ","»
-				«cppClassName»_STATE_«state.cppName»
-			«ENDFOR»
-		};
-		'''
+		val enumName = '''«cppClass.stateEnumClassName»'''
+		val List<CharSequence> enumeratorNames = cppStates.map[ state | stateEnumeratorName(cppClass, state) ]
+		if(terminatePointCount > 0){
+			enumeratorNames += stateEnumeratorName(cppClass, TERMINATE_POSTFIX)
+		}
+		
+		return enumTemplates.enumClassTemplate(enumName, enumeratorNames)
+	}
+	
+	def stateEnumClassName(CPPClass cppClass) {
+		'''«cppClass.cppName»_state'''
+	}
+	
+	def stateEnumClassQualifiedName(CPPClass cppClass) {
+		'''«cppClass.cppQualifiedName»::«cppClass.stateEnumClassName»'''
+	}
+	
+	def stateEnumeratorName(CPPClass cppClass, CharSequence cppStateName) {
+		'''«cppClass.cppName»_STATE_«cppStateName»'''
+	}
+	
+	def stateEnumeratorName(CPPClass cppClass, CPPState cppState) {
+		stateEnumeratorName(cppClass, cppState.cppName)
+	}
+	
+	def stateEnumeratorQualifiedName(CPPClass cppClass, CPPState cppState) {
+		'''«cppClass.stateEnumClassQualifiedName»::«stateEnumeratorName(cppClass, cppState)»'''
+	}
+	
+	def stateEnumeratorQualifiedName(CPPClass cppClass, CharSequence cppStateName) {
+		'''«cppClass.stateEnumClassQualifiedName»::«stateEnumeratorName(cppClass, cppStateName)»'''
 	}
 	
 	def methodDeclarationsInClassHeader(CPPState state) {
@@ -312,7 +333,6 @@ class StateTemplates extends CPPTemplate {
 	}
 	
 	def changeStateTemplate(CPPClass cppClass, TransitionInfo transitionInfo){
-		val cppClassName = cppClass.cppName
 		val sourceState = transitionInfo.cppSource
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
@@ -320,7 +340,7 @@ class StateTemplates extends CPPTemplate {
 		'''
 		«IF sourceState != targetState»
 			// state change
-			current_state = «cppClassName»_STATE_«targetStateCppName»;
+			current_state = «stateEnumeratorQualifiedName(cppClass, targetStateCppName)»;
 			«tracingMessage('''    State changed to «targetStateCppName»''')»
 		«ELSE»
 			// no state change

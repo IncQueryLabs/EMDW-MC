@@ -6,12 +6,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 
 class ComponentTemplates extends CPPTemplate {
 	extension val NamespaceTemplates namespaceTemplates
 	extension val HeaderGuardTemplates headerGuardTemplates
 	extension val IncludeTemplates includeTemplates
 	extension val EnumTemplates enumTemplates
+	extension val StructTemplates structTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -19,6 +21,7 @@ class ComponentTemplates extends CPPTemplate {
 		headerGuardTemplates = new HeaderGuardTemplates
 		includeTemplates = new IncludeTemplates
 		enumTemplates = new EnumTemplates
+		structTemplates = new StructTemplates
 	}
 	
 	def componentDeclHeaderTemplate(CPPComponent cppComponent) {
@@ -73,6 +76,8 @@ class ComponentTemplates extends CPPTemplate {
 		«cppComponent.namespaceOpenerTemplate»
 		
 		«cppComponent.cppEnumsInContainer»
+		
+		«cppComponent.cppStructInContainer»
 		
 		«cppComponent.namespaceCloserTemplate»
 		
@@ -155,6 +160,7 @@ class ComponentTemplates extends CPPTemplate {
 	def CharSequence forwardDeclarationsTemplate(CPPQualifiedNamedElement cppContainer) {
 		val cppClasses = cppContainer.subElements.filter(CPPClass)
 		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType)
+		val cppStructTypes = cppContainer.subElements.filter(CPPStructType)
 		val innerCppPackages = cppContainer.subElements.filter(CPPPackage)
 		val hasForwardDeclarations = !(cppClasses.isNullOrEmpty && cppEnumTypes.isNullOrEmpty)
 		'''
@@ -165,6 +171,9 @@ class ComponentTemplates extends CPPTemplate {
 				«ENDFOR»
 				«FOR cppEnumType : cppEnumTypes»
 					class «cppEnumType.cppName»;
+				«ENDFOR»
+				«FOR cppStructType : cppStructTypes»
+					struct «cppStructType.cppName»;
 				«ENDFOR»
 			«cppContainer.namespaceCloserTemplate»
 		«ENDIF»

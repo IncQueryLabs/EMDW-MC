@@ -8,6 +8,7 @@ class PackageTemplates extends CPPTemplate {
 	extension val HeaderGuardTemplates headerGuardTemplates
 	extension val IncludeTemplates includeTemplates
 	extension val EnumTemplates enumTemplates
+	extension val StructTemplates structTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
@@ -15,6 +16,7 @@ class PackageTemplates extends CPPTemplate {
 		headerGuardTemplates = new HeaderGuardTemplates
 		includeTemplates = new IncludeTemplates
 		enumTemplates = new EnumTemplates
+		structTemplates = new StructTemplates
 	}
 	
 	def packageMainHeaderTemplate(CPPPackage cppPackage) {
@@ -39,6 +41,7 @@ class PackageTemplates extends CPPTemplate {
 		«cppPackage.namespaceOpenerTemplate»
 		
 		«cppPackage.cppEnumsInContainer»
+		«cppPackage.cppStructInContainer»
 		
 		«cppPackage.namespaceCloserTemplate»
 		

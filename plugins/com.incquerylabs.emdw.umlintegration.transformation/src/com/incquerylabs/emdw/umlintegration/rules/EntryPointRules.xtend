@@ -82,7 +82,7 @@ class ToplevelEntryPointMapping extends AbstractContainmentMapping<ToplevelEntry
 		match.pseudostate.findXtumlrtObject(EntryPoint)
 	}
 	
-	override insertChild(StateMachine parent, EntryPoint child) {
+	override insertChild(StateMachine parent, EntryPoint child, ToplevelEntryPointMatch match) {
 		parent.top.entryPoints += child
 	}
 
@@ -113,7 +113,7 @@ class ChildEntryPointMapping extends AbstractContainmentMapping<ChildEntryPointM
 		match.pseudostate.findXtumlrtObject(EntryPoint)
 	}
 	
-	override insertChild(State parent, EntryPoint child) {
+	override insertChild(State parent, EntryPoint child, ChildEntryPointMatch match) {
 		parent.entryPoints += child
 	}
 

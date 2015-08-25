@@ -11,7 +11,6 @@ import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Type
-import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.ParameterDirectionKind

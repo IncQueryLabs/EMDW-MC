@@ -83,7 +83,7 @@ class ToplevelSimpleStateMapping extends AbstractContainmentMapping<ToplevelSimp
 		match.state.findXtumlrtObject(State)
 	}
 	
-	override insertChild(StateMachine parent, State child) {
+	override insertChild(StateMachine parent, State child, ToplevelSimpleStateMatch match) {
 		parent.top.substates += child
 	}
 
@@ -114,7 +114,7 @@ class ChildSimpleStateMapping extends AbstractContainmentMapping<ChildSimpleStat
 		match.state.findXtumlrtObject(State)
 	}
 	
-	override insertChild(CompositeState parent, State child) {
+	override insertChild(CompositeState parent, State child, ChildSimpleStateMatch match) {
 		parent.substates += child
 	}
 

@@ -9,6 +9,10 @@ import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Entity
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.eclipse.papyrusrt.xtumlrt.common.Parameter
+import java.util.Comparator
+import org.eclipse.emf.common.util.ECollections
+import com.google.common.collect.Ordering
 
 class OperationRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -59,7 +63,18 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
+		
+		val umlParams = umlObject.ownedParameters
+		val xtumlParams = xtumlrtObject.parameters
+		// restore parameter ordering
+		val ordering = Ordering.natural.onResultOf[parameter | 
+			val umlParam = umlParams.findFirst[findXtumlrtObject(Parameter) == parameter]
+			umlParams.indexOf(umlParam)
+		]
+		ECollections.sort(xtumlParams, ordering)
 	}
+	
+	
 	
 	def getXtumlrtContainer(RegularOperationMatch match) {
 		match.umlClass.findXtumlrtObject(Entity)

@@ -68,7 +68,10 @@ class OperationRules {
 	].build
 	
 	def transformSubElements(CPPOperation cppOperation){
-		fireAllCurrent(operationParameterRule, [it.cppOperation == cppOperation])
+		// fire operation parameter activations in order
+		cppOperation.commonOperation.parameters.forEach[parameter | 
+			fireAllCurrent(operationParameterRule, [it.cppOperation == cppOperation && it.parameter == parameter])
+		]
 		fireAllCurrent(operationReturnValueRule, [it.cppOperation == cppOperation])
 	}
 	

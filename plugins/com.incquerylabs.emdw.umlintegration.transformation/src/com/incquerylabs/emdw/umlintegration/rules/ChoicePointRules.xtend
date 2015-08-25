@@ -82,7 +82,7 @@ class ToplevelChoicePointMapping extends AbstractContainmentMapping<ToplevelChoi
 		match.pseudostate.findXtumlrtObject(ChoicePoint)
 	}
 	
-	override insertChild(StateMachine parent, ChoicePoint child) {
+	override insertChild(StateMachine parent, ChoicePoint child, ToplevelChoicePointMatch match) {
 		parent.top.choicePoints += child
 	}
 
@@ -113,7 +113,7 @@ class ChildChoicePointMapping extends AbstractContainmentMapping<ChildChoicePoin
 		match.pseudostate.findXtumlrtObject(ChoicePoint)
 	}
 	
-	override insertChild(CompositeState parent, ChoicePoint child) {
+	override insertChild(CompositeState parent, ChoicePoint child, ChildChoicePointMatch match) {
 		parent.choicePoints += child
 	}
 

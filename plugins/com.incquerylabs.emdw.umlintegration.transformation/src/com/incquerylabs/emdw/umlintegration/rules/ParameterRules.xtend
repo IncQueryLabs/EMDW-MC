@@ -1,13 +1,14 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
+import com.google.common.base.Optional
 import com.incquerylabs.emdw.umlintegration.queries.ParameterInOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.ParameterMatch
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
+import java.util.Set
+import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import org.eclipse.papyrusrt.xtumlrt.common.Type
-import java.util.Set
-import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class ParameterRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -95,8 +96,34 @@ class ParameterInOperationMapping extends AbstractContainmentMapping<ParameterIn
 		match.parameter.findXtumlrtObject(Parameter)
 	}
 
-	override insertChild(Operation parent, Parameter child) {
-		parent.parameters += child
+	override insertChild(Operation parent, Parameter child, ParameterInOperationMatch match) {
+		val parameters = parent.parameters
+		if(parameters.empty){
+			parameters += child
+		} else {
+			// keep ordering of parameters
+			val umlOperation = match.operation
+			val umlParameter = match.parameter
+			
+			val umlParameters = umlOperation.ownedParameters
+			val umlIndex = umlParameters.indexOf(umlParameter)
+			
+			// take the elements after the current one (may be empty)
+			val firstMappedParam = umlParameters.subList(umlIndex + 1, umlParameters.size)
+				// find their corresponding xUML-RT pair (Optional needed since map forbids nulls)
+				.map[Optional.fromNullable(findXtumlrtObject(Parameter))]
+				// find the first one that is already mapped
+				.findFirst[present && parameters.contains(get)]
+			if(firstMappedParam == null){
+				// the currently processed parameter is the last
+				parameters += child
+			} else {
+				// insert at the index currently used by the next one
+				val xumlrtIndex = parameters.indexOf(firstMappedParam.get)
+				parameters.add(xumlrtIndex, child)
+			}
+			
+		}
 	}
 
 }

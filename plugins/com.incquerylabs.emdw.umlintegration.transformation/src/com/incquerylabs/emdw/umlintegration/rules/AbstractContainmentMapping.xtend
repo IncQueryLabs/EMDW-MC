@@ -20,7 +20,7 @@ abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent ex
 		if(parent == null){
 			logger.debug('''Containment edge for «child» without parent not added''')
 		} else {
-			parent.insertChild(child)
+			parent.insertChild(child, match)
 			logger.debug('''Added containment edge «parent» -> «child»''')
 		}
 	}
@@ -44,7 +44,8 @@ abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent ex
 	
 	/**
 	 * Inserts the child to the appropriate containment reference of the parent.
+	 * Also passing the match to allow navigation in source model.
 	 */
-	protected def void insertChild(Parent parent, Child child)
+	protected def void insertChild(Parent parent, Child child, Match match)
 
 }

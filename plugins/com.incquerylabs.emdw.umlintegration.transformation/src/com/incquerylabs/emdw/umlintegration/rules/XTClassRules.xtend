@@ -92,7 +92,7 @@ class XTClassInModelMapping extends AbstractContainmentMapping<XtClassInModelMat
 		match.umlClass.findXtumlrtObject(XTClass)
 	}
 	
-	override insertChild(Model parent, XTClass child) {
+	override insertChild(Model parent, XTClass child, XtClassInModelMatch match) {
 		parent.entities += child
 	}
 
@@ -123,7 +123,7 @@ class XTClassInPackageMapping extends AbstractContainmentMapping<XtClassInPackag
 		match.umlClass.findXtumlrtObject(XTClass)
 	}
 	
-	override insertChild(Package parent, XTClass child) {
+	override insertChild(Package parent, XTClass child, XtClassInPackageMatch match) {
 		parent.entities += child
 	}
 
@@ -154,7 +154,7 @@ class XTClassInComponentMapping extends AbstractContainmentMapping<XtClassInComp
 		match.umlClass.findXtumlrtObject(XTClass)
 	}
 	
-	override insertChild(XTComponent parent, XTClass child) {
+	override insertChild(XTComponent parent, XTClass child, XtClassInComponentMatch match) {
 		parent.entities += child
 	}
 

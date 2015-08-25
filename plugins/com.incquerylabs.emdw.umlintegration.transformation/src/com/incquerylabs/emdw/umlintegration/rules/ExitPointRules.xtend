@@ -82,7 +82,7 @@ class ToplevelExitPointMapping extends AbstractContainmentMapping<ToplevelExitPo
 		match.pseudostate.findXtumlrtObject(ExitPoint)
 	}
 	
-	override insertChild(StateMachine parent, ExitPoint child) {
+	override insertChild(StateMachine parent, ExitPoint child, ToplevelExitPointMatch match) {
 		parent.top.exitPoints += child
 	}
 
@@ -113,7 +113,7 @@ class ChildExitPointMapping extends AbstractContainmentMapping<ChildExitPointMat
 		match.pseudostate.findXtumlrtObject(ExitPoint)
 	}
 	
-	override insertChild(State parent, ExitPoint child) {
+	override insertChild(State parent, ExitPoint child, ChildExitPointMatch match) {
 		parent.exitPoints += child
 	}
 

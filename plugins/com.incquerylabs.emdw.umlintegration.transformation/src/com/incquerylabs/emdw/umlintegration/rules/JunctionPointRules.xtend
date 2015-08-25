@@ -82,7 +82,7 @@ class ToplevelJunctionPointMapping extends AbstractContainmentMapping<ToplevelJu
 		match.pseudostate.findXtumlrtObject(JunctionPoint)
 	}
 	
-	override insertChild(StateMachine parent, JunctionPoint child) {
+	override insertChild(StateMachine parent, JunctionPoint child, ToplevelJunctionPointMatch match) {
 		parent.top.junctionPoints += child
 	}
 
@@ -113,7 +113,7 @@ class ChildJunctionPointMapping extends AbstractContainmentMapping<ChildJunction
 		match.pseudostate.findXtumlrtObject(JunctionPoint)
 	}
 	
-	override insertChild(CompositeState parent, JunctionPoint child) {
+	override insertChild(CompositeState parent, JunctionPoint child, ChildJunctionPointMatch match) {
 		parent.junctionPoints += child
 	}
 

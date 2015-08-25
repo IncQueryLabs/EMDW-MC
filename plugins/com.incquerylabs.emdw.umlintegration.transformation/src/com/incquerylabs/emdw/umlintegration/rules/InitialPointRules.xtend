@@ -82,7 +82,7 @@ class ToplevelInitialPointMapping extends AbstractContainmentMapping<ToplevelIni
 		match.pseudostate.findXtumlrtObject(InitialPoint)
 	}
 	
-	override insertChild(StateMachine parent, InitialPoint child) {
+	override insertChild(StateMachine parent, InitialPoint child, ToplevelInitialPointMatch match) {
 		parent.top.initial = child
 	}
 
@@ -113,7 +113,7 @@ class ChildInitialPointMapping extends AbstractContainmentMapping<ChildInitialPo
 		match.pseudostate.findXtumlrtObject(InitialPoint)
 	}
 	
-	override insertChild(CompositeState parent, InitialPoint child) {
+	override insertChild(CompositeState parent, InitialPoint child, ChildInitialPointMatch match) {
 		parent.initial = child
 	}
 

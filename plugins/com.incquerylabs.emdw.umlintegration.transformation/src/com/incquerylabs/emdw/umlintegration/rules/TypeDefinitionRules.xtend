@@ -88,7 +88,7 @@ class TypeDefinitionInPackageMapping extends AbstractContainmentMapping<TypeDefi
 		match.type.findXtumlrtObject(TypeDefinition)
 	}
 	
-	override insertChild(Package parent, TypeDefinition child) {
+	override insertChild(Package parent, TypeDefinition child, TypeDefinitionInPackageMatch match) {
 		parent.typeDefinitions += child
 	}
 }
@@ -120,7 +120,7 @@ class TypeDefinitionInComponentMapping extends AbstractContainmentMapping<TypeDe
 		match.type.findXtumlrtObject(TypeDefinition)
 	}
 	
-	override insertChild(XTComponent parent, TypeDefinition child) {
+	override insertChild(XTComponent parent, TypeDefinition child, TypeDefinitionInComponentMatch match) {
 		parent.typeDefinitions += child
 	}
 }

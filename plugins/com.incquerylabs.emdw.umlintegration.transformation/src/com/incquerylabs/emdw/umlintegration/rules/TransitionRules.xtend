@@ -95,7 +95,7 @@ class ToplevelTransitionMapping extends AbstractContainmentMapping<ToplevelTrans
 		match.transition.findXtumlrtObject(Transition)
 	}
 	
-	override insertChild(StateMachine parent, Transition child) {
+	override insertChild(StateMachine parent, Transition child, ToplevelTransitionMatch match) {
 		parent.top.transitions += child
 	}
 
@@ -126,7 +126,7 @@ class ChildTransitionMapping extends AbstractContainmentMapping<ChildTransitionM
 		match.transition.findXtumlrtObject(Transition)
 	}
 	
-	override insertChild(CompositeState parent, Transition child) {
+	override insertChild(CompositeState parent, Transition child, ChildTransitionMatch match) {
 		parent.transitions += child
 	}
 

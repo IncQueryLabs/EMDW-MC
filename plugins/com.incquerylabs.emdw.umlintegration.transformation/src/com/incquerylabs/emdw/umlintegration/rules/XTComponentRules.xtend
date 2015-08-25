@@ -88,7 +88,7 @@ class XTComponentInModelMapping extends AbstractContainmentMapping<XtComponentIn
 		match.component.findXtumlrtObject(XTComponent)
 	}
 	
-	override insertChild(Model parent, XTComponent child) {
+	override insertChild(Model parent, XTComponent child, XtComponentInModelMatch match) {
 		parent.entities += child
 	}
 
@@ -119,7 +119,7 @@ class XTComponentInPackageMapping extends AbstractContainmentMapping<XtComponent
 		match.component.findXtumlrtObject(XTComponent)
 	}
 	
-	override insertChild(org.eclipse.papyrusrt.xtumlrt.common.Package parent, XTComponent child) {
+	override insertChild(org.eclipse.papyrusrt.xtumlrt.common.Package parent, XTComponent child, XtComponentInPackageMatch match) {
 		parent.entities += child
 	}
 

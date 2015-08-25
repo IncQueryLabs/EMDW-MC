@@ -81,7 +81,7 @@ class ToplevelTerminateMapping extends AbstractContainmentMapping<ToplevelTermin
 		match.pseudostate.findXtumlrtObject(TerminatePoint)
 	}
 	
-	override insertChild(StateMachine parent, TerminatePoint child) {
+	override insertChild(StateMachine parent, TerminatePoint child, ToplevelTerminatePointMatch match) {
 		parent.top.terminatepoint = child
 	}
 
@@ -112,7 +112,7 @@ class ChildTerminateMapping extends AbstractContainmentMapping<ChildTerminatePoi
 		match.pseudostate.findXtumlrtObject(TerminatePoint)
 	}
 	
-	override insertChild(CompositeState parent, TerminatePoint child) {
+	override insertChild(CompositeState parent, TerminatePoint child, ChildTerminatePointMatch match) {
 		parent.terminatepoint = child
 	}
 

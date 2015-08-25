@@ -90,7 +90,7 @@ class XTPackageInModelMapping extends AbstractContainmentMapping<XtPackageInMode
 		match.umlPackage.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override insertChild(Model parent, org.eclipse.papyrusrt.xtumlrt.common.Package child) {
+	override insertChild(Model parent, org.eclipse.papyrusrt.xtumlrt.common.Package child, XtPackageInModelMatch match) {
 		parent.packages += child
 	}
 
@@ -121,7 +121,7 @@ class XTPackageInComponentMapping extends AbstractContainmentMapping<XtPackageIn
 		match.umlPackage.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override insertChild(XTComponent parent, org.eclipse.papyrusrt.xtumlrt.common.Package child) {
+	override insertChild(XTComponent parent, org.eclipse.papyrusrt.xtumlrt.common.Package child, XtPackageInComponentMatch match) {
 		parent.packages += child
 	}
 
@@ -152,7 +152,7 @@ class XTPackageInPackageMapping extends AbstractContainmentMapping<XtPackageInPa
 		match.child.findXtumlrtObject(org.eclipse.papyrusrt.xtumlrt.common.Package)
 	}
 	
-	override insertChild(org.eclipse.papyrusrt.xtumlrt.common.Package parent, org.eclipse.papyrusrt.xtumlrt.common.Package child) {
+	override insertChild(org.eclipse.papyrusrt.xtumlrt.common.Package parent, org.eclipse.papyrusrt.xtumlrt.common.Package child, XtPackageInPackageMatch match) {
 		parent.packages += child
 	}
 

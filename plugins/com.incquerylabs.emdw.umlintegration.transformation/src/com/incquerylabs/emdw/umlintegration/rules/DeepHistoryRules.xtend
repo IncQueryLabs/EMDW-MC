@@ -82,7 +82,7 @@ class ToplevelDeepHistoryMapping extends AbstractContainmentMapping<ToplevelDeep
 		match.pseudostate.findXtumlrtObject(DeepHistory)
 	}
 	
-	override insertChild(StateMachine parent, DeepHistory child) {
+	override insertChild(StateMachine parent, DeepHistory child, ToplevelDeepHistoryMatch match) {
 		parent.top.deepHistory = child
 	}
 
@@ -113,7 +113,7 @@ class ChildDeepHistoryMapping extends AbstractContainmentMapping<ChildDeepHistor
 		match.pseudostate.findXtumlrtObject(DeepHistory)
 	}
 	
-	override insertChild(CompositeState parent, DeepHistory child) {
+	override insertChild(CompositeState parent, DeepHistory child, ChildDeepHistoryMatch match) {
 		parent.deepHistory = child
 	}
 

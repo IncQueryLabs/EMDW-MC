@@ -212,6 +212,15 @@ pattern structMember(
 	CPPStructType.commonType(cppStructType, structuredType);
 }
 
+pattern enumerator(
+	enumeration : Enumeration,
+	cppEnumType : CPPEnumType,
+	enumerationLiteral : EnumerationLiteral
+) {
+	Enumeration.literals(enumeration, enumerationLiteral);
+	CPPEnumType.commonType(cppEnumType, enumeration);
+}
+
 pattern enumeration(
 	enumeration : Enumeration,
 	cppContainer : CPPQualifiedNamedElement

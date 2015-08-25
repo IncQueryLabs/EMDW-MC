@@ -46,6 +46,22 @@ class TypeDefinitionRules {
 		]
 		cppContainer.subElements += cppEnumType
 		trace('''Mapped Enumeration «xtEnumeration.name» to CPPEnumType «cppEnumType»''')
+		fireAllCurrent(cppEnumeratorRule, [it.cppEnumType == cppEnumType])
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val cppEnumeratorRule = createRule.precondition(enumerator).action[ match |
+		val cppEnumType = match.cppEnumType
+		val xtEnumerationLiteral = match.enumerationLiteral
+		val cppEnumerator = createCPPEnumerator => [
+			it.commonEnumerationLiteral = xtEnumerationLiteral
+			it.ooplNameProvider = createOOPLExistingNameProvider => [
+				commonNamedElement = xtEnumerationLiteral
+			]
+		]
+		cppEnumType.subElements += cppEnumerator
+		cppEnumType.enumerators += cppEnumerator
+		trace('''Mapped EnumerationLiteral «xtEnumerationLiteral.name» to CPPEnumerator «cppEnumerator»''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

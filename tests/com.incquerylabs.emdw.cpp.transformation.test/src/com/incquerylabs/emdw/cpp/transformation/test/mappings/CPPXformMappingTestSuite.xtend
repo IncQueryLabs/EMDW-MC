@@ -6,9 +6,11 @@ import org.junit.runners.Suite.SuiteClasses
 
 @SuiteClasses(#[
 	CPPAttributeMappingTestSuite,
+	CPPBasicTypeMappingTestSuite,
 	CPPClassMappingTestSuite,
 	CPPClassReferenceMappingTestSuite,
 	CPPComponentMappingTestSuite,
+	CPPEnumeratorMappingTestSuite,
 	CPPEnumTypeMappingTestSuite,
 	CPPEventMappingTestSuite,
 	CPPFormalParameterMappingTestSuite,
@@ -24,6 +26,7 @@ import org.junit.runners.Suite.SuiteClasses
 	CPPReturnValueMappingTestSuite,
 	CPPSignalMappingTestSuite,
 	CPPStateMappingTestSuite,
+	CPPStructMemberMappingTestSuite,
 	CPPStructTypeMappingTestSuite,
 	CPPTransitionMappingTestSuite
 ])

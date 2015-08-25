@@ -2,8 +2,8 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.OOPLExistingNameProvider
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
@@ -15,7 +15,6 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 
 @SuiteClasses(#[
 	CPPEnumTypeTest
@@ -67,7 +66,7 @@ class CPPEnumTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 	
 	override protected assertClear(Model input, CPPModel result, XTComponent xtComponent, CPPComponent cppComponent) {
-		val structTypes = cppComponent.subElements.filter(CPPStructType)
-		assertEquals("CPPStructType is not removed", 0, structTypes.length)
+		val enumTypes = cppComponent.subElements.filter(CPPEnumType)
+		assertEquals("CPPEnumType is not removed", 0, enumTypes.length)
 	}
 }

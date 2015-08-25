@@ -60,6 +60,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
+import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -482,6 +483,14 @@ class TransformationTestUtil {
 		]
 		typeDefinition.type = enumeration
 		return enumeration
+	}
+	
+	static def createEnumerationLiteral(Enumeration enumeration, String name) {
+		val enumerationLiteral = commonFactory.createEnumerationLiteral => [
+			it.name = name
+		]
+		enumeration.literals += enumerationLiteral
+		return enumerationLiteral
 	}
 	
 	static def createStructuredTypeWithTypeDefinition(BaseContainer root, String name) {

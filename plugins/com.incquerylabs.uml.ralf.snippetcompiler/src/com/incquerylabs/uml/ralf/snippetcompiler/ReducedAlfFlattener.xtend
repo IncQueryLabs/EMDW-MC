@@ -34,6 +34,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
 import snippetTemplate.CompositeSnippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 class ReducedAlfFlattener {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -210,6 +211,7 @@ class ReducedAlfFlattener {
 		if(feature instanceof Property){
 			return flatten(ex, feature, snippet)
 		}else{
+			//TODO add operation call flattening
 			throw new UnsupportedOperationException
 		}
 	}
@@ -563,10 +565,14 @@ class ReducedAlfFlattener {
 		val operand = ex.operand
 		var FlattenedVariable operandVariable		 
 		 
-		if(operand.flatteningNotNeeded){
-			val variable = (operand as NameExpression).reference as Variable
-			if(variable != null){
-				operandVariable = new FlattenedVariable(getDescriptor(operand), variable.type.type)
+		if(operand instanceof LeftHandSide){
+			if(operand.expression.flatteningNotNeeded){
+				val variable = (operand.expression as NameExpression).reference as Variable
+				if(variable != null){
+					operandVariable = new FlattenedVariable(getDescriptor(operand.expression), variable.type.type)
+				}
+			}else{
+				operandVariable = flatten(operand.expression, snippet)
 			}
 		}else{
 			operandVariable = flatten(operand.expression, snippet)
@@ -598,10 +604,14 @@ class ReducedAlfFlattener {
 		val operand = ex.operand
 		var FlattenedVariable operandVariable		 
 		 
-		if(operand.flatteningNotNeeded){
-			val variable = (operand as NameExpression).reference as Variable
-			if(variable != null){
-				operandVariable = new FlattenedVariable(getDescriptor(operand), variable.type.type)
+		if(operand instanceof LeftHandSide){
+			if(operand.expression.flatteningNotNeeded){
+				val variable = (operand.expression as NameExpression).reference as Variable
+				if(variable != null){
+					operandVariable = new FlattenedVariable(getDescriptor(operand.expression), variable.type.type)
+				}
+			}else{
+				operandVariable = flatten(operand.expression, snippet)
 			}
 		}else{
 			operandVariable = flatten(operand.expression, snippet)

@@ -1,6 +1,8 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
@@ -19,7 +21,9 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfFlattener.FlattenedVariable
+import java.util.List
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Type
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
@@ -177,6 +181,73 @@ class ReducedAlfSnippetTemplateCompiler {
 									s.snippet.add(createStringSnippet => [value = ''';'''])
 							])
 							f.snippet.add = snippet
+						}else if(ex instanceof FeatureInvocationExpression){
+							if(ex.feature instanceof Operation){
+								var FlattenedVariable contextVariable
+								if(ex.context.flatteningNotNeeded){
+									var Type type
+									if(ex.context instanceof ThisExpression){
+										type = context.thisType
+									}else{
+										val variable = (ex.context as NameExpression).reference as Variable
+										type =  variable.type.type
+									}
+									contextVariable = new FlattenedVariable(getDescriptor(ex.context), type)
+								}else{
+									contextVariable = flatten(ex.context, f)
+								}
+									
+								val List<FlattenedVariable> flattenedParameters = Lists.newArrayList
+								if(ex.parameters instanceof ExpressionList){
+									val parameters = ex.parameters as ExpressionList
+									parameters.expressions.forEach[ expr |
+										if(expr.flatteningNotNeeded){
+											var Type type
+											if(expr instanceof ThisExpression){
+												type = context.thisType
+											}else{
+												val variable = (expr as NameExpression).reference as Variable
+												type =  variable.type.type
+											}
+											flattenedParameters.add(new FlattenedVariable(getDescriptor(expr), type))
+										}else{
+											flattenedParameters.add(flatten(expr, f))
+										}
+									]
+								}else if(ex.parameters instanceof NamedExpression){
+									val parameters = ex.parameters as NamedExpression
+									if(parameters.expression.flatteningNotNeeded){
+											var Type type
+											if(parameters.expression instanceof ThisExpression){
+												type = context.thisType
+											}else{
+												val variable = (parameters.expression as NameExpression).reference as Variable
+												type =  variable.type.type
+											}
+											flattenedParameters.add(new FlattenedVariable(getDescriptor(parameters.expression), type))
+										}else{
+											flattenedParameters.add(flatten(parameters.expression, f))
+										}
+								}
+								
+								val List<ValueDescriptor> tupleDescriptors = Lists.newArrayList									
+								val contextDescriptor = contextVariable.descriptor
+								flattenedParameters.forEach[ p |
+									tupleDescriptors.add(p.descriptor)
+								]
+								
+								val descriptor = (descriptorFactory.createOperationCallBuilder => [
+									variable = contextDescriptor
+									operation = ex.feature as Operation
+									parameters = tupleDescriptors
+								]).build
+								f.snippet.add = createCompositeSnippet => [
+									snippet.add(createStringSnippet => [value = descriptor.stringRepresentation	])
+									snippet.add(createStringSnippet => [value = ''';'''])
+								]
+							}else{
+								f.snippet.add(statement.visit)
+							}
 						}else{
 							f.snippet.add(statement.visit)
 						}
@@ -255,16 +326,8 @@ class ReducedAlfSnippetTemplateCompiler {
 					value = ex.name
 			])
 			snippet.add(createStringSnippet => [value = ''' => '''])
-			if(ex.expression.flatteningNotNeeded){
-				snippet.add(ex.expression.visit)
-			}else{
-				if(ex.expression.flatteningSupported){			
-					val variable = flatten(ex.expression, it)
-					snippet.add(createStringSnippet => [value = variable.descriptor.stringRepresentation])
-				}else{
-					throw new UnsupportedOperationException("Not supported expression type: "+ex.expression.eClass.name)
-				}
-			}
+			snippet.add(ex.expression.visit)
+			
 		]
 	}
 	

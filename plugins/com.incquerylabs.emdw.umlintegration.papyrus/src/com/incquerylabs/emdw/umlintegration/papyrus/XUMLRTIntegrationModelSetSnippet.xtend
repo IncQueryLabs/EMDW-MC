@@ -155,6 +155,9 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 			return false
 		}
 		val modelResource = ResourcesPlugin.workspace.root.findMember(modelPlatformPath)
+		if(modelResource == null) {
+			return false
+		}
 		val project = modelResource.project
 		return project.hasNature("com.incquerylabs.emdw.common.nature")
 	}

@@ -82,4 +82,6 @@ int main(int , char **) {
     _ii->d_operation();
     ::std::cout << "Call c_operation on J as J ***********************" << ::std::endl;
     _jj->c_operation(true);
+    ::std::cout << "Call c_operation on J as C ***********************" << ::std::endl;
+    ((C*)_jj)->c_operation();
 }

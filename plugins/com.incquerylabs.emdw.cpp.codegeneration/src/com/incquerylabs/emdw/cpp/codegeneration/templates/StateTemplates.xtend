@@ -1,29 +1,24 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionInfoMatch
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppTransitionToTerminateMatch
 import com.incquerylabs.emdw.cpp.codegeneration.util.TransitionInfo
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.Trigger
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 
 class StateTemplates extends CPPTemplate {
 	public static val TERMINATE_POSTFIX = "TERMINATE"
 	
-	val ActionCodeTemplates actionCodeTemplates
-	val EventTemplates eventTemplates
-	val EnumTemplates enumTemplates
+	extension val ActionCodeTemplates actionCodeTemplates
+	extension val EventTemplates eventTemplates
+	extension val TransitionTemplates transitionTemplates
+	extension val EnumTemplates enumTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 		eventTemplates = new EventTemplates(engine)
+		transitionTemplates = new TransitionTemplates(engine)
 		enumTemplates = new EnumTemplates
 	}
 	
@@ -37,7 +32,7 @@ class StateTemplates extends CPPTemplate {
 			enumeratorNames += stateEnumeratorName(cppClass, TERMINATE_POSTFIX)
 		}
 		
-		return enumTemplates.enumClassTemplate(enumName, enumeratorNames)
+		return enumClassTemplate(enumName, enumeratorNames)
 	}
 	
 	def stateEnumClassName(CPPClass cppClass) {
@@ -72,7 +67,7 @@ class StateTemplates extends CPPTemplate {
 
 		«processEventInStateDeclaration(state)»
 
-		«FOR transitionInfo : state.orderTransitions»
+		«FOR transitionInfo : state.orderTransitions()»
 			«evaluateGuardOnTransitionDeclaration(transitionInfo)»
 			«performActionsOnTransitionDeclaration(transitionInfo)»
 		«ENDFOR»
@@ -149,101 +144,6 @@ class StateTemplates extends CPPTemplate {
 		'''
 	}
 	
-	def evaluateGuardOnTransitionMethodName(TransitionInfo transitionInfo){
-		val targetState = transitionInfo.cppTarget
-		val sourceStateCppName = transitionInfo.cppSource.cppName
-		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
-		val transitionCppName = transitionInfo.cppTransition.cppName
-		'''evaluate_guard_on_«transitionCppName»_transition_from_«sourceStateCppName»_to_«targetStateCppName»'''
-	}
-	
-	def evaluateGuardOnTransitionSignature(TransitionInfo transitionInfo){
-		'''«evaluateGuardOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EventFQN»* event)'''
-	}
-	
-	def evaluateGuardOnTransitionDeclaration(TransitionInfo transitionInfo){
-		val transition = transitionInfo.transition
-		'''
-		«IF transition.guard != null»
-			bool «evaluateGuardOnTransitionSignature(transitionInfo)»;
-		«ENDIF»
-		'''
-	}
-	
-	def evaluateGuardOnTransitionDefinition(CPPClass cppClass, TransitionInfo transitionInfo){
-		val cppClassFQN = cppClass.cppQualifiedName
-		val targetState = transitionInfo.cppTarget
-		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
-		val transition = transitionInfo.transition
-		'''
-		«IF transition.guard != null»
-			bool «cppClassFQN»::«evaluateGuardOnTransitionSignature(transitionInfo)»{
-				«tracingMessage('''    [Guard: -> «targetStateCppName»]''')»
-				
-				if(«actionCodeTemplates.generateActionCode(transition.guard.body)») {
-					return true;
-				} else {
-					«tracingMessage('''    Guard false''')»
-					return false;
-				}
-			}
-		«ENDIF»
-		'''
-	}
-	
-	def performActionsOnTransitionMethodName(TransitionInfo transitionInfo){
-		val sourceState = transitionInfo.cppSource
-		val targetState = transitionInfo.cppTarget
-		val sourceStateCppName = sourceState.cppName
-		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
-		val cppTransition = transitionInfo.cppTransition
-		'''perform_actions_on_«cppTransition.cppName»_transition_from_«sourceStateCppName»_to_«targetStateCppName»'''
-	}
-	
-	def performActionsOnTransitionSignature(TransitionInfo transitionInfo){
-		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EventFQN»* event)'''
-	}
-	
-	def performActionsOnTransitionDeclaration(TransitionInfo transitionInfo){
-		val transition = transitionInfo.transition		
-		'''
-		«IF transition.actionChain != null»
-			void «performActionsOnTransitionSignature(transitionInfo)»;
-		«ENDIF»
-		'''
-	}
-	
-	def performActionsOnTransitionDefinition(CPPClass cppClass, TransitionInfo transitionInfo){
-		val cppClassFQN = cppClass.cppQualifiedName
-		val targetState = transitionInfo.cppTarget
-		val targetStateCppName = targetState?.cppName ?: TERMINATE_POSTFIX
-		val transition = transitionInfo.transition
-		val eventType = eventType(transitionInfo.cppTransition)
-		val castedEventName = "casted_const_event"
-		
-		'''
-		«IF transition.actionChain != null»
-			void «cppClassFQN»::«performActionsOnTransitionSignature(transitionInfo)»{
-				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
-				«tracingMessage('''    [Action: -> «targetStateCppName»]''')»
-				«actionCodeTemplates.generateActionCode(transition.actionChain)»
-			}
-		«ENDIF»
-		'''
-	}
-	
-	def performActionsOnTransitionCall(TransitionInfo transitionInfo, String eventName){
-		val transition = transitionInfo.transition
-		'''
-		«IF transition.actionChain != null»
-			// transition action
-			«performActionsOnTransitionMethodName(transitionInfo)»(«eventName»);
-		«ELSE»
-			// no transition action
-		«ENDIF»
-		'''
-	}
-	
 	def performEntryActionMethodName(CPPState state){
 		'''perform_entry_action_for_«state.cppName»_state'''
 	}
@@ -270,7 +170,7 @@ class StateTemplates extends CPPTemplate {
 			void «cppClassFQN»::«performEntryActionSignature(state)»{
 				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Entry: INIT]''')»
-				«actionCodeTemplates.generateActionCode(state.commonState.entryAction)»
+				«generateActionCode(state.commonState.entryAction)»
 			}
 		«ENDIF»
 		'''
@@ -315,7 +215,7 @@ class StateTemplates extends CPPTemplate {
 			void «cppClassFQN»::«performExitActionSignature(state)»{
 				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Exit]''')»
-				«actionCodeTemplates.generateActionCode(state.commonState.exitAction)»
+				«generateActionCode(state.commonState.exitAction)»
 			}
 		«ENDIF»
 		'''
@@ -347,140 +247,5 @@ class StateTemplates extends CPPTemplate {
 			«tracingMessage('''    No state change on «cppTransition.cppName»''')»
 		«ENDIF»
 		'''
-	}
-	
-	def incomingEventType(CPPState cppState){
-		val eventMatcher = codeGenQueries.getCppStateIncomingCppEvents(engine)
-		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppState)
-		return eventType(cppEvents)
-	}
-	
-	def outgoingEventType(CPPState cppState){
-		val eventMatcher = codeGenQueries.getCppStateOutgoingCppEvents(engine)
-		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppState)
-		return eventType(cppEvents)
-	}
-	
-	def eventType(CPPTransition cppTransition){
-		val eventMatcher = codeGenQueries.getCppTransitionCppEvents(engine)
-		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppTransition)
-		return eventType(cppEvents)
-	}
-	
-	def eventType(Iterable<CPPEvent> events){
-		var CharSequence ancestorQualifiedName = ClassTemplates.EventFQN
-		if(events.length > 0) {
-			val lowestCommonAncestorEvent = events.fold(events.head,[result, event | getLowestCommonAncestor(result, event)])
-			if (lowestCommonAncestorEvent != null){
-				ancestorQualifiedName = eventTemplates.generatedEventClassQualifiedName(lowestCommonAncestorEvent)
-			}
-		}
-		
-		return ancestorQualifiedName
-	}
-	
-	def getLowestCommonAncestor(CPPEvent event1, CPPEvent event2) {
-		if(event1 == null || event2 == null){
-			return null
-		}
-		if (event1 == event2) {
-			return event1
-		}
-		val eventAncestorMatcher = codeGenQueries.getCppEventCommonAncestor(engine)
-		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
-		val commonXtAncestors = eventAncestorMatcher.getAllValuesOfcommonXtAncestor(event1, event2, null)
-		if(commonXtAncestors.isNullOrEmpty){
-			return null
-		}
-		var currentXtEvent = event1.xtEvent as XTClassEvent
-		while(!commonXtAncestors.contains(currentXtEvent)){
-			currentXtEvent = currentXtEvent.redefines as XTClassEvent
-		}
-		val lowestCommonAncestor = cppEventMatcher.getAllValuesOfcppEvent(currentXtEvent).head
-		return lowestCommonAncestor
-	}
-	
-	def orderTransitions(CPPState cppState) {
-		val compositeStateMatcher = codeGenQueries.getCompositeStateSubStates(engine)
-		val cppTransitionInfoMatcher = codeGenQueries.getCppTransitionInfo(engine)
-		val cppTransitionToTerminateMatcher = codeGenQueries.getCppTransitionToTerminate(engine)
-		
-		val commonState = cppState.commonState
-		val compositeState = compositeStateMatcher.getOneArbitraryMatch(null, commonState).compositeState
-		
-		val List<TransitionInfo> transitionsWithTrigger = newArrayList
-		val List<TransitionInfo> transitionsWithNoTrigger = newArrayList
-		
-		// separate transitions with trigger and without trigger		
-		compositeState.transitions.filter[sourceVertex == commonState].forEach[transition |
-			val transitionToStateMatch = cppTransitionInfoMatcher.getOneArbitraryMatch(null, transition, cppState, null)
-			val transitionToTerminateMatch = cppTransitionToTerminateMatcher.getOneArbitraryMatch(null, transition, cppState)
-			if(transitionToStateMatch != null){
-				if(transition.triggers.empty){
-					transitionsWithNoTrigger += transitionToStateMatch.createTransitionInfo
-				} else {
-					transitionsWithTrigger += transitionToStateMatch.createTransitionInfo
-				}
-			} else if(transitionToTerminateMatch != null) {
-				if(transition.triggers.empty){
-					transitionsWithNoTrigger += transitionToTerminateMatch.createTransitionInfo
-				} else {
-					transitionsWithTrigger += transitionToTerminateMatch.createTransitionInfo
-				}
-			}
-		]
-		
-		transitionsWithTrigger
-	}
-	
-	def createTransitionInfo(CppTransitionInfoMatch match){
-		new TransitionInfo(match.cppTransition, match.transition, match.cppSource, match.cppTarget)
-	}
-	
-	def createTransitionInfo(CppTransitionToTerminateMatch match){
-		new TransitionInfo(match.cppTransition, match.transition, match.cppSource, null)
-	}
-	
-	def generatedTransitionCondition(TransitionInfo transitionInfo) {
-		val transition = transitionInfo.transition
-		var condition = transitionInfo.generateEventMatchingCondition()
-		val guardCall = '''«evaluateGuardOnTransitionMethodName(transitionInfo)»(event)'''
-
-		if(transition.guard != null){
-			if(condition.length > 0){
-				condition = condition + " && "
-			}
-			condition = '''«condition»«guardCall»'''
-		}
-		condition
-	}
-	
-	def generateEventMatchingCondition(TransitionInfo transitionInfo) {
-		val transition = transitionInfo.transition
-		val triggers = transition.triggers
-		if(triggers.empty) {
-			''''''
-		} else if(triggers.size == 1){
-			val trigger = triggers.head
-			val cppEvent = trigger.getEvent
-			val cppClass = cppEvent.eContainer as CPPClass 
-			'''event->_id == «eventTemplates.eventEnumeratorQualifiedName(cppClass, cppEvent)»'''
-		} else {
-			'''
-			(
-			«FOR trigger : triggers SEPARATOR " || "»
-				«val cppClass = trigger.getEvent.eContainer as CPPClass »
-				event->_id == «eventTemplates.eventEnumeratorQualifiedName(cppClass, trigger.getEvent)»
-			«ENDFOR»
-			)
-			'''
-		}
-	}
-	
-	def getEvent(Trigger trigger) {
-		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
-		val xttrigger = trigger as XTEventTrigger
-		val cppEvent = cppEventMatcher.getAllValuesOfcppEvent(xttrigger.signal).head
-		return cppEvent
 	}
 }

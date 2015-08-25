@@ -1,26 +1,35 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfFlattener.FlattenedVariable
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.Type
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 class ReducedAlfSnippetTemplateCompiler {
 	
 	public extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	public extension ReducedAlfFlattener flattener
 		
-	public SnippetTemplateCompilerUtil util
+	public extension SnippetTemplateCompilerUtil util
 	public ExpressionVisitor expressionVisitor
 	public StatementVisitor statementVisitor
 	
@@ -42,8 +51,139 @@ class ReducedAlfSnippetTemplateCompiler {
 
     def dispatch Snippet visit(Statements st){
 		createCompositeSnippet => [ f | 
-			st.statement.forEach[
-				f.snippet.add(visit)
+			st.statement.forEach[ statement |
+				
+				if(statement instanceof LocalNameDeclarationStatement){
+						val descriptor = getDescriptor(statement)
+						
+						if(statement.expression == null ){
+							f.snippet.add = createCompositeSnippet =>[
+								snippet.add(createStringSnippet => [value = descriptor.fullType])
+								snippet.add(createStringSnippet => [value = ''' '''])
+								snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+								snippet.add(createStringSnippet => [value = ''';'''])
+							]
+						}else if(statement.expression.flatteningNotNeeded ){
+							f.snippet.add = createCompositeSnippet =>[
+								snippet.add(createStringSnippet => [value = descriptor.fullType])
+								snippet.add(createStringSnippet => [value = ''' '''])
+								snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+								snippet.add(createStringSnippet => [value = ''' = '''])
+								snippet.add(statement.expression.visit)
+								snippet.add(createStringSnippet => [value = ''';'''])
+							]
+						}else{
+							if(statement.expression instanceof AssignmentExpression){
+								val assignment = statement.expression as AssignmentExpression
+								
+								if(assignment.leftHandSide instanceof FeatureInvocationExpression) {
+									val lhsDescriptor = getDescriptor(assignment)
+									f.snippet.add = createCompositeSnippet =>[
+										snippet.add(createStringSnippet => [value = lhsDescriptor.stringRepresentation])
+									]
+								} else {
+									var FlattenedVariable lhsVariable 
+									if(assignment.leftHandSide.flatteningNotNeeded){
+										var Type type
+										if(assignment.leftHandSide instanceof ThisExpression){
+											type = context.thisType
+										}else{
+											val variable = (assignment.leftHandSide as NameExpression).reference as Variable
+											type =  variable.type.type
+										}
+										lhsVariable = new FlattenedVariable(getDescriptor(assignment.leftHandSide), type)
+									}else{
+										lhsVariable = flatten(assignment.leftHandSide, f)
+									}
+									
+									var FlattenedVariable rhsVariable 
+									if(assignment.rightHandSide.flatteningNotNeeded){
+										var Type type
+										if(assignment.rightHandSide instanceof ThisExpression){
+											type = context.thisType
+										}else{
+											val variable = (assignment.rightHandSide as NameExpression).reference as Variable
+											type =  variable.type.type
+										}
+										rhsVariable = new FlattenedVariable(getDescriptor(assignment.rightHandSide), type)
+									}else{
+										rhsVariable = flatten(assignment.rightHandSide, f)
+									}
+									
+									val lhsDescriptor = lhsVariable.descriptor
+									val rhsDdescriptor = rhsVariable.descriptor
+									
+									//If assignment has no property on the left hand side
+									f.snippet.add = createCompositeSnippet =>[
+										snippet.add(createStringSnippet => [value = lhsDescriptor.stringRepresentation])
+										snippet.add(createStringSnippet => [value = ''' '''	])
+										snippet.add(createStringSnippet => [value = assignment.operator.literal])
+										snippet.add(createStringSnippet => [value = ''' '''	])
+										snippet.add(createStringSnippet => [value = rhsDdescriptor.stringRepresentation])
+										snippet.add(createStringSnippet => [value = ''';'''])
+									]
+								}
+								
+							}else if(statement.expression.flatteningSupported){
+								val snippet = createCompositeSnippet			
+								val variable = flatten(statement.expression, snippet)
+								
+								snippet.snippet.add(createCompositeSnippet =>[ s |
+									s.snippet.add(createStringSnippet => [value = descriptor.fullType])
+									s.snippet.add(createStringSnippet => [value = ''' '''])
+									s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+									s.snippet.add(createStringSnippet => [value = ''' = '''])
+									s.snippet.add(createStringSnippet => [value = variable.descriptor.stringRepresentation])
+									s.snippet.add(createStringSnippet => [value = ''';'''])
+								])
+								f.snippet.add = snippet
+							}else{
+								throw new UnsupportedOperationException
+							}
+						}
+					} else if(statement instanceof ExpressionStatement){
+						val ex = statement.expression
+						if(ex instanceof AssignmentExpression){
+							val lhsExpression = ex.leftHandSide
+							var Snippet rhsSnippet
+							var Snippet lhsSnippet
+							val snippet = createCompositeSnippet
+							
+							if(lhsExpression instanceof FeatureInvocationExpression){
+								lhsSnippet = createStringSnippet => [value = getDescriptor(lhsExpression).stringRepresentation]
+							}else{
+								lhsSnippet = ex.leftHandSide.visit
+							}
+							
+							if(ex.rightHandSide.flatteningNotNeeded){
+								rhsSnippet = ex.rightHandSide.visit
+							}else{
+								if(ex.rightHandSide.flatteningSupported){			
+									val variable = flatten(ex.rightHandSide, snippet)
+									rhsSnippet = createStringSnippet => [value = variable.descriptor.stringRepresentation]
+								}else{
+									throw new UnsupportedOperationException
+								}
+							}
+							
+							val rhs = rhsSnippet
+							val lhs = lhsSnippet
+							snippet.snippet.add(createCompositeSnippet =>[ s |
+									s.snippet.add(lhs)
+									s.snippet.add(createStringSnippet => [value = ''' '''	])
+									s.snippet.add(createStringSnippet => [value = ex.operator.literal])
+									s.snippet.add(createStringSnippet => [value = ''' '''	])
+									s.snippet.add(rhs)
+									s.snippet.add(createStringSnippet => [value = ''';'''])
+							])
+							f.snippet.add = snippet
+						}else{
+							f.snippet.add(statement.visit)
+						}
+					}else{
+						f.snippet.add(statement.visit)
+					}
+				
 				f.snippet.add(createStringSnippet => [value = '\n'])
 			]
 			f.snippet.remove(f.snippet.size-1)

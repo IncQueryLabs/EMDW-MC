@@ -122,6 +122,24 @@ class SnippetFlattenerPluginTest {
 		"model::Comp::Pong::doIntegerVoid")
 	}
 	
+	@Test
+	def OperationCall(){
+		snippetCompilerTest(
+		'''
+			Pong p = new Pong();
+			Integer x;
+			x = p.integerProperty ;'''
+		, 
+		'''
+		model::Comp::Pong temp0 = new model::Comp::Pong();
+		model::Comp::Pong p = temp0;
+		PrimitiveTypes::Integer x;
+		PrimitiveTypes::Integer temp1 = p->integerProperty;
+		x = temp1;'''
+		,
+		"model::Comp::Pong::doIntegerVoid")
+	}
+	
 	
 	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
 		context.definedOperation = thisElementFQN

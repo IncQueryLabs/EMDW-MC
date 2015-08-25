@@ -34,7 +34,7 @@ class SnippetFlattenerTest {
 	
 	@Test
 	def flattenerTest(){
-		snippetCompilerTest('''{Integer x = 1+2+3;}''',
+		snippetCompilerTest('''Integer x = 1+2+3;''',
 		'''
 		PrimitiveTypes::Integer temp0 = 1;
 		PrimitiveTypes::Integer temp1 = 2;

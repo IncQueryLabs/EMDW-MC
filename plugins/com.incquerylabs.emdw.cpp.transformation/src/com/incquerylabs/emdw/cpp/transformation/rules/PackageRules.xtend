@@ -78,6 +78,7 @@ class PackageRules {
 	
 	def void transformSubElements(CPPPackage cppPackage){
 		fireAllCurrent(typeDefinitionRules.cppBasicTypeRule, [it.cppContainer == cppPackage])
+		fireAllCurrent(typeDefinitionRules.cppEnumTypeRule, [it.cppContainer == cppPackage])
 		fireAllCurrent(typeDefinitionRules.cppStructTypeRule, [it.cppContainer == cppPackage])
 		fireAllCurrent(classRules.classInPackageRule, [it.cppPackage == cppPackage])
 		fireAllCurrent(packageInPackageRule, [it.cppParentPackage == cppPackage])

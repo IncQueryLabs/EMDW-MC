@@ -454,14 +454,36 @@ class TransformationTestUtil {
 		]
 		parameter
 	}
-
+	
 	static def createTypeDefinition(BaseContainer root, Type type, String name) {
 		val typeDef = createTypeDefinition(root, name) => [
 			it.type = type
 		]
 		typeDef
 	}
-
+	
+	static def createTypeDefinition(BaseContainer root, String name) {
+		val typeDef = commonFactory.createTypeDefinition => [
+			it.name = name
+		]
+		root.typeDefinitions += typeDef
+		typeDef
+	}
+	
+	static def createEnumerationWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val enumeration = createEnumeration(typeDefinition, name)
+		return enumeration
+	}
+	
+	static def createEnumeration(TypeDefinition typeDefinition, String name) {
+		val enumeration = commonFactory.createEnumeration => [
+			it.name = name
+		]
+		typeDefinition.type = enumeration
+		return enumeration
+	}
+	
 	static def createStructuredTypeWithTypeDefinition(BaseContainer root, String name) {
 		val typeDefinition = createTypeDefinition(root, name)
 		val structuredType = createStructuredType(typeDefinition, name)
@@ -474,14 +496,6 @@ class TransformationTestUtil {
 		]
 		typeDefinition.type = structuredType
 		return structuredType
-	}
-
-	static def createTypeDefinition(BaseContainer root, String name) {
-		val typeDef = commonFactory.createTypeDefinition => [
-			it.name = name
-		]
-		root.typeDefinitions += typeDef
-		typeDef
 	}
 	
 	static def createPrimitiveTypeWithTypeDefinition(BaseContainer root, String name) {

@@ -26,12 +26,27 @@ class TypeDefinitionRules {
 	
 	def addRules(BatchTransformation transformation){
 		val rules = new BatchTransformationRuleGroup(
+			cppEnumTypeRule,
 			cppStructTypeRule,
 			cppStructMemberRule,
 			cppBasicTypeRule
 		)
 		transformation.addRules(rules)
 	}
+	
+	@Accessors(PUBLIC_GETTER)
+	val cppEnumTypeRule = createRule.precondition(enumeration).action[ match |
+		val cppContainer = match.cppContainer
+		val xtEnumeration = match.enumeration
+		val cppEnumType = createCPPEnumType => [
+			it.commonType = xtEnumeration
+			it.ooplNameProvider = createOOPLExistingNameProvider => [
+				commonNamedElement = xtEnumeration
+			]
+		]
+		cppContainer.subElements += cppEnumType
+		trace('''Mapped Enumeration «xtEnumeration.name» to CPPEnumType «cppEnumType»''')
+	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val cppStructTypeRule = createRule.precondition(structuredType).action[ match |

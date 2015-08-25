@@ -103,6 +103,7 @@ class ComponentRules {
 	def transformSubElements(CPPComponent cppComponent) {
 		trace('''Transforming subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(typeDefinitionRules.cppBasicTypeRule, [it.cppContainer == cppComponent])
+		fireAllCurrent(typeDefinitionRules.cppEnumTypeRule, [it.cppContainer == cppComponent])
 		fireAllCurrent(typeDefinitionRules.cppStructTypeRule, [it.cppContainer == cppComponent])
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppComponent])

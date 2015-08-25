@@ -212,6 +212,15 @@ pattern structMember(
 	CPPStructType.commonType(cppStructType, structuredType);
 }
 
+pattern enumeration(
+	enumeration : Enumeration,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	BaseContainer.typeDefinitions(xtContainer, typeDefinition);
+	TypeDefinition.type(typeDefinition, enumeration);
+	find cppContainer(xtContainer, cppContainer);
+}
+
 pattern structuredType(
 	structuredType : StructuredType,
 	cppContainer : CPPQualifiedNamedElement

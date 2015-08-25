@@ -5,9 +5,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.util.TransitionInfo
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
 
 class StateTemplates extends CPPTemplate {
 	public static val TERMINATE_POSTFIX = "TERMINATE"
+	
+	val BodyConverter bodyConverter
 	
 	extension val ActionCodeTemplates actionCodeTemplates
 	extension val EventTemplates eventTemplates
@@ -20,6 +25,8 @@ class StateTemplates extends CPPTemplate {
 		eventTemplates = new EventTemplates(engine)
 		transitionTemplates = new TransitionTemplates(engine)
 		enumTemplates = new EnumTemplates
+		bodyConverter = new BodyConverter()
+		bodyConverter.initialize(engine as AdvancedIncQueryEngine, new BasicUMLContextProvider(engine as AdvancedIncQueryEngine))
 	}
 	
 	def enumInClassHeader(CPPClass cppClass) {
@@ -164,7 +171,9 @@ class StateTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val eventType = incomingEventType(state)
 		val castedEventName = "casted_const_event"
-		
+		if(state.commonState.entryAction?.source==null) {
+			state.commonState.entryAction.source = bodyConverter.convertStateEntry(state)
+		}
 		'''
 		«IF state.commonState.entryAction != null»
 			void «cppClassFQN»::«performEntryActionSignature(state)»{
@@ -209,7 +218,9 @@ class StateTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val eventType = outgoingEventType(state)
 		val castedEventName = "casted_const_event"
-		
+		if(state.commonState.exitAction?.source==null) {
+			state.commonState.exitAction.source = bodyConverter.convertStateExit(state)
+		}
 		'''
 		«IF state.commonState.exitAction != null»	
 			void «cppClassFQN»::«performExitActionSignature(state)»{

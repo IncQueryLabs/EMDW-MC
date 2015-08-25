@@ -9,8 +9,13 @@ import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
+import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
 
 class TransitionTemplates extends CPPTemplate {
+	val BodyConverter bodyConverter
+	
 	extension val EventTemplates eventTemplates
 	extension val ActionCodeTemplates actionCodeTemplates
 	
@@ -18,6 +23,8 @@ class TransitionTemplates extends CPPTemplate {
 		super(engine)
 		eventTemplates = new EventTemplates(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
+		bodyConverter = new BodyConverter()
+		bodyConverter.initialize(engine as AdvancedIncQueryEngine, new BasicUMLContextProvider(engine as AdvancedIncQueryEngine))
 	}
 	
 	def evaluateGuardOnTransitionMethodName(TransitionInfo transitionInfo){
@@ -46,6 +53,11 @@ class TransitionTemplates extends CPPTemplate {
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: StateTemplates.TERMINATE_POSTFIX
 		val transition = transitionInfo.transition
+		if(transition.guard != null) {
+			if(transition.guard.body?.source == null) {
+				transition.guard.body.source = bodyConverter.convertTransitionGuard(transitionInfo.cppTransition)
+			}
+		}
 		'''
 		«IF transition.guard != null»
 			bool «cppClassFQN»::«evaluateGuardOnTransitionSignature(transitionInfo)»{

@@ -14,6 +14,7 @@ import org.eclipse.uml2.uml.resource.UMLResource
 @Singleton
 class TestModelUMLContextProvider extends UMLContextProvider {
 
+    var Operation definedOperation
 	var Model model
 	val ResourceSet resourceSet
 
@@ -35,11 +36,15 @@ class TestModelUMLContextProvider extends UMLContextProvider {
 	}
 	
 	override protected getContextObject() {
-		getDefinedOperation()
+		definedOperation
 	}
 	
 	override protected doGetEngine() {
         IncQueryEngine.on(new EMFScope(resourceSet));
 	}
+
+    override getDefinedOperation() {
+        definedOperation
+    }
 	
 }

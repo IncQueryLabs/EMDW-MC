@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="ASCII"?>
 <common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="RootElement">
   <entities xsi:type="xtuml:XTComponent" name="MyComponent">
+    <packages name="MyPackage">
+      <typeDefinitions name="Color">
+        <type xsi:type="common:Enumeration" name="Color">
+          <literals name="black"/>
+          <literals name="cyan"/>
+          <literals name="yellow"/>
+          <literals name="magenta"/>
+        </type>
+      </typeDefinitions>
+      <typeDefinitions name="MySecondDataType">
+        <type xsi:type="common:StructuredType" name="MySecondDataType">
+          <attributes name="MyDatatypeNamedPrimitiveMember" unique="true" lowerBound="1" upperBound="1" type="//@entities.0/@typeDefinitions.1/@type"/>
+          <attributes name="MyDatatypeEnumMember" unique="true" lowerBound="1" upperBound="-1" type="//@entities.0/@typeDefinitions.0/@type"/>
+        </type>
+      </typeDefinitions>
+    </packages>
+    <entities xsi:type="xtuml:XTClass" name="MyClass">
+      <attributes name="myNamedPrimitiveAttribute" unique="true" lowerBound="1" upperBound="1"/>
+      <attributes name="myUmlPrimitiveAttribute" unique="true" lowerBound="1" upperBound="1">
+        <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+      </attributes>
+      <attributes name="myStructAttribute" unique="true" lowerBound="1" upperBound="1"/>
+      <attributes name="myEnumAttribute" unique="true" lowerBound="1" upperBound="1"/>
+    </entities>
+    <typeDefinitions name="Color">
+      <type xsi:type="common:Enumeration" name="Color">
+        <literals name="blue"/>
+        <literals name="orange"/>
+        <literals name="red"/>
+      </type>
+    </typeDefinitions>
+    <typeDefinitions name="double">
+      <type xsi:type="common:PrimitiveType" name="double"/>
+    </typeDefinitions>
+    <typeDefinitions name="Fruit">
+      <type xsi:type="common:Enumeration" name="Fruit">
+        <literals name="apple"/>
+        <literals name="orange"/>
+      </type>
+    </typeDefinitions>
     <typeDefinitions name="MyDataType">
       <type xsi:type="common:StructuredType" name="MyDataType">
         <attributes name="MyDatatypeIntMember" unique="true" lowerBound="1" upperBound="1">
@@ -9,10 +49,8 @@
         <attributes name="MyDatatypeStringListMember" unique="true" lowerBound="1" upperBound="-1">
           <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
         </attributes>
+        <attributes name="MyDatatypeStructMember" unique="true" lowerBound="1" upperBound="1" type="//@entities.0/@packages.0/@typeDefinitions.1/@type"/>
       </type>
-    </typeDefinitions>
-    <typeDefinitions name="MyPrimitiveType">
-      <type xsi:type="common:PrimitiveType" name="MyPrimitiveType"/>
     </typeDefinitions>
   </entities>
 </common:Model>

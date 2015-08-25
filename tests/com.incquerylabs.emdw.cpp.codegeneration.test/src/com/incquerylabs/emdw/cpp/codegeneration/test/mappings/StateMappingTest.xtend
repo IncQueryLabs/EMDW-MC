@@ -53,12 +53,12 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 
 		val files = wrapper.codegen.generatedCPPSourceFiles
 		val classHeader = files.get(cppObject.headerFile).toString
-		assertTrue(classHeader.contains("enum TEST_state"))
-		assertTrue(classHeader.contains("TEST_STATE_s1"))
-		assertTrue(classHeader.contains("TEST_STATE_s2"))
+		assertTrue(classHeader.contains("class TEST_state"))
+		assertTrue(classHeader.contains("s1"))
+		assertTrue(classHeader.contains("s2"))
 		
-		assertTrue(classHeader.contains("enum TEST_event"))
-		assertTrue(classHeader.contains("TEST_EVENT_ClassEvent"))
+		assertTrue(classHeader.contains("class TEST_event"))
+		assertTrue(classHeader.contains("ClassEvent"))
 		
 		// check state and transition operations in declaration
 		assertTrue(classHeader.contains("process_event_in_s1_state"))

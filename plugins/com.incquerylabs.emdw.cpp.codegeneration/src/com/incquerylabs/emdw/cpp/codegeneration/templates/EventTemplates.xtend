@@ -3,27 +3,48 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 
 class EventTemplates extends CPPTemplate {
-	val AttributeTemplates attributeTemplates
+	extension val AttributeTemplates attributeTemplates
+	extension val EnumTemplates enumTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
 		this.attributeTemplates = new AttributeTemplates(engine)
+		this.enumTemplates = new EnumTemplates
 	}
 
 	def enumInClassHeader(CPPClass cppClass) {
-		val cppClassName = cppClass.cppName
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
+		val eventEnumeratorNames = classEvents.map[ event | eventEnumeratorName(cppClass, event)]
 		'''
-		enum «cppClassName»_event {
-			«FOR event : classEvents SEPARATOR ","»
-				«cppClassName»_EVENT_«event.cppName»
-			«ENDFOR»
-		};
+		«IF !classEvents.isNullOrEmpty»
+		// Event enum class
+		«enumClassTemplate(cppClass.eventEnumClassName, eventEnumeratorNames)»
+		«ELSE»
+		// No event enum class
+		«ENDIF»
 		'''
+	}
+	
+	def eventEnumClassName(CPPClass cppClass) {
+		'''«cppClass.cppName»_event'''
+	}
+	
+	def eventEnumClassQualifiedName(CPPClass cppClass) {
+		'''«cppClass.cppQualifiedName»::«cppClass.eventEnumClassName»'''
+	}
+	
+	def eventEnumeratorName(CPPClass cppClass, CPPEvent cppEvent) {
+		'''«cppEvent.cppName»'''
+	}
+	
+	def eventEnumeratorQualifiedName(CPPClass cppClass, CPPEvent cppEvent) {
+		'''«cppClass.eventEnumClassQualifiedName»::«eventEnumeratorName(cppClass, cppEvent)»'''
 	}
 	
 	def innerClassesInClassHeader(CPPClass cppClass) {
@@ -75,7 +96,7 @@ class EventTemplates extends CPPTemplate {
 	def attributesInEventClassHeader(CPPEvent event) {
 		'''
 		«FOR attribute : event.subElements.filter(CPPAttribute)»
-			«attributeTemplates.attributeDeclarationInClassHeader(attribute)»
+			«attributeDeclarationInClassHeader(attribute)»
 		«ENDFOR»
 		'''
 	}
@@ -91,24 +112,74 @@ class EventTemplates extends CPPTemplate {
 	
 	def constructorTemplate(CPPEvent event){
 		var CPPClass cppClass = event.eContainer as CPPClass
-		val cppClassName = cppClass.cppName
 		val superEvents = event.superEvents
 		
 		if(superEvents.isNullOrEmpty){
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
-				«ClassTemplates.EventFQN»(«cppClassName»_EVENT_«event.cppName», isInternal){
+				«ClassTemplates.EventFQN»(«eventEnumeratorQualifiedName(cppClass, event)», isInternal){
 				}
 			'''
 		} else {
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
 				«superEvents.head.generatedEventClassQualifiedName»(isInternal){
-					this->::Event::_id = «cppClassName»_EVENT_«event.cppName»;
+					this->::Event::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
 				}
 			'''
 		}
 		
 		
+	}
+	
+	def incomingEventType(CPPState cppState){
+		val eventMatcher = codeGenQueries.getCppStateIncomingCppEvents(engine)
+		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppState)
+		return eventType(cppEvents)
+	}
+	
+	def outgoingEventType(CPPState cppState){
+		val eventMatcher = codeGenQueries.getCppStateOutgoingCppEvents(engine)
+		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppState)
+		return eventType(cppEvents)
+	}
+	
+	def eventType(CPPTransition cppTransition){
+		val eventMatcher = codeGenQueries.getCppTransitionCppEvents(engine)
+		val cppEvents = eventMatcher.getAllValuesOfcppEvent(cppTransition)
+		return eventType(cppEvents)
+	}
+	
+	def eventType(Iterable<CPPEvent> events){
+		var CharSequence ancestorQualifiedName = ClassTemplates.EventFQN
+		if(events.length > 0) {
+			val lowestCommonAncestorEvent = events.fold(events.head,[result, event | getLowestCommonAncestor(result, event)])
+			if (lowestCommonAncestorEvent != null){
+				ancestorQualifiedName = generatedEventClassQualifiedName(lowestCommonAncestorEvent)
+			}
+		}
+		
+		return ancestorQualifiedName
+	}
+	
+	def getLowestCommonAncestor(CPPEvent event1, CPPEvent event2) {
+		if(event1 == null || event2 == null){
+			return null
+		}
+		if (event1 == event2) {
+			return event1
+		}
+		val eventAncestorMatcher = codeGenQueries.getCppEventCommonAncestor(engine)
+		val cppEventMatcher = codeGenQueries.getCppEvents(engine)
+		val commonXtAncestors = eventAncestorMatcher.getAllValuesOfcommonXtAncestor(event1, event2, null)
+		if(commonXtAncestors.isNullOrEmpty){
+			return null
+		}
+		var currentXtEvent = event1.xtEvent as XTClassEvent
+		while(!commonXtAncestors.contains(currentXtEvent)){
+			currentXtEvent = currentXtEvent.redefines as XTClassEvent
+		}
+		val lowestCommonAncestor = cppEventMatcher.getAllValuesOfcppEvent(currentXtEvent).head
+		return lowestCommonAncestor
 	}
 }

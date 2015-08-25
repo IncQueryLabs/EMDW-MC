@@ -342,12 +342,12 @@ class ClassTemplates extends CPPTemplate {
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
 		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
 		
-		var initStateName = ""
 		val List<CharSequence> fieldInitializations = newArrayList()
 		
 		if(cppInitStateMatch != null){
-			 initStateName = '''«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»'''
-			 fieldInitializations += '''current_state(«initStateName»)'''
+			val initState = cppInitStateMatch.cppInitState
+			val initStateName = stateTemplates.stateEnumeratorQualifiedName(cppClass, initState)
+			fieldInitializations += '''current_state(«initStateName»)'''
 		}
 		val defaultConstructorSignature = '''«cppFQN»::«cppClassName»()'''
 		val defaultConstructorFieldInitialization = getFieldInitialization(cppClass, null, fieldInitializations.unmodifiableView)
@@ -458,7 +458,9 @@ class ClassTemplates extends CPPTemplate {
 		
 		var CharSequence fieldInitialization = ""
 		if(cppInitStateMatch != null){
-			 fieldInitialization = ''': current_state(«cppClassName»_STATE_«cppInitStateMatch.cppInitState.cppName»)'''
+			val initState = cppInitStateMatch.cppInitState
+			val initStateName = stateTemplates.stateEnumeratorQualifiedName(cppClass, initState)
+			fieldInitialization = ''': current_state(«initStateName»)'''
 		}
 		'''
 		void «cppFQN»::perform_initialization() {
@@ -494,13 +496,13 @@ class ClassTemplates extends CPPTemplate {
 		
 			switch(current_state){
 			«FOR state : cppClass.subElements.filter(CPPState).sortBy[cppName]»
-				case «cppClassName»_STATE_«state.cppName»:
+				case «stateTemplates.stateEnumeratorQualifiedName(cppClass, state)»:
 					process_event_in_«state.cppName»_state(event);
 					break;
 			«ENDFOR»
 			}
 			«IF terminatePointCount > 0»
-				if(current_state == «cppClassName»_STATE_«StateTemplates.TERMINATE_POSTFIX»){
+				if(current_state == «stateTemplates.stateEnumeratorQualifiedName(cppClass, StateTemplates.TERMINATE_POSTFIX)»){
 					delete this;
 				}
 			«ENDIF»

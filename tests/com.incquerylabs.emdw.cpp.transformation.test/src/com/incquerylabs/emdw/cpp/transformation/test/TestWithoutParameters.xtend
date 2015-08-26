@@ -35,7 +35,5 @@ class TestWithoutParameters {
 	@After
 	def cleanup() {
 		cleanupTransformation;
-		
-		(0..4).forEach[Runtime.getRuntime().gc()]
 	}
 }

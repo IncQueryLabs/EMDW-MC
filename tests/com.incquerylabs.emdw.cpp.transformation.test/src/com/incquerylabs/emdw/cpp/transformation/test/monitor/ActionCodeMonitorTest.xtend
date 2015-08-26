@@ -7,10 +7,21 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	ActionCodeCreationMonitorTest,
+	ActionCodeDeletionMonitorTest,
+	ActionCodeWithModifiedNameMonitorTest,
+	ActionCodeWithModifiedBodyMonitorTest
+])
+@RunWith(Suite)
+class ActionCodeMonitorTestSuite{}
 
 @RunWith(Parameterized)
 class ActionCodeCreationMonitorTest extends XtumlMonitorWithModelBaseTest {

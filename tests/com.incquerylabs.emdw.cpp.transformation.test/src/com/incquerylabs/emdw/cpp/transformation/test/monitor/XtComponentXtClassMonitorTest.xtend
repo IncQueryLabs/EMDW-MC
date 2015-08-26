@@ -8,10 +8,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	XtComponentXtClassCreateMonitorTest,
+	XtComponentXtClassUpdateMonitorTest,
+	XtComponentXtClassDeleteMonitorTest
+])
+@RunWith(Suite)
+class XtComponentXtClassMonitorTestSuite {}
 
 @RunWith(Parameterized)
 class XtComponentXtClassCreateMonitorTest extends XtumlMonitorBaseTest {

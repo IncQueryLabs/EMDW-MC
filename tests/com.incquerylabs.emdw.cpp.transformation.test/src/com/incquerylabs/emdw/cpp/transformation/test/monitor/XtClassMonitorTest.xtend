@@ -6,8 +6,18 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+
+@SuiteClasses(#[
+	XtClassWithModifiedNameMonitorTest,
+	XtClassMovedToPackageMonitorTest,
+	XtClassMovedToOtherComponentMonitorTest
+])
+@RunWith(Suite)
+class XtClassMonitorTestSuite {}
 
 @RunWith(Parameterized)
 class XtClassWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {

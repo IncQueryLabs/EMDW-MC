@@ -11,6 +11,15 @@ import org.junit.runners.Parameterized
 
 import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import static org.junit.Assert.*
+import org.junit.runners.Suite.SuiteClasses
+import org.junit.runners.Suite
+
+@SuiteClasses(#[
+	CPPModelPackageMappingTest,
+	CPPModelPackageInPackageMappingTest
+])
+@RunWith(Suite)
+class CPPModelPackageMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPModelPackageMappingTest extends EventDrivenTransformationTest<Package, CPPPackage> {
@@ -29,6 +38,30 @@ class CPPModelPackageMappingTest extends EventDrivenTransformationTest<Package, 
 	
 	override protected checkCppObjectRemoved(Package xtObject, IncQueryEngine engine) {
 		assertFalse("CPP package not exists" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
+	}
+	
+}
+
+@RunWith(Parameterized)
+class CPPModelPackageInPackageMappingTest extends EventDrivenTransformationTest<Package, CPPPackage> {
+	
+	new(XtumlCPPTransformationQrtWrapper wrapper, String wrapperType) {
+		super(wrapper, wrapperType)
+	}
+	
+	override protected createXtumlObject(Model modelRoot) {
+		val l1_package = createPackage(modelRoot, "test_package1")
+		val l2_package = createPackage(l1_package, "test_package2")
+		val l3_package = createPackage(l2_package, "test_package3")
+		createPackage(l3_package, "test_package4")
+	}
+	
+	override protected checkCppObjectCreated(Package xtObject, IncQueryEngine engine) {
+		assertTrue("CPP package not created" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
+	}
+	
+	override protected checkCppObjectRemoved(Package xtObject, IncQueryEngine engine) {
+		assertFalse("CPP package not removed" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
 	}
 	
 }

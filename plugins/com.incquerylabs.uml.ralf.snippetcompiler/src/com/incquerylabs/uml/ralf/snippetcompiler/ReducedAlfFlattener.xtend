@@ -36,6 +36,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
 import snippetTemplate.CompositeSnippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 
 class ReducedAlfFlattener {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -79,106 +80,6 @@ class ReducedAlfFlattener {
 		])
 		
 		return new FlattenedVariable(descriptor, variableType)
-	}
-	
-	def dispatch FlattenedVariable flatten(NaturalLiteralExpression ex, CompositeSnippet snippet){	
-		val literalType = context.getPrimitiveType(IUMLContextProvider.INTEGER_TYPE)
-		val literalDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
-			literal = ex.value
-			type = literalType
-		]).build
-		
-		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = literalType
-			name = null
-		]).build
-		
-		snippet.snippet.add(createCompositeSnippet =>[ s |
-			s.snippet.add(createStringSnippet => [value = descriptor.fullType])
-			s.snippet.add(createStringSnippet => [value = ''' '''])
-			s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''' = '''])
-			s.snippet.add(createStringSnippet => [value = literalDescriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''';'''])
-			s.snippet.add(createStringSnippet => [value = '\n'])
-		])
-		
-		return new FlattenedVariable(descriptor, literalType)
-	}
-	
-	def dispatch FlattenedVariable flatten(RealLiteralExpression ex, CompositeSnippet snippet){	
-		val literalType = context.getPrimitiveType(IUMLContextProvider.REAL_TYPE)
-		val literalDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
-			literal = ex.value
-			type = literalType
-		]).build
-		
-		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = literalType
-			name = null
-		]).build
-		
-		snippet.snippet.add(createCompositeSnippet =>[ s |
-			s.snippet.add(createStringSnippet => [value = descriptor.fullType])
-			s.snippet.add(createStringSnippet => [value = ''' '''])
-			s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''' = '''])
-			s.snippet.add(createStringSnippet => [value = literalDescriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''';'''])
-			s.snippet.add(createStringSnippet => [value = '\n'])
-		])
-		
-		return new FlattenedVariable(descriptor, literalType)
-	}
-	
-	def dispatch FlattenedVariable flatten(StringLiteralExpression ex, CompositeSnippet snippet){	
-		val literalType = context.getPrimitiveType(IUMLContextProvider.STRING_TYPE)
-		val literalDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
-			literal = ex.value
-			type = literalType
-		]).build
-		
-		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = literalType
-			name = null
-		]).build
-		
-		snippet.snippet.add(createCompositeSnippet =>[ s |
-			s.snippet.add(createStringSnippet => [value = descriptor.fullType])
-			s.snippet.add(createStringSnippet => [value = ''' '''])
-			s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''' = '''])
-			s.snippet.add(createStringSnippet => [value = literalDescriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''';'''])
-			s.snippet.add(createStringSnippet => [value = '\n'])
-		])
-		
-		return new FlattenedVariable(descriptor, literalType)
-	}
-	
-	def dispatch FlattenedVariable flatten(BooleanLiteralExpression ex, CompositeSnippet snippet){	
-		val literalType = context.getPrimitiveType(IUMLContextProvider.BOOLEAN_TYPE)
-		val literalDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
-			literal = ex.value
-			type = literalType
-		]).build
-		
-		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = literalType
-			name = null
-		]).build
-		
-		snippet.snippet.add(createCompositeSnippet =>[ s |
-			s.snippet.add(createStringSnippet => [value = descriptor.fullType])
-			s.snippet.add(createStringSnippet => [value = ''' '''])
-			s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''' = '''])
-			s.snippet.add(createStringSnippet => [value = literalDescriptor.stringRepresentation])
-			s.snippet.add(createStringSnippet => [value = ''';'''])
-			s.snippet.add(createStringSnippet => [value = '\n'])
-		])
-		
-		return new FlattenedVariable(descriptor, literalType)
 	}
 	
 	def dispatch FlattenedVariable flatten(FeatureInvocationExpression ex, CompositeSnippet snippet){	
@@ -540,6 +441,33 @@ class ReducedAlfFlattener {
 		return new FlattenedVariable(descriptor, variableType)
 	}
 	
+	def dispatch FlattenedVariable flatten(AssignmentExpression ex, CompositeSnippet snippet){	
+		val lhsVariable = flattenChildExpression(ex.leftHandSide, snippet)
+		val rhsVariable = flattenChildExpression(ex.rightHandSide, snippet)
+		val variableType = lhsVariable.type
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		snippet.snippet.add(createCompositeSnippet =>[ s |
+			s.snippet.add(createStringSnippet => [value = descriptor.fullType])
+			s.snippet.add(createStringSnippet => [value = ''' '''])
+			s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+			s.snippet.add(createStringSnippet => [value = ''' = '''])
+			s.snippet.add(createStringSnippet => [value = '''('''])
+			s.snippet.add(createStringSnippet => [value = lhsVariable.descriptor.stringRepresentation])
+			s.snippet.add(createStringSnippet => [value = ''' '''+ex.operator+''' '''])
+			s.snippet.add(createStringSnippet => [value = rhsVariable.descriptor.stringRepresentation])
+			s.snippet.add(createStringSnippet => [value = ''')'''])
+			s.snippet.add(createStringSnippet => [value = ''';'''])
+			s.snippet.add(createStringSnippet => [value = '\n'])
+		])
+		
+		return new FlattenedVariable(descriptor, variableType)
+	}
+	
 	//Expressions with TUPLEs
 	
 	
@@ -590,7 +518,7 @@ class ReducedAlfFlattener {
 		return (ex instanceof ArithmeticExpression ||
 				ex instanceof FeatureInvocationExpression || 
 				ex instanceof AssociationAccessExpression || 
-				ex instanceof LiteralExpression || 
+				ex instanceof AssignmentExpression || 
 				ex instanceof ShiftExpression || 
 				ex instanceof RelationalExpression ||
 				ex instanceof EqualityExpression ||
@@ -608,6 +536,7 @@ class ReducedAlfFlattener {
 	public def flatteningNotNeeded(EObject ex){
 		return ((ex instanceof NameExpression) && (ex as NameExpression).reference instanceof Variable ||
 				(ex instanceof NameExpression) && (ex as NameExpression).reference instanceof Parameter ||
+				ex instanceof LiteralExpression || 
 				ex instanceof ThisExpression || 
 				ex instanceof NullExpression 
 		)
@@ -617,7 +546,15 @@ class ReducedAlfFlattener {
 		var FlattenedVariable switchVariable 
 		if(expression.flatteningNotNeeded){
 			var Type type
-			if(expression instanceof ThisExpression){
+			if(expression instanceof NaturalLiteralExpression){
+				type = context.getPrimitiveType(IUMLContextProvider.INTEGER_TYPE)
+			}else if(expression instanceof RealLiteralExpression){
+				type = context.getPrimitiveType(IUMLContextProvider.REAL_TYPE)
+			}else if(expression instanceof StringLiteralExpression){
+				type = context.getPrimitiveType(IUMLContextProvider.STRING_TYPE)
+			}else if(expression instanceof BooleanLiteralExpression){
+				type = context.getPrimitiveType(IUMLContextProvider.BOOLEAN_TYPE)
+			}else if(expression instanceof ThisExpression){
 				type = context.thisType
 			}else if((expression as NameExpression).reference instanceof Variable){
 				val variable = (expression as NameExpression).reference as Variable
@@ -626,7 +563,7 @@ class ReducedAlfFlattener {
 				val param = (expression as NameExpression).reference as Parameter
 				type =  param.type
 			}else{
-				throw new UnsupportedOperationException("Only variables, parameters and 'this' are supported")
+				throw new UnsupportedOperationException("Only literals, variables, parameters and 'this' are supported")
 			}
 			switchVariable = new FlattenedVariable(getDescriptor(expression), type)
 		}else{			

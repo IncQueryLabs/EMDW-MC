@@ -6,7 +6,7 @@ import org.junit.Ignore
 import org.junit.runners.Parameterized.Parameters
 
 @Ignore("These features are not yet functioning")
-class UMLModelTypesSnippetTestIgnored extends AbstractPluginSnippetTest{
+class SnippetCompilerPluginTestIgnored extends AbstractPluginSnippetTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(

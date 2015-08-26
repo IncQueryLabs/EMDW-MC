@@ -248,7 +248,7 @@ class SnippetTemplateCompilerUtil {
 	
 	def dispatch ValueDescriptor getDescriptor(StringLiteralExpression ex){
 		(descriptorFactory.createLiteralDescriptorBuilder => [
-			literal = ex.value
+			literal = "\""+ex.value+"\""
 			type = context.getPrimitiveType(IUMLContextProvider.STRING_TYPE)
 		]).build
 	}

@@ -24,6 +24,7 @@ import org.eclipse.uml2.uml.Operation
 import snippetTemplate.CompositeSnippet
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 
 class ReducedAlfSnippetTemplateCompiler {
 	
@@ -147,7 +148,7 @@ class ReducedAlfSnippetTemplateCompiler {
 						snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
 						snippet.add(createStringSnippet => [value = ''';'''])
 					]
-				}else if(statement.expression.flatteningNotNeeded ){
+				}else if(statement.expression.flatteningNotNeeded){
 					f.snippet.add = createCompositeSnippet =>[
 						snippet.add(createStringSnippet => [value = descriptor.fullType])
 						snippet.add(createStringSnippet => [value = ''' '''])
@@ -156,6 +157,46 @@ class ReducedAlfSnippetTemplateCompiler {
 						snippet.add(statement.expression.visit)
 						snippet.add(createStringSnippet => [value = ''';'''])
 					]
+				
+				}else if(statement.expression instanceof InstanceCreationExpression){
+					val instance = statement.expression as InstanceCreationExpression
+					val List<FlattenedVariable> flattenedParameters = Lists.newArrayList
+					if(instance.parameters instanceof ExpressionList){
+						val parameters = instance.parameters as ExpressionList
+						parameters.expressions.forEach[ expr |
+							flattenedParameters.add(flattenChildExpression(expr, f))
+						]
+					}else{
+						throw new UnsupportedOperationException("Only expression list based tuples are supported")
+					}
+					
+					val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						type = instance.instance
+						name = null
+						isExistingVariable = true
+					]).build
+					
+					
+					f.snippet.add = createCompositeSnippet =>[
+						snippet.add(createStringSnippet => [value = descriptor.fullType])
+						snippet.add(createStringSnippet => [value = ''' '''])
+						snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+						snippet.add(createStringSnippet => [value = ''' = '''])
+						snippet.add(createStringSnippet => [value = '''new '''])
+						snippet.add(createStringSnippet => [value = variableDescriptor.fullType])
+						snippet.add(createStringSnippet => [value = '''('''])
+						if(flattenedParameters!= null && !flattenedParameters.isEmpty){
+							flattenedParameters.forEach[ variable |
+								snippet.add(createStringSnippet => [value = variable.descriptor.stringRepresentation])
+								snippet.add(createStringSnippet => [value = ''', '''])
+							]
+							snippet.remove(snippet.size-1)
+						}
+						snippet.add(createStringSnippet => [value = ''')'''])
+						snippet.add(createStringSnippet => [value = ''';'''])
+					]
+
+					
 				}else{
 					if(statement.expression instanceof AssignmentExpression){
 						val assignment = statement.expression as AssignmentExpression
@@ -211,7 +252,43 @@ class ReducedAlfSnippetTemplateCompiler {
 						lhsSnippet = ex.leftHandSide.visit
 					}
 					
-					if(ex.rightHandSide.flatteningNotNeeded){
+					
+					if(ex.rightHandSide instanceof InstanceCreationExpression){
+						val instance = ex.rightHandSide as InstanceCreationExpression
+						val List<FlattenedVariable> flattenedParameters = Lists.newArrayList
+						if(instance.parameters instanceof ExpressionList){
+							val parameters = instance.parameters as ExpressionList
+							parameters.expressions.forEach[ expr |
+								flattenedParameters.add(flattenChildExpression(expr, f))
+							]
+						}else{
+							throw new UnsupportedOperationException("Only expression list based tuples are supported")
+						}
+						
+						val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+							type = instance.instance
+							name = null
+							isExistingVariable = true
+						]).build
+						
+						
+						rhsSnippet = createCompositeSnippet =>[ s |
+							s.snippet.add(createStringSnippet => [value = '''new '''])
+							s.snippet.add(createStringSnippet => [value = variableDescriptor.fullType])
+							s.snippet.add(createStringSnippet => [value = '''('''])
+							if(flattenedParameters!= null && !flattenedParameters.isEmpty){
+								flattenedParameters.forEach[ variable |
+									s.snippet.add(createStringSnippet => [value = variable.descriptor.stringRepresentation])
+									s.snippet.add(createStringSnippet => [value = ''', '''])
+								]
+								s.snippet.remove(s.snippet.size-1)
+							}
+							s.snippet.add(createStringSnippet => [value = ''')'''])
+							s.snippet.add(createStringSnippet => [value = ''';'''])
+						]
+	
+						
+					}else if(ex.rightHandSide.flatteningNotNeeded){
 						rhsSnippet = ex.rightHandSide.visit
 					}else{
 						if(ex.rightHandSide.flatteningSupported){			

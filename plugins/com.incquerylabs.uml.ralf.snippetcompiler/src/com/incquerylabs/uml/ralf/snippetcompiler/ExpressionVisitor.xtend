@@ -70,9 +70,14 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch Snippet visit(InstanceCreationExpression ex){
+		val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = ex.instance
+			name = null
+			isExistingVariable = true
+		]).build
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''new '''])
-			snippet.add(createStringSnippet => [value = ex.instance.qualifiedName])
+			snippet.add(createStringSnippet => [value = variableDescriptor.fullType])
 			snippet.add(ex.parameters.visit)
 		]
 	}

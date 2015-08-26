@@ -1,0 +1,319 @@
+package com.incquerylabs.uml.ralf.plugintests
+
+import com.incquerylabs.uml.ralf.tests.util.AbstractPluginSnippetTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
+
+class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "UML Type Instantiation",
+			    '''Pong x = new Pong();''',
+				'''model::Comp::Pong x = new model::Comp::Pong();''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Send Signal test",
+			    '''
+				Pong p = new Pong();
+				ping_s s = new ping_s();
+				send s to p->ping;''',
+				
+				'''
+				model::Comp::Pong p = new model::Comp::Pong();
+				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+				model::Comp::Ping temp0 = p->ping;
+				temp0->generate_event(s);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Send Signal test this",
+			    '''send new ping_s() to this->ping;''',
+				
+				'''
+				model::Comp::Ping temp0 = this->ping;
+				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+				temp0->generate_event(temp1);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Send Signal test null",
+			    '''
+				Pong p = null;
+				p = new Pong();
+				ping_s s = new ping_s();
+				send s to p->ping;''',
+				
+				'''
+				model::Comp::Pong p = 0;
+				p = new model::Comp::Pong();;
+				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+				model::Comp::Ping temp0 = p->ping;
+				temp0->generate_event(s);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Property assignment",
+			    '''
+				Integer i = 1;
+				i = 2;
+				Pong p = new Pong();
+				p.integerProperty = 1;''',
+				
+				'''
+				PrimitiveTypes::Integer i = 1;
+				i = 2;
+				model::Comp::Pong p = new model::Comp::Pong();
+				p->integerProperty = 1;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Operation call",
+			    '''this.doIntegerVoid(1);''',
+				
+				'''this.doIntegerVoid(1);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Operation call variable",
+			    '''
+				Integer x = 2;
+				this.doIntegerVoid(x);''',
+				
+				'''
+				PrimitiveTypes::Integer x = 2;
+				this.doIntegerVoid(x);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "In parameter reference",
+			    '''
+				Integer x = 1;
+				x = inParameter;''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				x = inParameter;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Out parameter assignment",
+			    '''
+				Integer x = 1;
+				outParameter = x;''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				outParameter = x;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Numeric Unary Expression test",
+			    '''-4;''',
+				
+				'''-4;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Boolean Unary Expression test",
+			    '''!true;''',
+				
+				'''!true;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Arithmetic Expression test",
+			    '''(1 + 1) * 2;''',
+				
+				'''(1 + 1) * 2;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Arithmetic Expression test unnecessary parentheses",
+			    '''(1 * 1) + 2;''',
+				
+				'''1 * 1 + 2;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Variable definition test",
+			    '''Integer x = 1;''',
+				
+				'''PrimitiveTypes::Integer x = 1;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Affix increment test",
+			    '''
+				Integer x = 1;
+				++x;''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				++x;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Complex arithmetics test",
+			    '''
+				Integer x = (1 + 2) * 3 + 4;
+				++x;
+				if (x > 3) {
+					x--;
+				} else {
+					x++;
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 1 + 2;
+				PrimitiveTypes::Integer temp1 = temp0 * 3;
+				PrimitiveTypes::Integer temp2 = temp1 + 4;
+				PrimitiveTypes::Integer x = temp2;
+				++x;
+				if (x > 3) {
+				x--;
+				} else {
+				x++;
+				}''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Complex arithmetics3 test",
+			    '''
+				Integer x = (1 + 2) * 3 + -4;
+				++x;
+				Integer y = x;
+				y = x - 15;
+				if ((x > 3) && !(y < -5)) {
+				x--;
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 1 + 2;
+				PrimitiveTypes::Integer temp1 = temp0 * 3;
+				PrimitiveTypes::Integer temp2 =  - 4;
+				PrimitiveTypes::Integer temp3 = temp1 + temp2;
+				PrimitiveTypes::Integer x = temp3;
+				++x;
+				PrimitiveTypes::Integer y = x;
+				PrimitiveTypes::Integer temp4 = x - 15;
+				y = temp4;
+				if ((x > 3) && !(y < -5)) {
+				x--;
+				}''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Affix increment switch test",
+			    '''
+				Integer x = 1;
+				switch (x){
+					case 1 : x++; break;
+					default : x++;
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				switch (x) {
+				case 1 : {
+				x++;
+				break;
+				}
+				default : {
+				x++;
+				}
+				}''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Affix increment Do..While test",
+			    '''
+				Integer x = 1;	
+				do{
+					x++;
+				} while (true);''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				do {
+				x++;
+				}while (true);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Affix increment While test",
+			    '''
+				Integer x = 1;
+				while (true) {
+					x++;
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				while (true) {
+				x++;
+				}''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Affix increment For test",
+			    '''
+				Integer x = 1;
+				for (Integer i = 0; i < 5; i++) {
+					x++; 
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				for (PrimitiveTypes::Integer i = 0; i < 5; i++) {
+				x++;
+				}''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "If test",
+			    '''
+				Integer x = 1;
+				if(true){
+					x++;
+				}
+				else if (false){
+					x++;
+				}else if (true){
+					x++;
+				}else{
+					x++;
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				if (true) {
+				x++;
+				} else if (false) {
+				x++;
+				} else if (true) {
+				x++;
+				} else {
+				x++;
+				}''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "If test nested",
+			    '''
+				Integer x = 1;
+				if(true){
+					x++;
+				}else {
+					if(false){
+						x++;
+					}else{
+						if(true){
+							x++;
+						}
+						else{
+							x++;
+						}
+					}
+				}''',
+				
+				'''
+				PrimitiveTypes::Integer x = 1;
+				if (true) {
+				x++;
+				} else {
+				if (false) {
+				x++;
+				} else {
+				if (true) {
+				x++;
+				} else {
+				x++;
+				}
+				}
+				}''',
+				"model::Comp::Pong::TestOperation"
+			]
+		)
+	}
+}
+

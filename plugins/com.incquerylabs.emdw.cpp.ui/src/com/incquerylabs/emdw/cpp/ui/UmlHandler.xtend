@@ -39,23 +39,32 @@ class UmlHandler extends AbstractHandler {
 				val xtumlResource = emfModel.resource
 				val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
 				val xtComponents = xtModel.allSubComponents
-				try{
-					generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
+				if(xtComponents.size == 0) {
 					MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
-						 "xUML-RT Code Generation finished successfully",
+						 "xUML-RT Code Generation skipped",
 						'''
-						C++ code generated into project:
-						com.ericsson.emdw.cpp.generated.code.«umlResource.URI.trimFileExtension.lastSegment»
-						'''
-					)
-				} catch (Exception e){
-					MessageDialog.openError(HandlerUtil.getActiveShell(event),
-						 "xUML-RT Code Generation finished with error",
-						'''
-						Look at the Error Log for details!
+						Selected model does not contain any components.
 						'''
 					)
-					Logger.getLogger(class).error("xUML-RT Code Generation finished with error",e);
+				} else {
+					try{
+						generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
+						MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
+							 "xUML-RT Code Generation finished successfully",
+							'''
+							C++ code generated into project:
+							com.ericsson.emdw.cpp.generated.code.«umlResource.URI.trimFileExtension.lastSegment»
+							'''
+						)
+					} catch (Exception e){
+						MessageDialog.openError(HandlerUtil.getActiveShell(event),
+							 "xUML-RT Code Generation finished with error",
+							'''
+							Look at the Error Log for details!
+							'''
+						)
+						Logger.getLogger(class).error("xUML-RT Code Generation finished with error",e);
+					}
 				}
 			}
 		}

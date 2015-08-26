@@ -13,7 +13,7 @@ class StateExitConvertingTest extends AbstractPluginTest{
 				//It parses the action code describing a ping signal being sent to the "ping" attribute (association end) of the current object.
 				"::model::Comp::Ping::s1",
 				ConversionType.StateExit,
-				'''this->ping->generate_event(new model::Comp::Pong::ping_s());'''
+				'''this->pong->generate_event(new model::Comp::Pong::ping_s());'''
 			]
 		)
 	}

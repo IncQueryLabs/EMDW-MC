@@ -117,29 +117,53 @@ abstract class AbstractPluginTest {
     	// Call body converter
     	// *******************************************************************************
        			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList
-       			operations.forEach[
+       			operations.forEach[ operation |
        				try {
-       					bodyConverter.convertOperation(it)
+       					bodyConverter.convertOperation(operation)
        				} catch (Exception ex) {
        					exceptions += ex
        				}
        			]
        		}
        		case StateEntry: {
-       			cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null]
-       															.forEach[bodyConverter.convertStateEntry(it)]
+       			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList
+       			states.forEach[ state |
+       				try {
+       					bodyConverter.convertStateEntry(state)
+       				} catch (Exception ex) {
+       					exceptions += ex
+       				}
+       			]
        		}
        		case StateExit: {
-       			cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null]
-       															.forEach[bodyConverter.convertStateExit(it)]
+       			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null].toList
+       			states.forEach[ state |
+       				try {
+       					bodyConverter.convertStateExit(state)
+       				} catch (Exception ex) {
+       					exceptions += ex
+       				}
+       			]
        		}
        		case Transition: {
-       			cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty]
-       															.forEach[bodyConverter.convertTransition(it)]
+       			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty].toList
+       			transitions.forEach[ transition |
+       				try {
+       					bodyConverter.convertTransition(transition)
+       				} catch (Exception ex) {
+       					exceptions += ex
+       				}
+       			]
        		}
        		case TransitionGuard: {
-       			cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null]
-       															.forEach[bodyConverter.convertTransitionGuard(it)]
+       			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null].toList
+       			transitions.forEach[ transition |
+       				try {
+       					bodyConverter.convertTransitionGuard(transition)
+       				} catch (Exception ex) {
+       					exceptions += ex
+       				}
+       			]
        		}
        	}
        	

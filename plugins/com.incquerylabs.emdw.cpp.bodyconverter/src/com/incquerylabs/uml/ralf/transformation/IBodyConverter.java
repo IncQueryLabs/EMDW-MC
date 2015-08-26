@@ -5,10 +5,10 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine;
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation;
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState;
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition;
-import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
+import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider;
 
 public interface IBodyConverter {    
-    public void initialize(AdvancedIncQueryEngine engine, IUMLContextProvider context);
+    public void initialize(AdvancedIncQueryEngine engine, BasicUMLContextProvider context);
     
     public String convertOperation(CPPOperation target);
     public String convertStateEntry(CPPState target);

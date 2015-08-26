@@ -7,7 +7,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescript
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
-import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
+import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
 import com.incquerylabs.uml.ralf.transformation.IBodyConverter
 import com.incquerylabs.uml.ralf.transformation.impl.queries.UmlCppMappingQueries
@@ -23,16 +23,15 @@ class BodyConverter implements IBodyConverter {
 	extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
 	
 	private static final val rALF = "rALF"
-	private static final val EXCEPTION_NOT_IMPL = "Not implemented yet"
 	
 	private AdvancedIncQueryEngine engine
 	private ReducedAlfParser parser
-	private IUMLContextProvider context
+	private BasicUMLContextProvider context
 	private ReducedAlfSnippetTemplateCompiler compiler
 	private ReducedAlfSnippetTemplateSerializer serializer
 	private ReducedAlfGenerator generator
 	
-	override void initialize(AdvancedIncQueryEngine engine, IUMLContextProvider context) {
+	override void initialize(AdvancedIncQueryEngine engine, BasicUMLContextProvider context) {
 		this.engine = engine
     	parser = new ReducedAlfParser
 	    this.context = context
@@ -48,8 +47,8 @@ class BodyConverter implements IBodyConverter {
 	 */
 	override String convertOperation(CPPOperation target) throws IllegalArgumentException {
 		val umlOperation = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(target).head as Operation
-		context.definedOperation = umlOperation
 		val opaqueBehavior = umlOperation.methods.filter(OpaqueBehavior).filter[it.languages.contains(rALF)].head
+		context.contextObject = opaqueBehavior
 		if(opaqueBehavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior with rALF language for «umlOperation.name» operation.''')
 		}
@@ -62,12 +61,8 @@ class BodyConverter implements IBodyConverter {
 	
 	override String convertStateEntry(CPPState target) throws IllegalArgumentException {
 		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State 
-		// TODO: set the context
-		//context.definedOperation = target
-		if(true) {
-			throw new UnsupportedOperationException(EXCEPTION_NOT_IMPL)
-		}
 		var OpaqueBehavior behavior = umlState.entry as OpaqueBehavior
+		context.contextObject = behavior
 		
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's entry.''')
@@ -81,12 +76,8 @@ class BodyConverter implements IBodyConverter {
 	
 	override String convertStateExit(CPPState target) throws IllegalArgumentException {
 		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State 
-		// TODO: set the context
-		//context.definedOperation = target
-		if(true) {
-			throw new UnsupportedOperationException(EXCEPTION_NOT_IMPL)
-		}
 		var OpaqueBehavior behavior = umlState.exit as OpaqueBehavior
+		context.contextObject = behavior
 		
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's exit.''')
@@ -100,12 +91,9 @@ class BodyConverter implements IBodyConverter {
 	
 	override String convertTransition(CPPTransition target) throws IllegalArgumentException {
 		val umlTransition = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(target).head as Transition
-		// TODO: set the context
-		//context.definedOperation = target
-		if(true) {
-			throw new UnsupportedOperationException(EXCEPTION_NOT_IMPL)
-		}
 		val opaqueBehavior = umlTransition.effect as OpaqueBehavior
+		context.contextObject = opaqueBehavior
+		
 		if(opaqueBehavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlTransition.name» transition.''')
 		}
@@ -118,12 +106,9 @@ class BodyConverter implements IBodyConverter {
 	
 	override String convertTransitionGuard(CPPTransition target) throws IllegalArgumentException {
 		val umlTransition = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(target).head as Transition
-		// TODO: set the context
-		//context.definedOperation = target
-		if(true) {
-			throw new UnsupportedOperationException(EXCEPTION_NOT_IMPL)
-		}
 		val opaqueExpression = umlTransition.guard.specification as OpaqueExpression
+		context.contextObject = opaqueExpression
+		
 		if(opaqueExpression==null) {
 			throw new IllegalArgumentException('''There is no OpaqueExpression for «umlTransition.guard.name» constraint.''')
 		}

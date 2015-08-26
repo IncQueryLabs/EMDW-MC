@@ -44,6 +44,15 @@ class EnumerationLiteralMapping extends AbstractObjectMapping<EnumerationLiteral
 	}
 	
 	override protected updateXtumlrtObject(EnumerationLiteral xtumlrtObject, EnumerationLiteralMatch match) {
+		val umlEnum = match.enumeration
+		val firstLiteral = umlEnum.ownedLiterals.head
+		if(match.enumerationLiteral == firstLiteral) {
+			val xtumlrtEnum = xtumlrtObject.eContainer as Enumeration
+			if(xtumlrtEnum.defaultValue != xtumlrtObject) {
+				xtumlrtEnum.defaultValue = xtumlrtObject
+				logger.trace('''Updated enumeration literal «xtumlrtObject.name» as default value of «xtumlrtEnum.name»''')
+			}
+		}
 	}
 	
 	def getXtumlContainer(EnumerationLiteralMatch match) {

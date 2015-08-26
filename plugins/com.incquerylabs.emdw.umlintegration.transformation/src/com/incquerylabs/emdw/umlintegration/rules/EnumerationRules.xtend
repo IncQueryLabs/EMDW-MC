@@ -5,6 +5,7 @@ import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
+import org.eclipse.papyrusrt.xtumlrt.common.EnumerationLiteral
 
 class EnumerationRules {
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -46,6 +47,13 @@ class EnumerationMapping extends AbstractObjectMapping<EnumerationMatch, org.ecl
 	}
 
 	override updateXtumlrtObject(Enumeration xtEnumeration, EnumerationMatch match) {
+		val umlEnum = match.enumeration
+		val firstLiteral = umlEnum.ownedLiterals.head
+		val xtumlrtLiteral = firstLiteral.findXtumlrtObject(EnumerationLiteral)
+		if(xtEnumeration.defaultValue != xtumlrtLiteral) {
+			xtEnumeration.defaultValue = xtumlrtLiteral
+			logger.trace('''Set enumeration «xtEnumeration.name» default value to «xtumlrtLiteral.name»''')
+		}
 	}
 	
 	def getXtumlContainer(EnumerationMatch match) {

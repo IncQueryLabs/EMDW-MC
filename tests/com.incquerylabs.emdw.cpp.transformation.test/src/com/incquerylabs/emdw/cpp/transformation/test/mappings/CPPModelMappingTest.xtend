@@ -9,6 +9,14 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
+import org.junit.runners.Suite.SuiteClasses
+import org.junit.runners.Suite
+
+@SuiteClasses(#[
+	CPPModelMappingTest
+])
+@RunWith(Suite)
+class CPPModelMappingTestSuite {}
 
 @RunWith(Parameterized)
 class CPPModelMappingTest extends EventDrivenTransformationTest<Model, CPPModel> {

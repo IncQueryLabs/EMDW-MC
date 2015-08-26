@@ -9,10 +9,23 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	OperationCreationMonitorTest,
+	OperationDeletionMonitorTest,
+	OperationWithModifiedNameMonitorTest,
+	OperationWithModifiedAbstractionMonitorTest,
+	OperationWithModifiedStaticMonitorTest,
+	OperationWithNewParameterMonitorTest
+])
+@RunWith(Suite)
+class OperationMonitorTestSuite {}
 
 @RunWith(Parameterized)
 class OperationCreationMonitorTest extends XtumlMonitorWithModelBaseTest {

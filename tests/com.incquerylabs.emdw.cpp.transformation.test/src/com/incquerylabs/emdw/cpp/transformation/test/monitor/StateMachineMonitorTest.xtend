@@ -7,10 +7,20 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	StateMachineCreationMonitorTest,
+	StateMachineDeletionMonitorTest,
+	StateMachineWithModifiedNameMonitorTest
+])
+@RunWith(Suite)
+class StateMachineMonitorTestSuite {}
 
 @RunWith(Parameterized)
 class StateMachineCreationMonitorTest extends XtumlMonitorWithModelBaseTest {

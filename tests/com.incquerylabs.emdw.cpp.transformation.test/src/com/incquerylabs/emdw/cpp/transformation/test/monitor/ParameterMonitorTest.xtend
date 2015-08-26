@@ -7,8 +7,18 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+
+@SuiteClasses(#[
+	ParameterDeletionMonitorTest,
+	ParameterWithModifiedNameMonitorTest,
+	ParameterWithModifiedTypeMonitorTest
+])
+@RunWith(Suite)
+class ParameterMonitorTestSuite {}
 
 @RunWith(Parameterized)
 class ParameterDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {

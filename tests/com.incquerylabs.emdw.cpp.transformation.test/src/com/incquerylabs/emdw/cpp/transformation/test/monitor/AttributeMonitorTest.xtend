@@ -8,10 +8,23 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+
+@SuiteClasses(#[
+	AttributeCreationMonitorTest,
+	AttributeDeletionMonitorTest,
+	AttributeWithModifiedNameMonitorTest,
+	AttributeWithModifiedBoundMonitorTest,
+	AttributeWithModifiedVisibilityMonitorTest,
+	AttributeWithModifiedTypeMonitorTest
+])
+@RunWith(Suite)
+class AttributeMonitorTestSuite {}
 
 @RunWith(Parameterized)
 class AttributeCreationMonitorTest extends XtumlMonitorWithModelBaseTest {

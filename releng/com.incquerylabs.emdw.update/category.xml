@@ -27,9 +27,6 @@
    <feature url="features/org.eclipse.uml2_5.1.0.qualifier.jar" id="org.eclipse.uml2" version="5.1.0.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
-   <feature url="features/it.xsemantics.sdk_1.8.0.qualifier.jar" id="it.xsemantics.sdk" version="1.8.0.qualifier">
-      <category name="com.incquerylabs.emdw.update.developer"/>
-   </feature>
    <feature url="features/com.incquerylabs.emdw.umlintegration.feature_1.0.0.qualifier.jar" id="com.incquerylabs.emdw.umlintegration.feature" version="1.0.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>

@@ -5,7 +5,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumerator
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 
 class EnumTemplates{
-	def enumClassTemplate(CharSequence enumClassName, Iterable<? extends CharSequence> enumeratorNames) {
+	def enumClassTemplate(CharSequence enumClassName, Iterable<CharSequence> enumeratorNames) {
 		'''
 		«IF !enumeratorNames.isNullOrEmpty»
 			class «enumClassName» {

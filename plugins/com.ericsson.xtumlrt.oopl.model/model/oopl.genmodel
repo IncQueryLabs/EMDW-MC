@@ -84,6 +84,7 @@
     <genClasses ecoreClass="oopl.ecore#//OOPLStructMember">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLStructMember/commonMember"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLStructMember/type"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLStructMember/unnamedSequenceType"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLSequence">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLSequence/elementType"/>

@@ -8,6 +8,13 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	
 	<parent>
 		<groupId>com.incquerylabs.emdw</groupId>
 		<artifactId>com.incquerylabs.emdw</artifactId>
@@ -85,6 +92,60 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.incquery</groupId>
+				<artifactId>incquery-maven-plugin</artifactId>
+				<version>${incquery.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>src-gen</outputDirectory>
+					<metamodels>
+						<metamodel>
+							<genmodelUri>model/../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel</genmodelUri>
+						</metamodel>
+						<metamodel>
+							<genmodelUri>model/../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel</genmodelUri>
+						</metamodel>
+						<metamodel>
+							<genmodelUri>model/oopl.genmodel</genmodelUri>
+						</metamodel>
+					</metamodels>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.papyrusrt</groupId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
+						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.papyrusrt</groupId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
+						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+   						<groupId>org.eclipse.emf</groupId>
+						<artifactId>org.eclipse.emf.ecore</artifactId>
+						<version>2.10.2-v20150123-0348</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.emf</groupId>
+						<artifactId>org.eclipse.emf.codegen.ecore</artifactId>
+						<version>2.10.2-v20150123-0452</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.emf</groupId>
+						<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+						<version>2.10.2-v20150123-0348</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

@@ -1,0 +1,54 @@
+package com.ericsson.xtumlrt.oopl
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+@QueryBasedFeature(feature = "members")
+pattern ooplStructTypeMembers(
+	source : OOPLStructType,
+	target : OOPLStructMember
+) {
+	OOPLStructType.commonType(source, commonType);
+	StructuredType.attributes(commonType, commonMember);
+	OOPLStructMember.commonMember(target, commonMember);
+}
+
+@QueryBasedFeature(feature = "enumerators")
+pattern ooplEnumTypeEnumerators(
+	source : OOPLEnumType,
+	target : OOPLEnumerator
+) {
+	OOPLEnumType.commonType(source, commonEnumeration);
+	Enumeration.literals(commonEnumeration, commonLiteral);
+	OOPLEnumerator.commonEnumerationLiteral(target, commonLiteral);
+}
+
+@QueryBasedFeature(feature = "defaultValue")
+pattern ooplEnumTypeDefaultValue(
+	source : OOPLEnumType,
+	target : OOPLEnumerator
+) {
+	OOPLEnumType.commonType(source, commonEnumeration);
+	Enumeration.defaultValue(commonEnumeration, commonLiteral);
+	OOPLEnumerator.commonEnumerationLiteral(target, commonLiteral);
+}
+
+@QueryBasedFeature(feature = "type")
+pattern ooplStructMemberType(
+	source : OOPLStructMember,
+	target : OOPLDataType
+) {
+	find ooplStructMemberUnnamedSequenceType(source, target);
+} or {
+	OOPLStructMember.commonMember.type(source, commonType);
+	OOPLDataType.commonType(target, commonType);
+	neg find ooplStructMemberUnnamedSequenceType(source, _sequence);
+}
+
+private pattern ooplStructMemberUnnamedSequenceType(
+	ooplStructMember : OOPLStructMember,
+	ooplSequence : OOPLSequence
+) {
+	OOPLStructMember.unnamedSequenceType(ooplStructMember, ooplSequence);
+}

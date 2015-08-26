@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="oopl" nsURI="http://www.ericsson.com/xtumlrt/oopl" nsPrefix="oopl">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/Ecore">
+    <details key="settingDelegates" value="org.eclipse.incquery.querybasedfeature"/>
+  </eAnnotations>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClass" abstract="true" eSuperTypes="#//OOPLType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
       <details key="documentation" value="Representation of XTUML class ({@link org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass}) for OOP languages."/>
@@ -119,15 +122,23 @@
       <details key="documentation" value="Enumeration type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.Enumeration}. Consists of structure members ({@link com.ericsson.xtumlrt.oopl.OOPLEnumerator})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="enumerators" lowerBound="1"
-        upperBound="-1" eType="#//OOPLEnumerator" changeable="false" derived="true">
+        upperBound="-1" eType="#//OOPLEnumerator" changeable="false" volatile="true"
+        transient="true" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;&#x9;Enumeration(type);&#xD;&#xA;&#x9;Enumeration.literals(type, enumerator);&#xD;&#xA;&#x9;OOPLEnumerator.commonEnumerationLiteral(ooplEnumerator, enumerator);&#xD;&#xA;}&#xD;&#xA;"/>
       </eAnnotations>
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.ooplEnumTypeEnumerators"/>
+      </eAnnotations>
     </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EReference" name="defaultValue" lowerBound="1"
-        eType="#//OOPLEnumerator" changeable="false" derived="true">
+        eType="#//OOPLEnumerator" changeable="false" volatile="true" transient="true"
+        derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;&#x9;Enumeration(type);&#xD;&#xA;&#x9;Enumeration.defaultValue(type, enumerator);&#xD;&#xA;&#x9;OOPLEnumerator.commonEnumerationLiteral(ooplEnumerator, enumerator);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.ooplEnumTypeDefaultValue"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -143,9 +154,13 @@
       <details key="documentation" value="Structure type in OOP languages corresponding to common type {@link org.eclipse.papyrusrt.xtumlrt.common.StructType}. Consists of structure members ({@link com.ericsson.xtumlrt.oopl.OOPLStructMember})."/>
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="members" lowerBound="1"
-        upperBound="-1" eType="#//OOPLStructMember" changeable="false" derived="true">
+        upperBound="-1" eType="#//OOPLStructMember" changeable="false" volatile="true"
+        transient="true" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;&#x9;StructType(type);&#xD;&#xA;&#x9;StructType.structMembers(type, member);&#xD;&#xA;&#x9;OOPLStructMember.commonMember(ooplStructMember, member);&#xD;&#xA;}&#xD;&#xA;"/>
+      </eAnnotations>
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.ooplStructTypeMembers"/>
       </eAnnotations>
     </eStructuralFeatures>
   </eClassifiers>
@@ -156,11 +171,16 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonMember" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Attribute"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//OOPLDataType"
-        changeable="false" derived="true">
+        changeable="false" volatile="true" transient="true" derived="true">
       <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
         <details key="documentation" value="{&#xD;&#xA;&#x9;OOPLStructMember.commonMember.type(ooplStructMember, type);&#xD;&#xA;&#x9;OOPLType.commonType(ooplType, type);&#xD;&#xA;}"/>
       </eAnnotations>
+      <eAnnotations source="org.eclipse.incquery.querybasedfeature">
+        <details key="patternFQN" value="com.ericsson.xtumlrt.oopl.ooplStructMemberType"/>
+      </eAnnotations>
     </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="unnamedSequenceType" eType="#//OOPLSequence"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLSequence" abstract="true" eSuperTypes="#//OOPLDataType">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

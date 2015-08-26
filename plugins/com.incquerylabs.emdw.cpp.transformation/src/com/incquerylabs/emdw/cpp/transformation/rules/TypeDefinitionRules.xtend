@@ -60,7 +60,6 @@ class TypeDefinitionRules {
 			]
 		]
 		cppEnumType.subElements += cppEnumerator
-		cppEnumType.enumerators += cppEnumerator
 		trace('''Mapped EnumerationLiteral «xtEnumerationLiteral.name» to CPPEnumerator «cppEnumerator»''')
 	].build
 	
@@ -90,7 +89,6 @@ class TypeDefinitionRules {
 			]
 		]
 		cppStructType.subElements += cppStructMember
-		cppStructType.members += cppStructMember
 		trace('''Mapped Attribute «xtAttribute.name» to CPPStructMember «cppStructMember»''')
 	].build
 	

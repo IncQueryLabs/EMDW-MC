@@ -9,12 +9,14 @@ Bundle-Localization: plugin
 Export-Package: com.ericsson.xtumlrt.oopl,
  com.ericsson.xtumlrt.oopl.impl,
  com.ericsson.xtumlrt.oopl.util
-Require-Bundle: org.eclipse.core.runtime,
+Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime,
+ org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.papyrusrt.xtumlrt.common.model;visibility:=reexport,
  com.incquerylabs.emdw.valuedescriptor.model;visibility:=reexport,
  org.eclipse.papyrusrt.xtumlrt.xtuml.model;visibility:=reexport,
- com.google.guava
+ com.google.guava,
+ org.eclipse.incquery.runtime
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
-Import-Package: org.apache.log4j;version="1.2.15"
+Import-Package: org.apache.log4j

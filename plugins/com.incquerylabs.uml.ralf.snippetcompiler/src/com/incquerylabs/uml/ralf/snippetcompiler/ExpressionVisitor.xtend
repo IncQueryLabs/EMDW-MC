@@ -34,6 +34,7 @@ import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Property
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import org.eclipse.uml2.uml.Parameter
 
 class ExpressionVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -83,12 +84,10 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch Snippet visit(StaticFeatureInvocationExpression ex){
-		//TODO No flattening done yet
 		throw new UnsupportedOperationException("Static calls not supported yet")
 	}
 	
 	def dispatch Snippet visit(SuperInvocationExpression ex){
-		//TODO No flattening done yet
 		throw new UnsupportedOperationException("Super invocations not supported yet")
 	}
 	
@@ -390,8 +389,16 @@ class ExpressionVisitor {
 					value = descriptor.stringRepresentation
 				]
 			}
+		}else if(ex.reference instanceof Parameter){
+			val parameter = ex.reference as Parameter
+			if(parameter != null){
+				val descriptor = getDescriptor(ex)
+				return createStringSnippet => [
+					value = descriptor.stringRepresentation
+				]
+			}
 		}else{
-			throw new UnsupportedOperationException
+			throw new UnsupportedOperationException("Only variables and parameters are supported")
 		}
 		
 	}

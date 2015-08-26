@@ -29,6 +29,7 @@ import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import java.util.List
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Property
+import org.eclipse.uml2.uml.Parameter
 
 class SnippetTemplateCompilerUtil {
 	
@@ -208,15 +209,27 @@ class SnippetTemplateCompilerUtil {
 	}
 		
 	def dispatch ValueDescriptor getDescriptor(NameExpression ex){
-		val variable = ex.reference as Variable
-		if(variable != null){
-			return (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				name = variable.name
-				type = variable.type.type
-				isExistingVariable = true
-			]).build	
+		if(ex.reference instanceof Variable){
+			val variable = ex.reference as Variable
+			if(variable != null){
+				return (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					name = variable.name
+					type = variable.type.type
+					isExistingVariable = true
+				]).build	
+			}
+		}else if (ex.reference instanceof Parameter){
+			val parameter = ex.reference as Parameter
+			if(parameter != null){
+				return (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					name = parameter.name
+					type = parameter.type
+					isExistingVariable = true
+				]).build	
+			}
+		}else{
+			throw new UnsupportedOperationException("Only variables and parameters are supported")
 		}
-		return null
 	}
 	
 	def dispatch ValueDescriptor getDescriptor(NaturalLiteralExpression ex){

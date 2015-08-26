@@ -83,12 +83,6 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				x.doIntegerVoid(temp1);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
-			#[  "Operation call alternative",
-			    '''this.doIntegerVoid(parameter => 2);''',
-				'''
-				this.doIntegerVoid(2);''',
-				"model::Comp::Pong::doIntegerVoid"
-			],
 			#[  "Operation call additive",
 			    '''this.doIntegerVoid(1+2);''',
 				'''
@@ -149,7 +143,89 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			#[  "Operation call operation call",
 			    '''
 			    this.doIntegerVoid(this.returnInteger());''',
-				'''''',
+				'''
+				PrimitiveTypes::Integer temp0 = this.returnInteger();
+				this.doIntegerVoid(temp0);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch literal",
+			    '''
+				switch(1){}''',
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				switch (temp0) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch variable",
+			    '''
+				Integer x = 1;
+				switch(x){}''',
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer x = temp0;
+				switch (x) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch addition",
+			    '''
+				switch(1+1){
+				}''',
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer temp1 = 1;
+				PrimitiveTypes::Integer temp2 = temp0 + temp1;
+				switch (temp2) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch shift",
+			    '''
+				switch(1 >> 2){}''',
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer temp1 = 2;
+				PrimitiveTypes::Integer temp2 = temp0 >> temp1;
+				switch (temp2) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch bitwise or",
+			    '''
+				switch(1 | 2){}''',
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer temp1 = 2;
+				PrimitiveTypes::Integer temp2 = temp0 | temp1;
+				switch (temp2) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch operation parameter",
+			    '''
+				switch(parameter){}''',
+				'''
+				switch (parameter) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch property",
+			    '''
+				switch(this.integerProperty){}''',
+				'''
+				PrimitiveTypes::Integer temp0 = this->integerProperty;
+				switch (temp0) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Switch operation call",
+			    '''
+				switch(this.returnInteger()){}''',
+				'''
+				PrimitiveTypes::Integer temp0 = this.returnInteger();
+				switch (temp0) {
+				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			]
 			

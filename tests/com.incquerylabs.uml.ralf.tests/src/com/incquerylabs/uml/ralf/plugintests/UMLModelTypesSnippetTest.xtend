@@ -1,243 +1,121 @@
 package com.incquerylabs.uml.ralf.plugintests
 
-import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
-import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
-import com.incquerylabs.uml.ralf.api.IReducedAlfParser
-import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguagePluginInjectorProvider
-import com.incquerylabs.uml.ralf.tests.util.TestModelUMLContextProvider
-import javax.inject.Inject
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.junit.FixMethodOrder
-import org.junit.Ignore
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
+import com.incquerylabs.uml.ralf.tests.util.AbstractPluginSnippetTest
+import java.util.Collection
+import org.junit.runners.Parameterized.Parameters
 
-import static org.junit.Assert.*
-
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguagePluginInjectorProvider))
-class UMLModelTypesSnippetTest {
-	@Inject
-	IReducedAlfGenerator generator
-	@Inject
-	IReducedAlfParser parser
-	@Inject
-	TestModelUMLContextProvider context
-	@Inject
-	ReducedAlfSnippetTemplateCompiler compiler
-	
-	ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
-		
-	@Test
-	def PongTest(){
-		snippetCompilerTest(
-		'''Pong x = new Pong();'''
-		, 
-		'''
-		model::Comp::Pong temp2 = new model::Comp::Pong();
-		model::Comp::Pong x = temp2;''')
-	}
-	
-	@Test
-	def SendSignalTest(){
-		snippetCompilerTest(
-		'''
-			Pong p = new Pong();
-			ping_s s = new ping_s();
-			send s to p->ping;'''
-		, 
-		'''
-			model::Comp::Pong temp3 = new model::Comp::Pong();
-			model::Comp::Pong p = temp3;
-			model::Comp::Pong::ping_s temp4 = new model::Comp::Pong::ping_s();
-			model::Comp::Pong::ping_s s = temp4;
-			p->ping->generate_event(s);''')
-	}
-	
-	@Test
-	def SendSignalTest2(){
-		snippetCompilerTest(
-		'''
-			send new ping_s() to this->ping;'''
-		, 
-		'''
-			this->ping->generate_event(new model::Comp::Pong::ping_s());'''
-		,
-		"model::Comp::Pong::doIntegerVoid")
-	}
-	
-	@Test
-	def NullTest(){
-		snippetCompilerTest(
-		'''
-			Pong p = null;
-			p = new Pong();
-			ping_s s = new ping_s();
-			send s to p->ping;'''
-		, 
-		'''
-			model::Comp::Pong p = 0;
-			model::Comp::Pong temp0 = new model::Comp::Pong();
-			p = temp0;
-			model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
-			model::Comp::Pong::ping_s s = temp1;
-			p->ping->generate_event(s);''')
-	}
-	
-	@Test
-	@Ignore("TODO: FILTER")
-	def FilterTest(){
-		snippetCompilerTest(
-		'''
-			Integer x = 
-			'''
-		, 
-		'''
-			model::Comp::Pong p = 0;
-			p = new model::Comp::Pong();
-			model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
-			p->ping->generate_event(s);''')
-	}
-	
-	@Test
-	@Ignore("Casting not yet supported")
-	def CastTest(){
-		snippetCompilerTest(
-		'''
-			Pong p = new Pong;
-			Pong q = (Pong) p'''
-		, 
-		'''
-			model::Comp::Pong p = new model::Comp::Pong();
-			model::Comp::Pong q = (model::Comp::Pong) p;''')
-	}
-	
-	@Test
-	@Ignore("Property assignments do not work properly at this point")
-	def PropertyAssignmentTest(){
-		snippetCompilerTest(
-		'''
-			Integer i = 1;
-			i = 2;
-			Pong p = new Pong();
-			p.integerProperty = 1;'''
-		, 
-		'''
-			PrimitiveTypes::Integer i = 1;
-			i = 2;
-			model::Comp::Pong p = new model::Comp::Pong();
-			p->integerProperty = 1;'''
-		,
-		"model::Comp::Pong::doIntegerVoid")
-	}
-	
-	@Test
-	@Ignore("Property assignments do not work properly at this point")
-	def PropertyAssignmentTest1(){
-		snippetCompilerTest(
-		'''
-			Integer i = 1;
-			i = 2;
-			Pong p = new Pong();
-			Pong q = new Pong();
-			p = q;
-			p.integerProperty = 1;'''
-		, 
-		'''
-			PrimitiveTypes::Integer i = 1;
-			i = 2;
-			model::Comp::Pong p = new model::Comp::Pong();
-			model::Comp::Pong q = new model::Comp::Pong();
-			p = q;
-			p->integerProperty = 1;'''
-		,
-		"model::Comp::Pong::doIntegerVoid")
-	}
-	
-	@Test
-	@Ignore("Not supported at this time")
-	def operationIntegerParameterLiteral(){
-		snippetCompilerTest(
-		'''
-			this.doIntegerVoid(1);'''
-		,
-		'''
-		'''
-		,
-		"model::Comp::Pong::TestOperation")
-	}
-	
-	@Test
-	@Ignore("Not supported at this time")
-	def operationIntegerParameterVariable(){
-		snippetCompilerTest(
-		'''
-			Integer x = 2;
-			this.doIntegerVoid(x);'''
-		,
-		''''''
-		,
-		"model::Comp::Pong::TestOperation")
-	}
-	
-	@Test
-	@Ignore("Not supported at this time")
-	def operationIntegerParameterVariable_AltSyntax(){
-		snippetCompilerTest(
-		'''
-			Integer x = 2;
-			this.doIntegerVoid(parameter => x);
-		'''
-		,
-		''''''
-		,
-		"model::Comp::Pong::TestOperation")
-	}
-	
-	@Test
-	@Ignore("Not supported at this time")
-	def inParameterIntegerAssignment(){
-		snippetCompilerTest(
-		'''
-			Integer x = 1;
-			x = inParameter;'''
-		,
-		''''''
-		,
-		"model::Comp::Pong::TestOperation")
-	}
-	
-	@Test
-	@Ignore("Not supported at this time")
-	def outParameterIntegerAssignment_Literal(){
-		snippetCompilerTest(
-		'''
-			Integer x = 1;
-			outParameter = x;'''
-		,
-		''''''
-		,
-		"model::Comp::Pong::TestOperation")
-	}
-	
-	def snippetCompilerTest(String input, String expected, String thisElementFQN) {	
-		context.definedOperation = thisElementFQN
-		
-		val snippet = generator.createSnippet(input, context, parser, compiler)
-		val serializedSnippet = serializer.serialize(snippet)	
-		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
-	}
-	
-	def snippetCompilerTest(String input, String expected) {
-		val snippet = generator.createSnippet(input, context, parser, compiler)
-		val serializedSnippet = serializer.serialize(snippet)	
-		assertEquals("The created snippet does not match the expected result",expected,serializedSnippet)
-	}
-	
-
+class UMLModelTypesSnippetTest extends AbstractPluginSnippetTest{
+	@Parameters(name = "{0}")
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "UML Type Instantiation",
+			    '''Pong x = new Pong();''',
+				'''
+				model::Comp::Pong temp0 = new model::Comp::Pong();
+				model::Comp::Pong x = temp0;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Send Signal test",
+			    '''
+				Pong p = new Pong();
+				ping_s s = new ping_s();
+				send s to p->ping;''',
+				
+				'''
+				model::Comp::Pong temp0 = new model::Comp::Pong();
+				model::Comp::Pong p = temp0;
+				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+				model::Comp::Pong::ping_s s = temp1;
+				model::Comp::Ping temp2 = p->ping;
+				temp2->generate_event(s);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Send Signal test this",
+			    '''send new ping_s() to this->ping;''',
+				
+				'''
+				model::Comp::Ping temp0 = this->ping;
+				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+				temp0->generate_event(temp1);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Send Signal test null",
+			    '''
+				Pong p = null;
+				p = new Pong();
+				ping_s s = new ping_s();
+				send s to p->ping;''',
+				
+				'''
+				model::Comp::Pong p = 0;
+				model::Comp::Pong temp0 = new model::Comp::Pong();
+				p = temp0;
+				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+				model::Comp::Pong::ping_s s = temp1;
+				model::Comp::Ping temp2 = p->ping;
+				temp2->generate_event(s);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Property assignment",
+			    '''
+				Integer i = 1;
+				i = 2;
+				Pong p = new Pong();
+				p.integerProperty = 1;''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer i = temp0;
+				PrimitiveTypes::Integer temp1 = 2;
+				i = temp1;
+				model::Comp::Pong temp2 = new model::Comp::Pong();
+				model::Comp::Pong p = temp2;
+				PrimitiveTypes::Integer temp3 = 1;
+				p->integerProperty = temp3;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Operation call",
+			    '''this.doIntegerVoid(1);''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				this.doIntegerVoid(temp0);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Operation call variable",
+			    '''
+				Integer x = 2;
+				this.doIntegerVoid(x);''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 2;
+				PrimitiveTypes::Integer x = temp0;
+				this.doIntegerVoid(x);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "In parameter reference",
+			    '''
+				Integer x = 1;
+				x = inParameter;''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer x = temp0;
+				x = inParameter;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Out parameter assignment",
+			    '''
+				Integer x = 1;
+				outParameter = x;''',
+				
+				'''
+				PrimitiveTypes::Integer temp0 = 1;
+				PrimitiveTypes::Integer x = temp0;
+				outParameter = x;''',
+				"model::Comp::Pong::TestOperation"
+			]
+		)
+	}	
 }
 

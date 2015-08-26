@@ -15,8 +15,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import snippetTemplate.CompositeSnippet
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 
 class StatementVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -48,87 +46,8 @@ class StatementVisitor {
 				f.snippet.add = createStringSnippet => [value = '''{''']
 				f.snippet.add = createStringSnippet => [value = '\n']
 				block.statement.forEach[ st |
-					
-					
-					if(st instanceof LocalNameDeclarationStatement){
-						val descriptor = getDescriptor(st)
-						if(st.expression.flatteningNotNeeded ){
-							f.snippet.add = createCompositeSnippet =>[
-								snippet.add(createStringSnippet => [value = descriptor.fullType])
-								snippet.add(createStringSnippet => [value = ''' '''])
-								snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-								snippet.add(createStringSnippet => [value = ''' = '''])
-								snippet.add(st.expression.visit)
-								snippet.add(createStringSnippet => [value = ''';'''])
-							]
-						}else{
-							if(st.expression.flatteningSupported){
-								val snippet = createCompositeSnippet			
-								val variable = flatten(st.expression, snippet)
-								
-								snippet.snippet.add(createCompositeSnippet =>[ s |
-									s.snippet.add(createStringSnippet => [value = descriptor.fullType])
-									s.snippet.add(createStringSnippet => [value = ''' '''])
-									s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-									s.snippet.add(createStringSnippet => [value = ''' = '''])
-									s.snippet.add(createStringSnippet => [value = variable.descriptor.stringRepresentation])
-									s.snippet.add(createStringSnippet => [value = ''';'''])
-								])
-								f.snippet.add = snippet
-							}else{
-								throw new UnsupportedOperationException
-							}
-						}
-					} else if(st instanceof ExpressionStatement){
-						val ex = st.expression
-						if(ex instanceof AssignmentExpression){
-							val lhsExpression = ex.leftHandSide
-							var Snippet rhsSnippet
-							var Snippet lhsSnippet
-							val snippet = createCompositeSnippet
-							
-							
-							//If the left hand side is a property
-							//TODO property writing is still a bit buggy
-							if(lhsExpression instanceof FeatureInvocationExpression){
-								lhsSnippet = createStringSnippet => [value = getDescriptor(lhsExpression).stringRepresentation]
-							}else{
-								lhsSnippet = ex.leftHandSide.visit
-							}
-							
-							if(ex.rightHandSide.flatteningNotNeeded){
-								rhsSnippet = ex.rightHandSide.visit
-							}else{
-								if(ex.rightHandSide.flatteningSupported){			
-									val variable = flatten(ex.rightHandSide, snippet)
-									rhsSnippet = createStringSnippet => [value = variable.descriptor.stringRepresentation]
-								}else{
-									throw new UnsupportedOperationException
-								}
-							}
-							
-							val rhs = rhsSnippet
-							val lhs = lhsSnippet
-							snippet.snippet.add(createCompositeSnippet =>[ s |
-									s.snippet.add(lhs)
-									s.snippet.add(createStringSnippet => [value = ''' '''	])
-									s.snippet.add(createStringSnippet => [value = ex.operator.literal])
-									s.snippet.add(createStringSnippet => [value = ''' '''	])
-									s.snippet.add(rhs)
-							])
-							f.snippet.add = snippet
-						}else{
-							f.snippet.add(st.visit)
-						}
-					}else{
-						f.snippet.add(st.visit)
-					}
-					
-					
+					flattenChildStatement(st, f)	
     				f.snippet.add(createStringSnippet => [value = '\n'])
-    				
-    				
-    				
     			]
     			f.snippet.remove(f.snippet.size-1)
     			f.snippet.add(createStringSnippet => [value = '\n'])
@@ -143,11 +62,13 @@ class StatementVisitor {
 	} 
 	
 	def dispatch Snippet visit(ReturnStatement st){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = '''return '''])
-			snippet.add(st.expression.visit)
-			snippet.add(createStringSnippet => [value = ''';'''])
-		]
+		val snippet = createCompositeSnippet
+		val returnVariable = flattenChildExpression(st.expression, snippet)
+
+		snippet.snippet.add(createStringSnippet => [value = '''return '''])
+		snippet.snippet.add(createStringSnippet => [value = returnVariable.descriptor.stringRepresentation])
+		snippet.snippet.add(createStringSnippet => [value = ''';'''])
+		snippet
 	} 
 	
 	def dispatch Snippet visit(LocalNameDeclarationStatement st){
@@ -180,34 +101,38 @@ class StatementVisitor {
 	}
 	
 	def dispatch Snippet visit(SendSignalStatement st){
-		createCompositeSnippet =>[
-			snippet.add(st.target.visit)
-			snippet.add(createStringSnippet => [value = '''->generate_event('''])
-			snippet.add(st.signal.visit)
-			snippet.add(createStringSnippet => [value = ''');'''])
-		]
+		val snippet = createCompositeSnippet
+		val targetVariable = flattenChildExpression(st.target, snippet) 		
+		val signalVariable = flattenChildExpression(st.signal, snippet) 
+		
+		snippet.snippet.add(createStringSnippet => [value = targetVariable.descriptor.stringRepresentation])
+		snippet.snippet.add(createStringSnippet => [value = '''->generate_event('''])
+		snippet.snippet.add(createStringSnippet => [value = signalVariable.descriptor.stringRepresentation])
+		snippet.snippet.add(createStringSnippet => [value = ''');'''])
+		snippet
 	}
 	
 	def dispatch Snippet visit(SwitchStatement st){
-		createCompositeSnippet => [ f |
-				f.snippet.add = createStringSnippet => [value = '''switch ''']
-				f.snippet.add = createStringSnippet => [value = '''(''']
-				f.snippet.add(st.expression.visit)
-				f.snippet.add = createStringSnippet => [value = ''') ''']
-				f.snippet.add = createStringSnippet => [value = '''{''']
-				f.snippet.add(createStringSnippet => [value = '\n'])
-				st.nonDefaultClause.forEach[cl |
-					f.snippet.add(cl.visit)
-					f.snippet.add(createStringSnippet => [value = '\n'])
-    			]
-    			if(st.defaultClause != null){
-    				f.snippet.add = createStringSnippet => [value = '''default : ''']
-    				f.snippet.add(st.defaultClause.visit)
-    				f.snippet.add(createStringSnippet => [value = '\n'])
-    			}
-				f.snippet.add = createStringSnippet => [value = '''}''']
-				
+		val snippet = createCompositeSnippet
+		val switchVariable = flattenChildExpression(st.expression, snippet) 
+
+		snippet.snippet.add = createStringSnippet => [value = '''switch ''']
+		snippet.snippet.add = createStringSnippet => [value = '''(''']
+		snippet.snippet.add(createStringSnippet => [value = switchVariable.descriptor.stringRepresentation])
+		snippet.snippet.add = createStringSnippet => [value = ''') ''']
+		snippet.snippet.add = createStringSnippet => [value = '''{''']
+		snippet.snippet.add(createStringSnippet => [value = '\n'])
+		st.nonDefaultClause.forEach[cl |
+			snippet.snippet.add(cl.visit)
+			snippet.snippet.add(createStringSnippet => [value = '\n'])
 		]
+		if(st.defaultClause != null){
+			snippet.snippet.add = createStringSnippet => [value = '''default : ''']
+			snippet.snippet.add(st.defaultClause.visit)
+			snippet.snippet.add(createStringSnippet => [value = '\n'])
+		}
+		snippet.snippet.add = createStringSnippet => [value = '''}''']
+		snippet
 	} 
 	
 	def dispatch Snippet visit(WhileStatement st){

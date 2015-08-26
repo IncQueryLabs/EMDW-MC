@@ -103,6 +103,12 @@ class TransitionTemplates extends CPPTemplate {
 		val transition = transitionInfo.transition
 		val eventType = eventType(transitionInfo.cppTransition)
 		val castedEventName = "casted_const_event"
+		val transitionChain = transition.actionChain
+		if(transitionChain!=null && transitionChain.actions.size>0) {
+			if(transitionChain.actions.get(0).source==null) {
+				transitionChain.actions.get(0).source = bodyConverter.convertTransition(transitionInfo.cppTransition)
+			}
+		}
 		
 		'''
 		«IF transition.actionChain != null»

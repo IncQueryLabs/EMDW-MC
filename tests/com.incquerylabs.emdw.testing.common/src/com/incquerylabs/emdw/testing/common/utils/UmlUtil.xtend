@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.testing.common.utils
 
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Class
@@ -9,7 +10,9 @@ import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Connector
 import org.eclipse.uml2.uml.Enumeration
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.MultiplicityElement
 import org.eclipse.uml2.uml.Package
+import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Port
 import org.eclipse.uml2.uml.PrimitiveType
@@ -22,20 +25,23 @@ import org.eclipse.uml2.uml.StateMachine
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
-import org.eclipse.uml2.uml.MultiplicityElement
 
-class UmlUtil extends AbstractUtil {
+class UmlUtil extends ModelUtil {
 	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
 	
 	// CREATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	static def createRootMapping(String umlModelName) {
-		val resourceSet = new ResourceSetImpl
-		val umlResource = resourceSet.createResource(URI.createURI(URI_DUMMY_UML))
-		val xtumlrtResource = resourceSet.createResource(URI.createURI(URI_DUMMY_XTUML))
-		val traceResource = resourceSet.createResource(URI.createURI(URI_DUMMY_TRACE))
+	static def createRootMapping(String umlModelName, ResourceSet rs) {
+		var resourceSet = rs
+		if(resourceSet==null) {
+			resourceSet = new ResourceSetImpl
+		}
+		val umlResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_UML»'''))
+		val xtumlrtResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_XTUML»'''))
+		val traceResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_TRACE»'''))
+		val cppResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_CPP»'''))
 		
 		val umlModel = umlFactory.createModel => [
 			name = umlModelName
@@ -50,6 +56,8 @@ class UmlUtil extends AbstractUtil {
 			xtumlrtRoot = xtumlrtModel
 		]
 		traceResource.contents += mapping
+		CppUtil.prepareCPPModel(cppResource, xtumlrtModel)
+		
 		mapping
 	}
 	
@@ -57,6 +65,12 @@ class UmlUtil extends AbstractUtil {
 		umlFactory.createPackage => [
 			it.name = name
 		]
+	}
+	
+	static def createPackage(Component comp, String name) {
+		val package = createPackage(name)
+		comp.packagedElements += package
+		package
 	}
 
 	static def createPackageInModel(Model umlRoot) {
@@ -75,6 +89,12 @@ class UmlUtil extends AbstractUtil {
 		val component = createComponent(NAME_DEFAULT_COMPONENT)
 		umlRoot.packagedElements += component
 		component
+	}
+
+	static def createComponent(Package root, String name) {
+		val comp = createComponent(name)
+		root.packagedElements += comp
+		comp
 	}
 
 	static def createPort(Component component) {
@@ -110,6 +130,12 @@ class UmlUtil extends AbstractUtil {
 		]
 	}
 
+	static def createClass(Component umlComp, String name) {
+		val umlClass = createClass(name)
+		umlComp.nestedClassifiers += umlClass
+		return umlClass
+	}
+
 	static def createClassInModel(Model umlRoot) {
 		val class = createClass(NAME_DEFAULT_CLASS)
 		umlRoot.packagedElements += class
@@ -125,6 +151,15 @@ class UmlUtil extends AbstractUtil {
 		interface
 	}
 	
+	static def createAttribute(Class umlClass, Type type, String name) {
+		val attribute = umlFactory.createProperty => [
+			it.type = type
+			it.name = name
+		]
+		umlClass.ownedAttributes += attribute
+		return attribute
+	}
+	
 	static def createOperation(Model umlRoot, String body, Type returnType) {
 		val operation = umlFactory.createOperation => [
 			methods += createBehavior(body)
@@ -135,6 +170,27 @@ class UmlUtil extends AbstractUtil {
 		]
 		createClassInModel(umlRoot).ownedOperations += operation
 		operation
+	}
+	
+	static def createOperation(Class umlClass, String name, Parameter... parameters) {
+		val operation = umlFactory.createOperation => [
+			it.name = name
+			it.ownedParameters += parameters
+		]
+		umlClass.ownedOperations += operation
+		return operation
+	}
+	
+	static def createParameter(Type type, String name, ParameterDirectionKind direction, int lowerBound, int upperBound) {
+		val parameter = umlFactory.createParameter => [
+			it.name = name
+			it.direction = direction
+			it.type = type
+			it.lower = lowerBound
+			it.upper = upperBound
+			it.isUnique = true
+		]
+		return parameter
 	}
 	
 	static def createDestructor(Model umlRoot, String body) {
@@ -163,6 +219,30 @@ class UmlUtil extends AbstractUtil {
 		]
 		component.nestedClassifiers += association
 		association
+	}
+
+	static def createAssociation(Component comp, Class source, Class target, String assocName, String sourceEndName, String targetEndName) {
+		val endAtSource = umlFactory.createProperty => [
+			it.type = target
+			it.name = sourceEndName
+			it.lower = 1
+			it.upper = 1
+		]
+		val endAtTarget = umlFactory.createProperty => [
+			it.type = source
+			it.name = targetEndName
+			it.lower = 1
+			it.upper = 1
+		]
+		val association = umlFactory.createAssociation => [
+			it.ownedEnds.addAll(
+				endAtSource,
+				endAtTarget
+			)
+			it.name = assocName
+		]
+		comp.nestedClassifiers += association
+		endAtSource
 	}
 	
 	static def createGeneralization(Class subClass, Class superClass) {
@@ -222,6 +302,12 @@ class UmlUtil extends AbstractUtil {
 		val primitiveType = umlFactory.createPrimitiveType
 		umlPackage.packagedElements += primitiveType
 		primitiveType
+	}
+
+	static def PrimitiveType findPrimitiveType(Model umlModel, String name) {
+		val umlPrimitiveTypesResource = umlModel.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("UMLPrimitiveTypes")]
+		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
+		return primitiveTypes.findFirst[it.name == name]
 	}
 	
 	static def createStructType(Package umlPackage) {

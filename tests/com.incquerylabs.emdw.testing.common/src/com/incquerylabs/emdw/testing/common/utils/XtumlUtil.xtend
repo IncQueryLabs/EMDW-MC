@@ -42,7 +42,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.State
 
 import static org.junit.Assert.*
 
-class XtumlUtil extends AbstractUtil {
+class XtumlUtil extends ModelUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
 	

@@ -1,19 +1,17 @@
-package com.incquerylabs.emdw.testing.common.wrappers
+package com.incquerylabs.emdw.testing.common.utils
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
-import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 
-class FileAndDirectoryGenerationWrapper extends TransformationWrapper {
+class FileAndDirectoryGenerationUtil {
 	
 	AdvancedIncQueryEngine engine
 	FileAndDirectoryGeneration fileAndDirGeneration
@@ -21,8 +19,9 @@ class FileAndDirectoryGenerationWrapper extends TransformationWrapper {
 	MakefileGeneration makefileGeneration
 	CPPDirectory rootBodyDir
 	CPPDirectory rootHeaderDir
+	IFileManager fileManager
 	
-	override initializeTransformation(CPPModel cppModel) {
+	def initializeGeneration(CPPModel cppModel, IFileManager fileManager) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppModel.eResource.resourceSet))
 		fileAndDirGeneration = new FileAndDirectoryGeneration
 		cppCodeGeneration = new CPPCodeGeneration
@@ -31,21 +30,32 @@ class FileAndDirectoryGenerationWrapper extends TransformationWrapper {
 		makefileGeneration.initialize
 		this.rootBodyDir = cppModel.bodyDir
 		this.rootHeaderDir = cppModel.headerDir
+		this.fileManager = fileManager
 	}
 	
-	def initializeFileAndDirectoryGenerator(IFileManager fileManager, ImmutableMap<CPPSourceFile, CharSequence> contents) {
-		fileAndDirGeneration.initialize(engine, fileManager, contents)
-	}
-	
-	override executeTransformation() {
+	def executeCodeGeneration() {
 		cppCodeGeneration.execute
+	}
+	
+	def executeMakeGeneration() {
 		makefileGeneration.executeRulesMk(rootBodyDir)
 		if(rootBodyDir!=rootHeaderDir) {
 			makefileGeneration.executeRulesMk(rootHeaderDir)
 		}
 	}
 	
-	def executeFileAndDirectoryGeneration() {
+	def executeFileGeneration() {
+		fileAndDirGeneration.initialize(engine, fileManager, generatedCPPSourceFileContents)
+		fileAndDirGeneration.execute
+	}
+	
+	def executeAll() {
+		cppCodeGeneration.execute
+		makefileGeneration.executeRulesMk(rootBodyDir)
+		if(rootBodyDir!=rootHeaderDir) {
+			makefileGeneration.executeRulesMk(rootHeaderDir)
+		}
+		fileAndDirGeneration.initialize(engine, fileManager, generatedCPPSourceFileContents)
 		fileAndDirGeneration.execute
 	}
 	
@@ -56,21 +66,15 @@ class FileAndDirectoryGenerationWrapper extends TransformationWrapper {
 		ImmutableMap.copyOf(sourcefiles)
 	}
 	
-	override cleanupTransformation() {
-		if (fileAndDirGeneration != null) {
+	def cleanupTransformation() {
+		if(fileAndDirGeneration != null) {
 			fileAndDirGeneration.dispose
 		}
-		if (engine != null) {
+		if(cppCodeGeneration != null) {
+			cppCodeGeneration.dispose
+		}
+		if(engine != null) {
 			engine.dispose
 		}
 	}
-	
-	override executeTransformation(XTComponent xtComponent) {
-		throw new UnsupportedOperationException("Unsupported operation")
-	}
-	
-	override initializeTransformation(RootMapping umlToCommon) {
-		throw new UnsupportedOperationException("Unsupported operation")
-	}
-	
 }

@@ -37,7 +37,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocol
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 
-class CppUtil extends AbstractUtil {
+class CppUtil extends ModelUtil {
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	static extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	
@@ -46,6 +46,15 @@ class CppUtil extends AbstractUtil {
 	static def createCPPResource(Model xtUmlModel) {
 		val cppResource = xtUmlModel.eResource.resourceSet.createResource(URI.createURI("model/"+xtUmlModel.name+"/ref/test.cppmodel"))
 		cppResource
+	}
+	
+	static def prepareCPPModel(Resource resource, org.eclipse.papyrusrt.xtumlrt.common.Model xtModel) {
+		val cppModel = createCPPModel(resource, xtModel)
+		val modelDir = createCPPDirectory(cppModel.eResource)
+		resource.contents += cppFactory.createCPPExternalLibrary
+		cppModel.headerDir = modelDir
+		cppModel.bodyDir = modelDir
+		return cppModel
 	}
 	
 	static def createCPPModel(Resource cppResource, Model xtModel) {

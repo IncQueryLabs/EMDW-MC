@@ -2,17 +2,18 @@ package com.incquerylabs.emdw.testing.common.utils
 
 import org.apache.log4j.Logger
 
-abstract class AbstractUtil {
+abstract class ModelUtil {
 
-	protected static extension val Logger logger = Logger.getLogger(AbstractUtil)
+	protected static extension val Logger logger = Logger.getLogger(ModelUtil)
 	
 	public static final String PATH_COMMON_TYPES = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
 	public static final String PATH_CPP_COLLECTIONS = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	public static final String PATH_CPP_TYPES = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
 	
-	public static final String URI_DUMMY_UML = "dummyUmlUri"
-	public static final String URI_DUMMY_XTUML = "dummyXtUmlUri"
-	public static final String URI_DUMMY_TRACE = "dummyTraceUri"
+	public static final String URI_DUMMY_UML = "dummyUmlUri.uml"
+	public static final String URI_DUMMY_XTUML = "dummyXtUmlUri.xtuml"
+	public static final String URI_DUMMY_TRACE = "dummyTraceUri.trace"
+	public static final String URI_DUMMY_CPP = "dummyCppUri.cppmodel"
 	
 	public static final String NAME_DEFAULT_COMPONENT = "component"
 	public static final String NAME_DEFAULT_PACKAGE = "package"

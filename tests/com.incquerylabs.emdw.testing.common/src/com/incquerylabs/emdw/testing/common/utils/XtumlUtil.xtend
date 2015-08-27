@@ -546,7 +546,7 @@ class XtumlUtil extends ModelUtil {
 	}
 
 	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	static def getXtumlrtTopState(Model xtumlrtRoot) {
+	static def CompositeState getXtumlrtTopState(Model xtumlrtRoot) {
 		xtumlrtRoot.entities.head.behaviour.top
 	}
 

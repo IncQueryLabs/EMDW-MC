@@ -1,28 +1,22 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.InitialPoint
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class ToplevelInitialPointMappingTest extends TransformationTest<Pseudostate, InitialPoint> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = createStateMachine(umlRoot)
-		createPseudostate(stateMachine.regions.head, "initialState", PseudostateKind.INITIAL_LITERAL)
+		val stateMachine = umlRoot.createStateMachine
+		stateMachine.regions.head.createPseudostate("initialState", PseudostateKind.INITIAL_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -34,17 +28,12 @@ class ToplevelInitialPointMappingTest extends TransformationTest<Pseudostate, In
 	
 }
 
-@RunWith(Parameterized)
 class ChildInitialPointMappingTest extends TransformationTest<Pseudostate, InitialPoint> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = createStateMachine(umlRoot)
-		val parentState = createCompositeState(stateMachine, "parentState")
-		createPseudostate(parentState.regions.head, "childInitialPoint", PseudostateKind.INITIAL_LITERAL)
+		val stateMachine = umlRoot.createStateMachine
+		val parentState = stateMachine.createCompositeState("parentState")
+		parentState.regions.head.createPseudostate("childInitialPoint", PseudostateKind.INITIAL_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {

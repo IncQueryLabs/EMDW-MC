@@ -1,27 +1,19 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 
-@RunWith(Parameterized)
 class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		createClassInModel(umlRoot)
+		umlRoot.createClassInModel
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -33,12 +25,7 @@ class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
 
 }
 
-@RunWith(Parameterized)
 class XTClassInPackageMappingTest extends TransformationTest<Class, XTClass> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val class = createClass("class")
@@ -57,12 +44,7 @@ class XTClassInPackageMappingTest extends TransformationTest<Class, XTClass> {
 	
 }
 
-@RunWith(Parameterized)
 class XTClassInComponentAsNestedClassifierMappingTest extends TransformationTest<Class, XTClass> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val class = createClass("class")
@@ -81,12 +63,7 @@ class XTClassInComponentAsNestedClassifierMappingTest extends TransformationTest
 	
 }
 
-@RunWith(Parameterized)
 class XTClassInComponentAsPackagedElementMappingTest extends TransformationTest<Class, XTClass> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val class = createClass("class")

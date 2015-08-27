@@ -1,28 +1,21 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.JunctionPoint
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class ToplevelJunctionPointMappingTest extends TransformationTest<Pseudostate, JunctionPoint> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = createStateMachine(umlRoot)
-		createPseudostate(stateMachine.regions.head, "junctionState", PseudostateKind.JUNCTION_LITERAL)
+		val stateMachine = umlRoot.createStateMachine
+		stateMachine.regions.head.createPseudostate("junctionState", PseudostateKind.JUNCTION_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -34,17 +27,12 @@ class ToplevelJunctionPointMappingTest extends TransformationTest<Pseudostate, J
 	
 }
 
-@RunWith(Parameterized)
 class ChildJunctionPointMappingTest extends TransformationTest<Pseudostate, JunctionPoint> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = createStateMachine(umlRoot)
-		val parentState = createCompositeState(stateMachine, "parentState")
-		createPseudostate(parentState.regions.head, "childJunctionPoint", PseudostateKind.JUNCTION_LITERAL)
+		val stateMachine = umlRoot.createStateMachine
+		val parentState = stateMachine.createCompositeState("parentState")
+		parentState.regions.head.createPseudostate("childJunctionPoint", PseudostateKind.JUNCTION_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {

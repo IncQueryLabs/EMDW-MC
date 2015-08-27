@@ -1,33 +1,27 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Generalization
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 import static org.junit.Assert.*
 
-@RunWith(Parameterized)
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
 class XTGeneralizationMappingTest extends TransformationTest<Generalization, org.eclipse.papyrusrt.xtumlrt.common.Generalization> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	protected static val superClassName = "superClass"
 
 	protected static val subClassName = "subClass"
 
 	override protected createUmlObject(org.eclipse.uml2.uml.Model umlRoot) {
-		var superClass = createClassInModel(umlRoot) => [
+		var superClass = umlRoot.createClassInModel => [
 			name = superClassName
 		]
-		var subClass = createClassInModel(umlRoot) => [
+		var subClass = umlRoot.createClassInModel => [
 			name = subClassName
 		]
 		createGeneralization(subClass, superClass)

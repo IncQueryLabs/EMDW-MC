@@ -23,6 +23,7 @@ abstract class ModelUtil {
 	public static final String NAME_DEFAULT_SOURCE_STATE = "source"
 	public static final String NAME_DEFAULT_TARGET_STATE = "target"
 	public static final String NAME_DEFAULT_TRANSITION = "transition"
+	public static final String NAME_DEFAULT_PARAMETER = "param"
 	public static final String NAME_DESTRUCTOR = "destroy"
 
 	public static final String CPP_LANGUAGE = "C++"

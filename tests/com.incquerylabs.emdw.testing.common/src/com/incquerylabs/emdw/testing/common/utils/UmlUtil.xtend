@@ -5,6 +5,8 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
+import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Connector
@@ -22,9 +24,12 @@ import org.eclipse.uml2.uml.Region
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.StateMachine
+import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.uml2.uml.Operation
 
 class UmlUtil extends ModelUtil {
 	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
@@ -170,6 +175,19 @@ class UmlUtil extends ModelUtil {
 		createClassInModel(umlRoot).ownedOperations += operation
 		operation
 	}
+	
+	static def createOperation(Model umlRoot, String body, Type returnType, Parameter... parameters) {
+		val operation = umlFactory.createOperation => [
+			methods += createBehavior(body)
+			ownedParameters += umlFactory.createParameter => [
+				direction = ParameterDirectionKind.RETURN_LITERAL
+				type = returnType
+			]
+			ownedParameters += parameters
+		]
+		createClassInModel(umlRoot).ownedOperations += operation
+		operation
+	}
 
 	static def createOperation(Class umlClass, String name, Parameter... parameters) {
 		val operation = umlFactory.createOperation => [
@@ -178,6 +196,12 @@ class UmlUtil extends ModelUtil {
 		]
 		umlClass.ownedOperations += operation
 		return operation
+	}
+	
+	static def addInParameter(Operation operation, Type type, String name) {
+		val param = createParameter(type, name, ParameterDirectionKind.IN_LITERAL, 1, 1)
+		operation.ownedParameters += param
+		return param
 	}
 
 	static def createParameter(Type type, String name, ParameterDirectionKind direction, int lowerBound,
@@ -352,6 +376,37 @@ class UmlUtil extends ModelUtil {
 		stateMachine
 	}
 
+	static def createStateMachine(Class cl, String name) {
+		val stateMachine = umlFactory.createStateMachine => [
+			it.name = name
+			regions += umlFactory.createRegion
+		]
+		cl.classifierBehavior = stateMachine
+		
+		stateMachine
+	}
+	
+	static def createEffectWithDefaultCppEffect(String name) {
+		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
+			it.bodies += TEST_SIDE_EFFECT_1
+			it.languages += CPP_LANGUAGE
+			it.name = name
+		]
+		return effect
+	}
+	
+	static def createEntryEffectWithDefaultCppEffect(State state, String name) {
+		val effect = createEffectWithDefaultCppEffect(name)
+		state.entry = effect
+		return effect
+	}
+	
+	static def createExitEffectWithDefaultCppEffect(State state, String name) {
+		val effect = createEffectWithDefaultCppEffect(name)
+		state.exit = effect
+		return effect
+	}
+
 	static def createSimpleState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
@@ -402,6 +457,26 @@ class UmlUtil extends ModelUtil {
 		val targetState = createSimpleState(region, NAME_DEFAULT_TARGET_STATE)
 		createTransition(region, NAME_DEFAULT_TRANSITION, sourceState, targetState)
 	}
+	
+	static def createGuardWithDeafultCppExpression(Transition transition) {
+		val guard = umlFactory.createConstraint => [
+			specification = umlFactory.createOpaqueExpression => [
+				bodies += TEST_EXPRESSION
+				languages += CPP_LANGUAGE
+			]
+		]
+		transition.guard = guard
+		guard
+	}
+	
+	static def createOpaqueBehavior(Transition transition) {
+		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
+			bodies += TEST_SIDE_EFFECT_1
+			languages += CPP_LANGUAGE
+		]
+		transition.effect = effect
+		effect
+	}
 
 	static def createTrigger(Model umlRoot) {
 		val trigger = UMLFactory.eINSTANCE.createTrigger
@@ -415,5 +490,38 @@ class UmlUtil extends ModelUtil {
 	static def setMultiplicity(MultiplicityElement multiplicityElement, int lower, int upper) {
 		multiplicityElement.lower = lower
 		multiplicityElement.upper = upper
+	}
+	
+	static def transform(org.eclipse.uml2.uml.VisibilityKind kind) {
+		switch kind {
+			case PRIVATE_LITERAL: VisibilityKind.PRIVATE
+			case PROTECTED_LITERAL: VisibilityKind.PROTECTED
+			case PUBLIC_LITERAL: VisibilityKind.PUBLIC
+			default: {
+			}
+		}
+	}
+	
+	static def transform(ParameterDirectionKind kind) {
+		switch kind {
+			case IN_LITERAL: DirectionKind.IN
+			case OUT_LITERAL: DirectionKind.OUT
+			case INOUT_LITERAL: DirectionKind.IN_OUT
+			default: {
+			}
+		}
+	}
+	
+	static def updateAttribute(Property property, Attribute attribute, org.eclipse.papyrusrt.xtumlrt.common.Type xtType){
+		if(property.type != null){
+			attribute.type = xtType
+		}
+		attribute.static = property.static
+		attribute.visibility = transform(property.visibility)
+		
+		attribute.lowerBound = property.lower
+		attribute.upperBound = property.upper
+		attribute.ordered = property.isOrdered
+		attribute.unique = property.isUnique
 	}
 }

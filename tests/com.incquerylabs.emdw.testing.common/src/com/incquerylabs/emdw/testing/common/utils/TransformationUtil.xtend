@@ -17,6 +17,10 @@ class TransformationUtil {
 	XtumlComponentCPPTransformation compTrafo
 	AdvancedIncQueryEngine engine
 
+	def initializeTransformation(ResourceSet rs) {
+		initializeTransformation(rs, null)
+	}
+	
 	def initializeTransformation(ResourceSet rs, Map<org.eclipse.uml2.uml.Type, Type> primitiveTypeMapping) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
 		xtTrafo = new TransformationQrt

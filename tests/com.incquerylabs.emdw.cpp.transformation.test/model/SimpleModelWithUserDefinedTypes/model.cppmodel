@@ -9,102 +9,312 @@
         <commonNamedElement xsi:type="xtuml:XTComponent" href="model.xtuml#//@entities.0"/>
       </ooplNameProvider>
       <subElements xsi:type="cpp:CPPBasicType">
-        <commonType xsi:type="common:PrimitiveType" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type"/>
+        <commonType xsi:type="common:PrimitiveType" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type"/>
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-          <commonNamedElement xsi:type="common:PrimitiveType" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type"/>
+          <commonNamedElement xsi:type="common:PrimitiveType" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type"/>
         </ooplNameProvider>
       </subElements>
       <subElements xsi:type="cpp:CPPEnumType">
-        <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type"/>
+        <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type"/>
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-          <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type"/>
+          <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type"/>
         </ooplNameProvider>
         <subElements xsi:type="cpp:CPPEnumerator">
-          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.1"/>
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@literals.0"/>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.1"/>
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@literals.0"/>
           </ooplNameProvider>
         </subElements>
         <subElements xsi:type="cpp:CPPEnumerator">
-          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.2"/>
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@literals.1"/>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.2"/>
-          </ooplNameProvider>
-        </subElements>
-        <subElements xsi:type="cpp:CPPEnumerator">
-          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.0"/>
-          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.0"/>
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@literals.1"/>
           </ooplNameProvider>
         </subElements>
       </subElements>
       <subElements xsi:type="cpp:CPPEnumType">
-        <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type"/>
+        <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type"/>
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-          <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type"/>
+          <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type"/>
         </ooplNameProvider>
         <subElements xsi:type="cpp:CPPEnumerator">
-          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.1"/>
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.3/@type/@literals.1"/>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.1"/>
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type/@literals.1"/>
           </ooplNameProvider>
         </subElements>
         <subElements xsi:type="cpp:CPPEnumerator">
-          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.0"/>
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.3/@type/@literals.0"/>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.0"/>
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type/@literals.0"/>
+          </ooplNameProvider>
+        </subElements>
+        <subElements xsi:type="cpp:CPPEnumerator">
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.3/@type/@literals.2"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type/@literals.2"/>
           </ooplNameProvider>
         </subElements>
       </subElements>
       <subElements xsi:type="cpp:CPPStructType">
-        <commonType xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type"/>
+        <commonType xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type"/>
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-          <commonNamedElement xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type"/>
+          <commonNamedElement xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type"/>
         </ooplNameProvider>
         <subElements xsi:type="cpp:CPPStructMember">
-          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.1"/>
+          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.3"/>
+          <unnamedSequenceType xsi:type="cpp:CPPSequence" uniqueness="UNIQUE">
+            <elementType xsi:type="cpp:CPPBasicType" href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel#//@subElements.3"/>
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.1"/>
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.3"/>
           </ooplNameProvider>
         </subElements>
         <subElements xsi:type="cpp:CPPStructMember">
-          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.0"/>
+          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.1"/>
+          <unnamedSequenceType xsi:type="cpp:CPPSequence" elementType="/0/@subElements.0/@subElements.1" uniqueness="UNIQUE">
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.0"/>
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.1"/>
           </ooplNameProvider>
         </subElements>
+        <subElements xsi:type="cpp:CPPStructMember">
+          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.0"/>
+          <unnamedSequenceType xsi:type="cpp:CPPSequence" elementType="/0/@subElements.0/@subElements.5/@subElements.1" uniqueness="UNIQUE">
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.0"/>
+          </ooplNameProvider>
+        </subElements>
+        <subElements xsi:type="cpp:CPPStructMember">
+          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.2"/>
+          <unnamedSequenceType xsi:type="cpp:CPPSequence" uniqueness="UNIQUE">
+            <elementType xsi:type="cpp:CPPBasicType" href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel#//@subElements.1"/>
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@attributes.2"/>
+          </ooplNameProvider>
+        </subElements>
+      </subElements>
+      <subElements xsi:type="cpp:CPPClass" referenceStorage="/0/@subElements.0/@subElements.4/@subElements.0" headerFile="/1/@subDirectories.0/@files.6" bodyFile="/1/@subDirectories.0/@files.5">
+        <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+          <commonNamedElement xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+        </ooplNameProvider>
+        <subElements xsi:type="cpp:CPPClassReferenceStorage" type="/0/@subElements.0/@subElements.4/@subElements.0/@subElements.0">
+          <ooplNameProvider xsi:type="oopl:OOPLDerivedNameProvider" name="_instances"/>
+          <subElements xsi:type="cpp:CPPClassRefSimpleCollection" ooplClass="/0/@subElements.0/@subElements.4">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+            </ooplNameProvider>
+            <commonType xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/4"/>
+          </subElements>
+        </subElements>
+        <subElements xsi:type="cpp:CPPAttribute">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@entities.0/@attributes.1"/>
+          </ooplNameProvider>
+          <commonAttribute href="model.xtuml#//@entities.0/@entities.0/@attributes.1"/>
+          <unnamedSequenceType elementType="/0/@subElements.0/@subElements.2" uniqueness="UNIQUE">
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
+        </subElements>
+        <subElements xsi:type="cpp:CPPAttribute">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@entities.0/@attributes.3"/>
+          </ooplNameProvider>
+          <commonAttribute href="model.xtuml#//@entities.0/@entities.0/@attributes.3"/>
+          <unnamedSequenceType elementType="/0/@subElements.0/@subElements.0" uniqueness="UNIQUE">
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
+        </subElements>
+        <subElements xsi:type="cpp:CPPAttribute">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@entities.0/@attributes.0"/>
+          </ooplNameProvider>
+          <commonAttribute href="model.xtuml#//@entities.0/@entities.0/@attributes.0"/>
+          <unnamedSequenceType elementType="/0/@subElements.0/@subElements.3" uniqueness="UNIQUE">
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
+        </subElements>
+        <subElements xsi:type="cpp:CPPAttribute">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@entities.0/@attributes.2"/>
+          </ooplNameProvider>
+          <commonAttribute href="model.xtuml#//@entities.0/@entities.0/@attributes.2"/>
+          <unnamedSequenceType uniqueness="UNIQUE">
+            <elementType xsi:type="cpp:CPPBasicType" href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel#//@subElements.1"/>
+            <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+          </unnamedSequenceType>
+        </subElements>
+        <subElements xsi:type="cpp:CPPOperation">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Operation" href="model.xtuml#//@entities.0/@entities.0/@operations.0"/>
+          </ooplNameProvider>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.0"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.0"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.1"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.1"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.2"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.2"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.3"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.3"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter" passingMode="BY_REFERENCE">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.4"/>
+            </ooplNameProvider>
+            <subElements xsi:type="cpp:CPPClassReference" ooplClass="/0/@subElements.0/@subElements.4">
+              <commonType xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+              <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+                <commonNamedElement xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+              </ooplNameProvider>
+            </subElements>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.0/@parameters.4"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPReturnValue">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Operation" href="model.xtuml#//@entities.0/@entities.0/@operations.0"/>
+            </ooplNameProvider>
+            <commonTypedMultiplicityElement href="model.xtuml#//@entities.0/@entities.0/@operations.0/@returnType"/>
+          </subElements>
+          <commonOperation href="model.xtuml#//@entities.0/@entities.0/@operations.0"/>
+        </subElements>
+        <subElements xsi:type="cpp:CPPOperation">
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Operation" href="model.xtuml#//@entities.0/@entities.0/@operations.1"/>
+          </ooplNameProvider>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.0"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.0"/>
+            <unnamedSequenceType uniqueness="UNIQUE">
+              <elementType xsi:type="cpp:CPPBasicType" href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel#//@subElements.1"/>
+              <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+            </unnamedSequenceType>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.1"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.1"/>
+            <unnamedSequenceType elementType="/0/@subElements.0/@subElements.5/@subElements.0" uniqueness="UNIQUE">
+              <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+            </unnamedSequenceType>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.2"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.2"/>
+            <unnamedSequenceType elementType="/0/@subElements.0/@subElements.5/@subElements.1" uniqueness="UNIQUE">
+              <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+            </unnamedSequenceType>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.3"/>
+            </ooplNameProvider>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.3"/>
+            <unnamedSequenceType elementType="/0/@subElements.0/@subElements.0" uniqueness="UNIQUE">
+              <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/1"/>
+            </unnamedSequenceType>
+          </subElements>
+          <subElements xsi:type="cpp:CPPFormalParameter">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Parameter" href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.4"/>
+            </ooplNameProvider>
+            <subElements xsi:type="cpp:CPPClassRefSimpleCollection" ooplClass="/0/@subElements.0/@subElements.4">
+              <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+                <commonNamedElement xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+              </ooplNameProvider>
+              <commonType xsi:type="xtuml:XTClass" href="model.xtuml#//@entities.0/@entities.0"/>
+              <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/4"/>
+            </subElements>
+            <commonParameter href="model.xtuml#//@entities.0/@entities.0/@operations.1/@parameters.4"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPReturnValue">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Operation" href="model.xtuml#//@entities.0/@entities.0/@operations.1"/>
+            </ooplNameProvider>
+            <commonTypedMultiplicityElement href="model.xtuml#//@entities.0/@entities.0/@operations.1/@returnType"/>
+          </subElements>
+          <commonOperation href="model.xtuml#//@entities.0/@entities.0/@operations.1"/>
+        </subElements>
+        <xtClass href="model.xtuml#//@entities.0/@entities.0"/>
       </subElements>
       <subElements xsi:type="cpp:CPPPackage" bodyFile="/1/@subDirectories.0/@subDirectories.0/@files.1" headerFile="/1/@subDirectories.0/@subDirectories.0/@files.2" headerDir="/1/@subDirectories.0/@subDirectories.0" bodyDir="/1/@subDirectories.0/@subDirectories.0">
         <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
           <commonNamedElement xsi:type="common:Package" href="model.xtuml#//@entities.0/@packages.0"/>
         </ooplNameProvider>
         <subElements xsi:type="cpp:CPPEnumType">
-          <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type"/>
+          <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type"/>
           <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-            <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type"/>
+            <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type"/>
           </ooplNameProvider>
           <subElements xsi:type="cpp:CPPEnumerator">
-            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.2"/>
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.1"/>
             <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.2"/>
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.1"/>
             </ooplNameProvider>
           </subElements>
           <subElements xsi:type="cpp:CPPEnumerator">
-            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.0"/>
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.3"/>
             <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.0"/>
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.3"/>
             </ooplNameProvider>
           </subElements>
           <subElements xsi:type="cpp:CPPEnumerator">
-            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.3"/>
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.2"/>
             <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.3"/>
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.2"/>
             </ooplNameProvider>
           </subElements>
           <subElements xsi:type="cpp:CPPEnumerator">
-            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.1"/>
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.0"/>
             <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.1"/>
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.1/@type/@literals.0"/>
+            </ooplNameProvider>
+          </subElements>
+        </subElements>
+        <subElements xsi:type="cpp:CPPStructType">
+          <commonType xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type"/>
+          </ooplNameProvider>
+          <subElements xsi:type="cpp:CPPStructMember">
+            <commonMember href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@attributes.0"/>
+            <unnamedSequenceType xsi:type="cpp:CPPSequence" elementType="/0/@subElements.0/@subElements.2" orderedness="ORDERED" uniqueness="UNIQUE">
+              <implementation href="../../../../plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel#/3"/>
+            </unnamedSequenceType>
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@attributes.0"/>
+            </ooplNameProvider>
+          </subElements>
+          <subElements xsi:type="cpp:CPPStructMember">
+            <commonMember href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@attributes.1"/>
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@attributes.1"/>
             </ooplNameProvider>
           </subElements>
         </subElements>
@@ -123,11 +333,41 @@
       </subDirectories>
       <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@files.1 /1/@subDirectories.0/@files.3"/>
       <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
-      <files xsi:type="cpp:CPPHeaderFile"/>
-      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.1 /1/@subDirectories.0/@subDirectories.0/@files.2"/>
+      <files xsi:type="cpp:CPPHeaderFile">
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.0" comment="&lt;set> for CPPStructMember MyDatatypeStructMember;  CPPStructMember MyDatatypeStringListMember;  CPPStructMember MyDatatypeIntMember;  CPPStructMember OuterDataTypeEnumMember; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.1" comment="&lt;algorithm> for CPPStructMember MyDatatypeStructMember;  CPPStructMember MyDatatypeStringListMember;  CPPStructMember MyDatatypeIntMember;  CPPStructMember OuterDataTypeEnumMember;  CPPStructMember MyDatatypeEnumMember; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.2" comment="&lt;utility> for CPPStructMember MyDatatypeStructMember;  CPPStructMember MyDatatypeStringListMember;  CPPStructMember MyDatatypeIntMember;  CPPStructMember OuterDataTypeEnumMember; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.3" comment="&lt;string> for CPPStructMember MyDatatypeStringListMember; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.10" comment="&lt;vector> for CPPStructMember MyDatatypeEnumMember; "/>
+      </files>
+      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.6 /1/@subDirectories.0/@subDirectories.0/@files.2 /1/@subDirectories.0/@files.1"/>
       <files xsi:type="cpp:CPPMakeFile"/>
+      <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@files.6 /1/@subDirectories.0/@files.3"/>
+      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2">
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.4" comment="&quot;Runtime/unique_number.hh&quot; for Type identifier generation; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.5" comment="&quot;Runtime/type_number.hh&quot; for Type identifier generation; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.6" comment="&lt;list> for _instances;  CPPFormalParameter operationClassCollectionParam; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.7" comment="&lt;queue> for event queues; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.8" comment="&lt;iostream> for standard io; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.0" comment="&lt;set> for CPPFormalParameter operationEnumCollectionParam;  CPPFormalParameter operationStructCollectionParam;  CPPFormalParameter operationIntCollectionParam;  CPPFormalParameter operationNamedPrimitiveTypeCollectionParam;  CPPAttribute myNamedPrimitiveAttribute;  CPPAttribute myEnumAttribute;  CPPAttribute myStructAttribute;  CPPAttribute myUmlPrimitiveAttribute; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.1" comment="&lt;algorithm> for CPPFormalParameter operationEnumCollectionParam;  CPPFormalParameter operationStructCollectionParam;  CPPFormalParameter operationIntCollectionParam;  CPPFormalParameter operationClassCollectionParam;  CPPFormalParameter operationNamedPrimitiveTypeCollectionParam;  CPPAttribute myNamedPrimitiveAttribute;  CPPAttribute myEnumAttribute;  CPPAttribute myStructAttribute;  CPPAttribute myUmlPrimitiveAttribute; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.2" comment="&lt;utility> for CPPFormalParameter operationEnumCollectionParam;  CPPFormalParameter operationStructCollectionParam;  CPPFormalParameter operationIntCollectionParam;  CPPFormalParameter operationNamedPrimitiveTypeCollectionParam;  CPPAttribute myNamedPrimitiveAttribute;  CPPAttribute myEnumAttribute;  CPPAttribute myStructAttribute;  CPPAttribute myUmlPrimitiveAttribute; "/>
+        <externalHeaderInclusion externalHeader="/2/@externalHeader.9" comment="&lt;iterator> for CPPFormalParameter operationClassCollectionParam; "/>
+      </files>
     </subDirectories>
     <files xsi:type="cpp:CPPMakeFile"/>
   </cpp:CPPDirectory>
-  <cpp:CPPExternalLibrary/>
+  <cpp:CPPExternalLibrary>
+    <externalHeader name="&lt;set>"/>
+    <externalHeader name="&lt;algorithm>"/>
+    <externalHeader name="&lt;utility>"/>
+    <externalHeader name="&lt;string>"/>
+    <externalHeader name="&quot;Runtime/unique_number.hh&quot;"/>
+    <externalHeader name="&quot;Runtime/type_number.hh&quot;"/>
+    <externalHeader name="&lt;list>"/>
+    <externalHeader name="&lt;queue>"/>
+    <externalHeader name="&lt;iostream>"/>
+    <externalHeader name="&lt;iterator>"/>
+    <externalHeader name="&lt;vector>"/>
+  </cpp:CPPExternalLibrary>
 </xmi:XMI>

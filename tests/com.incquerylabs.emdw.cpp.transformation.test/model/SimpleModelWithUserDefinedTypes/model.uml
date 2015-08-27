@@ -4,13 +4,22 @@
     <packagedElement xmi:type="uml:DataType" xmi:id="_tFQ_MDIKEeWf8oeazc34-Q" name="MyDataType">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_u50GADIKEeWf8oeazc34-Q" name="MyDatatypeIntMember">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vaGYIEyvEeWdZZPm-sLHug"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_vaYE8EyvEeWdZZPm-sLHug" value="*"/>
       </ownedAttribute>
       <ownedAttribute xmi:type="uml:Property" xmi:id="_ZKImIDINEeWBiqQHLWinhQ" name="MyDatatypeStringListMember">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
-        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cL_NkDINEeWBiqQHLWinhQ" value="1"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cL_NkDINEeWBiqQHLWinhQ"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cMBp0DINEeWBiqQHLWinhQ" value="*"/>
       </ownedAttribute>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_uNzc0EvuEeWLBvouD-SBxw" name="MyDatatypeStructMember" type="_FwmOMEvuEeWLBvouD-SBxw"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_uNzc0EvuEeWLBvouD-SBxw" name="MyDatatypeStructMember" type="_FwmOMEvuEeWLBvouD-SBxw">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_whjvcEyvEeWdZZPm-sLHug"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_whon8EyvEeWdZZPm-sLHug" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_IXVfgEy1EeWbDY3TCBjgCA" name="OuterDataTypeEnumMember" type="_IDVjYEseEeWhINXF5b3BLQ">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_JGaMAEy1EeWbDY3TCBjgCA"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_JGfrkEy1EeWbDY3TCBjgCA" value="*"/>
+      </ownedAttribute>
     </packagedElement>
     <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_gDlxQDINEeWBiqQHLWinhQ" name="double"/>
     <packagedElement xmi:type="uml:Enumeration" xmi:id="_EI2DwEseEeWhINXF5b3BLQ" name="Color">
@@ -30,9 +39,12 @@
         <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_R3FTYEs0EeWVSamy9Aalmw" name="black"/>
       </packagedElement>
       <packagedElement xmi:type="uml:DataType" xmi:id="_FwmOMEvuEeWLBvouD-SBxw" name="MySecondDataType">
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_FwmOMUvuEeWLBvouD-SBxw" name="MyDatatypeNamedPrimitiveMember" type="_gDlxQDINEeWBiqQHLWinhQ"/>
-        <ownedAttribute xmi:type="uml:Property" xmi:id="_FwmOMkvuEeWLBvouD-SBxw" name="MyDatatypeEnumMember" type="_EI2DwEseEeWhINXF5b3BLQ">
-          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FwmOM0vuEeWLBvouD-SBxw" value="1"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_FwmOMUvuEeWLBvouD-SBxw" name="MyDatatypeNamedPrimitiveMember" type="_gDlxQDINEeWBiqQHLWinhQ">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_w9I4MEyvEeWdZZPm-sLHug" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_w9NJoEyvEeWdZZPm-sLHug" value="1"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_FwmOMkvuEeWLBvouD-SBxw" name="MyDatatypeEnumMember" type="_EI2DwEseEeWhINXF5b3BLQ" isOrdered="true">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FwmOM0vuEeWLBvouD-SBxw"/>
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_FwmONEvuEeWLBvouD-SBxw" value="*"/>
         </ownedAttribute>
       </packagedElement>
@@ -40,10 +52,61 @@
     <packagedElement xmi:type="uml:Class" xmi:id="_dM1roEvtEeWLBvouD-SBxw" name="MyClass">
       <ownedAttribute xmi:type="uml:Property" xmi:id="_iktvQEvtEeWLBvouD-SBxw" name="myUmlPrimitiveAttribute">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_y9bU8EyvEeWdZZPm-sLHug"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y9dKIEyvEeWdZZPm-sLHug" value="*"/>
       </ownedAttribute>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_jwjQQEvtEeWLBvouD-SBxw" name="myEnumAttribute" type="_EI2DwEseEeWhINXF5b3BLQ"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_jzugEEvtEeWLBvouD-SBxw" name="myStructAttribute" type="_tFQ_MDIKEeWf8oeazc34-Q"/>
-      <ownedAttribute xmi:type="uml:Property" xmi:id="_j4BKMEvtEeWLBvouD-SBxw" name="myNamedPrimitiveAttribute" type="_gDlxQDINEeWBiqQHLWinhQ"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_jwjQQEvtEeWLBvouD-SBxw" name="myEnumAttribute" type="_EI2DwEseEeWhINXF5b3BLQ">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zUcGwEyvEeWdZZPm-sLHug"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zUfxIEyvEeWdZZPm-sLHug" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_jzugEEvtEeWLBvouD-SBxw" name="myStructAttribute" type="_tFQ_MDIKEeWf8oeazc34-Q">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zq3pwEyvEeWdZZPm-sLHug"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zq6tEEyvEeWdZZPm-sLHug" value="*"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_j4BKMEvtEeWLBvouD-SBxw" name="myNamedPrimitiveAttribute" type="_gDlxQDINEeWBiqQHLWinhQ">
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_0Bc9wEyvEeWdZZPm-sLHug"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_0BgBEEyvEeWdZZPm-sLHug" value="*"/>
+      </ownedAttribute>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="__Wl9MEwDEeW-I7YxpuUBYQ" name="OperationBehavior" specification="_B1AyUEwCEeW-I7YxpuUBYQ">
+        <language>C++</language>
+        <body>// Operation body</body>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_HZXEUEwFEeW-I7YxpuUBYQ" name="SecondOperationBehavior" specification="_oUjWMEwJEeWF5qkWnUUC4A">
+        <language>C++</language>
+        <body>// Operation with collection parameters</body>
+      </ownedBehavior>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_B1AyUEwCEeW-I7YxpuUBYQ" name="myOperation" method="__Wl9MEwDEeW-I7YxpuUBYQ">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_HNirUEwEEeW-I7YxpuUBYQ" name="operationIntParam">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_L1-PAEwEEeW-I7YxpuUBYQ" name="operationEnumParam" type="_K83TQEs0EeWVSamy9Aalmw"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_SbejYEwEEeW-I7YxpuUBYQ" name="operationStructParam" type="_FwmOMEvuEeWLBvouD-SBxw"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Vat7sEwEEeW-I7YxpuUBYQ" name="operationNamedPrimitiveTypeParam" type="_gDlxQDINEeWBiqQHLWinhQ"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_X3fgIEwEEeW-I7YxpuUBYQ" name="operationClassParam" type="_dM1roEvtEeWLBvouD-SBxw"/>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_oUjWMEwJEeWF5qkWnUUC4A" name="myOperationWithCollectionParams" method="_HZXEUEwFEeW-I7YxpuUBYQ">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_oUjWMUwJEeWF5qkWnUUC4A" name="operationIntCollectionParam">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_tRTkEEwJEeWF5qkWnUUC4A"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_tRcG8EwJEeWF5qkWnUUC4A" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_oUjWMkwJEeWF5qkWnUUC4A" name="operationEnumCollectionParam" type="_K83TQEs0EeWVSamy9Aalmw">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_uqEt0EwJEeWF5qkWnUUC4A"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_uqMpoEwJEeWF5qkWnUUC4A" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_oUjWM0wJEeWF5qkWnUUC4A" name="operationStructCollectionParam" type="_FwmOMEvuEeWLBvouD-SBxw">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_vokWYEwJEeWF5qkWnUUC4A"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_voqdAEwJEeWF5qkWnUUC4A" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_oUjWNEwJEeWF5qkWnUUC4A" name="operationNamedPrimitiveTypeCollectionParam" type="_gDlxQDINEeWBiqQHLWinhQ">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_x0DWgEwJEeWF5qkWnUUC4A"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_x0JdIEwJEeWF5qkWnUUC4A" value="*"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_oUjWNUwJEeWF5qkWnUUC4A" name="operationClassCollectionParam" type="_dM1roEvtEeWLBvouD-SBxw">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_y8WbUEwJEeWF5qkWnUUC4A"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y8ch8EwJEeWF5qkWnUUC4A" value="*"/>
+        </ownedParameter>
+      </ownedOperation>
     </packagedElement>
   </packagedElement>
 </uml:Model>

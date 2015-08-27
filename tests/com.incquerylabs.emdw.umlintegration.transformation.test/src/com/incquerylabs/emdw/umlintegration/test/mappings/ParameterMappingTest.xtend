@@ -6,11 +6,21 @@ import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	ParameterInOperationMappingTest,
+	ParameterInOperationWithModifiedMultiplicityMappingTest
+])
+@RunWith(Suite)
+class ParameterMappingTestSuite {}
 
 class ParameterInOperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Parameter, Parameter> {
 

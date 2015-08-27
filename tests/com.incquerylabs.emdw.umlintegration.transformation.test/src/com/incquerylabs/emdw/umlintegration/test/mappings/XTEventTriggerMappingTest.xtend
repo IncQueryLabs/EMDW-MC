@@ -6,11 +6,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Trigger
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.assertEquals
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	XTEventTriggerMappingTest
+])
+@RunWith(Suite)
+class XTEventTriggerMappingTestSuite {}
 
 class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
 
@@ -41,3 +50,4 @@ class XTEventTriggerMappingTest extends TransformationTest<Trigger, XTEventTrigg
 	}
 
 }
+

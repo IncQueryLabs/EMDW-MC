@@ -7,10 +7,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	SingleReturnTypeMappingTest,
+	CollectionReturnTypeMappingTest
+])
+@RunWith(Suite)
+class ReturnTypeMappingTestSuite {}
 
 class SingleReturnTypeMappingTest extends TransformationTest<Parameter, TypedMultiplicityElement> {
 	

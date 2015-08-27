@@ -6,10 +6,19 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTPort
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Port
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	XTPortMappingTest
+])
+@RunWith(Suite)
+class XTPortMappingTestSuite {}
 
 class XTPortMappingTest extends TransformationTest<Port, XTPort> {
 

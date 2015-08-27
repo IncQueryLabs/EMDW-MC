@@ -5,8 +5,19 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	XTPackageInModelMappingTest,
+	XTPackageInComponentMappingTest,
+	XTPackageInPackageMappingTest
+])
+@RunWith(Suite)
+class XTPackageMappingTestSuite {}
 
 class XTPackageInModelMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
 

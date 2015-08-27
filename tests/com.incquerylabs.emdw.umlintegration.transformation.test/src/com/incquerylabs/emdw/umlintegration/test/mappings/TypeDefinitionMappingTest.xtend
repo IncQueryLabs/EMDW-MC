@@ -5,10 +5,19 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Type
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	TypeDefinitionMappingTest
+])
+@RunWith(Suite)
+class TypeDefinitionMappingTestSuite {}
 
 class TypeDefinitionMappingTest extends TransformationTest<Type, TypeDefinition> {
 

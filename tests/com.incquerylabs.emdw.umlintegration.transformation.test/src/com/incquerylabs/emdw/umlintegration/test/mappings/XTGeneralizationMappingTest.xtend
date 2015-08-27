@@ -5,11 +5,20 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Generalization
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	XTGeneralizationMappingTest
+])
+@RunWith(Suite)
+class XTGeneralizationMappingTestSuite {}
 
 class XTGeneralizationMappingTest extends TransformationTest<Generalization, org.eclipse.papyrusrt.xtumlrt.common.Generalization> {
 	

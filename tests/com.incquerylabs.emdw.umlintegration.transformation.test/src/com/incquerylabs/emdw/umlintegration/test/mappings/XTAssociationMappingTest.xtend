@@ -6,11 +6,20 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Property
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	XTAssociationMappingTest
+])
+@RunWith(Suite)
+class XTAssociationMappingTestSuite {}
 
 class XTAssociationMappingTest extends TransformationTest<Property, XTAssociation> {
 	

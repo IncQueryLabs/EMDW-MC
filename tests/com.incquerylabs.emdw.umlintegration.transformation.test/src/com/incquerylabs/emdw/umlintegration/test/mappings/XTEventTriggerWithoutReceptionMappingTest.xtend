@@ -7,11 +7,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Trigger
 import org.junit.Assert
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.assertEquals
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	XTEventTriggerWithoutReceptionMappingTest
+])
+@RunWith(Suite)
+class XTEventTriggerWithoutReceptionMappingTestSuite {}
 
 class XTEventTriggerWithoutReceptionMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
 

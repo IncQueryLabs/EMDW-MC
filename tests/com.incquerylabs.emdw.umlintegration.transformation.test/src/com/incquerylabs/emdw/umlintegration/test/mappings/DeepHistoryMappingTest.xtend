@@ -7,10 +7,20 @@ import org.eclipse.papyrusrt.xtumlrt.common.DeepHistory
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	ToplevelDeepHistoryMappingTest,
+	ChildDeepHistoryMappingTest
+])
+@RunWith(Suite)
+class DeepHistoryMappingTestSuite {}
 
 class ToplevelDeepHistoryMappingTest extends TransformationTest<Pseudostate, DeepHistory> {
 

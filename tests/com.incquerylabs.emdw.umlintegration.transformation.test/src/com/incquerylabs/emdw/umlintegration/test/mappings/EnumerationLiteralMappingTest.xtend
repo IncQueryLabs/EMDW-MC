@@ -5,10 +5,19 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 import org.eclipse.papyrusrt.xtumlrt.common.EnumerationLiteral
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	EnumerationLiteralMappingTest
+])
+@RunWith(Suite)
+class EnumerationLiteralMappingTestSuite {}
 
 class EnumerationLiteralMappingTest extends TransformationTest<org.eclipse.uml2.uml.EnumerationLiteral, EnumerationLiteral> {
 	

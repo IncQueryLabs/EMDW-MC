@@ -7,9 +7,19 @@ import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	ToplevelChoicePointMappingTest,
+	ChildChoicePointMappingTest
+])
+@RunWith(Suite)
+class ChoicePointMappingTestSuite {}
 
 class ToplevelChoicePointMappingTest extends TransformationTest<Pseudostate, ChoicePoint> {
 

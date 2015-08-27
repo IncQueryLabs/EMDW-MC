@@ -5,10 +5,19 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.ConnectorEnd
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	ConnectorEndMappingTest
+])
+@RunWith(Suite)
+class ConnectorEndMappingTestSuite {}
 
 class ConnectorEndMappingTest extends TransformationTest<org.eclipse.uml2.uml.ConnectorEnd, ConnectorEnd> {
 

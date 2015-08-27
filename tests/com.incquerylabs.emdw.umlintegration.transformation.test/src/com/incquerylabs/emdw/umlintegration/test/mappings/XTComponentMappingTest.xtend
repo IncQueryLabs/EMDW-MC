@@ -6,8 +6,18 @@ import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	XTComponentInModelMappingTest,
+	XTComponentInPackageMappingTest
+])
+@RunWith(Suite)
+class XTComponentMappingTestSuite {}
 
 class XTComponentInModelMappingTest extends TransformationTest<Component, XTComponent> {
 

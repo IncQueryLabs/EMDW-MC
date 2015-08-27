@@ -5,12 +5,21 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.assertEquals
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	StateEntryMappingTest
+])
+@RunWith(Suite)
+class StateEntryMappingTestSuite {}
 
 class StateEntryMappingTest extends TransformationTest<Behavior, ActionCode> {
 

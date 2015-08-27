@@ -7,10 +7,19 @@ import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Property
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	StructMemberMappingTest
+])
+@RunWith(Suite)
+class StructMemberMappingTestSuite {}
 
 class StructMemberMappingTest extends TransformationTest<Property, Attribute> {
 

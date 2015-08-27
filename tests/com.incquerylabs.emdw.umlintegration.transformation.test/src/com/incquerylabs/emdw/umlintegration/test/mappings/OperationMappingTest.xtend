@@ -6,11 +6,21 @@ import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	OperationMappingTest,
+	DestructorMappingTest
+])
+@RunWith(Suite)
+class OperationMappingTestSuite {}
 
 class OperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Operation, Operation> {
 

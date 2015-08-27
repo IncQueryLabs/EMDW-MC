@@ -7,9 +7,19 @@ import org.eclipse.papyrusrt.xtumlrt.common.JunctionPoint
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	ToplevelJunctionPointMappingTest,
+	ChildJunctionPointMappingTest
+])
+@RunWith(Suite)
+class JunctionPointMappingTestSuite {}
 
 class ToplevelJunctionPointMappingTest extends TransformationTest<Pseudostate, JunctionPoint> {
 

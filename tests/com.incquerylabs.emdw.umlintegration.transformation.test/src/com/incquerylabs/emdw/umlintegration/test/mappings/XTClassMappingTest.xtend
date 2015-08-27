@@ -7,8 +7,20 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	XTClassInModelMappingTest,
+	XTClassInPackageMappingTest,
+	XTClassInComponentAsNestedClassifierMappingTest,
+	XTClassInComponentAsPackagedElementMappingTest
+])
+@RunWith(Suite)
+class XTClassMappingTestSuite {}
 
 class XTClassInModelMappingTest extends TransformationTest<Class, XTClass> {
 

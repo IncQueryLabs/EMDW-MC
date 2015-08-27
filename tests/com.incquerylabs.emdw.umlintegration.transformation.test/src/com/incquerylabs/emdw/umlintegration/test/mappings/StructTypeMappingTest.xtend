@@ -5,8 +5,17 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.uml2.uml.DataType
 import org.eclipse.uml2.uml.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	StructTypeMappingTest
+])
+@RunWith(Suite)
+class StructTypeMappingTestSuite {}
 
 class StructTypeMappingTest extends TransformationTest<DataType, StructuredType> {
 

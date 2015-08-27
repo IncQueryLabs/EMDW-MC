@@ -10,6 +10,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 
 class TypeConverter {
 	
@@ -51,6 +53,14 @@ class TypeConverter {
 	
 	def dispatch String convertType(CPPBasicType basicType) {
 		return basicType.cppName
+	}
+	
+	def dispatch String convertType(CPPEnumType enumType) {
+		return enumType.cppQualifiedName
+	}
+	
+	def dispatch String convertType(CPPStructType structType) {
+		return structType.cppQualifiedName
 	}
 	
 	def dispatch String convertType(OOPLDataType type) {

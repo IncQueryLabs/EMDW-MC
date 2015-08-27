@@ -16,7 +16,7 @@ import static org.junit.Assert.*
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-class AbstractPluginTest {
+abstract class AbstractPluginTest {
     @Parameter(0)
     public String name;
 

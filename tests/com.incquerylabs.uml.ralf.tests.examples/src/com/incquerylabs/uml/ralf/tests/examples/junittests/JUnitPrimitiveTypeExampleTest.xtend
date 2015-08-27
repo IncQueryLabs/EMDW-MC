@@ -4,7 +4,9 @@ import com.incquerylabs.uml.ralf.tests.example.util.AbstractUnitTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
 
-class JUnitPrimitiveTypeExampleTest extends AbstractUnitTest{
+abstract class JUnitPrimitiveTypeExampleTest extends AbstractUnitTest{
+    
+    /* This test does not work when executed as a JUnit plug-in test */
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(

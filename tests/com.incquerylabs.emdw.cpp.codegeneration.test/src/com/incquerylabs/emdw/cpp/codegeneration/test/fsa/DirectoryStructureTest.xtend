@@ -1,21 +1,14 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.fsa
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected CPPModel prepareCPPModelWithURI(URI modelURI) {
 		
@@ -61,21 +54,21 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 		val t4 = topState.createTransition(s1,s2,"t4", "SAMPLE_CODE")
 		t4.createXTEventTrigger(classEvent, "Trigger4")
 		
-		val cppModelBodyDirectory = createCPPDirectory(cppModel.eResource)
-		val cppModelHeaderDirectory = createCPPDirectory(cppModel.eResource)
+		val cppModelBodyDirectory = cppModel.eResource.createCPPDirectory
+		val cppModelHeaderDirectory = cppModel.eResource.createCPPDirectory
 		cppModel.bodyDir = cppModelBodyDirectory
 		cppModel.headerDir = cppModelHeaderDirectory
 		
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		
-		val cppComponent1 = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent1)
+		val cppComponent1 = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent1)
 		
-		createCPPComponentWithDefaultDirectories(cppPackage, xtComponent2)
+		cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent2)
 		
-		val cppClassHeaderFile = createCPPHeaderFile(cppComponent1.headerDirectory)
-		val cppClassBodyFile = createCPPBodyFile(cppComponent1.bodyDirectory)
+		val cppClassHeaderFile = cppComponent1.headerDirectory.createCPPHeaderFile
+		val cppClassBodyFile = cppComponent1.bodyDirectory.createCPPBodyFile
 		
-		val cppClass = createCPPClass(cppComponent1, xtClass, cppClassHeaderFile, cppClassBodyFile)
+		val cppClass = cppComponent1.createCPPClass(xtClass, cppClassHeaderFile, cppClassBodyFile)
 		cppClass.createCPPEvent(classEvent)
 		cppClass.createCPPEvent(classEvent2)
 		cppClass.createCPPState(s1)
@@ -132,12 +125,12 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
 		
-		createCPPComponentWithDefaultDirectories(cppPackage, xtComponent1)
+		cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent1)
 		
-		val cppComponent2 = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent2)
+		val cppComponent2 = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent2)
 		
-		val cppClassHeaderFile = createCPPHeaderFile(cppComponent2.headerDirectory)
-		val cppClassBodyFile = createCPPBodyFile(cppComponent2.bodyDirectory)
+		val cppClassHeaderFile = cppComponent2.headerDirectory.createCPPHeaderFile
+		val cppClassBodyFile = cppComponent2.bodyDirectory.createCPPBodyFile
 		
 		val cppClass = createCPPClass(cppComponent2, xtClass, cppClassHeaderFile, cppClassBodyFile)
 		cppClass.createCPPEvent(classEvent)

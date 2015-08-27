@@ -1,36 +1,31 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.persistedmodel
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.google.common.collect.ImmutableList
-import com.incquerylabs.emdw.cpp.codegeneration.test.TestWithoutParameters
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.CPPCodeGenerationWrapper
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
+import com.incquerylabs.emdw.testing.common.utils.GenerationUtil
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.junit.After
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
 
-@RunWith(Parameterized)
-class PersistedModelTest extends TestWithoutParameters {
+class PersistedModelTest {
+
+	protected extension Logger logger = Logger.getLogger(class)
+	protected extension GenerationUtil util
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
+	@BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
 	}
 	
-	@Parameters(name = "{index}: {1}")
-    public static def transformations() {
-        val alternatives = ImmutableList.builder
-//        	.add(new DummyWrapper())
-        	.add(new CPPCodeGenerationWrapper())
-			.build
-		
-		alternatives.map[
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
-    }
+	@Before
+	public def void init() {
+		util = new GenerationUtil
+	}
  	
 	@Test
 	def single() {
@@ -45,13 +40,26 @@ class PersistedModelTest extends TestWithoutParameters {
 		val cppModel = cppResource.contents.filter(CPPModel).head
 		
 		// generate CPP code
-		initializeTransformation(cppModel)
-		executeTransformation
+		initializeGeneration(cppModel, null)
+		executeCodeGeneration
 
 		endTest(testId)
 	}
 	
+	@After
+	def cleanup() {
+		cleanupGeneration
+	}
+	
 	def getCppResourcePath() {
 		"/com.incquerylabs.emdw.cpp.transformation.test/model/HandwrittenComplexModel/model.cppmodel"
+	}
+	
+	def startTest(String testId){
+		info('''START TEST: «testId»''')
+	}
+	
+	def endTest(String testId){
+		info('''END TEST: «testId»''')
 	}
 }

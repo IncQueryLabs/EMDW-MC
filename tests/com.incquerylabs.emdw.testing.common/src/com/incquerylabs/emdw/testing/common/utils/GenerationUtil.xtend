@@ -11,14 +11,14 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 
-class FileAndDirectoryGenerationUtil {
+class GenerationUtil {
 
 	AdvancedIncQueryEngine engine
-	FileAndDirectoryGeneration fileAndDirGeneration
-	CPPCodeGeneration cppCodeGeneration
-	MakefileGeneration makefileGeneration
-	CPPDirectory rootBodyDir
-	CPPDirectory rootHeaderDir
+	public FileAndDirectoryGeneration fileAndDirGeneration
+	public CPPCodeGeneration cppCodeGeneration
+	public MakefileGeneration makefileGeneration
+	public CPPDirectory rootBodyDir
+	public CPPDirectory rootHeaderDir
 	IFileManager fileManager
 
 	def initializeGeneration(CPPModel cppModel, IFileManager fileManager) {

@@ -41,6 +41,8 @@ import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.State
 
 import static org.junit.Assert.*
+import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 
 class XtumlUtil extends ModelUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
@@ -205,6 +207,14 @@ class XtumlUtil extends ModelUtil {
 		]
 		root.events += classEvent
 		classEvent
+	}
+	
+	static def createBidirectionalAssociation(XTClass source, XTClass target, String sourceToTargetAssociationName, String targetToSourceAssociationName) {
+		val assoc1 = createXtAssociation(source, target, sourceToTargetAssociationName, false, false, 1, 1)
+		val assoc2 = createXtAssociation(target, source, targetToSourceAssociationName, false, false, 1, 1)
+		assoc1.opposite = assoc2
+		assoc2.opposite = assoc1
+		return assoc1
 	}
 
 	static def createXtAssociation(XTClass source, XTClass target, String name, boolean unique, boolean ordered,
@@ -544,6 +554,27 @@ class XtumlUtil extends ModelUtil {
 		root.guard = action
 		action
 	}
+	
+	static def createTypedMultiplicityElement(Type type, int lower, int upper, boolean isOrdered, boolean isUnique){
+		val typedMultiplicityElement = commonFactory.createTypedMultiplicityElement => [ element |
+			element.type = type
+			element.lowerBound = lower
+			element.upperBound = upper
+			element.ordered = isOrdered
+			element.unique = isUnique
+		]
+		
+		return typedMultiplicityElement
+	}
+	
+	static def createGeneralization(XTClass derivedClass, XTClass superClass) {
+		var generalization = commonFactory.createGeneralization => [
+			it.sub = derivedClass
+			it.^super = superClass
+		]
+		derivedClass.generalizations += generalization
+		return generalization
+	}
 
 	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	static def CompositeState getXtumlrtTopState(Model xtumlrtRoot) {
@@ -552,6 +583,12 @@ class XtumlUtil extends ModelUtil {
 
 	static def findClass(RootMapping mapping, String className) {
 		mapping.xtumlrtRoot.entities.filter(XTClass).findFirst[name == className]
+	}
+
+	static def findPrimitiveType(NamedElement ne, String name) {
+		val umlPrimitiveTypesResource = ne.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("umlPrimitiveTypes")]
+		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
+		return primitiveTypes.findFirst[it.name == name]
 	}
 
 	static def checkState(State xtumlrtObject) {

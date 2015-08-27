@@ -1,22 +1,23 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.makefiles
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 import java.util.Map
 import org.eclipse.emf.ecore.EObject
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import org.junit.Before
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import static com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 
 abstract class MakeBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
 	protected CharSequence makefileContent = null
 	protected Map<CPPSourceFile, CharSequence> rules = null
 	protected MakefileGeneration generator
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
+	@Before
+	override init() {
+		super.init
 		generator = new MakefileGeneration()
 		generator.initialize
 		rules = newHashMap

@@ -27,7 +27,7 @@ class PrimitiveTypeMapping extends AbstractObjectMapping<PrimitiveTypeMatch, org
 		PrimitiveType
 	}
 	
-	public static val PRIORITY = Math.max(TypeDefinitionInComponentMapping.PRIORITY, TypeDefinitionInPackageMapping.PRIORITY) + 1
+	public static val PRIORITY = TypeDefinitionMapping.PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY

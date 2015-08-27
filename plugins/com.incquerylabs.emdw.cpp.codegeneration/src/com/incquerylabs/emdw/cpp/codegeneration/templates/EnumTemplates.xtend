@@ -1,5 +1,9 @@
 package com.incquerylabs.emdw.cpp.codegeneration.templates
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumerator
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+
 class EnumTemplates{
 	def enumClassTemplate(CharSequence enumClassName, Iterable<CharSequence> enumeratorNames) {
 		'''
@@ -18,6 +22,20 @@ class EnumTemplates{
 				__val_type __val;
 			};
 		«ENDIF»
+		'''
+	}
+	
+	def cppEnumTemplate(CPPEnumType cppEnumType){
+		val enumerators = cppEnumType.enumerators.filter(CPPEnumerator)
+		val enumeratorNames = enumerators.map[cppName as CharSequence]
+		return enumClassTemplate(cppEnumType.cppName, enumeratorNames)
+	}
+	
+	def cppEnumsInContainer(CPPQualifiedNamedElement cppContainer) {
+		'''
+		«FOR cppEnumType : cppContainer.subElements.filter(CPPEnumType)»
+			«cppEnumType.cppEnumTemplate»
+		«ENDFOR»
 		'''
 	}
 }

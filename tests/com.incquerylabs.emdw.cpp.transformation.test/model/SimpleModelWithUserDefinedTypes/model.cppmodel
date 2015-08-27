@@ -8,16 +8,123 @@
       <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
         <commonNamedElement xsi:type="xtuml:XTComponent" href="model.xtuml#//@entities.0"/>
       </ooplNameProvider>
+      <subElements xsi:type="cpp:CPPBasicType">
+        <commonType xsi:type="common:PrimitiveType" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type"/>
+        <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+          <commonNamedElement xsi:type="common:PrimitiveType" href="model.xtuml#//@entities.0/@typeDefinitions.3/@type"/>
+        </ooplNameProvider>
+      </subElements>
+      <subElements xsi:type="cpp:CPPEnumType">
+        <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type"/>
+        <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+          <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type"/>
+        </ooplNameProvider>
+        <subElements xsi:type="cpp:CPPEnumerator">
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.1"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.1"/>
+          </ooplNameProvider>
+        </subElements>
+        <subElements xsi:type="cpp:CPPEnumerator">
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.2"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.2"/>
+          </ooplNameProvider>
+        </subElements>
+        <subElements xsi:type="cpp:CPPEnumerator">
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.0"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.2/@type/@literals.0"/>
+          </ooplNameProvider>
+        </subElements>
+      </subElements>
+      <subElements xsi:type="cpp:CPPEnumType">
+        <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type"/>
+        <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+          <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type"/>
+        </ooplNameProvider>
+        <subElements xsi:type="cpp:CPPEnumerator">
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.1"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.1"/>
+          </ooplNameProvider>
+        </subElements>
+        <subElements xsi:type="cpp:CPPEnumerator">
+          <commonEnumerationLiteral href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.0"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@typeDefinitions.1/@type/@literals.0"/>
+          </ooplNameProvider>
+        </subElements>
+      </subElements>
+      <subElements xsi:type="cpp:CPPStructType">
+        <commonType xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type"/>
+        <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+          <commonNamedElement xsi:type="common:StructuredType" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type"/>
+        </ooplNameProvider>
+        <subElements xsi:type="cpp:CPPStructMember">
+          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.1"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.1"/>
+          </ooplNameProvider>
+        </subElements>
+        <subElements xsi:type="cpp:CPPStructMember">
+          <commonMember href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.0"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Attribute" href="model.xtuml#//@entities.0/@typeDefinitions.0/@type/@attributes.0"/>
+          </ooplNameProvider>
+        </subElements>
+      </subElements>
+      <subElements xsi:type="cpp:CPPPackage" bodyFile="/1/@subDirectories.0/@subDirectories.0/@files.1" headerFile="/1/@subDirectories.0/@subDirectories.0/@files.2" headerDir="/1/@subDirectories.0/@subDirectories.0" bodyDir="/1/@subDirectories.0/@subDirectories.0">
+        <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+          <commonNamedElement xsi:type="common:Package" href="model.xtuml#//@entities.0/@packages.0"/>
+        </ooplNameProvider>
+        <subElements xsi:type="cpp:CPPEnumType">
+          <commonType xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type"/>
+          <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+            <commonNamedElement xsi:type="common:Enumeration" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type"/>
+          </ooplNameProvider>
+          <subElements xsi:type="cpp:CPPEnumerator">
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.2"/>
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.2"/>
+            </ooplNameProvider>
+          </subElements>
+          <subElements xsi:type="cpp:CPPEnumerator">
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.0"/>
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.0"/>
+            </ooplNameProvider>
+          </subElements>
+          <subElements xsi:type="cpp:CPPEnumerator">
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.3"/>
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.3"/>
+            </ooplNameProvider>
+          </subElements>
+          <subElements xsi:type="cpp:CPPEnumerator">
+            <commonEnumerationLiteral href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.1"/>
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:EnumerationLiteral" href="model.xtuml#//@entities.0/@packages.0/@typeDefinitions.0/@type/@literals.1"/>
+            </ooplNameProvider>
+          </subElements>
+        </subElements>
+        <commonPackage href="model.xtuml#//@entities.0/@packages.0"/>
+      </subElements>
       <xtComponent href="model.xtuml#//@entities.0"/>
     </subElements>
     <commonModel href="model.xtuml#/"/>
   </cpp:CPPModel>
   <cpp:CPPDirectory makeRulesFile="/1/@files.0">
     <subDirectories makeRulesFile="/1/@subDirectories.0/@files.4">
+      <subDirectories makeRulesFile="/1/@subDirectories.0/@subDirectories.0/@files.0">
+        <files xsi:type="cpp:CPPMakeFile"/>
+        <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@subDirectories.0/@files.2 /1/@subDirectories.0/@files.3"/>
+        <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
+      </subDirectories>
       <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@files.1 /1/@subDirectories.0/@files.3"/>
       <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
       <files xsi:type="cpp:CPPHeaderFile"/>
-      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.1"/>
+      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.1 /1/@subDirectories.0/@subDirectories.0/@files.2"/>
       <files xsi:type="cpp:CPPMakeFile"/>
     </subDirectories>
     <files xsi:type="cpp:CPPMakeFile"/>

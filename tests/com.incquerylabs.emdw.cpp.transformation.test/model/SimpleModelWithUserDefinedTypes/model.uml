@@ -10,7 +10,40 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_cL_NkDINEeWBiqQHLWinhQ" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_cMBp0DINEeWBiqQHLWinhQ" value="*"/>
       </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_uNzc0EvuEeWLBvouD-SBxw" name="MyDatatypeStructMember" type="_FwmOMEvuEeWLBvouD-SBxw"/>
     </packagedElement>
-    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_gDlxQDINEeWBiqQHLWinhQ" name="MyPrimitiveType"/>
+    <packagedElement xmi:type="uml:PrimitiveType" xmi:id="_gDlxQDINEeWBiqQHLWinhQ" name="double"/>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_EI2DwEseEeWhINXF5b3BLQ" name="Color">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_FbGV0EseEeWhINXF5b3BLQ" name="red"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_GgbmMEseEeWhINXF5b3BLQ" name="blue"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_HE_r0EseEeWhINXF5b3BLQ" name="orange"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_IDVjYEseEeWhINXF5b3BLQ" name="Fruit">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_JsbBEEseEeWhINXF5b3BLQ" name="apple"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_KQk3AEseEeWhINXF5b3BLQ" name="orange"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_GFFsAEs0EeWVSamy9Aalmw" name="MyPackage">
+      <packagedElement xmi:type="uml:Enumeration" xmi:id="_K83TQEs0EeWVSamy9Aalmw" name="Color">
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K83TQks0EeWVSamy9Aalmw" name="cyan"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K83TQUs0EeWVSamy9Aalmw" name="magenta"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_K83TQ0s0EeWVSamy9Aalmw" name="yellow"/>
+        <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_R3FTYEs0EeWVSamy9Aalmw" name="black"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:DataType" xmi:id="_FwmOMEvuEeWLBvouD-SBxw" name="MySecondDataType">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_FwmOMUvuEeWLBvouD-SBxw" name="MyDatatypeNamedPrimitiveMember" type="_gDlxQDINEeWBiqQHLWinhQ"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_FwmOMkvuEeWLBvouD-SBxw" name="MyDatatypeEnumMember" type="_EI2DwEseEeWhINXF5b3BLQ">
+          <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_FwmOM0vuEeWLBvouD-SBxw" value="1"/>
+          <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_FwmONEvuEeWLBvouD-SBxw" value="*"/>
+        </ownedAttribute>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_dM1roEvtEeWLBvouD-SBxw" name="MyClass">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_iktvQEvtEeWLBvouD-SBxw" name="myUmlPrimitiveAttribute">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_jwjQQEvtEeWLBvouD-SBxw" name="myEnumAttribute" type="_EI2DwEseEeWhINXF5b3BLQ"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_jzugEEvtEeWLBvouD-SBxw" name="myStructAttribute" type="_tFQ_MDIKEeWf8oeazc34-Q"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_j4BKMEvtEeWLBvouD-SBxw" name="myNamedPrimitiveAttribute" type="_gDlxQDINEeWBiqQHLWinhQ"/>
+    </packagedElement>
   </packagedElement>
 </uml:Model>

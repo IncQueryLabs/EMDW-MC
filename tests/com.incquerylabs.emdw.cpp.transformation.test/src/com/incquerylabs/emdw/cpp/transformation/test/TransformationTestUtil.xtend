@@ -59,6 +59,8 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
+import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
+import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 
 /**
  * Most factory methods are impure: they modify the model! 
@@ -453,25 +455,64 @@ class TransformationTestUtil {
 		]
 		parameter
 	}
-
+	
 	static def createTypeDefinition(BaseContainer root, Type type, String name) {
-		val typeDef = commonFactory.createTypeDefinition => [
-			it.name = name
+		val typeDef = createTypeDefinition(root, name) => [
 			it.type = type
 		]
-		root.typeDefinitions += typeDef
 		typeDef
 	}
-
+	
 	static def createTypeDefinition(BaseContainer root, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
 			it.name = name
-			it.type = type
 		]
 		root.typeDefinitions += typeDef
 		typeDef
 	}
-
+	
+	static def createEnumerationWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val enumeration = createEnumeration(typeDefinition, name)
+		return enumeration
+	}
+	
+	static def createEnumeration(TypeDefinition typeDefinition, String name) {
+		val enumeration = commonFactory.createEnumeration => [
+			it.name = name
+		]
+		typeDefinition.type = enumeration
+		return enumeration
+	}
+	
+	static def createEnumerationLiteral(Enumeration enumeration, String name) {
+		val enumerationLiteral = commonFactory.createEnumerationLiteral => [
+			it.name = name
+		]
+		enumeration.literals += enumerationLiteral
+		return enumerationLiteral
+	}
+	
+	static def createStructuredTypeWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val structuredType = createStructuredType(typeDefinition, name)
+		return structuredType
+	}
+	
+	static def createStructuredType(TypeDefinition typeDefinition, String name) {
+		val structuredType = commonFactory.createStructuredType => [
+			it.name = name
+		]
+		typeDefinition.type = structuredType
+		return structuredType
+	}
+	
+	static def createPrimitiveTypeWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val primitiveType = createPrimitiveType(typeDefinition, name)
+		return primitiveType
+	}
+	
 	static def createPrimitiveType(TypeDefinition typedef, String name) {
 		val type = commonFactory.createPrimitiveType => [
 			it.name = name
@@ -525,6 +566,24 @@ class TransformationTestUtil {
 		root.attributes += attr
 		attr
 	}
+
+	static def createSingleAttribute(StructuredType root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		val attr = createSingleAttribute(type, visibility, isStatic, name)
+		root.attributes += attr
+		attr
+	}
+	
+	static def createListAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		val attribute = createListAttribute(type, visibility, isStatic, name)
+		root.attributes += attribute
+		return attribute
+	}
+	
+	static def createListAttribute(StructuredType root, Type type, VisibilityKind visibility, boolean isStatic, String name){
+		val attribute = createListAttribute(type, visibility, isStatic, name)
+		root.attributes += attribute
+		return attribute
+	}
 	
 	static def createSingleAttribute(Type type, VisibilityKind visibility, boolean isStatic, String name) {
 		commonFactory.createAttribute => [
@@ -537,7 +596,7 @@ class TransformationTestUtil {
 		]
 	}
 
-	static def createListAttribute(Entity root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+	static def createListAttribute(Type type, VisibilityKind visibility, boolean isStatic, String name) {
 		val attr = commonFactory.createAttribute => [
 			it.name = name
 			it.visibility = visibility
@@ -547,7 +606,6 @@ class TransformationTestUtil {
 			it.lowerBound = 0
 			it.upperBound = Integer.MAX_VALUE
 		]
-		root.attributes += attr
 		attr
 	}
 

@@ -21,7 +21,7 @@ class IncludeTemplates {
 	def externalHeaderInclusions(CPPSourceFile cppFile){
 		'''
 		«FOR inclusion : cppFile.externalHeaderInclusion»
-		#include «inclusion.externalHeader.name»
+		#include «inclusion.externalHeader.name» //«inclusion.comment»
 		«ENDFOR»
 		'''
 	}

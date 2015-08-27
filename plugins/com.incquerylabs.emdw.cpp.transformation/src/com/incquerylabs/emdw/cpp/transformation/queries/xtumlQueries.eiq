@@ -203,6 +203,51 @@ pattern stateMachineTerminatePoints(
 	CompositeState.terminatepoint(compositeState, terminatePoint);
 }
 
+pattern structMember(
+	structuredType : StructuredType,
+	cppStructType : CPPStructType,
+	attribute : Attribute
+) {
+	StructuredType.attributes(structuredType, attribute);
+	CPPStructType.commonType(cppStructType, structuredType);
+}
+
+pattern enumerator(
+	enumeration : Enumeration,
+	cppEnumType : CPPEnumType,
+	enumerationLiteral : EnumerationLiteral
+) {
+	Enumeration.literals(enumeration, enumerationLiteral);
+	CPPEnumType.commonType(cppEnumType, enumeration);
+}
+
+pattern enumeration(
+	enumeration : Enumeration,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	BaseContainer.typeDefinitions(xtContainer, typeDefinition);
+	TypeDefinition.type(typeDefinition, enumeration);
+	find cppContainer(xtContainer, cppContainer);
+}
+
+pattern structuredType(
+	structuredType : StructuredType,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	BaseContainer.typeDefinitions(xtContainer, typeDefinition);
+	TypeDefinition.type(typeDefinition, structuredType);
+	find cppContainer(xtContainer, cppContainer);
+}
+
+pattern primitiveType(
+	primitiveType : PrimitiveType,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	BaseContainer.typeDefinitions(xtContainer, typeDefinition);
+	TypeDefinition.type(typeDefinition, primitiveType);
+	find cppContainer(xtContainer, cppContainer);
+}
+
 /**
  * CPP Model queries
  */
@@ -265,6 +310,11 @@ pattern cppSequenceType(
 	CPPReturnValue.commonTypedMultiplicityElement(cppElement, typedElement);
 	TypedMultiplicityElement.type(typedElement, type);
 	find typeToOOPLType(type, ooplType);
+} or {
+	CPPStructMember.unnamedSequenceType(cppElement, cppSequence);
+	CPPStructMember.commonMember(cppElement, typedElement);
+	Attribute.type(typedElement, type);
+	find typeToOOPLType(type, ooplType);
 }
 
 pattern cppEntityOperations(
@@ -315,6 +365,15 @@ pattern cppOperationReturnValue(
 ) {
 	Operation.returnType(operation, returnType);
 	CPPOperation.commonOperation(cppOperation, operation);
+}
+
+pattern cppContainer (
+	xtContainer : BaseContainer,
+	cppContainer : CPPQualifiedNamedElement
+) {
+	find cppPackages(xtContainer, cppContainer);
+} or {
+	find cppComponents(xtContainer, cppContainer);
 }
 
 pattern cppComponents(

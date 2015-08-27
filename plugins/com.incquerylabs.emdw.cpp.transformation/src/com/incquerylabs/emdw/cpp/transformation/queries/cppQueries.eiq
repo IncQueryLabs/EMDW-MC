@@ -19,6 +19,28 @@ pattern cppPackageInQualifiedNamedElement(
 	CPPQualifiedNamedElement.subElements(container, cppPackage);
 }
 
+pattern cppAttributeInQualifiedNamedElement(
+	cppAttribute : CPPAttribute,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppAttribute);
+}
+
+pattern cppStructMemberInQualifiedNamedElement(
+	cppStructMember : CPPStructMember,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppStructType);
+	CPPStructType.subElements(cppStructType, cppStructMember);
+}
+
+pattern cppEventInQualifiedNamedElement(
+	cppEvent : CPPEvent,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppEvent);
+}
+
 pattern cppClassInComponent(
 	cppClass : CPPClass,
 	cppComponent : CPPComponent
@@ -54,13 +76,11 @@ pattern cppOperationInQualifiedNamedElement(
 	CPPQualifiedNamedElement.subElements(container, cppOperation);
 }
 
-pattern cppFormalParameterClassReference(
+pattern cppFormalParameter(
 	cppOperation : CPPOperation,
-	cppFormalParameter : CPPFormalParameter,
-	classReference : OOPLDataType
+	cppFormalParameter : CPPFormalParameter
 ) {
 	CPPOperation.subElements(cppOperation, cppFormalParameter);
-	CPPFormalParameter.subElements(cppFormalParameter, classReference);
 }
 
 pattern cppReturnValueClassReference(
@@ -152,6 +172,18 @@ pattern cppAttributeOrParameterForInclude(
 	CPPClass.headerFile(cppClass, containerHeader);
 }
 
+pattern cppStructMemberForInclude(
+	containerHeader : CPPSourceFile,
+	cppStructMember : CPPStructMember
+) {
+	find cppStructMemberInQualifiedNamedElement(cppStructMember, cppComponent);
+	CPPComponent.declarationHeaderFile(cppComponent, containerHeader);
+} or {
+	find cppStructMemberInQualifiedNamedElement(cppStructMember, cppPackage);
+	find cppPackageInComponentSubPackages(cppPackage, cppComponent);
+	CPPComponent.declarationHeaderFile(cppComponent, containerHeader);
+}
+
 pattern cppAttributeOrParameter(
 	containerElement : CPPQualifiedNamedElement,
 	cppElement : CPPQualifiedNamedElement
@@ -206,4 +238,6 @@ pattern cppElementSequence(
 	CPPFormalParameter.unnamedSequenceType(cppElement, cppSequence);
 } or {
 	CPPReturnValue.unnamedSequenceType(cppElement, cppSequence);
+} or {
+	CPPStructMember.unnamedSequenceType(cppElement, cppSequence);
 }

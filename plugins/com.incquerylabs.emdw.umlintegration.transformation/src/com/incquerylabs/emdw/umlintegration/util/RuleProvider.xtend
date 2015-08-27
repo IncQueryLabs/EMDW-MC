@@ -50,6 +50,8 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.Map
 import java.util.Set
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryEngine
@@ -137,7 +139,10 @@ class RuleProvider {
 	 * 
 	 */
 	public def setPriorities(FixedPriorityConflictResolver resolver) {
+		val logger = Logger.getLogger(RuleProvider)
+		logger.level = Level.DEBUG
 		rulemap.keySet.forEach [ rule |
+			logger.debug('''«rulemap.get(rule).class.simpleName» - «getPriority(rule)»''')
 			resolver.setPriority(rule.ruleSpecification, getPriority(rule))
 		]
 	}

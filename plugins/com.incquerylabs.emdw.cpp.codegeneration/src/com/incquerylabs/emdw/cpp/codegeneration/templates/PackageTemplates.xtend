@@ -4,13 +4,19 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class PackageTemplates extends CPPTemplate {
+	extension val NamespaceTemplates namespaceTemplates
 	extension val HeaderGuardTemplates headerGuardTemplates
 	extension val IncludeTemplates includeTemplates
+	extension val EnumTemplates enumTemplates
+	extension val StructTemplates structTemplates
 	
 	new(IncQueryEngine engine) {
 		super(engine)
+		namespaceTemplates = new NamespaceTemplates
 		headerGuardTemplates = new HeaderGuardTemplates
 		includeTemplates = new IncludeTemplates
+		enumTemplates = new EnumTemplates
+		structTemplates = new StructTemplates
 	}
 	
 	def packageMainHeaderTemplate(CPPPackage cppPackage) {

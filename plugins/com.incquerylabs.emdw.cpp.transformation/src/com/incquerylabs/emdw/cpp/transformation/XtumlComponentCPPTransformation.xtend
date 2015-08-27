@@ -23,6 +23,8 @@ import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
+import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
 
 class XtumlComponentCPPTransformation {
 
@@ -44,8 +46,10 @@ class XtumlComponentCPPTransformation {
 	FormalParameterRules formalParameterRules
 	AssociationRules associationRules
 	ClassReferenceRules classReferenceRules
+	ClassEventRules classEventRules
 	SequenceRules sequenceRules
 	IncludeRules includeRules
+	TypeDefinitionRules typeDefinitionRules
 	
 
 	def initialize(IncQueryEngine engine) {
@@ -65,15 +69,17 @@ class XtumlComponentCPPTransformation {
 			
 			includeRules = new IncludeRules(engine, statements)
 			sequenceRules = new SequenceRules(statements)
+			typeDefinitionRules = new TypeDefinitionRules(statements, includeRules, sequenceRules)
 			classReferenceRules = new ClassReferenceRules(statements)
 			returnValueRules = new ReturnValueRules(statements, classReferenceRules, sequenceRules, includeRules)
 			formalParameterRules = new FormalParameterRules(engine, statements, classReferenceRules, sequenceRules, includeRules)
 			attributeRules = new AttributeRules(statements, sequenceRules, includeRules)
 			operationRules = new OperationRules(statements, formalParameterRules, returnValueRules)
 			associationRules = new AssociationRules(statements, classReferenceRules)
-			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, includeRules)
-			packageRules = new PackageRules(statements, classRules, includeRules)
-			componentRules = new ComponentRules(statements, packageRules, classRules, attributeRules, operationRules, includeRules)
+			classEventRules = new ClassEventRules(statements, attributeRules)
+			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, classEventRules, includeRules)
+			packageRules = new PackageRules(statements, typeDefinitionRules, classRules, includeRules)
+			componentRules = new ComponentRules(statements, packageRules, typeDefinitionRules, classRules, attributeRules, operationRules, includeRules)
 			
 			includeRules.addRules(transform)
 			sequenceRules.addRules(transform)

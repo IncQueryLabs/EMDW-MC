@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
+import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
@@ -11,6 +12,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
@@ -21,8 +23,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
-import org.eclipse.incquery.runtime.matchers.psystem.EnumerablePConstraint
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructMember
 
 class IncludeRules {
 	static extension val CppQueries cppQueries = CppQueries.instance
@@ -44,8 +45,9 @@ class IncludeRules {
 			classComponentIncludeRule,
 			packageComponentIncludeRule,
 			superClassIncludeRule,
-			sequenceIncludeRule,
+			includeForAttributeOrParameterRule,
 			statemachineRuntimeIncludeRule,
+			includeForStructMembersRule,
 			eventsIncludeRule,
 			componentRuntimeIncludesRule
 		)
@@ -91,10 +93,17 @@ class IncludeRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val sequenceIncludeRule = createRule.precondition(cppAttributeOrParameterForInclude).action[ match |
+	val includeForAttributeOrParameterRule = createRule.precondition(cppAttributeOrParameterForInclude).action[ match |
 		val cppElement = match.cppElement
 		val cppHeader = match.containerHeader
 		addIncludesForMultiplicityElement(cppElement, cppHeader)
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val includeForStructMembersRule = createRule.precondition(cppStructMemberForInclude).action[ match |
+		val cppStructMember = match.cppStructMember
+		val cppHeader = match.containerHeader
+		addIncludesForMultiplicityElement(cppStructMember, cppHeader)
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -129,11 +138,22 @@ class IncludeRules {
 		addIncludesForOOPLDataType(type, cppSourceFile, '''CPPFormalParameter «cppFormalParameter.cppName»''')
 	}
 	
+	dispatch def addIncludesForMultiplicityElement(CPPStructMember cppStructMember, CPPSourceFile cppSourceFile){
+		val type = cppStructMember.type
+		addIncludesForOOPLDataType(type, cppSourceFile, '''CPPStructMember «cppStructMember.cppName»''')
+	}
+	
 	dispatch def void addIncludesForOOPLDataType(CPPBasicType cppBasicType, CPPSourceFile cppSourceFile, String comment){
 		if(cppBasicType.commonType.name == "String"){
 			cppSourceFile.addInclude(getExternalHeader("<string>"), comment)
 		}
 	}
+//	
+//	dispatch def void addIncludesForOOPLDataType(CPPStructType cppStructType, CPPSourceFile cppSourceFile, String comment){
+//		cppStructType.members.forEach[ member |
+//			addIncludesForOOPLDataType(member.type, cppSourceFile, comment)
+//		]
+//	}
 	
 	dispatch def void addIncludesForOOPLDataType(CPPSequence cppSequence, CPPSourceFile cppSourceFile, String comment){
 		val externalHeaders = getExternalHeaders(cppSequence)
@@ -142,12 +162,12 @@ class IncludeRules {
 		addIncludesForOOPLDataType(typeOfSequence, cppSourceFile, comment)
 	}
 	
-	dispatch def void addIncludesForOOPLDataType(CPPClassReference cppClassReference, CPPSourceFile cppSourceFile, String comment){
-	}
-	
 	dispatch def void addIncludesForOOPLDataType(CPPClassRefSimpleCollection cppClassReference, CPPSourceFile cppSourceFile, String comment){
 		val externalHeaders = getExternalHeaders(cppClassReference)
 		cppSourceFile.addIncludes(externalHeaders, comment)
+	}
+	
+	dispatch def void addIncludesForOOPLDataType(OOPLDataType ooplDataType, CPPSourceFile cppSourceFile, String comment){
 	}
 	
 	def addIncludesBetweenOwnFiles(CPPComponent cppComponent){

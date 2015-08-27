@@ -44,11 +44,12 @@ class ComponentTemplates extends CPPTemplate {
 		
 		«cppComponent.declarationHeaderFile.inclusions»
 		
+		// Forward declarations
 		«cppComponent.namespaceOpenerTemplate»
 			class «cppComponent.cppName»;
 		«cppComponent.namespaceCloserTemplate»
-		
 		«cppComponent.forwardDeclarationsTemplate»
+		
 		«cppComponent.typeDefinitionsTemplate»
 		
 		«closeHeaderGuard(cppComponent, headerGuardPostfix)»
@@ -157,13 +158,21 @@ class ComponentTemplates extends CPPTemplate {
 	
 	def CharSequence forwardDeclarationsTemplate(CPPQualifiedNamedElement cppContainer) {
 		val cppClasses = cppContainer.subElements.filter(CPPClass)
+		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType)
+		val cppStructTypes = cppContainer.subElements.filter(CPPStructType)
 		val innerCppPackages = cppContainer.subElements.filter(CPPPackage)
-		val hasForwardDeclarations = !cppClasses.isNullOrEmpty
+		val hasForwardDeclarations = !(cppClasses.isNullOrEmpty && cppEnumTypes.isNullOrEmpty)
 		'''
 		«IF hasForwardDeclarations»
 			«cppContainer.namespaceOpenerTemplate»
 				«FOR cppClass : cppClasses»
 					class «cppClass.cppName»;
+				«ENDFOR»
+				«FOR cppEnumType : cppEnumTypes»
+					class «cppEnumType.cppName»;
+				«ENDFOR»
+				«FOR cppStructType : cppStructTypes»
+					struct «cppStructType.cppName»;
 				«ENDFOR»
 			«cppContainer.namespaceCloserTemplate»
 		«ENDIF»
@@ -182,6 +191,7 @@ class ComponentTemplates extends CPPTemplate {
 			
 		
 		'''
+		// Type definitions for struct types and enums
 		«IF hasTypeDefinitions»
 			«cppContainer.namespaceOpenerTemplate»
 				«cppContainer.cppEnumsInContainer»

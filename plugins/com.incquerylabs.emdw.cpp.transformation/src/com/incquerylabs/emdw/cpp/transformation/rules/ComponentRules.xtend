@@ -114,10 +114,11 @@ class ComponentRules {
 	
 	def updateSubElements(CPPComponent cppComponent) {
 		trace('''Transforming references between subelements of Component «cppComponent.xtComponent.name»''')
-		addIncludes(cppComponent)
+		fireAllCurrent(typeDefinitionRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(classRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(attributeRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(packageRules.addReferencesRule, [it.container == cppComponent])
+		addIncludes(cppComponent)
 	}
 }

@@ -90,6 +90,6 @@ class ReturnValueRules {
 	].build
 	
 	def addIncludes(CPPQualifiedNamedElement cppElement) {
-		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
+		fireAllCurrent(includeForAttributeOrParameterRule, [it.cppElement == cppElement])
 	}
 }

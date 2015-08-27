@@ -111,8 +111,10 @@ class PackageRules {
 	}
 	
 	def updateSubElements(CPPPackage cppPackage) {
-		addIncludes(cppPackage)
+		trace('''Transforming references between subelements of Package «cppPackage.commonPackage.name»''')
+		fireAllCurrent(typeDefinitionRules.addReferencesRule, [it.container == cppPackage])
 		fireAllCurrent(classRules.addReferencesRule, [it.container == cppPackage])
 		fireAllCurrent(this.addReferencesRule, [it.container == cppPackage])
+		addIncludes(cppPackage)
 	}
 }

@@ -1,9 +1,13 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructMember
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 import org.apache.log4j.Logger
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
@@ -13,15 +17,22 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class TypeDefinitionRules {
 	
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
+	static extension val CppQueries cppQueries = CppQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
+	extension val CPPTransformationUtil transformationUtil = new CPPTransformationUtil
 	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	extension val BatchTransformationStatements statements
 	
-	new(BatchTransformationStatements statements) {
+	extension val IncludeRules includeRules
+	extension val SequenceRules sequenceRules
+	
+	new(BatchTransformationStatements statements, IncludeRules includeRules, SequenceRules sequenceRules) {
 		this.statements = statements
+		this.includeRules = includeRules
+		this.sequenceRules = sequenceRules
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -89,8 +100,35 @@ class TypeDefinitionRules {
 			]
 		]
 		cppStructType.subElements += cppStructMember
+		
+		if(xtAttribute.multiValue){
+			addUnnamedSequence(cppStructMember, xtAttribute)
+		}
+		
 		trace('''Mapped Attribute «xtAttribute.name» to CPPStructMember «cppStructMember»''')
 	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val addReferencesRule = createRule.precondition(cppStructMemberInQualifiedNamedElement).action[ match |
+		val cppStructMember = match.cppStructMember
+		cppStructMember.addSequenceReferences
+		addIncludes(cppStructMember)
+	].build
+	
+	def addUnnamedSequence(CPPStructMember cppStructMember, Attribute xtStructMember) {
+		cppStructMember.unnamedSequenceType = generateCPPSequence(xtStructMember)
+	}
+	
+	def addSequenceReferences(CPPStructMember cppStructMember) {
+		if(cppStructMember.unnamedSequenceType != null) {
+			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppStructMember])
+			fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppStructMember.unnamedSequenceType])
+		}
+	}
+	
+	def addIncludes(CPPStructMember cppStructMember) {
+		fireAllCurrent(includeForStructMembersRule, [it.cppStructMember == cppStructMember])
+	}
 	
 	@Accessors(PUBLIC_GETTER)
 	val cppBasicTypeRule = createRule.precondition(primitiveType).action[ match |

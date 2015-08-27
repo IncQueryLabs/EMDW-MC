@@ -13,6 +13,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPAttribute
 
 class AttributeRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -60,6 +61,7 @@ class AttributeRules {
 	@Accessors(PUBLIC_GETTER)
 	val addReferencesRule = createRule.precondition(cppAttributeInQualifiedNamedElement).action[ match |
 		val cppAttribute = match.cppAttribute
+		cppAttribute.addSequenceReferences
 		addIncludes(cppAttribute)
 	].build
 	
@@ -73,14 +75,17 @@ class AttributeRules {
 				unnamedSequenceType = generateCPPSequence(xtAttribute)
 			}
 		]
-		fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppAttribute])
-		if(cppAttribute.unnamedSequenceType != null){
-			fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppAttribute.unnamedSequenceType])
-		}
 		cppAttribute
 	}
 	
+	def addSequenceReferences(CPPAttribute cppAttribute) {
+		if(cppAttribute.unnamedSequenceType != null) {
+			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppAttribute])
+			fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppAttribute.unnamedSequenceType])
+		}
+	}
+	
 	def addIncludes(CPPQualifiedNamedElement cppElement) {
-		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
+		fireAllCurrent(includeForAttributeOrParameterRule, [it.cppElement == cppElement])
 	}
 }

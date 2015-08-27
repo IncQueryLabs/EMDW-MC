@@ -104,7 +104,7 @@ class FormalParameterRules {
 	}
 	
 	def addIncludes(CPPQualifiedNamedElement cppElement) {
-		fireAllCurrent(sequenceIncludeRule, [it.cppElement == cppElement])
+		fireAllCurrent(includeForAttributeOrParameterRule, [it.cppElement == cppElement])
 	}
 	
 	def setPassingKind(CPPFormalParameter cppFormalParameter, Parameter parameter) {

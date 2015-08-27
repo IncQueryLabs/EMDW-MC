@@ -68,8 +68,8 @@ class XtumlComponentCPPTransformation {
 			statements = new BatchTransformationStatements(transform)
 			
 			includeRules = new IncludeRules(engine, statements)
-			typeDefinitionRules = new TypeDefinitionRules(statements)
 			sequenceRules = new SequenceRules(statements)
+			typeDefinitionRules = new TypeDefinitionRules(statements, includeRules, sequenceRules)
 			classReferenceRules = new ClassReferenceRules(statements)
 			returnValueRules = new ReturnValueRules(statements, classReferenceRules, sequenceRules, includeRules)
 			formalParameterRules = new FormalParameterRules(engine, statements, classReferenceRules, sequenceRules, includeRules)

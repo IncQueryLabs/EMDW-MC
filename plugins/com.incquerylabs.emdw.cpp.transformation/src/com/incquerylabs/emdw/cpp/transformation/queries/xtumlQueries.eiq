@@ -310,6 +310,11 @@ pattern cppSequenceType(
 	CPPReturnValue.commonTypedMultiplicityElement(cppElement, typedElement);
 	TypedMultiplicityElement.type(typedElement, type);
 	find typeToOOPLType(type, ooplType);
+} or {
+	CPPStructMember.unnamedSequenceType(cppElement, cppSequence);
+	CPPStructMember.commonMember(cppElement, typedElement);
+	Attribute.type(typedElement, type);
+	find typeToOOPLType(type, ooplType);
 }
 
 pattern cppEntityOperations(

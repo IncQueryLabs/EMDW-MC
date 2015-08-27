@@ -2,20 +2,25 @@ package com.incquerylabs.uml.ralf.plugintests
 
 import com.incquerylabs.uml.ralf.tests.util.AbstractPluginValidatorTest
 import java.util.Collection
+import org.junit.Ignore
 import org.junit.runners.Parameterized.Parameters
 
-class UMLVariableDeclarationValidatorTest extends AbstractPluginValidatorTest{
+@Ignore("These features are not yet supported.")
+class UMLPropertyAccessValidatorTestIgnored extends AbstractPluginValidatorTest{
 	
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "Local Variable: OK",
-			    '''Pong x = new Pong();''',
+			#[  "Property Access: Integer_This_Short",
+			    '''
+			    Integer a;
+			    a = integerProperty;''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
-			#[  "Local Variable: Null",
-			    '''Pong x = null;''',
+			#[  "Property Access: static property",
+			    '''
+			    Pong::staticIntegerProperty;''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			]

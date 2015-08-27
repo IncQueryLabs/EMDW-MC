@@ -7,12 +7,12 @@ import com.incquerylabs.uml.ralf.tests.util.TestModelUMLContextProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.FixMethodOrder
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 
 import static org.junit.Assert.*
-import org.junit.Ignore
 
 @RunWith(typeof(XtextRunner))
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -160,6 +160,15 @@ class UMLOperationValidatorTest {
 		operationOKThis(
 		'''
 			this.doBooleanVoid(!true);
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	def operationBooleanParameterBooleanProperty(){
+		operationOKThis(
+		'''
+			this.doBooleanVoid(this.booleanProperty);
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}
@@ -570,6 +579,35 @@ class UMLOperationValidatorTest {
 		operationErrorThis(
 		'''
 			doDefaultValue("1");
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	@Ignore("Operation parameter validation not yet implemented")
+	def operationBooleanParameterInvalidType(){
+		operationOKThis(
+		'''
+			this.doBooleanVoid(this.stringProperty);
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	def staticIntegerOperationCall(){
+		operationOKThis(
+		'''
+		  Pong::staticIntegerOperation();
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	
+	@Test
+	def staticIntegerOperationCall_Assignment(){
+		operationOKThis(
+		'''
+		  Integer a;
+		  a = Pong::staticIntegerOperation();
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}

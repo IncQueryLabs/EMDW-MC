@@ -1,7 +1,7 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
-import com.incquerylabs.uml.ralf.tests.AbstractValidatorTest
+import com.incquerylabs.uml.ralf.tests.util.AbstractValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
 

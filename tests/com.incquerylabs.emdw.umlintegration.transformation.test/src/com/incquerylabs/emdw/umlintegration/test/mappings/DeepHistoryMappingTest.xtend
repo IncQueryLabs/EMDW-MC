@@ -38,7 +38,6 @@ class ToplevelDeepHistoryMappingTest extends TransformationTest<Pseudostate, Dee
 	
 }
 
-
 class ChildDeepHistoryMappingTest extends TransformationTest<Pseudostate, DeepHistory> {
 
 	override protected createUmlObject(Model umlRoot) {

@@ -16,7 +16,8 @@ import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
 @SuiteClasses(#[
-	ToplevelInitialPointMappingTest
+	ToplevelInitialPointMappingTest,
+	ChildInitialPointMappingTest
 ])
 @RunWith(Suite)
 class InitialPointMappingTestSuite {}

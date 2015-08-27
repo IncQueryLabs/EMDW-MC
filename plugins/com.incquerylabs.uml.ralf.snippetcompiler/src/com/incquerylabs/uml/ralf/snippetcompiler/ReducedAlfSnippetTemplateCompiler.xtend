@@ -42,7 +42,7 @@ class ReducedAlfSnippetTemplateCompiler {
 		context = umlcontext
 		flattener = new ReducedAlfFlattener(util)
 		statementVisitor = new StatementVisitor(this, flattener)
-		expressionVisitor = new ExpressionVisitor(this)
+		expressionVisitor = new ExpressionVisitor(this, flattener)
 	}
 
 	def dispatch Snippet visit(EObject o) {

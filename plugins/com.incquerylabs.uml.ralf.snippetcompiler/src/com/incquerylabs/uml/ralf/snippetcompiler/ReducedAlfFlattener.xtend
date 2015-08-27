@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 import com.google.common.collect.Lists
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BitStringUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
@@ -35,8 +36,8 @@ import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
 import snippetTemplate.CompositeSnippet
+import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 
 class ReducedAlfFlattener {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
@@ -574,10 +575,12 @@ class ReducedAlfFlattener {
 	public static class FlattenedVariable{
 		private ValueDescriptor descriptor
 		private Type type
+		private Snippet snippet
 		
-		new(ValueDescriptor descriptor, Type type){
+		new(ValueDescriptor descriptor, Type type, Snippet snippet){
 			this.descriptor = descriptor
 			this.type = type
+			this.snippet = snippet
 		}
 		
 		def getDescriptor(){

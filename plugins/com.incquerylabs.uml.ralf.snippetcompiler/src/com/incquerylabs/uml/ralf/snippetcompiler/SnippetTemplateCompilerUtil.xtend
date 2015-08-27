@@ -40,83 +40,83 @@ class SnippetTemplateCompilerUtil {
 		descriptorFactory = factory
 		this.context = context
 	}
-
-	def dispatch parenthesisRequired(Expression ex) {
-        return false
-	}
-	
-	def dispatch parenthesisRequired(ArithmeticExpression ex) {
-	    if (ex.eContainer instanceof NumericUnaryExpression) {
-            return true
-        }
-	    if (ex.eContainer instanceof ArithmeticExpression) {
-	    	val parent = ex.eContainer as ArithmeticExpression
-	    	if(ex.operator.equals("+") || ex.operator.equals("-")){
-	    		if(parent.operator.equals("*") || parent.operator.equals("/") || parent.operator.equals("%")){
-	    			return true
-	    		}
-	    	}else{
-	    		return false
-	    	}
-        }
-        return false
-	}
-	
-	def dispatch parenthesisRequired(ShiftExpression ex) {
-	    if (ex.eContainer instanceof NumericUnaryExpression) {
-            return true
-        }
-	    if (ex.eContainer instanceof ArithmeticExpression) {
-	    	return true
-        }
-        return false
-	}
-	
-	def dispatch parenthesisRequired(RelationalExpression ex) {
-	    if (ex.eContainer instanceof BooleanUnaryExpression) {
-            return true
-        }
-        if(ex.eContainer instanceof ConditionalLogicalExpression){
-        	return true
-        }
-        return false
-	}
-	
-	def dispatch parenthesisRequired(EqualityExpression ex) {
-	    if (ex.eContainer instanceof BooleanUnaryExpression) {
-            return true
-        }
-        return false
-	}
-	
-	def dispatch parenthesisRequired(LogicalExpression ex) {
-	    if (ex.eContainer instanceof NumericUnaryExpression) {
-            return true
-        }
-	    if (ex.eContainer instanceof ArithmeticExpression) {
-	    	return true
-        }
-        if (ex.eContainer instanceof ShiftExpression) {
-	    	return true
-        }
-        if (ex.eContainer instanceof RelationalExpression) {
-	    	return true
-        }
-        if (ex.eContainer instanceof EqualityExpression) {
-	    	return true
-        }
-        return false
-	}
-	
-	def dispatch parenthesisRequired(ConditionalLogicalExpression ex) {
-	    if (ex.eContainer instanceof BooleanUnaryExpression) {
-            return true
-        }
-        if (ex.eContainer instanceof EqualityExpression) {
-	    	return true
-        }
-        return false
-	}
+//
+//	def dispatch parenthesisRequired(Expression ex) {
+//        return false
+//	}
+//	
+//	def dispatch parenthesisRequired(ArithmeticExpression ex) {
+//	    if (ex.eContainer instanceof NumericUnaryExpression) {
+//            return true
+//        }
+//	    if (ex.eContainer instanceof ArithmeticExpression) {
+//	    	val parent = ex.eContainer as ArithmeticExpression
+//	    	if(ex.operator.equals("+") || ex.operator.equals("-")){
+//	    		if(parent.operator.equals("*") || parent.operator.equals("/") || parent.operator.equals("%")){
+//	    			return true
+//	    		}
+//	    	}else{
+//	    		return false
+//	    	}
+//        }
+//        return false
+//	}
+//	
+//	def dispatch parenthesisRequired(ShiftExpression ex) {
+//	    if (ex.eContainer instanceof NumericUnaryExpression) {
+//            return true
+//        }
+//	    if (ex.eContainer instanceof ArithmeticExpression) {
+//	    	return true
+//        }
+//        return false
+//	}
+//	
+//	def dispatch parenthesisRequired(RelationalExpression ex) {
+//	    if (ex.eContainer instanceof BooleanUnaryExpression) {
+//            return true
+//        }
+//        if(ex.eContainer instanceof ConditionalLogicalExpression){
+//        	return true
+//        }
+//        return false
+//	}
+//	
+//	def dispatch parenthesisRequired(EqualityExpression ex) {
+//	    if (ex.eContainer instanceof BooleanUnaryExpression) {
+//            return true
+//        }
+//        return false
+//	}
+//	
+//	def dispatch parenthesisRequired(LogicalExpression ex) {
+//	    if (ex.eContainer instanceof NumericUnaryExpression) {
+//            return true
+//        }
+//	    if (ex.eContainer instanceof ArithmeticExpression) {
+//	    	return true
+//        }
+//        if (ex.eContainer instanceof ShiftExpression) {
+//	    	return true
+//        }
+//        if (ex.eContainer instanceof RelationalExpression) {
+//	    	return true
+//        }
+//        if (ex.eContainer instanceof EqualityExpression) {
+//	    	return true
+//        }
+//        return false
+//	}
+//	
+//	def dispatch parenthesisRequired(ConditionalLogicalExpression ex) {
+//	    if (ex.eContainer instanceof BooleanUnaryExpression) {
+//            return true
+//        }
+//        if (ex.eContainer instanceof EqualityExpression) {
+//	    	return true
+//        }
+//        return false
+//	}
 	
 	//Descriptors
 	//Model Access

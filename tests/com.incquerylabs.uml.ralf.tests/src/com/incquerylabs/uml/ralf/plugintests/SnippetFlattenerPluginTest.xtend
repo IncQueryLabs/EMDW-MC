@@ -252,6 +252,17 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				switch (temp0) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Arithmetic inline",
+			    '''
+				Integer x = 1;
+				(x + 1) * 2;''',
+				'''
+				PrimitiveTypes::Integer x = 0;
+				PrimitiveTypes::Integer temp0 = (x = 1);
+				switch (temp0) {
+				}''',
+				"model::Comp::Pong::doIntegerVoid"
 			]
 			
 		)

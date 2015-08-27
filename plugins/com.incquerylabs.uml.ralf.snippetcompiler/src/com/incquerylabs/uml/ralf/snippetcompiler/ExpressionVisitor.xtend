@@ -22,7 +22,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.SequenceAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
@@ -30,30 +29,37 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfFlattener.FlattenedVariable
 import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
+import snippetTemplate.CompositeSnippet
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
-import org.eclipse.uml2.uml.Parameter
 
 class ExpressionVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	extension ReducedAlfSnippetTemplateCompiler compiler
 	extension SnippetTemplateCompilerUtil util
+	extension ReducedAlfFlattener flattener
 	
-	new(ReducedAlfSnippetTemplateCompiler compiler){
+	new(ReducedAlfSnippetTemplateCompiler compiler, ReducedAlfFlattener flattener){
 		this.compiler = compiler
+		this.flattener = flattener
 		util = compiler.util
 	}
 	
-	def dispatch Snippet visit(SequenceAccessExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(ex.primary.visit)
-			snippet.add(ex?.index.visit)
-		]
-	}
+//	def dispatch Snippet visit(SequenceAccessExpression ex, CompositeSnippet composite){
+//		val primarySnippet = ex.primary.visit
+//				
+//		
+//		createCompositeSnippet =>[
+//			snippet.add(ex.primary.visit)
+//			snippet.add(ex?.index.visit)
+//		]
+//	}
 	
-	def dispatch Snippet visit(CastExpression ex){
+	def dispatch FlattenedVariable visit(CastExpression ex, CompositeSnippet composite){
 		val descriptor = getDescriptor(ex)
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''('''])
@@ -63,13 +69,13 @@ class ExpressionVisitor {
 		]
 	}
 	
-	def dispatch Snippet visit(NullExpression ex){
+	def dispatch FlattenedVariable visit(NullExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = '''0'''])
 		]
 	}
 	
-	def dispatch Snippet visit(InstanceCreationExpression ex){
+	def dispatch FlattenedVariable visit(InstanceCreationExpression ex, CompositeSnippet composite){
 		val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 			type = ex.instance
 			name = null
@@ -83,20 +89,20 @@ class ExpressionVisitor {
 	}
 	
 
-	def dispatch Snippet visit(ThisExpression ex){
+	def dispatch FlattenedVariable visit(ThisExpression ex, CompositeSnippet composite){
 		val descriptor = getDescriptor(ex)
 		createStringSnippet => [value = descriptor.stringRepresentation]
 	}
 	
-	def dispatch Snippet visit(StaticFeatureInvocationExpression ex){
+	def dispatch FlattenedVariable visit(StaticFeatureInvocationExpression ex, CompositeSnippet composite){
 		throw new UnsupportedOperationException("Static calls not supported yet")
 	}
 	
-	def dispatch Snippet visit(SuperInvocationExpression ex){
+	def dispatch FlattenedVariable visit(SuperInvocationExpression ex, CompositeSnippet composite){
 		throw new UnsupportedOperationException("Super invocations not supported yet")
 	}
 	
-	def dispatch Snippet visit(LinkOperationExpression ex){
+	def dispatch FlattenedVariable visit(LinkOperationExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = ex.association.reference.name])
 			snippet.add(createStringSnippet => [value = '''->'''])
@@ -105,7 +111,7 @@ class ExpressionVisitor {
 		]
 	}
 	
-	def dispatch Snippet visit(AssociationAccessExpression ex){
+	def dispatch FlattenedVariable visit(AssociationAccessExpression ex, CompositeSnippet composite){
 		if(ex.context instanceof ThisExpression){
 			return createCompositeSnippet =>[
 				snippet.add(ex.context.visit)
@@ -141,7 +147,7 @@ class ExpressionVisitor {
         ]
     }
 	
-	def dispatch Snippet visit(FeatureInvocationExpression ex){
+	def dispatch FlattenedVariable visit(FeatureInvocationExpression ex, CompositeSnippet composite){
 		if(ex.context instanceof ThisExpression){
 			return if (ex.feature instanceof Operation) {
 			    createThisInvocationSnippet(ex.context as ThisExpression, ex.feature as Operation, ex.parameters)
@@ -157,7 +163,7 @@ class ExpressionVisitor {
 	}
 	
 	
-	def dispatch Snippet visit(AssignmentExpression ex){
+	def dispatch FlattenedVariable visit(AssignmentExpression ex, CompositeSnippet composite){
 	    //TODO revisit the left hand side expressions correctly
 		//If the left hand side is a property
 		if(ex.leftHandSide instanceof FeatureInvocationExpression) {
@@ -178,7 +184,23 @@ class ExpressionVisitor {
 
 	}
 
-	def dispatch Snippet visit(ArithmeticExpression ex) {
+	def dispatch FlattenedVariable visit(ArithmeticExpression ex, CompositeSnippet composite) {
+		val operand1Variable = ex.operand1.visit(composite)
+		val operand2Variable = ex.operand2.visit(composite)
+		
+		composite.snippet.add(createCompositeSnippet =>[ s |
+			s.snippet.add(createStringSnippet => [value = descriptor.fullType])
+			s.snippet.add(createStringSnippet => [value = ''' '''])
+			s.snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
+			s.snippet.add(createStringSnippet => [value = ''' = '''])
+			s.snippet.add(createStringSnippet => [value = operand1Variable.descriptor.stringRepresentation])
+			s.snippet.add(createStringSnippet => [value = ''' '''+ex.operator+''' '''])
+			s.snippet.add(createStringSnippet => [value = operand2Variable.descriptor.stringRepresentation])
+			s.snippet.add(createStringSnippet => [value = ''';'''])
+			s.snippet.add(createStringSnippet => [value = '\n'])
+		])
+		
+		
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [
 				if (util.parenthesisRequired(ex)) 
@@ -204,149 +226,156 @@ class ExpressionVisitor {
 					value = ""
 			])
 		]
+
+
 	}
 	
-	def dispatch Snippet visit(ShiftExpression ex) {
-	    createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator.literal
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch FlattenedVariable visit(ShiftExpression ex, CompositeSnippet composite) {
+//	    createCompositeSnippet =>[
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = "(" 
+//				else 
+//					value = ""
+//			])
+//			snippet.add(ex.operand1.visit)
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ex.operator.literal
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(ex.operand2.visit)
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = ")" 
+//				else 
+//					value = ""
+//			])
+//		]
+		throw new UnsupportedOperationException("ShiftExpression handled by flattener")
 	}
 	
-	def dispatch Snippet visit(RelationalExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator.literal
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch FlattenedVariable visit(RelationalExpression ex, CompositeSnippet composite) {
+//		createCompositeSnippet =>[
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = "(" 
+//				else 
+//					value = ""
+//			])
+//			snippet.add(ex.operand1.visit)
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ex.operator.literal
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(ex.operand2.visit)
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = ")" 
+//				else 
+//					value = ""
+//			])
+//		]
+		throw new UnsupportedOperationException("RelationalExpression handled by flattener")
 	}
 	
-	def dispatch Snippet visit(EqualityExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator.literal
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch FlattenedVariable visit(EqualityExpression ex, CompositeSnippet composite) {
+//		createCompositeSnippet =>[
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = "(" 
+//				else 
+//					value = ""
+//			])
+//			snippet.add(ex.operand1.visit)
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ex.operator.literal
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(ex.operand2.visit)
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = ")" 
+//				else 
+//					value = ""
+//			])
+//		]
+		throw new UnsupportedOperationException("EqualityExpression handled by flattener")
 	}
 	
-	def dispatch Snippet visit(LogicalExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch FlattenedVariable visit(LogicalExpression ex, CompositeSnippet composite) {
+//		createCompositeSnippet =>[
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = "(" 
+//				else 
+//					value = ""
+//			])
+//			snippet.add(ex.operand1.visit)
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ex.operator
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(ex.operand2.visit)
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = ")" 
+//				else 
+//					value = ""
+//			])
+//		]
+		throw new UnsupportedOperationException("LogicalExpression handled by flattener")
 	}
 	
-	def dispatch Snippet visit(ConditionalLogicalExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch FlattenedVariable visit(ConditionalLogicalExpression ex, CompositeSnippet composite) {
+//		createCompositeSnippet =>[
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = "(" 
+//				else 
+//					value = ""
+//			])
+//			snippet.add(ex.operand1.visit)
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ex.operator
+//			])
+//			snippet.add(createStringSnippet => [
+//				value = ''' '''
+//			])
+//			snippet.add(ex.operand2.visit)
+//			snippet.add(createStringSnippet => [
+//				if (util.parenthesisRequired(ex)) 
+//					value = ")" 
+//				else 
+//					value = ""
+//			])
+//		]
+		throw new UnsupportedOperationException("Conditional expressions handled by flattener")
 	}
 
-	def dispatch Snippet visit(PrefixExpression ex){
+	def dispatch FlattenedVariable visit(PrefixExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [
 					value = ex.operator.literal
@@ -355,7 +384,7 @@ class ExpressionVisitor {
 		]
 	}
 	
-	def dispatch Snippet visit(PostfixExpression ex){
+	def dispatch FlattenedVariable visit(PostfixExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(ex.operand.visit)
 			snippet.add(createStringSnippet => [
@@ -365,7 +394,7 @@ class ExpressionVisitor {
 	}
 
 	
-	def dispatch Snippet visit(ConditionalTestExpression ex) {
+	def dispatch FlattenedVariable visit(ConditionalTestExpression ex, CompositeSnippet composite) {
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [
 					value = '''('''
@@ -385,7 +414,7 @@ class ExpressionVisitor {
 		]
 	}
 
-	def dispatch Snippet visit(NameExpression ex){
+	def dispatch FlattenedVariable visit(NameExpression ex, CompositeSnippet composite){
 		if(ex.reference instanceof Variable){
 			val variable = ex.reference as Variable
 			if(variable != null){
@@ -409,40 +438,40 @@ class ExpressionVisitor {
 	}
 	
 	
-	def dispatch Snippet visit(NumericUnaryExpression ex){
+	def dispatch FlattenedVariable visit(NumericUnaryExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = ex.operator.literal])
 			snippet.add(ex.operand.visit)
 		]
 	}
 	
-	def dispatch Snippet visit(BitStringUnaryExpression ex){
+	def dispatch FlattenedVariable visit(BitStringUnaryExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = ex.operator])
 			snippet.add(ex.operand.visit)
 		]
 	}
 	
-	def dispatch Snippet visit(BooleanUnaryExpression ex){
+	def dispatch FlattenedVariable visit(BooleanUnaryExpression ex, CompositeSnippet composite){
 		createCompositeSnippet =>[
 			snippet.add(createStringSnippet => [value = ex.operator])
 			snippet.add(ex.operand.visit)
 		]
 	}
 	
-	def dispatch Snippet visit(NaturalLiteralExpression ex) {
+	def dispatch FlattenedVariable visit(NaturalLiteralExpression ex, CompositeSnippet composite) {
 	    createStringSnippet => [value = ex.value.replace("_", "")] 
     }
     
-	def dispatch Snippet visit(RealLiteralExpression ex) {
+	def dispatch FlattenedVariable visit(RealLiteralExpression ex, CompositeSnippet composite) {
 	    createStringSnippet => [value = ex.value]
     }
 	
-	def dispatch Snippet visit(BooleanLiteralExpression ex){
+	def dispatch FlattenedVariable visit(BooleanLiteralExpression ex, CompositeSnippet composite){
 		createStringSnippet => [value = ex.value]
 	}
 	   
-	def dispatch Snippet visit(StringLiteralExpression ex){
+	def dispatch FlattenedVariable visit(StringLiteralExpression ex, CompositeSnippet composite){
 		createStringSnippet => [value = ex.value]
 	}
 	

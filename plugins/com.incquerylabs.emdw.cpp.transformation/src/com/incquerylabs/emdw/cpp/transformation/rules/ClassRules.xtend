@@ -30,6 +30,7 @@ class ClassRules {
 	val AssociationRules associationRules
 	val AttributeRules attributeRules
 	val OperationRules operationRules
+	val ClassEventRules classEventRules
 	extension val IncludeRules includeRules
 	
 	new(BatchTransformationStatements statements,
@@ -37,6 +38,7 @@ class ClassRules {
 		AssociationRules associationRules,
 		AttributeRules attributeRules,
 		OperationRules operationRules,
+		ClassEventRules classEventRules,
 		IncludeRules includeRules
 	) {
 		this.statements = statements
@@ -44,6 +46,7 @@ class ClassRules {
 		this.associationRules = associationRules
 		this.attributeRules = attributeRules
 		this.operationRules = operationRules
+		this.classEventRules = classEventRules
 		this.includeRules = includeRules
 	}
 	
@@ -53,7 +56,6 @@ class ClassRules {
 			classInPackageRule,
 			stateRule,
 			transitionRule,
-			eventRule,
 			addReferencesRule
 		)
 		transformation.addRules(rules)
@@ -103,18 +105,6 @@ class ClassRules {
 		]
 		match.cppClass.subElements += cppTransition
 		trace('''Mapped Transition «transition.name» in state machine of «match.xtClass.name» to CPPTransition''')
-	].build
-	
-	@Accessors(PUBLIC_GETTER)
-	val eventRule = createRule.precondition(cppClassEvents).action[ match |
-		val event = match.event
-		val cppEvent = createCPPEvent => [
-			xtEvent = event
-			ooplNameProvider = createOOPLExistingNameProvider => [ commonNamedElement = event ]
-		]
-		match.cppClass.subElements += cppEvent
-		trace('''Mapped XTEvent «event.name» in state machine of «match.xtClass.name» to CPPEvent''')
-		fireAllCurrent(attributeRules.classEventAttributeRule, [it.cppEvent == cppEvent])
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -184,12 +174,14 @@ class ClassRules {
 		fireAllCurrent(operationRules.entityDestructorRule, [it.cppElement == cppClass])
 		fireAllCurrent(stateRule, [it.cppClass == cppClass])
 		fireAllCurrent(transitionRule, [it.cppClass == cppClass])
-		fireAllCurrent(eventRule, [it.cppClass == cppClass])
+		fireAllCurrent(classEventRules.eventRule, [it.cppClass == cppClass])
 	}
 	
 	def updateSubElements(CPPClass cppClass){
 		addIncludes(cppClass)
 		fireAllCurrent(associationRules.addReferencesRule, [it.cppClass == cppClass])
 		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppClass])
+		fireAllCurrent(classEventRules.addReferencesRule, [it.container == cppClass])
+		fireAllCurrent(attributeRules.addReferencesRule, [it.container == cppClass])
 	}
 }

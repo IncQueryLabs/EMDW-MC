@@ -1,7 +1,9 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
+import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
@@ -9,6 +11,7 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.util.CPPTransformationUtil
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
@@ -16,8 +19,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
-import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 
 class FormalParameterRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -65,7 +66,7 @@ class FormalParameterRules {
 			cppFormalParameter.subElements.add(classReference)
 			fireAllCurrent(classReferenceSimpleCollectionTypeRule, [it.classReferenceSimpleCollection == classReference])
 		} else if(parameter.multiValue){
-			setSequence(cppFormalParameter, parameter)
+			addUnnamedSequence(cppFormalParameter, parameter)
 		}
 		
 		cppFormalParameter.setPassingKind(parameter)
@@ -74,10 +75,15 @@ class FormalParameterRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val addReferencesRule = createRule.precondition(cppFormalParameterClassReference).action[ match |
-		val classReference = match.classReference
+	val addReferencesRule = createRule.precondition(cppFormalParameter).action[ match |
+		val cppFormalParameter = match.cppFormalParameter
+		val classReference = cppFormalParameter.subElements.filter(OOPLDataType).head
+		if(classReference != null){
+			fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
+		}
+		cppFormalParameter.addSequenceReferences
 		addIncludes(match.cppFormalParameter)
-		fireAllCurrent(classReferenceRules.addReferencesRule, [it.cppClassReference == classReference])
+		
 	].build
 	
 	def CPPQualifiedNamedElement createClassReference(Parameter parameter){
@@ -86,10 +92,13 @@ class FormalParameterRules {
 		return classReference
 	}
 	
-	def setSequence(CPPFormalParameter cppFormalParameter, Parameter parameter) {
+	def addUnnamedSequence(CPPFormalParameter cppFormalParameter, Parameter parameter) {
 		cppFormalParameter.unnamedSequenceType = generateCPPSequence(parameter)
-		fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
+	}
+	
+	def addSequenceReferences(CPPFormalParameter cppFormalParameter) {
 		if(cppFormalParameter.unnamedSequenceType != null) {
+			fireAllCurrent(cppSequenceTypeRule, [it.cppElement == cppFormalParameter])
 			fireAllCurrent(cppSequenceImplementationRule, [it.cppSequence == cppFormalParameter.unnamedSequenceType])
 		}
 	}

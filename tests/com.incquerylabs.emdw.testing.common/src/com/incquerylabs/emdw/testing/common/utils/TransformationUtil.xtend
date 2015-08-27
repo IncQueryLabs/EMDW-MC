@@ -44,7 +44,7 @@ class TransformationUtil {
 		compTrafo.execute(component)
 	}
 
-	def executeAll() {
+	def executeAllTransformation() {
 		xtTrafo.execute
 		cppTrafo.execute
 		compTrafo.execute
@@ -65,7 +65,7 @@ class TransformationUtil {
 		}
 	}
 
-	def getEngine() {
+	def getTransformationEngine() {
 		return engine
 	}
 

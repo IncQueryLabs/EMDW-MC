@@ -49,7 +49,7 @@ class FileAndDirectoryGenerationUtil {
 		fileAndDirGeneration.execute
 	}
 
-	def executeAll() {
+	def executeAllGeneration() {
 		cppCodeGeneration.execute
 		makefileGeneration.executeRulesMk(rootBodyDir)
 		if (rootBodyDir != rootHeaderDir) {
@@ -66,7 +66,7 @@ class FileAndDirectoryGenerationUtil {
 		ImmutableMap.copyOf(sourcefiles)
 	}
 
-	def cleanupTransformation() {
+	def cleanupGeneration() {
 		if (fileAndDirGeneration != null) {
 			fileAndDirGeneration.dispose
 		}

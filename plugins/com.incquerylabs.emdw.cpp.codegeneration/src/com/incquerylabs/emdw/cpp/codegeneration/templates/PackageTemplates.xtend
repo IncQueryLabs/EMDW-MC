@@ -38,13 +38,6 @@ class PackageTemplates extends CPPTemplate {
 		
 		«cppPackage.headerFile.inclusions»
 		
-		«cppPackage.namespaceOpenerTemplate»
-		
-		«cppPackage.cppEnumsInContainer»
-		«cppPackage.cppStructInContainer»
-		
-		«cppPackage.namespaceCloserTemplate»
-		
 		«closeHeaderGuard(cppPackage, headerGuardPostfix)»
 		'''
 	}

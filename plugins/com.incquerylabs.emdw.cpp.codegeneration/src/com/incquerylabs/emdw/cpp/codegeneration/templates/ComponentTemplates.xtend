@@ -47,7 +47,9 @@ class ComponentTemplates extends CPPTemplate {
 		«cppComponent.namespaceOpenerTemplate»
 			class «cppComponent.cppName»;
 		«cppComponent.namespaceCloserTemplate»
+		
 		«cppComponent.forwardDeclarationsTemplate»
+		«cppComponent.typeDefinitionsTemplate»
 		
 		«closeHeaderGuard(cppComponent, headerGuardPostfix)»
 		'''
@@ -74,10 +76,6 @@ class ComponentTemplates extends CPPTemplate {
 		«cppComponent.definitionHeaderFile.inclusions»
 		
 		«cppComponent.namespaceOpenerTemplate»
-		
-		«cppComponent.cppEnumsInContainer»
-		
-		«cppComponent.cppStructInContainer»
 		
 		«cppComponent.namespaceCloserTemplate»
 		
@@ -159,27 +157,40 @@ class ComponentTemplates extends CPPTemplate {
 	
 	def CharSequence forwardDeclarationsTemplate(CPPQualifiedNamedElement cppContainer) {
 		val cppClasses = cppContainer.subElements.filter(CPPClass)
-		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType)
-		val cppStructTypes = cppContainer.subElements.filter(CPPStructType)
 		val innerCppPackages = cppContainer.subElements.filter(CPPPackage)
-		val hasForwardDeclarations = !(cppClasses.isNullOrEmpty && cppEnumTypes.isNullOrEmpty)
+		val hasForwardDeclarations = !cppClasses.isNullOrEmpty
 		'''
 		«IF hasForwardDeclarations»
 			«cppContainer.namespaceOpenerTemplate»
 				«FOR cppClass : cppClasses»
 					class «cppClass.cppName»;
 				«ENDFOR»
-				«FOR cppEnumType : cppEnumTypes»
-					class «cppEnumType.cppName»;
-				«ENDFOR»
-				«FOR cppStructType : cppStructTypes»
-					struct «cppStructType.cppName»;
-				«ENDFOR»
 			«cppContainer.namespaceCloserTemplate»
 		«ENDIF»
 		
 		«FOR innerCppPackage : innerCppPackages»
 			«innerCppPackage.forwardDeclarationsTemplate»
+		«ENDFOR»
+		'''
+	}
+	
+	def CharSequence typeDefinitionsTemplate(CPPQualifiedNamedElement cppContainer) {
+		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType)
+		val cppStructTypes = cppContainer.subElements.filter(CPPStructType)
+		val innerCppPackages = cppContainer.subElements.filter(CPPPackage)
+		val hasTypeDefinitions = !(cppEnumTypes.isNullOrEmpty || cppStructTypes.isNullOrEmpty)
+			
+		
+		'''
+		«IF hasTypeDefinitions»
+			«cppContainer.namespaceOpenerTemplate»
+				«cppContainer.cppEnumsInContainer»
+				
+				«cppContainer.cppStructInContainer»
+			«cppContainer.namespaceCloserTemplate»
+		«ENDIF»
+		«FOR innerCppPackage : innerCppPackages»
+			«innerCppPackage.typeDefinitionsTemplate»
 		«ENDFOR»
 		'''
 	}

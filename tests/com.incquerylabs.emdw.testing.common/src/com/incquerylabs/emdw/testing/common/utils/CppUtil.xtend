@@ -40,14 +40,14 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationDefinition
 class CppUtil extends ModelUtil {
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	static extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
-	
+
 	// CREATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	static def createCPPResource(Model xtUmlModel) {
-		val cppResource = xtUmlModel.eResource.resourceSet.createResource(URI.createURI("model/"+xtUmlModel.name+"/ref/test.cppmodel"))
+		val cppResource = xtUmlModel.eResource.resourceSet.createResource(
+			URI.createURI("model/" + xtUmlModel.name + "/ref/test.cppmodel"))
 		cppResource
 	}
-	
+
 	static def prepareCPPModel(Resource resource, org.eclipse.papyrusrt.xtumlrt.common.Model xtModel) {
 		val cppModel = createCPPModel(resource, xtModel)
 		val modelDir = createCPPDirectory(cppModel.eResource)
@@ -56,9 +56,9 @@ class CppUtil extends ModelUtil {
 		cppModel.bodyDir = modelDir
 		return cppModel
 	}
-	
+
 	static def createCPPModel(Resource cppResource, Model xtModel) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtModel ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = xtModel]
 		val cppModel = cppFactory.createCPPModel => [
 			commonModel = xtModel
 			it.ooplNameProvider = provider
@@ -72,31 +72,31 @@ class CppUtil extends ModelUtil {
 		cppResource.contents += cppDir
 		cppDir
 	}
-	
+
 	static def createCPPSubDirectory(CPPDirectory root) {
 		val cppDir = cppFactory.createCPPDirectory
 		root.subDirectories += cppDir
 		cppDir
 	}
-	
+
 	static def createCPPHeaderFile(CPPDirectory root, CPPHeaderFile ... included) {
-		val cppHeader = cppFactory.createCPPHeaderFile=>[
-			includedHeaders+=included
+		val cppHeader = cppFactory.createCPPHeaderFile => [
+			includedHeaders += included
 		]
 		root.files += cppHeader
 		cppHeader
 	}
-	
+
 	static def createCPPBodyFile(CPPDirectory root, CPPHeaderFile ... included) {
-		val cppBody = cppFactory.createCPPBodyFile=>[
-			includedHeaders+=included
+		val cppBody = cppFactory.createCPPBodyFile => [
+			includedHeaders += included
 		]
 		root.files += cppBody
 		cppBody
 	}
 
 	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, Package xtpackage) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = xtpackage]
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.commonPackage = xtpackage
 			it.ooplNameProvider = provider
@@ -104,11 +104,14 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppPackage
 		cppPackage
 	}
-	
-	static def CPPPackage createCPPPackage(CPPQualifiedNamedElement root, Package xtpackage,
-		CPPHeaderFile headerFile, CPPBodyFile bodyFile
+
+	static def CPPPackage createCPPPackage(
+		CPPQualifiedNamedElement root,
+		Package xtpackage,
+		CPPHeaderFile headerFile,
+		CPPBodyFile bodyFile
 	) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtpackage ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = xtpackage]
 		val cppPackage = cppFactory.createCPPPackage => [
 			it.commonPackage = xtpackage
 			it.ooplNameProvider = provider
@@ -118,29 +121,28 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppPackage
 		cppPackage
 	}
-		
-	static def CPPPackage createCPPPackageWithFiles(CPPQualifiedNamedElement root, Package xtpackage, 
+
+	static def CPPPackage createCPPPackageWithFiles(CPPQualifiedNamedElement root, Package xtpackage,
 		CPPDirectory headerDirectory, CPPDirectory bodyDirectory) {
 		val headerFile = headerDirectory.createCPPHeaderFile()
 		val bodyFile = bodyDirectory.createCPPBodyFile()
-		
+
 		createCPPPackage(root, xtpackage, headerFile, bodyFile) => [
 			it.headerDir = headerDirectory
 			it.bodyDir = bodyDirectory
 		]
 	}
-	
-	static def CPPPackage createCPPPackageWithDirectoriesAndFiles(
-		CPPQualifiedNamedElement root, Package xtpackage, CPPDirectory parentDirectory) {
+
+	static def CPPPackage createCPPPackageWithDirectoriesAndFiles(CPPQualifiedNamedElement root, Package xtpackage,
+		CPPDirectory parentDirectory) {
 		val headerDirectory = parentDirectory.createCPPSubDirectory
 		val bodyDirectory = headerDirectory
-		
+
 		createCPPPackageWithFiles(root, xtpackage, headerDirectory, bodyDirectory)
 	}
-	
 
 	static def CPPProtocol createCPPProtocol(CPPQualifiedNamedElement root, XTProtocol protocol, CPPHeaderFile header) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = protocol ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = protocol]
 		val cppProtocol = cppFactory.createCPPProtocol => [
 			it.xtProtocol = protocol
 			it.headerFile = header
@@ -149,9 +151,10 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppProtocol
 		cppProtocol
 	}
-	
-	static def CPPProtocolOperationDefinition createCPPProtocolOperationDefinition(CPPQualifiedNamedElement root, XTProtocolOperationDefinition definition) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = definition ]
+
+	static def CPPProtocolOperationDefinition createCPPProtocolOperationDefinition(CPPQualifiedNamedElement root,
+		XTProtocolOperationDefinition definition) {
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = definition]
 		val cppdef = cppFactory.createCPPProtocolOperationDefinition => [
 			it.xtProtocolOperationDefinition = definition
 			it.ooplNameProvider = provider
@@ -161,7 +164,7 @@ class CppUtil extends ModelUtil {
 	}
 
 	static def CPPSignal createCPPSignal(CPPQualifiedNamedElement root, Signal signal) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = signal ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = signal]
 		val cppSignal = cppFactory.createCPPSignal => [
 			it.commonSignal = signal
 			it.ooplNameProvider = provider
@@ -171,7 +174,7 @@ class CppUtil extends ModelUtil {
 	}
 
 	static def CPPEvent createCPPEvent(CPPQualifiedNamedElement root, XTEvent event) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = event ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = event]
 		val cppEvent = cppFactory.createCPPEvent => [
 			it.xtEvent = event
 			it.ooplNameProvider = provider
@@ -179,9 +182,9 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppEvent
 		cppEvent
 	}
-	
+
 	static def CPPOperation createCPPOperation(CPPQualifiedNamedElement root, Operation operation) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = operation ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = operation]
 		val cppOperation = cppFactory.createCPPOperation => [
 			it.commonOperation = operation
 			it.ooplNameProvider = provider
@@ -189,9 +192,9 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppOperation
 		cppOperation
 	}
-	
+
 	static def CPPState createCPPState(CPPQualifiedNamedElement root, State state) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = state ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = state]
 		val cppState = cppFactory.createCPPState => [
 			it.commonState = state
 			it.ooplNameProvider = provider
@@ -199,9 +202,9 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppState
 		cppState
 	}
-	
+
 	static def CPPTransition createCPPTransition(CPPQualifiedNamedElement root, Transition trans) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = trans ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = trans]
 		val cppTransition = cppFactory.createCPPTransition => [
 			it.commonTransition = trans
 			it.ooplNameProvider = provider
@@ -209,9 +212,10 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppTransition
 		cppTransition
 	}
-	
-	static def CPPPort createCPPPort(CPPQualifiedNamedElement root, XTPort port,CPPHeaderFile header, CPPBodyFile body  ) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = port ]
+
+	static def CPPPort createCPPPort(CPPQualifiedNamedElement root, XTPort port, CPPHeaderFile header,
+		CPPBodyFile body) {
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = port]
 		val cppPort = cppFactory.createCPPPort => [
 			it.xtPort = port
 			it.headerFile = header
@@ -221,9 +225,9 @@ class CppUtil extends ModelUtil {
 		root.subElements += cppPort
 		cppPort
 	}
-	
+
 	static def CPPAttribute createCPPAttribute(CPPQualifiedNamedElement root, Attribute attr) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = attr ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = attr]
 		val cppAttr = cppFactory.createCPPAttribute => [
 			it.commonAttribute = attr
 			it.ooplNameProvider = provider
@@ -234,7 +238,7 @@ class CppUtil extends ModelUtil {
 
 	static def CPPComponent createCPPComponent(CPPQualifiedNamedElement root, XTComponent xtcomponent,
 		CPPHeaderFile mainheader, CPPBodyFile mainbody, CPPHeaderFile declheader, CPPHeaderFile defheader) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtcomponent ]
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = xtcomponent]
 		val cppComponent = cppFactory.createCPPComponent => [
 			it.xtComponent = xtcomponent
 			it.mainHeaderFile = mainheader
@@ -244,32 +248,33 @@ class CppUtil extends ModelUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppComponent
-		cppComponent	
+		cppComponent
 	}
-	
-	static def CPPComponent createCPPComponentWithFiles(CPPQualifiedNamedElement root, XTComponent xtComponent, 
+
+	static def CPPComponent createCPPComponentWithFiles(CPPQualifiedNamedElement root, XTComponent xtComponent,
 		CPPDirectory headerDirectory, CPPDirectory bodyDirectory) {
 		val declHeader = headerDirectory.createCPPHeaderFile()
 		val defHeader = headerDirectory.createCPPHeaderFile()
 		val mainHeader = headerDirectory.createCPPHeaderFile()
 		val mainBody = bodyDirectory.createCPPBodyFile()
-		
+
 		createCPPComponent(root, xtComponent, mainHeader, mainBody, declHeader, defHeader) => [
 			it.headerDirectory = headerDirectory
 			it.bodyDirectory = bodyDirectory
 		]
 	}
-	
-	static def CPPComponent createCPPComponentWithDirectoriesAndFiles(
-		CPPQualifiedNamedElement root, XTComponent xtComponent, CPPDirectory parentDirectory) {
+
+	static def CPPComponent createCPPComponentWithDirectoriesAndFiles(CPPQualifiedNamedElement root,
+		XTComponent xtComponent, CPPDirectory parentDirectory) {
 		val headerDirectory = parentDirectory.createCPPSubDirectory
 		val bodyDirectory = headerDirectory
-		
+
 		createCPPComponentWithFiles(root, xtComponent, headerDirectory, bodyDirectory)
 	}
-	
-	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header, CPPBodyFile body ) {
-		val provider = ooplFactory.createOOPLExistingNameProvider=>[commonNamedElement = xtclass ]
+
+	static def CPPClass createCPPClass(CPPQualifiedNamedElement root, XTClass xtclass, CPPHeaderFile header,
+		CPPBodyFile body) {
+		val provider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = xtclass]
 		val cppClass = cppFactory.createCPPClass => [
 			it.xtClass = xtclass
 			it.headerFile = header
@@ -277,37 +282,34 @@ class CppUtil extends ModelUtil {
 			it.ooplNameProvider = provider
 		]
 		root.subElements += cppClass
-		cppClass	
+		cppClass
 	}
-	
-	static def CPPClass createCPPClassWithFiles(CPPQualifiedNamedElement root, XTClass xtclass, 
+
+	static def CPPClass createCPPClassWithFiles(CPPQualifiedNamedElement root, XTClass xtclass,
 		CPPDirectory headerDirectory, CPPDirectory bodyDirectory) {
 		val headerFile = headerDirectory.createCPPHeaderFile()
 		val bodyFile = bodyDirectory.createCPPBodyFile()
-		
+
 		createCPPClass(root, xtclass, headerFile, bodyFile)
 	}
-	
-	static def CPPExternalLibrary createCPPExternalLibrary(Resource resource){
+
+	static def CPPExternalLibrary createCPPExternalLibrary(Resource resource) {
 		val externalLibrary = createCPPExternalLibrary
 		resource.contents += externalLibrary
 		return externalLibrary
 	}
-	
+
 	static def CPPBasicType createCPPBasicType(CPPQualifiedNamedElement root, Type type) {
 		cppFactory.createCPPBasicType => [
 			it.commonType = type
-			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider => [ commonNamedElement = type]
+			it.ooplNameProvider = ooplFactory.createOOPLExistingNameProvider => [commonNamedElement = type]
 			root.subElements += it
 		]
 	}
-	
+
 	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	static def loadDefaultContainerImplementations(Resource resource) {
 		val resourceSet = resource.resourceSet
-		resourceSet.getResource(
-			URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true),
-			true)
+		resourceSet.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
 	}
 }

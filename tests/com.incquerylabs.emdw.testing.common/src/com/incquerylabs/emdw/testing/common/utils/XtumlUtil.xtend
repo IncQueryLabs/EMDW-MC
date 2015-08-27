@@ -45,29 +45,28 @@ import static org.junit.Assert.*
 class XtumlUtil extends ModelUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
-	
+
 	// CREATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	static def createEmptyXtumlModel(String modelname) {
 		val xtumlrtResource = createEmptyXtumlResource(modelname)
 		createEmptyXtumlModel(xtumlrtResource, modelname)
 	}
-	
+
 	static def createEmptyXtumlResource(String resourcename) {
 		val resourceSet = new ResourceSetImpl
-		val resource = resourceSet.createResource(URI.createURI("model/"+resourcename+"/ref/test.xtuml"))
+		val resource = resourceSet.createResource(URI.createURI("model/" + resourcename + "/ref/test.xtuml"))
 		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 		QueryBasedFeatures.instance.prepare(managedEngine)
 		resource
 	}
-	
+
 	static def createEmptyXtumlModel(Resource xtumlrtResource, String modelname) {
-		val xtumlrtModel = commonFactory.createModel=>[it.name = modelname]
+		val xtumlrtModel = commonFactory.createModel => [it.name = modelname]
 		xtumlrtResource.contents += xtumlrtModel
-		
+
 		xtumlrtModel
 	}
-	
+
 	static def createPackage(Model xtumlmodel, String name) {
 		var pack = commonFactory.createPackage => [
 			it.name = name
@@ -99,7 +98,7 @@ class XtumlUtil extends ModelUtil {
 		root.entities += comp
 		comp
 	}
-	
+
 	static def createXtComponent(Model root, String name) {
 		var comp = xtumlFactory.createXTComponent => [
 			it.name = name
@@ -115,7 +114,7 @@ class XtumlUtil extends ModelUtil {
 		root.entities += xtclass
 		xtclass
 	}
-	
+
 	static def createXtClass(Package root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
@@ -123,7 +122,7 @@ class XtumlUtil extends ModelUtil {
 		root.entities += xtclass
 		xtclass
 	}
-	
+
 	static def createXtClass(Model root, String name) {
 		var xtclass = xtumlFactory.createXTClass => [
 			it.name = name
@@ -139,7 +138,6 @@ class XtumlUtil extends ModelUtil {
 		root.behaviour = sm
 		sm
 	}
-	
 
 	static def createXtProtocol(Package root, String name) {
 		var protocol = xtumlFactory.createXTProtocol => [
@@ -148,7 +146,7 @@ class XtumlUtil extends ModelUtil {
 		root.protocols += protocol
 		protocol
 	}
-	
+
 	static def createXtProtocol(Model root, String name) {
 		var protocol = xtumlFactory.createXTProtocol => [
 			it.name = name
@@ -156,8 +154,9 @@ class XtumlUtil extends ModelUtil {
 		root.protocols += protocol
 		protocol
 	}
-	
-	static def createXtProtocolOperationDefinition(Protocol root, String name, VisibilityKind visibility, boolean isStatic, Type returnType, ProtocolBehaviourFeatureKind kind, Parameter ... parameter) {
+
+	static def createXtProtocolOperationDefinition(Protocol root, String name, VisibilityKind visibility,
+		boolean isStatic, Type returnType, ProtocolBehaviourFeatureKind kind, Parameter ... parameter) {
 		var def = xtumlFactory.createXTProtocolOperationDefinition => [
 			it.name = name
 			it.visibility = visibility
@@ -171,8 +170,9 @@ class XtumlUtil extends ModelUtil {
 		root.protocolBehaviourFeatures += def
 		def
 	}
-	
-	static def createXtProtocolOperationImplementation(XTPort root, XTProtocolOperationDefinition definition, String body) {
+
+	static def createXtProtocolOperationImplementation(XTPort root, XTProtocolOperationDefinition definition,
+		String body) {
 		var def = xtumlFactory.createXTProtocolOperationImplementation => [
 			it.implements = definition
 		]
@@ -188,8 +188,6 @@ class XtumlUtil extends ModelUtil {
 		root.protocolBehaviourFeatures += signal
 		signal
 	}
-	
-
 
 	static def createXtSignalEvent(Port port, Signal signal, XTClass root, String name) {
 		val signalEvent = xtumlFactory.createXTSignalEvent => [
@@ -200,7 +198,7 @@ class XtumlUtil extends ModelUtil {
 		root.events += signalEvent
 		signalEvent
 	}
-	
+
 	static def createXtClassEvent(XTClass root, String name) {
 		val classEvent = xtumlFactory.createXTClassEvent => [
 			it.name = name
@@ -208,8 +206,9 @@ class XtumlUtil extends ModelUtil {
 		root.events += classEvent
 		classEvent
 	}
-	
-	static def createXtAssociation(XTClass source, XTClass target,String name, boolean unique, boolean ordered, int lowerBound, int upperBound) {
+
+	static def createXtAssociation(XTClass source, XTClass target, String name, boolean unique, boolean ordered,
+		int lowerBound, int upperBound) {
 		val assoc = xtumlFactory.createXTAssociation => [
 			it.source = source
 			it.target = target
@@ -222,8 +221,9 @@ class XtumlUtil extends ModelUtil {
 		source.relations += assoc
 		assoc
 	}
-	
-	static def createXtAssociationClass(XTClass source, XTClass target, XTClass assocClass, String name, boolean unique, boolean ordered, int lowerBound, int upperBound) {
+
+	static def createXtAssociationClass(XTClass source, XTClass target, XTClass assocClass, String name, boolean unique,
+		boolean ordered, int lowerBound, int upperBound) {
 		val assoc = xtumlFactory.createXTAssociationClass => [
 			it.source = source
 			it.target = target
@@ -255,12 +255,12 @@ class XtumlUtil extends ModelUtil {
 		root.top = compState
 		compState
 	}
-	
+
 	static def createCompositeState(CompositeState root, String name) {
 		var compState = commonFactory.createCompositeState => [
 			it.name = name
 		]
-		root.substates+=compState
+		root.substates += compState
 		compState
 	}
 
@@ -287,7 +287,7 @@ class XtumlUtil extends ModelUtil {
 		root.substates += state
 		state
 	}
-	
+
 	static def createDeepHistory(CompositeState root, String name) {
 		val dh = commonFactory.createDeepHistory => [
 			it.name = name
@@ -335,7 +335,7 @@ class XtumlUtil extends ModelUtil {
 		root.entryAction = action
 		action
 	}
-	
+
 	static def createEntryActionCode(CompositeState root, String name, String code) {
 		val action = commonFactory.createActionCode => [
 			it.name = name
@@ -353,7 +353,7 @@ class XtumlUtil extends ModelUtil {
 		root.exitAction = action
 		action
 	}
-	
+
 	static def createExitActionCode(CompositeState root, String name, String code) {
 		val action = commonFactory.createActionCode => [
 			it.name = name
@@ -371,7 +371,7 @@ class XtumlUtil extends ModelUtil {
 		root.body = action
 		action
 	}
-	
+
 	static def createActionCode(XTProtocolOperationImplementation root, String name, String code) {
 		val action = commonFactory.createActionCode => [
 			it.name = name
@@ -492,12 +492,13 @@ class XtumlUtil extends ModelUtil {
 		attr
 	}
 
-	static def createSingleAttribute(XTClassEvent root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+	static def createSingleAttribute(XTClassEvent root, Type type, VisibilityKind visibility, boolean isStatic,
+		String name) {
 		val attr = createSingleAttribute(type, visibility, isStatic, name)
 		root.attributes += attr
 		attr
 	}
-	
+
 	static def createSingleAttribute(Type type, VisibilityKind visibility, boolean isStatic, String name) {
 		commonFactory.createAttribute => [
 			it.name = name
@@ -543,9 +544,8 @@ class XtumlUtil extends ModelUtil {
 		root.guard = action
 		action
 	}
-	
+
 	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
 	static def getXtumlrtTopState(Model xtumlrtRoot) {
 		xtumlrtRoot.entities.head.behaviour.top
 	}
@@ -559,7 +559,8 @@ class XtumlUtil extends ModelUtil {
 		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.exitAction.source)
 	}
 
-	static def checkTransition(RootMapping mapping, org.eclipse.uml2.uml.Transition umlObject, Transition xtumlrtObject) {
+	static def checkTransition(RootMapping mapping, org.eclipse.uml2.uml.Transition umlObject,
+		Transition xtumlrtObject) {
 		val sourceVertex = mapping.traces.findFirst[umlElements.contains(umlObject.source)].xtumlrtElements.head
 		val targetVertex = mapping.traces.findFirst[umlElements.contains(umlObject.target)].xtumlrtElements.head
 		assertEquals("Transition source vertex", sourceVertex, xtumlrtObject.sourceVertex)

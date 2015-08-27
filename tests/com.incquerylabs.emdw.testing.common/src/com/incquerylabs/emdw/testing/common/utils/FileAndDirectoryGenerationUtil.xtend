@@ -12,7 +12,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 
 class FileAndDirectoryGenerationUtil {
-	
+
 	AdvancedIncQueryEngine engine
 	FileAndDirectoryGeneration fileAndDirGeneration
 	CPPCodeGeneration cppCodeGeneration
@@ -20,7 +20,7 @@ class FileAndDirectoryGenerationUtil {
 	CPPDirectory rootBodyDir
 	CPPDirectory rootHeaderDir
 	IFileManager fileManager
-	
+
 	def initializeGeneration(CPPModel cppModel, IFileManager fileManager) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(cppModel.eResource.resourceSet))
 		fileAndDirGeneration = new FileAndDirectoryGeneration
@@ -32,48 +32,48 @@ class FileAndDirectoryGenerationUtil {
 		this.rootHeaderDir = cppModel.headerDir
 		this.fileManager = fileManager
 	}
-	
+
 	def executeCodeGeneration() {
 		cppCodeGeneration.execute
 	}
-	
+
 	def executeMakeGeneration() {
 		makefileGeneration.executeRulesMk(rootBodyDir)
-		if(rootBodyDir!=rootHeaderDir) {
+		if (rootBodyDir != rootHeaderDir) {
 			makefileGeneration.executeRulesMk(rootHeaderDir)
 		}
 	}
-	
+
 	def executeFileGeneration() {
 		fileAndDirGeneration.initialize(engine, fileManager, generatedCPPSourceFileContents)
 		fileAndDirGeneration.execute
 	}
-	
+
 	def executeAll() {
 		cppCodeGeneration.execute
 		makefileGeneration.executeRulesMk(rootBodyDir)
-		if(rootBodyDir!=rootHeaderDir) {
+		if (rootBodyDir != rootHeaderDir) {
 			makefileGeneration.executeRulesMk(rootHeaderDir)
 		}
 		fileAndDirGeneration.initialize(engine, fileManager, generatedCPPSourceFileContents)
 		fileAndDirGeneration.execute
 	}
-	
+
 	def ImmutableMap<CPPSourceFile, CharSequence> getGeneratedCPPSourceFileContents() {
 		var sourcefiles = <CPPSourceFile, CharSequence>newHashMap
 		sourcefiles.putAll(cppCodeGeneration.generatedCPPSourceFiles)
 		sourcefiles.putAll(makefileGeneration.generatedCPPMakeFiles)
 		ImmutableMap.copyOf(sourcefiles)
 	}
-	
+
 	def cleanupTransformation() {
-		if(fileAndDirGeneration != null) {
+		if (fileAndDirGeneration != null) {
 			fileAndDirGeneration.dispose
 		}
-		if(cppCodeGeneration != null) {
+		if (cppCodeGeneration != null) {
 			cppCodeGeneration.dispose
 		}
-		if(engine != null) {
+		if (engine != null) {
 			engine.dispose
 		}
 	}

@@ -11,12 +11,12 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 
 class TransformationUtil {
-	
+
 	TransformationQrt xtTrafo
 	XtumlCPPTransformationQrt cppTrafo
 	XtumlComponentCPPTransformation compTrafo
 	AdvancedIncQueryEngine engine
-	
+
 	def initializeTransformation(ResourceSet rs, Map<org.eclipse.uml2.uml.Type, Type> primitiveTypeMapping) {
 		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
 		xtTrafo = new TransformationQrt
@@ -27,46 +27,46 @@ class TransformationUtil {
 		compTrafo = new XtumlComponentCPPTransformation
 		compTrafo.initialize(engine)
 	}
-	
+
 	def executeXtTransformation() {
 		xtTrafo.execute
 	}
-	
+
 	def executeCppTransformation() {
 		cppTrafo.execute
 	}
-	
+
 	def executeCppComponentTransformation() {
 		compTrafo.execute
 	}
-	
+
 	def executeCppComponentTransformation(XTComponent component) {
 		compTrafo.execute(component)
 	}
-	
+
 	def executeAll() {
 		xtTrafo.execute
 		cppTrafo.execute
 		compTrafo.execute
 	}
-	
+
 	def cleanupTransformation() {
-		if(xtTrafo != null) {
+		if (xtTrafo != null) {
 			xtTrafo.dispose
 		}
-		if(cppTrafo != null) {
+		if (cppTrafo != null) {
 			cppTrafo.dispose
 		}
-		if(compTrafo != null) {
+		if (compTrafo != null) {
 			compTrafo.dispose
 		}
-		if(engine != null) {
+		if (engine != null) {
 			engine.dispose
 		}
 	}
-	
+
 	def getEngine() {
 		return engine
 	}
-	
+
 }

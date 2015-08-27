@@ -33,7 +33,7 @@ class TypeDefinitionMapping extends AbstractObjectMapping<TypeDefinitionMatch, T
 		TypeDefinition
 	}
 
-	public static val PRIORITY = XTComponentMapping.PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY
 
 	override getRulePriority() {
 		PRIORITY

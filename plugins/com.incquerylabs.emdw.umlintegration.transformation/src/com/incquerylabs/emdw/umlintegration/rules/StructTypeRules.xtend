@@ -28,7 +28,7 @@ class StructTypeMapping extends AbstractObjectMapping<StructTypeMatch, DataType,
 		StructuredType
 	}
 	
-	public static val PRIORITY = Math.max(TypeDefinitionInComponentMapping.PRIORITY, TypeDefinitionInPackageMapping.PRIORITY) + 1
+	public static val PRIORITY = TypeDefinitionMapping.PRIORITY + 1
 
 	override getRulePriority() {
 		PRIORITY

@@ -8,7 +8,7 @@ class CommonPriorities {
 	
 	public static val int EVENT_MAPPING_PRIORITY = CLASS_MAPPING_PRIORITY + 1
 	
-	public static val int TYPE_MAPPING_PRIORITY = Math.max(XTClassMapping.PRIORITY, XTComponentMapping.PRIORITY)
+	public static val int TYPE_MAPPING_PRIORITY = Math.max(XTPackageMapping.PRIORITY, XTComponentMapping.PRIORITY)
 	
 	public static val int OPERATION_MAPPING_PRIORITY = TYPE_MAPPING_PRIORITY + 1
 	

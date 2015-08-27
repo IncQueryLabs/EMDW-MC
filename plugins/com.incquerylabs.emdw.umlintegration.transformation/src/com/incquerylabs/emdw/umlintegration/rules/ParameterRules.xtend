@@ -33,7 +33,7 @@ class ParameterMapping extends AbstractObjectMapping<ParameterMatch, org.eclipse
 		Parameter
 	}
 	
-	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 1
+	public static val PRIORITY = CommonPriorities.TYPE_MAPPING_PRIORITY + 2
 
 	override getRulePriority() {
 		PRIORITY
@@ -54,8 +54,9 @@ class ParameterMapping extends AbstractObjectMapping<ParameterMatch, org.eclipse
 	override updateXtumlrtObject(Parameter xtumlrtObject, ParameterMatch match) {
 		val umlObject = match.umlObject
 		if(umlObject.type != null){
-			switch type : engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).head {
-				Type: xtumlrtObject.type = type
+			val type = engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject.type).filter(Type).head
+			if(type != null){
+				xtumlrtObject.type = type
 			}
 		}
 		xtumlrtObject.direction = TransformationUtil.transform(umlObject.direction)

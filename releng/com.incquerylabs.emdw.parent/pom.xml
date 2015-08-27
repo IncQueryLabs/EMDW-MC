@@ -19,6 +19,9 @@
 		<module>../../plugins/com.incquerylabs.uml.xtuml.profile</module>
 		<module>../../plugins/com.incquerylabs.emdw.snippet.model</module>
 
+		<!-- Testing common -->
+		<module>../../tests/com.incquerylabs.emdw.testing.common</module>
+
 		<!-- UML integration -->
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>

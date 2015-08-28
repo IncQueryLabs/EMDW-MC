@@ -1,26 +1,27 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.uml2.uml.DataType
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	StructTypeMappingTest
+])
+@RunWith(Suite)
+class StructTypeMappingTestSuite {}
+
 class StructTypeMappingTest extends TransformationTest<DataType, StructuredType> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val umlPackage = createPackageInModel(umlRoot)
-		createStructType(umlPackage)
+		val umlPackage = umlRoot.createPackageInModel
+		umlPackage.createStructType
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {

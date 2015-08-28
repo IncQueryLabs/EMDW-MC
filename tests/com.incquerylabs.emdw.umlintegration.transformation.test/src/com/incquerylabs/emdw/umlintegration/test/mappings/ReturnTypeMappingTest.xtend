@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
@@ -9,18 +8,21 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	SingleReturnTypeMappingTest,
+	CollectionReturnTypeMappingTest
+])
+@RunWith(Suite)
+class ReturnTypeMappingTestSuite {}
+
 class SingleReturnTypeMappingTest extends TransformationTest<Parameter, TypedMultiplicityElement> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val umlClassType = umlModel.createClassInModel => [it.name = "classType"]
@@ -46,12 +48,7 @@ class SingleReturnTypeMappingTest extends TransformationTest<Parameter, TypedMul
 	}
 }
 
-@RunWith(Parameterized)
 class CollectionReturnTypeMappingTest extends TransformationTest<Parameter, TypedMultiplicityElement> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val umlClassType = umlModel.createClassInModel => [it.name = "classType"]

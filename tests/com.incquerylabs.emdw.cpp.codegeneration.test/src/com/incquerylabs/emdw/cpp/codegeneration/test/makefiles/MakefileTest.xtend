@@ -1,21 +1,14 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.makefiles
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.State
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class MakefileTest extends MakeBaseTest<State, CPPModel> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
@@ -23,7 +16,7 @@ class MakefileTest extends MakeBaseTest<State, CPPModel> {
 		val xtComponent = xtPackage.createXtComponent("Component")
 		
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
+		cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
 		
 		cppModel
 	}

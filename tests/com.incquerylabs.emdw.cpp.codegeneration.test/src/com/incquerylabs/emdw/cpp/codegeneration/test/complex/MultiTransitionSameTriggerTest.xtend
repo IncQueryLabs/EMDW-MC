@@ -3,19 +3,12 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.complex
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.State
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
 		
@@ -54,9 +47,9 @@ class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass>
 		val t4 = topState.createTransition(s1,s2,"t4", "SAMPLE_CODE")
 		t4.createXTEventTrigger(classEvent, "Trigger4")
 		
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
-		val cppClass = createCPPClass(cppComponent, xtClass, 
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
+		val cppClass = cppComponent.createCPPClass(xtClass, 
 			createCPPHeaderFile(cppComponent.headerDirectory), 
 			createCPPBodyFile(cppComponent.bodyDirectory)
 		)

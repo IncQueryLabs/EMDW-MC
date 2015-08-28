@@ -2,39 +2,21 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.fsa
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.google.common.collect.ImmutableList
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.FileAndDirectoryGenerationWrapper
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.junit.Ignore
 import org.junit.Test
-import org.junit.runners.Parameterized.Parameters
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
 abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
-
-	protected extension FileAndDirectoryGenerationWrapper fileAndDirGenWrapper
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-		fileAndDirGenWrapper = wrapper as FileAndDirectoryGenerationWrapper
-	}
-	
-	@Parameters(name="{index}: {1}")
-	public static def transformations() {
-		val alternatives = ImmutableList.builder.add(new FileAndDirectoryGenerationWrapper()).build
-		alternatives.map [
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
-	}
 
 	@Test
 	def test_1() {
@@ -43,14 +25,12 @@ abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject e
 		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
 		//init cpp model
 		val cppResource = createCPPResource(xtModel)
-		val cppModel = createCPPModelWithoutDirectory(cppResource,xtModel)
+		val cppModel = cppResource.createCPPModel(xtModel)
 		val preparedCPPModel = prepareCPPModel1(cppModel)
 		// transform to CPP
 		val fileManager = new EclipseWorkspaceFileManager(cppModel.cppName, "/")
-		initializeTransformation(preparedCPPModel)
-		executeTransformation
-		initializeFileAndDirectoryGenerator(fileManager, generatedCPPSourceFileContents)
-		executeFileAndDirectoryGeneration
+		initializeGeneration(preparedCPPModel, fileManager)
+		executeAllGeneration
 		// Check result
 		assertFileSystemSynch(cppModel.headerDir, fileManager)
 		assertFileSystemSynch(cppModel.bodyDir, fileManager)
@@ -64,14 +44,12 @@ abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject e
 		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
 		//init cpp model
 		val cppResource = createCPPResource(xtModel)
-		val cppModel = createCPPModelWithoutDirectory(cppResource,xtModel)
+		val cppModel = cppResource.createCPPModel(xtModel)
 		val preparedCPPModel = prepareCPPModel2(cppModel)
 		// transform to CPP
 		val fileManager = new EclipseWorkspaceFileManager(cppModel.cppName, "/")
-		initializeTransformation(preparedCPPModel)
-		executeTransformation
-		initializeFileAndDirectoryGenerator(fileManager, generatedCPPSourceFileContents)
-		executeFileAndDirectoryGeneration
+		initializeGeneration(preparedCPPModel, fileManager)
+		executeAllGeneration
 		// Check result
 		assertFileSystemSynch(cppModel.bodyDir, fileManager)
 		assertFileSystemSynch(cppModel.headerDir, fileManager)

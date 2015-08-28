@@ -1,36 +1,31 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Guard
 import org.eclipse.uml2.uml.Constraint
 import org.eclipse.uml2.uml.Model
-import org.eclipse.uml2.uml.UMLFactory
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.assertEquals
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	GuardMappingTest
+])
+@RunWith(Suite)
+class GuardMappingTestSuite {}
+
 class GuardMappingTest extends TransformationTest<Constraint, Guard> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val transition = createTransition(umlRoot)
-		val umlFactory = UMLFactory.eINSTANCE
-		val guard = umlFactory.createConstraint => [
-			specification = umlFactory.createOpaqueExpression => [
-				bodies += TEST_EXPRESSION
-				languages += CPP_LANGUAGE
-			]
-		]
-		transition.guard = guard
+		val transition = umlRoot.createTransition
+		val guard = transition.createGuardWithDeafultCppExpression
 		guard
 	}
 

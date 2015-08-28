@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
@@ -11,17 +10,22 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Property
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
-@RunWith(Parameterized)
-class AttributeMappingTest extends TransformationTest<Property, Attribute> {
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
+@SuiteClasses(#[
+	AttributeMappingTest,
+	SignalAttributeMappingTest,
+	AttributeWithModifiedMultiplicityMappingTest
+])
+@RunWith(Suite)
+class AttributeMappingTestSuite {}
+
+class AttributeMappingTest extends TransformationTest<Property, Attribute> {
 
 	override protected createUmlObject(Model umlRoot) {
 		umlRoot.createPropertyForAttribute(umlRoot.createComponentInModel)
@@ -41,12 +45,7 @@ class AttributeMappingTest extends TransformationTest<Property, Attribute> {
 
 }
 
-@RunWith(Parameterized)
 class SignalAttributeMappingTest extends TransformationTest<Property, Attribute> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val comp = umlRoot.createComponentInModel
@@ -70,12 +69,7 @@ class SignalAttributeMappingTest extends TransformationTest<Property, Attribute>
 
 }
 
-@RunWith(Parameterized)
 class AttributeWithModifiedMultiplicityMappingTest extends TransformationTest<Property, Attribute> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val attribute = umlRoot.createPropertyForAttribute(umlRoot.createComponentInModel)

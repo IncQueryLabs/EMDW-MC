@@ -1,35 +1,35 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.model2filemappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPMakeFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
-import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
-import com.incquerylabs.emdw.cpp.codegeneration.test.TestWithoutParameters
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.CPPCodeGenerationWrapper
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.testing.common.utils.GenerationUtil
 import java.io.ByteArrayInputStream
 import java.util.Map
+import org.apache.log4j.Logger
 import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.NullProgressMonitor
 import org.junit.AfterClass
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-import org.junit.runners.Parameterized.Parameters
 
-import static com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPMakeFile
 
-@RunWith(Parameterized)
-class Model2FileMapperTest extends TestWithoutParameters{
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+
+class Model2FileMapperTest {
+
+	protected extension Logger logger = Logger.getLogger(class)
+	protected extension GenerationUtil util
+	
 	private static final String PROJECT_NAME = "project.test"
 	private static final String FOLDER_NAME = "testfolder"
 	
@@ -42,11 +42,6 @@ class Model2FileMapperTest extends TestWithoutParameters{
 	
 	private static IFolder targetFolder = null
 	
-	
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	@BeforeClass
 	public static def void initWorkspace() {
@@ -79,16 +74,9 @@ class Model2FileMapperTest extends TestWithoutParameters{
 		targetFolder = folder
 	}
 	
-	@Parameters(name = "{index}: {1}")
-	public static def transformations() {
-		val alternatives = ImmutableList.builder
-				.add(new CPPCodeGenerationWrapper())
-				.build
-				
-		alternatives.map[
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
+	@Before
+	public def void init() {
+		util = new GenerationUtil
 	}
 	
 	@Test
@@ -97,7 +85,7 @@ class Model2FileMapperTest extends TestWithoutParameters{
 		startTest(testId)
 		
 		// Create base model
-		val cppRuntime = createEmptyCppModel(this.class.simpleName+"_"+testId)
+		val cppRuntime = createEmptyCppModel(class.simpleName+"_"+testId)
 		// Init cpp model
 		val cppDir = prepareCppModel(cppRuntime)
 		
@@ -132,15 +120,15 @@ class Model2FileMapperTest extends TestWithoutParameters{
 	}
 	
 	def prepareCppModel(CPPPackage cppPackage) {
-		val headerFull = createCPPHeaderFile(cppPackage.headerDir)
-		val bodyFull = createCPPBodyFile(cppPackage.bodyDir)
-		createCPPClass(cppPackage, FULLCLASS_NAME, headerFull, bodyFull)
+		val headerFull = cppPackage.headerDir.createCPPHeaderFile
+		val bodyFull = cppPackage.bodyDir.createCPPBodyFile
+		cppPackage.createCPPClass(FULLCLASS_NAME, headerFull, bodyFull)
 		
-		val headerJust = createCPPHeaderFile(cppPackage.headerDir)
-		createCPPClass(cppPackage, JUSTHEADERCLASS_NAME, headerJust, null)
+		val headerJust = cppPackage.headerDir.createCPPHeaderFile
+		cppPackage.createCPPClass(JUSTHEADERCLASS_NAME, headerJust, null)
 		
-		val bodyJust = createCPPBodyFile(cppPackage.bodyDir)
-		createCPPClass(cppPackage, JUSTBODYCLASS_NAME, null, bodyJust)
+		val bodyJust = cppPackage.bodyDir.createCPPBodyFile
+		cppPackage.createCPPClass(JUSTBODYCLASS_NAME, null, bodyJust)
 		
 		cppPackage.bodyDir
 	}
@@ -153,5 +141,9 @@ class Model2FileMapperTest extends TestWithoutParameters{
 				assertTrue(content==file.generationName)
 			}
 		}
+	}
+	
+	def startTest(String testId){
+		info('''START TEST: «testId»''')
 	}
 }

@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.DeepHistory
@@ -9,20 +8,25 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Pseudostate
 import org.eclipse.uml2.uml.PseudostateKind
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	ToplevelDeepHistoryMappingTest,
+	ChildDeepHistoryMappingTest
+])
+@RunWith(Suite)
+class DeepHistoryMappingTestSuite {}
+
 class ToplevelDeepHistoryMappingTest extends TransformationTest<Pseudostate, DeepHistory> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = createStateMachine(umlRoot)
-		createPseudostate(stateMachine.regions.head, "deepHistory", PseudostateKind.DEEP_HISTORY_LITERAL)
+		val stateMachine = umlRoot.createStateMachine
+		stateMachine.regions.head.createPseudostate("deepHistory", PseudostateKind.DEEP_HISTORY_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -34,17 +38,12 @@ class ToplevelDeepHistoryMappingTest extends TransformationTest<Pseudostate, Dee
 	
 }
 
-@RunWith(Parameterized)
 class ChildDeepHistoryMappingTest extends TransformationTest<Pseudostate, DeepHistory> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = createStateMachine(umlRoot)
-		val parentState = createCompositeState(stateMachine, "parentState")
-		createPseudostate(parentState.regions.head, "childDeepHistory", PseudostateKind.DEEP_HISTORY_LITERAL)
+		val stateMachine = umlRoot.createStateMachine
+		val parentState = stateMachine.createCompositeState("parentState")
+		parentState.regions.head.createPseudostate("childDeepHistory", PseudostateKind.DEEP_HISTORY_LITERAL)
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {

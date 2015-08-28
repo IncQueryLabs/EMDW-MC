@@ -1,16 +1,20 @@
-package com.incquerylabs.emdw.umlintegration.test
+package com.incquerylabs.emdw.testing.common.utils
 
-import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
-import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
-import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
+import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Connector
+import org.eclipse.uml2.uml.Enumeration
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.MultiplicityElement
 import org.eclipse.uml2.uml.Package
+import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Port
 import org.eclipse.uml2.uml.PrimitiveType
@@ -24,37 +28,30 @@ import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
+import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.uml2.uml.Operation
 
-import static org.junit.Assert.*
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.eclipse.uml2.uml.Enumeration
-
-/**
- * Most factory methods are impure: they modify the model! 
- */
-class TransformationTestUtil {
-
-	static extension val Logger logger = Logger.getLogger(TransformationTestUtil)
+class UmlUtil extends ModelUtil {
 	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
-	
-	public static val CPP_LANGUAGE = "C++"
-	public static val TEST_SIDE_EFFECT_1 = '''cout << "foo";'''
-	public static val TEST_SIDE_EFFECT_2 = '''cout << "bar";'''
-	public static val TEST_EXPRESSION = "true"
 
-	static def createRootMapping(String umlModelName) {
-		val resourceSet = new ResourceSetImpl
-		val umlResource = resourceSet.createResource(URI.createURI("dummyUmlUri"))
-		val xtumlrtResource = resourceSet.createResource(URI.createURI("dummyXtumlrtUri"))
-		val traceResource = resourceSet.createResource(URI.createURI("dummyTraceUri"))
-		
+	// CREATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static def createRootMapping(String umlModelName, ResourceSet rs) {
+		var resourceSet = rs
+		if (resourceSet == null) {
+			resourceSet = new ResourceSetImpl
+		}
+		val umlResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_UML»'''))
+		val xtumlrtResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_XTUML»'''))
+		val traceResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_TRACE»'''))
+		val cppResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_CPP»'''))
+
 		val umlModel = umlFactory.createModel => [
 			name = umlModelName
 		]
 		umlResource.contents += umlModel
-		
+
 		val xtumlrtModel = commonFactory.createModel
 		xtumlrtResource.contents += xtumlrtModel
 
@@ -63,17 +60,25 @@ class TransformationTestUtil {
 			xtumlrtRoot = xtumlrtModel
 		]
 		traceResource.contents += mapping
+		CppUtil.prepareCPPModel(cppResource, xtumlrtModel)
+
 		mapping
 	}
-	
+
 	static def createPackage(String name) {
 		umlFactory.createPackage => [
 			it.name = name
 		]
 	}
 
+	static def createPackage(Component comp, String name) {
+		val package = createPackage(name)
+		comp.packagedElements += package
+		package
+	}
+
 	static def createPackageInModel(Model umlRoot) {
-		val package = createPackage("package")
+		val package = createPackage(NAME_DEFAULT_PACKAGE)
 		umlRoot.packagedElements += package
 		package
 	}
@@ -85,9 +90,15 @@ class TransformationTestUtil {
 	}
 
 	static def createComponentInModel(Model umlRoot) {
-		val component = createComponent("component")
+		val component = createComponent(NAME_DEFAULT_COMPONENT)
 		umlRoot.packagedElements += component
 		component
+	}
+
+	static def createComponent(Package root, String name) {
+		val comp = createComponent(name)
+		root.packagedElements += comp
+		comp
 	}
 
 	static def createPort(Component component) {
@@ -107,7 +118,7 @@ class TransformationTestUtil {
 		component.ownedConnectors += connector
 		connector
 	}
-	
+
 	static def createConnectorEnd(Connector connector, Port role, Property partWithPort) {
 		val connectorEnd = umlFactory.createConnectorEnd => [
 			it.role = role
@@ -123,8 +134,14 @@ class TransformationTestUtil {
 		]
 	}
 
+	static def createClass(Component umlComp, String name) {
+		val umlClass = createClass(name)
+		umlComp.nestedClassifiers += umlClass
+		return umlClass
+	}
+
 	static def createClassInModel(Model umlRoot) {
-		val class = createClass("class")
+		val class = createClass(NAME_DEFAULT_CLASS)
 		umlRoot.packagedElements += class
 		class
 	}
@@ -137,7 +154,16 @@ class TransformationTestUtil {
 		umlPackage.packagedElements += interface
 		interface
 	}
-	
+
+	static def createAttribute(Class umlClass, Type type, String name) {
+		val attribute = umlFactory.createProperty => [
+			it.type = type
+			it.name = name
+		]
+		umlClass.ownedAttributes += attribute
+		return attribute
+	}
+
 	static def createOperation(Model umlRoot, String body, Type returnType) {
 		val operation = umlFactory.createOperation => [
 			methods += createBehavior(body)
@@ -150,10 +176,51 @@ class TransformationTestUtil {
 		operation
 	}
 	
+	static def createOperation(Model umlRoot, String body, Type returnType, Parameter... parameters) {
+		val operation = umlFactory.createOperation => [
+			methods += createBehavior(body)
+			ownedParameters += umlFactory.createParameter => [
+				direction = ParameterDirectionKind.RETURN_LITERAL
+				type = returnType
+			]
+			ownedParameters += parameters
+		]
+		createClassInModel(umlRoot).ownedOperations += operation
+		operation
+	}
+
+	static def createOperation(Class umlClass, String name, Parameter... parameters) {
+		val operation = umlFactory.createOperation => [
+			it.name = name
+			it.ownedParameters += parameters
+		]
+		umlClass.ownedOperations += operation
+		return operation
+	}
+	
+	static def addInParameter(Operation operation, Type type, String name) {
+		val param = createParameter(type, name, ParameterDirectionKind.IN_LITERAL, 1, 1)
+		operation.ownedParameters += param
+		return param
+	}
+
+	static def createParameter(Type type, String name, ParameterDirectionKind direction, int lowerBound,
+		int upperBound) {
+		val parameter = umlFactory.createParameter => [
+			it.name = name
+			it.direction = direction
+			it.type = type
+			it.lower = lowerBound
+			it.upper = upperBound
+			it.isUnique = true
+		]
+		return parameter
+	}
+
 	static def createDestructor(Model umlRoot, String body) {
 		val destructor = umlFactory.createOperation => [
 			methods += createBehavior(body)
-			name = "destroy"
+			name = NAME_DESTRUCTOR
 		]
 		createClassInModel(umlRoot).ownedOperations += destructor
 		destructor
@@ -177,7 +244,32 @@ class TransformationTestUtil {
 		component.nestedClassifiers += association
 		association
 	}
-	
+
+	static def createAssociation(Component comp, Class source, Class target, String assocName, String sourceEndName,
+		String targetEndName) {
+		val endAtSource = umlFactory.createProperty => [
+			it.type = target
+			it.name = sourceEndName
+			it.lower = 1
+			it.upper = 1
+		]
+		val endAtTarget = umlFactory.createProperty => [
+			it.type = source
+			it.name = targetEndName
+			it.lower = 1
+			it.upper = 1
+		]
+		val association = umlFactory.createAssociation => [
+			it.ownedEnds.addAll(
+				endAtSource,
+				endAtTarget
+			)
+			it.name = assocName
+		]
+		comp.nestedClassifiers += association
+		endAtSource
+	}
+
 	static def createGeneralization(Class subClass, Class superClass) {
 		val generalization = umlFactory.createGeneralization => [
 			specific = subClass
@@ -186,7 +278,7 @@ class TransformationTestUtil {
 		subClass.generalizations += generalization
 		generalization
 	}
-	
+
 	static def createGeneralization(Signal subSignal, Signal superSignal) {
 		val generalization = umlFactory.createGeneralization => [
 			specific = subSignal
@@ -198,19 +290,19 @@ class TransformationTestUtil {
 
 	static def createClassAndSignal(Model umlRoot) {
 		val mySignal = umlFactory.createSignal
-		val class = createClass("class") => [
+		val class = createClass(NAME_DEFAULT_CLASS) => [
 			nestedClassifiers += mySignal
 		]
 		umlRoot.packagedElements += class
 		mySignal
 	}
-	
+
 	static def createClassSignal(Class owner) {
 		val mySignal = umlFactory.createSignal
 		owner.nestedClassifiers += mySignal
 		mySignal
 	}
-	
+
 	static def createPropertyForSignal(Signal signal) {
 		val property = umlFactory.createProperty
 		signal.ownedAttributes += property
@@ -236,7 +328,15 @@ class TransformationTestUtil {
 		umlPackage.packagedElements += primitiveType
 		primitiveType
 	}
-	
+
+	static def PrimitiveType findPrimitiveType(Model umlModel, String name) {
+		val umlPrimitiveTypesResource = umlModel.eResource.resourceSet.resources.findFirst [
+			it.URI.toString.contains("UMLPrimitiveTypes")
+		]
+		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
+		return primitiveTypes.findFirst[it.name == name]
+	}
+
 	static def createStructType(Package umlPackage) {
 		val primitiveType = createPrimitiveType(umlPackage)
 		val dataType = umlFactory.createDataType => [
@@ -245,19 +345,19 @@ class TransformationTestUtil {
 		umlPackage.packagedElements += dataType
 		dataType
 	}
-	
+
 	static def createPropertyForStructType(PrimitiveType primitiveType) {
 		umlFactory.createProperty => [
 			type = primitiveType
 		]
 	}
-	
+
 	static def createEnumeration(Package umlPackage) {
 		val enumeration = umlFactory.createEnumeration
 		umlPackage.packagedElements += enumeration
 		return enumeration
 	}
-	
+
 	static def createEnumerationLiteral(Enumeration enumeration) {
 		val enumerationLiteral = umlFactory.createEnumerationLiteral
 		enumeration.ownedLiterals += enumerationLiteral
@@ -276,6 +376,37 @@ class TransformationTestUtil {
 		stateMachine
 	}
 
+	static def createStateMachine(Class cl, String name) {
+		val stateMachine = umlFactory.createStateMachine => [
+			it.name = name
+			regions += umlFactory.createRegion
+		]
+		cl.classifierBehavior = stateMachine
+		
+		stateMachine
+	}
+	
+	static def createEffectWithDefaultCppEffect(String name) {
+		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
+			it.bodies += TEST_SIDE_EFFECT_1
+			it.languages += CPP_LANGUAGE
+			it.name = name
+		]
+		return effect
+	}
+	
+	static def createEntryEffectWithDefaultCppEffect(State state, String name) {
+		val effect = createEffectWithDefaultCppEffect(name)
+		state.entry = effect
+		return effect
+	}
+	
+	static def createExitEffectWithDefaultCppEffect(State state, String name) {
+		val effect = createEffectWithDefaultCppEffect(name)
+		state.exit = effect
+		return effect
+	}
+
 	static def createSimpleState(Region region, String name) {
 		val state = umlFactory.createState => [
 			it.name = name
@@ -285,7 +416,7 @@ class TransformationTestUtil {
 		region.subvertices += state
 		state
 	}
-	
+
 	def static createBehavior(String body) {
 		umlFactory.createOpaqueBehavior => [
 			bodies += body
@@ -313,18 +444,38 @@ class TransformationTestUtil {
 		val transition = umlFactory.createTransition => [
 			it.name = name
 			source = sourceState
-			target = targetState 
+			target = targetState
 		]
 		region.transitions += transition
 		transition
 	}
-	
+
 	static def createTransition(Model umlRoot) {
 		val stateMachine = createStateMachine(umlRoot)
 		val region = stateMachine.regions.head
-		val sourceState = createSimpleState(region, "source")
-		val targetState = createSimpleState(region, "target")
-		createTransition(region, "transition", sourceState, targetState)
+		val sourceState = createSimpleState(region, NAME_DEFAULT_SOURCE_STATE)
+		val targetState = createSimpleState(region, NAME_DEFAULT_TARGET_STATE)
+		createTransition(region, NAME_DEFAULT_TRANSITION, sourceState, targetState)
+	}
+	
+	static def createGuardWithDeafultCppExpression(Transition transition) {
+		val guard = umlFactory.createConstraint => [
+			specification = umlFactory.createOpaqueExpression => [
+				bodies += TEST_EXPRESSION
+				languages += CPP_LANGUAGE
+			]
+		]
+		transition.guard = guard
+		guard
+	}
+	
+	static def createOpaqueBehavior(Transition transition) {
+		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
+			bodies += TEST_SIDE_EFFECT_1
+			languages += CPP_LANGUAGE
+		]
+		transition.effect = effect
+		effect
 	}
 
 	static def createTrigger(Model umlRoot) {
@@ -334,34 +485,43 @@ class TransformationTestUtil {
 		]
 		trigger
 	}
-	
-	static def getXtumlrtTopState(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.entities.head.behaviour.top
-	}
 
-	static def findClass(RootMapping mapping, String className) {
-		mapping.xtumlrtRoot.entities.filter(XTClass).findFirst[name == className]
-	}
-	
-	static def <T> asSet(T object) {
-		#{object}.filterNull
-	}
-
-	static def checkState(org.eclipse.papyrusrt.xtumlrt.common.State xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.entryAction.source)
-		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.exitAction.source)
-	}
-
-	static def checkTransition(RootMapping mapping, Transition umlObject, org.eclipse.papyrusrt.xtumlrt.common.Transition xtumlrtObject) {
-		val sourceVertex = mapping.traces.findFirst[umlElements.contains(umlObject.source)].xtumlrtElements.head
-		val targetVertex = mapping.traces.findFirst[umlElements.contains(umlObject.target)].xtumlrtElements.head
-		assertEquals("Transition source vertex", sourceVertex, xtumlrtObject.sourceVertex)
-		assertEquals("Transition target vertex", targetVertex, xtumlrtObject.targetVertex)
-	}
-	
-	static def setMultiplicity(org.eclipse.uml2.uml.MultiplicityElement multiplicityElement, int lower, int upper){
+	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	static def setMultiplicity(MultiplicityElement multiplicityElement, int lower, int upper) {
 		multiplicityElement.lower = lower
 		multiplicityElement.upper = upper
 	}
-
+	
+	static def transform(org.eclipse.uml2.uml.VisibilityKind kind) {
+		switch kind {
+			case PRIVATE_LITERAL: VisibilityKind.PRIVATE
+			case PROTECTED_LITERAL: VisibilityKind.PROTECTED
+			case PUBLIC_LITERAL: VisibilityKind.PUBLIC
+			default: {
+			}
+		}
+	}
+	
+	static def transform(ParameterDirectionKind kind) {
+		switch kind {
+			case IN_LITERAL: DirectionKind.IN
+			case OUT_LITERAL: DirectionKind.OUT
+			case INOUT_LITERAL: DirectionKind.IN_OUT
+			default: {
+			}
+		}
+	}
+	
+	static def updateAttribute(Property property, Attribute attribute, org.eclipse.papyrusrt.xtumlrt.common.Type xtType){
+		if(property.type != null){
+			attribute.type = xtType
+		}
+		attribute.static = property.static
+		attribute.visibility = transform(property.visibility)
+		
+		attribute.lowerBound = property.lower
+		attribute.upperBound = property.upper
+		attribute.ordered = property.isOrdered
+		attribute.unique = property.isUnique
+	}
 }

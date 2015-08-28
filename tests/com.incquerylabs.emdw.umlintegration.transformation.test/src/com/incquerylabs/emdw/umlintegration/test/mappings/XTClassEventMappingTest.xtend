@@ -1,28 +1,31 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Signal
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
-@RunWith(Parameterized)
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	XTClassEventMappingTest,
+	XTClassEventGeneralizationMappingTest
+])
+@RunWith(Suite)
+class XTClassEventMappingTestSuite {}
+
 class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-
 	override protected createUmlObject(Model umlRoot) {
-		val signal = createClassAndSignal(umlRoot)
-		createSignalEvent(umlRoot, signal)
+		val signal = umlRoot.createClassAndSignal
+		umlRoot.createSignalEvent(signal)
 		signal
 	}
 
@@ -35,18 +38,17 @@ class XTClassEventMappingTest extends TransformationTest<Signal, XTClassEvent> {
 
 }
 
-@RunWith(Parameterized)
 class XTClassEventGeneralizationMappingTest extends TransformationTest<Signal, XTClassEvent> {
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-
 	override protected createUmlObject(Model umlRoot) {
-		val superSignal = createClassAndSignal(umlRoot) => [name = "superSignal"]
-		createSignalEvent(umlRoot, superSignal)
-		val signal = createClassAndSignal(umlRoot) => [name = "signal"]
-		createSignalEvent(umlRoot, signal)
+		val superSignal = umlRoot.createClassAndSignal => [
+			name = "superSignal"
+		]
+		umlRoot.createSignalEvent(superSignal)
+		val signal = umlRoot.createClassAndSignal => [
+			name = "signal"
+		]
+		umlRoot.createSignalEvent(signal)
 		createGeneralization(signal, superSignal)
 		
 		signal

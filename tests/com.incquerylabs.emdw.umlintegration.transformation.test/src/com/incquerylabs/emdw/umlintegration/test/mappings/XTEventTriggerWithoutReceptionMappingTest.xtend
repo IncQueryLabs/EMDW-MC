@@ -1,42 +1,40 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Trigger
-import org.eclipse.uml2.uml.UMLFactory
 import org.junit.Assert
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.assertEquals
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	XTEventTriggerWithoutReceptionMappingTest
+])
+@RunWith(Suite)
+class XTEventTriggerWithoutReceptionMappingTestSuite {}
+
 class XTEventTriggerWithoutReceptionMappingTest extends TransformationTest<Trigger, XTEventTrigger> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		val stateMachine = UMLFactory.eINSTANCE.createStateMachine => [
-			it.name = "myStateMachine"
-		]
 		val class = umlRoot.createClassInModel => [
 			it.name = "myClass"
-			it.classifierBehavior = stateMachine
 		]
+		val stateMachine = class.createStateMachine("myStateMachine")
 		val region = stateMachine.createRegion("myRegion")
 		val sourceState = region.createSimpleState("sourceState")
 		val targetState = region.createSimpleState("targetState")
 		val transition = region.createTransition("myTransition", sourceState, targetState)
 		val trigger = transition.createTrigger("myTrigger")
-		val signal = umlRoot.createSignalAndSignalEvent(class, trigger) // this will become the trigger's event
+		umlRoot.createSignalAndSignalEvent(class, trigger) // this will become the trigger's event
 		trigger
 	}
 	

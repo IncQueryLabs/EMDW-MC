@@ -43,8 +43,17 @@ import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
 import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+
+@SuiteClasses(#[
+	IntegrationTest
+])
+@RunWith(Suite)
+class IntegrationTestSuite {}
 
 class IntegrationTest {
 

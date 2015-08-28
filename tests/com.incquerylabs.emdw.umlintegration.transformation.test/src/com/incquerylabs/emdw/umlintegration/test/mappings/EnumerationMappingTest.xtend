@@ -1,27 +1,29 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 import org.eclipse.uml2.uml.Enumeration
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
-@RunWith(Parameterized)
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	EnumerationMappingTest
+])
+@RunWith(Suite)
+class EnumerationMappingTestSuite {}
+
 class EnumerationMappingTest extends TransformationTest<Enumeration, TypeDefinition> {
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
 	override protected createUmlObject(org.eclipse.uml2.uml.Model umlModel) {
-		val umlPackage = createPackageInModel(umlModel)
-		val enumeration = createEnumeration(umlPackage) => [
+		val umlPackage = umlModel.createPackageInModel
+		val enumeration = umlPackage.createEnumeration => [
 			name = "enumeration"
 		]
 		

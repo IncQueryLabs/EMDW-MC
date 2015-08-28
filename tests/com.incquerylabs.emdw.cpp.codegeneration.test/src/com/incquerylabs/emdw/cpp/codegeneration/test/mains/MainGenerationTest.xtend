@@ -1,30 +1,23 @@
 package com.incquerylabs.emdw.cpp.codegeneration.test.mains
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import org.eclipse.papyrusrt.xtumlrt.common.State
-import org.junit.runners.Parameterized
-import org.junit.runner.RunWith
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class MainGenerationTest extends MainBaseTest<State, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.createPackage("RootPackage")
 		val xtComponent = xtPackage.createXtComponent("Component")
 		
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
 		
 		cppComponent
 	}

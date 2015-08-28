@@ -1,28 +1,31 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.*
 
-@RunWith(Parameterized)
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	OperationMappingTest,
+	DestructorMappingTest
+])
+@RunWith(Suite)
+class OperationMappingTestSuite {}
+
 class OperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Operation, Operation> {
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-
 	override protected createUmlObject(Model umlRoot) {
-		createOperation(umlRoot, TEST_SIDE_EFFECT_1, createComponentInModel(umlRoot))
+		umlRoot.createOperation(TEST_SIDE_EFFECT_1, createComponentInModel(umlRoot))
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -33,20 +36,15 @@ class OperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Opera
 		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
 		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.returnType.type)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
-		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
+		assertEquals(umlObject.visibility.transform, xtumlrtObject.visibility)
 	}
 
 }
 
-@RunWith(Parameterized)
 class DestructorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Operation, Operation> {
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-
 	override protected createUmlObject(Model umlRoot) {
-		createDestructor(umlRoot, TEST_SIDE_EFFECT_1)
+		umlRoot.createDestructor(TEST_SIDE_EFFECT_1)
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -57,7 +55,7 @@ class DestructorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Oper
 		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
 		assertEquals(umlObject.name, xtumlrtObject.name)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
-		assertEquals(TransformationUtil.transform(umlObject.visibility), xtumlrtObject.visibility)
+		assertEquals(umlObject.visibility.transform, xtumlrtObject.visibility)
 	}
 
 }

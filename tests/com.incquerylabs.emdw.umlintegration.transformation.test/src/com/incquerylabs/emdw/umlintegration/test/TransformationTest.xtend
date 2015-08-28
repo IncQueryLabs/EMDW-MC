@@ -1,68 +1,82 @@
 package com.incquerylabs.emdw.umlintegration.test
 
-import com.google.common.collect.ImmutableList
-import com.incquerylabs.emdw.umlintegration.test.wrappers.QueryResultTraceability
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
+import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Model
+import org.junit.After
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runners.Parameterized.Parameters
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static org.junit.Assert.*
+import org.junit.Before
 
 /**
  * Base class for testing transformation rules.
  */
-abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> extends TestWithoutParameters {
+abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> {
+	protected extension Logger logger = Logger.getLogger(class)
+	protected extension TransformationUtil util
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
-	@Parameters(name = "{index}: {1}")
-    public static def transformations() {
-        val alternatives = ImmutableList.builder
-        	.add(new QueryResultTraceability())
-			.build
-		
-		alternatives.map[
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
-    }
- 	
 	@Test
 	def single() {
 		val testId = "single"
 		startTest(testId)
-		val mapping = createRootMapping(testId)
+		val mapping = createRootMapping(testId, new ResourceSetImpl)
 		val umlObject = createUmlObject(mapping.umlRoot)
-		mapping.initializeTransformation
-		executeTransformation
+		initializeTransformation(mapping.eResource.resourceSet)
+		executeXtTransformation
 		mapping.assertMapping(umlObject)
+		endTest(testId)
+	}
+
+	@Test
+	def incremental() {
+		val testId = "incremental"
+		startTest(testId)
+		val mapping = createRootMapping(testId, new ResourceSetImpl)
+		initializeTransformation(mapping.eResource.resourceSet)
+		executeXtTransformation
+		val umlObject = createUmlObject(mapping.umlRoot)
+		executeXtTransformation
+		mapping.assertMapping(umlObject)
+		endTest(testId)
+	}
+
+	@Test
+	def remove() {
+		val testId = "remove"
+		startTest(testId)
+		val mapping = createRootMapping(testId, new ResourceSetImpl)
+		val umlObject = createUmlObject(mapping.umlRoot)
+		initializeTransformation(mapping.eResource.resourceSet)
+		executeXtTransformation
+		mapping.assertMapping(umlObject)
+		val xtumlrtObject = mapping.xtumlrtRoot.xtumlrtObjects.head
+		info("Removing object from uml model")
+		removeUmlObject(umlObject, mapping)
+		executeXtTransformation
+		assertFalse("Object not removed from xtumlrt model", mapping.xtumlrtRoot.xtumlrtObjects.exists [
+			it == xtumlrtObject
+		])
+		assertFalse("Trace not removed", mapping.traces.exists [
+			umlElements.contains(umlObject) && xtumlrtElements.contains(xtumlrtObject)
+		])
 		endTest(testId)
 	}
 
 	/**
 	 * Creates an UML object which will be transformed.
-	 */	
+	 */
 	protected def UmlObject createUmlObject(Model umlModel)
-	
-	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {
-		val xtumlrtObjects = mapping.xtumlrtRoot.xtumlrtObjects
-		assertFalse("Object not transformed", xtumlrtObjects.empty)
-		val xtumlrtObject = xtumlrtObjects.head
-		val trace = mapping.traces.findFirst[umlElements.contains(umlObject)]
-		assertNotNull("Trace not created", trace)
-		assertEquals("Invalid trace umlElements", #[umlObject], trace.umlElements)
-		assertEquals("Invalid trace xtumlrtElements", #[xtumlrtObject], trace.xtumlrtElements.filter(xtumlrtObject.class).toList)
-		checkXtumlrtObject(mapping, umlObject, xtumlrtObject)		
-	}
-	
+
 	/**
 	 * Returns the collection which should contain the transformed xtumlrt object.
 	 */
@@ -73,39 +87,43 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	 */
 	protected def void checkXtumlrtObject(RootMapping mapping, UmlObject umlObject, XtumlrtObject xtumlrtObject)
 
-	@Test
-	def incremental() {
-		val testId = "incremental"
-		startTest(testId)
-		val mapping = createRootMapping(testId)
-		mapping.initializeTransformation
-		executeTransformation
-		val umlObject = createUmlObject(mapping.umlRoot)
-		executeTransformation
-		mapping.assertMapping(umlObject)
-		endTest(testId)
+	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {
+		val xtumlrtObjects = mapping.xtumlrtRoot.xtumlrtObjects
+		assertFalse("Object not transformed", xtumlrtObjects.empty)
+		val xtumlrtObject = xtumlrtObjects.head
+		val trace = mapping.traces.findFirst[umlElements.contains(umlObject)]
+		assertNotNull("Trace not created", trace)
+		assertEquals("Invalid trace umlElements", #[umlObject], trace.umlElements)
+		assertEquals("Invalid trace xtumlrtElements", #[xtumlrtObject],
+			trace.xtumlrtElements.filter(xtumlrtObject.class).toList)
+		checkXtumlrtObject(mapping, umlObject, xtumlrtObject)
 	}
 
-	@Test
-	def remove() {
-		val testId = "remove"
-		startTest(testId)
-		val mapping = createRootMapping(testId)
-		val umlObject = createUmlObject(mapping.umlRoot)
-		mapping.initializeTransformation
-		executeTransformation
-		mapping.assertMapping(umlObject)
-		val xtumlrtObject = mapping.xtumlrtRoot.xtumlrtObjects.head
-		info("Removing object from uml model")
-		removeUmlObject(umlObject, mapping)
-		executeTransformation
-		assertFalse("Object not removed from xtumlrt model", mapping.xtumlrtRoot.xtumlrtObjects.exists[it == xtumlrtObject])
-		assertFalse("Trace not removed", mapping.traces.exists[umlElements.contains(umlObject) && xtumlrtElements.contains(xtumlrtObject)])
-		endTest(testId)
-	}
-	
 	protected def removeUmlObject(UmlObject umlObject, RootMapping rootMapping) {
 		EcoreUtil.remove(umlObject)
 	}
-   
+
+	def startTest(String testId) {
+		info('''START TEST: «testId»''')
+	}
+
+	def endTest(String testId) {
+		info('''END TEST: «testId»''')
+	}
+
+	@BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
+	}
+
+	@Before
+	def void init() {
+		util = new TransformationUtil
+	}
+
+	@After
+	def cleanup() {
+		cleanupTransformation;
+	}
+
 }

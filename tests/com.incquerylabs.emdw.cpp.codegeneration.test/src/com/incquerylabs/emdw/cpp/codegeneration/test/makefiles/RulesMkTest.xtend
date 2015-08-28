@@ -3,21 +3,14 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.makefiles
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.State
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
 class ComponentRulesMkTest extends MakeBaseTest<State, CPPModel> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
@@ -25,11 +18,11 @@ class ComponentRulesMkTest extends MakeBaseTest<State, CPPModel> {
 		val xtComponent = xtPackage.createXtComponent("Component")
 		val xtClass = xtComponent.createXtClass("TEST_CLASS")
 		
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
-		val cppClassHeader = createCPPHeaderFile(cppComponent.headerDirectory)
-		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
-		createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
+		val cppClassHeader = cppComponent.headerDirectory.createCPPHeaderFile
+		val cppClassBody = cppComponent.bodyDirectory.createCPPBodyFile
+		cppComponent.createCPPClass(xtClass, cppClassHeader, cppClassBody)
 		
 		cppModel
 	}
@@ -48,12 +41,7 @@ class ComponentRulesMkTest extends MakeBaseTest<State, CPPModel> {
 	
 }
 
-@RunWith(Parameterized)
 class PackageRulesMkTest extends MakeBaseTest<State, CPPModel> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
 		val xtmodel = cppModel.commonModel
@@ -62,14 +50,14 @@ class PackageRulesMkTest extends MakeBaseTest<State, CPPModel> {
 		val xtInnerPackage = xtComponent.createPackage("InnerPack")
 		val xtClass = xtInnerPackage.createXtClass("TEST_CLASS")
 		
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
-		val cppPackageHeader = createCPPHeaderFile(cppComponent.headerDirectory)
-		val cppPackageBody = createCPPBodyFile(cppComponent.bodyDirectory)
-		val cppInnerPackage = createCPPPackage(cppComponent, xtInnerPackage, cppPackageHeader, cppPackageBody)
-		val cppClassHeader = createCPPHeaderFile(cppInnerPackage.headerDir)
-		val cppClassBody = createCPPBodyFile(cppInnerPackage.bodyDir)
-		createCPPClass(cppInnerPackage, xtClass, cppClassHeader, cppClassBody)
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
+		val cppPackageHeader = cppComponent.headerDirectory.createCPPHeaderFile
+		val cppPackageBody = cppComponent.bodyDirectory.createCPPBodyFile
+		val cppInnerPackage = cppComponent.createCPPPackage(xtInnerPackage, cppPackageHeader, cppPackageBody)
+		val cppClassHeader = cppInnerPackage.headerDir.createCPPHeaderFile
+		val cppClassBody = cppInnerPackage.bodyDir.createCPPBodyFile
+		cppInnerPackage.createCPPClass(xtClass, cppClassHeader, cppClassBody)
 		
 		cppModel
 	}

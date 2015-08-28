@@ -3,26 +3,18 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.mappings
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.TransformationWrapper
+import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.State
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTestUtil.*
-import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
-import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
-import com.incquerylabs.emdw.cpp.codegeneration.test.wrappers.CPPCodeGenerationWrapper
+import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
 // TODO static, visibility, param directions
 
-@RunWith(Parameterized)
 class OperationMappingTest extends TransformationTest<State, CPPClass> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
 		
@@ -36,23 +28,21 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		xtPar2.upperBound = 2;
 		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "PSEUDO_CODE", xtPar, xtPar2)
 		
-		val cppPackage = createCPPPackage(cppModel, xtPackage)
-		val cppComponent = createCPPComponentWithDefaultDirectories(cppPackage, xtComponent)
-		val cppClassHeader = createCPPHeaderFile(cppComponent.headerDirectory)
-		val cppClassBody = createCPPBodyFile(cppComponent.bodyDirectory)
-		val cppClass = createCPPClass(cppComponent, xtClass, cppClassHeader, cppClassBody)
-		val cppOp = createCPPOperation(cppClass, xtOp)
+		val cppPackage = cppModel.createCPPPackage(xtPackage)
+		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
+		val cppClassHeader = cppComponent.headerDirectory.createCPPHeaderFile
+		val cppClassBody = cppComponent.bodyDirectory.createCPPBodyFile
+		val cppClass = cppComponent.createCPPClass(xtClass, cppClassHeader, cppClassBody)
+		val cppOp = cppClass.createCPPOperation(xtOp)
 		val cppType = cppModel.findCPPBasicType(xtType)
-		createCPPFormalParameter(cppOp, xtPar, cppType, false)
-		createCPPFormalParameter(cppOp, xtPar2, cppType, true)
+		cppOp.createCPPFormalParameter(xtPar, cppType, false)
+		cppOp.createCPPFormalParameter(xtPar2, cppType, true)
 		
 		cppClass
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
-		val wrapper = xform as CPPCodeGenerationWrapper
-
-		val files = wrapper.codegen.generatedCPPSourceFiles
+		val files = util.cppCodeGeneration.generatedCPPSourceFiles
 		
 		val classHeader = files.get(cppObject.headerFile).toString
 		// check operation signature in declaration

@@ -1,25 +1,28 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	XTPackageInModelMappingTest,
+	XTPackageInComponentMappingTest,
+	XTPackageInPackageMappingTest
+])
+@RunWith(Suite)
+class XTPackageMappingTestSuite {}
+
 class XTPackageInModelMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
-		createPackageInModel(umlRoot)
+		umlRoot.createPackageInModel
 	}
 	
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
@@ -31,12 +34,7 @@ class XTPackageInModelMappingTest extends TransformationTest<Package, org.eclips
 	
 }
 
-@RunWith(Parameterized)
 class XTPackageInComponentMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val package = createPackage("package")
@@ -55,12 +53,7 @@ class XTPackageInComponentMappingTest extends TransformationTest<Package, org.ec
 	
 }
 
-@RunWith(Parameterized)
 class XTPackageInPackageMappingTest extends TransformationTest<Package, org.eclipse.papyrusrt.xtumlrt.common.Package> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected createUmlObject(Model umlRoot) {
 		val package = createPackage("package")

@@ -1,30 +1,32 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 import org.eclipse.papyrusrt.xtumlrt.common.EnumerationLiteral
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
-@RunWith(Parameterized)
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+
+@SuiteClasses(#[
+	EnumerationLiteralMappingTest
+])
+@RunWith(Suite)
+class EnumerationLiteralMappingTestSuite {}
+
 class EnumerationLiteralMappingTest extends TransformationTest<org.eclipse.uml2.uml.EnumerationLiteral, EnumerationLiteral> {
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
 	override protected createUmlObject(org.eclipse.uml2.uml.Model umlModel) {
-		val umlPackage = createPackageInModel(umlModel)
-		val enumeration = createEnumeration(umlPackage) => [
+		val umlPackage = umlModel.createPackageInModel
+		val enumeration = umlPackage.createEnumeration => [
 			name = "enumeration"
 		]
-		val enumerationLiteral = createEnumerationLiteral(enumeration) => [
+		val enumerationLiteral = enumeration.createEnumerationLiteral => [
 			name = "enum_literal"
 		]
 		

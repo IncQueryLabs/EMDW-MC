@@ -1,38 +1,36 @@
 package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
-import com.incquerylabs.emdw.umlintegration.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
-import org.eclipse.uml2.uml.UMLFactory
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.assertEquals
 
-import static extension com.incquerylabs.emdw.umlintegration.test.TransformationTestUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
+import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
-@RunWith(Parameterized)
+@SuiteClasses(#[
+	ActionChainMappingTest
+])
+@RunWith(Suite)
+class ActionChainMappingTestSuite {}
+
 class ActionChainMappingTest extends TransformationTest<Behavior, ActionChain> {
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-
 	override protected createUmlObject(Model umlRoot) {
-		val transition = createTransition(umlRoot)
-		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
-			bodies += TEST_SIDE_EFFECT_1
-			languages += CPP_LANGUAGE
-		]
-		transition.effect = effect
+		val transition = umlRoot.createTransition
+		val effect = transition.createOpaqueBehavior
 		effect
 	}
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
-		xtumlrtRoot.xtumlrtTopState.transitions.head.actionChain.asSet
+		xtumlrtRoot.getXtumlrtTopState.transitions.head.actionChain.asSet
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, ActionChain xtumlrtObject) {

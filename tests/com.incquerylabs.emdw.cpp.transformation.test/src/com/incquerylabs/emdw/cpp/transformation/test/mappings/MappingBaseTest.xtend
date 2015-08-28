@@ -2,18 +2,11 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.Test
 
-import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-
 abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	@Test
 	def deletion() {
@@ -26,17 +19,16 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
 		loadDefaultContainerImplementations(cppResource)
-		createCPPExternalLibrary(cppResource)
-		val cppModel = createCPPModel(cppResource, xtModel)
+		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		// transform to CPP
-		initializeTransformation(cppModel)
-		executeTransformation
+		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
+		executeCppComponentTransformation
 		// Check if added properly
 		assertResult(xtModel, cppModel, xtObject, cppObject)
 		//remove added xtuml element
 		clearXtUmlElement(xtObject)
-		executeTransformation
+		executeCppComponentTransformation
 		//check if removed properly
 		assertClear(xtModel, cppModel, xtObject, cppObject)
 		endTest(testId)

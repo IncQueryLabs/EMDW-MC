@@ -36,7 +36,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val mapping = createRootMapping(testId, new ResourceSetImpl)
 		val umlObject = createUmlObject(mapping.umlRoot)
-		initializeTransformation(mapping.eResource.resourceSet)
+		initializeXtTransformation(mapping.eResource.resourceSet, null)
 		executeXtTransformation
 		mapping.assertMapping(umlObject)
 		endTest(testId)
@@ -47,7 +47,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val testId = "incremental"
 		startTest(testId)
 		val mapping = createRootMapping(testId, new ResourceSetImpl)
-		initializeTransformation(mapping.eResource.resourceSet)
+		initializeXtTransformation(mapping.eResource.resourceSet, null)
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
 		executeXtTransformation
@@ -61,7 +61,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val mapping = createRootMapping(testId, new ResourceSetImpl)
 		val umlObject = createUmlObject(mapping.umlRoot)
-		initializeTransformation(mapping.eResource.resourceSet)
+		initializeXtTransformation(mapping.eResource.resourceSet, null)
 		executeXtTransformation
 		mapping.assertMapping(umlObject)
 		val xtumlrtObject = mapping.xtumlrtRoot.xtumlrtObjects.head

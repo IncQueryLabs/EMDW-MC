@@ -1,18 +1,14 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	XtAssociationCreationMonitorTest,
@@ -24,12 +20,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class XtAssociationMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class XtAssociationCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_class_Ping.createXtAssociation(_class_Ping, "newAssoc", true, true, 1, 1)
@@ -42,12 +33,7 @@ class XtAssociationCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class XtAssociationDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		EcoreUtil.remove(_association_R1pong)
@@ -60,12 +46,7 @@ class XtAssociationDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class XtAssociationWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_association_R1pong.name = '''«_association_R1pong.name»Modified'''
@@ -78,12 +59,7 @@ class XtAssociationWithModifiedNameMonitorTest extends XtumlMonitorWithModelBase
 	
 }
 
-@RunWith(Parameterized)
 class XtAssociationWithModifiedBoundMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_association_R1pong.upperBound = -1
@@ -96,12 +72,7 @@ class XtAssociationWithModifiedBoundMonitorTest extends XtumlMonitorWithModelBas
 	
 }
 
-@RunWith(Parameterized)
 class XtAssociationWithModifiedTargetMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_association_R1pong.target = _association_R1pong.source

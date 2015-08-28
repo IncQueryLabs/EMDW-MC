@@ -1,18 +1,14 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	TransitionCreationMonitorTest,
@@ -24,12 +20,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class TransitionMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class TransitionCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_compositestate_ping.createTransition(_initialpoint_ping_Initial, _simplestate_ping_S2, "otherInit")
@@ -42,12 +33,7 @@ class TransitionCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class TransitionDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		EcoreUtil.remove(_transition_ping_E1)
@@ -60,12 +46,7 @@ class TransitionDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class TransitionWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_transition_ping_E1.name = '''«_transition_ping_E1.name»Modified'''
@@ -78,12 +59,7 @@ class TransitionWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTes
 	
 }
 
-@RunWith(Parameterized)
 class TransitionWithModifiedSourceVertexMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_transition_ping_E1.sourceVertex = _transition_ping_E1.targetVertex
@@ -96,12 +72,7 @@ class TransitionWithModifiedSourceVertexMonitorTest extends XtumlMonitorWithMode
 	
 }
 
-@RunWith(Parameterized)
 class TransitionWithModifiedTargetVertexMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_transition_ping_E1.targetVertex = _transition_ping_E1.sourceVertex

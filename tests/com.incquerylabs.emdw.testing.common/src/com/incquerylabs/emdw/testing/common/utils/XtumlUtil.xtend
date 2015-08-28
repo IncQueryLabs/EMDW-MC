@@ -13,6 +13,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Entity
+import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
@@ -26,6 +27,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Signal
 import org.eclipse.papyrusrt.xtumlrt.common.SimpleState
 import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
+import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.common.TypeConstraint
@@ -448,6 +450,12 @@ class XtumlUtil extends ModelUtil {
 		root.typeDefinitions += typeDef
 		typeDef
 	}
+	
+	def createPrimitiveTypeWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val primitiveType = createPrimitiveType(typeDefinition, name)
+		return primitiveType
+	}
 
 	def createTypeDefinition(BaseContainer root, String name) {
 		val typeDef = commonFactory.createTypeDefinition => [
@@ -506,8 +514,13 @@ class XtumlUtil extends ModelUtil {
 		attr
 	}
 
-	def createSingleAttribute(XTClassEvent root, Type type, VisibilityKind visibility, boolean isStatic,
-		String name) {
+	def createSingleAttribute(XTClassEvent root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
+		val attr = createSingleAttribute(type, visibility, isStatic, name)
+		root.attributes += attr
+		attr
+	}
+
+	def createSingleAttribute(StructuredType root, Type type, VisibilityKind visibility, boolean isStatic, String name) {
 		val attr = createSingleAttribute(type, visibility, isStatic, name)
 		root.attributes += attr
 		attr
@@ -578,6 +591,42 @@ class XtumlUtil extends ModelUtil {
 		]
 		derivedClass.generalizations += generalization
 		return generalization
+	}
+	
+	def createEnumerationWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val enumeration = createEnumeration(typeDefinition, name)
+		return enumeration
+	}
+	
+	def createEnumeration(TypeDefinition typeDefinition, String name) {
+		val enumeration = commonFactory.createEnumeration => [
+			it.name = name
+		]
+		typeDefinition.type = enumeration
+		return enumeration
+	}
+	
+	def createEnumerationLiteral(Enumeration enumeration, String name) {
+		val enumerationLiteral = commonFactory.createEnumerationLiteral => [
+			it.name = name
+		]
+		enumeration.literals += enumerationLiteral
+		return enumerationLiteral
+	}
+	
+	def createStructuredTypeWithTypeDefinition(BaseContainer root, String name) {
+		val typeDefinition = createTypeDefinition(root, name)
+		val structuredType = createStructuredType(typeDefinition, name)
+		return structuredType
+	}
+	
+	def createStructuredType(TypeDefinition typeDefinition, String name) {
+		val structuredType = commonFactory.createStructuredType => [
+			it.name = name
+		]
+		typeDefinition.type = structuredType
+		return structuredType
 	}
 
 	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////

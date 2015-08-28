@@ -5,19 +5,15 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructMember
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.StructuredType
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	CPPStructMemberTest
@@ -25,12 +21,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPStructMemberMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPStructMemberTest extends SingleComponentTransformTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
@@ -42,8 +33,7 @@ class CPPStructMemberTest extends SingleComponentTransformTest {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		

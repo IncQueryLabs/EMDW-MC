@@ -5,26 +5,23 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReferenceStorage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociationClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.junit.Ignore
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import org.junit.Ignore
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 
 @SuiteClasses(#[
 	CPPClassReferenceMappingTest,
@@ -35,17 +32,11 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPRelation
 @RunWith(Suite)
 class CPPClassReferenceMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir;
 	XTClass sourceClass;
 	XTClass targetClass
 
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
@@ -60,7 +51,7 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
+		val xtPackage = xtmodel.packages.head as Package
 		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
@@ -102,14 +93,9 @@ class CPPClassReferenceMappingTest extends MappingBaseTest<XTClass, CPPComponent
 	
 }
 
-@RunWith(Parameterized)
 class CPPClassReferenceReflectiveMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir;
 	XTClass sourceClass;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
@@ -124,7 +110,7 @@ class CPPClassReferenceReflectiveMappingTest extends MappingBaseTest<XTClass, CP
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
+		val xtPackage = xtmodel.packages.head as Package
 		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
@@ -166,17 +152,11 @@ class CPPClassReferenceReflectiveMappingTest extends MappingBaseTest<XTClass, CP
 	
 }
 
-@RunWith(Parameterized)
 class CPPClassRefSimpleCollectionMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
-CPPDirectory rootDir;
+	CPPDirectory rootDir;
 	XTClass sourceClass;
 	XTClass targetClass
 
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
@@ -191,7 +171,7 @@ CPPDirectory rootDir;
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
+		val xtPackage = xtmodel.packages.head as Package
 		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent, rootDir)
@@ -237,16 +217,11 @@ CPPDirectory rootDir;
 }
 
 @Ignore("class reference associative collection is not in scope yet")
-@RunWith(Parameterized)
 class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir
 	XTClass sourceClass
 	XTClass targetClass
 	XTClass assocClass
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
@@ -264,7 +239,7 @@ class CPPClassRefAssocCollectionMappingTest extends MappingBaseTest<XTClass, CPP
 		val res = cppModel.eResource
 		rootDir = res.createCPPDirectory
 		val xtmodel = cppModel.commonModel
-		val xtPackage = xtmodel.packages.head as org.eclipse.papyrusrt.xtumlrt.common.Package
+		val xtPackage = xtmodel.packages.head as Package
 		val xtComponent = xtPackage.entities.filter(XTComponent).head
 		
 		

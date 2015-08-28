@@ -5,19 +5,15 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	CPPEventMappingTest
@@ -25,13 +21,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPEventMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPEventMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
@@ -48,8 +39,7 @@ class CPPEventMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)

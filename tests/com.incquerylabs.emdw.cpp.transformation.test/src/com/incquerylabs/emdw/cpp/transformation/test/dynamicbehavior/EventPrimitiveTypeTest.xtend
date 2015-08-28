@@ -1,13 +1,9 @@
 package com.incquerylabs.emdw.cpp.transformation.test.dynamicbehavior
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import org.junit.Before
 import org.junit.Ignore
 
 /**
@@ -36,11 +32,11 @@ import org.junit.Ignore
  * 			-Primitive Type parameter
  */
 @Ignore("dynamic behavior tests are not complete")
-@RunWith(Parameterized)
 class EventPrimitiveTypeTest extends DynamicBehaviorBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
+
+	@Before
+	override init() {
+		super.init
 		ROOTCPPPACKAGES = 1
 		CPPPROTOCOLS = 1
 		CPPSIGNALS = 1

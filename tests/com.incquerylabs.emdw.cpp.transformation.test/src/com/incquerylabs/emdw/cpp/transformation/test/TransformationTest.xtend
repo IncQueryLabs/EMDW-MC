@@ -4,34 +4,37 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPBodyFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.google.common.collect.ImmutableList
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.XtumlCPPTransformationWrapper
+import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
+import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.junit.After
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runners.Parameterized.Parameters
-
-import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
+import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
+import com.incquerylabs.emdw.testing.common.utils.CppUtil
 
 /**
  * Base class for testing transformation rules.
  */
-abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends EObject> extends TestWithoutParameters {
+abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends EObject> {
 
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
+	protected extension Logger logger = Logger.getLogger(class)
+	protected extension TransformationUtil util
+	protected extension XtumlUtil xtumlUtil = new XtumlUtil
+	protected extension CppUtil cppUtil = new CppUtil
+	
+	@BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.TRACE
 	}
 
-	@Parameters(name="{index}: {1}")
-	public static def transformations() {
-		val alternatives = ImmutableList.builder
-		.add(new XtumlCPPTransformationWrapper()).build
-
-		alternatives.map [
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
+	@Before
+	def void init() {
+		util = new TransformationUtil
 	}
 
 	@Test
@@ -45,15 +48,19 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
 		loadDefaultContainerImplementations(cppResource)
-		createCPPExternalLibrary(cppResource)
-		val cppModel = createCPPModel(cppResource, xtModel)
+		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		// transform to CPP
-		initializeTransformation(cppModel)
-		executeTransformation
+		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
+		executeCppComponentTransformation
 		// Check result
 		assertResult(xtModel, cppModel, xtObject, cppObject)
 		endTest(testId)
+	}
+	
+	@After
+	def cleanup() {
+		cleanupTransformation;
 	}
 
 	// Additional alternatives can be added here
@@ -85,5 +92,13 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 			temp += directory.countCppBodyFiles
 		}
 		temp += dir.files.filter(CPPBodyFile).size
+	}
+	
+	def startTest(String testId){
+		info('''START TEST: «testId»''')
+	}
+	
+	def endTest(String testId){
+		info('''END TEST: «testId»''')
 	}
 }

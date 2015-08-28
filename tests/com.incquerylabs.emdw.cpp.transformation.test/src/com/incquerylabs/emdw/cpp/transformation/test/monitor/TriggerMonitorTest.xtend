@@ -1,18 +1,14 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	TriggerCreationMonitorTest,
@@ -23,12 +19,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class TriggerMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class TriggerCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_transition_ping_E1.createXTEventTrigger(_classevent_Pong_s, "newTrigger")
@@ -41,12 +32,7 @@ class TriggerCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class TriggerDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		EcoreUtil.remove(_eventtrigger_pong_e1)
@@ -59,12 +45,7 @@ class TriggerDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class TriggerWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_eventtrigger_pong_e1.name = '''«_eventtrigger_pong_e1.name»Modified'''
@@ -77,12 +58,7 @@ class TriggerWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class TriggerWithChangedSignalMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_eventtrigger_pong_e1.signal = _classevent_Ping_s

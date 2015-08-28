@@ -2,11 +2,12 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
@@ -14,15 +15,10 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 
 @SuiteClasses(#[
 	CPPFormalParameterBasicTypeTest,
@@ -33,12 +29,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 @RunWith(Suite)
 class CPPFormalParameterMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPFormalParameterBasicTypeTest extends SingleComponentTransformTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected clearXtUmlElement(XTComponent xtComponent) {
 		val xtClass = xtComponent.entities.filter(XTClass).head
@@ -64,8 +55,7 @@ class CPPFormalParameterBasicTypeTest extends SingleComponentTransformTest {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
@@ -96,13 +86,8 @@ class CPPFormalParameterBasicTypeTest extends SingleComponentTransformTest {
 	
 }
 
-@RunWith(Parameterized)
 class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
+
 	override protected clearXtUmlElement(XTComponent xtComponent) {
 		val xtClass = xtComponent.entities.filter(XTClass).head
 		xtClass.operations.clear
@@ -129,8 +114,7 @@ class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTe
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
@@ -161,13 +145,8 @@ class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTe
 	}
 }
 
-@RunWith(Parameterized)
 class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
+
 	override protected prepareXtUmlModel(Model xtModel) {
 		val pack = xtModel.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
@@ -180,8 +159,7 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
@@ -225,13 +203,8 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 	}
 }
 
-@RunWith(Parameterized)
 class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
+
 	override protected prepareXtUmlModel(Model xtModel) {
 		val pack = xtModel.createPackage("RootPackage")
 		val component = pack.createXtComponent("Component")
@@ -246,8 +219,7 @@ class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTe
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)

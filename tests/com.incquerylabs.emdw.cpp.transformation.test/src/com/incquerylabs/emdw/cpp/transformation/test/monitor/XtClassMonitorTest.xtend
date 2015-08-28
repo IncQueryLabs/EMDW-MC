@@ -1,11 +1,9 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
@@ -19,12 +17,7 @@ import static org.junit.Assert.*
 @RunWith(Suite)
 class XtClassMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class XtClassWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_class_TableUser.name = '''«_class_TableUser.name»Modified'''
@@ -37,12 +30,7 @@ class XtClassWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class XtClassMovedToPackageMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_component_PingPong.entities -= _class_TableUser
@@ -56,12 +44,7 @@ class XtClassMovedToPackageMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class XtClassMovedToOtherComponentMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_component_PingPong.entities -= _class_TableUser

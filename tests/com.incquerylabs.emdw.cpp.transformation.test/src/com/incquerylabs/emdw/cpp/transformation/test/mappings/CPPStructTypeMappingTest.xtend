@@ -1,21 +1,17 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
+import com.ericsson.xtumlrt.oopl.OOPLExistingNameProvider
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
+import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
-import org.eclipse.papyrusrt.xtumlrt.common.Model
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
-import com.ericsson.xtumlrt.oopl.OOPLExistingNameProvider
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 
 @SuiteClasses(#[
 	CPPStructTypeTest,
@@ -24,12 +20,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 @RunWith(Suite)
 class CPPStructTypeMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPStructTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
@@ -39,8 +30,7 @@ class CPPStructTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		
@@ -72,12 +62,7 @@ class CPPStructTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
 		assertEquals("CPPStructType is not removed", 0, structTypes.length)
 	}
 }
-@RunWith(Parameterized)
 class CPPStructTypeInPackageTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
@@ -88,8 +73,7 @@ class CPPStructTypeInPackageTest extends MappingBaseTest<XTComponent, CPPCompone
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		

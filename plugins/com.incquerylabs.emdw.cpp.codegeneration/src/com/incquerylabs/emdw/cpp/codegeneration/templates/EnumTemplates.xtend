@@ -32,6 +32,9 @@ class EnumTemplates{
 		val enumerators = cppEnumType.enumerators.filter(CPPEnumerator)
 		val enumeratorNames = enumerators.map[cppName as CharSequence]
 		val defaultEnumerator = cppEnumType.defaultValue as CPPEnumType
+		if(defaultEnumerator == null){
+			return enumClassTemplate(cppEnumType.cppName, enumeratorNames)
+		}
 		val defaultEnumeratorName = defaultEnumerator.cppName
 		return enumClassTemplate(cppEnumType.cppName, enumeratorNames, defaultEnumeratorName)
 	}

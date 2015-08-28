@@ -6,6 +6,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 
 class EnumTemplates{
 	def enumClassTemplate(CharSequence enumClassName, Iterable<CharSequence> enumeratorNames) {
+		enumClassTemplate(enumClassName, enumeratorNames, enumeratorNames.head)
+	}
+	def enumClassTemplate(CharSequence enumClassName, Iterable<CharSequence> enumeratorNames, CharSequence defaultEnumeratorName) {
 		'''
 		«IF !enumeratorNames.isNullOrEmpty»
 			class «enumClassName» {
@@ -15,7 +18,7 @@ class EnumTemplates{
 						«enumeratorName»
 					«ENDFOR»
 				};
-				«enumClassName»(): __val(«enumeratorNames.head») {}
+				«enumClassName»(): __val(«defaultEnumeratorName») {}
 				«enumClassName»(__val_type v): __val(v) {}
 				operator __val_type() const { return __val; }
 			private:
@@ -28,7 +31,9 @@ class EnumTemplates{
 	def cppEnumTemplate(CPPEnumType cppEnumType){
 		val enumerators = cppEnumType.enumerators.filter(CPPEnumerator)
 		val enumeratorNames = enumerators.map[cppName as CharSequence]
-		return enumClassTemplate(cppEnumType.cppName, enumeratorNames)
+		val defaultEnumerator = cppEnumType.defaultValue as CPPEnumType
+		val defaultEnumeratorName = defaultEnumerator.cppName
+		return enumClassTemplate(cppEnumType.cppName, enumeratorNames, defaultEnumeratorName)
 	}
 	
 	def cppEnumsInContainer(CPPQualifiedNamedElement cppContainer) {

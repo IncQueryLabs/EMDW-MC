@@ -157,10 +157,10 @@ class ComponentTemplates extends CPPTemplate {
 	}
 	
 	def CharSequence forwardDeclarationsTemplate(CPPQualifiedNamedElement cppContainer) {
-		val cppClasses = cppContainer.subElements.filter(CPPClass)
-		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType)
-		val cppStructTypes = cppContainer.subElements.filter(CPPStructType)
-		val innerCppPackages = cppContainer.subElements.filter(CPPPackage)
+		val cppClasses = cppContainer.subElements.filter(CPPClass).sortBy[cppName]
+		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType).sortBy[cppName]
+		val cppStructTypes = cppContainer.subElements.filter(CPPStructType).sortBy[cppName]
+		val innerCppPackages = cppContainer.subElements.filter(CPPPackage).sortBy[cppName]
 		val hasForwardDeclarations = !(cppClasses.isNullOrEmpty && cppEnumTypes.isNullOrEmpty)
 		'''
 		«IF hasForwardDeclarations»
@@ -184,9 +184,9 @@ class ComponentTemplates extends CPPTemplate {
 	}
 	
 	def CharSequence typeDefinitionsTemplate(CPPQualifiedNamedElement cppContainer) {
-		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType)
-		val cppStructTypes = cppContainer.subElements.filter(CPPStructType)
-		val innerCppPackages = cppContainer.subElements.filter(CPPPackage)
+		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType).sortBy[cppName]
+		val cppStructTypes = cppContainer.subElements.filter(CPPStructType).sortBy[cppName]
+		val innerCppPackages = cppContainer.subElements.filter(CPPPackage).sortBy[cppName]
 		val hasTypeDefinitions = !(cppEnumTypes.isNullOrEmpty || cppStructTypes.isNullOrEmpty)
 			
 		

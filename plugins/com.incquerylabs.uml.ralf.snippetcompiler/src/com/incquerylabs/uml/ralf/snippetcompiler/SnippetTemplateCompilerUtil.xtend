@@ -3,33 +3,25 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import java.util.List
 import org.eclipse.uml2.uml.Operation
-import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Parameter
+import org.eclipse.uml2.uml.Property
 
 class SnippetTemplateCompilerUtil {
 	
@@ -39,85 +31,7 @@ class SnippetTemplateCompilerUtil {
 	new(IUmlDescriptorFactory factory, IUMLContextProvider context){
 		descriptorFactory = factory
 		this.context = context
-	}
-//
-//	def dispatch parenthesisRequired(Expression ex) {
-//        return false
-//	}
-//	
-//	def dispatch parenthesisRequired(ArithmeticExpression ex) {
-//	    if (ex.eContainer instanceof NumericUnaryExpression) {
-//            return true
-//        }
-//	    if (ex.eContainer instanceof ArithmeticExpression) {
-//	    	val parent = ex.eContainer as ArithmeticExpression
-//	    	if(ex.operator.equals("+") || ex.operator.equals("-")){
-//	    		if(parent.operator.equals("*") || parent.operator.equals("/") || parent.operator.equals("%")){
-//	    			return true
-//	    		}
-//	    	}else{
-//	    		return false
-//	    	}
-//        }
-//        return false
-//	}
-//	
-//	def dispatch parenthesisRequired(ShiftExpression ex) {
-//	    if (ex.eContainer instanceof NumericUnaryExpression) {
-//            return true
-//        }
-//	    if (ex.eContainer instanceof ArithmeticExpression) {
-//	    	return true
-//        }
-//        return false
-//	}
-//	
-//	def dispatch parenthesisRequired(RelationalExpression ex) {
-//	    if (ex.eContainer instanceof BooleanUnaryExpression) {
-//            return true
-//        }
-//        if(ex.eContainer instanceof ConditionalLogicalExpression){
-//        	return true
-//        }
-//        return false
-//	}
-//	
-//	def dispatch parenthesisRequired(EqualityExpression ex) {
-//	    if (ex.eContainer instanceof BooleanUnaryExpression) {
-//            return true
-//        }
-//        return false
-//	}
-//	
-//	def dispatch parenthesisRequired(LogicalExpression ex) {
-//	    if (ex.eContainer instanceof NumericUnaryExpression) {
-//            return true
-//        }
-//	    if (ex.eContainer instanceof ArithmeticExpression) {
-//	    	return true
-//        }
-//        if (ex.eContainer instanceof ShiftExpression) {
-//	    	return true
-//        }
-//        if (ex.eContainer instanceof RelationalExpression) {
-//	    	return true
-//        }
-//        if (ex.eContainer instanceof EqualityExpression) {
-//	    	return true
-//        }
-//        return false
-//	}
-//	
-//	def dispatch parenthesisRequired(ConditionalLogicalExpression ex) {
-//	    if (ex.eContainer instanceof BooleanUnaryExpression) {
-//            return true
-//        }
-//        if (ex.eContainer instanceof EqualityExpression) {
-//	    	return true
-//        }
-//        return false
-//	}
-	
+	}	
 	//Descriptors
 	//Model Access
 	
@@ -171,26 +85,18 @@ class SnippetTemplateCompilerUtil {
 		]).build
 	}
 	
-	def dispatch ValueDescriptor getDescriptor(AssignmentExpression ex){
+	def ValueDescriptor getDescriptor(AssignmentExpression ex, Property prop){
 		val lhs = ex.leftHandSide
 		if (lhs != null) {
 			return (descriptorFactory.createPropertyWriteBuilder => [
-			    //TODO update property write builder
 				variable = getDescriptor(lhs)
-//				property = lhs.property
+				property = prop
 				newValue = getDescriptor(ex.rightHandSide)
 			]).build
 		}
 		return null
 	}
-	 
-//	def dispatch ValueDescriptor getDescriptor(FeatureLeftHandSide lhs){
-//		(descriptorFactory.createPropertyReadBuilder => [
-//			variable = getDescriptor(lhs.expression.context)
-//			property = lhs.expression.property
-//		]).build
-//	}
-	
+	 	
 	//Variables
 	
 	def dispatch ValueDescriptor getDescriptor(CastExpression ex){

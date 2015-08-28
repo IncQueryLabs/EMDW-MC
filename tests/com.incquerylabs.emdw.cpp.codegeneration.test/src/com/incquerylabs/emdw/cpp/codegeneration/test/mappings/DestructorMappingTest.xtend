@@ -11,9 +11,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
-
 @SuiteClasses(#[
 	DestructorMappingTest
 ])
@@ -41,7 +38,7 @@ class DestructorMappingTest extends TransformationTest<State, CPPClass> {
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
-		val files = util.cppCodeGeneration.generatedCPPSourceFiles
+		val files = cppCodeGeneration.generatedCPPSourceFiles
 		val classBody = files.get(cppObject.bodyFile).toString
 		// check destructor in definition
 		assertTrue(classBody.contains("TEST_CLASS::~TEST_CLASS()"))

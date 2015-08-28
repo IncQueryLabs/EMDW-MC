@@ -13,8 +13,6 @@ import org.junit.runners.Suite.SuiteClasses
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
-
 @SuiteClasses(#[
 	OperationMappingTest,
 	DestructorMappingTest

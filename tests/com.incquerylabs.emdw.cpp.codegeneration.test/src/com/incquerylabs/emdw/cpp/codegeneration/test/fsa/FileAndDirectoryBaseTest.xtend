@@ -10,10 +10,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.junit.Test
 
-import static com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 
 abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
 

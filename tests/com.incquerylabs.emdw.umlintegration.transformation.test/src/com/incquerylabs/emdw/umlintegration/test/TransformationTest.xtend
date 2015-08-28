@@ -1,6 +1,9 @@
 package com.incquerylabs.emdw.umlintegration.test
 
+import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
+import com.incquerylabs.emdw.testing.common.utils.UmlUtil
+import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.apache.log4j.Level
@@ -11,12 +14,11 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Model
 import org.junit.After
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 import static org.junit.Assert.*
-import org.junit.Before
 
 /**
  * Base class for testing transformation rules.
@@ -24,6 +26,9 @@ import org.junit.Before
 abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> {
 	protected extension Logger logger = Logger.getLogger(class)
 	protected extension TransformationUtil util
+	protected extension UmlUtil umlUtil = new UmlUtil
+	protected extension XtumlUtil xtumlUtil = new XtumlUtil
+	protected extension ComplexModelUtil complexUtil = new ComplexModelUtil
 
 	@Test
 	def single() {

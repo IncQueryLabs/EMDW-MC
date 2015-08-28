@@ -10,9 +10,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
-
 @SuiteClasses(#[
 	ComponentRulesMkTest,
 	PackageRulesMkTest

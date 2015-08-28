@@ -15,8 +15,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
-
 @SuiteClasses(#[
 	AttributeMappingTest,
 	SignalAttributeMappingTest,

@@ -11,9 +11,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
-
 @SuiteClasses(#[
 	AssociationMappingTest,
 	AssociationCollectionMappingTest
@@ -55,7 +52,7 @@ class AssociationMappingTest extends TransformationTest<State, CPPClass> {
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
-		val files = util.cppCodeGeneration.generatedCPPSourceFiles
+		val files = cppCodeGeneration.generatedCPPSourceFiles
 		val classHeader = files.get(cppObject.headerFile).toString
 		assertTrue(classHeader.contains("TEST2* test2"))
 	}
@@ -98,9 +95,9 @@ class AssociationCollectionMappingTest extends TransformationTest<State, CPPClas
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
-		val files = util.cppCodeGeneration.generatedCPPSourceFiles
+		val files = cppCodeGeneration.generatedCPPSourceFiles
 		val classHeader = files.get(cppObject.headerFile).toString
-		assertTrue(classHeader.contains("::std::list< ::AssociationCollectionMappingTest_single::RootPackage::Component::TEST2* > test2s"))
+		assertTrue(classHeader.contains('''::std::list< ::«testId»::RootPackage::Component::TEST2* > test2s'''))
 	}
 	
 }

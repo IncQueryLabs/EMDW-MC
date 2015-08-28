@@ -48,6 +48,10 @@ class XtumlUtil extends ModelUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val XtumlFactory xtumlFactory = XtumlFactory.eINSTANCE
 
+	def <T> asSet(T object) {
+		#{object}.filterNull
+	}
+
 	// CREATION ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	def createEmptyXtumlModel(String modelname) {
 		val xtumlrtResource = createEmptyXtumlResource(modelname)

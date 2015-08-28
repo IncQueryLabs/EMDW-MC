@@ -8,8 +8,6 @@ import java.util.Map
 import org.eclipse.emf.ecore.EObject
 import org.junit.Before
 
-import static com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-
 abstract class MakeBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
 	protected CharSequence makefileContent = null
 	protected Map<CPPSourceFile, CharSequence> rules = null

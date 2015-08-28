@@ -12,9 +12,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.assertEquals
 
-import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
-
 @SuiteClasses(#[
 	XTEventTriggerMappingTest
 ])

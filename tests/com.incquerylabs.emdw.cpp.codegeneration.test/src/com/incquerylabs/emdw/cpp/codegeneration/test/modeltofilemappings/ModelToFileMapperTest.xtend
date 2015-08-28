@@ -7,6 +7,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
+import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.GenerationUtil
 import java.io.ByteArrayInputStream
 import java.util.Map
@@ -26,8 +27,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-
 @SuiteClasses(#[
 	ModelToFileMapperTest
 ])
@@ -38,6 +37,7 @@ class ModelToFileMapperTest {
 
 	protected extension Logger logger = Logger.getLogger(class)
 	protected extension GenerationUtil util
+	protected extension CppUtil cppUtil = new CppUtil
 	
 	private static final String PROJECT_NAME = "project.test"
 	private static final String FOLDER_NAME = "testfolder"

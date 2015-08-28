@@ -5,11 +5,21 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	AssociationMappingTest,
+	AssociationCollectionMappingTest
+])
+@RunWith(Suite)
+class AssociationMappingTestSuite {}
 
 class AssociationMappingTest extends TransformationTest<State, CPPClass> {
 	
@@ -51,6 +61,7 @@ class AssociationMappingTest extends TransformationTest<State, CPPClass> {
 	}
 	
 }
+
 class AssociationCollectionMappingTest extends TransformationTest<State, CPPClass> {
 	
 	override protected prepareCppModel(CPPModel cppModel) {

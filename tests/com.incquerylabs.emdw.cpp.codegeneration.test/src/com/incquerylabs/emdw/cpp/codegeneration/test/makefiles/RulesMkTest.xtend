@@ -4,11 +4,21 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	ComponentRulesMkTest,
+	PackageRulesMkTest
+])
+@RunWith(Suite)
+class RulesMkTestSuite {}
 
 class ComponentRulesMkTest extends MakeBaseTest<State, CPPModel> {
 	

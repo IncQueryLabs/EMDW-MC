@@ -4,9 +4,18 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	DirectoryStructureTest
+])
+@RunWith(Suite)
+class DirectoryStructureTestSuite {}
 
 class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 	

@@ -2,11 +2,20 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.makefiles
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	MakefileTest
+])
+@RunWith(Suite)
+class MakefileTestSuite {}
 
 class MakefileTest extends MakeBaseTest<State, CPPModel> {
 	

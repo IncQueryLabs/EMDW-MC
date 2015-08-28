@@ -3,11 +3,20 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.mains
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+
+@SuiteClasses(#[
+	MainGenerationTest
+])
+@RunWith(Suite)
+class MainGenerationTestSuite {}
 
 class MainGenerationTest extends MainBaseTest<State, CPPComponent> {
 	

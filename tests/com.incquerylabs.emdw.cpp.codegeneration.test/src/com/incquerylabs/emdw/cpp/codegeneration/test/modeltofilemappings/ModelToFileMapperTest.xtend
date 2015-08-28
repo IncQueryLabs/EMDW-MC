@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.cpp.codegeneration.test.model2filemappings
+package com.incquerylabs.emdw.cpp.codegeneration.test.modeltofilemappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPMakeFile
@@ -20,12 +20,21 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
 import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 
-class Model2FileMapperTest {
+@SuiteClasses(#[
+	ModelToFileMapperTest
+])
+@RunWith(Suite)
+class ModelToFileMapperTestSuite {}
+
+class ModelToFileMapperTest {
 
 	protected extension Logger logger = Logger.getLogger(class)
 	protected extension GenerationUtil util

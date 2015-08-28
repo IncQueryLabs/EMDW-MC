@@ -6,6 +6,9 @@ import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
@@ -13,6 +16,12 @@ import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
 import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 
 // TODO static, visibility, param directions
+
+@SuiteClasses(#[
+	OperationMappingTest
+])
+@RunWith(Suite)
+class OperationMappingTestSuite {}
 
 class OperationMappingTest extends TransformationTest<State, CPPClass> {
 	

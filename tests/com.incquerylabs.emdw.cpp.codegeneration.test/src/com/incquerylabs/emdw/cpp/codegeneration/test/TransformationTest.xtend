@@ -33,8 +33,8 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 	}
  	
 	@Test
-	def single() {
-		val testId = '''«this.class.simpleName»_single'''
+	def test_1() {
+		val testId = '''«this.class.simpleName»_test_1'''
 		startTest(testId)
 		//Create xtuml model
 		val xtModel = createEmptyXtumlModel(testId)

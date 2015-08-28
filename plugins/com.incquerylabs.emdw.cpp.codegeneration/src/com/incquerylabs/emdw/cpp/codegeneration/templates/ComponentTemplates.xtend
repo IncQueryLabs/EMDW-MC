@@ -187,8 +187,7 @@ class ComponentTemplates extends CPPTemplate {
 		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType).sortBy[cppName]
 		val cppStructTypes = cppContainer.subElements.filter(CPPStructType).sortBy[cppName]
 		val innerCppPackages = cppContainer.subElements.filter(CPPPackage).sortBy[cppName]
-		val hasTypeDefinitions = !(cppEnumTypes.isNullOrEmpty || cppStructTypes.isNullOrEmpty)
-			
+		val hasTypeDefinitions = !(cppEnumTypes.isNullOrEmpty && cppStructTypes.isNullOrEmpty)
 		
 		'''
 		// Type definitions for struct types and enums

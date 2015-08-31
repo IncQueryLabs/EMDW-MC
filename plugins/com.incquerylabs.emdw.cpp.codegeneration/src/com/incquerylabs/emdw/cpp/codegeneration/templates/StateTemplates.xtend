@@ -169,7 +169,7 @@ class StateTemplates extends CPPTemplate {
 		«IF state.commonState.entryAction != null»
 			void «cppClassFQN»::«performEntryActionSignature(state)»{
 				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
-				«tracingMessage('''    [Entry: INIT]''')»
+				«tracingMessage('''    [Entry: «state.cppName»]''')»
 				«generateActionCode(state.commonState.entryAction)»
 			}
 		«ENDIF»

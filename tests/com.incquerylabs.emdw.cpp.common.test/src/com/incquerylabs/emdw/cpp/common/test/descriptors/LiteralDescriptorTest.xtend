@@ -2,16 +2,13 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 import static org.junit.Assert.*
 
 @SuiteClasses(#[
@@ -25,13 +22,8 @@ import static org.junit.Assert.*
 @RunWith(Suite)
 class LiteralDescriptorTestSuite {}
 
-@RunWith(Parameterized)
 class LiteralDescriptorForBooleanTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "true"
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, "Boolean")
@@ -66,13 +58,8 @@ class LiteralDescriptorForBooleanTest extends ValueDescriptorBaseTest<PrimitiveT
 	
 }
 
-@RunWith(Parameterized)
 class LiteralDescriptorForIntegerTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "1"
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, "Integer")
@@ -107,13 +94,8 @@ class LiteralDescriptorForIntegerTest extends ValueDescriptorBaseTest<PrimitiveT
 	
 }
 
-@RunWith(Parameterized)
 class LiteralDescriptorForRealTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "1.1"
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, "Real")
@@ -148,13 +130,8 @@ class LiteralDescriptorForRealTest extends ValueDescriptorBaseTest<PrimitiveType
 	
 }
 
-@RunWith(Parameterized)
 class LiteralDescriptorForSimpleStringTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "simple string"
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, "String")
@@ -189,13 +166,8 @@ class LiteralDescriptorForSimpleStringTest extends ValueDescriptorBaseTest<Primi
 	
 }
 
-@RunWith(Parameterized)
 class LiteralDescriptorForHeavyStringTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "heavy \" string"
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, "String")
@@ -230,15 +202,10 @@ class LiteralDescriptorForHeavyStringTest extends ValueDescriptorBaseTest<Primit
 	
 }
 
-@RunWith(Parameterized)
 class LiteralDescriptorForNumberLiteralCacheTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "1"
 	private PrimitiveType real
 	private LiteralDescriptor realDescriptor
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, "Integer")

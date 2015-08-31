@@ -2,23 +2,19 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.uml2.uml.Type
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
-import org.eclipse.uml2.uml.Type
 
 @SuiteClasses(#[
 	OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest,
@@ -30,7 +26,6 @@ import org.eclipse.uml2.uml.Type
 @RunWith(Suite)
 class OperationCallDescriptorTestSuite {}
 
-@RunWith(Parameterized)
 class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -42,10 +37,6 @@ class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends Value
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»()'''
 	private Class umlClass
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
 		umlClass = comp.createClass(CLASS_NAME)
@@ -92,7 +83,6 @@ class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends Value
 	
 }
 
-@RunWith(Parameterized)
 class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -104,10 +94,6 @@ class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends Value
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»()'''
 	private Class umlClass
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
 		umlClass = comp.createClass(CLASS_NAME)
@@ -154,7 +140,6 @@ class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends Value
 	
 }
 
-@RunWith(Parameterized)
 class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -165,10 +150,6 @@ class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends V
 	private static final val EXPECTED_TYPE = '''::std::set< bool >'''
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»()'''
 	private Class umlClass
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -216,7 +197,6 @@ class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends V
 	
 }
 
-@RunWith(Parameterized)
 class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -230,10 +210,6 @@ class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest exte
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»(«PARAMETER_NAME»)'''
 	private Class umlClass
 	private Type parameterType
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -289,7 +265,6 @@ class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest exte
 	
 }
 
-@RunWith(Parameterized)
 class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -304,10 +279,6 @@ class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest ex
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»(«PARAMETER1_NAME», «PARAMETER2_NAME»)'''
 	private Class umlClass
 	private Type parameterType
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)

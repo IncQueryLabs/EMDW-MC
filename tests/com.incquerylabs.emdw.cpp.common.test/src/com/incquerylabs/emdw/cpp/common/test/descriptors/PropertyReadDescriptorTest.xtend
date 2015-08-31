@@ -1,22 +1,18 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
-import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
-import org.eclipse.uml2.uml.Property
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import org.eclipse.uml2.uml.Model
+import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
+import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
 import org.eclipse.uml2.uml.Class
-import org.junit.runners.Parameterized
-import org.junit.runner.RunWith
-import org.junit.runners.Suite.SuiteClasses
-import org.junit.runners.Suite
-
-import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
+import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.Property
 import org.junit.Ignore
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
+
+import static org.junit.Assert.*
 
 @SuiteClasses(#[
 	PropertyReadDescriptorForAttributeTest,
@@ -25,7 +21,6 @@ import org.junit.Test
 @RunWith(Suite)
 class PropertyReadDescriptorTestSuite {}
 
-@RunWith(Parameterized)
 class PropertyReadDescriptorForAttributeTest extends ValueDescriptorBaseTest<Property, PropertyReadDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -36,10 +31,6 @@ class PropertyReadDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pro
 	private static final val EXPECTED_TYPE = '''bool'''
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«PROPERTY_NAME»'''
 	private Class umlClass
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -86,7 +77,6 @@ class PropertyReadDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pro
 	
 }
 
-@RunWith(Parameterized)
 class PropertyReadDescriptorForAssociationTest extends ValueDescriptorBaseTest<Property, PropertyReadDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -98,10 +88,6 @@ class PropertyReadDescriptorForAssociationTest extends ValueDescriptorBaseTest<P
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«OTHER_CLASS_NAME»*'''
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«ASSOCIATION_NAME»_«PROPERTY_NAME»'''
 	private Class umlClass
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)

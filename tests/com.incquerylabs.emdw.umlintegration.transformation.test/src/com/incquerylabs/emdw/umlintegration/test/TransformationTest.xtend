@@ -30,6 +30,16 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension ComplexModelUtil complexUtil = new ComplexModelUtil
 
+	@BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
+	}
+
+	@Before
+	def void init() {
+		util = new TransformationUtil
+	}
+
 	@Test
 	def single() {
 		val testId = "single"
@@ -77,20 +87,10 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		endTest(testId)
 	}
 
-	/**
-	 * Creates an UML object which will be transformed.
-	 */
-	protected def UmlObject createUmlObject(Model umlModel)
-
-	/**
-	 * Returns the collection which should contain the transformed xtumlrt object.
-	 */
-	protected def Iterable<XtumlrtObject> getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot)
-
-	/**
-	 * Asserts the fields of the transformed xtumlrt object.
-	 */
-	protected def void checkXtumlrtObject(RootMapping mapping, UmlObject umlObject, XtumlrtObject xtumlrtObject)
+	@After
+	def cleanup() {
+		cleanupTransformation;
+	}
 
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {
 		val xtumlrtObjects = mapping.xtumlrtRoot.xtumlrtObjects
@@ -116,19 +116,19 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		info('''END TEST: «testId»''')
 	}
 
-	@BeforeClass
-	def static setupRootLogger() {
-		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
-	}
+	/**
+	 * Creates an UML object which will be transformed.
+	 */
+	protected def UmlObject createUmlObject(Model umlModel)
 
-	@Before
-	def void init() {
-		util = new TransformationUtil
-	}
+	/**
+	 * Returns the collection which should contain the transformed xtumlrt object.
+	 */
+	protected def Iterable<XtumlrtObject> getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot)
 
-	@After
-	def cleanup() {
-		cleanupTransformation;
-	}
+	/**
+	 * Asserts the fields of the transformed xtumlrt object.
+	 */
+	protected def void checkXtumlrtObject(RootMapping mapping, UmlObject umlObject, XtumlrtObject xtumlrtObject)
 
 }

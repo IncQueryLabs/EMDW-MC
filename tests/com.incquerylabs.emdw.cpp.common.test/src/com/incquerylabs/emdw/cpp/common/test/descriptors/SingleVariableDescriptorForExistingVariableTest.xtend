@@ -2,18 +2,14 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 
 @SuiteClasses(#[
 	SingleVariableDescriptorForExistingVariableTest
@@ -21,13 +17,8 @@ import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 @RunWith(Suite)
 class SingleVariableDescriptorForExistingVariableTestSuite {}
 
-@RunWith(Parameterized)
 class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	private static final String VARIABLE_NAME = "classVariable"
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent("TestComponent")

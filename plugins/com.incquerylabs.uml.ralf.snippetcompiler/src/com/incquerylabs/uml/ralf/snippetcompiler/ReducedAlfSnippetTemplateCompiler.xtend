@@ -26,36 +26,30 @@ class ReducedAlfSnippetTemplateCompiler {
 	def Snippet createSnippet(ParsingResults results){
 		expressionVisitor = new ExpressionVisitor(util, results.typeSystem)
 		statementVisitor = new StatementVisitor(this, util, expressionVisitor, results.typeSystem)
-		results.model.visit
+		createStringSnippet => [value = results.model.visit]
 	}
 	
-    private def dispatch Snippet visit(Statements st){
-		createCompositeSnippet => [ f | 
-			st.statement.forEach[ statement |
-				f.snippet.add(statement.visit)
-				f.snippet.add(createStringSnippet => [value = '\n'])
-			]
-			f.snippet.remove(f.snippet.size-1)
-		]
+    private def dispatch String visit(Statements st){
+		'''«FOR statement : st.statement SEPARATOR '\n'»«statement.visit»«ENDFOR»'''
 	}
 	
-	private def dispatch Snippet visit(Statement st){
+	private def dispatch String visit(Statement st){
 		statementVisitor.visit(st)
 	}
 	
-	private def dispatch Snippet visit(ExpressionList tuple){
+	private def dispatch String visit(ExpressionList tuple){
 		throw new UnsupportedOperationException("Tuples should not be visited independently")
 	}
 	
-	private def dispatch Snippet visit(NamedTuple tuple){
+	private def dispatch String visit(NamedTuple tuple){
 		throw new UnsupportedOperationException("Tuples should not be visited independently")
 	}
 	
-	private def dispatch Snippet visit(LeftHandSide lhs){
+	private def dispatch String visit(LeftHandSide lhs){
 		throw new UnsupportedOperationException("LeftHandSide should not be visited independently")
 	}
 	
-	private def dispatch Snippet visit(NamedExpression ex){
+	private def dispatch String visit(NamedExpression ex){
 		throw new UnsupportedOperationException("NamedExpression should not be visited independently")
 	}
 	

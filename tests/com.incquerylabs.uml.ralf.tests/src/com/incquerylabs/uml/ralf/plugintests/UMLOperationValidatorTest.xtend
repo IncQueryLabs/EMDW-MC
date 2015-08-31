@@ -2,8 +2,7 @@ package com.incquerylabs.uml.ralf.plugintests
 
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguagePluginInjectorProvider
-import com.incquerylabs.uml.ralf.tests.util.TestModelUMLContextProvider
+import com.incquerylabs.uml.ralf.tests.util.context.TestModelUMLContextProvider
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner
 import org.junit.FixMethodOrder

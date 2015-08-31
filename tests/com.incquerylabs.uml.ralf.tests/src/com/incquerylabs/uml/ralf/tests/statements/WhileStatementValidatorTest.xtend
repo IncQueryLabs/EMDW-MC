@@ -1,317 +1,145 @@
 package com.incquerylabs.uml.ralf.tests.statements
 
-import com.google.inject.Inject
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.junit4.InjectWith
-import org.eclipse.xtext.junit4.XtextRunner
-import org.eclipse.xtext.junit4.util.ParseHelper
-import org.eclipse.xtext.junit4.validation.ValidationTestHelper
-import org.eclipse.xtext.junit4.validation.ValidatorTester
-import org.junit.FixMethodOrder
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.junit.runners.MethodSorters
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractValidatorTest
+import java.util.Collection
 
-@RunWith(typeof(XtextRunner))
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-@InjectWith(typeof(ReducedAlfLanguageJUnitInjectorProvider))
-class WhileStatementValidatorTest {
-	@Inject
-	ParseHelper<Statements> parseHelper
-
-	@Inject
-	ValidatorTester<ReducedAlfLanguageValidator> tester
-	
-	@Inject extension ValidationTestHelper
-	
-	@Test
-	def whileStatementNaturalLiteral() {
-		whileStatementError('''
-		while(1){
+class WhileStatementValidatorTest extends AbstractValidatorTest{
+	def static Collection<Object[]> testData() {
+		newArrayList(
+			#[  "Invalid While Statement: IntegerLiteral",
+			    '''while(1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid While Statement: RealLiteral",
+			    '''while(1.1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "While Statement: BoolLiteral",
+			    '''while(true){}''',
+			    #[]
+			],
+			#[  "Invalid While Statement: StringLiteral",
+			    '''while("1"){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid While Statement: Multiplicative",
+			    '''while(1*1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid While Statement: Additive",
+			    '''while(1+1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid While Statement: Shift",
+			    '''while(1>>1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "While Statement: Relational",
+			    '''while(1>1){}''',
+			    #[]
+			],
+			#[  "While Statement: Equality",
+			    '''while(1==1){}''',
+			    #[]
+			],
+			#[  "Invalid While Statement: Bitwise OR",
+			    '''while(1|1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid While Statement: Bitwise AND",
+			    '''while(1&1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid While Statement: Bitwise XOR",
+			    '''while(1^1){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "While Statement: Logical AND",
+			    '''while(true && false){}''',
+			    #[]
+			],
+			#[  "While Statement: Logical OR",
+			    '''while(true || false){}''',
+			    #[]
+			],
+			#[  "While Statement: Boolean Unary",
+			    '''while(!false){}''',
+			    #[]
+			],
+			#[  "Invalid While Statement: Assignment",
+			    '''
+			    Integer x = 1;
+			    while(x = 2){}''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
 			
-		}''');
+			#[  "Invalid Do Statement: IntegerLiteral",
+			    '''do{}while(1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid Do Statement: RealLiteral",
+			    '''do{}while(1.1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Do Statement: BoolLiteral",
+			    '''do{}while(true);''',
+			    #[]
+			],
+			#[  "Invalid Do Statement: StringLiteral",
+			    '''do{}while("1");''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid Do Statement: Multiplicative",
+			    '''do{}while(1*1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid Do Statement: Additive",
+			    '''do{}while(1+1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid Do Statement: Shift",
+			    '''do{}while(1>>1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Do Statement: Relational",
+			    '''do{}while(1>1);''',
+			    #[]
+			],
+			#[  "Do Statement: Equality",
+			    '''do{}while(1==1);''',
+			    #[]
+			],
+			#[  "Do While Statement: Bitwise OR",
+			    '''do{}while(1|1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid Do Statement: Bitwise AND",
+			    '''do{}while(1&1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Invalid Do Statement: Bitwise XOR",
+			    '''do{}while(1^1);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			],
+			#[  "Do Statement: Logical AND",
+			    '''do{}while(true && false);''',
+			    #[]
+			],
+			#[  "Do Statement: Logical OR",
+			    '''do{}while(true || false);''',
+			    #[]
+			],
+			#[  "Do Statement: Boolean Unary",
+			    '''do{}while(!false);''',
+			    #[]
+			],
+			#[  "Invalid Do Statement: Assignment",
+			    '''
+			    Integer x = 1;
+			    do{}while(x = 2);''',
+			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			]
+		)
 	}
-	@Test
-	def whileStatementRealLiteral() {
-		whileStatementError('''
-		while(1.1){
-			
-		}
-		''');
-	}
-	
-	@Test
-	def whileStatementBoolean() {
-		whileStatementOK('''
-		while(true){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementString() {
-		whileStatementError('''
-		while("1"){
-			
-		}''');
-	}
-
-	
-	@Test
-	def whileStatementMultiplicative() {
-		whileStatementError('''
-		while(1*1){
-			
-		}''');
-	}
-	
-	
-	@Test
-	def whileStatementAdditive() {
-		whileStatementError('''
-		while(1+1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementShift() {
-		whileStatementError('''
-		while(1>>1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementRelational() {
-		whileStatementOK('''
-		while(1>1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementEquality() {
-		whileStatementOK('''
-		while(1==1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementBitwiseOr() {
-		whileStatementError('''
-		while(1|1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementBitwiseAnd() {
-		whileStatementError('''
-		while(1&1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementBitwiseXor() {
-		whileStatementError('''
-		while(1^1){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementAnd() {
-		whileStatementOK('''
-		while(true && false){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementOr() {
-		whileStatementOK('''
-		while(true || false){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementBooleanUnary() {
-		whileStatementOK('''
-		while(!true){
-			
-		}''');
-	}
-	
-	@Test
-	def whileStatementAssignment() {
-		whileStatementError('''
-		Integer x = 1;
-		while(x = 2){
-			
-		}
-		''');
-	}
-	
-	@Test
-	def doStatementNaturalLiteral() {
-		doStatementError('''
-		do{
-			
-		}while(1);''');
-	}
-	@Test
-	def doStatementRealLiteral() {
-		doStatementError('''
-		do{
-			
-		}while(1.1);
-		''');
-	}
-	
-	@Test
-	def doStatementBoolean() {
-		doStatementOK('''
-		do{
-			
-		}while(true);''');
-	}
-	
-	@Test
-	def doStatementString() {
-		doStatementError('''
-		do{
-			
-		}while("1");''');
-	}
-
-	
-	@Test
-	def doStatementMultiplicative() {
-		doStatementError('''
-		do{
-			
-		}while(1*1);''');
-	}
-	
-	
-	@Test
-	def doStatementAdditive() {
-		doStatementError('''
-		do{
-			
-		}while(1+1);''');
-	}
-	
-	@Test
-	def doStatementShift() {
-		doStatementError('''
-		do{
-			
-		}while(1>>1);''');
-	}
-	
-	@Test
-	def doStatementRelational() {
-		doStatementOK('''
-		do{
-			
-		}while(1>1);''');
-	}
-	
-	@Test
-	def doStatementEquality() {
-		doStatementOK('''
-		do{
-			
-		}while(1==1);''');
-	}
-	
-	@Test
-	def doStatementBitwiseOr() {
-		doStatementError('''
-		do{
-			
-		}while(1|1);''');
-	}
-	
-	@Test
-	def doStatementBitwiseAnd() {
-		doStatementError('''
-		do{
-			
-		}while(1&1);''');
-	}
-	
-	@Test
-	def doStatementBitwiseXor() {
-		doStatementError('''
-		do{
-			
-		}while(1^1);''');
-	}
-	
-	@Test
-	def doStatementAnd() {
-		doStatementOK('''
-		do{
-			
-		}while(true && false);''');
-	}
-	
-	@Test
-	def doStatementOr() {
-		doStatementOK('''
-		do{
-			
-		}while(true || false);''');
-	}
-	
-	@Test
-	def doStatementBooleanUnary() {
-		doStatementOK('''
-		do{
-			
-		}while(!true);''');
-	}
-	
-	@Test
-	def doStatementAssignment() {
-		doStatementError('''
-		Integer x = 1;
-		do{
-			
-		}while(x = 2);
-		''');
-	}
-	
-	private def doStatementOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def doStatementError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(0)
-	}
-	
-	private def whileStatementOK(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertOK
-		model.assertNoErrors
-	}
-	
-	private def whileStatementError(String code){
-		val model = parseHelper.parse(code)
-		tester.validate(model).assertError(0)
-	}
-	
-	
-	
 }

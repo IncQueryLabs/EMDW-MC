@@ -1,7 +1,6 @@
 package com.incquerylabs.uml.ralf.tests.expressions
 
 import com.google.inject.Inject
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 import java.io.StringReader
 import org.eclipse.xtext.GrammarUtil
 import org.eclipse.xtext.IGrammarAccess

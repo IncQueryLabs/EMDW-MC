@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests.util
+package com.incquerylabs.uml.ralf.tests.util.basetests
 
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider

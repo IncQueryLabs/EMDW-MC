@@ -3,7 +3,6 @@ package com.incquerylabs.uml.ralf.tests.expressions
 import com.google.inject.Inject
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.tests.util.ReducedAlfLanguageJUnitInjectorProvider
 import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 import org.eclipse.xtext.junit4.InjectWith
 import org.eclipse.xtext.junit4.XtextRunner

@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests.util
+package com.incquerylabs.uml.ralf.tests.util.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlOperationCallBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor

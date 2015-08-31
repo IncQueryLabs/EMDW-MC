@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.tests.util
+package com.incquerylabs.uml.ralf.tests.util.context
 
 import com.google.inject.Singleton
 import com.incquerylabs.uml.ralf.scoping.UMLContextProvider

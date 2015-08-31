@@ -1,4 +1,4 @@
-package com.incquerylabs.uml.ralf.plugintests
+package com.incquerylabs.uml.ralf.tests
 
 import com.incquerylabs.uml.ralf.tests.util.AbstractPluginSnippetTest
 import java.util.Collection

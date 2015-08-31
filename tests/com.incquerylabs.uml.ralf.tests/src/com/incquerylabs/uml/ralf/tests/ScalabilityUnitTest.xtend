@@ -8,8 +8,15 @@ import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.tests.util.DummyUmlValueDescriptorFactory
+import com.incquerylabs.uml.ralf.tests.util.descriptors.DummyUmlValueDescriptorFactory
 import java.util.Collection
+import org.eclipse.emf.ecore.EPackage
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.xtext.XtextPackage
+import org.eclipse.xtext.resource.impl.BinaryGrammarResourceFactoryImpl
+import org.junit.BeforeClass
 import org.junit.FixMethodOrder
 import org.junit.Ignore
 import org.junit.Test
@@ -20,9 +27,6 @@ import org.junit.runners.Parameterized.Parameter
 import org.junit.runners.Parameterized.Parameters
 
 import static org.junit.Assert.*
-import org.junit.BeforeClass
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.emf.ecore.EPackage
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -93,16 +97,16 @@ class ScalabilityUnitTest {
 	def static void init(){
 		if (!Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().containsKey("ecore"))
             Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore",
-                    new org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl());
+                    new EcoreResourceFactoryImpl());
         if (!Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().containsKey("xmi"))
             Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xmi",
-                    new org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl());
+                    new XMIResourceFactoryImpl());
         if (!Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().containsKey("xtextbin"))
             Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xtextbin",
-                    new org.eclipse.xtext.resource.impl.BinaryGrammarResourceFactoryImpl());
-        if (!EPackage.Registry.INSTANCE.containsKey(org.eclipse.xtext.XtextPackage.eNS_URI))
-            EPackage.Registry.INSTANCE.put(org.eclipse.xtext.XtextPackage.eNS_URI,
-                    org.eclipse.xtext.XtextPackage.eINSTANCE);
+                    new BinaryGrammarResourceFactoryImpl());
+        if (!EPackage.Registry.INSTANCE.containsKey(XtextPackage.eNS_URI))
+            EPackage.Registry.INSTANCE.put(XtextPackage.eNS_URI,
+                    XtextPackage.eINSTANCE);
 	}
 
 

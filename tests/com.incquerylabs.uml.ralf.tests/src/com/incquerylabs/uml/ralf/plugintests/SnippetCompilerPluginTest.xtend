@@ -169,7 +169,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				++x;
 				if (x > 3) {
 					x--;
-				} else {
+				} else if(x == 1){
 					x++;
 				}''',
 				
@@ -178,11 +178,16 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer temp1 = temp0 * 3;
 				PrimitiveTypes::Integer temp2 = temp1 + 4;
 				PrimitiveTypes::Integer x = temp2;
-				++x;
-				if (x > 3) {
-				x--;
-				} else {
-				x++;
+				PrimitiveTypes::Integer temp3 = ++x;
+				temp3;
+				PrimitiveTypes::Boolean temp4 = x > 3;
+				PrimitiveTypes::Boolean temp6 = x == 1;
+				if (temp4) {
+				PrimitiveTypes::Integer temp5 = x--;
+				temp5;
+				} else if (temp6) {
+				PrimitiveTypes::Integer temp7 = x++;
+				temp7;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -199,15 +204,23 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer temp0 = 1 + 2;
 				PrimitiveTypes::Integer temp1 = temp0 * 3;
-				PrimitiveTypes::Integer temp2 =  - 4;
+				PrimitiveTypes::Integer temp2 = -4;
 				PrimitiveTypes::Integer temp3 = temp1 + temp2;
 				PrimitiveTypes::Integer x = temp3;
-				++x;
+				PrimitiveTypes::Integer temp4 = ++x;
+				temp4;
 				PrimitiveTypes::Integer y = x;
-				PrimitiveTypes::Integer temp4 = x - 15;
-				y = temp4;
-				if ((x > 3) && !(y < -5)) {
-				x--;
+				PrimitiveTypes::Integer temp5 = x - 15;
+				PrimitiveTypes::Integer temp6 = (y = temp5);
+				temp6;
+				PrimitiveTypes::Boolean temp7 = x > 3;
+				PrimitiveTypes::Integer temp8 = -5;
+				PrimitiveTypes::Boolean temp9 = y < temp8;
+				PrimitiveTypes::Boolean temp10 = !temp9;
+				PrimitiveTypes::Boolean temp11 = temp7 && temp10;
+				if (temp11) {
+				PrimitiveTypes::Integer temp12 = x--;
+				temp12;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -243,9 +256,13 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
+				PrimitiveTypes::Boolean temp0 = true;
 				do {
-				x++;
-				}while (true);''',
+				PrimitiveTypes::Integer temp1 = x++;
+				temp1;
+				PrimitiveTypes::Boolean temp2 = true;
+				temp0 = temp2;
+				}while (temp0);''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Affix increment While test",
@@ -257,8 +274,12 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				while (true) {
-				x++;
+				PrimitiveTypes::Boolean temp0 = true;
+				while (temp0) {
+				PrimitiveTypes::Integer temp1 = x++;
+				temp1;
+				PrimitiveTypes::Boolean temp2 = true;
+				temp0 = temp2;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -271,8 +292,17 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				for (PrimitiveTypes::Integer i = 0; i < 5; i++) {
-				x++;
+				{
+				PrimitiveTypes::Integer i = 0;
+				PrimitiveTypes::Boolean temp0 = i < 5;
+				while (temp0) {
+				PrimitiveTypes::Integer temp1 = x++;
+				temp1;
+				PrimitiveTypes::Integer temp2 = i++;
+				temp2;
+				PrimitiveTypes::Boolean temp3 = i < 5;
+				temp0 = temp3;
+				}
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -293,13 +323,17 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer x = 1;
 				if (true) {
-				x++;
+				PrimitiveTypes::Integer temp0 = x++;
+				temp0;
 				} else if (false) {
-				x++;
+				PrimitiveTypes::Integer temp1 = x++;
+				temp1;
 				} else if (true) {
-				x++;
+				PrimitiveTypes::Integer temp2 = x++;
+				temp2;
 				} else {
-				x++;
+				PrimitiveTypes::Integer temp3 = x++;
+				temp3;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -324,15 +358,19 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer x = 1;
 				if (true) {
-				x++;
+				PrimitiveTypes::Integer temp0 = x++;
+				temp0;
 				} else {
 				if (false) {
-				x++;
+				PrimitiveTypes::Integer temp1 = x++;
+				temp1;
 				} else {
 				if (true) {
-				x++;
+				PrimitiveTypes::Integer temp2 = x++;
+				temp2;
 				} else {
-				x++;
+				PrimitiveTypes::Integer temp3 = x++;
+				temp3;
 				}
 				}
 				}''',

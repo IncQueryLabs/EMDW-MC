@@ -25,7 +25,7 @@ class ReducedAlfSnippetTemplateCompiler {
 		
 	def Snippet createSnippet(ParsingResults results){
 		expressionVisitor = new ExpressionVisitor(util, results.typeSystem)
-		statementVisitor = new StatementVisitor(this, util, expressionVisitor)
+		statementVisitor = new StatementVisitor(this, util, expressionVisitor, results.typeSystem)
 		results.model.visit
 	}
 	

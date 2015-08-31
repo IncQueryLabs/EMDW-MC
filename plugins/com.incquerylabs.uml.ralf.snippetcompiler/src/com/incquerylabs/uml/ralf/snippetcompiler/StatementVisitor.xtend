@@ -1,13 +1,16 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EmptyStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
@@ -17,14 +20,18 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import snippetTemplate.CompositeSnippet
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
+import snippetTemplate.StringSnippet
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 
 class StatementVisitor {
 	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	extension ReducedAlfSnippetTemplateCompiler compiler
 	extension SnippetTemplateCompilerUtil util
 	extension ExpressionVisitor expressionVisitor
+	extension ReducedAlfSystem typeSystem
 	
-	new(ReducedAlfSnippetTemplateCompiler compiler, SnippetTemplateCompilerUtil util, ExpressionVisitor expressionVisitor){
+	new(ReducedAlfSnippetTemplateCompiler compiler, SnippetTemplateCompilerUtil util, ExpressionVisitor expressionVisitor, ReducedAlfSystem typeSystem){
+		this.typeSystem = typeSystem
 		this.compiler = compiler
 		this.expressionVisitor = expressionVisitor
 		this.util = util
@@ -107,13 +114,15 @@ class StatementVisitor {
 			if(st.clauses.indexOf(clause) == 0){
 				ifSnippets.snippet.add(createStringSnippet => [value = '''if '''])
 				ifSnippets.snippet.add(clause.visitClause(composite))
-			} else if (clause == st.clauses.last) {
-				ifSnippets.snippet.add(createStringSnippet => [value = ''' else '''])
-				ifSnippets.snippet.add(clause.visitClause(composite))	
-			} else {
-				ifSnippets.snippet.add(createStringSnippet => [value = ''' else if '''])
-				ifSnippets.snippet.add(clause.visitClause(composite))
-			}
+			}else{
+				if(clause instanceof BlockStatement){
+					ifSnippets.snippet.add(createStringSnippet => [value = ''' else '''])
+					ifSnippets.snippet.add(clause.visit)
+				}else{
+					ifSnippets.snippet.add(createStringSnippet => [value = ''' else if '''])
+					ifSnippets.snippet.add(clause.visitClause(composite))
+				}
+			} 
 		]
 		composite.snippet.add(ifSnippets)
 		composite
@@ -155,12 +164,14 @@ class StatementVisitor {
 	
 	def dispatch Snippet visit(WhileStatement st){
 		val composite = createCompositeSnippet
-		val conditionSnippet = st.condition.visit(composite)
+		val conditionSnippet = createLoopVariable(st.condition, composite)
 		
 		val parent = util.descriptorFactory
 		
 		composite.snippet.add = createStringSnippet => [value = '''while (''']
 		composite.snippet.add(conditionSnippet)
+		val conditionSnippetValue = (conditionSnippet as StringSnippet).value
+		
 		composite.snippet.add = createStringSnippet => [value = ''') ''']
 		util.descriptorFactory = parent.createChild
 		composite.snippet.add(createStringSnippet => [value = '''{'''])
@@ -172,18 +183,16 @@ class StatementVisitor {
 				composite.snippet.add = statement.visit
 				composite.snippet.add(createStringSnippet => [value = '\n'])
 	    	]
-	    	val blockConditionSnippet = st.condition.visit(composite)
-			composite.snippet.add = createStringSnippet => [value = '\n']
-			composite.snippet.add(conditionSnippet)
+	    	val blockConditionSnippet = createLoopVariable(st.condition, composite)
+			composite.snippet.add(createStringSnippet => [value = conditionSnippetValue])
 			composite.snippet.add(createStringSnippet => [value = ''' = '''])
 			composite.snippet.add(blockConditionSnippet)
 			composite.snippet.add = createStringSnippet => [value = ''';''']
 			
 		}else{	
 			composite.snippet.add(st.body.visit)
-			val blockConditionSnippet = st.condition.visit(composite)
-			composite.snippet.add = createStringSnippet => [value = '\n']
-			composite.snippet.add(conditionSnippet)
+			val blockConditionSnippet = createLoopVariable(st.condition, composite)
+			composite.snippet.add(createStringSnippet => [value = conditionSnippetValue])
 			composite.snippet.add(createStringSnippet => [value = ''' = '''])
 			composite.snippet.add(blockConditionSnippet)
 			composite.snippet.add = createStringSnippet => [value = ''';''']
@@ -194,10 +203,10 @@ class StatementVisitor {
 		util.descriptorFactory = parent
 		composite				
 	} 
-
+	
 	def dispatch Snippet visit(DoStatement st){
 		val composite = createCompositeSnippet
-		val conditionSnippet = st.condition.visit(composite)
+		val conditionSnippet = createLoopVariable(st.condition, composite)		
 		
 		val parent = util.descriptorFactory
 		
@@ -213,8 +222,7 @@ class StatementVisitor {
 				composite.snippet.add = statement.visit
 				composite.snippet.add(createStringSnippet => [value = '\n'])
 	    	]
-	    	val blockConditionSnippet = st.condition.visit(composite)
-			composite.snippet.add = createStringSnippet => [value = '\n']
+	    	val blockConditionSnippet = createLoopVariable(st.condition, composite)	
 			composite.snippet.add(conditionSnippet)
 			composite.snippet.add(createStringSnippet => [value = ''' = '''])
 			composite.snippet.add(blockConditionSnippet)
@@ -222,7 +230,7 @@ class StatementVisitor {
 			
 		}else{	
 			composite.snippet.add(st.body.visit)
-			val blockConditionSnippet = st.condition.visit(composite)
+			val blockConditionSnippet = createLoopVariable(st.condition, composite)	
 			composite.snippet.add = createStringSnippet => [value = '\n']
 			composite.snippet.add(conditionSnippet)
 			composite.snippet.add(createStringSnippet => [value = ''' = '''])
@@ -235,7 +243,8 @@ class StatementVisitor {
 		util.descriptorFactory = parent
 		
 		composite.snippet.add = createStringSnippet => [value = '''while (''']
-		composite.snippet.add(conditionSnippet)
+		val conditionSnippetValue = (conditionSnippet as StringSnippet).value
+		composite.snippet.add(createStringSnippet => [value = conditionSnippetValue])
 		composite.snippet.add = createStringSnippet => [value = ''');''']
 		
 		composite
@@ -249,7 +258,9 @@ class StatementVisitor {
 		
 		forSnippet.snippet.add = createStringSnippet => [value = '''{'''+'\n']
 		forSnippet.snippet.add = st.initialization.visit
-		val conditionSnippet = st.condition.visit(forSnippet)
+		forSnippet.snippet.add(createStringSnippet => [value = '\n'])
+		val conditionSnippet = createLoopVariable(st.condition, forSnippet)	
+		val conditionSnippetValue = (conditionSnippet as StringSnippet).value
 		
 		forSnippet.snippet.add = createStringSnippet => [value = '''while (''']
 		forSnippet.snippet.add(conditionSnippet)
@@ -263,9 +274,8 @@ class StatementVisitor {
 	    	]
 	    	forSnippet.snippet.add(st.update.visit)
 			forSnippet.snippet.add = createStringSnippet => [value = '\n']
-	    	val blockConditionSnippet = st.condition.visit(forSnippet)
-			forSnippet.snippet.add = createStringSnippet => [value = '\n']
-			forSnippet.snippet.add(conditionSnippet)
+	    	val blockConditionSnippet = createLoopVariable(st.condition, forSnippet)	
+			forSnippet.snippet.add(createStringSnippet => [value = conditionSnippetValue])
 			forSnippet.snippet.add(createStringSnippet => [value = ''' = '''])
 			forSnippet.snippet.add(blockConditionSnippet)
 			forSnippet.snippet.add = createStringSnippet => [value = ''';''']
@@ -274,9 +284,8 @@ class StatementVisitor {
 			forSnippet.snippet.add(st.body.visit)
 			forSnippet.snippet.add(st.update.visit)
 			forSnippet.snippet.add = createStringSnippet => [value = '\n']
-			val blockConditionSnippet = st.condition.visit(forSnippet)
-			forSnippet.snippet.add = createStringSnippet => [value = '\n']
-			forSnippet.snippet.add(conditionSnippet)
+			val blockConditionSnippet = createLoopVariable(st.condition, forSnippet)	
+			forSnippet.snippet.add(createStringSnippet => [value = conditionSnippetValue])
 			forSnippet.snippet.add(createStringSnippet => [value = ''' = '''])
 			forSnippet.snippet.add(blockConditionSnippet)
 			forSnippet.snippet.add = createStringSnippet => [value = ''';''']
@@ -311,5 +320,26 @@ class StatementVisitor {
 		clauseSnippet.snippet.add = createStringSnippet => [value = ''' : ''']
 		clauseSnippet.snippet.add = st.block.visit
 		clauseSnippet	
+	}
+	
+	private def createLoopVariable(Expression ex, CompositeSnippet composite){
+		var Snippet conditionSnippet
+		if(ex instanceof LiteralExpression){
+			val literalDescriptor = getDescriptor(ex)
+			
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = typeSystem.type(ex).value.umlType
+				name = null
+			]).build
+			
+			composite.snippet.add(createStringSnippet => [value = descriptor.fullType+''' '''+descriptor.stringRepresentation+''' = '''])
+			composite.snippet.add(createStringSnippet => [value = literalDescriptor.stringRepresentation])
+			composite.snippet.add = createStringSnippet => [value = ''';'''+'\n']
+			
+			conditionSnippet = createStringSnippet => [value = descriptor.stringRepresentation]
+			
+		}else{
+			conditionSnippet = ex.visit(composite)
+		}
 	}
 }

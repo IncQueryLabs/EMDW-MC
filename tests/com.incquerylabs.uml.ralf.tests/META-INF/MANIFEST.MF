@@ -4,8 +4,13 @@ Bundle-Name: com.incquerylabs.uml.ralf.tests
 Bundle-SymbolicName: com.incquerylabs.uml.ralf.tests;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: My Company
-Export-Package: com.incquerylabs.uml.ralf,
- com.incquerylabs.uml.ralf.tests.util
+Export-Package: com.incquerylabs.uml.ralf.plugintests,
+ com.incquerylabs.uml.ralf.tests,
+ com.incquerylabs.uml.ralf.tests.expressions,
+ com.incquerylabs.uml.ralf.tests.statements,
+ com.incquerylabs.uml.ralf.tests.util.basetests,
+ com.incquerylabs.uml.ralf.tests.util.context,
+ com.incquerylabs.uml.ralf.tests.util.descriptors
 Require-Bundle: com.incquerylabs.uml.ralf,
  org.eclipse.core.runtime,
  org.eclipse.xtext.junit4,

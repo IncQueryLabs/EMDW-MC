@@ -27,20 +27,6 @@
             </visibleWhen>
          </command>
       </menuContribution>
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.ui.popup.any">
-         <command
-               commandId="com.incquerylabs.emdw.cpp.ui.generate"
-               style="push">
-            <visibleWhen
-                  checkEnabled="false">
-               <reference
-                     definitionId="com.incquerylabs.emdw.cpp.ui.xtcomponentdef">
-               </reference>
-            </visibleWhen>
-         </command>
-      </menuContribution>
    </extension>
    <extension
          point="org.eclipse.core.expressions.definitions">
@@ -57,31 +43,6 @@
             </iterate>
          </with>
       </definition>
-      <definition
-            id="com.incquerylabs.emdw.cpp.ui.umlcomponentdef">
-         <with
-               variable="selection">
-            <iterate
-                  ifEmpty="false">
-               <test
-                     forcePluginActivation="true"
-                     property="com.incquerylabs.emdw.cpp.ui.isumlcomponent">
-               </test>
-            </iterate>
-         </with>
-      </definition>
-      <definition
-            id="com.incquerylabs.emdw.cpp.ui.xtcomponentdef">
-         <with
-               variable="selection">
-            <iterate
-                  ifEmpty="false">
-               <instanceof
-                     value="org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent">
-               </instanceof>
-            </iterate>
-         </with>
-      </definition>
    </extension>
    <extension
          point="org.eclipse.ui.commands">
@@ -90,16 +51,6 @@
             id="com.incquerylabs.emdw.cpp.ui.modelgen"
             name="Generate CPP code for selected UML model">
       </command>
-      <command
-            defaultHandler="com.incquerylabs.emdw.cpp.ui.UmlComponentHandler"
-            id="com.incquerylabs.emdw.cpp.ui.componentgen"
-            name="Generate CPP code for selected UML component">
-      </command>
-      <command
-            defaultHandler="com.incquerylabs.emdw.cpp.ui.CPPHandler"
-            id="com.incquerylabs.emdw.cpp.ui.generate"
-            name="Generate CPP code for selected XTComponent">
-      </command>
    </extension>
    <extension
          point="org.eclipse.core.expressions.propertyTesters">
@@ -107,7 +58,7 @@
             class="com.incquerylabs.emdw.cpp.ui.SelectionAdapterTester"
             id="com.incquerylabs.emdw.cpp.ui.adaptertester"
             namespace="com.incquerylabs.emdw.cpp.ui"
-            properties="isumlmodel, isumlcomponent"
+            properties="isumlmodel"
             type="org.eclipse.core.runtime.IAdaptable">
       </propertyTester>
    </extension>

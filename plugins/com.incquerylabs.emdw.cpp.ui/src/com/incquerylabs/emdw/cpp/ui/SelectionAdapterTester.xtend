@@ -22,12 +22,6 @@ class SelectionAdapterTester extends PropertyTester {
 						return true
 					}
 				}
-			} else if(property == "isumlcomponent"){
-				return false
-//				val component = receiver.getAdapter(Component) as Component
-//				if(component != null){
-//					return true
-//				}
 			}
 		}
 		return false

@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.ui
 
 import com.incquerylabs.emdw.cpp.ui.util.CodeGenerator
 import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
+import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.List
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.AbstractHandler
@@ -12,6 +13,7 @@ import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.papyrus.infra.core.resource.ModelSet
+import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
@@ -19,20 +21,23 @@ import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 
 class UmlHandler extends AbstractHandler {
-	extension CodeGenerator codeGenerator = new CodeGenerator()
-	
 	override execute(ExecutionEvent event) throws ExecutionException {
 		var selection = HandlerUtil.getCurrentSelection(event);
 		
-		val umlModel =	selection.getUmlModel
+		val umlModel = selection.getUmlModel
 		val umlResource = umlModel.eResource
 		val modelUriWithoutExtension = umlResource.getURI.trimFileExtension
 		val xtResourceUri = modelUriWithoutExtension.appendFileExtension("xtuml")
 		
 		val modelSet = umlResource.resourceSet
 		if (modelSet instanceof ModelSet){
+			val registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet)
+			val service = registry.getService(IncQueryEngineService)
+			val engine = AdvancedIncQueryEngine.from(service.getOrCreateEngine(modelSet))
+			val codeGenerator = new CodeGenerator(engine)
 			val emfModel = modelSet.getModel(xtResourceUri.toString)
 			emfModel.saveModel()
 			if(emfModel instanceof EMFResourcePapyrusModel){
@@ -48,7 +53,8 @@ class UmlHandler extends AbstractHandler {
 					)
 				} else {
 					try{
-						generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
+						
+						codeGenerator.generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
 						MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
 							 "xUML-RT Code Generation finished successfully",
 							'''

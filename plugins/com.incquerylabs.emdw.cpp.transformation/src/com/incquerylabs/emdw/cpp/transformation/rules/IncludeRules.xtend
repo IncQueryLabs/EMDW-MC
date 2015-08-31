@@ -110,6 +110,8 @@ class IncludeRules {
 	val statemachineRuntimeIncludeRule = createRule.precondition(cppClassStateMachine).action[ match |
 		val cppClass = match.cppClass
 		val cppHeader = cppClass.headerFile
+		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
+		cppHeader.addInclude(eventExternalHeader, "Required for StatefulClass.generate_event")
 		val statefulClassExternalHeader = getExternalHeader('''"Runtime/StatefulClass.hh"''')
 		cppHeader.addInclude(statefulClassExternalHeader, "StatefulClass superclass in Runtime")
 	].build

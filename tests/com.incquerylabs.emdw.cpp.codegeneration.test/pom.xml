@@ -20,7 +20,6 @@
 					<filesets>
 						<fileset>
 							<directory>xtend-gen</directory>
-							<directory>src-gen</directory>
 							<excludes>
 								<exclude>.gitignore</exclude>
 							</excludes>
@@ -31,6 +30,14 @@
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>0.21.0</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

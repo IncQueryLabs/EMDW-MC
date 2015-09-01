@@ -54,7 +54,7 @@ class TransitionTemplates extends CPPTemplate {
 		val targetStateCppName = targetState?.cppName ?: StateTemplates.TERMINATE_POSTFIX
 		val transition = transitionInfo.transition
 		if(transition.guard != null) {
-			if(transition.guard.body?.source == null) {
+			if(transition.guard.body!=null && "ralf".equalsIgnoreCase(transition.guard.body.source)) {
 				transition.guard.body.source = bodyConverter.convertTransitionGuard(transitionInfo.cppTransition)
 			}
 		}
@@ -105,7 +105,7 @@ class TransitionTemplates extends CPPTemplate {
 		val castedEventName = "casted_const_event"
 		val transitionChain = transition.actionChain
 		if(transitionChain!=null && transitionChain.actions.size>0) {
-			if(transitionChain.actions.get(0).source==null) {
+			if("ralf".equalsIgnoreCase(transitionChain.actions.get(0).source)) {
 				transitionChain.actions.get(0).source = bodyConverter.convertTransition(transitionInfo.cppTransition)
 			}
 		}

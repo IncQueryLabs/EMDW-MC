@@ -171,7 +171,7 @@ class StateTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val eventType = incomingEventType(state)
 		val castedEventName = "casted_const_event"
-		if(state.commonState.entryAction?.source==null) {
+		if(state.commonState.entryAction!=null && "ralf".equalsIgnoreCase(state.commonState.entryAction.source)) {
 			state.commonState.entryAction.source = bodyConverter.convertStateEntry(state)
 		}
 		'''
@@ -188,7 +188,7 @@ class StateTemplates extends CPPTemplate {
 	def performEntryActionCall(CPPState targetState, String eventName){
 		'''
 		«IF targetState == null»
-«««			no entry action for Terminate state
+				no entry action for Terminate state
 		«ELSEIF targetState.commonState.entryAction != null»
 			// entry action
 			«performEntryActionMethodName(targetState)»(«eventName»);
@@ -218,7 +218,7 @@ class StateTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val eventType = outgoingEventType(state)
 		val castedEventName = "casted_const_event"
-		if(state.commonState.exitAction?.source==null) {
+		if(state.commonState.exitAction!=null && "ralf".equalsIgnoreCase(state.commonState.exitAction.source)) {
 			state.commonState.exitAction.source = bodyConverter.convertStateExit(state)
 		}
 		'''

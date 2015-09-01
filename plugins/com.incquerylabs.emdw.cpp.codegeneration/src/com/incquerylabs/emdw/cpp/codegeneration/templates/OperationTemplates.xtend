@@ -103,7 +103,7 @@ class OperationTemplates extends CPPTemplate{
 	}
 	
 	private def void prepareBody(CPPOperation operation) {
-		if(operation.commonOperation.body?.source == null) {
+		if(operation.commonOperation.body!=null && "ralf".equalsIgnoreCase(operation.commonOperation.body.source)) {
 			operation.commonOperation.body.source = bodyConverter.convertOperation(operation)
 		}
 	}

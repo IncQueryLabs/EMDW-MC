@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.OpaqueExpression
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.Transition
+import com.incquerylabs.uml.ralf.api.impl.ParsingResults
 
 class BodyConverter implements IBodyConverter {
 	extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
@@ -48,11 +49,11 @@ class BodyConverter implements IBodyConverter {
 	override String convertOperation(CPPOperation target) throws IllegalArgumentException {
 		val umlOperation = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(target).head as Operation
 		val opaqueBehavior = umlOperation.methods.filter(OpaqueBehavior).filter[it.languages.contains(rALF)].head
-		context.contextObject = opaqueBehavior
 		if(opaqueBehavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior with rALF language for «umlOperation.name» operation.''')
 		}
 		try {
+			context.contextObject = opaqueBehavior
 			return opaqueBehavior.parseAndGenerate
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlOperation.name» operation.''', cause)
@@ -62,12 +63,12 @@ class BodyConverter implements IBodyConverter {
 	override String convertStateEntry(CPPState target) throws IllegalArgumentException {
 		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State 
 		var OpaqueBehavior behavior = umlState.entry as OpaqueBehavior
-		context.contextObject = behavior
 		
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's entry.''')
 		}
 		try {
+			context.contextObject = behavior
 			return behavior.parseAndGenerate
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlState.name» state's entry.''', cause)
@@ -77,12 +78,12 @@ class BodyConverter implements IBodyConverter {
 	override String convertStateExit(CPPState target) throws IllegalArgumentException {
 		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State 
 		var OpaqueBehavior behavior = umlState.exit as OpaqueBehavior
-		context.contextObject = behavior
 		
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's exit.''')
 		}
 		try {
+			context.contextObject = behavior
 			return behavior.parseAndGenerate
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlState.name» state's exit.''', cause)
@@ -92,12 +93,12 @@ class BodyConverter implements IBodyConverter {
 	override String convertTransition(CPPTransition target) throws IllegalArgumentException {
 		val umlTransition = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(target).head as Transition
 		val opaqueBehavior = umlTransition.effect as OpaqueBehavior
-		context.contextObject = opaqueBehavior
 		
 		if(opaqueBehavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlTransition.name» transition.''')
 		}
 		try {
+			context.contextObject = opaqueBehavior
 			return opaqueBehavior.parseAndGenerate
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlTransition.name» transition's effect.''', cause)
@@ -107,12 +108,12 @@ class BodyConverter implements IBodyConverter {
 	override String convertTransitionGuard(CPPTransition target) throws IllegalArgumentException {
 		val umlTransition = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(target).head as Transition
 		val opaqueExpression = umlTransition.guard.specification as OpaqueExpression
-		context.contextObject = opaqueExpression
 		
 		if(opaqueExpression==null) {
 			throw new IllegalArgumentException('''There is no OpaqueExpression for «umlTransition.guard.name» constraint.''')
 		}
 		try {
+			context.contextObject = opaqueExpression
 			return opaqueExpression.parseAndGenerate
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlTransition.guard.name» constraint's specification.''', cause)
@@ -120,8 +121,13 @@ class BodyConverter implements IBodyConverter {
 	}
 	
 	private def String parseAndGenerate(BodyOwner opaqueBehavior) throws IndexOutOfBoundsException {
-		val input = opaqueBehavior.bodies.get(opaqueBehavior.languages.indexOf(rALF))
-		val result = parser.parse(input, context)
+//		val input = opaqueBehavior.bodies.get(opaqueBehavior.languages.indexOf(rALF))
+		var ParsingResults result
+		if(opaqueBehavior instanceof OpaqueBehavior) {
+			result = parser.parse(opaqueBehavior, engine)
+		} else if(opaqueBehavior instanceof OpaqueExpression) {
+			result = parser.parse(opaqueBehavior, engine)
+		}
        	//Create the snippet template based on the parsed abstract syntax tree
        	val snippet = generator.createSnippet(result, compiler)
        	//Create the snippet code based on the snippet template

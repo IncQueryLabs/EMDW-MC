@@ -1,10 +1,11 @@
 package com.incquerylabs.uml.ralf.plugintests
 
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
 
-class UMLAssociationValidatorTest {
+class UMLAssociationValidatorTest extends AbstractPluginValidatorTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
@@ -38,7 +39,7 @@ class UMLAssociationValidatorTest {
 			    Pong p = new Pong();
 			    p->pong;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
+			    #[ReducedAlfSystem.ASSOCIATIONACCESSEXPRESSION]
 			]
 		)
 	}

@@ -62,10 +62,10 @@ abstract class AbstractValidatorTest {
 				}
 			if (!found) {
 				if (issueCodes.length == 1){
-					fail("Issue code " + issueCodes.get(0) + " does not match " + i);
+					fail("Issue code " + issueCodes.get(0) + " does not match " + i.code);
 				}
 				else{
-					fail("No issue code in " + Arrays.toString(issueCodes) + " matches " + i);
+					fail("No issue code in " + Arrays.toString(issueCodes) + " matches " + i.code);
 				}
 			}
 		}

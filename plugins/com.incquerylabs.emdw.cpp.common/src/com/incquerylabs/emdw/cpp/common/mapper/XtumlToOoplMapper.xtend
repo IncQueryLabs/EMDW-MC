@@ -3,9 +3,10 @@ package com.incquerylabs.emdw.cpp.common.mapper
 import com.incquerylabs.emdw.cpp.common.mapper.queries.XtumlQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
+import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
-import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 
 class XtumlToOoplMapper {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
@@ -26,6 +27,10 @@ class XtumlToOoplMapper {
 	 */
 	def convertType(Type type) {
 		engine.ooplType2Type.getAllValuesOfooplType(type).head
+	}
+	
+	def convertEvent(XTEvent event) {
+		engine.cppevent2XtEvent.getAllValuesOfcppEvent(event).head
 	}
 	
 	def convertAttribute(Attribute attribute) {

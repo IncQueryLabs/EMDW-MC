@@ -3,12 +3,13 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 
 import static com.google.common.base.Preconditions.*
 
 class XtumlValueDescriptorFactory {
 	private XtumlValueDescriptorFactory parent
-	private OoplValueDescriptorFactory factory
+	private CppValueDescriptorFactory factory
 	private XtumlToOoplMapper mapper
 	private AdvancedIncQueryEngine engine
 	
@@ -57,15 +58,40 @@ class XtumlValueDescriptorFactory {
 	}
 	
 	/**
+	 * @param event Cannot be null
+	 * @param localVariableName Cannot be null
+	 * 
+	 * @return The SingleVariableDescriptor with the resolved <code>event</code> based on implementation
+	 *         and with unique name based on <code>localVariableName</code>
+	 */
+	def prepareSingleVariableDescriptorForNewLocalVariable(XTEvent xtEvent, String localVariableName) {
+		checkArgument(xtEvent!=null, "Type cannot be null")
+		val cppEvent = mapper.convertEvent(xtEvent)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(cppEvent, localVariableName)
+	}
+	
+	/**
 	 * @param type Cannot be null
 	 * 
 	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name
 	 */
-	def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
 		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType)
+	}
+	
+	/**
+	 * @param type Cannot be null
+	 * 
+	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
+	 *         and with unique name
+	 */
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(XTEvent type) {
+		checkArgument(type!=null, "Type cannot be null")
+		val ooplEvent = mapper.convertEvent(type)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplEvent)
 	}
 	
 	/**
@@ -79,6 +105,19 @@ class XtumlValueDescriptorFactory {
 		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
 		return factory.prepareSingleVariableDescriptorForExistingVariable(ooplType, localVariableName)
+	}
+	
+	/**
+	 * @param type Cannot be null
+	 * @param localVariableName Cannot be null
+	 * 
+	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
+	 *         and with <code>stringRepresentation</code> which is the same as <code>localVariableName</code>
+	 */
+	def prepareSingleVariableDescriptorForExistingVariable(XTEvent xtEvent, String localVariableName) {
+		checkArgument(xtEvent!=null, "Type cannot be null")
+		val cppEvent = mapper.convertEvent(xtEvent)
+		return factory.prepareSingleVariableDescriptorForExistingVariable(cppEvent, localVariableName)
 	}
 	
 	/**
@@ -103,6 +142,14 @@ class XtumlValueDescriptorFactory {
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType, localVariableName)
 	}
 	
+	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, XTEvent elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
+		checkArgument(elementType!=null, "Type (elementType) cannot be null")
+		val ooplCollectionType = mapper.convertType(collectionType)
+		val ooplElementType = mapper.convertEvent(elementType)
+		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType, localVariableName)
+	}
+	
 	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
@@ -111,11 +158,27 @@ class XtumlValueDescriptorFactory {
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType)
 	}
 	
+	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, XTEvent elementType) {
+		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
+		checkArgument(elementType!=null, "Type (elementType) cannot be null")
+		val ooplCollectionType = mapper.convertType(collectionType)
+		val ooplElementType = mapper.convertEvent(elementType)
+		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType)
+	}
+	
 	def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, Type elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
 		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertType(elementType)
+		return factory.prepareCollectionVariableDescriptorForExistingVariable(ooplCollectionType, ooplElementType, localVariableName)
+	}
+	
+	def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, XTEvent elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
+		checkArgument(elementType!=null, "Type (elementType) cannot be null")
+		val ooplCollectionType = mapper.convertType(collectionType)
+		val ooplElementType = mapper.convertEvent(elementType)
 		return factory.prepareCollectionVariableDescriptorForExistingVariable(ooplCollectionType, ooplElementType, localVariableName)
 	}
 

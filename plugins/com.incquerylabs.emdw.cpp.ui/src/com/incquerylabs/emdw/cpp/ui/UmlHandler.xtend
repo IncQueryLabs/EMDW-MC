@@ -22,60 +22,80 @@ import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrus.infra.core.resource.NotFoundException
 
 class UmlHandler extends AbstractHandler {
 	override execute(ExecutionEvent event) throws ExecutionException {
-		var selection = HandlerUtil.getCurrentSelection(event);
-		
-		val umlModel = selection.getUmlModel
-		val umlResource = umlModel.eResource
-		val modelUriWithoutExtension = umlResource.getURI.trimFileExtension
-		val xtResourceUri = modelUriWithoutExtension.appendFileExtension("xtuml")
-		
-		val modelSet = umlResource.resourceSet
-		if (modelSet instanceof ModelSet){
-			val registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet)
-			val service = registry.getService(IncQueryEngineService)
-			val engine = AdvancedIncQueryEngine.from(service.getOrCreateEngine(modelSet))
-			val codeGenerator = new CodeGenerator(engine)
-			val emfModel = modelSet.getModel(xtResourceUri.toString)
-			emfModel.saveModel()
-			if(emfModel instanceof EMFResourcePapyrusModel){
-				val xtumlResource = emfModel.resource
-				val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
-				val xtComponents = xtModel.allSubComponents
-				if(xtComponents.size == 0) {
-					MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
-						 "xUML-RT Code Generation skipped",
-						'''
-						Selected model does not contain any components.
-						'''
-					)
-				} else {
-					try{
-						
-						codeGenerator.generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
+		try{
+			var selection = HandlerUtil.getCurrentSelection(event);
+			
+			val umlModel = selection.getUmlModel
+			val umlResource = umlModel.eResource
+			val modelUriWithoutExtension = umlResource.getURI.trimFileExtension
+			val xtResourceUri = modelUriWithoutExtension.appendFileExtension("xtuml")
+			
+			val modelSet = umlResource.resourceSet
+			if (modelSet instanceof ModelSet){
+				val registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet)
+				val service = registry.getService(IncQueryEngineService)
+				val engine = AdvancedIncQueryEngine.from(service.getOrCreateEngine(modelSet))
+				val codeGenerator = new CodeGenerator(engine)
+				val emfModel = modelSet.getModelChecked(xtResourceUri.toString)
+				emfModel.saveModel()
+				if(emfModel instanceof EMFResourcePapyrusModel){
+					val xtumlResource = emfModel.resource
+					val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
+					val xtComponents = xtModel.allSubComponents
+					if(xtComponents.size == 0) {
 						MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
-							 "xUML-RT Code Generation finished successfully",
+							 "xUML-RT Code Generation skipped",
 							'''
-							C++ code generated into project:
-							com.ericsson.emdw.cpp.generated.code.«umlResource.URI.trimFileExtension.lastSegment»
-							'''
-						)
-					} catch (Exception e){
-						MessageDialog.openError(HandlerUtil.getActiveShell(event),
-							 "xUML-RT Code Generation finished with error",
-							'''
-							Look at the Error Log for details!
+							Selected model does not contain any components.
 							'''
 						)
-						Logger.getLogger(class).error("xUML-RT Code Generation finished with error",e);
+					} else {
+						try{
+							
+							codeGenerator.generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
+							MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
+								 "xUML-RT Code Generation finished successfully",
+								'''
+								C++ code generated into project:
+								com.ericsson.emdw.cpp.generated.code.«umlResource.URI.trimFileExtension.lastSegment»
+								'''
+							)
+						} catch (Exception e){
+							reportError(event,e, "xUML-RT Code Generation finished with error",
+								'''
+								Look at the Error Log for details!
+								'''
+							)
+						}
 					}
 				}
 			}
+		} catch(NotFoundException e){
+			reportError(event,e, "xUML-RT Code Generation could not be executed",
+				'''
+				xUML-RT model not found in Papyrus Model Set!
+				Please close and reopen your UML model, it seems that you have modified
+				your project natures since opening the model.
+				'''
+			)
+		} catch(Exception e){
+			reportError(event,e, "xUML-RT Code Generation could not be executed",
+				'''
+				Look at the Error Log for details!
+				'''
+			)
 		}
 		
 		return null;
+	}
+	
+	def reportError(ExecutionEvent event, Exception exception, String message, String details) {
+		MessageDialog.openError(HandlerUtil.getActiveShell(event), message, details)
+		Logger.getLogger(class).error(message,exception)
 	}
 	
 	def getUmlModel(ISelection selection) {

@@ -84,9 +84,7 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 			} else {
 				logger.error('''Exactly 1 root mapping is expected, but found «mappings.size». UML integration cannot continue!''')
 			}
-		} catch (IncQueryException e) {
-			logger.error("Could not setup UML integration transformation!", e)
-		} catch (IllegalStateException e) {
+		} catch (Exception e) {
 			logger.error("Could not setup UML integration transformation!", e)
 		}
 	}

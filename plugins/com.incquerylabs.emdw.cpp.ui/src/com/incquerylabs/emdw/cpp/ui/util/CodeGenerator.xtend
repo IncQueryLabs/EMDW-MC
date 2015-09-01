@@ -1,21 +1,34 @@
 package com.incquerylabs.emdw.cpp.ui.util
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
+import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.ui.GeneratorHelper
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
+import java.util.Map
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.IncQueryEngine
@@ -25,19 +38,8 @@ import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
-import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
-import com.google.common.collect.ImmutableMap
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
-import org.eclipse.emf.ecore.resource.Resource
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
-import java.util.Map
-import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
-import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
-import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
-import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
+import com.google.common.base.Stopwatch
+import java.util.concurrent.TimeUnit
 
 class CodeGenerator {
 
@@ -45,47 +47,81 @@ class CodeGenerator {
 	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	val Logger logger
+	val toolchainWatch = Stopwatch.createUnstarted
+	val qrtTransformWatch = Stopwatch.createUnstarted
+	val cppTransformWatch = Stopwatch.createUnstarted
+	val codeGenerationWatch = Stopwatch.createUnstarted
+	val fileGenerationWatch = Stopwatch.createUnstarted
+	val resourceSaveWatch = Stopwatch.createUnstarted
 	
-	new(){
+	val AdvancedIncQueryEngine engine
+	
+	new(AdvancedIncQueryEngine engine){
+		this.engine = engine
+		xtumlQueries.prepare(engine)
 		logger = Logger.getLogger(class)
-		logger.level = Level.DEBUG
+		setLoggerLevels()
 	}
 	
 	def generateCodeFromXtComponents(ResourceSet xtResourceSet, Iterable<XTComponent> xtComponents, ExecutionEvent event, XtumlModelChangeMonitor xtumlChangeMonitor) {
-		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(xtResourceSet))
+		toolchainWatch.start
+		val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
+		QueryBasedFeatures.instance.prepare(managedEngine)
+		
+		clearCPPModel(engine, xtResourceSet)
+		var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
+		qrtTransformWatch.start
+		xformqrt.initialize(engine)
+		qrtTransformWatch.stop
 		try {
-			val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
-			QueryBasedFeatures.instance.prepare(managedEngine)
+			qrtTransformWatch.start
+			xformqrt.execute
+			qrtTransformWatch.stop
 			
-			clearCPPModel(engine, xtResourceSet)
-			var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
-	
-			xformqrt.initialize(engine)
-			try {
-				xformqrt.execute
+			val validXtumlModel = validateXtumlModel(engine, event)
+			if(validXtumlModel){
+				xtumlChangeMonitor?.createCheckpoint
 				
-				val validXtumlModel = validateXtumlModel(engine, event)
-				if(validXtumlModel){
-					xtumlChangeMonitor?.createCheckpoint
-					xtComponents.forEach[ xtComponent |
-//						if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
-							performCodeGenerationOnXtComponent(engine, xtComponent, xtResourceSet)
-//						}
-					]
-					xtumlChangeMonitor?.clear
-				}
+				val modelToEntityMatcher = getXtModelEntities(engine)
+				val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponents.head).head
+				val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
+				val cppResource = cppModel.eResource
 				
-				logger.info("Code generation finished successfully!")
-			} finally {
-				xformqrt.dispose
+				cppResource.createMissingExternalLibrary
+				loadCPPBasicTypes(xtResourceSet)
+				loadDefaultContainerImplementations(xtResourceSet)
+				
+				val cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
+				xtComponents.forEach[ xtComponent |
+					//if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
+						cppTransformWatch.start
+						performCppTransformation(engine, xtComponent)
+						cppTransformWatch.stop
+						codeGenerationWatch.start
+						val cppComponent = engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
+						val cppSourceFileContentsForComponent = performCodeGeneration(engine, cppComponent)
+						cppSourceFileContents.putAll(cppSourceFileContentsForComponent)
+						codeGenerationWatch.stop
+					//}
+				]
+				fileGenerationWatch.start
+				generateFiles(cppResource, cppModel, cppSourceFileContents)
+				fileGenerationWatch.stop
+				resourceSaveWatch.start
+				cppResource.save(null)
+				resourceSaveWatch.stop
+				xtumlChangeMonitor?.clear
 			}
-			
-			// Start monitoring
-			if (xtumlChangeMonitor != null && !xtumlChangeMonitor.started) {
-				xtumlChangeMonitor.startMonitoring
-			}
+			toolchainWatch.stop
+			logger.info('''Code generation finished successfully!''')
+			logElapsedTimes()
 		} finally {
-			engine.dispose
+			xformqrt.dispose
+		}
+		
+		// Start monitoring
+		if (xtumlChangeMonitor != null && !xtumlChangeMonitor.started) {
+			xtumlChangeMonitor.startMonitoring
 		}
 	}
 	
@@ -115,51 +151,37 @@ class CodeGenerator {
 		validXtumlModel
 	}
 	
-	def performCodeGenerationOnXtComponent(AdvancedIncQueryEngine engine, XTComponent xtComponent, ResourceSet xtResourceSet) {
-		xtumlQueries.prepare(engine)
-		val modelToEntityMatcher = getXtModelEntities(engine)
-
-		val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponent).head
-		val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
-		val cppResource = cppModel.eResource
+	def generateFiles(Resource cppResource, CPPModel cppModel, Map<CPPSourceFile, CharSequence> generatedCppSourceFiles) {
+		// FILE GENERATION
+		val cppComponents = engine.cppComponents.getAllValuesOfcppComponent
 		
-		loadCPPBasicTypes(xtResourceSet)
-		loadDefaultContainerImplementations(xtResourceSet)
+		// Runtime file mapping
+		val runtimeMapperCppDir = getMapperCppDir(cppResource.resourceSet)
+		generatedCppSourceFiles.putAll(mapRuntime(runtimeMapperCppDir))
 		
-		cppResource.createExternalLibrary
-		
-		performCppTransformation(engine, xtComponent)
-		cppResource.save(null)
-		
-		val generatedCppSourceFiles = <CPPSourceFile, CharSequence>newHashMap
-		val mapperCppDir = getMapperCppDir(cppResource.resourceSet)
-		generatedCppSourceFiles.putAll(mapRuntime(mapperCppDir))
-		
-		val cppComponent = engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
-		val cppCodeGeneration = new CPPCodeGeneration
-		performCodeGeneration(engine, cppCodeGeneration, cppComponent)
-		generatedCppSourceFiles.putAll(cppCodeGeneration.generatedCPPSourceFiles)
-		
+		// Rules.mk file generation for every directory
 		val makefileGeneration = new MakefileGeneration
-		val makefileContent = performMakefileGeneration(makefileGeneration, cppModel, mapperCppDir)
+		makefileGeneration.initialize()
+		performRulesMkGeneration(makefileGeneration, cppModel)
 		generatedCppSourceFiles.putAll(makefileGeneration.generatedCPPMakeFiles)
 		
-		val mainGeneration = new MainGeneration
-		val mainContent = performMainGeneration(mainGeneration, cppComponent)
-		
+		// Create filegenerator objects
 		val targetFolder = GeneratorHelper.getTargetFolder(cppResource, false)
-		val filegen = new FileAndDirectoryGeneration
 		val fileManager = new EclipseWorkspaceFileManager(targetFolder)
 		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
+		val filegen = new FileAndDirectoryGeneration
 		filegen.initialize(engine, fileManager, ImmutableMap.copyOf(generatedCppSourceFiles))
 		
-		performFileGeneration(engine, cppModel, cppCodeGeneration, filegen, fileManager)
-		filegen.execute(mapperCppDir)
-
-		fileManager.createFile("Makefile", makefileContent, true, false)
-		fileManager.createFile("main.cc", mainContent, true, false)
+		// Model based file generation for cppmodel and runtime
+		filegen.execute(cppModel.headerDir)
+		if(cppModel.bodyDir != cppModel.headerDir){
+			filegen.execute(cppModel.bodyDir)
+		}
+		filegen.execute(runtimeMapperCppDir)
 		
-		cppCodeGeneration.dispose
+		// Manual filegeneration for main makefile and main.cc
+		performMakefileGeneration(fileManager, makefileGeneration, cppModel, runtimeMapperCppDir)
+		performMainGeneration(fileManager, cppComponents)
 	}
 	
 	def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
@@ -175,33 +197,29 @@ class CodeGenerator {
 	def CPPDirectory getMapperCppDir(ResourceSet rs) {
 		val resource = loadCPPRuntimeModelResource(rs)
 		if(resource!=null) {
-			for(obj : resource.contents) {
-				if(obj instanceof CPPDirectory) {
-					return obj
-				}
-			}
+			val mapperDirectory = resource.contents.filter(CPPDirectory).head
+			return mapperDirectory
 		}
 		return null
 	}
 	
 	def performCppTransformation(AdvancedIncQueryEngine engine, XTComponent xtComponent){
-		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.DEBUG
 		val xform = new XtumlComponentCPPTransformation
 		xform.initialize(engine)
 		xform.execute(xtComponent)
 		xform.dispose
 	}
 	
-	def performCodeGeneration(AdvancedIncQueryEngine engine, CPPCodeGeneration cppCodeGeneration, CPPComponent cppComponent){
-		Logger.getLogger(CPPCodeGeneration.package.name).level = Level.DEBUG
+	def performCodeGeneration(AdvancedIncQueryEngine engine, CPPComponent cppComponent) {
+		val cppCodeGeneration = new CPPCodeGeneration
 		cppCodeGeneration.initialize(engine)
 		cppCodeGeneration.execute(cppComponent)
+		val generatedCppSourceFiles = cppCodeGeneration.generatedCPPSourceFiles
+		cppCodeGeneration.dispose
+		return generatedCppSourceFiles
 	}
 	
-	def performMakefileGeneration(MakefileGeneration makefileGeneration, CPPModel cppModel, CPPDirectory... otherDirsForMakefile){
-		Logger.getLogger(MakefileGeneration.package.name).level = Level.DEBUG
-		makefileGeneration.initialize()
-		
+	def performMakefileGeneration(IFileManager fileManager, MakefileGeneration makefileGeneration, CPPModel cppModel, CPPDirectory... otherDirsForMakefile){
 		val listOfDirs = <String>newArrayList
 		listOfDirs.add(cppModel.headerDir.name)
 		if(cppModel.headerDir!=cppModel.bodyDir) {
@@ -209,39 +227,22 @@ class CodeGenerator {
 		}
 		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
 		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
-		
-		
+		fileManager.createFile("Makefile", makefileContent, true, false)
+	}
+	
+	def performRulesMkGeneration(MakefileGeneration makefileGeneration, CPPModel cppModel) {
 		makefileGeneration.executeRulesMk(cppModel.headerDir)
 		if(cppModel.headerDir!=cppModel.bodyDir) {
 			makefileGeneration.executeRulesMk(cppModel.bodyDir)
 		}
-		
-		return makefileContent
 	}
 	
-	def performMainGeneration(MainGeneration mainGeneration, CPPComponent... components) {
-		Logger.getLogger(MainGeneration.package.name).level = Level.DEBUG
+	def performMainGeneration(IFileManager fileManager, CPPComponent... components) {
+		val mainGeneration = new MainGeneration
 		mainGeneration.initialize
 		
 		val mainContent = mainGeneration.execute(components)
-		return mainContent
-	}
-	
-	def performFileGeneration(
-		AdvancedIncQueryEngine engine, 
-		CPPModel cppModel, 
-		CPPCodeGeneration cppCodeGeneration, 
-		FileAndDirectoryGeneration filegen,
-		IFileManager fileManager
-	){
-		val generatedCPPSourceFiles = cppCodeGeneration.generatedCPPSourceFiles
-		
-		//val fileManager = new JavaIOBasedFileManager(targetFolder.rawLocation.makeAbsolute.toOSString)
-		filegen.initialize(engine, fileManager, generatedCPPSourceFiles)
-		filegen.execute(cppModel.headerDir)
-		if(cppModel.bodyDir != cppModel.headerDir){
-			filegen.execute(cppModel.bodyDir)
-		}
+		fileManager.createFile("main.cc", mainContent, true, false)
 	}
 	
 	def getOrCreateCPPModel(Model xtmodel, IncQueryEngine engine, ResourceSet rs) {
@@ -278,7 +279,7 @@ class CodeGenerator {
 		return cppModel
 	}
 	
-	def createExternalLibrary(Resource cppResource){
+	def createMissingExternalLibrary(Resource cppResource){
 		if(cppResource.contents.filter(CPPExternalLibrary).isNullOrEmpty){
 			cppResource.contents += createCPPExternalLibrary
 		}
@@ -376,5 +377,35 @@ class CodeGenerator {
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel", true), 
 			true
 		)
+	}
+	
+	def logElapsedTimes() {
+		val toolchainTime = toolchainWatch.elapsed(TimeUnit.MILLISECONDS)
+		val qrtTransformTime = qrtTransformWatch.elapsed(TimeUnit.MILLISECONDS)
+		val cppTransformTime = cppTransformWatch.elapsed(TimeUnit.MILLISECONDS)
+		val codeGenerationTime = codeGenerationWatch.elapsed(TimeUnit.MILLISECONDS)
+		val fileGenerationTime = fileGenerationWatch.elapsed(TimeUnit.MILLISECONDS)
+		val saveResourceTime = resourceSaveWatch.elapsed(TimeUnit.MILLISECONDS)
+		val otherTime = toolchainTime-qrtTransformTime-cppTransformTime-codeGenerationTime-fileGenerationTime-saveResourceTime
+		
+		logger.debug('''
+		Elapsed time during the phases:
+		Full toolchain:		«toolchainTime» ms
+		QRT transformation:	«qrtTransformTime» ms («100*qrtTransformTime/toolchainTime»%)
+		CPP transformation:	«cppTransformTime» ms («100*cppTransformTime/toolchainTime»%)
+		Codegeneration:		«codeGenerationTime» ms («100*codeGenerationTime/toolchainTime»%)
+		File generation:	«fileGenerationTime» ms («100*fileGenerationTime/toolchainTime»%)
+		Save CPPResource:	«saveResourceTime» ms («100*saveResourceTime/toolchainTime»%)
+		Other:				«otherTime» ms («100*otherTime/toolchainTime»%)
+		''')
+	}
+	
+	def setLoggerLevels(){
+		val commonLoggingLevel = Level.DEBUG
+		logger.level = commonLoggingLevel
+		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
+		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
+		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
+		Logger.getLogger(MainGeneration.package.name).level = commonLoggingLevel
 	}
 }

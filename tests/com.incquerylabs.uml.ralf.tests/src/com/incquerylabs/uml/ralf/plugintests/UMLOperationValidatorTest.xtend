@@ -594,10 +594,34 @@ class UMLOperationValidatorTest {
 	}
 	
 	@Test
-	def staticIntegerOperationCall(){
+	def staticIntegerOperationCallWithQN(){
+		operationOKThis(
+		'''
+		  model::Comp::Pong::staticIntegerOperation();
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	@Test
+	def staticIntegerOperationCallWithClassLocalName(){
 		operationOKThis(
 		'''
 		  Pong::staticIntegerOperation();
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	@Test
+	def staticIntegerOperationCall(){
+		operationOKThis(
+		'''
+		  staticIntegerOperation();
+		'''
+		,"model::Comp::Pong::TestOperation")
+	}
+	@Test
+	def misspelledStaticIntegerOperationCall(){
+		operationErrorThis(
+		'''
+		  staticIntegerOperatio();
 		'''
 		,"model::Comp::Pong::TestOperation")
 	}

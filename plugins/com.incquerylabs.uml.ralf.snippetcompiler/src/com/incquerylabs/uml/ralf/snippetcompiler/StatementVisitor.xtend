@@ -1,170 +1,240 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Block
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BreakStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EmptyStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
-import snippetTemplate.CompositeSnippet
-import snippetTemplate.Snippet
-import snippetTemplate.SnippetTemplateFactory
 
 class StatementVisitor {
-	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	extension ReducedAlfSnippetTemplateCompiler compiler
 	extension SnippetTemplateCompilerUtil util
+	extension ExpressionVisitor expressionVisitor
+	extension ReducedAlfSystem typeSystem
 	
-	new(ReducedAlfSnippetTemplateCompiler compiler){
+	new(ReducedAlfSnippetTemplateCompiler compiler, SnippetTemplateCompilerUtil util, ExpressionVisitor expressionVisitor, ReducedAlfSystem typeSystem){
+		this.typeSystem = typeSystem
 		this.compiler = compiler
-		util = compiler.util
+		this.expressionVisitor = expressionVisitor
+		this.util = util
 	}
 	
-	def dispatch Snippet visit(EmptyStatement st){
-		createStringSnippet => [value = ''';''']
+	def dispatch String visit(EmptyStatement st){
+		''';'''
 	}
 	
-	def dispatch Snippet visit(ExpressionStatement st){
-		createCompositeSnippet => [
-			snippet.add(st.expression.visit)
-			snippet.add(createStringSnippet => [value = ''';'''	])
-		]
+	def dispatch String visit(ExpressionStatement st){
+		val builder = new StringBuilder
+		val expressionsnippet = st.expression.visit(builder)
+		builder.append('''«expressionsnippet»;''')
+		builder.toString
 	} 
 	
-	def dispatch Snippet visit(Block block){
+	def dispatch String visit(Block block){
 		val parent = util.descriptorFactory
 		util.descriptorFactory = parent.createChild
-		val snippet = createCompositeSnippet => [ f | 
-				f.snippet.add = createStringSnippet => [value = '''{''']
-				f.snippet.add = createStringSnippet => [value = '\n']
-				block.statement.forEach[
-    				f.snippet.add(visit)
-    				f.snippet.add(createStringSnippet => [value = '\n'])
-    			]
-    			f.snippet.remove(f.snippet.size-1)
-    			f.snippet.add(createStringSnippet => [value = '\n'])
-				f.snippet.add = createStringSnippet => [value = '''}''']
-		]
+		
+		val snippet = new StringBuilder
+		snippet.append('''{'''+'\n')
+		snippet.append('''«FOR st : block.statement SEPARATOR '\n'»«st.visit»«ENDFOR»'''+'\n')
+		snippet.append('''}''') 
+		
 		util.descriptorFactory = parent
-		snippet
+		snippet.toString
 	} 
 	
-	def dispatch Snippet visit(BreakStatement st){
-		createStringSnippet => [value = '''break;''']
+	def dispatch String visit(BreakStatement st){
+		'''break;'''
 	} 
 	
-	def dispatch Snippet visit(ReturnStatement st){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = '''return '''])
-			snippet.add(st.expression.visit)
-			snippet.add(createStringSnippet => [value = ''';'''])
-		]
+	def dispatch String visit(ReturnStatement st){
+		val builder = new StringBuilder
+		val expressionsnippet = st.expression.visit(builder)
+		builder.append('''return «expressionsnippet»;''')
+		builder.toString
 	} 
 	
-	def dispatch Snippet visit(LocalNameDeclarationStatement st){
+	def dispatch String visit(LocalNameDeclarationStatement st){		
+		val builder = new StringBuilder
 		val descriptor = getDescriptor(st)
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = descriptor.fullType])
-			snippet.add(createStringSnippet => [value = ''' '''])
-			snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			snippet.add(createStringSnippet => [value = ''' = '''])
-			snippet.add(st.expression.visit)
-			snippet.add(createStringSnippet => [value = ''';'''])
-		]
-	}
-	
-	def dispatch Snippet visit(IfStatement st){
-		createCompositeSnippet => [ f | 
-				st.clauses.forEach[ clause |
-					if(st.clauses.indexOf(clause) == 0){
-						f.snippet.add(createStringSnippet => [value = '''if '''])
-						f.snippet.add(clause.visit)
-					} else if (clause == st.clauses.last) {
-        				f.snippet.add(createStringSnippet => [value = ''' else '''])
-        				f.snippet.add(clause.visit)	
-					} else {
-						f.snippet.add(createStringSnippet => [value = ''' else if '''])
-						f.snippet.add(clause.visit)
-					}
-    			]
-		]
-	}
-	
-	def dispatch Snippet visit(SendSignalStatement st){
-		createCompositeSnippet =>[
-			snippet.add(st.target.visit)
-			snippet.add(createStringSnippet => [value = '''->generate_event('''])
-			snippet.add(st.signal.visit)
-			snippet.add(createStringSnippet => [value = ''');'''])
-		]
-	}
-	
-	def dispatch Snippet visit(SwitchStatement st){
-		createCompositeSnippet => [ f |
-				f.snippet.add = createStringSnippet => [value = '''switch ''']
-				f.snippet.add = createStringSnippet => [value = '''(''']
-				f.snippet.add(st.expression.visit)
-				f.snippet.add = createStringSnippet => [value = ''') ''']
-				f.snippet.add = createStringSnippet => [value = '''{''']
-				f.snippet.add(createStringSnippet => [value = '\n'])
-				st.nonDefaultClause.forEach[cl |
-					f.snippet.add(cl.visit)
-					f.snippet.add(createStringSnippet => [value = '\n'])
-    			]
-    			if(st.defaultClause != null){
-    				f.snippet.add = createStringSnippet => [value = '''default : ''']
-    				f.snippet.add(st.defaultClause.visit)
-    				f.snippet.add(createStringSnippet => [value = '\n'])
-    			}
-				f.snippet.add = createStringSnippet => [value = '''}''']
-				
-		]
-	} 
-	
-	def dispatch Snippet visit(WhileStatement st){
-		createCompositeSnippet => [ f |
-			f.snippet.add = createStringSnippet => [value = '''while ''']
-			f.snippet.add = createStringSnippet => [value = '''(''']
-			f.snippet.add(st.condition.visit)
-			f.snippet.add = createStringSnippet => [value = ''') ''']
-			f.snippet.add(st.body.visit)				
-		]
-	} 
+		var String expressionsnippet
+		
+		if(st.expression != null){
+			expressionsnippet = st.expression.visit(builder)
+		} else{
+			expressionsnippet = ""
+		}
+		builder.append('''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ENDIF»«expressionsnippet»;''')
 
-	def dispatch Snippet visit(DoStatement st){
-		createCompositeSnippet => [ f |
-			f.snippet.add = createStringSnippet => [value = '''do ''']
-			f.snippet.add(st.body.visit)
-			f.snippet.add = createStringSnippet => [value = '''while ''']
-			f.snippet.add = createStringSnippet => [value = '''(''']
-			f.snippet.add(st.condition.visit)
-			f.snippet.add = createStringSnippet => [value = ''');''']
-		]
+		builder.toString		
+	}
+	
+	def dispatch String visit(IfStatement st){
+		val builder = new StringBuilder
+		
+		val ifString = '''«FOR clause : st.clauses»«IF st.clauses.indexOf(clause) == 0»if «clause.visitClause(builder)»«ELSE»«IF clause instanceof BlockStatement» else «clause.visit»«ELSE» else if «clause.visitClause(builder)»«ENDIF»«ENDIF»«ENDFOR»'''
+		
+		builder.append(ifString)
+		builder.toString
+	}
+	
+	def dispatch String visit(SendSignalStatement st){
+		val builder = new StringBuilder
+		val targetString = st.target.visit(builder) 		
+		val signalString = st.signal.visit(builder) 
+		
+		builder.append('''«targetString»->generate_event(«signalString»);''')
+		builder.toString
+	}
+	
+	def dispatch String visit(SwitchStatement st){
+		val builder = new StringBuilder
+		val expressionString = st.expression.visit(builder)
+		
+		val clausesString = 
+		'''
+		«FOR cl : st.nonDefaultClause SEPARATOR '\n'»«cl.visitClause(builder)»«ENDFOR»
+		'''
+
+		builder.append(
+		'''
+		switch («expressionString») {
+		«clausesString»«IF st.defaultClause != null»default : «st.defaultClause.visit»
+		«ENDIF»}''')
+		builder.toString
 	} 
 	
-	def dispatch Snippet visit(ForStatement st){
-		createCompositeSnippet => [ f |
-			f.snippet.add = createStringSnippet => [value = '''for ''']
-			f.snippet.add = createStringSnippet => [value = '''(''']
-			f.snippet.add(st.initialization.visit)
-			f.snippet.add = createStringSnippet => [value = ''' ''']
-			f.snippet.add(st.condition.visit)
-			f.snippet.add = createStringSnippet => [value = '''; ''']
-			f.snippet.add(st.update.visit)
+	def dispatch String visit(WhileStatement st){
+		val builder = new StringBuilder
+		val conditionString = createLoopVariable(st.condition, builder)
+		val block = st.body 
+		val parent = util.descriptorFactory
+		
+		builder.append('''while («conditionString») ''')
+		util.descriptorFactory = parent.createChild
+		builder.append('''{'''+'\n')
+		if(block instanceof Block){
+			block.statement.forEach[ statement |
+				builder.append(statement.visit+'\n')
+	    	]
+	    	val blockConditionString = createLoopVariable(st.condition, builder)
+	    	builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 			
-			val updatesnippet = f.snippet.get(f.snippet.size-1) as CompositeSnippet
-			if(updatesnippet != null){
-				updatesnippet.snippet.remove(updatesnippet.snippet.size-1)
-			}
+		}else{	
+			builder.append(st.body.visit)
+			val blockConditionString = createLoopVariable(st.condition, builder)
+			builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
+		}
+		builder.append('''}''')
+		util.descriptorFactory = parent
+		builder.toString				
+	} 
+	
+	def dispatch String visit(DoStatement st){
+		val builder = new StringBuilder
+		val conditionString = createLoopVariable(st.condition, builder)
+		val block = st.body 
+		val parent = util.descriptorFactory
+		
+		builder.append('''do ''')
+		util.descriptorFactory = parent.createChild
+		builder.append('''{'''+'\n')
+		if(block instanceof Block){
+			block.statement.forEach[ statement |
+				builder.append(statement.visit+'\n')
+	    	]
+	    	val blockConditionString = createLoopVariable(st.condition, builder)
+	    	builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 			
-			f.snippet.add = createStringSnippet => [value = ''') ''']
-			f.snippet.add(st.body.visit)
-		]
+		}else{	
+			builder.append(st.body.visit)
+			val blockConditionString = createLoopVariable(st.condition, builder)
+			builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
+		}
+		builder.append('''}''')
+		util.descriptorFactory = parent
+		builder.append('''while («conditionString»);''')
+		builder.toString
+	} 
+	
+	def dispatch String visit(ForStatement st){
+		val builder = new StringBuilder
+		
+		val block = st.body 
+		val parent = util.descriptorFactory
+		
+		util.descriptorFactory = parent.createChild
+		
+		builder.append('''
+		{
+		«st.initialization.visit»'''+'\n')
+		val conditionString = createLoopVariable(st.condition, builder)
+		builder.append('''while («conditionString») {'''+'\n')
+		if(block instanceof Block){
+			block.statement.forEach[ statement |
+				builder.append(statement.visit+'\n')
+	    	]
+	    	builder.append('''«st.update.visit»'''+'\n')
+	    	val blockConditionString = createLoopVariable(st.condition, builder)
+	    	builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
+			
+		}else{	
+			builder.append(st.body.visit)
+			builder.append('''«st.update.visit»'''+'\n')
+			val blockConditionString = createLoopVariable(st.condition, builder)
+			builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
+		}
+		builder.append('''}'''+'\n')
+		builder.append('''}''')
+		
+		util.descriptorFactory = parent
+		builder.toString
+	}
+	
+	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){
+		val conditionString = nfc.condition.visit(builder)
+		val ret = '''(«conditionString») «nfc.body.visit»'''
+		ret
+	} 
+	
+	private def dispatch String visitClause(SwitchClause st, StringBuilder builder){
+		val casesBuilder = new StringBuilder
+		
+		st.^case.forEach[ expr |
+    		casesBuilder.append(expr.visit(builder))
+    	]
+    	'''case «casesBuilder.toString» : «st.block.visit»'''	
+	}
+	
+	private def String createLoopVariable(Expression ex, StringBuilder builder){
+		var String conditionSnippet
+		if(ex instanceof LiteralExpression){
+			val literalDescriptor = getDescriptor(ex)
+			
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = typeSystem.type(ex).value.umlType
+				name = null
+			]).build
+			
+			builder.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «literalDescriptor.stringRepresentation»;'''+'\n')
+			
+			conditionSnippet = descriptor.stringRepresentation
+			
+		}else{
+			conditionSnippet = ex.visit(builder)
+		}
 	}
 }

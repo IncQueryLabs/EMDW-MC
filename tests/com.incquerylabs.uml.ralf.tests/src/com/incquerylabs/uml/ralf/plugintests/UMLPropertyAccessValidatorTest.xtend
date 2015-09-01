@@ -3,8 +3,10 @@ package com.incquerylabs.uml.ralf.plugintests
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.util.AbstractPluginValidatorTest
 import java.util.Collection
+import org.junit.Ignore
 import org.junit.runners.Parameterized.Parameters
 
+@Ignore
 class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 	
 	@Parameters(name = "{0}")

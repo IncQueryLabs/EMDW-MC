@@ -1,5 +1,8 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.google.common.collect.Lists
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
@@ -10,11 +13,13 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NumericUnaryExpression
@@ -22,403 +27,447 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.PostfixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.SequenceAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
-import snippetTemplate.Snippet
-import snippetTemplate.SnippetTemplateFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Tuple
+import java.util.List
 import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 
 class ExpressionVisitor {
-	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
-	extension ReducedAlfSnippetTemplateCompiler compiler
 	extension SnippetTemplateCompilerUtil util
+	extension ReducedAlfSystem typeSystem
 	
-	new(ReducedAlfSnippetTemplateCompiler compiler){
-		this.compiler = compiler
-		util = compiler.util
+	new(SnippetTemplateCompilerUtil util, ReducedAlfSystem typeSystem){
+		this.typeSystem = typeSystem
+		this.util = util
+	}
+		
+	def dispatch String visit(CastExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.visit(parent)
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («descriptor.fullType») «operandVariable»;'''+'\n')
+				
+		descriptor.stringRepresentation
 	}
 	
-	def dispatch Snippet visit(SequenceAccessExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(ex.primary.visit)
-			snippet.add(ex?.index.visit)
-		]
+	def dispatch String visit(NullExpression ex, StringBuilder parent){
+		'''0'''
 	}
 	
-	def dispatch Snippet visit(CastExpression ex){
-		val descriptor = getDescriptor(ex)
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = '''('''])
-			snippet.add(createStringSnippet => [value = descriptor.fullType])
-			snippet.add(createStringSnippet => [value = ''') '''])
-			snippet.add(ex.operand.visit)
-		]
-	}
-	
-	def dispatch Snippet visit(NullExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = '''0'''])
-		]
-	}
-	
-	def dispatch Snippet visit(InstanceCreationExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = '''new '''])
-			snippet.add(createStringSnippet => [value = ex.instance.qualifiedName])
-			snippet.add(ex.parameters.visit)
-		]
-	}
-	
-
-	def dispatch Snippet visit(ThisExpression ex){
-		createStringSnippet => [value = '''this''']
-	}
-	
-	def dispatch Snippet visit(LinkOperationExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = ex.association.reference.name])
-			snippet.add(createStringSnippet => [value = '''->'''])
-			snippet.add(createStringSnippet => [value = ex.linkOperation.getName()])
-			snippet.add(ex.parameters.visit)
-		]
-	}
-	
-	def dispatch Snippet visit(AssociationAccessExpression ex){
-		if(ex.context instanceof ThisExpression){
-			return createCompositeSnippet =>[
-				snippet.add(ex.context.visit)
-				snippet.add(createStringSnippet => [value = '''->'''])
-				snippet.add(createStringSnippet => [value = ex.association.name])
+	def dispatch String visit(InstanceCreationExpression ex, StringBuilder parent){
+		val variableType = typeSystem.type(ex).value.umlType
+		val List<String> parameterStrings = Lists.newArrayList
+		
+		if(ex.parameters instanceof ExpressionList){
+			val parameters = ex.parameters as ExpressionList
+			parameters.expressions.forEach[ expr |
+				parameterStrings.add(expr.visit(parent))
 			]
 		}else{
-			val descriptor = getDescriptor(ex)
-			return createCompositeSnippet =>[
-				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			]
+			throw new UnsupportedOperationException("Only expression list based tuples are supported")
 		}
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = new «descriptor.fullType»(«FOR f : parameterStrings SEPARATOR ", "»«f»«ENDFOR»);'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 	
-    private def Snippet createThisInvocationSnippet(ThisExpression context, Property property) {
-        if(context instanceof ThisExpression){
-            return createCompositeSnippet => [
-                snippet.add(context.visit)
-                snippet.add(createStringSnippet => [value = '''->'''    ])
-                snippet.add(createStringSnippet => [value = property.name])
-            ]
-        }
-    }
+
+	def dispatch String visit(ThisExpression ex, StringBuilder parent){
+		getDescriptor(ex).stringRepresentation
+	}
 	
-	private def Snippet createThisInvocationSnippet(ThisExpression context, Operation op, Tuple parameters) {
-        createCompositeSnippet => [
-            snippet.add(context.visit)
-            snippet.add(createStringSnippet => [
-                value = '''.'''
-            ])
-            snippet.add(createStringSnippet => [value = op.name])
-            snippet.add(parameters.visit)
-        ]
-    }
+	def dispatch String visit(StaticFeatureInvocationExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("Static calls not supported yet")
+	}
 	
-	def dispatch Snippet visit(FeatureInvocationExpression ex){
-		if(ex.context instanceof ThisExpression){
-			return if (ex.feature instanceof Operation) {
-			    createThisInvocationSnippet(ex.context as ThisExpression, ex.feature as Operation, ex.parameters)
-			} else if (ex.feature instanceof Property) {
-			    createThisInvocationSnippet(ex.context as ThisExpression, ex.feature as Property)
-			}
+	def dispatch String visit(SuperInvocationExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("Super invocations not supported yet")
+	}
+	
+	def dispatch String visit(LinkOperationExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("Link operations not supported yet")
+	}
+	
+	def dispatch String visit(AssociationAccessExpression ex, StringBuilder parent){
+		val associationDescriptor = ex.descriptor
+		val variableType = typeSystem.type(ex).value.umlType
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «associationDescriptor.stringRepresentation»;'''+'\n')
+		
+		descriptor.stringRepresentation
+		
+	}
+	
+	def dispatch String visit(FeatureInvocationExpression ex, StringBuilder parent){
+		var ValueDescriptor invocationDescriptor
+		val contextString = ex.context.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		var ValueDescriptor descriptor 
+		if(variableType != null){
+			descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+		}
+		
+		switch (ex.feature) {
+	        Operation: {
+	        	val op = ex.feature as Operation
+				val List<ValueDescriptor> descriptors = Lists.newArrayList
+				
+				if(ex.parameters instanceof ExpressionList){
+					val parameters = ex.parameters as ExpressionList
+					parameters.expressions.forEach[ expr |
+						val string = expr.visit(parent)
+						descriptors.add((descriptorFactory.createSingleVariableDescriptorBuilder => [
+							name = string
+							type = typeSystem.type(expr).value.umlType
+							isExistingVariable = true
+						]).build)
+						
+					]
+				}else if(ex.parameters instanceof NamedTuple){
+					val parameters = ex.parameters as NamedTuple
+					parameters.expressions.forEach[ expr |
+						val string = expr.expression.visit(parent)
+						descriptors.add((descriptorFactory.createSingleVariableDescriptorBuilder => [
+							name = string
+							type = typeSystem.type(expr).value.umlType
+							isExistingVariable = true
+						]).build)
+					]
+				}else{
+					throw new UnsupportedOperationException("Only expression list based tuples are supported")
+				}	
+				
+				val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					name = contextString
+					type = typeSystem.type(ex.context).value.umlType
+					isExistingVariable = true
+				]).build
+				
+				invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
+					variable = contextDescriptor
+					operation = op
+					parameters = descriptors
+				]).build
+	        }
+	        Property: {
+	        	val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					name = contextString
+					type = variableType
+					isExistingVariable = true
+				]).build
+
+	        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
+					variable = contextDescriptor
+					property = ex.feature as Property
+				]).build
+	        }
+	        default: throw new UnsupportedOperationException("Invalid feature invocation")
+	    }
+	    
+	    
+	    if(variableType != null){
+	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;'''+'\n')
+	    	descriptor.stringRepresentation
+	    }else{
+	    	invocationDescriptor.stringRepresentation
+	    }
+	}
+	
+	
+	def dispatch String visit(AssignmentExpression ex, StringBuilder parent){
+	   	val variableType = typeSystem.type(ex).value.umlType
+	   	if(ex.leftHandSide instanceof FeatureInvocationExpression && (ex.leftHandSide as FeatureInvocationExpression).feature instanceof Property) {
+			val propAccess = ex.leftHandSide as FeatureInvocationExpression
+			
+			val rhsString = ex.rightHandSide.visit(parent)
+			val contextString = propAccess.context.visit(parent)
+			
+				
+			val rhsDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				name = rhsString
+				type = variableType
+				isExistingVariable = true
+			]).build
+
+	        val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				name = contextString
+				type = variableType
+				isExistingVariable = true
+			]).build
+			
+			val assignmentDescriptor =  (descriptorFactory.createPropertyWriteBuilder => [
+				variable = contextDescriptor
+				property = propAccess.feature as Property
+				newValue = rhsDescriptor
+			]).build
+			
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+			
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («assignmentDescriptor.stringRepresentation»);'''+'\n')
+			
+			descriptor.stringRepresentation
 		} else {
-			val descriptor = util.getDescriptor(ex)
-			return createCompositeSnippet => [
-				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation	])
-			]
+			val lhsString = ex.leftHandSide.visit(parent)
+		    val rhsString = ex.rightHandSide.visit(parent)
+		    
+		   	val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+		    
+		    parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsString» «ex.operator» «rhsString»);'''+'\n')
+
+			descriptor.stringRepresentation
 		}
 	}
-	
-	
-	def dispatch Snippet visit(AssignmentExpression ex){
-	    //TODO revisit the left hand side expressions correctly
-		//If the left hand side is a property
-		if(ex.leftHandSide instanceof FeatureInvocationExpression) {
-			val descriptor = getDescriptor(ex)
-			return createCompositeSnippet =>[
-				snippet.add(createStringSnippet => [value = descriptor.stringRepresentation])
-			]
-		} else {
-			//If assignment has no property on the left hand side
-			return createCompositeSnippet =>[
-				snippet.add(ex.leftHandSide.visit)
-				snippet.add(createStringSnippet => [value = ''' '''	])
-				snippet.add(createStringSnippet => [value = ex.operator.literal])
-				snippet.add(createStringSnippet => [value = ''' '''	])
-				snippet.add(ex.rightHandSide.visit)
-			]
-		}
 
+	def dispatch String visit(ArithmeticExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
+	
+	def dispatch String visit(ShiftExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+		
+		descriptor.stringRepresentation
+	}
+	
+	def dispatch String visit(RelationalExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+		
+		descriptor.stringRepresentation
+	}
+	
+	def dispatch String visit(EqualityExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
 
-	def dispatch Snippet visit(ArithmeticExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+		descriptor.stringRepresentation
 	}
 	
-	def dispatch Snippet visit(ShiftExpression ex) {
-	    createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator.literal
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch String visit(LogicalExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 	
-	def dispatch Snippet visit(RelationalExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator.literal
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
-	}
-	
-	def dispatch Snippet visit(EqualityExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator.literal
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
-	}
-	
-	def dispatch Snippet visit(LogicalExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
-	}
-	
-	def dispatch Snippet visit(ConditionalLogicalExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = "(" 
-				else 
-					value = ""
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(createStringSnippet => [
-				value = ex.operator
-			])
-			snippet.add(createStringSnippet => [
-				value = ''' '''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-				if (util.parenthesisRequired(ex)) 
-					value = ")" 
-				else 
-					value = ""
-			])
-		]
+	def dispatch String visit(ConditionalLogicalExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 
-	def dispatch Snippet visit(PrefixExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-					value = ex.operator.literal
-				])
-			snippet.add(ex.operand.visit)
-		]
+	def dispatch String visit(PrefixExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.expression.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 	
-	def dispatch Snippet visit(PostfixExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(ex.operand.visit)
-			snippet.add(createStringSnippet => [
-					value = ex.operator.literal
-			])
-		]
+	def dispatch String visit(PostfixExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.expression.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operandVariable»«ex.operator.literal»;'''+'\n')
+
+		descriptor.stringRepresentation
 	}
 
 	
-	def dispatch Snippet visit(ConditionalTestExpression ex) {
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-					value = '''('''
-			])
-			snippet.add(ex.operand1.visit)
-			snippet.add(createStringSnippet => [
-					value = ''') ? ('''
-			])
-			snippet.add(ex.operand2.visit)
-			snippet.add(createStringSnippet => [
-					value = ''') : ('''
-			])
-			snippet.add(ex.operand3.visit)
-			snippet.add(createStringSnippet => [
-					value = ''')'''
-			])
-		]
+	def dispatch String visit(ConditionalTestExpression ex, StringBuilder parent) {
+		val operand1Variable = ex.operand1.visit(parent)
+		val operand2Variable = ex.operand2.visit(parent)
+		val operand3Variable = ex.operand3.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («operand1Variable») ? («operand2Variable») : («operand3Variable»);'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 
-	def dispatch Snippet visit(NameExpression ex){
+	def dispatch String visit(NameExpression ex, StringBuilder parent){
 		if(ex.reference instanceof Variable){
 			val variable = ex.reference as Variable
 			if(variable != null){
 				val descriptor = getDescriptor(ex)
-				return createStringSnippet => [
-					value = descriptor.stringRepresentation
-				]
+				return descriptor.stringRepresentation
+			}
+		}else if(ex.reference instanceof Parameter){
+			val parameter = ex.reference as Parameter
+			if(parameter != null){
+				val descriptor = getDescriptor(ex)
+				return descriptor.stringRepresentation
 			}
 		}else{
-			throw new UnsupportedOperationException
+			throw new UnsupportedOperationException("Only variables and parameters are supported")
 		}
+	}
+	
+	
+	def dispatch String visit(NumericUnaryExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.visit(parent)
+		val variableType = typeSystem.type(ex).value.umlType
 		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 	
-	
-	def dispatch Snippet visit(NumericUnaryExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = ex.operator.literal])
-			snippet.add(ex.operand.visit)
-		]
+	def dispatch String visit(BitStringUnaryExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.visit(parent)
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 	
-	def dispatch Snippet visit(BitStringUnaryExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = ex.operator])
-			snippet.add(ex.operand.visit)
-		]
+	def dispatch String visit(BooleanUnaryExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.visit(parent)
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = null
+		]).build
+		
+		parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;'''+'\n')
+		
+		descriptor.stringRepresentation
 	}
 	
-	def dispatch Snippet visit(BooleanUnaryExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = ex.operator])
-			snippet.add(ex.operand.visit)
-		]
-	}
-	
-	def dispatch Snippet visit(NaturalLiteralExpression ex) {
-	    createStringSnippet => [value = ex.value.replace("_", "")] 
+	def dispatch String visit(NaturalLiteralExpression ex, StringBuilder parent) {
+		getDescriptor(ex).stringRepresentation
     }
     
-	def dispatch Snippet visit(RealLiteralExpression ex) {
-	    createStringSnippet => [value = ex.value]
+	def dispatch String visit(RealLiteralExpression ex, StringBuilder parent) {
+		getDescriptor(ex).stringRepresentation
     }
 	
-	def dispatch Snippet visit(BooleanLiteralExpression ex){
-		createStringSnippet => [value = ex.value]
+	def dispatch String visit(BooleanLiteralExpression ex, StringBuilder parent){
+		getDescriptor(ex).stringRepresentation
 	}
 	   
-	def dispatch Snippet visit(StringLiteralExpression ex){
-		createStringSnippet => [value = ex.value]
+	def dispatch String visit(StringLiteralExpression ex, StringBuilder parent){
+		getDescriptor(ex).stringRepresentation
 	}
 	
 }

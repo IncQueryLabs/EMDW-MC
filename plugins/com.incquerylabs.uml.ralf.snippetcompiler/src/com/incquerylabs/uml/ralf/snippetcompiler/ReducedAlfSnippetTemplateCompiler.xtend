@@ -1,140 +1,57 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
+import com.incquerylabs.uml.ralf.api.impl.ParsingResults
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
-import org.eclipse.emf.ecore.EObject
 import snippetTemplate.Snippet
 import snippetTemplate.SnippetTemplateFactory
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
 
 class ReducedAlfSnippetTemplateCompiler {
 	
-	extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
-		
-	public SnippetTemplateCompilerUtil util
-	public ExpressionVisitor expressionVisitor
+	public extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
+	public extension ExpressionVisitor expressionVisitor
 	public StatementVisitor statementVisitor
+	private SnippetTemplateCompilerUtil util
 	
-	IUMLContextProvider context
+	new(IUmlDescriptorFactory factory, IUMLContextProvider umlcontext){
+		util = new SnippetTemplateCompilerUtil(factory, umlcontext)
+	}
 		
-	new(IUmlDescriptorFactory factory, IUMLContextProvider context){
-		util = new SnippetTemplateCompilerUtil(factory, context)
-		this.context = context
-		statementVisitor = new StatementVisitor(this)
-		expressionVisitor = new ExpressionVisitor(this)
-	}
-
-	def dispatch Snippet visit(EObject o) {
-		val fragment = createCompositeSnippet
-		o.eContents.forEach[fragment.snippet.add(visit)]
-		return fragment
-	}
-
-    def dispatch Snippet visit(Statements st){
-		createCompositeSnippet => [ f | 
-			st.statement.forEach[
-				f.snippet.add(visit)
-				f.snippet.add(createStringSnippet => [value = '\n'])
-			]
-			f.snippet.remove(f.snippet.size-1)
-		]
+	def Snippet createSnippet(ParsingResults results){
+		expressionVisitor = new ExpressionVisitor(util, results.typeSystem)
+		statementVisitor = new StatementVisitor(this, util, expressionVisitor, results.typeSystem)
+		createStringSnippet => [value = results.model.visit]
 	}
 	
-	def dispatch Snippet visit(Statement st){
+    private def dispatch String visit(Statements st){
+		'''«FOR statement : st.statement SEPARATOR '\n'»«statement.visit»«ENDFOR»'''
+	}
+	
+	private def dispatch String visit(Statement st){
 		statementVisitor.visit(st)
 	}
 	
-	def dispatch Snippet visit(Expression ex){
-		expressionVisitor.visit(ex)
+	private def dispatch String visit(ExpressionList tuple){
+		throw new UnsupportedOperationException("Tuples should not be visited independently")
 	}
 	
-	def dispatch Snippet visit(ExpressionList tuple){
-		createCompositeSnippet => [ f | 
-			f.snippet.add = createStringSnippet => [value = '''(''']
-			if(tuple.expressions!= null && !tuple.expressions.isEmpty){
-				tuple.expressions.forEach[
-					f.snippet.add(visit)
-					f.snippet.add(createStringSnippet => [value = ''', '''])
-				]
-				f.snippet.remove(f.snippet.size-1)
-			}
-			f.snippet.add = createStringSnippet => [value = ''')''']
-		]
+	private def dispatch String visit(NamedTuple tuple){
+		throw new UnsupportedOperationException("Tuples should not be visited independently")
 	}
 	
-
-	
-	def dispatch Snippet visit(NamedTuple tuple){
-		createCompositeSnippet => [ f | 
-				f.snippet.add = createStringSnippet => [value = '''(''']
-				if(tuple.expressions!= null && !tuple.expressions.isEmpty){
-					tuple.expressions.forEach[
-						f.snippet.add(visit)
-						f.snippet.add(createStringSnippet => [value = ''', '''])
-	    			]
-	    			f.snippet.remove(f.snippet.size-1)
-    			}
-				f.snippet.add = createStringSnippet => [value = ''')''']
-		]
+	private def dispatch String visit(LeftHandSide lhs){
+		throw new UnsupportedOperationException("LeftHandSide should not be visited independently")
 	}
 	
-//	def dispatch Snippet visit(NameLeftHandSide lhs){
-//		createCompositeSnippet =>[
-//			snippet.add(lhs.expression.visit)
-//			if(lhs.index != null){
-//				snippet.add(createStringSnippet => [
-//					value = '''['''
-//				])
-//				snippet.add(lhs.index.visit)
-//				snippet.add(createStringSnippet => [
-//					value = ''']'''
-//				])
-//			}
-//		]
-//	}
-	
-	def dispatch Snippet visit(LeftHandSide lhs){
-		createCompositeSnippet =>[
-			snippet.add(lhs.expression.visit)
-		]
+	private def dispatch String visit(NamedExpression ex){
+		throw new UnsupportedOperationException("NamedExpression should not be visited independently")
 	}
 	
-	def dispatch Snippet visit(NamedExpression ex){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [
-					value = ex.name
-			])
-			snippet.add(createStringSnippet => [value = ''' => '''])
-			snippet.add(ex.expression.visit)
-		]
-	}
-	
-	def dispatch Snippet visit(IfClause nfc){
-		createCompositeSnippet =>[
-			snippet.add(createStringSnippet => [value = '''('''])
-			snippet.add(nfc.condition.visit)
-			snippet.add(createStringSnippet => [value = ''') '''])
-			snippet.add(nfc.body.visit)
-		]
-	} 
-	
-	def dispatch Snippet visit(SwitchClause st){
-		createCompositeSnippet => [ f |
-			f.snippet.add = createStringSnippet => [value = '''case ''']
-			st.^case.forEach[
-    			f.snippet.add(visit)
-    		]
-    		f.snippet.add = createStringSnippet => [value = ''' : ''']
-    		f.snippet.add(st.block.visit)	
-		]
-	}
-		
+			
 }

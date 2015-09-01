@@ -14,18 +14,23 @@ class DummyOperationCallBuilder implements IUmlOperationCallBuilder{
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	override build() {
-		val parameters = ""
+		var parameters = ""
 		for(ValueDescriptor desc : params){
-			parameters.concat(desc.stringRepresentation)
+			parameters+=desc.stringRepresentation
 			if(params.indexOf(desc)!=(params.size-1)){
-				parameters.concat(''', ''')	
+				parameters+=''', '''	
 			}
 		}
-		
+		val tuple = parameters
 		val descriptor = createOperationCallDescriptor => [
-			baseType = operation.type.qualifiedName
-			fullType = operation.type.qualifiedName
-			stringRepresentation = variable.stringRepresentation+'''.'''operation.name+'''('''+parameters+''')'''
+			if(operation.type == null){
+				baseType = "void"
+				fullType = "void"
+			}else{
+				baseType = operation.type.qualifiedName
+				fullType = operation.type.qualifiedName
+			}
+			stringRepresentation = variable.stringRepresentation+'''.'''+operation.name+'''('''+tuple+''')'''
 		]
 		
 		descriptor

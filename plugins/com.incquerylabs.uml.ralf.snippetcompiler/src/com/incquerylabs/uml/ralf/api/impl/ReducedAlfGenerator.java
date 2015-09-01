@@ -1,12 +1,9 @@
 package com.incquerylabs.uml.ralf.api.impl;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.uml2.uml.OpaqueBehavior;
 
 import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator;
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser;
-import com.incquerylabs.uml.ralf.api.impl.ParsingResults;
-import com.incquerylabs.uml.ralf.api.impl.SnippetCompilerException;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
 
@@ -35,13 +32,10 @@ public class ReducedAlfGenerator implements IReducedAlfGenerator {
     @Override
     public Snippet createSnippet(ParsingResults result, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
         if(result.validationOK()){
-            return createSnippet(result.getModel(), templateCompiler);
+            return templateCompiler.createSnippet(result);
+        }else{
+            throw new SnippetCompilerException("Validation: "+result.toString());
         }
-        throw new SnippetCompilerException("Validation: "+result.toString());
+        
     }
-    
-    private Snippet createSnippet(EObject actionCode, ReducedAlfSnippetTemplateCompiler templateCompiler) {
-        return templateCompiler.visit(actionCode);
-    }
-
 }

@@ -14,7 +14,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.uml2.uml;bundle-version="5.1.0",
  com.incquerylabs.emdw.snippet.model;bundle-version="1.0.0",
  com.incquerylabs.emdw.cpp.common;bundle-version="1.0.0",
- com.incquerylabs.emdw.valuedescriptor.model;bundle-version="1.0.0"
+ com.incquerylabs.emdw.valuedescriptor.model;bundle-version="1.0.0",
+ it.xsemantics.runtime;bundle-version="1.8.0"
 Export-Package: com.incquerylabs.uml.ralf.api,
  com.incquerylabs.uml.ralf.api.impl,
  com.incquerylabs.uml.ralf.snippetcompiler

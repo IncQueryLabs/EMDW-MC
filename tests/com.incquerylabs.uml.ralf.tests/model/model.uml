@@ -117,6 +117,14 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_rEEzIEvrEeW-6Y1Izv1dPA" name="staticParametricOperation" isStatic="true">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_whuHkEvrEeW-6Y1Izv1dPA" name="in1">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_zM0b4EvrEeW-6Y1Izv1dPA" name="in2">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s">
         <ownedAttribute xmi:type="uml:Property" xmi:id="_0fRLEEpSEeW2H4EMK1eo4g" name="integerAttribute">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>

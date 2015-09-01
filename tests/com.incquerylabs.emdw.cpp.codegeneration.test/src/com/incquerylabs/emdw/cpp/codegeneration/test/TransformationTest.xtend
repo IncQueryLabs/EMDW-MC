@@ -2,7 +2,9 @@ package com.incquerylabs.emdw.cpp.codegeneration.test
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
+import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.GenerationUtil
+import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
@@ -11,16 +13,16 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
-
 /**
  * Base class for testing transformation rules.
  */
 abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends EObject> {
-
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension GenerationUtil util
+	protected extension GenerationUtil generationUtil
+	protected extension XtumlUtil xtumlUtil = new XtumlUtil
+	protected extension CppUtil cppUtil = new CppUtil
+	
+	protected String testId
 	
 	@BeforeClass
 	def static setupRootLogger() {
@@ -29,12 +31,12 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 	
 	@Before
 	public def void init() {
-		util = new GenerationUtil
+		generationUtil = new GenerationUtil
 	}
  	
 	@Test
-	def single() {
-		val testId = '''«this.class.simpleName»_single'''
+	def test_1() {
+		testId = '''«this.class.simpleName»_test_1'''
 		startTest(testId)
 		//Create xtuml model
 		val xtModel = createEmptyXtumlModel(testId)

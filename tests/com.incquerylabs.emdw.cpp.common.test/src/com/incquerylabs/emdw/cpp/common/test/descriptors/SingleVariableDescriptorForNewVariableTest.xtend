@@ -2,20 +2,16 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 
 @SuiteClasses(#[
 	SingleVariableDescriptorForNewVariableWithPredifinedNameTest,
@@ -24,7 +20,6 @@ import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
 @RunWith(Suite)
 class SingleVariableDescriptorForNewVariableTestSuite {}
 
-@RunWith(Parameterized)
 class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -32,10 +27,6 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»'''
 	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME»'''
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -74,7 +65,6 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 	
 }
 
-@RunWith(Parameterized)
 class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -82,10 +72,6 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescrip
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»'''
 	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«CLASS_NAME»'''
 	private String VARIABLE_NAME
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)

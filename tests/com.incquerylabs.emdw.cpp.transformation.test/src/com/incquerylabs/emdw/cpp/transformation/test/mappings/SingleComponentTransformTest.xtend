@@ -1,16 +1,9 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 
-import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-
 abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override single() {
 		val testId = "single"
@@ -21,12 +14,11 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
 		loadDefaultContainerImplementations(cppResource)
-		createCPPExternalLibrary(cppResource)
-		val cppModel = createCPPModel(cppResource, xtModel)
+		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
 		// transform to CPP
-		initializeTransformation(cppModel)
-		executeTransformation(xtComponent)
+		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
+		executeCppComponentTransformation(xtComponent)
 		// Check result
 		assertResult(xtModel, cppModel, xtComponent, cppComponent)
 		endTest(testId)
@@ -41,17 +33,16 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
 		loadDefaultContainerImplementations(cppResource)
-		createCPPExternalLibrary(cppResource)
-		val cppModel = createCPPModel(cppResource, xtModel)
+		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
 		// transform to CPP
-		initializeTransformation(cppModel)
-		executeTransformation(xtComponent)
+		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
+		executeCppComponentTransformation(xtComponent)
 		// Check if added properly
 		assertResult(xtModel, cppModel, xtComponent, cppComponent)
 		//remove added xtuml element
 		clearXtUmlElement(xtComponent)
-		executeTransformation(xtComponent)
+		executeCppComponentTransformation(xtComponent)
 		//check if removed properly
 		assertClear(xtModel, cppModel, xtComponent, cppComponent)
 		endTest(testId)

@@ -11,6 +11,15 @@ import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
+
+@SuiteClasses(#[
+	PersistedModelTest
+])
+@RunWith(Suite)
+class PersistedModelTestSuite {}
 
 class PersistedModelTest {
 

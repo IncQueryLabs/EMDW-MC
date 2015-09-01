@@ -4,9 +4,15 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+@SuiteClasses(#[
+	MultiTransitionSameTriggerTest
+])
+@RunWith(Suite)
+class MultipleTransitionSameTriggerTestSuite {}
 
 class MultiTransitionSameTriggerTest extends TransformationTest<State, CPPClass> {
 	

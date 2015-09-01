@@ -9,10 +9,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
-import static com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.testing.common.utils.UmlUtil.*
 
 @SuiteClasses(#[
 	XTGeneralizationMappingTest

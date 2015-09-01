@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
 import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
@@ -21,8 +20,6 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 	
@@ -67,10 +64,6 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 	protected Operation _operation_setIsPlaying
 	protected Parameter _parameter_isPlaying
 	protected XTComponent _component_Other
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	/**
 	 * Missing elements: Guard, redefines in class, generalization<br/>

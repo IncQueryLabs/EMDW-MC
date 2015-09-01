@@ -6,11 +6,17 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+@SuiteClasses(#[
+	GeneralizationMappingTest
+])
+@RunWith(Suite)
+class GeneralizationMappingTestSuite {}
 
 class GeneralizationMappingTest extends TransformationTest<CPPComponent, CPPComponent> {
 	
@@ -78,7 +84,7 @@ class GeneralizationMappingTest extends TransformationTest<CPPComponent, CPPComp
 	}
 	
 	override protected assertResult(CPPModel result, CPPComponent cppObject) {
-		val files = util.cppCodeGeneration.generatedCPPSourceFiles
+		val files = cppCodeGeneration.generatedCPPSourceFiles
 		
 		val cppBaseClass = cppObject.subElements.filter(CPPClass).filter[cppName == "BaseClass"].head
 		val cppDerivedClass = cppObject.subElements.filter(CPPClass).filter[cppName == "DerivedClass"].head
@@ -88,9 +94,9 @@ class GeneralizationMappingTest extends TransformationTest<CPPComponent, CPPComp
 		val derivedClassBody = files.get(cppDerivedClass.bodyFile).toString
 		
 		assertTrue(baseClassHeader.contains("virtual bool myVirtualFunction(bool FunctionParamBool);"))
-		assertTrue(derivedClassHeader.contains("class DerivedClass: public ::GeneralizationMappingTest_single::RootPackage::Component::BaseClass {"))
+		assertTrue(derivedClassHeader.contains('''class DerivedClass: public ::«testId»::RootPackage::Component::BaseClass {'''))
 		assertTrue(derivedClassHeader.contains("DerivedClass(bool ParamBool, long NotTheSameParamInt);"))
 		assertTrue(derivedClassHeader.contains("bool myVirtualFunction(bool FunctionParamBool);"))
-		assertTrue(derivedClassBody.contains("DerivedClass(bool ParamBool, long NotTheSameParamInt): ::GeneralizationMappingTest_single::RootPackage::Component::BaseClass(ParamBool) {"))
+		assertTrue(derivedClassBody.contains('''DerivedClass(bool ParamBool, long NotTheSameParamInt): ::«testId»::RootPackage::Component::BaseClass(ParamBool) {'''))
 	}
 }

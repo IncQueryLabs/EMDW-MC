@@ -14,13 +14,11 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPSignal
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import static extension org.junit.Assert.*
 
 abstract class DynamicBehaviorBaseTest extends TransformationTest<Package, CPPDirectory> {
@@ -33,10 +31,6 @@ abstract class DynamicBehaviorBaseTest extends TransformationTest<Package, CPPDi
 	protected var CPPDIR = 0
 	protected var CPPHEADER = 0
 	protected var CPPBODY = 0
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")

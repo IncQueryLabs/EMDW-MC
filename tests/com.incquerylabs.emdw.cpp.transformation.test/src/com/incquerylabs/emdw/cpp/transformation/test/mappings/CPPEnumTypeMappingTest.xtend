@@ -4,17 +4,13 @@ import com.ericsson.xtumlrt.oopl.OOPLExistingNameProvider
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	CPPEnumTypeTest
@@ -22,12 +18,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPEnumTypeMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPEnumTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
@@ -37,8 +28,7 @@ class CPPEnumTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		

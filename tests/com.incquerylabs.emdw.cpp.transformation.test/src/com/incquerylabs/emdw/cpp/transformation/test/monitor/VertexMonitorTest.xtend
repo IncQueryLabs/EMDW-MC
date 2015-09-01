@@ -1,18 +1,14 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	SimpleStateCreationMonitorTest,
@@ -25,12 +21,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class VertexMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class SimpleStateCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_compositestate_ping.createSimpleState("newState")
@@ -43,12 +34,7 @@ class SimpleStateCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class SimpleStateDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		EcoreUtil.remove(_simplestate_ping_S1)
@@ -61,12 +47,7 @@ class SimpleStateDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class CompositeStateCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_compositestate_ping.createCompositeState("newCompositeState")
@@ -79,12 +60,7 @@ class CompositeStateCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class CompositeStateDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		EcoreUtil.remove(_compositestate_ping)
@@ -97,12 +73,7 @@ class CompositeStateDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class SimpleStateWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_simplestate_ping_S1.name = '''«_simplestate_ping_S1.name»Modified'''
@@ -115,12 +86,7 @@ class SimpleStateWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTe
 	
 }
 
-@RunWith(Parameterized)
 class CompositeStateWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_compositestate_ping.name = '''«_compositestate_ping.name»Modified'''

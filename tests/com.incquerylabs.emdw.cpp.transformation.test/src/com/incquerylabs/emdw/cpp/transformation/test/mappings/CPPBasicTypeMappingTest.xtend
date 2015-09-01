@@ -4,18 +4,14 @@ import com.ericsson.xtumlrt.oopl.OOPLExistingNameProvider
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 
 @SuiteClasses(#[
 	CPPBasicTypeTest,
@@ -25,12 +21,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 class CPPBasicTypeMappingTestSuite {
 }
 
-@RunWith(Parameterized)
 class CPPBasicTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
@@ -40,8 +31,7 @@ class CPPBasicTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		
@@ -74,12 +64,7 @@ class CPPBasicTypeTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	}
 }
 
-@RunWith(Parameterized)
 class CPPBasicTypeInPackageTest extends MappingBaseTest<XTComponent, CPPComponent> {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
@@ -90,8 +75,7 @@ class CPPBasicTypeInPackageTest extends MappingBaseTest<XTComponent, CPPComponen
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		

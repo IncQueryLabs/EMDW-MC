@@ -30,8 +30,4 @@ abstract class ModelUtil {
 	public static final String TEST_SIDE_EFFECT_1 = '''cout << "foo";'''
 	public static final String TEST_SIDE_EFFECT_2 = '''cout << "bar";'''
 	public static final String TEST_EXPRESSION = "true"
-
-	static def <T> asSet(T object) {
-		#{object}.filterNull
-	}
 }

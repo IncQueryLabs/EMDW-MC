@@ -17,17 +17,44 @@ class TransformationUtil {
 	XtumlComponentCPPTransformation compTrafo
 	AdvancedIncQueryEngine engine
 
-	def initializeTransformation(ResourceSet rs) {
-		initializeTransformation(rs, null)
+	def initializeAllTransformation(ResourceSet rs) {
+		initializeAllTransformation(rs, null)
 	}
 	
-	def initializeTransformation(ResourceSet rs, Map<org.eclipse.uml2.uml.Type, Type> primitiveTypeMapping) {
-		engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
+	def initializeAllTransformation(ResourceSet rs, Map<org.eclipse.uml2.uml.Type, Type> primitiveTypeMapping) {
+		if(engine==null) {
+			engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
+		}
 		xtTrafo = new TransformationQrt
 		xtTrafo.externalTypeMap = primitiveTypeMapping
 		xtTrafo.initialize(engine)
 		cppTrafo = new XtumlCPPTransformationQrt
 		cppTrafo.initialize(engine)
+		compTrafo = new XtumlComponentCPPTransformation
+		compTrafo.initialize(engine)
+	}
+	
+	def initializeXtTransformation(ResourceSet rs, Map<org.eclipse.uml2.uml.Type, Type> primitiveTypeMapping) {
+		if(engine==null) {
+			engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
+		}
+		xtTrafo = new TransformationQrt
+		xtTrafo.externalTypeMap = primitiveTypeMapping
+		xtTrafo.initialize(engine)
+	}
+	
+	def initializeCppTransformation(ResourceSet rs) {
+		if(engine==null) {
+			engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
+		}
+		cppTrafo = new XtumlCPPTransformationQrt
+		cppTrafo.initialize(engine)
+	}
+	
+	def initializeCppComponentTransformation(ResourceSet rs) {
+		if(engine==null) {
+			engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(rs))
+		}
 		compTrafo = new XtumlComponentCPPTransformation
 		compTrafo.initialize(engine)
 	}

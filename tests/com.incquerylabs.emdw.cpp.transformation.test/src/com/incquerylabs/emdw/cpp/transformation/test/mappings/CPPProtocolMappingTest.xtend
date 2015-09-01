@@ -4,18 +4,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPProtocol
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.junit.Ignore
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	CPPProtocolInPackageTest,
@@ -25,13 +21,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 class CPPProtocolMappingTestSuite {}
 
 @Ignore("protocols not yet in scope")
-@RunWith(Parameterized)
 class CPPProtocolInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
@@ -41,8 +32,7 @@ class CPPProtocolInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
@@ -75,13 +65,8 @@ class CPPProtocolInPackageTest extends MappingBaseTest<Package, CPPPackage> {
 }
 
 @Ignore("protocols not yet in scope")
-@RunWith(Parameterized)
 class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		model.createXtProtocol("Protocol")
@@ -90,8 +75,7 @@ class CPPProtocolInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		cppModel
 	}
 	

@@ -1,19 +1,15 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	AttributeCreationMonitorTest,
@@ -26,12 +22,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class AttributeMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class AttributeCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_class_Ping.createSingleAttribute(_type_integer, VisibilityKind.PROTECTED, true, "newAttribute")
@@ -44,12 +35,7 @@ class AttributeCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class AttributeDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		EcoreUtil.remove(_attribute_isPlaying)
@@ -62,12 +48,7 @@ class AttributeDeletionMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class AttributeWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_attribute_isPlaying.name = '''«_attribute_isPlaying.name»Modified'''
@@ -80,12 +61,7 @@ class AttributeWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTest
 	
 }
 
-@RunWith(Parameterized)
 class AttributeWithModifiedBoundMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_attribute_isPlaying.upperBound = -1
@@ -98,12 +74,7 @@ class AttributeWithModifiedBoundMonitorTest extends XtumlMonitorWithModelBaseTes
 	
 }
 
-@RunWith(Parameterized)
 class AttributeWithModifiedVisibilityMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_attribute_isPlaying.visibility = VisibilityKind.PUBLIC
@@ -116,12 +87,7 @@ class AttributeWithModifiedVisibilityMonitorTest extends XtumlMonitorWithModelBa
 	
 }
 
-@RunWith(Parameterized)
 class AttributeWithModifiedTypeMonitorTest extends XtumlMonitorWithModelBaseTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected modifyXtumlModel(Model xtModel) {
 		_attribute_isPlaying.type = _type_integer

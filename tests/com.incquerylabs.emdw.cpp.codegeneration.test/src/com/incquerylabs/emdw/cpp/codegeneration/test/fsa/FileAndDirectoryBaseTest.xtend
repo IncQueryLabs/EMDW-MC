@@ -8,18 +8,14 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileMan
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
-import org.junit.Ignore
 import org.junit.Test
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
-
 abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
 
 	@Test
-	def test_1() {
+	override test_1() {
 		val testId = "fsa_test"
 		startTest(testId)
 		val xtModel = createEmptyXtumlModel(this.class.simpleName+"_"+testId)
@@ -54,12 +50,6 @@ abstract class FileAndDirectoryBaseTest<XtumlObject extends EObject, CPPObject e
 		assertFileSystemSynch(cppModel.bodyDir, fileManager)
 		assertFileSystemSynch(cppModel.headerDir, fileManager)
 		endTest(testId)
-	}
-
-	@Ignore
-	@Test
-	override single() {
-		assertTrue(true)
 	}
 
 	protected def CPPModel prepareCPPModelWithURI(URI modelURI)

@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.transformation.test.generator
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Collections
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
@@ -11,13 +10,9 @@ import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
+import org.junit.Ignore
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import org.junit.Ignore
 
 /**
  * This test case generates a complex instance model, providing 
@@ -32,12 +27,7 @@ import org.junit.Ignore
  * The generated instance model can be found in the model/GenerateComplexModelTest_single/ref folder
  */
 @Ignore("Enable to recreate example models")
-@RunWith(Parameterized)
 class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 		
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		val pack = xtumlmodel.createPackage("RootPackage")

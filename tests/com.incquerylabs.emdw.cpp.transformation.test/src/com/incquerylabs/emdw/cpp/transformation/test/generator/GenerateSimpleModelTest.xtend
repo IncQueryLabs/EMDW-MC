@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.transformation.test.generator
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Collections
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
@@ -12,12 +11,8 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.junit.Ignore
-import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 /**
  * This test case generates a relatively simple instance model, providing 
@@ -43,12 +38,7 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
  * The generated instance model can be found in the model/GenerateSimpleModelTest_single/ref folder
  */
 @Ignore("Enable to recreate example models")
-@RunWith(Parameterized)
 class GenerateSimpleModelTest extends TransformationTest<Package, CPPDirectory> {
-
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 
 	override protected prepareXtUmlModel(Model xtumlmodel) {
 		

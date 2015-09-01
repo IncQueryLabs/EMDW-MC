@@ -1,39 +1,26 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import com.incquerylabs.emdw.cpp.transformation.test.TestWithoutParameters
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.XtumlCPPTransformationWrapper
+import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
 import java.util.Set
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runners.Parameterized.Parameters
 
-import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-
-abstract class XtumlMonitorBaseTest extends TestWithoutParameters {
-	
+abstract class XtumlMonitorBaseTest {
 	protected extension XtumlQueries xtumlQueries = XtumlQueries.instance
+	protected extension Logger logger = Logger.getLogger(class)
+	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}	
-	
-	
-	@Parameters(name="{index}: {1}")
-	public static def transformations() {
-		val alternatives = ImmutableList.builder
-		.add(new XtumlCPPTransformationWrapper()).build
-
-		alternatives.map [
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
+	@BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(XtumlMonitorBaseTest.package.name).level = Level.TRACE
 	}
 	
 	@Test
@@ -64,5 +51,13 @@ abstract class XtumlMonitorBaseTest extends TestWithoutParameters {
 	protected def void modifyXtumlModel(Model xtModel)
 	
 	protected def void assertDirtyComponents(Set<XTComponent> components)
+	
+	def startTest(String testId){
+		info('''START TEST: «testId»''')
+	}
+	
+	def endTest(String testId){
+		info('''END TEST: «testId»''')
+	}
 	
 }

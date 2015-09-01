@@ -1,19 +1,15 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import java.util.Set
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	XtComponentXtPackageCreateMonitorTest,
@@ -23,14 +19,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class XtComponentXtPackageMonitorTestSuite {}
 
-@RunWith(Parameterized)
 class XtComponentXtPackageCreateMonitorTest extends XtumlMonitorBaseTest {
-	
 	private XTComponent dirtyComponent
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected assertDirtyComponents(Set<XTComponent> components) {
 		assertEquals(1, components.size)
@@ -49,14 +39,8 @@ class XtComponentXtPackageCreateMonitorTest extends XtumlMonitorBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class XtComponentXtPackageUpdateMonitorTest extends XtumlMonitorBaseTest {
-	
 	private XTComponent dirtyComponent
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected assertDirtyComponents(Set<XTComponent> components) {
 		assertEquals(1, components.size)
@@ -76,14 +60,8 @@ class XtComponentXtPackageUpdateMonitorTest extends XtumlMonitorBaseTest {
 	
 }
 
-@RunWith(Parameterized)
 class XtComponentXtPackageDeleteMonitorTest extends XtumlMonitorBaseTest {
-	
 	private XTComponent dirtyComponent
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected assertDirtyComponents(Set<XTComponent> components) {
 		assertEquals(1, components.size)

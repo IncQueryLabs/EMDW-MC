@@ -5,18 +5,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumerator
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Enumeration
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	CPPEnumeratorMappingTest
@@ -24,13 +20,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPEnumeratorMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPEnumeratorMappingTest extends SingleComponentTransformTest {
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
-	
+
 	override protected prepareXtUmlModel(Model xtModel) {
 		val component = xtModel.createXtComponent("component")
 		val enumeration = component.createEnumerationWithTypeDefinition("colors")
@@ -41,8 +32,7 @@ class CPPEnumeratorMappingTest extends SingleComponentTransformTest {
 	}
 	
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		val rootDir = res.createCPPDirectory
+		val rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtComponent = xtmodel.entities.filter(XTComponent).head
 		

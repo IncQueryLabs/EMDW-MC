@@ -1,43 +1,43 @@
 package com.incquerylabs.emdw.cpp.transformation.test
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.google.common.collect.ImmutableList
+import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.XtumlCPPTransformationQrtWrapper
+import com.incquerylabs.emdw.testing.common.utils.CppUtil
+import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
+import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.junit.After
+import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runners.Parameterized.Parameters
 
-import static com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 import static org.junit.Assert.*
 
-abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObject extends EObject> extends TestWithoutParameters {
+abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObject extends EObject> {
 
+	protected extension Logger logger = Logger.getLogger(class)
 	protected extension XtumlQueries xtumlQueries = XtumlQueries.instance
+	protected extension TransformationUtil util
+	protected extension XtumlUtil xtumlUtil = new XtumlUtil
+	protected extension CppUtil cppUtil = new CppUtil
 	
-	protected extension XtumlCPPTransformationQrtWrapper xtumlCPPWrapper
-	
-	new(XtumlCPPTransformationQrtWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-		this.xtumlCPPWrapper = wrapper
+	@BeforeClass
+	def static setupRootLogger() {
+		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.TRACE
 	}
 	
-	@Parameters(name = "{index}: {1}")
-    public static def transformations() {
-        val alternatives = ImmutableList.builder
-        	.add(new XtumlCPPTransformationQrtWrapper())
-			.build
-		
-		alternatives.map[
-			val simpleName = it.class.simpleName
-			#[it, simpleName].toArray
-		]
-    }
- 	
+	@Before
+	def void init() {
+		util = new TransformationUtil
+	}
+	
 	@Test
 	def incremental_creation_test() {
 		val testId = "create_test"
@@ -47,11 +47,11 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val cppResource = createCPPResource(xtModel)
 		val cppModel = prepareCppModel(cppResource, xtModel)
 		
-		cppModel.initializeTransformation
-		executeTransformation
+		cppModel.eResource.resourceSet.initializeCppTransformation
+		executeCppTransformation
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObjectCreated(xtObject, engine)
+		checkCppObjectCreated(xtObject, transformationEngine)
 		
 		xtResource.contents.clear
 		
@@ -67,20 +67,25 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val cppResource = createCPPResource(xtModel)
 		val cppModel = prepareCppModel(cppResource, xtModel)
 		
-		cppModel.initializeTransformation
-		executeTransformation
+		cppModel.eResource.resourceSet.initializeCppTransformation
+		executeCppTransformation
 		
 		xtModel.name = "updated_name"
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObjectCreated(xtObject, engine)
+		checkCppObjectCreated(xtObject, transformationEngine)
 		
 		xtObject?.removeXtumlObject;
-		checkCppObjectRemoved(xtObject, engine)
+		checkCppObjectRemoved(xtObject, transformationEngine)
 		
 		xtResource.contents.clear
 		
 		endTest(testId)
+	}
+	
+	@After
+	def cleanup() {
+		cleanupTransformation;
 	}
 	
 	/**
@@ -115,6 +120,14 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 	
 	protected def removeXtumlObject(XtumlObject xtObject) {
 		EcoreUtil.remove(xtObject)
+	}
+	
+	def startTest(String testId){
+		info('''START TEST: «testId»''')
+	}
+	
+	def endTest(String testId){
+		info('''END TEST: «testId»''')
 	}
 	
 }

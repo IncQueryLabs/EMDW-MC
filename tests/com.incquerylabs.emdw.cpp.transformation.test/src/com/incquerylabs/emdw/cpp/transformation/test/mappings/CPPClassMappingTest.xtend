@@ -5,20 +5,16 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.Ignore
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
 
 @SuiteClasses(#[
 	CPPClassInPackageTest,
@@ -29,14 +25,8 @@ import static extension com.incquerylabs.emdw.cpp.transformation.test.Transforma
 @RunWith(Suite)
 class CPPClassMappingTestSuite {}
 
-//@Ignore("packages not yet in scope")
-@RunWith(Parameterized)
 class CPPClassInPackageTest extends MappingBaseTest<Package, CPPComponent> {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val rootPackage = model.createPackage("RootPackage")
@@ -48,8 +38,7 @@ class CPPClassInPackageTest extends MappingBaseTest<Package, CPPComponent> {
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
@@ -93,13 +82,8 @@ class CPPClassInPackageTest extends MappingBaseTest<Package, CPPComponent> {
 }
 
 @Ignore("model not yet in scope")
-@RunWith(Parameterized)
 class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		model.createXtClass("Class")
@@ -108,8 +92,7 @@ class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		cppModel
 	}
 	
@@ -141,13 +124,8 @@ class CPPClassInModelTest extends MappingBaseTest<Model, CPPModel> {
 	
 }
 
-@RunWith(Parameterized)
 class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
@@ -158,13 +136,13 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = createCPPPackage(cppModel, xtPackage)
+		val cppPackageDir = cppPackage.headerDir
 		val xtComponent = xtPackage.entities.head as XTComponent
-		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, rootDir)
+		val cppComponent = createCPPComponentWithDirectoriesAndFiles(cppPackage, xtComponent, cppPackageDir)
 		
 		return cppComponent
 	}
@@ -200,13 +178,8 @@ class CPPClassInComponentTest extends MappingBaseTest<XTComponent, CPPComponent>
 	
 }
 
-@RunWith(Parameterized)
 class CPPClassSingleComponentTransformTest extends SingleComponentTransformTest {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model model) {
 		val pack = model.createPackage("RootPackage")
@@ -219,8 +192,7 @@ class CPPClassSingleComponentTransformTest extends SingleComponentTransformTest 
 	}
 		
 	override protected prepareCppModel(CPPModel cppModel) {
-		val res = cppModel.eResource
-		rootDir = res.createCPPDirectory
+		rootDir = cppModel.headerDir
 		val xtmodel = cppModel.commonModel
 		val xtPackage = xtmodel.packages.head as Package
 		val cppPackage = cppModel.createCPPPackage(xtPackage)

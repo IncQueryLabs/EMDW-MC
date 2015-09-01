@@ -1,23 +1,19 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
-import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
-import com.incquerylabs.emdw.cpp.common.test.wrappers.TransformationWrapper
-import com.incquerylabs.emdw.valuedescriptor.PropertyWriteDescriptor
-import org.eclipse.uml2.uml.Property
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import org.eclipse.uml2.uml.Model
+import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
+import com.incquerylabs.emdw.valuedescriptor.PropertyWriteDescriptor
 import org.eclipse.uml2.uml.Class
-import org.junit.runners.Parameterized
-import org.junit.runner.RunWith
-import org.junit.runners.Suite.SuiteClasses
-import org.junit.runners.Suite
-
-import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.common.test.CommonTestUtil.*
+import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.PrimitiveType
+import org.eclipse.uml2.uml.Property
 import org.junit.Ignore
 import org.junit.Test
-import org.eclipse.uml2.uml.PrimitiveType
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
+
+import static org.junit.Assert.*
 
 @SuiteClasses(#[
 	PropertyWriteDescriptorForAttributeTest,
@@ -26,7 +22,6 @@ import org.eclipse.uml2.uml.PrimitiveType
 @RunWith(Suite)
 class PropertyWriteDescriptorTestSuite {}
 
-@RunWith(Parameterized)
 class PropertyWriteDescriptorForAttributeTest extends ValueDescriptorBaseTest<Property, PropertyWriteDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -39,10 +34,6 @@ class PropertyWriteDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pr
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«PROPERTY_NAME» = «LITERAL»'''
 	private Class umlClass
 	private PrimitiveType propertyType
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -94,7 +85,6 @@ class PropertyWriteDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pr
 	
 }
 
-@RunWith(Parameterized)
 class PropertyWriteDescriptorForAssociationTest extends ValueDescriptorBaseTest<Property, PropertyWriteDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
@@ -108,10 +98,6 @@ class PropertyWriteDescriptorForAssociationTest extends ValueDescriptorBaseTest<
 	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«ASSOCIATION_NAME»_«PROPERTY_NAME» = «OTHER_VARIABLE_NAME»'''
 	private Class umlClass
 	private Class otherClass
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)

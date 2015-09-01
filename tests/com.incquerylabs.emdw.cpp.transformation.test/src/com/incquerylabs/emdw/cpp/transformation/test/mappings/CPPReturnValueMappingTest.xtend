@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
@@ -9,21 +10,16 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
-import com.incquerylabs.emdw.cpp.transformation.test.wrappers.TransformationWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.junit.runner.RunWith
-import org.junit.runners.Parameterized
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-
-import static extension com.incquerylabs.emdw.cpp.transformation.test.TransformationTestUtil.*
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 
 @SuiteClasses(#[
 	CPPReturnValueSingleBasicTypeTest,
@@ -34,13 +30,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 @RunWith(Suite)
 class CPPReturnValueMappingTestSuite {}
 
-@RunWith(Parameterized)
 class CPPReturnValueSingleBasicTypeTest extends SingleComponentTransformTest {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val pack = xtModel.createPackage("RootPackage")
@@ -95,13 +86,8 @@ class CPPReturnValueSingleBasicTypeTest extends SingleComponentTransformTest {
 	}
 }
 
-@RunWith(Parameterized)
 class CPPReturnValueBasicTypeSequenceTest extends SingleComponentTransformTest {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val pack = xtModel.createPackage("RootPackage")
@@ -162,13 +148,8 @@ class CPPReturnValueBasicTypeSequenceTest extends SingleComponentTransformTest {
 	}
 }
 
-@RunWith(Parameterized)
 class CPPReturnValueSingleClassTypeTest extends SingleComponentTransformTest {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val pack = xtModel.createPackage("RootPackage")
@@ -224,13 +205,8 @@ class CPPReturnValueSingleClassTypeTest extends SingleComponentTransformTest {
 	}
 }
 
-@RunWith(Parameterized)
 class CPPReturnValueClassCollectionTypeTest extends SingleComponentTransformTest {
 	CPPDirectory rootDir;
-	
-	new(TransformationWrapper wrapper, String wrapperType) {
-		super(wrapper, wrapperType)
-	}
 	
 	override protected prepareXtUmlModel(Model xtModel) {
 		val pack = xtModel.createPackage("RootPackage")

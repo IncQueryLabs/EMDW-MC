@@ -4,11 +4,17 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.codegeneration.test.TransformationTest
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.junit.runner.RunWith
+import org.junit.runners.Suite
+import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 
-import static extension com.incquerylabs.emdw.testing.common.utils.CppUtil.*
-import static extension com.incquerylabs.emdw.testing.common.utils.XtumlUtil.*
+@SuiteClasses(#[
+	StateMappingTest
+])
+@RunWith(Suite)
+class StateMappingTestSuite {}
 
 class StateMappingTest extends TransformationTest<State, CPPClass> {
 	
@@ -41,7 +47,7 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 	}
 	
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
-		val files = util.cppCodeGeneration.generatedCPPSourceFiles
+		val files = cppCodeGeneration.generatedCPPSourceFiles
 		val classHeader = files.get(cppObject.headerFile).toString
 		assertTrue(classHeader.contains("class TEST_state"))
 		assertTrue(classHeader.contains("s1"))

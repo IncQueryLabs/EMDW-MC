@@ -93,7 +93,7 @@ class CodeGenerator {
 				
 				val cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
 				xtComponents.forEach[ xtComponent |
-					if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
+					//if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
 						cppTransformWatch.start
 						performCppTransformation(engine, xtComponent)
 						cppTransformWatch.stop
@@ -102,7 +102,7 @@ class CodeGenerator {
 						val cppSourceFileContentsForComponent = performCodeGeneration(engine, cppComponent)
 						cppSourceFileContents.putAll(cppSourceFileContentsForComponent)
 						codeGenerationWatch.stop
-					}
+					//}
 				]
 				fileGenerationWatch.start
 				generateFiles(cppResource, cppModel, cppSourceFileContents)

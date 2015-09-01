@@ -1,13 +1,14 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
+import com.ericsson.xtumlrt.oopl.OOPLBasicType
+import com.ericsson.xtumlrt.oopl.OOPLEnumType
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
-import com.ericsson.xtumlrt.oopl.OOPLEnumType
 
 class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	private CppLiteralConverter converter
@@ -150,6 +151,15 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		val preparedDescriptor = createSingleVariableDescriptor => [
 				it.stringRepresentation = localVariableName
 				it.baseType = (type as CPPQualifiedNamedElement).cppQualifiedName
+				it.fullType = it.baseType
+		]
+		return preparedDescriptor
+	}
+	
+	private dispatch def prepareSingleVariableDescriptor(OOPLBasicType type, String localVariableName) {
+		val preparedDescriptor = createSingleVariableDescriptor => [
+				it.stringRepresentation = localVariableName
+				it.baseType = (type as CPPQualifiedNamedElement).cppName
 				it.fullType = it.baseType
 		]
 		return preparedDescriptor

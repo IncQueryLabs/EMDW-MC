@@ -36,18 +36,11 @@ abstract class AbstractPluginValidatorTest {
     @Parameter(3)
     public List<String> issueCodes
     
+    private static ReducedAlfParser parser
+    private static TestModelUMLContextProvider context
 	
 	@Test
 	public def validatorPluginTest(){
-    	//Initiate components
-    	//Create parser
-    	val parser = new ReducedAlfParser
-    	//Create uml context provider
-    	//It is responsible for supplying the primitive and user defined UML types
-    	//in this case th UML model is loaded from an external resource
-    	//Its path needs to be specified here
-	    val context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
-	    //As in this test case there is no editor attached to the UML model, the qualified name of the current type needs to be specified.
 	    if(!thisName.equals("")){
     		context.definedOperation = thisName
     	}
@@ -116,5 +109,8 @@ abstract class AbstractPluginValidatorTest {
         if (!EPackage.Registry.INSTANCE.containsKey(XtextPackage.eNS_URI))
             EPackage.Registry.INSTANCE.put(XtextPackage.eNS_URI,
                     XtextPackage.eINSTANCE);
+                    
+        parser = new ReducedAlfParser
+	    context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
 	}
 }

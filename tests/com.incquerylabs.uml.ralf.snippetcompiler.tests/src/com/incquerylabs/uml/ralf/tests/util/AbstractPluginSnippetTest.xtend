@@ -6,6 +6,7 @@ import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
 import com.incquerylabs.uml.ralf.tests.util.context.TestModelUMLContextProvider
 import com.incquerylabs.uml.ralf.tests.util.descriptors.DummyUmlValueDescriptorFactory
+import org.junit.BeforeClass
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -30,20 +31,12 @@ abstract class AbstractPluginSnippetTest {
     @Parameter(3)
     public String thisName="";
 		
+	private static ReducedAlfParser parser
+    private static TestModelUMLContextProvider context
+
 
     @Test 
     def void t01_createSnippet() {
-    	//Initiate components
-    	//Create parser
-    	val parser = new ReducedAlfParser
-    	//Create uml context provider
-    	//It is responsible for supplying the primitive and user defined UML types
-    	//in this case th UML model is loaded from an external resource
-    	//Its path needs to be specified here
-	    val context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
-	    //Snippet compiler that creates a snippet template tree based on the parsed code
-	    //It needs an UML valueDescriptor factory which is used for determining which CPP element can be traced 
-	    //back to what UML element
 	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), context)
 	    //Serializer component
 	    val serializer = new ReducedAlfSnippetTemplateSerializer
@@ -63,6 +56,11 @@ abstract class AbstractPluginSnippetTest {
        	val serializedSnippet = serializer.serialize(snippet)
        	//compare results
     	assertEquals("The created snippet does not match the expected result",expectedOutput,serializedSnippet)
-	
     }
+    
+    @BeforeClass
+	def static void init(){                    
+        parser = new ReducedAlfParser
+	    context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
+	}
 }

@@ -38,21 +38,21 @@ class ConditionalValidatorTest extends AbstractValidatorTest{
 				x && y;''',
 			    #[]
 			],
-			#[  "InvalidAndExpression: Invalid variable type",
+			#[  "InvalidAndExpression: Invalid variable type Unary",
 			    '''true && -2;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			],
-			#[  "InvalidAndExpression: Invalid variable type",
+			#[  "InvalidAndExpression: Invalid variable type Multiplication",
 			    '''true && 2*3;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			]
 			,
-			#[  "InvalidAndExpression: Invalid variable type",
+			#[  "InvalidAndExpression: Invalid variable type Addition",
 			    '''true && 2+3;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			]
 			,
-			#[  "InvalidAndExpression: Invalid variable type",
+			#[  "InvalidAndExpression: Invalid variable type Shift",
 			    '''true && 2>>3;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			]
@@ -94,21 +94,21 @@ class ConditionalValidatorTest extends AbstractValidatorTest{
 			    '''true || true && false;''',
 			    #[]
 			],
-			#[  "InvalidOrExpression: Invalid variable type",
+			#[  "InvalidOrExpression: Invalid variable type Unary",
 			    '''true || -2;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			],
-			#[  "InvalidOrExpression: Invalid variable type",
+			#[  "InvalidOrExpression: Invalid variable type Multiplicative",
 			    '''true || 2*3;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			]
 			,
-			#[  "InvalidOrExpression: Invalid variable type",
+			#[  "InvalidOrExpression: Invalid variable type Additive",
 			    '''true || 2+3;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			]
 			,
-			#[  "InvalidOrExpression: Invalid variable type",
+			#[  "InvalidOrExpression: Invalid variable type Shift",
 			    '''true || 2>>3;''',
 			    #[ReducedAlfSystem.CONDITIONALLOGICALEXPRESSION]
 			]

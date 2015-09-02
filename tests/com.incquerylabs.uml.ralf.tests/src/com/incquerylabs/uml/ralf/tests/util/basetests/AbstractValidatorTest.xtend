@@ -3,10 +3,7 @@ package com.incquerylabs.uml.ralf.tests.util.basetests
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider
 import java.util.ArrayList
-import java.util.Arrays
-import java.util.HashMap
 import java.util.List
-import java.util.Map.Entry
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
@@ -45,38 +42,49 @@ abstract class AbstractValidatorTest {
 	}
 		
 	protected def void assertAll(Iterable<Issue> issues, String... issueCodes) {
-		val consumed = new HashMap<String, Boolean>();
-		for (String s : issueCodes)
-			consumed.put(s, Boolean.FALSE);
+				val unConsumedCodes = new ArrayList<String>()
+		unConsumedCodes.addAll(issueCodes.toList)
+		val unConsumedIssues = new ArrayList<Issue>()
+		unConsumedIssues.addAll(issues.toList)
+			
 		for (Issue i : issues) {
-			var found = false;
-			for (Entry<String, Boolean> e : consumed.entrySet())
+			var String foundCode
+			var found = false
+			for (String e : unConsumedCodes){
 				if(i.code == null){
-					consumed.put(e.getKey(), Boolean.TRUE);
-					found = true;
+					if (e.equals("null")) {
+						foundCode = e;
+						found = true;
+					}
 				}else{
-					if (!e.getValue() && e.getKey().equals(i.code)) {
-						consumed.put(e.getKey(), Boolean.TRUE);
+					if (e.equals(i.code)) {
+						foundCode = e;
 						found = true;
 					}
 				}
-			if (!found) {
-				if (issueCodes.length == 1){
-					fail("Issue code " + issueCodes.get(0) + " does not match " + i.code);
-				}
-				else{
-					fail("No issue code in " + Arrays.toString(issueCodes) + " matches " + i.code);
-				}
+			}
+					
+			if (found) {
+				unConsumedCodes.remove(foundCode)
+				unConsumedIssues.remove(i)
 			}
 		}
-		val unconsumed = new ArrayList<String>();
-		for (Entry<String, Boolean> e : consumed.entrySet()){
-			if (!e.getValue()){
-				unconsumed.add(e.getKey());
-			}	
+	
+		if (unConsumedCodes.size() != 0){
+			if(unConsumedIssues.size() != 0){
+				fail(
+				'''
+				There are diagnostics missing for these predicates: «unConsumedCodes» and
+				The following issues were produced unexpectedly: «FOR issue : unConsumedIssues SEPARATOR ', '»«IF issue.code == null»«"null"»«ELSE»«issue.code»«ENDIF»«ENDFOR»
+				''');
+			}else{
+				fail('''There are diagnostics missing for these predicates: «unConsumedCodes»''');
+			}
+		}else{
+			if(unConsumedIssues.size() != 0){
+				fail('''The following issues were produced unexpectedly: «FOR issue : unConsumedIssues SEPARATOR ', '»«IF issue.code == null»«"null"»«ELSE»«issue.code»«ENDIF»«ENDFOR»''');
+			}
 		}
-		if (unconsumed.size() != 0)
-			fail("There are diagnostics missing for these predicates: " + unconsumed);
 	}
 	
 	@BeforeClass

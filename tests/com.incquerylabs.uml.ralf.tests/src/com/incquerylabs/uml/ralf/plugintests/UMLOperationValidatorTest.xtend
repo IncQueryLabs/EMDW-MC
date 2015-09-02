@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.plugintests
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 
 class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 	@Parameters(name = "{0}")
@@ -10,13 +11,6 @@ class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 		newArrayList(
 			#[  "Integer Operation Call: Literal Parameter",
 			    '''this.doIntegerVoid(1);''',
-				"model::Comp::Pong::TestOperation",
-			    #[]
-			],
-			#[  "Integer Operation Call: Variable Parameter",
-			    '''
-				Integer x = 2;
-				this.doIntegerVoid(x);''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
@@ -37,12 +31,6 @@ class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 			#[  "Integer Operation Call: Additive Parameter",
 			    '''
 				this.doIntegerVoid(1+1);''',
-				"model::Comp::Pong::TestOperation",
-			    #[]
-			],
-			#[  "Integer Operation Call: Multiplicative Parameter",
-			    '''
-				this.doIntegerVoid(1*1);''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
@@ -323,6 +311,29 @@ class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 				Pong::TestOperation(1, a);''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
+			],
+			#[  "Static Operation Call: Qualified name",
+			    '''model::Comp::Pong::staticIntegerOperation();''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Static Operation Call: Class local name",
+			    '''Pong::staticIntegerOperation();''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Static Operation Call: without class",
+			    '''staticIntegerOperation();''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Static Operation Call: misspelled",
+			    '''staticIntegerOperatio();''',
+				"model::Comp::Pong::TestOperation",
+			    #[
+			    	ReducedAlfSystem.NAMEEXPRESSION,
+			    	ReducedAlfSystem.NAMEEXPRESSION
+			    ]
 			]
 
 		)

@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.tests.validator.statements
 
-import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
@@ -122,18 +121,18 @@ class SimpleStatementsValidatorTest extends AbstractValidatorTest{
 			],
 			#[  "InvalidBreakStatement: InvalidBreak_in_Statements",
 			    '''break;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidBreakStatement: InvalidBreak_in_Block",
 			    '''{break;}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidBreakStatement: InvalidBreak_in_If",
 			    '''
 				if(true){
 					break;
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "ReturnStatement: void return",
 			    '''return;''',
@@ -141,69 +140,69 @@ class SimpleStatementsValidatorTest extends AbstractValidatorTest{
 			],
 			#[  "InvalidReturnStatement: IntegerLiteral",
 			    '''return 1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: RealLiteral",
 			    '''return 1.1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: BooleanLiteral",
 			    '''return false;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: StringLiteral",
 			    '''return "1";''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: Multiplication",
 			    '''return 1*1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: Addition",
 			    '''return 1+1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: Shift",
 			    '''return 1>>1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: Relational",
 			    '''return 1>1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: Equality",
 			    '''return 1==1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: BitwiseOR",
 			    '''return 1|1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: BitwiseAND",
 			    '''return 1&1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: BitwiseXOR",
 			    '''return 1^1;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: ConditionalAND",
 			    '''return true && false;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: ConditionalOR",
 			    '''return true || false;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: BooleanUnary",
 			    '''return !true;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidReturnStatement: Assignment",
 			    '''
 				Integer x = 1;
 				return x = 2;''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			]
 		)
 	}

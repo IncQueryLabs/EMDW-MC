@@ -9,7 +9,7 @@ class RelationalExpressionValidatorTest extends AbstractValidatorTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "RelationalExpression: Integer variable",
+			#[  "RelationalExpression: Integer literal",
 			    '''1 > 2;''',
 			    #[]
 			],

@@ -93,12 +93,12 @@ class UMLOpaqueOperationParameterValidatorTest extends AbstractPluginValidatorTe
 			#[  "Invalid Return Parameter: Real Literal",
 			    '''return 1.1;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "Invalid Return Parameter: String Literal",
 			    '''return "1";''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "Return Parameter: Addition",
 			    '''return 1+2;''',
@@ -122,12 +122,12 @@ class UMLOpaqueOperationParameterValidatorTest extends AbstractPluginValidatorTe
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
-			#[  "Invalid Return Parameter: String Literal",
+			#[  "Invalid Return Parameter: String variable",
 			    '''
 				Pong x = this.returnPong();
 				return x;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			]
 			
 		)

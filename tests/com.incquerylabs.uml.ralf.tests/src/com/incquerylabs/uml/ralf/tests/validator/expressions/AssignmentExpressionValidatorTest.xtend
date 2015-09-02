@@ -178,11 +178,6 @@ class AssignmentExpressionValidatorTest extends AbstractValidatorTest{
 			    "InvalidAssignmentExpression: Boolean Literal Assignment",
 			    '''true = false;''',
 			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
-			],
-			#[
-			    "InvalidAssignmentExpression: Integer Literal Assignment",
-			    '''1 = 2;''',
-			    #[ReducedAlfLanguageValidator.CODE_INVALID_LHS]
 			]
 		)
 	}			

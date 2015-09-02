@@ -11,32 +11,25 @@ class ForStatementValidatorTest extends AbstractValidatorTest{
 		newArrayList(
 			#[  "ForEach Statement: Integer literal",
 			    '''for(Integer i in 5){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Real literal",
 			    '''for(Integer i in 1.1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Boolean literal",
 			    '''for(Integer i in true){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: String literal",
 			    '''for(Integer i in "1"){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Literal collection",
 			    '''for(String i in {"1"}){}''',
 			    #[]
 			],
-			#[  "ForEach Statement: Integer literal",
-			    '''
-				for(String i in {"1"}){
-					i = "ASD";
-				}''',
-			    #[]
-			],
-			#[  "ForEach Statement: Integer literal",
+			#[  "ForEach Statement: String collection",
 			    '''
 				for(String i in {"1"}){
 					i = "ASD";
@@ -49,57 +42,57 @@ class ForStatementValidatorTest extends AbstractValidatorTest{
 				for(String i in {"1"}){
 					i = "ASD";
 				}''',
-			    #[ReducedAlfSystem.VARIABLEDECLARATION]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Multiplicative",
 			    '''for(Integer i in 1*1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Additive",
 			    '''for(Integer i in 1+1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Shift",
 			    '''for(Integer i in 1 >> 1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Relational",
 			    '''for(Integer i in 1*1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Equality",
 			    '''for(Integer i in 1==1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Bitwise OR",
 			    '''for(Integer i in 1|1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Bitwise AND",
 			    '''for(Integer i in 1&1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Bitwise XOR",
 			    '''for(Integer i in 1^1){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: AND",
 			    '''for(Integer i in true && false){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: OR",
 			    '''for(Integer i in true || false){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Boolean unary",
 			    '''for(Integer i in !true){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "ForEach Statement: Assignment",
 			    '''
 			    Integer x = 1;
 			    for(Integer i in x=2){}''',
-			    #[ReducedAlfSystem.COLLECTIONSUBTYPING]
+			    #["null"]
 			],
 			#[  "For Statement: simple",
 			    '''for (Integer i = 0; i < 5; i++) {}''',

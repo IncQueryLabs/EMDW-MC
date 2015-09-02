@@ -46,7 +46,7 @@ class VariableDeclarationValidatorTest extends AbstractValidatorTest{
 			    '''Boolean x = null;''',
 			    #[ReducedAlfSystem.GENERALREFERENCESUBTYPING]
 			],
-			#[  "VariableDeclarationStatement: RHS: IntegerLiteral",
+			#[  "VariableDeclarationStatement: RHS: Addition",
 			    '''Integer x = 1+2;''',
 			    #[]
 			],
@@ -112,7 +112,7 @@ class VariableDeclarationValidatorTest extends AbstractValidatorTest{
 			    '''
 				Integer x = 1;
 				Integer x = 1;''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #["null"]
 			],
 			#[  "VariableDeclarationStatement: Redefine after block",
 			    '''
@@ -128,7 +128,7 @@ class VariableDeclarationValidatorTest extends AbstractValidatorTest{
 				{
 					String z = "1";
 				}''',
-			    #[ReducedAlfSystem.PRIMITIVESUBTYPING]
+			    #["null"]
 			]
 		)
 	}	

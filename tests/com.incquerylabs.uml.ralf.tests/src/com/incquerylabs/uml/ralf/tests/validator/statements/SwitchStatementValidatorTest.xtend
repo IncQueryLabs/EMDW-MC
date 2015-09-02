@@ -23,7 +23,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case 1.1 : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidSwitchExpression: BooleanLiteral",
 			    '''
@@ -31,7 +31,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case true : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "SwitchExpression: StringLiteral",
 			    '''
@@ -72,7 +72,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case 1 : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "SwitchExpression: shift",
 			    '''
@@ -88,7 +88,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case true : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidSwitchExpression: Equality",
 			    '''
@@ -96,7 +96,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case true : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "SwitchExpression: BitwiseOR",
 			    '''
@@ -128,7 +128,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case true : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidSwitchExpression: ConditionalOR",
 			    '''
@@ -136,7 +136,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case true : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "InvalidSwitchExpression: BooleanUnary",
 			    '''
@@ -144,7 +144,7 @@ class SwitchStatementValidatorTest extends AbstractValidatorTest{
 					case true : {}
 					default : {}
 				}''',
-			    #[ReducedAlfSystem.SIMPLETYPEREFERENCESUBTYPING]
+			    #["null"]
 			],
 			#[  "SwitchExpression: Assignment",
 			    '''

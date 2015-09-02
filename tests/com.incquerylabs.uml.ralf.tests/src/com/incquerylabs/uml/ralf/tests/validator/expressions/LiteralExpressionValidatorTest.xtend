@@ -9,36 +9,36 @@ class LiteralExpressionValidatorTest extends AbstractValidatorTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "AffixExpression: Integer variable",
+			#[  "Boolean literal true",
 			    '''true;''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
+			#[  "Boolean literal false",
 			    '''false;''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
+			#[  "Natural literal: decimal",
 			    '''123;''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
+			#[  "Natural literal: binary",
 			    '''0b010101010101;''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
+			#[  "Natural literal: hex",
 			    '''0xAE10;''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
+			#[  "Natural literal: underscore",
 			    '''123_456;''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
+			#[  "String literal: valid",
 			    '''"ABC";''',
 			    #[]
 			],
-			#[  "AffixExpression: Integer variable",
-			    '''"AB\\C";''',
+			#[  "String literal: break",
+			    '''"AB\"C";''',
 			    #[]
 			]
 		)

@@ -124,7 +124,7 @@
 							<genmodelUri>model/../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel</genmodelUri>
 						</metamodel>
 						<metamodel>
-							<genmodelUri>model/../../com.ericsson.emdw.snippet.model/model/snippet.genmodel</genmodelUri>
+							<genmodelUri>model/../../com.ericsson.emdw.snippet.model/model/snippettemplate.genmodel</genmodelUri>
 						</metamodel>
 						<metamodel>
 							<genmodelUri>model/cppmodel.genmodel</genmodelUri>

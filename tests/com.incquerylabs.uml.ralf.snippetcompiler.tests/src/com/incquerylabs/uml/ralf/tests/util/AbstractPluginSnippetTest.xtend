@@ -61,6 +61,6 @@ abstract class AbstractPluginSnippetTest {
     @BeforeClass
 	def static void init(){                    
         parser = new ReducedAlfParser
-	    context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.tests/model/model.uml");
+	    context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.snippetcompiler.tests/model/model.uml");
 	}
 }

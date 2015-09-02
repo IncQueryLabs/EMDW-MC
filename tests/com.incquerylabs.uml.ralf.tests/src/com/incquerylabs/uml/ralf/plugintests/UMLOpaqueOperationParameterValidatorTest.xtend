@@ -16,13 +16,6 @@ class UMLOpaqueOperationParameterValidatorTest extends AbstractPluginValidatorTe
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
-			#[  "Operation Parameter access: Real Assignment",
-			    '''
-				Real x = 1.1;
-				x = inParameter;''',
-				"model::Comp::Pong::TestOperation",
-			    #[]
-			],
 			#[  "Invalid Operation Parameter access: Assignment Invalid Type",
 			    '''
 				String x = "1";
@@ -84,52 +77,7 @@ class UMLOpaqueOperationParameterValidatorTest extends AbstractPluginValidatorTe
 			    '''outParameter = this.returnPong();''',
 				"model::Comp::Pong::TestOperation",
 			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
-			],
-			#[  "Return Parameter: Integer Literal",
-			    '''return 1;''',
-				"model::Comp::Pong::TestOperation",
-			    #[]
-			],
-			#[  "Invalid Return Parameter: Real Literal",
-			    '''return 1.1;''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			],
-			#[  "Invalid Return Parameter: String Literal",
-			    '''return "1";''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			],
-			#[  "Return Parameter: Addition",
-			    '''return 1+2;''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			],
-			#[  "Return Parameter: Multiplication",
-			    '''return 1*2;''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			],
-			#[  "Return Parameter: Shift",
-			    '''return 1 >> 2;''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			],
-			#[  "Return Parameter: Operation",
-			    '''
-				Integer x = this.returnInteger();
-				return x;''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			],
-			#[  "Invalid Return Parameter: String variable",
-			    '''
-				Pong x = this.returnPong();
-				return x;''',
-				"model::Comp::Pong::TestOperation",
-			    #["null"]
-			]
-			
+			]	
 		)
 	}	
 }

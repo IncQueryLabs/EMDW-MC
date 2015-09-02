@@ -8,6 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ 
     UMLAssociationValidatorTest.class, 
     UMLOpaqueOperationParameterValidatorTest.class,
+    UMLOpaqueOperationParameterValidatorTestIgnored.class,
     UMLOperationValidatorTest.class,
     UMLOperationPrimitiveValidatorTest.class,
     UMLOperationReturnValidatorTest.class,

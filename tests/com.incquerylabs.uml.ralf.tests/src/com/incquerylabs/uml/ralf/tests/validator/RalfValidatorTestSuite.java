@@ -21,6 +21,7 @@ import com.incquerylabs.uml.ralf.tests.validator.statements.BlockStatementValida
 import com.incquerylabs.uml.ralf.tests.validator.statements.ForStatementValidatorTest;
 import com.incquerylabs.uml.ralf.tests.validator.statements.ForStatementValidatorTestIgnored;
 import com.incquerylabs.uml.ralf.tests.validator.statements.IfStatementValidatorTest;
+import com.incquerylabs.uml.ralf.tests.validator.statements.ReturnStatementValidatorTest;
 import com.incquerylabs.uml.ralf.tests.validator.statements.SimpleStatementsValidatorTest;
 import com.incquerylabs.uml.ralf.tests.validator.statements.SwitchStatementValidatorTest;
 import com.incquerylabs.uml.ralf.tests.validator.statements.VariableDeclarationValidatorTest;
@@ -47,6 +48,7 @@ import com.incquerylabs.uml.ralf.tests.validator.statements.WhileStatementValida
     IfStatementValidatorTest.class,
     SimpleStatementsValidatorTest.class,
     SwitchStatementValidatorTest.class,
+    ReturnStatementValidatorTest.class,
     VariableDeclarationValidatorTest.class,
     WhileStatementValidatorTest.class})
 public class RalfValidatorTestSuite {}

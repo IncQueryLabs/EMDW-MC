@@ -30,8 +30,10 @@ class ModelPackageMapping extends AbstractObjectMapping<XtPackageInModelMatch, P
 		match.xtPackage
 	}
 	
-	override protected getCppObject(Package xtPackage) {
-		engine.cppPackages.getAllValuesOfcppPackage(xtPackage).head
+	override protected getCppObject(XtPackageInModelMatch match) {
+		val cppPackages = match.cppModel.subElements.filter(CPPPackage)
+		val cppPackage = cppPackages.filter[commonPackage.equals(match.xtPackage)].head
+		cppPackage
 	}
 	
 	override protected createCppObject(XtPackageInModelMatch match) {
@@ -76,8 +78,10 @@ class ModelPackageInPackageMapping extends AbstractObjectMapping<XtModelPackageI
 		match.xtChildPackage
 	}
 	
-	override protected getCppObject(Package xtPackage) {
-		engine.cppPackages.getAllValuesOfcppPackage(xtPackage).head
+	override protected getCppObject(XtModelPackageInPackageMatch match) {
+		val cppPackages = match.cppParentPackage.subElements.filter(CPPPackage)
+		val cppPackage = cppPackages.filter[commonPackage == match.xtChildPackage].head
+		return cppPackage
 	}
 	
 	override protected createCppObject(XtModelPackageInPackageMatch match) {

@@ -1,6 +1,8 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.incquerylabs.emdw.cpp.transformation.test.EventDrivenTransformationTest
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Model
@@ -24,8 +26,9 @@ class CPPModelComponentMappingTest extends EventDrivenTransformationTest<XTCompo
 		assertTrue("CPP component not created!" , engine.cppComponents.allValuesOfxtComponent.contains(xtObject))
 	}
 	
-	override protected checkCppObjectRemoved(XTComponent xtObject, IncQueryEngine engine) {
-		assertFalse("CPP component not removed!" , engine.cppComponents.allValuesOfxtComponent.contains(xtObject))
+	override protected checkCppObjectRemoved(CPPModel cppModel, XTComponent xtObject) {
+		val cppComponents = cppModel.subElements.filter(CPPComponent)
+		assertFalse("CPP component not removed!" , cppComponents.exists[xtComponent.equals(xtObject)])
 	}
 	
 	override protected createXtumlObject(Model modelRoot) {
@@ -40,8 +43,11 @@ class CPPModelComponentInPackageMappingTest extends EventDrivenTransformationTes
 		assertTrue("CPP component not created!" , engine.cppComponents.allValuesOfxtComponent.contains(xtObject))
 	}
 	
-	override protected checkCppObjectRemoved(XTComponent xtObject, IncQueryEngine engine) {
-		assertFalse("CPP component not removed!" , engine.cppComponents.allValuesOfxtComponent.contains(xtObject))
+	override protected checkCppObjectRemoved(CPPModel cppModel, XTComponent xtObject) {
+		val cppPackage1 = cppModel.subElements.filter(CPPPackage).head
+		val cppPackage2 = cppPackage1.subElements.filter(CPPPackage).head
+		val cppComponents = cppPackage2.subElements.filter(CPPComponent)
+		assertFalse("CPP component not removed!" , cppComponents.exists[xtComponent.equals(xtObject)])
 	}
 	
 	override protected createXtumlObject(Model modelRoot) {

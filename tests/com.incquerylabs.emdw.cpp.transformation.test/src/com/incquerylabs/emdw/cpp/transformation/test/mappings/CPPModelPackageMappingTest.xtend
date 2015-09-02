@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.incquerylabs.emdw.cpp.transformation.test.EventDrivenTransformationTest
 import org.eclipse.incquery.runtime.api.IncQueryEngine
@@ -28,8 +29,10 @@ class CPPModelPackageMappingTest extends EventDrivenTransformationTest<Package, 
 		assertTrue("CPP package not exists" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
 	}
 	
-	override protected checkCppObjectRemoved(Package xtObject, IncQueryEngine engine) {
-		assertFalse("CPP package not exists" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
+	override protected checkCppObjectRemoved(CPPModel cppModel, Package xtObject) {
+		val allCppPackages = cppModel.subElements.filter(CPPPackage)
+		val cppPackages = allCppPackages.filter[commonPackage.equals(xtObject)]
+		assertTrue("CPP package not exists" , cppPackages.isEmpty)
 	}
 	
 }
@@ -47,8 +50,12 @@ class CPPModelPackageInPackageMappingTest extends EventDrivenTransformationTest<
 		assertTrue("CPP package not created" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
 	}
 	
-	override protected checkCppObjectRemoved(Package xtObject, IncQueryEngine engine) {
-		assertFalse("CPP package not removed" , engine.cppPackages.allValuesOfxtPackage.contains(xtObject))
+	override protected checkCppObjectRemoved(CPPModel cppModel, Package xtObject) {
+		val cppPackage1 = cppModel.subElements.filter(CPPPackage).head
+		val cppPackage2 = cppPackage1.subElements.filter(CPPPackage).head
+		val cppPackage3 = cppPackage2.subElements.filter(CPPPackage).head
+		val cppPackages = cppPackage3.subElements.filter(CPPPackage)
+		assertTrue("CPP package not removed" , cppPackages.isEmpty)
 	}
 	
 }

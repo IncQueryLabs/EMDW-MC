@@ -26,7 +26,6 @@ import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.junit.After
-import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,8 +34,6 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameter
 
 import static org.junit.Assert.*
-import org.junit.Ignore
-import java.util.List
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -97,7 +94,7 @@ abstract class AbstractPluginTest {
     }
 
 	@Test
-	def void t02_() {
+	def void t02_PhoneX() {
 		initTrafos("/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml")
 	    
 	    // *******************************************************************************
@@ -119,9 +116,21 @@ abstract class AbstractPluginTest {
        			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList
        			operations.forEach[ operation |
        				try {
-       					bodyConverter.convertOperation(operation)
+       					val body = bodyConverter.convertOperation(operation)
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					Operation: «operation.qualifiedName»
+       					«body»
+       					
+       					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					Operation: «operation.qualifiedName»)
+       						«ex.message»
+       					
+       					'''
        				}
        			]
        		}
@@ -129,9 +138,21 @@ abstract class AbstractPluginTest {
        			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList
        			states.forEach[ state |
        				try {
-       					bodyConverter.convertStateEntry(state)
+       					val body = bodyConverter.convertStateEntry(state)
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					State Entry: «state.qualifiedName»
+       					«body»
+       					
+       					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					State Entry: «state.qualifiedName»
+       						«ex.message»
+       					
+       					'''
        				}
        			]
        		}
@@ -139,9 +160,21 @@ abstract class AbstractPluginTest {
        			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null].toList
        			states.forEach[ state |
        				try {
-       					bodyConverter.convertStateExit(state)
+       					val body = bodyConverter.convertStateExit(state)
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					State Exit: «state.qualifiedName»
+       					«body»
+       					
+       					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					State Exit: «state.qualifiedName»
+       						«ex.message»
+       					
+       					'''
        				}
        			]
        		}
@@ -149,9 +182,21 @@ abstract class AbstractPluginTest {
        			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty].toList
        			transitions.forEach[ transition |
        				try {
-       					bodyConverter.convertTransition(transition)
+       					val body = bodyConverter.convertTransition(transition)
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					Transition: «transition.qualifiedName»
+       					«body»
+       					
+       					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					Transition: «transition.qualifiedName»
+       						«ex.message»
+       					
+       					'''
        				}
        			]
        		}
@@ -159,9 +204,21 @@ abstract class AbstractPluginTest {
        			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null].toList
        			transitions.forEach[ transition |
        				try {
-       					bodyConverter.convertTransitionGuard(transition)
+       					val body = bodyConverter.convertTransitionGuard(transition)
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					Transition Guard: «transition.qualifiedName»
+       					«body»
+       					
+       					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					BodyConverterTestSuit.codes += 
+       					'''
+       					Transition Guard: «transition.qualifiedName»
+       						«ex.message»
+       					
+       					'''
        				}
        			]
        		}
@@ -238,6 +295,8 @@ abstract class AbstractPluginTest {
     		engine.dispose
     	}
 	}
+	
+	def String getQualifiedName(CPPQualifiedNamedElement qne) '''«qne.cppName» («qne.cppQualifiedName»)'''
 	
 	def createRootMapping(String umlModelPath, ResourceSet resourceSet) {
 		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI(umlModelPath, true)) => [ load(#{}) ]

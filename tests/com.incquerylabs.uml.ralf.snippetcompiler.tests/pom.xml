@@ -9,7 +9,7 @@
 		<relativePath>../../releng/com.incquerylabs.emdw.parent</relativePath>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.incquerylabs.uml.ralf.tests</artifactId>
+	<artifactId>com.incquerylabs.uml.ralf.snippetcompiler.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
 	<build>
 		<plugins>

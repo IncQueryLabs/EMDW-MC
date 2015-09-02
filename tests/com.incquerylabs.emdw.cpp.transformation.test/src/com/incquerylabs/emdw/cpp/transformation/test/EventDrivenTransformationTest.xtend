@@ -76,7 +76,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		checkCppObjectCreated(xtObject, transformationEngine)
 		
 		xtObject?.removeXtumlObject;
-		checkCppObjectRemoved(xtObject, transformationEngine)
+		checkCppObjectRemoved(cppModel, xtObject)
 		
 		xtResource.contents.clear
 		
@@ -114,7 +114,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 	
 	protected def void checkCppObjectCreated(XtumlObject xtObject, IncQueryEngine engine)
 	
-	protected def void checkCppObjectRemoved(XtumlObject xtObject, IncQueryEngine engine)
+	protected def void checkCppObjectRemoved(CPPModel cppModel, XtumlObject xtObject)
 	
 	protected def XtumlObject createXtumlObject(Model modelRoot)
 	

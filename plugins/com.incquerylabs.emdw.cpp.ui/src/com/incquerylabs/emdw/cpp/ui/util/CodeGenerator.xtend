@@ -8,6 +8,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
@@ -17,13 +18,13 @@ import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
-import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.ui.GeneratorHelper
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 import java.util.Map
+import java.util.concurrent.TimeUnit
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.ExecutionEvent
@@ -38,8 +39,6 @@ import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.ui.handlers.HandlerUtil
-import com.google.common.base.Stopwatch
-import java.util.concurrent.TimeUnit
 
 class CodeGenerator {
 
@@ -48,7 +47,6 @@ class CodeGenerator {
 	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	val Logger logger
 	val toolchainWatch = Stopwatch.createUnstarted
-	val qrtTransformWatch = Stopwatch.createUnstarted
 	val cppTransformWatch = Stopwatch.createUnstarted
 	val codeGenerationWatch = Stopwatch.createUnstarted
 	val fileGenerationWatch = Stopwatch.createUnstarted
@@ -68,56 +66,43 @@ class CodeGenerator {
 		val managedEngine = IncQueryEngine.on(new EMFScope(xtResourceSet))
 		QueryBasedFeatures.instance.prepare(managedEngine)
 		
-		clearCPPModel(engine, xtResourceSet)
-		var XtumlCPPTransformationQrt xformqrt = new XtumlCPPTransformationQrt
-		qrtTransformWatch.start
-		xformqrt.initialize(engine)
-		qrtTransformWatch.stop
-		try {
-			qrtTransformWatch.start
-			xformqrt.execute
-			qrtTransformWatch.stop
+		val validXtumlModel = validateXtumlModel(engine, event)
+		if(validXtumlModel){
+			xtumlChangeMonitor?.createCheckpoint
 			
-			val validXtumlModel = validateXtumlModel(engine, event)
-			if(validXtumlModel){
-				xtumlChangeMonitor?.createCheckpoint
-				
-				val modelToEntityMatcher = getXtModelEntities(engine)
-				val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponents.head).head
-				val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
-				val cppResource = cppModel.eResource
-				
-				cppResource.createMissingExternalLibrary
-				loadCPPBasicTypes(xtResourceSet)
-				loadDefaultContainerImplementations(xtResourceSet)
-				
-				val cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
-				xtComponents.forEach[ xtComponent |
-					//if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
-						cppTransformWatch.start
-						performCppTransformation(engine, xtComponent)
-						cppTransformWatch.stop
-						codeGenerationWatch.start
-						val cppComponent = engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
-						val cppSourceFileContentsForComponent = performCodeGeneration(engine, cppComponent)
-						cppSourceFileContents.putAll(cppSourceFileContentsForComponent)
-						codeGenerationWatch.stop
-					//}
-				]
-				fileGenerationWatch.start
-				generateFiles(cppResource, cppModel, cppSourceFileContents)
-				fileGenerationWatch.stop
-				resourceSaveWatch.start
-				cppResource.save(null)
-				resourceSaveWatch.stop
-				xtumlChangeMonitor?.clear
-			}
-			toolchainWatch.stop
-			logger.info('''Code generation finished successfully!''')
-			logElapsedTimes()
-		} finally {
-			xformqrt.dispose
+			val modelToEntityMatcher = getXtModelEntities(engine)
+			val xtModel = modelToEntityMatcher.getAllValuesOfxtModel(xtComponents.head).head
+			val cppModel = getOrCreateCPPModel(xtModel, engine, xtResourceSet)
+			val cppResource = cppModel.eResource
+			
+			cppResource.createMissingExternalLibrary
+			loadCPPBasicTypes(xtResourceSet)
+			loadDefaultContainerImplementations(xtResourceSet)
+			
+			val cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
+			xtComponents.forEach[ xtComponent |
+				if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started || xtumlChangeMonitor?.dirtyXTComponents.contains(xtComponent)){
+					cppTransformWatch.start
+					performCppTransformation(engine, xtComponent)
+					cppTransformWatch.stop
+					codeGenerationWatch.start
+					val cppComponent = engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
+					val cppSourceFileContentsForComponent = performCodeGeneration(engine, cppComponent)
+					cppSourceFileContents.putAll(cppSourceFileContentsForComponent)
+					codeGenerationWatch.stop
+				}
+			]
+			fileGenerationWatch.start
+			generateFiles(cppResource, cppModel, cppSourceFileContents)
+			fileGenerationWatch.stop
+			resourceSaveWatch.start
+			cppResource.save(null)
+			resourceSaveWatch.stop
+			xtumlChangeMonitor?.clear
 		}
+		toolchainWatch.stop
+		logger.info('''Code generation finished successfully!''')
+		logElapsedTimes()
 		
 		// Start monitoring
 		if (xtumlChangeMonitor != null && !xtumlChangeMonitor.started) {
@@ -346,20 +331,6 @@ class CodeGenerator {
 		return cppComponent
 	}
 	
-	// XXX 
-	def clearCPPModel(AdvancedIncQueryEngine engine, ResourceSet resourceSet) {
-		val modelToEntityMatcher = getXtModelEntities(engine)
-		
-		val xtModels = modelToEntityMatcher.getAllValuesOfxtModel
-		xtModels.forEach[ xtModel | 
-			val cppModel = getOrCreateCPPModel(xtModel, engine, resourceSet)
-			cppModel.subElements.clear
-			cppModel.bodyDir.subDirectories.clear
-			if(cppModel.bodyDir != cppModel.headerDir)
-				cppModel.headerDir.subDirectories.clear
-		]
-	}
-	
 	def loadCPPBasicTypes(ResourceSet rs) {
 		rs.getResource(
 			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),
@@ -381,17 +352,15 @@ class CodeGenerator {
 	
 	def logElapsedTimes() {
 		val toolchainTime = toolchainWatch.elapsed(TimeUnit.MILLISECONDS)
-		val qrtTransformTime = qrtTransformWatch.elapsed(TimeUnit.MILLISECONDS)
 		val cppTransformTime = cppTransformWatch.elapsed(TimeUnit.MILLISECONDS)
 		val codeGenerationTime = codeGenerationWatch.elapsed(TimeUnit.MILLISECONDS)
 		val fileGenerationTime = fileGenerationWatch.elapsed(TimeUnit.MILLISECONDS)
 		val saveResourceTime = resourceSaveWatch.elapsed(TimeUnit.MILLISECONDS)
-		val otherTime = toolchainTime-qrtTransformTime-cppTransformTime-codeGenerationTime-fileGenerationTime-saveResourceTime
+		val otherTime = toolchainTime-cppTransformTime-codeGenerationTime-fileGenerationTime-saveResourceTime
 		
 		logger.debug('''
 		Elapsed time during the phases:
 		Full toolchain:		«toolchainTime» ms
-		QRT transformation:	«qrtTransformTime» ms («100*qrtTransformTime/toolchainTime»%)
 		CPP transformation:	«cppTransformTime» ms («100*cppTransformTime/toolchainTime»%)
 		Codegeneration:		«codeGenerationTime» ms («100*codeGenerationTime/toolchainTime»%)
 		File generation:	«fileGenerationTime» ms («100*fileGenerationTime/toolchainTime»%)

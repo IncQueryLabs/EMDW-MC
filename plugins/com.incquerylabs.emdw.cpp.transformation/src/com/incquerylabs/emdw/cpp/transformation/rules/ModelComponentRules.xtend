@@ -29,8 +29,10 @@ class ComponentInModelMapping extends AbstractObjectMapping<XtComponentInModelMa
 		match.xtComponent
 	}
 	
-	override protected getCppObject(XTComponent xtComponent) {
-		engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
+	override protected getCppObject(XtComponentInModelMatch match) {
+		val cppComponents = match.cppModel.subElements.filter(CPPComponent)
+		val cppComponent = cppComponents.filter[xtComponent == match.xtComponent].head
+		return cppComponent
 	}
 	
 	override protected createCppObject(XtComponentInModelMatch match) {
@@ -73,8 +75,10 @@ class ComponentInPackageMapping extends AbstractObjectMapping<XtComponentInPacka
 		match.xtComponent
 	}
 		
-	override protected getCppObject(XTComponent xtComponent) {
-		engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
+	override protected getCppObject(XtComponentInPackageMatch match) {
+		val cppComponents = match.cppParentPackage.subElements.filter(CPPComponent)
+		val cppComponent = cppComponents.filter[xtComponent == match.xtComponent].head
+		return cppComponent
 	}
 	
 	override protected createCppObject(XtComponentInPackageMatch match) {

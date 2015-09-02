@@ -28,7 +28,7 @@ class CPPModelMappingTest extends EventDrivenTransformationTest<Model, CPPModel>
 		assertEquals(xtObject, cppModelMatch.cppModel.commonModel)
 	}
 	
-	override protected checkCppObjectRemoved(Model xtObject, IncQueryEngine engine) {
+	override protected checkCppObjectRemoved(CPPModel cppModel, Model xtObject) {
 		
 	}
 	

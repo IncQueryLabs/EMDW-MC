@@ -4,9 +4,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.mappings.AbstractObjectMapping
 import com.incquerylabs.emdw.cpp.transformation.queries.XtModelMatch
 import java.util.Set
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Model
-import org.eclipse.emf.ecore.util.EcoreUtil
 
 class ModelRules {
 	
@@ -32,7 +32,8 @@ class ModelMapping extends AbstractObjectMapping<XtModelMatch, Model, CPPModel> 
 		return match.xtModel
 	}
 	
-	override protected getCppObject(Model xtModel) {
+	override protected getCppObject(XtModelMatch match) {
+		val xtModel = match.xtModel
 		val cppModel = engine.xtModelToCppModel.getAllValuesOfcppModel(xtModel).head
 		cppModel
 	}

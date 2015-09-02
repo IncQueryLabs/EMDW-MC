@@ -29,7 +29,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject ex
 	
 	override void updated(Match match) {
 		val xtumlObject = match.xtumlObject
-		val cppObject = xtumlObject.cppObject
+		val cppObject = match.cppObject
 		cppObject?.updateName(xtumlObject)
 		cppObject?.updateCppObject(match)
 		debug(''' xtUMLrt model element updated: «xtumlObject»''')
@@ -37,7 +37,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject ex
 	
 	override void disappeared(Match match) {
 		val xtumlObject = match.xtumlObject
-		val cppObject = xtumlObject.cppObject
+		val cppObject = match.cppObject
 		cppObject?.removeCppObject(match)
 		debug(''' xtUMLrt model element disappeared: «xtumlObject»''')
 	}
@@ -46,7 +46,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, XtumlObject ex
 	protected def XtumlObject getXtumlObject(Match match)
 	
 	// Return the CppObject from the match
-	protected def CppObject getCppObject(XtumlObject xtObject)
+	protected def CppObject getCppObject(Match match)
 	
 	// Create new CppObject
 	protected def CppObject createCppObject(Match match)

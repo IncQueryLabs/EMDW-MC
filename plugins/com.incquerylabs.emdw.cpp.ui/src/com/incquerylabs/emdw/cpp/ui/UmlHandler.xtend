@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.ui
 
+import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrtManager
 import com.incquerylabs.emdw.cpp.ui.util.CodeGenerator
 import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
 import com.incquerylabs.uml.papyrus.IncQueryEngineService
@@ -9,10 +10,12 @@ import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
 import org.eclipse.core.commands.ExecutionException
 import org.eclipse.core.runtime.IAdaptable
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.jface.dialogs.MessageDialog
 import org.eclipse.jface.viewers.ISelection
 import org.eclipse.jface.viewers.IStructuredSelection
 import org.eclipse.papyrus.infra.core.resource.ModelSet
+import org.eclipse.papyrus.infra.core.resource.NotFoundException
 import org.eclipse.papyrus.infra.emf.utils.ServiceUtilsForResourceSet
 import org.eclipse.papyrusrt.xtumlrt.common.BaseContainer
 import org.eclipse.papyrusrt.xtumlrt.common.Package
@@ -21,10 +24,10 @@ import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.papyrus.infra.core.resource.NotFoundException
 
 class UmlHandler extends AbstractHandler {
+	val qrtTransformationManager = new XtumlCPPTransformationQrtManager
+	
 	override execute(ExecutionEvent event) throws ExecutionException {
 		try{
 			var selection = HandlerUtil.getCurrentSelection(event);
@@ -39,6 +42,7 @@ class UmlHandler extends AbstractHandler {
 				val registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet)
 				val service = registry.getService(IncQueryEngineService)
 				val engine = AdvancedIncQueryEngine.from(service.getOrCreateEngine(modelSet))
+				qrtTransformationManager.getOrCreateQrtTransformation(engine)
 				val codeGenerator = new CodeGenerator(engine)
 				val emfModel = modelSet.getModelChecked(xtResourceUri.toString)
 				emfModel.saveModel()

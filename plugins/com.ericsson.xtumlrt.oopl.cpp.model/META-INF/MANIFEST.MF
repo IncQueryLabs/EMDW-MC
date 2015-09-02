@@ -14,12 +14,13 @@ Export-Package: com.ericsson.xtumlrt.oopl.cppmodel,
 Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore,
- com.ericsson.xtumlrt.oopl.model,
  org.eclipse.papyrusrt.xtumlrt.common.model,
  org.eclipse.papyrusrt.xtumlrt.xtuml.model,
  com.incquerylabs.emdw.valuedescriptor.model,
+ com.ericsson.xtumlrt.oopl.model,
+ com.incquerylabs.emdw.snippet.model,
  org.eclipse.incquery.runtime,
- com.google.guava;bundle-version="[15.0.0,16.0.0)"
+ com.google.guava
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: org.apache.log4j

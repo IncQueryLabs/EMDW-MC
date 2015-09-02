@@ -124,6 +124,9 @@
 							<genmodelUri>model/../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel</genmodelUri>
 						</metamodel>
 						<metamodel>
+							<genmodelUri>model/../../com.ericsson.emdw.snippet.model/model/snippet.genmodel</genmodelUri>
+						</metamodel>
+						<metamodel>
 							<genmodelUri>model/cppmodel.genmodel</genmodelUri>
 						</metamodel>
 					</metamodels>
@@ -142,6 +145,11 @@
 					<dependency>
 						<groupId>com.incquerylabs.emdw</groupId>
 						<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.incquerylabs.emdw.snippet.model</artifactId>
 						<version>1.0.0-SNAPSHOT</version>
 					</dependency>
 					<dependency>

@@ -264,6 +264,8 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonOperation" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Operation"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledBody" eType="ecore:EClass ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.ecore#//Snippet"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPPort" eSuperTypes="#//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -365,6 +367,10 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonState" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//State"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledEntryBody" eType="ecore:EClass ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.ecore#//Snippet"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledExitBody" eType="ecore:EClass ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.ecore#//Snippet"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPTransition" eSuperTypes="#//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
@@ -372,6 +378,10 @@
     </eAnnotations>
     <eStructuralFeatures xsi:type="ecore:EReference" name="commonTransition" lowerBound="1"
         eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Transition"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledEffectBody" eType="ecore:EClass ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.ecore#//Snippet"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="compiledGuardBody" eType="ecore:EClass ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.ecore#//Snippet"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPEvent" eSuperTypes="#//CPPQualifiedNamedElement">
     <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">

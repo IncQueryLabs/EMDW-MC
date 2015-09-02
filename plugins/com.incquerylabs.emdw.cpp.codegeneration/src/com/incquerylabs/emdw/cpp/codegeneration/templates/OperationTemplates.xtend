@@ -9,14 +9,10 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
 
 class OperationTemplates extends CPPTemplate{
 	
 	val TypeConverter typeConverter
-	val BodyConverter bodyConverter
 	
 	val ActionCodeTemplates actionCodeTemplates
 	
@@ -24,8 +20,6 @@ class OperationTemplates extends CPPTemplate{
 		super(engine)
 		actionCodeTemplates = new ActionCodeTemplates(engine)
 		typeConverter = new TypeConverter
-		bodyConverter = new BodyConverter()
-		bodyConverter.initialize(engine as AdvancedIncQueryEngine, new BasicUMLContextProvider(engine as AdvancedIncQueryEngine))
 	}
 	
 	def operationSignature(CPPOperation operation, boolean useQualifiedName, boolean hasReturnType, boolean isVirtual, boolean isStatic) {
@@ -52,7 +46,6 @@ class OperationTemplates extends CPPTemplate{
 	def operationDefinitionInClassBody(CPPOperation operation, boolean withReturnType) {
 		val containerElement = operation.eContainer as CPPNamedElement
 		val operationSignature = operationSignature(operation, true, withReturnType, false, false)
-		operation.prepareBody
 		'''
 			«operationSignature» {
 				«tracingMessage('''[«containerElement.cppName»] operation call: «operationSignature»''')»
@@ -64,7 +57,6 @@ class OperationTemplates extends CPPTemplate{
 	def constructorDefinitionInClassBody(CPPClass cppClass, CPPOperation constructor, CharSequence fieldInitialization) {		
 		val containerElement = constructor.eContainer as CPPNamedElement
 		val constructorSignature = operationSignature(constructor, true, false, false, false)
-		constructor.prepareBody
 		'''
 			«constructorSignature»«fieldInitialization» {
 				«tracingMessage('''[«containerElement.cppName»] constructor call: «constructorSignature»''')»
@@ -92,7 +84,6 @@ class OperationTemplates extends CPPTemplate{
 	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {
 		val containerElement = destructor.eContainer as CPPNamedElement
 		val destructorSignature = operationSignature(destructor, true, false, false, false)
-		destructor.prepareBody
 		'''
 			«destructorSignature» {
 				«tracingMessage('''[«containerElement.cppName»] destructor call: «destructorSignature»''')»
@@ -100,12 +91,6 @@ class OperationTemplates extends CPPTemplate{
 				«instancesRemoveTemplates(cppClass)»
 			}
 		'''
-	}
-	
-	private def void prepareBody(CPPOperation operation) {
-		if(operation.commonOperation.body!=null && "ralf".equalsIgnoreCase(operation.commonOperation.body.source)) {
-			operation.commonOperation.body.source = bodyConverter.convertOperation(operation)
-		}
 	}
 	
 	def instancesRemoveTemplates(CPPClass cppClass) {

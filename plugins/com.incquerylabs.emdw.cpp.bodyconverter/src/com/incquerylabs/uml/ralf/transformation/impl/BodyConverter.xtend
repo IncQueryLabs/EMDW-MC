@@ -48,7 +48,7 @@ class BodyConverter implements IBodyConverter {
 	 */
 	override String convertOperation(CPPOperation target) throws IllegalArgumentException {
 		val umlOperation = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(target).head as Operation
-		val opaqueBehavior = umlOperation.methods.filter(OpaqueBehavior).filter[it.languages.contains(rALF)].head
+		val opaqueBehavior = umlOperation.methods.filter(OpaqueBehavior).head
 		if(opaqueBehavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior with rALF language for «umlOperation.name» operation.''')
 		}
@@ -120,13 +120,30 @@ class BodyConverter implements IBodyConverter {
 		}
 	}
 	
-	private def String parseAndGenerate(BodyOwner opaqueBehavior) throws IndexOutOfBoundsException {
-//		val input = opaqueBehavior.bodies.get(opaqueBehavior.languages.indexOf(rALF))
+	private def boolean hasRalfBody(BodyOwner bodyOwner) {
+		return bodyOwner.languages.contains("rALF")
+	}
+	
+	private def String getCppCode(BodyOwner bodyOwner) {
+		for (var int i = 0; i < bodyOwner.getLanguages().size(); i++) {
+			val lang = bodyOwner.getLanguages().get(i);
+			if ("C++".equals(lang) || "C/C++".equals(lang) || "C".equals(lang) || "CPP".equals(lang)) {
+				return bodyOwner.getBodies().get(i);
+			}
+		}
+		return ""
+	}
+	
+	private def String parseAndGenerate(BodyOwner bodyOwner) throws IndexOutOfBoundsException {
+		if(!bodyOwner.hasRalfBody) {
+			return bodyOwner.cppCode
+		}
+		
 		var ParsingResults result
-		if(opaqueBehavior instanceof OpaqueBehavior) {
-			result = parser.parse(opaqueBehavior, engine)
-		} else if(opaqueBehavior instanceof OpaqueExpression) {
-			result = parser.parse(opaqueBehavior, engine)
+		if(bodyOwner instanceof OpaqueBehavior) {
+			result = parser.parse(bodyOwner, engine)
+		} else if(bodyOwner instanceof OpaqueExpression) {
+			result = parser.parse(bodyOwner, engine)
 		}
        	//Create the snippet template based on the parsed abstract syntax tree
        	val snippet = generator.createSnippet(result, compiler)

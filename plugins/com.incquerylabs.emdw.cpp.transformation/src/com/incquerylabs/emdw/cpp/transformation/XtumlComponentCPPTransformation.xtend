@@ -25,6 +25,8 @@ import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 
 class XtumlComponentCPPTransformation {
 
@@ -50,6 +52,7 @@ class XtumlComponentCPPTransformation {
 	SequenceRules sequenceRules
 	IncludeRules includeRules
 	TypeDefinitionRules typeDefinitionRules
+	ActionCodeRules actionCodeRules
 	
 
 	def initialize(IncQueryEngine engine) {
@@ -80,6 +83,7 @@ class XtumlComponentCPPTransformation {
 			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, classEventRules, includeRules)
 			packageRules = new PackageRules(statements, typeDefinitionRules, classRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, typeDefinitionRules, classRules, attributeRules, operationRules, includeRules)
+			actionCodeRules = new ActionCodeRules(statements, engine as AdvancedIncQueryEngine)
 			
 			includeRules.addRules(transform)
 			sequenceRules.addRules(transform)
@@ -90,6 +94,7 @@ class XtumlComponentCPPTransformation {
 			classRules.addRules(transform)
 			packageRules.addRules(transform)
 			componentRules.addRules(transform)
+			actionCodeRules.addRules(transform)
 			
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
@@ -102,6 +107,11 @@ class XtumlComponentCPPTransformation {
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
 			statements.fireAllCurrent(componentRules.componentRule)
+			statements.fireAllCurrent(actionCodeRules.operationActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.guardActionCodeRule)
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 
@@ -111,9 +121,14 @@ class XtumlComponentCPPTransformation {
 			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule, [it.xtComponent == xtComponent])
 			statements.fireAllCurrent(componentRules.componentRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.operationActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.guardActionCodeRule, [it.xtComponent == xtComponent])
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
-
+	
 	def dispose() {
 		transform?.dispose
 	}

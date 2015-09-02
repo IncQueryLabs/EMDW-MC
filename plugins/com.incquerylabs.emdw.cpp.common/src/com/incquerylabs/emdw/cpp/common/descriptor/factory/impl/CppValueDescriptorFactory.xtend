@@ -54,14 +54,14 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	
 	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(type, (type as CPPQualifiedNamedElement).cppName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, (type as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
 		index++
 		return preparedDescriptor
 	}
 	
 	def prepareSingleVariableDescriptorForNewLocalVariable(CPPEvent cppEvent) {
 		checkArgument(cppEvent!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, cppEvent.cppName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, cppEvent.cppName.escapeName.qualifiedName)
 		index++
 		return preparedDescriptor
 	}
@@ -111,14 +111,14 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	override prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
 		return preparedDescriptor
 	}
 	
 	def prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, CPPEvent elementType) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
 		return preparedDescriptor
 	}
 	
@@ -200,6 +200,10 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
 		]
 		return preparedDescriptor
+	}
+	
+	private def String escapeName(String name) {
+		return name.replace(':', '_').replace('.', '_').replace(' ', '_').replace('%', '_')
 	}
 	
 	private def String qualifiedName(String name) {

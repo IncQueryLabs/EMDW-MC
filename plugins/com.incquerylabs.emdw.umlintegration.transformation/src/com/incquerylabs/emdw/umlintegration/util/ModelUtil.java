@@ -39,7 +39,7 @@ public class ModelUtil {
 			}
 		}
 
-		return code;
+		return null;
 	}
 
 	/**
@@ -64,13 +64,13 @@ public class ModelUtil {
 						code = bodies.get(i);
 					}
 				} else if("ralf".equalsIgnoreCase(language)) {
-				    code = language;
+				    code = null;
 				    return code;
 				}
 			}
 		}
 
-		return code;
+		return null;
 	}
 
 	/**
@@ -81,14 +81,14 @@ public class ModelUtil {
 		String code = null;
 		for (Behavior behaviour : operation.getMethods()) {
 			String cppCode = getCppCode(behaviour);
-			if (cppCode != null) {
+			//if (cppCode != null) {
 				if (code == null)
 					code = cppCode;
 				else
 					throw new RuntimeException(
 							"too many C++-compatible behaviours for "
 									+ operation.getQualifiedName());
-			}
+			//}
 		}
 
 		return code;

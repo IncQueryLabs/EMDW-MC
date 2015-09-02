@@ -514,3 +514,62 @@ pattern cppClassAssociations(
 	find cppClasses(xtClass, cppClass);
 	XTAssociation.source(association, xtClass);
 }
+
+pattern cppOperationWithActionCodes(
+	cppOperation : CPPOperation,
+	xtComponent : XTComponent
+) {
+	CPPOperation.commonOperation(cppOperation, xumlOperation);
+	Operation.body(xumlOperation, _actionCode);
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+	find cppSubElements+(cppComponent, cppOperation);
+}
+
+pattern cppTransitionWithActionCodes(
+	cppTransition : CPPTransition,
+	xtComponent : XTComponent
+) {
+	CPPTransition.commonTransition(cppTransition, xumlTransition);
+	Transition.actionChain(xumlTransition, actionChain);
+	ActionChain.actions(actionChain, _actionCode);
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+	find cppSubElements+(cppComponent, cppTransition);
+}
+
+pattern cppTransitionWithGuardActionCodes(
+	cppTransition : CPPTransition,
+	xtComponent : XTComponent
+) {
+	CPPTransition.commonTransition(cppTransition, xumlTransition);
+	Transition.guard(xumlTransition, guard);
+	Guard.body(guard, _actionCode);
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+	find cppSubElements+(cppComponent, cppTransition);
+}
+
+pattern cppStateWithEntryActionCodes(
+	cppState : CPPState,
+	xtComponent : XTComponent
+) {
+	CPPState.commonState(cppState, xumlState);
+	State.entryAction(xumlState, _actionCode);
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+	find cppSubElements+(cppComponent, cppState);
+}
+
+pattern cppStateWithExitActionCodes(
+	cppState : CPPState,
+	xtComponent : XTComponent
+) {
+	CPPState.commonState(cppState, xumlState);
+	State.exitAction(xumlState, _actionCode);
+	CPPComponent.xtComponent(cppComponent, xtComponent);
+	find cppSubElements+(cppComponent, cppState);
+}
+
+pattern cppSubElements(
+	owner : CPPQualifiedNamedElement,
+	subElement : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(owner, subElement);
+}

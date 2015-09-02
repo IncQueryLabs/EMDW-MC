@@ -33,11 +33,15 @@
       <genEnumLiterals ecoreEnumLiteral="common.ecore#//VisibilityKind/PRIVATE"/>
     </genEnums>
     <genClasses image="false" ecoreClass="common.ecore#//CommonElement"/>
+    <genClasses image="false" ecoreClass="common.ecore#//AbstractAction"/>
     <genClasses ecoreClass="common.ecore#//ActionChain">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//ActionChain/actions"/>
     </genClasses>
     <genClasses ecoreClass="common.ecore#//ActionCode">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute common.ecore#//ActionCode/source"/>
+    </genClasses>
+    <genClasses ecoreClass="common.ecore#//ActionReference">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference common.ecore#//ActionReference/target"/>
     </genClasses>
     <genClasses ecoreClass="common.ecore#//Annotation">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference common.ecore#//Annotation/parameters"/>

@@ -3,12 +3,16 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="common" nsURI="http://www.eclipse.org/papyrusrt/xtumlrt/common"
     nsPrefix="common">
   <eClassifiers xsi:type="ecore:EClass" name="CommonElement" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AbstractAction" abstract="true" eSuperTypes="#//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="ActionChain" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1"
-        eType="#//ActionCode" containment="true"/>
+        eType="#//AbstractAction" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ActionCode" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ActionCode" eSuperTypes="#//AbstractAction">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ActionReference" eSuperTypes="#//AbstractAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//AbstractAction"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Annotation" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
@@ -108,7 +112,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="super" lowerBound="1" eType="#//StructuredType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Guard" eSuperTypes="#//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//ActionCode"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" eType="#//AbstractAction"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InitialPoint" eSuperTypes="#//Pseudostate"/>
@@ -129,7 +133,7 @@
         eType="#//Dependency" containment="true" eOpposite="#//Dependency/client"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//OperationSignature #//NamedElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//ActionCode"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" lowerBound="1" eType="#//AbstractAction"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OperationSignature" abstract="true">
@@ -181,9 +185,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SimpleState" eSuperTypes="#//State"/>
   <eClassifiers xsi:type="ecore:EClass" name="State" abstract="true" eSuperTypes="#//Vertex #//RedefinableElement">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="entryAction" eType="#//ActionCode"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entryAction" eType="#//AbstractAction"
         containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="exitAction" eType="#//ActionCode"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="exitAction" eType="#//AbstractAction"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="exitPoints" upperBound="-1"
         eType="#//ExitPoint" containment="true"/>

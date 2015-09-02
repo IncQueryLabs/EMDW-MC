@@ -1,12 +1,12 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.StateEntryBehaviorMatch
-import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
-import org.eclipse.uml2.uml.Behavior
 import org.eclipse.papyrusrt.xtumlrt.common.State
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
+import org.eclipse.uml2.uml.Behavior
+import org.eclipse.uml2.uml.OpaqueBehavior
 
 class StateEntryRules {
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -16,14 +16,14 @@ class StateEntryRules {
 	}
 }
 
-class StateEntryMapping extends AbstractObjectMapping<StateEntryBehaviorMatch, Behavior, ActionCode> {
+class StateEntryMapping extends AbstractObjectMapping<StateEntryBehaviorMatch, Behavior, XTAction> {
 	
 	new(IncQueryEngine engine) {
 		super(engine)
 	}
 	
 	override getXtumlrtClass() {
-		ActionCode
+		XTAction
 	}
 	
 	override getRulePriority() {
@@ -39,19 +39,29 @@ class StateEntryMapping extends AbstractObjectMapping<StateEntryBehaviorMatch, B
 	}
 	
 	override protected createXtumlrtObject() {
-		commonFactory.createActionCode
+		xtumlFactory.createXTAction
 	}
 	
-	override protected updateXtumlrtObject(ActionCode xtumlrtObject, StateEntryBehaviorMatch match) {
-		xtumlrtObject.source = ModelUtil.getCppCode(match.umlObject)
-		xtumlrtObject.name = match.umlObject.name
+	override protected updateXtumlrtObject(XTAction xtumlrtObject, StateEntryBehaviorMatch match) {
+		val behavior = match.umlObject
+		xtumlrtObject.name = behavior.name
+		xtumlrtObject.body.clear
+		if(behavior instanceof OpaqueBehavior) {
+			for(var i = 0; i<behavior.languages.size; i++) {
+				val index = i
+				xtumlrtObject.body += xtumlFactory.createXTActionBody => [
+					it.language = behavior.languages.get(index)
+					it.source = behavior.bodies.get(index)
+				]
+			}
+		}
 	}
 
 	def getXtumlrtContainer(StateEntryBehaviorMatch match) {
 		match.state.findXtumlrtObject(State)
 	}
 	
-	override protected insertXtumlrtObject(ActionCode xtumlrtObject, StateEntryBehaviorMatch match) {
+	override protected insertXtumlrtObject(XTAction xtumlrtObject, StateEntryBehaviorMatch match) {
 		match.xtumlrtContainer.entryAction = xtumlrtObject
 	}
 	

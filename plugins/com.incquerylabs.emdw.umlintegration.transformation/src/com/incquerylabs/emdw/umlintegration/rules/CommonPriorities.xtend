@@ -12,6 +12,8 @@ class CommonPriorities {
 	
 	public static val int OPERATION_MAPPING_PRIORITY = TYPE_MAPPING_PRIORITY + 1
 	
+	public static val int OPERATION_BEHAVIOR_MAPPING_PRIORITY = OPERATION_MAPPING_PRIORITY + 1
+	
 	public static val int ACTION_MAPPING_PRIORITY = 2
 
 }

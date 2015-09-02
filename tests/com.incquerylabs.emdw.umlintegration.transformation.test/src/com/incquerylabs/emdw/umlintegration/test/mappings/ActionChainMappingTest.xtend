@@ -11,6 +11,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.assertEquals
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 @SuiteClasses(#[
 	ActionChainMappingTest
@@ -31,7 +32,7 @@ class ActionChainMappingTest extends TransformationTest<Behavior, ActionChain> {
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, ActionChain xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.actions.head.source)
+		assertEquals(TEST_SIDE_EFFECT_1, (xtumlrtObject.actions.head as ActionCode).source)
 	}
 
 }

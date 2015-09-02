@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.*
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 @SuiteClasses(#[
 	OperationMappingTest,
@@ -31,7 +32,7 @@ class OperationMappingTest extends TransformationTest<org.eclipse.uml2.uml.Opera
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Operation umlObject, Operation xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
+		assertEquals(TEST_SIDE_EFFECT_1, (xtumlrtObject.body as ActionCode).source)
 		assertEquals(mapping.xtumlrtRoot.entities.filter(XTComponent).head, xtumlrtObject.returnType.type)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
 		assertEquals(umlObject.visibility.transform, xtumlrtObject.visibility)
@@ -50,7 +51,7 @@ class DestructorMappingTest extends TransformationTest<org.eclipse.uml2.uml.Oper
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, org.eclipse.uml2.uml.Operation umlObject, Operation xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.body.source)
+		assertEquals(TEST_SIDE_EFFECT_1, (xtumlrtObject.body as ActionCode).source)
 		assertEquals(umlObject.name, xtumlrtObject.name)
 		assertEquals(umlObject.static, xtumlrtObject.static) 
 		assertEquals(umlObject.visibility.transform, xtumlrtObject.visibility)

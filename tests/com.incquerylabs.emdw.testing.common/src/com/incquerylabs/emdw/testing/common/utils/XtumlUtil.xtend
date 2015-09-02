@@ -45,6 +45,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTProtocolOperationImplementation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 
 import static org.junit.Assert.*
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 class XtumlUtil extends ModelUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
@@ -645,8 +646,8 @@ class XtumlUtil extends ModelUtil {
 	}
 
 	def checkState(State xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, xtumlrtObject.entryAction.source)
-		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.exitAction.source)
+		assertEquals(TEST_SIDE_EFFECT_1, (xtumlrtObject.entryAction as ActionCode).source)
+		assertEquals(TEST_SIDE_EFFECT_2, (xtumlrtObject.exitAction as ActionCode).source)
 	}
 
 	def checkTransition(RootMapping mapping, org.eclipse.uml2.uml.Transition umlObject,

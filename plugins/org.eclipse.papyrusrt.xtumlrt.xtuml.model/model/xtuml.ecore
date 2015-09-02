@@ -33,7 +33,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="XTProtocolOperationImplementation">
     <eStructuralFeatures xsi:type="ecore:EReference" name="implements" eType="#//XTProtocolOperationDefinition"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="protocolOperationImplementationAction"
-        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//ActionCode"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//AbstractAction"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTSignalRealization" abstract="true">
@@ -45,7 +45,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTSignalImplementation" eSuperTypes="#//XTSignalRealization">
     <eStructuralFeatures xsi:type="ecore:EReference" name="signalImplementationAction"
-        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//ActionCode"
+        upperBound="-1" eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//AbstractAction"
         containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTPort" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Port">
@@ -55,4 +55,12 @@
         eType="#//XTSignalImplementation" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="XTComponent" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//Capsule ../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//BaseContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="XTAction" eSuperTypes="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.ecore#//AbstractAction">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="body" upperBound="-1" eType="#//XTActionBody"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="XTActionBody">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="language" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="source" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

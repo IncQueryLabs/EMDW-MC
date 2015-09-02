@@ -33,7 +33,7 @@ class StateExitMappingTest extends TransformationTest<Behavior, ActionCode> {
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		#{
-			xtumlrtRoot.xtumlrtTopState.substates.head.exitAction
+			xtumlrtRoot.xtumlrtTopState.substates.head.exitAction as ActionCode
 		}
 	}
 	

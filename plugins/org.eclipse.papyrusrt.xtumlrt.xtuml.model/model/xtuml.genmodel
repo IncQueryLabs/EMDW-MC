@@ -50,5 +50,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTPort/realizedSignal"/>
     </genClasses>
     <genClasses ecoreClass="xtuml.ecore#//XTComponent"/>
+    <genClasses ecoreClass="xtuml.ecore#//XTAction">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTAction/body"/>
+    </genClasses>
+    <genClasses ecoreClass="xtuml.ecore#//XTActionBody">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtuml.ecore#//XTActionBody/language"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtuml.ecore#//XTActionBody/source"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

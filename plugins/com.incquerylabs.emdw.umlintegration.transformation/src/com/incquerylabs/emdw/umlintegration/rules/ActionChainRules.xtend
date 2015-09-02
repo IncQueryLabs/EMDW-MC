@@ -7,6 +7,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Behavior
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 class ActionChainRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -48,7 +49,7 @@ class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavio
 	}
 
 	override updateXtumlrtObject(ActionChain xtumlrtObject, ActionChainMatch match) {
-		xtumlrtObject.actions.head.source = ModelUtil.getCppCode(match.umlObject)
+		(xtumlrtObject.actions.head as ActionCode).source = ModelUtil.getCppCode(match.umlObject)
 		xtumlrtObject.actions.head.name =match.umlObject.name
 	}
 

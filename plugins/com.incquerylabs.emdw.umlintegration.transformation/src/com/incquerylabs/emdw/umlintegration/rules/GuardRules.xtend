@@ -7,6 +7,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Constraint
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 class GuardRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -48,7 +49,7 @@ class GuardMapping extends AbstractObjectMapping<GuardMatch, Constraint, Guard> 
 	}
 
 	override updateXtumlrtObject(Guard xtumlrtObject, GuardMatch match) {
-		xtumlrtObject.body.source = ModelUtil.getCppCode(match.umlObject)
+		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(match.umlObject)
 	}
 
 	def getXtumlrtContainer(GuardMatch match) {

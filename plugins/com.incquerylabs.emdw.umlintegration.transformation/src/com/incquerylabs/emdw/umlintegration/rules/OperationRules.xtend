@@ -13,6 +13,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import java.util.Comparator
 import org.eclipse.emf.common.util.ECollections
 import com.google.common.collect.Ordering
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 class OperationRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -59,8 +60,8 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 	}
 
 	override updateXtumlrtObject(Operation xtumlrtObject, RegularOperationMatch match) {
-		val umlObject = match.umlObject
-		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
+		val umlObject = match.umlObject;
+		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 		
@@ -121,8 +122,8 @@ class ConstructorMapping extends AbstractObjectMapping<ConstructorOperationMatch
 	}
 
 	override updateXtumlrtObject(Operation xtumlrtObject, ConstructorOperationMatch match) {
-		val umlObject = match.umlObject
-		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
+		val umlObject = match.umlObject;
+		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -172,8 +173,8 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 	}
 
 	override updateXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
-		val umlObject = match.umlObject
-		xtumlrtObject.body.source = ModelUtil.getCppCode(umlObject)
+		val umlObject = match.umlObject;
+		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}

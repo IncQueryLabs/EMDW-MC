@@ -11,6 +11,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.assertEquals
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 @SuiteClasses(#[
 	GuardMappingTest
@@ -31,7 +32,7 @@ class GuardMappingTest extends TransformationTest<Constraint, Guard> {
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Constraint umlObject, Guard xtumlrtObject) {
-		assertEquals(TEST_EXPRESSION, xtumlrtObject.body.source)
+		assertEquals(TEST_EXPRESSION, (xtumlrtObject.body as ActionCode).source)
 	}
 
 }

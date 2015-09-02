@@ -33,7 +33,7 @@ class StateEntryMappingTest extends TransformationTest<Behavior, ActionCode> {
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		#{
-			xtumlrtRoot.xtumlrtTopState.substates.head.entryAction
+			xtumlrtRoot.xtumlrtTopState.substates.head.entryAction as ActionCode
 		}
 	}
 	

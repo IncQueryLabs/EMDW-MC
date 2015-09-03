@@ -33,6 +33,9 @@
    <feature url="features/com.incquerylabs.uml.papyrus.feature_1.0.0.qualifier.jar" id="com.incquerylabs.uml.papyrus.feature" version="1.0.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>
+   <feature url="features/org.eclipse.cdt_8.7.0.qualifier.jar" id="org.eclipse.cdt" version="8.7.0.qualifier">
+      <category name="com.incquerylabs.emdw.update.developer"/>
+   </feature>
    <category-def name="com.incquerylabs.emdw.update" label="xUML-RT Model Compiler"/>
    <category-def name="com.incquerylabs.emdw.update.developer" label="xUML-RT Model Compiler Developer Features"/>
 </site>

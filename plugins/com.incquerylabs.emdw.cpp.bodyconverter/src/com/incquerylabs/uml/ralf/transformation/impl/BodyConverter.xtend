@@ -121,7 +121,7 @@ class BodyConverter implements IBodyConverter {
 	}
 	
 	private def boolean hasRalfBody(BodyOwner bodyOwner) {
-		return bodyOwner.languages.contains("rALF")
+		return bodyOwner.languages.contains(rALF)
 	}
 	
 	private def String getCppCode(BodyOwner bodyOwner) {

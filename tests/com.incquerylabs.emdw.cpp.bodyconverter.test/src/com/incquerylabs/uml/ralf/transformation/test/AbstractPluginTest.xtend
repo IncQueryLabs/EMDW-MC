@@ -278,7 +278,7 @@ abstract class AbstractPluginTest {
 	def void executeTrafos() {
 		xtTrafo.execute
 		cppTrafo.execute
-		compTrafo.execute
+		compTrafo.transformComponents
 	}
 	
 	def void clearTrafos() {

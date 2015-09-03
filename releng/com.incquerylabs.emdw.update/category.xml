@@ -18,9 +18,6 @@
    <feature url="features/org.eclipse.viatra.emf.runtime.feature_0.7.0.qualifier.jar" id="org.eclipse.viatra.emf.runtime.feature" version="0.7.0.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
-   <feature url="features/com.incquerylabs.uml.ralf.feature_1.0.0.qualifier.jar" id="com.incquerylabs.uml.ralf.feature" version="1.0.0.qualifier">
-      <category name="com.incquerylabs.emdw.update"/>
-   </feature>
    <feature url="features/org.eclipse.incquery.uml.feature_1.0.1.qualifier.jar" id="org.eclipse.incquery.uml.feature" version="1.0.1.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
@@ -28,9 +25,6 @@
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
    <feature url="features/com.incquerylabs.emdw.umlintegration.feature_1.0.0.qualifier.jar" id="com.incquerylabs.emdw.umlintegration.feature" version="1.0.0.qualifier">
-      <category name="com.incquerylabs.emdw.update"/>
-   </feature>
-   <feature url="features/com.incquerylabs.uml.papyrus.feature_1.0.0.qualifier.jar" id="com.incquerylabs.uml.papyrus.feature" version="1.0.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>
    <feature url="features/org.eclipse.cdt_8.7.0.qualifier.jar" id="org.eclipse.cdt" version="8.7.0.qualifier">

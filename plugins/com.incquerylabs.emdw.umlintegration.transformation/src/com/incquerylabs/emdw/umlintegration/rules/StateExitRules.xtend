@@ -49,10 +49,12 @@ class StateExitMapping extends AbstractObjectMapping<StateExitBehaviorMatch, Beh
 		if(behavior instanceof OpaqueBehavior) {
 			for(var i = 0; i<behavior.languages.size; i++) {
 				val index = i
-				xtumlrtObject.body += xtumlFactory.createXTActionBody => [
-					it.language = behavior.languages.get(index)
-					it.source = behavior.bodies.get(index)
-				]
+				if(index<behavior.bodies.size) {
+					xtumlrtObject.body += xtumlFactory.createXTActionBody => [
+						it.language = behavior.languages.get(index)
+						it.source = behavior.bodies.get(index)
+					]
+				}
 			}
 		}
 	}

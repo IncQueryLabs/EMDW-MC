@@ -2,7 +2,7 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals
 @RunWith(Suite)
 class StateExitMappingTestSuite {}
 
-class StateExitMappingTest extends TransformationTest<Behavior, ActionCode> {
+class StateExitMappingTest extends TransformationTest<Behavior, XTAction> {
 
 	override protected createUmlObject(Model umlRoot) {
 		val sm = umlRoot.createStateMachine
@@ -33,12 +33,12 @@ class StateExitMappingTest extends TransformationTest<Behavior, ActionCode> {
 
 	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
 		#{
-			xtumlrtRoot.xtumlrtTopState.substates.head.exitAction as ActionCode
+			xtumlrtRoot.xtumlrtTopState.substates.head.exitAction as XTAction
 		}
 	}
 	
-	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, ActionCode xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.source)
+	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, XTAction xtumlrtObject) {
+		assertEquals(TEST_SIDE_EFFECT_2, xtumlrtObject.body.head.source)
 		assertEquals("effect", xtumlrtObject.name)
 	}
 

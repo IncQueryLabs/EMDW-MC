@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.snippettemplate.serializer
 
+import com.incquerylabs.emdw.snippettemplate.CompositeSnippet
+import com.incquerylabs.emdw.snippettemplate.StringSnippet
 import org.eclipse.emf.ecore.EObject
-import snippetTemplate.CompositeSnippet
-import snippetTemplate.StringSnippet
 
 class ReducedAlfSnippetTemplateSerializer {
 	def dispatch String serialize(EObject o) {

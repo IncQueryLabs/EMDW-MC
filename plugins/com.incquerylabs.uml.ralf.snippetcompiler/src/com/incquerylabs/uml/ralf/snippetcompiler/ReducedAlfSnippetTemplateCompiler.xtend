@@ -1,6 +1,8 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.snippettemplate.Snippet
+import com.incquerylabs.emdw.snippettemplate.SnippetTemplateFactory
 import com.incquerylabs.uml.ralf.api.impl.ParsingResults
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LeftHandSide
@@ -9,8 +11,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
-import snippetTemplate.Snippet
-import snippetTemplate.SnippetTemplateFactory
 
 class ReducedAlfSnippetTemplateCompiler {
 	

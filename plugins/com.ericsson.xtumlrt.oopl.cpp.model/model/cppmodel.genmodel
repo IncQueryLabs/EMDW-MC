@@ -3,7 +3,7 @@
     xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/com.ericsson.xtumlrt.oopl.cpp.model/emf-gen" modelPluginID="com.ericsson.xtumlrt.oopl.cpp.model"
     modelName="Cppmodel" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
     importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#//oopl ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.genmodel#//snippetTemplate ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.genmodel#//valuedescriptor ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
+    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common ../../com.ericsson.xtumlrt.oopl.model/model/oopl.genmodel#//oopl ../../com.incquerylabs.emdw.snippet.model/model/snippettemplate.genmodel#//snippettemplate ../../com.incquerylabs.emdw.valuedescriptor.model/model/valuedescriptor.genmodel#//valuedescriptor ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.genmodel#//xtuml"
     operationReflection="true" importOrganizing="true">
   <foreignModel>cppmodel.ecore</foreignModel>
   <genPackages prefix="Cppmodel" basePackage="com.ericsson.xtumlrt.oopl" disposableProviderFactory="true"

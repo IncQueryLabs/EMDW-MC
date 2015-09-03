@@ -2,12 +2,11 @@ package com.incquerylabs.uml.ralf.api;
 
 import org.eclipse.uml2.uml.OpaqueBehavior;
 
+import com.incquerylabs.emdw.snippettemplate.Snippet;
 import com.incquerylabs.uml.ralf.api.impl.ParsingResults;
 import com.incquerylabs.uml.ralf.api.impl.SnippetCompilerException;
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
-
-import snippetTemplate.Snippet;
 
 public interface IReducedAlfGenerator {
     

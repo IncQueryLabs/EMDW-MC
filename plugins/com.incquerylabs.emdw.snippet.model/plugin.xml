@@ -10,7 +10,7 @@
       <!-- @generated snippettemplate -->
       <package
             uri="http://www.incquerylabs.com/uml/ralf/SnippetTemplate"
-            class="snippetTemplate.SnippetTemplatePackage"
+            class="com.incquerylabs.emdw.snippettemplate.SnippetTemplatePackage"
             genModel="model/snippettemplate.genmodel"/>
    </extension>
 

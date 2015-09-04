@@ -13,7 +13,11 @@ class TransitionConvertingTest extends AbstractPluginTest{
 				//It parses the action code describing a ping signal being sent to the "ping" attribute (association end) of the current object.
 				"::model::Comp::Pong::e2",
 				ConversionType.Transition,
-				'''this->ping->generate_event(new model::Comp::Ping::pong_s());'''
+				'''
+				::model::Comp::Ping* __ralf__0__Ping = this->R1_ping;
+				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = new ::model::Comp::Ping::pong_s_event(false);
+				__ralf__0__Ping->generate_event(__ralf__1__pong_s);
+				'''
 			]
 		)
 	}

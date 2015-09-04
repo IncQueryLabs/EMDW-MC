@@ -5,6 +5,9 @@
       <ownedAttribute xmi:type="uml:Property" xmi:id="_wo97UDzSEeWAt_pdRhgfAA" name="integerProperty">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_2bZIwFLSEeWGoI0n4OjYuA" name="count">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a8SY4BmmEeWkDIIs2OLK7g" name="Pong_SM">
         <region xmi:type="uml:Region" xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
           <transition xmi:type="uml:Transition" xmi:id="_hewAUBmmEeWkDIIs2OLK7g" name="i" source="_faJEQBmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g"/>
@@ -16,7 +19,7 @@
               <language>C++</language>
               <language>rALF</language>
               <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
-              <body>send new pong_s() to this->ping;</body>
+              <body>send new Ping::pong_s() to this->ping;</body>
             </effect>
             <trigger xmi:type="uml:Trigger" xmi:id="_f6aKYBpDEeWgOeVNG9guWg" name="ping_t" event="_iBpxsBmpEeW8avfFxjlgXw"/>
           </transition>
@@ -24,7 +27,7 @@
             <ownedRule xmi:type="uml:Constraint" xmi:id="_fJ8UgEvMEeWnFNKQM2H9lw" name="integer_guard">
               <specification xmi:type="uml:OpaqueExpression" xmi:id="_76-28EvMEeWGH8aruvqQ-w" name="integerProperty_opaqueExpression">
                 <language>rALF</language>
-                <body>this.integerProperty > 10;</body>
+                <body>this.'count' &lt; 42;</body>
               </specification>
             </ownedRule>
           </transition>
@@ -34,7 +37,7 @@
               <language>C++</language>
               <language>rALF</language>
               <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
-              <body>send new pong_s() to this->ping;</body>
+              <body>send new Ping::pong_s() to this->ping;</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
@@ -100,17 +103,6 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:type="uml:Operation" xmi:id="_wDOYkEDFEeWL0_G-UoY53A" name="TestOperation" isStatic="true">
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_wDOYkUDFEeWL0_G-UoY53A" name="inParameter">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_wDOYkkDFEeWL0_G-UoY53A" name="outParameter" direction="out">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-        <ownedParameter xmi:type="uml:Parameter" xmi:id="_wDOYk0DFEeWL0_G-UoY53A" name="result" direction="return">
-          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
-        </ownedParameter>
-      </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_HNhU8EWoEeWcLrJDHOFUIQ" name="sendPing" method="_sVl38EWhEeWcLrJDHOFUIQ"/>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s"/>
       <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_Tfv7cDE3EeW_U4Ge-CTh1A" name="TestBehavior" specification="_vE8jQDeBEeWL0_G-UoY53A">
@@ -143,16 +135,14 @@
           <subvertex xmi:type="uml:State" xmi:id="_oUtdcBmkEeWkDIIs2OLK7g" name="s1">
             <exit xmi:type="uml:OpaqueBehavior" xmi:id="_16j3gEvKEeWnFNKQM2H9lw" name="sendPing">
               <language>rALF</language>
-              <body>send new ping_s() to this->pong;</body>
+              <body>send new Pong::ping_s() to this->pong;</body>
             </exit>
           </subvertex>
           <subvertex xmi:type="uml:State" xmi:id="_oolbsBmkEeWkDIIs2OLK7g" name="s2">
-            <exit xmi:type="uml:OpaqueBehavior" xmi:id="_AiVCkBmmEeWkDIIs2OLK7g" name="sendPing">
-              <language>C++</language>
+            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_uYtu8FLWEeW-0fejM8NS7Q" name="sendPing">
               <language>rALF</language>
-              <body>R1_pong->generate_event(new Pong::ping_s_event(false));</body>
-              <body>send new ping_s() to this->pong;</body>
-            </exit>
+              <body>send new Pong::ping_s() to this->pong;</body>
+            </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_rax2gBmkEeWkDIIs2OLK7g" name="initial"/>
         </region>

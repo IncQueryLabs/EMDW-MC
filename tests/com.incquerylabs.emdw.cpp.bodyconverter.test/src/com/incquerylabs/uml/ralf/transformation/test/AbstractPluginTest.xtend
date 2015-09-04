@@ -25,7 +25,10 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.xtext.junit4.GlobalRegistries
+import org.eclipse.xtext.junit4.GlobalRegistries.GlobalStateMemento
 import org.junit.After
+import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -38,6 +41,10 @@ import static org.junit.Assert.*
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 abstract class AbstractPluginTest {
+	protected GlobalStateMemento stateBefore;
+	
+	
+	
     @Parameter(0)
     public String name
     
@@ -51,6 +58,16 @@ abstract class AbstractPluginTest {
     @Parameter(3)
     public String expectedOutput
 
+
+	@Before
+	def void setupRegistry() {
+		stateBefore = GlobalRegistries.makeCopyOfGlobalState
+	}
+	
+	@After
+	def void cleanupRegistry() {
+		stateBefore.restoreGlobalState
+	}
 
     @Test 
     def void t01_createSnippet() {
@@ -138,6 +155,7 @@ abstract class AbstractPluginTest {
        			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList
        			states.forEach[ state |
        				try {
+       					System.err.println('''StateEntry of «state.cppQualifiedName»''')
        					val body = bodyConverter.convertStateEntry(state)
        					BodyConverterTestSuit.codes += 
        					'''

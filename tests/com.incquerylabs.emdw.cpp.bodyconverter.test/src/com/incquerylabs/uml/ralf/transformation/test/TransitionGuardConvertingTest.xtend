@@ -14,7 +14,11 @@ class TransitionGuardConvertingTest extends AbstractPluginTest{
 				//It parses the action code describing a ping signal being sent to the "ping" attribute (association end) of the current object.
 				"::model::Comp::Pong::e3",
 				ConversionType.TransitionGuard,
-				'''this.integerProperty > 10;'''
+				'''
+				long __ralf__0__long = this->count;
+				bool __ralf__1__bool = __ralf__0__long < 42;
+				__ralf__1__bool;
+				'''
 			]
 		)
 	}

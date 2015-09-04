@@ -4,14 +4,10 @@ import com.google.inject.Binder
 import com.google.inject.Guice
 import com.google.inject.Module
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageRuntimeModule
-import com.incquerylabs.uml.ralf.api.IReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.IReducedAlfParser
-import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider
-import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.tests.util.descriptors.DummyUmlValueDescriptorFactory
 import java.io.StringReader
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
@@ -68,8 +64,6 @@ abstract class AbstractParserTest {
             override configure(Binder binder) {
                 val provider = new SimpleUMLContextProvider();
                 binder.bind(IUMLContextProvider).toInstance(provider);
-                binder.bind(ReducedAlfSnippetTemplateCompiler).toInstance(new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), provider));
-                binder.bind(IReducedAlfGenerator).to(ReducedAlfGenerator);
                 binder.bind(IReducedAlfParser).to(ReducedAlfParser);
             }
         };

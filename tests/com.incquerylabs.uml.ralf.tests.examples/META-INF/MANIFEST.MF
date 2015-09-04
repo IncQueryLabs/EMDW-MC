@@ -18,7 +18,8 @@ Require-Bundle: com.incquerylabs.uml.ralf,
  it.xsemantics.runtime;bundle-version="1.8.0",
  com.incquerylabs.emdw.snippet.model;bundle-version="1.0.0",
  com.incquerylabs.uml.ralf.snippetcompiler;bundle-version="1.0.0",
- com.incquerylabs.emdw.cpp.common;bundle-version="1.0.0"
+ com.incquerylabs.emdw.cpp.common;bundle-version="1.0.0",
+ com.incquerylabs.uml.ralf.snippetcompiler.tests;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.log4j,
  org.hamcrest.core,

@@ -9,28 +9,28 @@
       bodyDir="/1">
     <ooplNameProvider
         xsi:type="oopl:OOPLDerivedNameProvider"
-        name="Runtime"/>
+        name="xumlrt_runtime"/>
     <subElements
         xsi:type="cpp:CPPClass"
         headerFile="/1/@files.1"
         bodyFile="/1/@files.0">
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
-          name="ActiveComponent"/>
+          name="active_component"/>
     </subElements>
     <subElements
         xsi:type="cpp:CPPClass"
         headerFile="/1/@files.2">
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
-          name="Event"/>
+          name="event"/>
     </subElements>
     <subElements
         xsi:type="cpp:CPPClass"
         headerFile="/1/@files.3">
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
-          name="StatefulClass"/>
+          name="stateful_class"/>
     </subElements>
     <subElements
         xsi:type="cpp:CPPClass"

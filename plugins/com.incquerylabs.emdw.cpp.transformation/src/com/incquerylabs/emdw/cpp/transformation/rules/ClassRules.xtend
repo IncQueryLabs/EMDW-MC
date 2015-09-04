@@ -153,9 +153,9 @@ class ClassRules {
 		fireAllCurrent(includeRules.eventsIncludeRule, [it.cppClass == cppClass])
 		
 		val cppHeader = cppClass.headerFile
-		val uniqueNumberExternalHeader = getExternalHeader('''"Runtime/unique_number.hh"''')
+		val uniqueNumberExternalHeader = getExternalHeader('''"xumlrt_runtime/unique_number.hh"''')
 		cppHeader.addInclude(uniqueNumberExternalHeader, "Type identifier generation")
-		val typeNumberExternalHeader = getExternalHeader('''"Runtime/type_number.hh"''')
+		val typeNumberExternalHeader = getExternalHeader('''"xumlrt_runtime/type_number.hh"''')
 		cppHeader.addInclude(typeNumberExternalHeader, "Type identifier generation")
 		val listExternalHeader = includeRules.getExternalHeader("<list>")
 		cppHeader.addInclude(listExternalHeader, "_instances")

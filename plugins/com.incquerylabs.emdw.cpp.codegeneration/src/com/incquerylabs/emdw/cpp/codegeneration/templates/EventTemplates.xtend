@@ -124,7 +124,7 @@ class EventTemplates extends CPPTemplate {
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
 				«superEvents.head.generatedEventClassQualifiedName»(isInternal){
-					this->::Event::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
+					this->«ClassTemplates.EventFQN»::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
 				}
 			'''
 		}

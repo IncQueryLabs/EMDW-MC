@@ -119,7 +119,7 @@ class ComponentTemplates extends CPPTemplate {
 		val stateMachineMatcher = codeGenQueries.getCppComponentStateMachines(engine)
 		val isActiveComponent = stateMachineMatcher.hasMatch(cppComponent, null);
 		
-		'''«IF isActiveComponent»: public ActiveComponent «ENDIF»'''
+		'''«IF isActiveComponent»: public active_component «ENDIF»'''
 	}
 	
 	def componentMainBodyTemplate(CPPComponent cppComponent) {

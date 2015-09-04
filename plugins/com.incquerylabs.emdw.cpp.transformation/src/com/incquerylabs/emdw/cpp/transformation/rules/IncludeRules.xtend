@@ -12,7 +12,6 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
@@ -110,24 +109,24 @@ class IncludeRules {
 	val statemachineRuntimeIncludeRule = createRule.precondition(cppClassStateMachine).action[ match |
 		val cppClass = match.cppClass
 		val cppHeader = cppClass.headerFile
-		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
-		cppHeader.addInclude(eventExternalHeader, "Required for StatefulClass.generate_event")
-		val statefulClassExternalHeader = getExternalHeader('''"Runtime/StatefulClass.hh"''')
-		cppHeader.addInclude(statefulClassExternalHeader, "StatefulClass superclass in Runtime")
+		val eventExternalHeader = getExternalHeader('''"xumlrt_runtime/event.hh"''')
+		cppHeader.addInclude(eventExternalHeader, "Required for stateful_class.generate_event")
+		val statefulClassExternalHeader = getExternalHeader('''"xumlrt_runtime/stateful_class.hh"''')
+		cppHeader.addInclude(statefulClassExternalHeader, "Stateful Class superclass in Runtime")
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val eventsIncludeRule = createRule.precondition(cppClassEvents).action[ match |
 		val cppClass = match.cppClass
 		val cppHeader = cppClass.headerFile
-		val eventExternalHeader = getExternalHeader('''"Runtime/Event.hh"''')
+		val eventExternalHeader = getExternalHeader('''"xumlrt_runtime/event.hh"''')
 		cppHeader.addInclude(eventExternalHeader, "Event class in Runtime")
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val componentRuntimeIncludesRule = createRule.precondition(cppComponentStateMachine).action[
-		val activeClassExternalHeader = getExternalHeader('''"Runtime/ActiveComponent.hh"''')
-		cppComponent.mainHeaderFile.addInclude(activeClassExternalHeader, "ActiveComponent superclass in Runtime")
+		val activeClassExternalHeader = getExternalHeader('''"xumlrt_runtime/active_component.hh"''')
+		cppComponent.mainHeaderFile.addInclude(activeClassExternalHeader, "Active Component superclass in Runtime")
 	].build
 	
 	dispatch def addIncludesForMultiplicityElement(CPPAttribute cppAttribute, CPPSourceFile cppSourceFile){

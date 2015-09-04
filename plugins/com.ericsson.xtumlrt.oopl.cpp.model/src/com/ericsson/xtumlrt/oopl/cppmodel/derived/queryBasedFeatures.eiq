@@ -74,8 +74,15 @@ pattern cppNamedElementCppName(
 	find namedElementPurifiedName(element, target);
 } or {
 	CPPNamedElement.ooplNameProvider(source, provider);
-	OOPLDerivedNameProvider.name(provider, name);
-	target == eval (name.replace(' ', '_'));
+	find ooplDerivedNamePurifiedName(provider, target);
+}
+
+pattern ooplDerivedNamePurifiedName(
+	namedElement : OOPLDerivedNameProvider,
+	purifiedName
+) {
+	OOPLDerivedNameProvider.name(namedElement, name);
+	purifiedName == eval (CPPNamePurifier.purifyName(name));
 }
 
 pattern namedElementPurifiedName(
@@ -83,7 +90,7 @@ pattern namedElementPurifiedName(
 	purifiedName
 ) {
 	NamedElement.name(namedElement, name);
-	purifiedName == eval (name.replace(' ', '_'));
+	purifiedName == eval (CPPNamePurifier.purifyName(name));
 }
 
 @QueryBasedFeature(feature = "cppPrefix")
@@ -189,9 +196,9 @@ pattern cppDirectoryParentDirectory(
 	target
 ) {
 	find cppDirectoryParentChild(parent, source);
-	CPPDirectory.name(parent, target);
+	find cppDirectoryName(parent, target);
 } or {
-	neg find cppDirectoryParentChild(parent, source);
+	neg find cppDirectoryParentChild(_parent, source);
 	target == "";
 }
 

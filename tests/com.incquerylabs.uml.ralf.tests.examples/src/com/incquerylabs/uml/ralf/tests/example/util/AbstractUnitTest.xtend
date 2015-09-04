@@ -5,7 +5,7 @@ import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.scoping.SimpleUMLContextProvider
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.tests.util.DummyUmlValueDescriptorFactory
+import com.incquerylabs.uml.ralf.tests.util.descriptors.DummyUmlValueDescriptorFactory
 import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl

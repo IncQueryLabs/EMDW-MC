@@ -4,7 +4,7 @@ import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplat
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.tests.util.DummyUmlValueDescriptorFactory
+import com.incquerylabs.uml.ralf.tests.util.descriptors.DummyUmlValueDescriptorFactory
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith

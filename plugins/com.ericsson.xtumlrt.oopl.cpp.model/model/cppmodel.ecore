@@ -493,4 +493,11 @@
     </eAnnotations>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="CPPMakeFile" eSuperTypes="#//CPPSourceFile"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CPPExternalBridge" eSuperTypes="#//CPPQualifiedNamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="headerFile" lowerBound="1"
+        eType="#//CPPHeaderFile"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" lowerBound="1"
+        eType="#//CPPBodyFile"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppExternalNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
 </ecore:EPackage>

@@ -163,5 +163,10 @@
     <genClasses ecoreClass="cppmodel.ecore#//CPPStructMember"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPUserDefinedType"/>
     <genClasses ecoreClass="cppmodel.ecore#//CPPMakeFile"/>
+    <genClasses ecoreClass="cppmodel.ecore#//CPPExternalBridge">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalBridge/headerFile"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference cppmodel.ecore#//CPPExternalBridge/bodyFile"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute cppmodel.ecore#//CPPExternalBridge/cppExternalNamespace"/>
+    </genClasses>
   </genPackages>
 </genmodel:GenModel>

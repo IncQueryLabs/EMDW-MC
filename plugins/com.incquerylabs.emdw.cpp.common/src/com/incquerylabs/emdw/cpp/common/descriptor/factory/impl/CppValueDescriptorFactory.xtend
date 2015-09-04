@@ -61,9 +61,14 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	override prepareSingleVariableDescriptorForLiteral(OOPLType type, String literal) {
 		checkArgument(type!=null, "OOPLType cannot be null")
 		checkArgument(type instanceof CPPBasicType, "Literal only could be a CPPBasicType, not a(n) "+type.class.name)
+		val basicType = type as CPPBasicType
 		val preparedDescriptor = factory.createLiteralDescriptor => [
 				it.stringRepresentation = converter.convertLiteral(type, literal)
-				it.baseType = (type as CPPBasicType).cppName
+				if(basicType.cppQualifiedName != null){
+					it.baseType = basicType.cppQualifiedName					
+				} else {
+					it.baseType = basicType.cppName			
+				}
 				it.fullType = it.baseType
 		]
 		return preparedDescriptor

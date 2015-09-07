@@ -207,12 +207,12 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	private def String qualifiedName(String name) {
-		return '''«SEPARATOR»«LOCAL_VARIABLE_PREFIX»«SEPARATOR»«index.qualifiedIndex»«SEPARATOR»«name»'''
+		return '''«SEPARATOR»«LOCAL_VARIABLE_PREFIX»«SEPARATOR»«index.qualifiedIndex(parent)»«SEPARATOR»«name»'''
 	}
 	
-	private def String qualifiedIndex(Integer index) {
+	private def String qualifiedIndex(Integer index, OoplValueDescriptorFactory parent) {
 		if(parent!=null) {
-			return '''«parent.actualIndex.qualifiedIndex»«SEPARATOR»«index»'''
+			return '''«parent.actualIndex.qualifiedIndex(parent.parent)»«SEPARATOR»«index»'''
 		}
 		return index.toString
 	}

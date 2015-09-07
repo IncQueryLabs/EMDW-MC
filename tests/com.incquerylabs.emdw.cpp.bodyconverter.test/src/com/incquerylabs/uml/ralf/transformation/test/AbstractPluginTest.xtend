@@ -25,10 +25,7 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
-import org.eclipse.xtext.junit4.GlobalRegistries
-import org.eclipse.xtext.junit4.GlobalRegistries.GlobalStateMemento
 import org.junit.After
-import org.junit.Before
 import org.junit.FixMethodOrder
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -37,14 +34,17 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameter
 
 import static org.junit.Assert.*
+import com.incquerylabs.uml.ralf.transformation.impl.queries.UmlCppMappingQueries
+import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.OpaqueBehavior
+import org.eclipse.uml2.uml.BodyOwner
+import org.eclipse.uml2.uml.State
+import org.eclipse.uml2.uml.Transition
+import org.eclipse.uml2.uml.OpaqueExpression
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 abstract class AbstractPluginTest {
-	protected GlobalStateMemento stateBefore;
-	
-	
-	
     @Parameter(0)
     public String name
     
@@ -58,16 +58,6 @@ abstract class AbstractPluginTest {
     @Parameter(3)
     public String expectedOutput
 
-
-	@Before
-	def void setupRegistry() {
-		stateBefore = GlobalRegistries.makeCopyOfGlobalState
-	}
-	
-	@After
-	def void cleanupRegistry() {
-		stateBefore.restoreGlobalState
-	}
 
     @Test 
     def void t01_createSnippet() {
@@ -132,21 +122,39 @@ abstract class AbstractPluginTest {
     	// *******************************************************************************
        			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList
        			operations.forEach[ operation |
+       				BodyConverterTestSuit.operationSum++
        				try {
        					val body = bodyConverter.convertOperation(operation)
        					BodyConverterTestSuit.codes += 
        					'''
        					Operation: «operation.qualifiedName»
-       					«body»
+       					rALF:
+       						«operation.ralfCode»
+       					C++ code:
+       						«body»
        					
+       					'''
+       					BodyConverterTestSuit.operationOk++
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					«operation.qualifiedName» | :white_check_mark: | «body.markdownBody»
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
        					BodyConverterTestSuit.codes += 
        					'''
        					Operation: «operation.qualifiedName»)
+       					rALF:
+       						«operation.ralfCode»
+       					Exception:
        						«ex.message»
        					
+       					'''
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					«operation.qualifiedName» | :x: | «ex.reducedMessage» 
        					'''
        				}
        			]
@@ -154,22 +162,39 @@ abstract class AbstractPluginTest {
        		case StateEntry: {
        			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList
        			states.forEach[ state |
+       				BodyConverterTestSuit.stateEntrySum++
        				try {
-       					System.err.println('''StateEntry of «state.cppQualifiedName»''')
        					val body = bodyConverter.convertStateEntry(state)
        					BodyConverterTestSuit.codes += 
        					'''
        					State Entry: «state.qualifiedName»
+       					rALF:
+       						«state.ralfCode(true)»
+       					C++ code:
        					«body»
        					
+       					'''
+       					BodyConverterTestSuit.stateEntryOk++
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Entry of «state.qualifiedName» | :white_check_mark: | «body.markdownBody»
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
        					BodyConverterTestSuit.codes += 
        					'''
        					State Entry: «state.qualifiedName»
+       					rALF:
+       						«state.ralfCode(true)»
+       					Exception:
        						«ex.message»
        					
+       					'''
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Entry of «state.qualifiedName» | :x: | «ex.reducedMessage» 
        					'''
        				}
        			]
@@ -177,21 +202,39 @@ abstract class AbstractPluginTest {
        		case StateExit: {
        			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null].toList
        			states.forEach[ state |
+       				BodyConverterTestSuit.stateExitSum++
        				try {
        					val body = bodyConverter.convertStateExit(state)
        					BodyConverterTestSuit.codes += 
        					'''
        					State Exit: «state.qualifiedName»
+       					rALF:
+       						«state.ralfCode(false)»
+       					C++ code:
        					«body»
        					
+       					'''
+       					BodyConverterTestSuit.stateExitOk++
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Exit of «state.qualifiedName» | :white_check_mark: | «body.markdownBody»
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
        					BodyConverterTestSuit.codes += 
        					'''
        					State Exit: «state.qualifiedName»
+       					rALF:
+       						«state.ralfCode(false)»
+       					Exception:
        						«ex.message»
        					
+       					'''
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Exit of «state.qualifiedName» | :x: | «ex.reducedMessage» 
        					'''
        				}
        			]
@@ -199,21 +242,39 @@ abstract class AbstractPluginTest {
        		case Transition: {
        			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty].toList
        			transitions.forEach[ transition |
+       				BodyConverterTestSuit.transitionSum++
        				try {
        					val body = bodyConverter.convertTransition(transition)
        					BodyConverterTestSuit.codes += 
        					'''
        					Transition: «transition.qualifiedName»
+       					rALF:
+       						«transition.ralfCode(false)»
+       					C++ code:
        					«body»
        					
+       					'''
+       					BodyConverterTestSuit.transitionOk++
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Effect of «transition.qualifiedName» | :white_check_mark: | «body.markdownBody»
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
        					BodyConverterTestSuit.codes += 
        					'''
        					Transition: «transition.qualifiedName»
+       					rALF:
+       						«transition.ralfCode(false)»
+       					Exception:
        						«ex.message»
        					
+       					'''
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Effect of «transition.qualifiedName» | :x: | «ex.reducedMessage» 
        					'''
        				}
        			]
@@ -221,21 +282,39 @@ abstract class AbstractPluginTest {
        		case TransitionGuard: {
        			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null].toList
        			transitions.forEach[ transition |
+       				BodyConverterTestSuit.transitionGuardSum++
        				try {
        					val body = bodyConverter.convertTransitionGuard(transition)
        					BodyConverterTestSuit.codes += 
        					'''
        					Transition Guard: «transition.qualifiedName»
+       					rALF:
+       						«transition.ralfCode(true)»
+       					C++ code:
        					«body»
        					
+       					'''
+       					BodyConverterTestSuit.transitionGuardOk++
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Guard of «transition.qualifiedName» | :white_check_mark: | «body.markdownBody»
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
        					BodyConverterTestSuit.codes += 
        					'''
        					Transition Guard: «transition.qualifiedName»
+       					rALF:
+       						«transition.ralfCode(true)»
+       					Exception:
        						«ex.message»
        					
+       					'''
+       					BodyConverterTestSuit.wikiTable = 
+       					'''
+       					«BodyConverterTestSuit.wikiTable»
+       					Guard of «transition.qualifiedName» | :x: | «ex.reducedMessage» 
        					'''
        				}
        			]
@@ -267,6 +346,7 @@ abstract class AbstractPluginTest {
 	private XtumlCPPTransformationQrt cppTrafo
 	private XtumlComponentCPPTransformation compTrafo
 	private BodyConverter bodyConverter
+	extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
 	
     private def initTrafos(String umlModelPath) {
     	val resourceSet = new ResourceSetImpl
@@ -314,7 +394,46 @@ abstract class AbstractPluginTest {
     	}
 	}
 	
-	def String getQualifiedName(CPPQualifiedNamedElement qne) '''«qne.cppName» («qne.cppQualifiedName»)'''
+	def String getQualifiedName(CPPOperation qne) '''Operation: «(engine.umlOperation2CppOperation.getAllValuesOfumlOperation(qne).head as Operation).qualifiedName.form»'''
+	def String getQualifiedName(CPPState qne) '''State: «(engine.umlState2CppState.getAllValuesOfumlState(qne).head as State).qualifiedName.form»'''
+	def String getQualifiedName(CPPTransition qne) '''Transition: «(engine.umlTransition2CppTransition.getAllValuesOfumlTransition(qne).head as Transition).qualifiedName.form»'''
+	
+	def form(String string) '''«string.replace("PhoneX::PhoneX::Implementation::", "")»'''
+	def getReducedMessage(Exception ex) '''«ex.message.replace('\n', "<br />")»'''
+	def markdownBody(String body) '''«body.replace("\r\n", "<br />")»'''
+	
+	def String ralfCode(CPPOperation operation) {
+		val op = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(operation).head as Operation
+		return op.methods.filter(OpaqueBehavior).head.ralfCode
+	}
+	
+	def String ralfCode(CPPState state, boolean isEntry) {
+		val st = engine.umlState2CppState.getAllValuesOfumlState(state).head as State
+		if(isEntry) {
+			return (st.entry as OpaqueBehavior).ralfCode
+		}
+		return (st.exit as OpaqueBehavior).ralfCode
+	}
+	
+	def String ralfCode(CPPTransition transition, boolean isGuard) {
+		val tr = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(transition).head as Transition
+		if(isGuard) {
+			return (tr.guard.specification as OpaqueExpression).ralfCode
+		}
+		return (tr.effect as OpaqueBehavior).ralfCode
+	}
+	
+	def String getRalfCode(BodyOwner owner) {
+		if(owner==null) {
+			return "null"
+		}
+		val index = owner.languages.indexOf("rALF")
+		if(index<0) {
+			return "NO rALF CODE"
+		}
+		return owner.bodies.get(index)
+		
+	}
 	
 	def createRootMapping(String umlModelPath, ResourceSet resourceSet) {
 		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI(umlModelPath, true)) => [ load(#{}) ]

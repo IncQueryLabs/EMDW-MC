@@ -4,6 +4,7 @@ import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTes
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 
 class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 	@Parameters(name = "{0}")
@@ -49,6 +50,13 @@ class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 			    #[
 			    	ReducedAlfSystem.NAMEEXPRESSION,
 			    	ReducedAlfSystem.NAMEEXPRESSION
+			    ]
+			],
+			#[  "This in a static operation",
+			    '''this;''',
+				"model::Comp::Pong::staticIntegerOperation",
+			    #[
+			        ReducedAlfLanguageValidator.CODE_THIS_IN_STATIC
 			    ]
 			]
 		)

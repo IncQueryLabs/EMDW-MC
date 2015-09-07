@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.plugintests
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
+import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 
 class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 	@Parameters(name = "{0}")
@@ -97,6 +98,11 @@ class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 			    '''this.doDefaultValue();''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
+			],
+			#[  "Invalid Static Operation Call",
+			    '''this.staticIntegerOperation();''',
+				"model::Comp::Pong::TestOperation",
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_FEATURE]
 			],
 			#[  "Operation Call Optional Parameters: default value no this",
 			    '''doDefaultValue();''',

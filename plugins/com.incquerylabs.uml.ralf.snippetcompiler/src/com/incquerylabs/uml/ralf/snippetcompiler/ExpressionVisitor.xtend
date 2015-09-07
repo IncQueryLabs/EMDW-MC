@@ -125,7 +125,7 @@ class ExpressionVisitor {
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		var ValueDescriptor descriptor 
-		if(variableType != null){
+		if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression)){
 			descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 				type = variableType
 				name = null
@@ -189,8 +189,7 @@ class ExpressionVisitor {
 	        default: throw new UnsupportedOperationException("Invalid feature invocation")
 	    }
 	    
-	    
-	    if(variableType != null){
+	    if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression)){
 	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;'''+'\n')
 	    	descriptor.stringRepresentation
 	    }else{

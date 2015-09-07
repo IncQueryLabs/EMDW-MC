@@ -272,7 +272,57 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer temp1 = temp0 * 2;
 				temp1;''',
 				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on property this",
+			    '''this.integerProperty++;''',
+				'''
+				PrimitiveTypes::Integer temp0 = this->integerProperty++;
+				temp0;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Prefix expression on property this",
+			    '''++this.integerProperty;''',
+				'''
+				PrimitiveTypes::Integer temp0 = ++this->integerProperty;
+				temp0;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on property",
+			    '''
+			    Pong x = new Pong();
+			    x.integerProperty++;''',
+				'''
+				model::Comp::Pong temp0 = new model::Comp::Pong();
+				model::Comp::Pong x = temp0;
+				PrimitiveTypes::Integer temp1 = x->integerProperty++;
+				temp1;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Prefix expression on property",
+			    '''
+			    Pong x = new Pong();
+			    ++x.integerProperty;''',
+				'''
+				model::Comp::Pong temp0 = new model::Comp::Pong();
+				model::Comp::Pong x = temp0;
+				PrimitiveTypes::Integer temp1 = ++x->integerProperty;
+				temp1;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on association",
+			    '''
+			    Ping x = new Ping();
+			    x->pong.integerProperty++;''',
+				'''
+				model::Comp::Ping temp0 = new model::Comp::Ping();
+				model::Comp::Ping x = temp0;
+				model::Comp::Pong temp1 = x->pong;
+				PrimitiveTypes::Integer temp2 = temp1->integerProperty++;
+				temp2;''',
+				"model::Comp::Pong::doIntegerVoid"
 			]
+			
+			
 			
 		)
 	}

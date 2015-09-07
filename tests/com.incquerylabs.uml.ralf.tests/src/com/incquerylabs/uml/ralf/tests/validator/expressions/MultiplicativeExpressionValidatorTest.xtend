@@ -199,15 +199,15 @@ class MultiplicativeExpressionValidatorTest extends AbstractValidatorTest{
 			],
 			#[  "ModuloExpression: Parameter1 : RealLiteral, Parameter2: RealLiteral",
 			    '''1.3 % 2.3;''',
-			    #[]
+			    #[ReducedAlfSystem.ARITHMETICEXPRESSION]
 			],
 			#[  "ModuloExpression: Parameter1 : RealLiteral, Parameter2: IntegerLiteral",
 			    '''1.3 % 2;''',
-			    #[]
+			    #[ReducedAlfSystem.ARITHMETICEXPRESSION]
 			],
 			#[  "ModuloExpression: Parameter1 : IntegerLiteral, Parameter2: RealLiteral",
 			    '''1 % 2.3;''',
-			    #[]
+			    #[ReducedAlfSystem.ARITHMETICEXPRESSION]
 			],
 			#[  "ModuloExpression: Parameter1 : IntegerLiteral, Parameter2: Parenthesis",
 			    '''1 % (2-3);''',

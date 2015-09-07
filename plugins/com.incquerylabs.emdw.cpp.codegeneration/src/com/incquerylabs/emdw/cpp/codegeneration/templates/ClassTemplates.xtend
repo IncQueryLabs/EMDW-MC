@@ -15,8 +15,8 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 class ClassTemplates extends CPPTemplate {
 	
 	val TypeConverter typeConverter
-	public static val StatefulClassFQN = "::StatefulClass"
-	public static val EventFQN = "::Event"
+	public static val StatefulClassFQN = "::stateful_class"
+	public static val EventFQN = "::event"
 
 	extension val NamespaceTemplates namespaceTemplates
 	extension val HeaderGuardTemplates headerGuardTemplates

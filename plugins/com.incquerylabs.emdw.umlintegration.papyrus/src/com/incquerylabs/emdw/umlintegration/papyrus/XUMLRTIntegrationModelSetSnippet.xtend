@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFBaseIndexWrapper
 import org.eclipse.incquery.runtime.evm.specific.TransactionalSchedulers
-import org.eclipse.incquery.runtime.exception.IncQueryException
 import org.eclipse.papyrus.infra.core.resource.IModelSetSnippet
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory

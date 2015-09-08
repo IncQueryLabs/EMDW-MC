@@ -1,0 +1,13 @@
+package com.incquerylabs.emdw.umlintegration.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+pattern cppExternalBridge(
+	xtClass : XTClass,
+	cppBridge : CPPExternalBridge
+) {
+	CPPExternalBridge.xtClass(cppBridge, xtClass);
+}

@@ -5,6 +5,7 @@ Bundle-SymbolicName: com.incquerylabs.emdw.umlintegration.transformation;singlet
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: IncQuery Labs Ltd.
 Export-Package: com.incquerylabs.emdw.umlintegration,
+ com.incquerylabs.emdw.umlintegration.cpp,
  com.incquerylabs.emdw.umlintegration.queries,
  com.incquerylabs.emdw.umlintegration.queries.util,
  com.incquerylabs.emdw.umlintegration.rules,
@@ -19,6 +20,7 @@ Require-Bundle: org.eclipse.emf.ecore,
  org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="0.5.0",
  com.incquerylabs.emdw.umlintegration.trace;bundle-version="1.0.0",
  com.incquerylabs.emdw.umlintegration.queries;bundle-version="1.0.0",
- com.google.guava;bundle-version="[15.0.0,16.0.0)"
+ com.google.guava;bundle-version="[15.0.0,16.0.0)",
+ com.ericsson.xtumlrt.oopl.cpp.model;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: org.apache.log4j

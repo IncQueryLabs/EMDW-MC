@@ -25,7 +25,7 @@ abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent ex
 		}
 	}
 	
-	override protected updated(Match match) {
+	override updated(Match match) {
 	}
 	
 	override disappeared(Match match) {

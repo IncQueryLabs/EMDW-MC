@@ -25,6 +25,9 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
+import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
+import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
+import java.util.Set
 
 class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
@@ -69,6 +72,12 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 				}
 			]
 			
+			
+			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
+			// The extension service should be added through an extension point
+			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
+			extensionServices.forEach[initialize(xUmlRtResource)]
+			
 			if(mappings.size == 1) {
 				val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)
 				
@@ -76,6 +85,10 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 				val schedulerFactory = TransactionalSchedulers.getTransactionSchedulerFactory(domain)
 				transformation.schedulerFactory = schedulerFactory
 				transformation.externalTypeMap = primitiveTypeMapping
+				
+				// This should not be injected to remove dependency
+				transformation.extensionServices = extensionServices
+				
 				transformation.initialize(engine)
 				logger.debug("Initialized UML integration transformation")
 				transformation.execute

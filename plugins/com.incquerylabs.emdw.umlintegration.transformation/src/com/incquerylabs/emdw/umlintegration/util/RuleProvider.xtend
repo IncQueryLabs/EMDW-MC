@@ -62,6 +62,7 @@ import org.eclipse.incquery.runtime.evm.specific.resolver.FixedPriorityConflictR
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.eventdriven.EventDrivenTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation.EventDrivenTransformationBuilder
+import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 
 /**
  * Class responsible for the initiation of VIATRA Event driven transformation rules. 
@@ -72,6 +73,7 @@ class RuleProvider {
 	extension EventDrivenTransformationRuleFactory factory = new EventDrivenTransformationRuleFactory
 	IncQueryEngine engine
 	Map<EventDrivenTransformationRule<?, ?>, AbstractMapping<?>> rulemap;
+	Set<UmlIntegrationExtension> extensionServices = newHashSet
 
 	new(IncQueryEngine engine) {
 		this.engine = engine
@@ -123,6 +125,7 @@ class RuleProvider {
 		XTPortRules.getRules(engine).initRules
 // FIXME signal event not correct 
 //		XTSignalEventRules.getRules(engine).initRules
+		extensionServices.forEach[getRules(engine).initRules]
 	}
 	
 	/**
@@ -144,6 +147,18 @@ class RuleProvider {
 		rulemap.keySet.forEach [ rule |
 			logger.debug('''«rulemap.get(rule).class.simpleName» - «getPriority(rule)»''')
 			resolver.setPriority(rule.ruleSpecification, getPriority(rule))
+		]
+	}
+	
+	public def addExtensions(Set<UmlIntegrationExtension> extensionServices) {
+		this.extensionServices += extensionServices
+	}
+	
+	public def removeExtension(Set<UmlIntegrationExtension> extensionServices) {
+		extensionServices.forEach[ extensionService |
+			if (extensionServices.contains(extensionService)) {
+				extensionServices.remove(extensionService)
+			}
 		]
 	}
 	
@@ -218,6 +233,18 @@ class RuleProvider {
 		].action(
 			IncQueryActivationStateEnum.UPDATED) [ match |
 			rule.updated(match as ModelMatch)
+		].addLifeCycle(Lifecycles.getDefault(true, true)).build
+		rulemap.put(eventDrivenRule, rule);
+	}
+	
+	private def dispatch initRule(AbstractMapping rule) {
+		val eventDrivenRule = createRule.precondition(rule.querySpecification as IQuerySpecification<IncQueryMatcher<IPatternMatch>>).action(
+			IncQueryActivationStateEnum.APPEARED) [ match |
+			rule.appeared(match)
+		].action(IncQueryActivationStateEnum.UPDATED) [ match |
+			rule.updated(match)
+		].action(IncQueryActivationStateEnum.DISAPPEARED) [ match |
+			rule.disappeared(match)
 		].addLifeCycle(Lifecycles.getDefault(true, true)).build
 		rulemap.put(eventDrivenRule, rule);
 	}

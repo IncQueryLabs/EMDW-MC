@@ -39,11 +39,11 @@ abstract class AbstractMapping<Match extends IPatternMatch> {
 	 */
 	def int getRulePriority()
 	
-	protected def void appeared(Match match)
+	def void appeared(Match match)
 
-	protected def void updated(Match match)
+	def void updated(Match match)
 	
-	protected def void disappeared(Match match)
+	def void disappeared(Match match)
 
 	/**
 	 * Returns the root of the transformation.

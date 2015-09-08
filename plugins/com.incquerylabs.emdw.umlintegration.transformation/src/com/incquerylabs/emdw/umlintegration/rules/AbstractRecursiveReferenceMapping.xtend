@@ -21,7 +21,7 @@ abstract class AbstractRecursiveReferenceMapping<Match extends IPatternMatch, Xt
 		logger.debug('''Added edge «source» -> «target»''')
 	}
 	
-	override protected updated(Match match) {
+	override updated(Match match) {
 	}
 	
 	override disappeared(Match match) {

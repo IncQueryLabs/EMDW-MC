@@ -1,21 +1,13 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.TypeConverter
-import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
-import java.util.List
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppOperationCallBuilder implements IOoplOperationCallBuilder {
-	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
-	
-	private XtumlToOoplMapper mapper
-	private TypeConverter converter
+	private CppOperationDescriptorUtil util
 	
 	private ValueDescriptor variable
 	private Operation operation
@@ -23,25 +15,12 @@ class CppOperationCallBuilder implements IOoplOperationCallBuilder {
 	
 	
 	new(AdvancedIncQueryEngine engine) {
-		mapper = new XtumlToOoplMapper(engine)
-		converter = new TypeConverter
+		util = new CppOperationDescriptorUtil(engine)
 	}
 	
 	
 	override build() {
-		val cppOperation = mapper.convertOperation(operation)
-		val retType = cppOperation.subElements.filter(CPPReturnValue).head
-		var baseType = retType.type
-		if(baseType instanceof CPPSequence) {
-			baseType = baseType.elementType
-		}
-		val baseTypeFinal = baseType
-		val ocd = factory.createOperationCallDescriptor => [
-			it.baseType = converter.convertType(baseTypeFinal)
-			it.fullType = converter.convertType(retType)
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
-		]
-		return ocd
+		return util.build('''«variable.stringRepresentation»->''', operation, params)
 	}
 	
 	override setVariable(ValueDescriptor variable) {

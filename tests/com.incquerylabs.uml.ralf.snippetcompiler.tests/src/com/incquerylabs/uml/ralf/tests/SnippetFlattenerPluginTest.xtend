@@ -13,32 +13,28 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    '''Integer x = 1+2+3;''',
 				'''
 				PrimitiveTypes::Integer temp0 = 1 + 2;
-				PrimitiveTypes::Integer temp1 = temp0 + 3;
-				PrimitiveTypes::Integer x = temp1;''',
+				PrimitiveTypes::Integer x = temp0 + 3;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Multiple addition real",
 			    '''Real x = 1.1 * 2.2 *3.3;''',
 				'''
 				PrimitiveTypes::Real temp0 = 1.1 * 2.2;
-				PrimitiveTypes::Real temp1 = temp0 * 3.3;
-				PrimitiveTypes::Real x = temp1;''',
+				PrimitiveTypes::Real x = temp0 * 3.3;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Multiple string concat",
 			    '''String x = "1.1" + "2.2" + "3.3";''',
 				'''
 				PrimitiveTypes::String temp0 = "1.1" + "2.2";
-				PrimitiveTypes::String temp1 = temp0 + "3.3";
-				PrimitiveTypes::String x = temp1;''',
+				PrimitiveTypes::String x = temp0 + "3.3";''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Mixed arithmetics",
 			    '''Real x = 1 * 1.1 / 3;''',
 				'''
 				PrimitiveTypes::Real temp0 = 1 * 1.1;
-				PrimitiveTypes::Real temp1 = temp0 / 3;
-				PrimitiveTypes::Real x = temp1;''',
+				PrimitiveTypes::Real x = temp0 / 3;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property access",
@@ -47,12 +43,10 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Integer x;
 				x = p.integerProperty ;''',
 				'''
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				model::Comp::Pong p = temp0;
+				model::Comp::Pong p = new model::Comp::Pong();
 				PrimitiveTypes::Integer x;
-				PrimitiveTypes::Integer temp1 = p->integerProperty;
-				PrimitiveTypes::Integer temp2 = (x = temp1);
-				temp2;''',
+				PrimitiveTypes::Integer temp0 = p->integerProperty;
+				x = temp0;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property access 2",
@@ -61,10 +55,8 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Integer x = p.integerProperty ;''',
 				
 				'''
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				model::Comp::Pong p = temp0;
-				PrimitiveTypes::Integer temp1 = p->integerProperty;
-				PrimitiveTypes::Integer x = temp1;''',
+				model::Comp::Pong p = new model::Comp::Pong();
+				PrimitiveTypes::Integer x = p->integerProperty;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property access 3",
@@ -72,18 +64,14 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Ping p = new Ping();
 				Integer x = p->pong.integerProperty ;''',
 				'''
-				model::Comp::Ping temp0 = new model::Comp::Ping();
-				model::Comp::Ping p = temp0;
-				model::Comp::Pong temp1 = p->pong;
-				PrimitiveTypes::Integer temp2 = temp1->integerProperty;
-				PrimitiveTypes::Integer x = temp2;''',
+				model::Comp::Ping p = new model::Comp::Ping();
+				model::Comp::Pong temp0 = p->pong;
+				PrimitiveTypes::Integer x = temp0->integerProperty;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property access this",
 			    '''Integer x = this.integerProperty;''',
-				'''
-				PrimitiveTypes::Integer temp0 = this->integerProperty;
-				PrimitiveTypes::Integer x = temp0;''',
+				'''PrimitiveTypes::Integer x = this->integerProperty;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property write",
@@ -91,18 +79,14 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Pong p = new Pong();
 				p.integerProperty = 1;''',
 				'''
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				model::Comp::Pong p = temp0;
-				PrimitiveTypes::Integer temp1 = (p->integerProperty = 1);
-				temp1;''',
+				model::Comp::Pong p = new model::Comp::Pong();
+				p->integerProperty = 1;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property write this",
 			    '''
 				this.integerProperty = 1;''',
-				'''
-				PrimitiveTypes::Integer temp0 = (this->integerProperty = 1);
-				temp0;''',
+				'''this->integerProperty = 1;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call",
@@ -110,10 +94,8 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    Pong x = new Pong();
 			    x.returnInteger();''',
 				'''
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				model::Comp::Pong x = temp0;
-				PrimitiveTypes::Integer temp1 = x.returnInteger();
-				temp1;''',
+				model::Comp::Pong x = new model::Comp::Pong();
+				x.returnInteger();''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call additive",
@@ -269,10 +251,49 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer x = 1;
 				PrimitiveTypes::Integer temp0 = x + 1;
-				PrimitiveTypes::Integer temp1 = temp0 * 2;
-				temp1;''',
+				temp0 * 2;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on property this",
+			    '''this.integerProperty++;''',
+				'''this->integerProperty++;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Prefix expression on property this",
+			    '''++this.integerProperty;''',
+				'''++this->integerProperty;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on property",
+			    '''
+			    Pong x = new Pong();
+			    x.integerProperty++;''',
+				'''
+				model::Comp::Pong x = new model::Comp::Pong();
+				x->integerProperty++;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Prefix expression on property",
+			    '''
+			    Pong x = new Pong();
+			    ++x.integerProperty;''',
+				'''
+				model::Comp::Pong x = new model::Comp::Pong();
+				++x->integerProperty;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on association",
+			    '''
+			    Ping x = new Ping();
+			    x->pong.integerProperty++;''',
+				'''
+				model::Comp::Ping x = new model::Comp::Ping();
+				model::Comp::Pong temp0 = x->pong;
+				temp0->integerProperty++;''',
 				"model::Comp::Pong::doIntegerVoid"
 			]
+			
+			
 			
 		)
 	}

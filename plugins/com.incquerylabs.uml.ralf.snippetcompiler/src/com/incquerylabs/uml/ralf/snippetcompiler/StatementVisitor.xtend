@@ -130,12 +130,12 @@ class StatementVisitor {
 			block.statement.forEach[ statement |
 				builder.append(statement.visit+'\n')
 	    	]
-	    	val blockConditionString = createLoopVariable(st.condition, builder)
+	    	val blockConditionString = updateLoopVariable(st.condition, builder)
 	    	builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 			
 		}else{	
 			builder.append(st.body.visit)
-			val blockConditionString = createLoopVariable(st.condition, builder)
+			val blockConditionString = updateLoopVariable(st.condition, builder)
 			builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 		}
 		builder.append('''}''')
@@ -156,12 +156,12 @@ class StatementVisitor {
 			block.statement.forEach[ statement |
 				builder.append(statement.visit+'\n')
 	    	]
-	    	val blockConditionString = createLoopVariable(st.condition, builder)
+	    	val blockConditionString = updateLoopVariable(st.condition, builder)
 	    	builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 			
 		}else{	
 			builder.append(st.body.visit)
-			val blockConditionString = createLoopVariable(st.condition, builder)
+			val blockConditionString = updateLoopVariable(st.condition, builder)
 			builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 		}
 		builder.append('''}''')
@@ -188,13 +188,13 @@ class StatementVisitor {
 				builder.append(statement.visit+'\n')
 	    	]
 	    	builder.append('''«st.update.visit»'''+'\n')
-	    	val blockConditionString = createLoopVariable(st.condition, builder)
+	    	val blockConditionString = updateLoopVariable(st.condition, builder)
 	    	builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 			
 		}else{	
 			builder.append(st.body.visit)
 			builder.append('''«st.update.visit»'''+'\n')
-			val blockConditionString = createLoopVariable(st.condition, builder)
+			val blockConditionString = updateLoopVariable(st.condition, builder)
 			builder.append('''«conditionString» = «blockConditionString»;'''+'\n')
 		}
 		builder.append('''}'''+'\n')
@@ -223,7 +223,6 @@ class StatementVisitor {
 		var String conditionSnippet
 		if(ex instanceof LiteralExpression){
 			val literalDescriptor = getDescriptor(ex)
-			
 			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 				type = typeSystem.type(ex).value.umlType
 				name = null
@@ -232,9 +231,19 @@ class StatementVisitor {
 			builder.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «literalDescriptor.stringRepresentation»;'''+'\n')
 			
 			conditionSnippet = descriptor.stringRepresentation
-			
 		}else{
 			conditionSnippet = ex.visit(builder)
 		}
 	}
+	
+	private def String updateLoopVariable(Expression ex, StringBuilder builder){
+		var String conditionSnippet
+		if(ex instanceof LiteralExpression){
+			conditionSnippet = getDescriptor(ex).stringRepresentation
+		}else{
+			conditionSnippet = ex.visit(builder)
+		}
+	}
+	
+
 }

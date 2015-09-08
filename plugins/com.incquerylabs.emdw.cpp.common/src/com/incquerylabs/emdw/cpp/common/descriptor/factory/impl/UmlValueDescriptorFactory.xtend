@@ -197,6 +197,14 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		new UmlOperationCallBuilder(engine)
 	}
 	
+	override createConstructorCallBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override createStaticOperationCallBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 	
 	
 	override isSingleVariableInCache(String variableName) {

@@ -499,5 +499,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="bodyFile" lowerBound="1"
         eType="#//CPPBodyFile"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cppExternalNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="xtClass" lowerBound="1"
+        eType="ecore:EClass ../../org.eclipse.papyrusrt.xtumlrt.xtuml.model/model/xtuml.ecore#//XTClass"/>
   </eClassifiers>
 </ecore:EPackage>

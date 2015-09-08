@@ -22,7 +22,7 @@ class DummyStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder{
 				baseType = operation.type.qualifiedName
 				fullType = operation.type.qualifiedName
 			}
-			stringRepresentation = operation.type.qualifiedName+'''.'''+operation.name+'''('''+parameters+''')'''
+			stringRepresentation = operation.qualifiedName+'''('''+parameters+''')'''
 		]
 		descriptor
 	}
@@ -36,7 +36,4 @@ class DummyStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder{
 		this.params = params.toList
 		this
 	}
-	
-
-	
 }

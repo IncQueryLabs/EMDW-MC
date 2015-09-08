@@ -16,7 +16,7 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 	private IOoplConstructorCallBuilder builder
 	
 	private Type type
-	private Map<String, ValueDescriptor> params
+	private List<Pair<Type, ValueDescriptor>> params
 	
 	
 	
@@ -26,24 +26,25 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 	}
 	
 	
-	
 	override build() {
-		val umlClass = type as Class
-		val constructor = umlClass.operations.filter[op | 
-			op.name.equals(umlClass.name) 
-			&& op.ownedParameters.size==params.size 
-			&& op.ownedParameters.containsAll(params.keySet)
-		].head
-		val List<ValueDescriptor> parameters = newArrayList
-		constructor.ownedParameters.forEach[p |
-			parameters += params.get(p.name)
-		]
-		
-		val xtClass = mapper.convertType(type) as XTClass
-		return (builder => [
-					it.class = xtClass
-					it.parameters = parameters
-				]).build
+//		val umlClass = type as Class
+//		val constructor = umlClass.operations.filter[op | 
+//			op.name.equals(umlClass.name) 
+//			&& op.ownedParameters.size==params.size 
+//	// TODO
+//			&& op.ownedParameters.containsAll(params.keySet)
+//		].head
+//		val List<ValueDescriptor> parameters = newArrayList
+//		constructor.ownedParameters.forEach[p |
+//			parameters += params.get(p.type)
+//		]
+//		
+//		val xtClass = mapper.convertType(type) as XTClass
+//		return (builder => [
+//					it.class = xtClass
+//					it.parameters = parameters
+//				]).build
+		return null
 	}
 	
 	override setType(Type type) {
@@ -51,7 +52,7 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 		return this
 	}
 	
-	override setParameters(Map<String, ValueDescriptor> params) {
+	override setParameters(Pair<Type, ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}

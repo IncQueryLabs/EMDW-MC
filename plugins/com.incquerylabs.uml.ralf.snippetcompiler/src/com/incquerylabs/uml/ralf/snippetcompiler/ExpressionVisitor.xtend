@@ -7,17 +7,23 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BitStringUnaryExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
@@ -29,6 +35,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SignalDataExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
@@ -38,11 +46,6 @@ import java.util.List
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 
 class ExpressionVisitor {
 	extension SnippetTemplateCompilerUtil util
@@ -123,6 +126,18 @@ class ExpressionVisitor {
 	
 	def dispatch String visit(StaticFeatureInvocationExpression ex, StringBuilder parent){
 		throw new UnsupportedOperationException("Static calls not supported yet")
+	}
+	
+	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("ClassExtentExpression not supported yet")
+	}
+	
+	def dispatch String visit(FilterExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("FilterExpression not supported yet")
+	}
+	
+	def dispatch String visit(SignalDataExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("SignalDataExpression not supported yet")
 	}
 	
 	def dispatch String visit(SuperInvocationExpression ex, StringBuilder parent){

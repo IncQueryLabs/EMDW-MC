@@ -333,6 +333,12 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}
 				}''',
 				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Empty return statement",
+			    '''return;''',
+				
+				'''return;''',
+				"model::Comp::Pong::doIntegerVoid"
 			]
 		)
 	}

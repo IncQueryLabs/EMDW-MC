@@ -11,4 +11,4 @@ import com.incquerylabs.emdw.cpp.bodyconverter.test.multiple.MultipleConversionT
 	MultipleConversionTestSuite
 ])
 @RunWith(Suite)
-class BodyConverterTestSuit {}
+class BodyConverterTestSuite {}

@@ -154,7 +154,7 @@ class ConstructorCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest ex
 		]).build
 		val descriptor = (factory.createConstructorCallBuilder => [
 			it.type = object.owner as Type
-			it.parameters = new Pair(parameterType, paramDescriptor)
+			it.parameters = #[new Pair(parameterType, paramDescriptor)]
 		]).build
 		return descriptor
 	}

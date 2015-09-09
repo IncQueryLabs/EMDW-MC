@@ -5,10 +5,8 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlConstructorCallBu
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
-import java.util.Map
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
-import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Type
 
 class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
@@ -27,24 +25,14 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 	
 	
 	override build() {
-//		val umlClass = type as Class
-//		val constructor = umlClass.operations.filter[op | 
-//			op.name.equals(umlClass.name) 
-//			&& op.ownedParameters.size==params.size 
-//	// TODO
-//			&& op.ownedParameters.containsAll(params.keySet)
-//		].head
-//		val List<ValueDescriptor> parameters = newArrayList
-//		constructor.ownedParameters.forEach[p |
-//			parameters += params.get(p.type)
-//		]
-//		
-//		val xtClass = mapper.convertType(type) as XTClass
-//		return (builder => [
-//					it.class = xtClass
-//					it.parameters = parameters
-//				]).build
-		return null
+		val List<ValueDescriptor> parameters = newArrayList
+		params?.forEach[pair | parameters += pair.value]
+		
+		val xtClass = mapper.convertType(type) as XTClass
+		return (builder => [
+					it.xtClass = xtClass
+					it.parameters = parameters
+				]).build
 	}
 	
 	override setType(Type type) {

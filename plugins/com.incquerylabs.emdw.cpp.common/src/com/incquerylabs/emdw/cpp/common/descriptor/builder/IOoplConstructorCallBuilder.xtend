@@ -6,7 +6,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 
 interface IOoplConstructorCallBuilder extends IValueDescriptorBuilder<OperationCallDescriptor> {
 	
-	def IOoplConstructorCallBuilder setClass(XTClass cl)
+	def IOoplConstructorCallBuilder setXtClass(XTClass cl)
 	
 	def IOoplConstructorCallBuilder setParameters(ValueDescriptor... params)
 	

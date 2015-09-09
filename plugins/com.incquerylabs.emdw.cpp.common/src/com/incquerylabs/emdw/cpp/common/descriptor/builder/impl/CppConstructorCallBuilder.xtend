@@ -28,14 +28,14 @@ class CppConstructorCallBuilder implements IOoplConstructorCallBuilder {
 	override build() {
 		val cppClass = mapper.convertType(cl) as CPPClass
 		val ocd = factory.createOperationCallDescriptor => [
-			it.baseType = '''«converter.convertType(cppClass)»*'''
+			it.baseType = converter.convertType(cppClass)
 			it.fullType = it.baseType
 			it.stringRepresentation = '''new «converter.convertType(cppClass)»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
 		]
 		return ocd
 	}
 	
-	override setClass(XTClass cl) {
+	override setXtClass(XTClass cl) {
 		this.cl = cl
 		return this
 	}

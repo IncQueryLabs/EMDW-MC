@@ -6,8 +6,7 @@ import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
-class CppOperationCallBuilder implements IOoplOperationCallBuilder {
-	private CppOperationDescriptorUtil util
+class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
 	
 	private ValueDescriptor variable
 	private Operation operation
@@ -15,12 +14,14 @@ class CppOperationCallBuilder implements IOoplOperationCallBuilder {
 	
 	
 	new(AdvancedIncQueryEngine engine) {
-		util = new CppOperationDescriptorUtil(engine)
+		super(engine)
 	}
 	
 	
 	override build() {
-		return util.build('''«variable.stringRepresentation»->''', operation, params)
+		return prepareOperationCallDescriptor(operation, params) => [
+			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
+		]
 	}
 	
 	override setVariable(ValueDescriptor variable) {

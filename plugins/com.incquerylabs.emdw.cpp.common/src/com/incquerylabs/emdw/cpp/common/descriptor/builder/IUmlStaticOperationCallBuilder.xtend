@@ -6,8 +6,8 @@ import org.eclipse.uml2.uml.Operation
 
 interface IUmlStaticOperationCallBuilder extends IValueDescriptorBuilder<OperationCallDescriptor> {
 	
-	def IUmlOperationCallBuilder setOperation(Operation operation)
+	def IUmlStaticOperationCallBuilder setOperation(Operation operation)
 	
-	def IUmlOperationCallBuilder setParameters(ValueDescriptor... params)
+	def IUmlStaticOperationCallBuilder setParameters(ValueDescriptor... params)
 	
 }

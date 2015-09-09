@@ -30,10 +30,17 @@ class PackageRules {
 	extension val IncludeRules includeRules
 	val TypeDefinitionRules typeDefinitionRules
 	val ClassRules classRules
+	val ExternalBridgeRules externalBridgeRules
 	
-	new(BatchTransformationStatements statements, TypeDefinitionRules typeDefinitionRules, ClassRules classRules, IncludeRules includeRules) {
+	new(BatchTransformationStatements statements, 
+		TypeDefinitionRules typeDefinitionRules, 
+		ClassRules classRules, 
+		ExternalBridgeRules externalBridgeRules,
+		IncludeRules includeRules
+	) {
 		this.statements = statements
 		this.classRules = classRules
+		this.externalBridgeRules = externalBridgeRules
 		this.includeRules = includeRules
 		this.typeDefinitionRules = typeDefinitionRules
 	}
@@ -81,6 +88,7 @@ class PackageRules {
 		fireAllCurrent(typeDefinitionRules.cppEnumTypeRule, [it.cppContainer == cppPackage])
 		fireAllCurrent(typeDefinitionRules.cppStructTypeRule, [it.cppContainer == cppPackage])
 		fireAllCurrent(classRules.classInPackageRule, [it.cppPackage == cppPackage])
+		fireAllCurrent(externalBridgeRules.externalBridgeInPackageRule, [it.cppPackage == cppPackage])
 		fireAllCurrent(packageInPackageRule, [it.cppParentPackage == cppPackage])
 	}
 	
@@ -114,6 +122,7 @@ class PackageRules {
 		trace('''Transforming references between subelements of Package «cppPackage.commonPackage.name»''')
 		fireAllCurrent(typeDefinitionRules.addReferencesRule, [it.container == cppPackage])
 		fireAllCurrent(classRules.addReferencesRule, [it.container == cppPackage])
+		fireAllCurrent(externalBridgeRules.addReferencesRule, [it.container == cppPackage])
 		fireAllCurrent(this.addReferencesRule, [it.container == cppPackage])
 		addIncludes(cppPackage)
 	}

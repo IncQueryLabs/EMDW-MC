@@ -14,6 +14,18 @@ pattern xtModel(xtModel : Model) {
 	// TODO: Add model validation constraints (e.g. name not null)
 }
 
+pattern xtClass(xtClass : XTClass) {
+	XTClass(xtClass);
+	neg find cppExternalBridge(xtClass, _);
+}
+
+pattern cppExternalBridge(
+	xtClass : XTClass,
+	cppBridge : CPPExternalBridge
+) {
+	CPPExternalBridge.xtClass(cppBridge, xtClass);
+}
+
 pattern xtModelEntities(
 	xtModel : Model,
 	entity : Entity
@@ -347,6 +359,9 @@ pattern cppEntityAllOperations(
 } or {
 	find cppComponents(xtEntity, cppElement);
 	Entity.operations(xtEntity, operation);
+} or {
+	find cppExternalBridge(xtEntity, cppElement);
+	Entity.operations(xtEntity, operation);
 }
 
 pattern cppOperationParameter(
@@ -395,6 +410,7 @@ pattern cppComponentClasses(
 	cppComponent : CPPComponent,
 	xtClass : XTClass
 ){
+	find xtClass(xtClass);
 	find cppComponents(xtComponent, cppComponent);
 	XTComponent.entities(xtComponent, xtClass);
 }
@@ -413,6 +429,7 @@ pattern cppPackageClasses(
 	cppPackage : CPPPackage,
 	xtClass : XTClass
 ){
+	find xtClass(xtClass);
 	find cppPackages(xtPackage, cppPackage);
 	find xtPackageXTClasses(xtPackage, xtClass);
 }
@@ -425,6 +442,28 @@ pattern cppPackagesInPackages(
 	find cppPackages(xtParentPackage, cppParentPackage);
 	neg find cppPackages(xtPackage, _);
 	find xtPackageSubPackages(xtParentPackage, xtPackage);
+}
+
+pattern cppBridgesInComponent(
+	xtClass : XTClass,
+	xtComponent : XTComponent,
+	cppExternalBridge : CPPExternalBridge,
+	cppComponent : CPPComponent
+) {
+	find cppComponents(xtComponent, cppComponent);
+	XTComponent.entities(xtComponent, xtClass);
+	find cppExternalBridge(xtClass, cppExternalBridge);
+}
+
+pattern cppBridgesInPackage(
+	xtClass : XTClass,
+	xtPackage : Package,
+	cppExternalBridge : CPPExternalBridge,
+	cppPackage : CPPPackage
+) {
+	find cppPackages(xtPackage, cppPackage);
+	find xtPackageXTClasses(xtPackage, xtClass);
+	find cppExternalBridge(xtClass, cppExternalBridge);
 }
 
 pattern cppClasses(

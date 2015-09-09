@@ -19,6 +19,7 @@ class ComponentRules {
 	val PackageRules packageRules
 	val TypeDefinitionRules typeDefinitionRules
 	val ClassRules classRules
+	val ExternalBridgeRules externalBridgeRules
 	val AttributeRules attributeRules
 	val OperationRules operationRules
 	extension val IncludeRules includeRules
@@ -27,6 +28,7 @@ class ComponentRules {
 		PackageRules packageRules,
 		TypeDefinitionRules typeDefinitionRules,
 		ClassRules classRules,
+		ExternalBridgeRules externalBridgeRules,
 		AttributeRules attributeRules,
 		OperationRules operationRules,
 		IncludeRules includeRules
@@ -35,6 +37,7 @@ class ComponentRules {
 		this.packageRules = packageRules
 		this.typeDefinitionRules = typeDefinitionRules
 		this.classRules = classRules
+		this.externalBridgeRules = externalBridgeRules
 		this.attributeRules = attributeRules
 		this.operationRules = operationRules
 		this.includeRules = includeRules
@@ -106,6 +109,7 @@ class ComponentRules {
 		fireAllCurrent(typeDefinitionRules.cppEnumTypeRule, [it.cppContainer == cppComponent])
 		fireAllCurrent(typeDefinitionRules.cppStructTypeRule, [it.cppContainer == cppComponent])
 		fireAllCurrent(classRules.classRule, [it.cppComponent == cppComponent])
+		fireAllCurrent(externalBridgeRules.externalBridgeInComponentRule, [it.cppComponent == cppComponent])
 		fireAllCurrent(attributeRules.entityAttributeRule, [it.cppElement == cppComponent])
 		fireAllCurrent(operationRules.entityOperationRule, [it.cppElement == cppComponent])
 		fireAllCurrent(operationRules.entityDestructorRule, [it.cppElement == cppComponent])
@@ -116,6 +120,7 @@ class ComponentRules {
 		trace('''Transforming references between subelements of Component «cppComponent.xtComponent.name»''')
 		fireAllCurrent(typeDefinitionRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(classRules.addReferencesRule, [it.container == cppComponent])
+		fireAllCurrent(externalBridgeRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(attributeRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(operationRules.addReferencesRule, [it.container == cppComponent])
 		fireAllCurrent(packageRules.addReferencesRule, [it.container == cppComponent])

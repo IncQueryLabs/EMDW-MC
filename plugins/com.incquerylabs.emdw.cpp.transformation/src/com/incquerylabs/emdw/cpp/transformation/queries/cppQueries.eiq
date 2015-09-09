@@ -12,6 +12,13 @@ pattern cppClassInQualifiedNamedElement(
 	CPPQualifiedNamedElement.subElements(container, cppClass);
 }
 
+pattern cppExternalBridgeInQualifiedNamedElement(
+	cppExternalBridge : CPPExternalBridge,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppExternalBridge);
+}
+
 pattern cppPackageInQualifiedNamedElement(
 	cppPackage : CPPPackage,
 	container : CPPQualifiedNamedElement
@@ -48,11 +55,25 @@ pattern cppClassInComponent(
 	find cppClassInQualifiedNamedElement(cppClass, cppComponent);
 }
 
+pattern cppExternalBridgeInComponent(
+	cppExternalBridge : CPPExternalBridge,
+	cppComponent : CPPComponent
+) {
+	find cppExternalBridgeInQualifiedNamedElement(cppExternalBridge, cppComponent);
+}
+
 pattern cppClassInPackage(
 	cppClass : CPPClass,
 	cppPackage : CPPPackage
 ) {
 	find cppClassInQualifiedNamedElement(cppClass, cppPackage);
+}
+
+pattern cppExternalBridgeInPackage(
+	cppExternalBridge : CPPExternalBridge,
+	cppPackage : CPPPackage
+) {
+	find cppExternalBridgeInQualifiedNamedElement(cppExternalBridge, cppPackage);
 }
 
 pattern cppPackageInComponent(
@@ -126,6 +147,17 @@ pattern cppClassInComponentSubPackages(
 	find cppClassInPackageSubPackages(cppClass, cppPackage);
 }
 
+// Elements in a package hierarchy
+pattern cppExternalBridgeInComponentSubPackages(
+	cppExternalBridge : CPPExternalBridge,
+	cppComponent : CPPComponent
+) {
+	find cppExternalBridgeInComponent(cppExternalBridge, cppComponent);
+} or {
+	find cppPackageInComponent(cppPackage, cppComponent);
+	find cppExternalBridgeInPackageSubPackages(cppExternalBridge, cppPackage);
+}
+
 pattern cppClassInPackageSubPackages(
 	cppClass : CPPClass,
 	cppPackage : CPPPackage
@@ -134,6 +166,16 @@ pattern cppClassInPackageSubPackages(
 } or {
 	find cppPackageInPackage+(cppPackage, subPackage);
 	find cppClassInPackage(cppClass, subPackage);
+}
+
+pattern cppExternalBridgeInPackageSubPackages(
+	cppExternalBridge : CPPExternalBridge,
+	cppPackage : CPPPackage
+) {
+	find cppExternalBridgeInPackage(cppExternalBridge, cppPackage);
+} or {
+	find cppPackageInPackage+(cppPackage, subPackage);
+	find cppExternalBridgeInPackage(cppExternalBridge, subPackage);
 }
 
 pattern cppPackageInComponentSubPackages(

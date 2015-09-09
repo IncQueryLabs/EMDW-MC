@@ -14,7 +14,7 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 	private IOoplConstructorCallBuilder builder
 	
 	private Type type
-	private List<Pair<Type, ValueDescriptor>> params
+	private List<Pair<Type, ? extends ValueDescriptor>> params
 	
 	
 	
@@ -40,7 +40,7 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 		return this
 	}
 	
-	override setParameters(Pair<Type, ValueDescriptor>... params) {
+	override setParameters(Pair<Type, ? extends ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}

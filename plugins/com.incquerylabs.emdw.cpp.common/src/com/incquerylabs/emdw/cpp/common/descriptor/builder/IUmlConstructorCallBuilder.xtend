@@ -8,5 +8,5 @@ interface IUmlConstructorCallBuilder extends IValueDescriptorBuilder<OperationCa
 	
 	def IUmlConstructorCallBuilder setType(Type type)
 	
-	def IUmlConstructorCallBuilder setParameters(Pair<Type, ValueDescriptor>... params)
+	def IUmlConstructorCallBuilder setParameters(Pair<Type, ? extends ValueDescriptor>... params)
 }

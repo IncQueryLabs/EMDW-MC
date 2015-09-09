@@ -38,6 +38,13 @@ pattern cppClassInQualifiedNamedElement(
 	CPPQualifiedNamedElement.subElements(container, cppClass);
 }
 
+pattern cppExternalBridgeInQualifiedNamedElement(
+	cppExternalBridge : CPPExternalBridge,
+	container : CPPQualifiedNamedElement
+) {
+	CPPQualifiedNamedElement.subElements(container, cppExternalBridge);
+}
+
 pattern cppPackageInQualifiedNamedElement(
 	cppPackage : CPPPackage,
 	container : CPPQualifiedNamedElement

@@ -59,6 +59,7 @@ class RuleProvider {
 		trace('''Generated code for «cppComponent.cppName» CPPComponent''')
 		trace('''Generating code for subelements of «cppComponent.cppName» CPPComponent''')
 		fireAllCurrent(cppClassRule, [it.container == cppComponent])
+		fireAllCurrent(cppExternalBridgeRule, [it.container == cppComponent])
 		fireAllCurrent(cppPackageRule, [it.container == cppComponent])
 		
 		logGeneratedFiles()
@@ -85,6 +86,7 @@ class RuleProvider {
 		trace('''Generated code for «packageName» CPPPackage''')
 		trace('''Generating code for subelements of «packageName» CPPPackage''')
 		fireAllCurrent(cppClassRule, [it.container == cppPackage])
+		fireAllCurrent(cppExternalBridgeRule, [it.container == cppPackage])
 		fireAllCurrent(cppPackageRule, [it.container == cppPackage])
 	].build
 	
@@ -100,6 +102,20 @@ class RuleProvider {
 		generatedFiles.put('''«className».cc''', body.toString)
 		generatedCPPSourceFiles.put(cppClass.bodyFile, body)
 		trace('''Generated code for «cppClass.cppName» CPPClass''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val cppExternalBridgeRule = createRule.precondition(cppExternalBridgeInQualifiedNamedElement).action[ match |
+		val cppExternalBridge = match.cppExternalBridge
+		trace('''Generating code for «cppExternalBridge.cppName» CPPExternalBridge''')
+		val header = externalBridgeHeaderTemplate(cppExternalBridge)
+		val bridgeName = cppExternalBridge.cppName
+		generatedFiles.put('''«bridgeName».hh''', header.toString)
+		generatedCPPSourceFiles.put(cppExternalBridge.headerFile, header)
+		val body = externalBridgeBodyTemplate(cppExternalBridge)
+		generatedFiles.put('''«bridgeName».cc''', body.toString)
+		generatedCPPSourceFiles.put(cppExternalBridge.bodyFile, body)
+		trace('''Generated code for «cppExternalBridge.cppName» CPPExternalBridge''')
 	].build
 	
 	def logGeneratedFiles(){

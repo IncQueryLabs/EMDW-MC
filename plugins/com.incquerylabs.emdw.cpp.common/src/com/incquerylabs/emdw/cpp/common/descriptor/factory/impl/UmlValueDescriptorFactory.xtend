@@ -18,6 +18,8 @@ import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -198,11 +200,11 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createConstructorCallBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new UmlConstructorCallBuilder(engine)
 	}
 	
 	override createStaticOperationCallBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new UmlStaticOperationCallBuilder(engine)
 	}
 	
 	

@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
+import com.incquerylabs.emdw.cpp.common.test.CachedValueDescriptorBaseTest
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
@@ -20,7 +20,7 @@ import static org.junit.Assert.*
 @RunWith(Suite)
 class SingleVariableDescriptorForNewVariableTestSuite {}
 
-class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
+class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends CachedValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
@@ -65,7 +65,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Value
 	
 }
 
-class SingleVariableDescriptorForNewVariableWithoutNameTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
+class SingleVariableDescriptorForNewVariableWithoutNameTest extends CachedValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"

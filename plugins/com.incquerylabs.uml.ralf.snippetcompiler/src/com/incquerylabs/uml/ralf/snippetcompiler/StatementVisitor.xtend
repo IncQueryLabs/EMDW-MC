@@ -62,8 +62,12 @@ class StatementVisitor {
 	
 	def dispatch String visit(ReturnStatement st){
 		val builder = new StringBuilder
-		val expressionsnippet = st.expression.visit(builder)
-		builder.append('''return «expressionsnippet»;''')
+		if(st.expression != null){
+			val expressionsnippet = st.expression.visit(builder)	
+			builder.append('''return «expressionsnippet»;''')
+		}else{
+			builder.append('''return;''')
+		}
 		builder.toString
 	} 
 	

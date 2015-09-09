@@ -239,6 +239,16 @@ pattern cppSourceFileGenerationName(
 	find cppSourceFileExtension(source, ext);
 	target == eval(cppName + ext);	
 } or {
+	find cppNamedElementCppName(externalBridge, cppName);
+	CPPExternalBridge.headerFile(externalBridge, source);
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);
+} or {
+	find cppNamedElementCppName(externalBridge, cppName);
+	CPPExternalBridge.bodyFile(externalBridge, source);
+	find cppSourceFileExtension(source, ext);
+	target == eval(cppName + ext);	
+} or {
 	find cppNamedElementCppName(component, cppName);
 	CPPComponent.mainHeaderFile(component, source);
 	find cppSourceFileExtension(source, ext);

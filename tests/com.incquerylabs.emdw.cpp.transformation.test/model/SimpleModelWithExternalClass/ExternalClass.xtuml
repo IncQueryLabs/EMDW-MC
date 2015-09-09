@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ASCII"?>
+<common:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:common="http://www.eclipse.org/papyrusrt/xtumlrt/common" xmlns:xtuml="http://www.eclipse.org/papyrusrt/xtumlrt/xtuml" name="ExternalClasses">
+  <entities xsi:type="xtuml:XTComponent" name="ExternalClassesComp">
+    <packages name="ExternalClasses">
+      <entities xsi:type="xtuml:XTClass" name="RandomNumberGenerator">
+        <operations name="getRandomNumber">
+          <returnType unique="true" lowerBound="1" upperBound="1">
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+          </returnType>
+          <body xsi:type="common:ActionCode"/>
+        </operations>
+        <operations name="setRandomGeneratorParameter">
+          <returnType>
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+          </returnType>
+          <parameters name="generatorParameter" unique="true" lowerBound="1" upperBound="1">
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+          </parameters>
+          <body xsi:type="common:ActionCode"/>
+        </operations>
+      </entities>
+    </packages>
+    <packages name="InternalClasses">
+      <entities xsi:type="xtuml:XTClass" name="Gambler">
+        <operations name="hackRandomGenerator">
+          <returnType>
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+          </returnType>
+          <parameters name="generatorParameter" unique="true" lowerBound="1" upperBound="1">
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+          </parameters>
+          <body xsi:type="common:ActionCode" source="::ExternalClasses::ExternalClassesComp::ExternalClasses::RandomNumberGenerator::setRandomGeneratorParameter(generatorParameter);&#xD;&#xA;::std::cout &lt;&lt; &quot;Hacked the random generator with parameter &quot; &lt;&lt; generatorParameter &lt;&lt; ::std::endl;"/>
+        </operations>
+        <operations name="gamble">
+          <returnType>
+            <type xsi:type="common:PrimitiveType" href="../../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+          </returnType>
+          <body xsi:type="common:ActionCode" source="long result = ::ExternalClasses::ExternalClassesComp::ExternalClasses::RandomNumberGenerator::getRandomNumber();&#xD;&#xA;&#xD;&#xA;::std::cout &lt;&lt; &quot;The gambling result is &quot; &lt;&lt; result &lt;&lt; ::std::endl;"/>
+        </operations>
+      </entities>
+    </packages>
+  </entities>
+</common:Model>

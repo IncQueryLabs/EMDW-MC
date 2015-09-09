@@ -1,39 +1,32 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplStaticOperationCallBuilder
-import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
-import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
-import com.incquerylabs.emdw.cpp.common.TypeConverter
-import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
-class CppStaticOperationCallBuilder implements IOoplStaticOperationCallBuilder {
-	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
-	
-	private XtumlToOoplMapper mapper
-	private TypeConverter converter
-	
+class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplStaticOperationCallBuilder {
 	private Operation operation
-	private List<ValueDescriptor> params
 	
 	
 	new(AdvancedIncQueryEngine engine) {
-		mapper = new XtumlToOoplMapper(engine)
-		converter = new TypeConverter
+		super(engine)
 	}
 	
 	override build() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		return prepareOperationCallDescriptor(operation, params) => [
+			it.stringRepresentation = '''«cppOperation.cppQualifiedName»(«parameterList»)'''
+		]
 	}
 	
-	override setOperation(Operation cl) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	override setOperation(Operation operation) {
+		this.operation = operation
+		return this
 	}
 	
 	override setParameters(ValueDescriptor... params) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		this.params = params
+		return this
 	}
 	
 }

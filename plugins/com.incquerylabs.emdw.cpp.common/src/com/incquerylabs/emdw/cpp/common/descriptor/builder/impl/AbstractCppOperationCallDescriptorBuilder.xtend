@@ -9,6 +9,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
+import java.util.List
 
 abstract class AbstractCppOperationCallDescriptorBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -16,6 +17,7 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 	private XtumlToOoplMapper mapper
 	private TypeConverter converter
 	protected CPPOperation cppOperation
+	protected List<ValueDescriptor> params
 	
 	new(AdvancedIncQueryEngine engine) {
 		mapper = new XtumlToOoplMapper(engine)
@@ -36,4 +38,6 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 		]
 		return ocd
 	}
+	
+	def getParameterList() '''«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»'''
 }

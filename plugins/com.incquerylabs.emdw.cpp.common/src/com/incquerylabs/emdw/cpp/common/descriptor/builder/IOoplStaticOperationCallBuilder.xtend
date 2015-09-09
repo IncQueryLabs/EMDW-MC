@@ -6,8 +6,8 @@ import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
 interface IOoplStaticOperationCallBuilder extends IValueDescriptorBuilder<OperationCallDescriptor> {
 	
-	def IOoplConstructorCallBuilder setOperation(Operation cl)
+	def IOoplStaticOperationCallBuilder setOperation(Operation operation)
 	
-	def IOoplConstructorCallBuilder setParameters(ValueDescriptor... params)
+	def IOoplStaticOperationCallBuilder setParameters(ValueDescriptor... params)
 	
 }

@@ -34,6 +34,26 @@ class SnippetFlattenerPluginTestIgnored extends AbstractPluginSnippetTest{
 				switch (temp0) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Property access 3",
+			    '''
+				Ping p = new Ping();
+				Integer x = p->pong.integerProperty ;''',
+				'''
+				model::Comp::Ping p = new model::Comp::Ping();
+				model::Comp::Pong temp0 = p->pong;
+				PrimitiveTypes::Integer x = temp0->integerProperty;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Postfix expression on association",
+			    '''
+			    Ping x = new Ping();
+			    x->pong.integerProperty++;''',
+				'''
+				model::Comp::Ping x = new model::Comp::Ping();
+				model::Comp::Pong temp0 = x->pong;
+				temp0->integerProperty++;''',
+				"model::Comp::Pong::doIntegerVoid"
 			]
 		)
 	}

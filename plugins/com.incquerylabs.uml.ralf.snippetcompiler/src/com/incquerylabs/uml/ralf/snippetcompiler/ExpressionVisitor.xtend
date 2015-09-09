@@ -11,6 +11,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
@@ -18,6 +19,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
@@ -33,6 +35,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.PrefixExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SignalDataExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
@@ -43,12 +46,15 @@ import java.util.List
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
+import org.eclipse.uml2.uml.ParameterDirectionKind
 
 class ExpressionVisitor {
+	extension NavigationVisitor navigationVisitor
 	extension SnippetTemplateCompilerUtil util
 	extension ReducedAlfSystem typeSystem
 	
 	new(SnippetTemplateCompilerUtil util, ReducedAlfSystem typeSystem){
+		this.navigationVisitor = new NavigationVisitor
 		this.typeSystem = typeSystem
 		this.util = util
 	}
@@ -121,6 +127,18 @@ class ExpressionVisitor {
 		getDescriptor(ex).stringRepresentation
 	}
 	
+	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("ClassExtentExpression not supported yet")
+	}
+	
+	def dispatch String visit(FilterExpression ex, StringBuilder parent){
+		ex.visitFilter(parent)
+	}
+	
+	def dispatch String visit(SignalDataExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("SignalDataExpression not supported yet")
+	}
+	
 	def dispatch String visit(StaticFeatureInvocationExpression ex, StringBuilder parent){
 		val variableType = typeSystem.type(ex).value.umlType
 		val op = ex.operation.reference as Operation
@@ -158,77 +176,103 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(AssociationAccessExpression ex, StringBuilder parent){
-		val associationDescriptor = ex.descriptor
-		val variableType = typeSystem.type(ex).value.umlType
-		
-		if(ex.isFlatteningNeeded){
-			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-			]).build
-			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «associationDescriptor.stringRepresentation»;'''+'\n')
-		
-			descriptor.stringRepresentation
+		if(ex.context instanceof AssociationAccessExpression 
+			|| ((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property))
+		){
+			ex.visitAssociation(parent)
 		}else{
-			associationDescriptor.stringRepresentation	
-		}		
+			val associationDescriptor = ex.descriptor
+			val variableType = typeSystem.type(ex).value.umlType
+			
+			if(ex.isFlatteningNeeded){
+				val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					type = variableType
+					name = null
+				]).build
+				
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «associationDescriptor.stringRepresentation»;'''+'\n')
+			
+				descriptor.stringRepresentation
+			}else{
+				associationDescriptor.stringRepresentation	
+			}	
+		}
 	}
 	
 	def dispatch String visit(FeatureInvocationExpression ex, StringBuilder parent){
-		var ValueDescriptor invocationDescriptor
-		val contextString = ex.context.visit(parent)
-		
-		val variableType = typeSystem.type(ex).value.umlType
-		
-		var ValueDescriptor descriptor 
-		if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression)&& ex.isFlatteningNeeded){
-			descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-			]).build
+		if(ex.feature instanceof Property){
+			if(ex.context instanceof AssociationAccessExpression 
+				|| ((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property))
+			){
+				return ex.visitAttribute(parent)
+			}else{
+				ex.visitFeatureInvocationExpression(parent)
+			}
+		}else if (ex.feature instanceof Operation){
+			val op = ex.feature as Operation
+			if(op.name.equals("one") && op.ownedParameters.filter[ param| !(param.direction==ParameterDirectionKind.RETURN_LITERAL)].size == 0){
+				ex.visitOne(parent)
+			}else{
+				ex.visitFeatureInvocationExpression(parent)
+			}
+		}else {
+			ex.visitFeatureInvocationExpression(parent)
 		}
-		
-		switch (ex.feature) {
-	        Operation: {
-	        	val op = ex.feature as Operation
-				val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
-				
-				val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					name = contextString
-					type = typeSystem.type(ex.context).value.umlType
-					isExistingVariable = true
-				]).build
-				
-				invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-					variable = contextDescriptor
-					operation = op
-					parameters = descriptors
-				]).build
-	        }
-	        Property: {
-	        	val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					name = contextString
-					type = variableType
-					isExistingVariable = true
-				]).build
-
-	        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
-					variable = contextDescriptor
-					property = ex.feature as Property
-				]).build
-	        }
-	        default: throw new UnsupportedOperationException("Invalid feature invocation")
-	    }
-	    
-	    if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
-	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;'''+'\n')
-	    	descriptor.stringRepresentation
-	    }else{
-	    	invocationDescriptor.stringRepresentation
-	    }
 	}
 	
+	private def visitFeatureInvocationExpression(FeatureInvocationExpression ex, StringBuilder parent){
+		var ValueDescriptor invocationDescriptor
+			val contextString = ex.context.visit(parent)
+			
+			val variableType = typeSystem.type(ex).value.umlType
+			
+			var ValueDescriptor descriptor 
+			if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression)&& ex.isFlatteningNeeded){
+				descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					type = variableType
+					name = null
+				]).build
+			}
+			
+			switch (ex.feature) {
+		        Operation: {
+		        	val op = ex.feature as Operation
+					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
+					
+					val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						name = contextString
+						type = typeSystem.type(ex.context).value.umlType
+						isExistingVariable = true
+					]).build
+					
+					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
+						variable = contextDescriptor
+						operation = op
+						parameters = descriptors
+					]).build
+		        }
+		        Property: {
+		        	val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						name = contextString
+						type = variableType
+						isExistingVariable = true
+					]).build
+	
+		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
+						variable = contextDescriptor
+						property = ex.feature as Property
+					]).build
+		        }
+		        default: throw new UnsupportedOperationException("Invalid feature invocation")
+		    }
+		    
+		    if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
+		    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;'''+'\n')
+		    	descriptor.stringRepresentation
+		    }else{
+		    	invocationDescriptor.stringRepresentation
+		    }
+	}
 	
 	def dispatch String visit(AssignmentExpression ex, StringBuilder parent){
 	   	val variableType = typeSystem.type(ex).value.umlType

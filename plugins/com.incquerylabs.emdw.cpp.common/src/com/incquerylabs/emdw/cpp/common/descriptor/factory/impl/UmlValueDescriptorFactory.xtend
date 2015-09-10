@@ -18,6 +18,8 @@ import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -195,6 +197,14 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createOperationCallBuilder() {
 		new UmlOperationCallBuilder(engine)
+	}
+	
+	override createConstructorCallBuilder() {
+		new UmlConstructorCallBuilder(engine)
+	}
+	
+	override createStaticOperationCallBuilder() {
+		new UmlStaticOperationCallBuilder(engine)
 	}
 	
 	

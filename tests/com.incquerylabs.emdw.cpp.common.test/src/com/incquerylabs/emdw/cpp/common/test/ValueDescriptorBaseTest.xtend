@@ -26,6 +26,8 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 	protected extension TransformationUtil util
 	protected extension ComplexModelUtil complexUtil = new ComplexModelUtil
 	protected extension UmlUtil umlUtil = new UmlUtil
+	
+	protected static final val MODEL_NAME = "test"
     
     @BeforeClass
 	def static setupRootLogger() {
@@ -45,7 +47,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		val managedEngine = IncQueryEngine.on(new EMFScope(rs))
 		QueryBasedFeatures.instance.prepare(managedEngine)
 		
-		val mapping = createRootMapping("test",rs)
+		val mapping = createRootMapping(MODEL_NAME,rs)
 		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeAllTransformation(rs, primitiveTypeMapping)
@@ -56,25 +58,6 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		endTest(testId)
 	}
 	
-	@Test
-	def cache() {
-		val testId = "cache"
-		startTest(testId)
-		val rs = new ResourceSetImpl
-		val managedEngine = IncQueryEngine.on(new EMFScope(rs))
-		QueryBasedFeatures.instance.prepare(managedEngine)
-		
-		val mapping = createRootMapping("test",rs)
-		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
-		val umlObject = createUmlObject(mapping.umlRoot)
-		initializeAllTransformation(rs, primitiveTypeMapping)
-		executeAllTransformation
-		val factory = new UmlValueDescriptorFactory(transformationEngine)
-		val valueDescriptor = factory.prepareValueDescriptor(umlObject)
-		val cachedDescriptor = factory.getCachedValueDescriptor(umlObject)
-		assertResult(valueDescriptor, cachedDescriptor)
-		endTest(testId)
-	}
 	
 	@After
 	def cleanup() {
@@ -89,14 +72,10 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
     	info('''END TEST: «testId»''')
     }
 	
-	protected def IValueDescriptor getCachedValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
-	
 	protected def UmlObject createUmlObject(Model umlModel)
 	
 	protected def IValueDescriptor prepareValueDescriptor(IUmlDescriptorFactory factory, UmlObject object)
 	
 	protected def void assertResult(UmlObject object, IValueDescriptor descriptor)
-	
-	protected def void assertResult(IValueDescriptor originalDescriptor, IValueDescriptor cachedDescriptor)
 	
 }

@@ -15,24 +15,28 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 @SuiteClasses(#[
-	OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest,
-	OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest,
-	OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest,
-	OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest,
-	OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest
+	StaticOperationCallDescriptorWithoutParameterAndVoidReturnTypeTest,
+	StaticOperationCallDescriptorWithoutParameterAndBoolReturnTypeTest,
+	StaticOperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest,
+	StaticOperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest,
+	StaticOperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest
 ])
 @RunWith(Suite)
-class OperationCallDescriptorTestSuite {}
+class StaticOperationCallDescriptorTestSuite {}
 
-class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+abstract class AbstractStaticOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	protected static final val COMPONENT_NAME = "TestComponent"
+	protected static final val CLASS_NAME = "TestClass"
+	protected static final val OPERATION_NAME = "testMethod"
 	
-	private static final val COMPONENT_NAME = "TestComponent"
-	private static final val CLASS_NAME = "TestClass"
-	private static final val OPERATION_NAME = "withoutParam"
+	protected static final val EXPECTED_REPRESENTATION_PREFIX = '''::«MODEL_NAME»::«COMPONENT_NAME»::«CLASS_NAME»::«OPERATION_NAME»'''
+}
+
+class StaticOperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends AbstractStaticOperationCallDescriptorTest {
+	
 	private static final val OPERATION_TYPE = "Void"
-	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''void'''
-	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»()'''
+	private static final val EXPECTED_REPRESENTATION = '''«EXPECTED_REPRESENTATION_PREFIX»()'''
 	private Class umlClass
 	
 	override protected createUmlObject(Model umlModel) {
@@ -45,14 +49,8 @@ class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends Value
 	}
 	
 	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
-		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
-			it.isExistingVariable = true
-			it.name = VARIABLE_NAME
-			it.type = umlClass
-		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.variable = classDescriptor
 		]).build
 		return descriptor
 	}
@@ -66,15 +64,11 @@ class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends Value
 	}
 }
 
-class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+class StaticOperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends AbstractStaticOperationCallDescriptorTest {
 	
-	private static final val COMPONENT_NAME = "TestComponent"
-	private static final val CLASS_NAME = "TestClass"
-	private static final val OPERATION_NAME = "withoutParam"
 	private static final val OPERATION_TYPE = "Boolean"
-	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''bool'''
-	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»()'''
+	private static final val EXPECTED_REPRESENTATION = '''«EXPECTED_REPRESENTATION_PREFIX»()'''
 	private Class umlClass
 	
 	override protected createUmlObject(Model umlModel) {
@@ -87,14 +81,8 @@ class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends Value
 	}
 	
 	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
-		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
-			it.isExistingVariable = true
-			it.name = VARIABLE_NAME
-			it.type = umlClass
-		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.variable = classDescriptor
 		]).build
 		return descriptor
 	}
@@ -108,15 +96,11 @@ class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends Value
 	}
 }
 
-class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+class StaticOperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends AbstractStaticOperationCallDescriptorTest {
 	
-	private static final val COMPONENT_NAME = "TestComponent"
-	private static final val CLASS_NAME = "TestClass"
-	private static final val OPERATION_NAME = "withoutParam"
 	private static final val OPERATION_TYPE = "Boolean"
-	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''::std::set< bool >'''
-	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»()'''
+	private static final val EXPECTED_REPRESENTATION = '''«EXPECTED_REPRESENTATION_PREFIX»()'''
 	private Class umlClass
 	
 	override protected createUmlObject(Model umlModel) {
@@ -129,14 +113,8 @@ class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends V
 	}
 	
 	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
-		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
-			it.isExistingVariable = true
-			it.name = VARIABLE_NAME
-			it.type = umlClass
-		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.variable = classDescriptor
 		]).build
 		return descriptor
 	}
@@ -150,17 +128,13 @@ class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends V
 	}
 }
 
-class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+class StaticOperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest extends AbstractStaticOperationCallDescriptorTest {
 	
-	private static final val COMPONENT_NAME = "TestComponent"
-	private static final val CLASS_NAME = "TestClass"
-	private static final val OPERATION_NAME = "withoutParam"
 	private static final val OPERATION_TYPE = "Void"
-	private static final val VARIABLE_NAME = "classVariable"
 	private static final val PARAMETER_NAME = "param"
 	private static final val PARAMETER_TYPE = "Boolean"
 	private static final val EXPECTED_TYPE = '''void'''
-	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»(«PARAMETER_NAME»)'''
+	private static final val EXPECTED_REPRESENTATION = '''«EXPECTED_REPRESENTATION_PREFIX»(«PARAMETER_NAME»)'''
 	private Class umlClass
 	private Type parameterType
 	
@@ -176,19 +150,13 @@ class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest exte
 	}
 	
 	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
-		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
-			it.isExistingVariable = true
-			it.name = VARIABLE_NAME
-			it.type = umlClass
-		]).build
 		val paramDescriptor = (factory.createSingleVariableDescriptorBuilder => [
 			it.isExistingVariable = true
 			it.name = PARAMETER_NAME
 			it.type = parameterType
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.variable = classDescriptor
 			it.parameters = paramDescriptor
 		]).build
 		return descriptor
@@ -203,18 +171,14 @@ class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest exte
 	}
 }
 
-class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+class StaticOperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest extends AbstractStaticOperationCallDescriptorTest {
 	
-	private static final val COMPONENT_NAME = "TestComponent"
-	private static final val CLASS_NAME = "TestClass"
-	private static final val OPERATION_NAME = "withoutParam"
 	private static final val OPERATION_TYPE = "Void"
-	private static final val VARIABLE_NAME = "classVariable"
 	private static final val PARAMETER1_NAME = "param1"
 	private static final val PARAMETER2_NAME = "param2"
 	private static final val PARAMETER_TYPE = "Boolean"
 	private static final val EXPECTED_TYPE = '''void'''
-	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->«OPERATION_NAME»(«PARAMETER1_NAME», «PARAMETER2_NAME»)'''
+	private static final val EXPECTED_REPRESENTATION = '''«EXPECTED_REPRESENTATION_PREFIX»(«PARAMETER1_NAME», «PARAMETER2_NAME»)'''
 	private Class umlClass
 	private Type parameterType
 	
@@ -231,11 +195,6 @@ class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest ex
 	}
 	
 	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
-		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
-			it.isExistingVariable = true
-			it.name = VARIABLE_NAME
-			it.type = umlClass
-		]).build
 		val param1Descriptor = (factory.createSingleVariableDescriptorBuilder => [
 			it.isExistingVariable = true
 			it.name = PARAMETER1_NAME
@@ -246,9 +205,8 @@ class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest ex
 			it.name = PARAMETER2_NAME
 			it.type = parameterType
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.variable = classDescriptor
 			it.parameters = newArrayList(param1Descriptor, param2Descriptor)
 		]).build
 		return descriptor

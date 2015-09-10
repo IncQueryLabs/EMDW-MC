@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
+import com.incquerylabs.emdw.cpp.common.test.CachedValueDescriptorBaseTest
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
@@ -22,7 +22,7 @@ import static org.junit.Assert.*
 @RunWith(Suite)
 class LiteralDescriptorTestSuite {}
 
-class LiteralDescriptorForBooleanTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
+class LiteralDescriptorForBooleanTest extends CachedValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "true"
 	
 	override protected createUmlObject(Model umlModel) {
@@ -58,7 +58,7 @@ class LiteralDescriptorForBooleanTest extends ValueDescriptorBaseTest<PrimitiveT
 	
 }
 
-class LiteralDescriptorForIntegerTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
+class LiteralDescriptorForIntegerTest extends CachedValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "1"
 	
 	override protected createUmlObject(Model umlModel) {
@@ -94,7 +94,7 @@ class LiteralDescriptorForIntegerTest extends ValueDescriptorBaseTest<PrimitiveT
 	
 }
 
-class LiteralDescriptorForRealTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
+class LiteralDescriptorForRealTest extends CachedValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "1.1"
 	
 	override protected createUmlObject(Model umlModel) {
@@ -130,7 +130,7 @@ class LiteralDescriptorForRealTest extends ValueDescriptorBaseTest<PrimitiveType
 	
 }
 
-class LiteralDescriptorForSimpleStringTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
+class LiteralDescriptorForSimpleStringTest extends CachedValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "simple string"
 	
 	override protected createUmlObject(Model umlModel) {
@@ -166,7 +166,7 @@ class LiteralDescriptorForSimpleStringTest extends ValueDescriptorBaseTest<Primi
 	
 }
 
-class LiteralDescriptorForHeavyStringTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
+class LiteralDescriptorForHeavyStringTest extends CachedValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "heavy \" string"
 	
 	override protected createUmlObject(Model umlModel) {
@@ -202,7 +202,7 @@ class LiteralDescriptorForHeavyStringTest extends ValueDescriptorBaseTest<Primit
 	
 }
 
-class LiteralDescriptorForNumberLiteralCacheTest extends ValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
+class LiteralDescriptorForNumberLiteralCacheTest extends CachedValueDescriptorBaseTest<PrimitiveType, LiteralDescriptor> {
 	private static final String LITERAL = "1"
 	private PrimitiveType real
 	private LiteralDescriptor realDescriptor

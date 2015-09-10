@@ -1,0 +1,2230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ActionLanguage="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ">
+  <uml:Model xmi:id="_nrzE0ERNEeWkj9RR80hJXw" name="PhoneX">
+    <packageImport xmi:type="uml:PackageImport" xmi:id="_nrzE0URNEeWkj9RR80hJXw">
+      <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+    </packageImport>
+    <packagedElement xmi:type="uml:Component" xmi:id="_ns_XoERNEeWkj9RR80hJXw" name="PhoneX">
+      <packagedElement xmi:type="uml:Package" xmi:id="_nyvaUERNEeWkj9RR80hJXw" name="Implementation">
+        <packagedElement xmi:type="uml:Class" xmi:id="_ny8OoERNEeWkj9RR80hJXw" name="Called" classifierBehavior="_n6j5kERNEeWkj9RR80hJXw" isActive="true">
+          <generalization xmi:type="uml:Generalization" xmi:id="_n0d4oERNEeWkj9RR80hJXw" general="_ny-D0ERNEeWkj9RR80hJXw"/>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n6j5kERNEeWkj9RR80hJXw" name="CalledStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n6oyEERNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n6-wUERNEeWkj9RR80hJXw" name="tr_init" source="_n65QwERNEeWkj9RR80hJXw" target="_n66e4ERNEeWkj9RR80hJXw"/>
+              <transition xmi:type="uml:Transition" xmi:id="_n8vD0ERNEeWkj9RR80hJXw" name="Userstatusfree" source="_n6uRoERNEeWkj9RR80hJXw" target="_n6vfwURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8vD0kRNEeWkj9RR80hJXw" name="Userstatusfree_trigger" event="_n8SX4kRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8vD00RNEeWkj9RR80hJXw" name="Userstatusbusy" source="_n6uRoERNEeWkj9RR80hJXw" target="_n6wG0kRNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8vq4URNEeWkj9RR80hJXw" name="Userstatusbusy_trigger" event="_n8S-80RNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8vq4kRNEeWkj9RR80hJXw" name="Userstatusunknown" source="_n6uRoERNEeWkj9RR80hJXw" target="_n6xU8ERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8wR8ERNEeWkj9RR80hJXw" name="Userstatusunknown_trigger" event="_n8TmAkRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8wR8URNEeWkj9RR80hJXw" name="Userupdatefail1" source="_n6vfwURNEeWkj9RR80hJXw" target="_n6x8AERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8w5AERNEeWkj9RR80hJXw" name="Userupdatefail_trigger" event="_n8U0IURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8w5AURNEeWkj9RR80hJXw" name="Userupdatesuccess1" source="_n6vfwURNEeWkj9RR80hJXw" target="_n6yjEURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8w5A0RNEeWkj9RR80hJXw" name="Userupdatesuccess_trigger" event="_n8UNEkRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8xgEERNEeWkj9RR80hJXw" name="Callaccepted" source="_n6yjEURNEeWkj9RR80hJXw" target="_n6zKIURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8xgEkRNEeWkj9RR80hJXw" name="Callaccepted_trigger" event="_n8WCQURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8xgE0RNEeWkj9RR80hJXw" name="Callended1" source="_n6zKIURNEeWkj9RR80hJXw" target="_n6zxMURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8yHIURNEeWkj9RR80hJXw" name="Callended_trigger" event="_n8WpUURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8yHIkRNEeWkj9RR80hJXw" name="Userupdatefail2" source="_n6zxMURNEeWkj9RR80hJXw" target="_n6x8AERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8yuMURNEeWkj9RR80hJXw" name="Userupdatefail_trigger" event="_n8U0IURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8yuMkRNEeWkj9RR80hJXw" name="Userupdatesuccess2" source="_n6zxMURNEeWkj9RR80hJXw" target="_n60YQURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8zVQERNEeWkj9RR80hJXw" name="Userupdatesuccess_trigger" event="_n8UNEkRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8zVQURNEeWkj9RR80hJXw" name="Callrejected" source="_n6yjEURNEeWkj9RR80hJXw" target="_n6zxMURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8zVQ0RNEeWkj9RR80hJXw" name="Callrejected_trigger" event="_n8VbMURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8z8UERNEeWkj9RR80hJXw" name="Callended2" source="_n6yjEURNEeWkj9RR80hJXw" target="_n6zxMURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8z8UkRNEeWkj9RR80hJXw" name="Callended_trigger" event="_n8WpUURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8z8U0RNEeWkj9RR80hJXw" name="Startverification" source="_n66e4ERNEeWkj9RR80hJXw" target="_n6uRoERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n80jYURNEeWkj9RR80hJXw" name="Startverification_trigger" event="_n8XQY0RNEeWkj9RR80hJXw"/>
+              </transition>
+              <subvertex xmi:type="uml:State" xmi:id="_n6uRoERNEeWkj9RR80hJXw" name="Unchecked">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6u4sURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>send new DBPort_Out::GetUserStatus(ServiceId=>Service::GetServiceId(), UserId=>this.PhoneNumber) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n6vfwURNEeWkj9RR80hJXw" name="Free">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6wG0ERNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>send new DBPort_Out::SetUserStatus(ServiceId=>Service::GetServiceId(), UserId=>this.PhoneNumber,isBusy=> true, isRemovingNow=> false) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n6wG0kRNEeWkj9RR80hJXw" name="LineIsBusy">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6wt4URNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>// select one call related by self->Call[R3];&#xD;
+Call call = this->call;&#xD;
+// generate Call5:'CalledBusy' to call;&#xD;
+send new Call::Calledbusy() to call;&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n6xU8ERNEeWkj9RR80hJXw" name="UnknownNumber">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6xU8kRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R3];&#xD;
+Call call = this->call;&#xD;
+  // generate Call6:'CalledUnknown' to call;&#xD;
+send new Call::Calledunknown() to call;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n6x8AERNEeWkj9RR80hJXw" name="StatusUpdateFailed">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6x8AkRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>TRACE::traceError(msg=> &quot;Update of the user status to DB failed!&quot;);&#xD;
+  // select one call related by self->Call[R3];&#xD;
+Call call = this->call;&#xD;
+  // generate Call7:'EndCallRcvd' to call;&#xD;
+send new Call::Endcallrcvd() to call;&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n6yjEURNEeWkj9RR80hJXw" name="ReceivingCallRequest">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6yjE0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R3];&#xD;
+  Call call = this->call;&#xD;
+  // generate Call4:'CalledVerifiedAndSynced' to call;&#xD;
+  send new Call::Calledverifiedandsynced() to call;&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n6zKIURNEeWkj9RR80hJXw" name="InACall"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n6zxMURNEeWkj9RR80hJXw" name="TerminatingCall">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n6zxM0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>send new DBPort_Out::SetUserStatus(ServiceId=> Service::GetServiceId(), UserId=>this.PhoneNumber, isBusy=> false, isRemovingNow=> false) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n60YQURNEeWkj9RR80hJXw" name="Terminated">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n60YQ0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R3];&#xD;
+Call call = this->call;&#xD;
+  // generate Call4:'CalledVerifiedAndSynced' to call;&#xD;
+  send new Call::Calledverifiedandsynced() to call;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n65QwERNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n66e4ERNEeWkj9RR80hJXw" name="Initial"/>
+            </region>
+          </ownedBehavior>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSA08EW0EeWF_ZPyFqjTUQ" name="Userstatusfree" signal="_n8Rw0URNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSBcAEW0EeWF_ZPyFqjTUQ" name="Userstatusbusy" signal="_n8SX40RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSCDEEW0EeWF_ZPyFqjTUQ" name="Userstatusunknown" signal="_n8S-9ERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSDRMEW0EeWF_ZPyFqjTUQ" name="Userupdatesuccess" signal="_n8TmA0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSDRMUW0EeWF_ZPyFqjTUQ" name="Userupdatefail" signal="_n8UNE0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSD4QEW0EeWF_ZPyFqjTUQ" name="Callrejected" signal="_n8U0IkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSEfUEW0EeWF_ZPyFqjTUQ" name="Callaccepted" signal="_n8VbMkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSFGYEW0EeWF_ZPyFqjTUQ" name="Callended" signal="_n8WCQkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_OSFtcEW0EeWF_ZPyFqjTUQ" name="Startverification" signal="_n8WpUkRNEeWkj9RR80hJXw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ny-D0ERNEeWkj9RR80hJXw" name="Subscriber">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_nzaIsERNEeWkj9RR80hJXw" name="PhoneNumber">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nzbW0ERNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nzbW0URNEeWkj9RR80hJXw" value="1"/>
+          </ownedAttribute>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8Rw0URNEeWkj9RR80hJXw" name="Userstatusfree"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8SX40RNEeWkj9RR80hJXw" name="Userstatusbusy"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8S-9ERNEeWkj9RR80hJXw" name="Userstatusunknown"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8TmA0RNEeWkj9RR80hJXw" name="Userupdatesuccess"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8UNE0RNEeWkj9RR80hJXw" name="Userupdatefail"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8U0IkRNEeWkj9RR80hJXw" name="Callrejected"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8VbMkRNEeWkj9RR80hJXw" name="Callaccepted"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8WCQkRNEeWkj9RR80hJXw" name="Callended"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8WpUkRNEeWkj9RR80hJXw" name="Startverification"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ny_5AERNEeWkj9RR80hJXw" name="Call" classifierBehavior="_n6_-cURNEeWkj9RR80hJXw" isActive="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_nzeaIERNEeWkj9RR80hJXw" name="RingingExpirationTimer">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nzfBMERNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nzfBMURNEeWkj9RR80hJXw" value="1"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_nzqnYERNEeWkj9RR80hJXw" name="CleanUp$method$1" specification="_nziEgERNEeWkj9RR80hJXw"/>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n6_-cURNEeWkj9RR80hJXw" name="CallStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n7AlgURNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n7FeA0RNEeWkj9RR80hJXw" name="tr_init" source="_n7E28URNEeWkj9RR80hJXw" target="_n7FeAURNEeWkj9RR80hJXw"/>
+              <transition xmi:type="uml:Transition" xmi:id="_n7LkoURNEeWkj9RR80hJXw" name="tr_terminate" source="_n7K9k0RNEeWkj9RR80hJXw" target="_n7K9kURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n7On8ERNEeWkj9RR80hJXw" name="tr_terminate_trigger" event="_n7MywURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n80jYkRNEeWkj9RR80hJXw" name="Ringingtimerexpired" source="_n7BMkERNEeWkj9RR80hJXw" target="_n7BzoURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n81KcERNEeWkj9RR80hJXw" name="Ringingtimerexpired_trigger" event="_n8dXAURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n81KcURNEeWkj9RR80hJXw" name="Callrequestaccepted" source="_n7BMkERNEeWkj9RR80hJXw" target="_n7DBwURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n81xgURNEeWkj9RR80hJXw" name="Callrequestaccepted_trigger" event="_n8d-E0RNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n81xgkRNEeWkj9RR80hJXw" name="Endcallrcvd1" source="_n7DBwURNEeWkj9RR80hJXw" target="_n7Do0kRNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n82YkURNEeWkj9RR80hJXw" name="Endcallrcvd_trigger" event="_n8cv8ERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n82YkkRNEeWkj9RR80hJXw" name="Callerverifiedandsynced1" source="_n7GFEURNEeWkj9RR80hJXw" target="_n7GsIkRNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n82_oERNEeWkj9RR80hJXw" name="Callerverifiedandsynced_trigger" event="_n8ZsoURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n83msERNEeWkj9RR80hJXw" name="Callerbusyorunknown" source="_n7GFEURNEeWkj9RR80hJXw" target="_n7H6QERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n83mskRNEeWkj9RR80hJXw" name="Callerbusyorunknown_trigger" event="_n8ZFkURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n84NwkRNEeWkj9RR80hJXw" name="Calledunknown" source="_n7GsIkRNEeWkj9RR80hJXw" target="_n7IhUURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8400ERNEeWkj9RR80hJXw" name="Calledunknown_trigger" event="_n8bh00RNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8400URNEeWkj9RR80hJXw" name="Calledbusy" source="_n7GsIkRNEeWkj9RR80hJXw" target="_n7JIYURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n84000RNEeWkj9RR80hJXw" name="Calledbusy_trigger" event="_n8a6wURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n85b4ERNEeWkj9RR80hJXw" name="Calledverifiedandsynced1" source="_n7GsIkRNEeWkj9RR80hJXw" target="_n7BMkERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n85b4kRNEeWkj9RR80hJXw" name="Calledverifiedandsynced_trigger" event="_n8aTsERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n86C8ERNEeWkj9RR80hJXw" name="Callerverifiedandsynced2" source="_n7Do0kRNEeWkj9RR80hJXw" target="_n7KWgURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n86qAURNEeWkj9RR80hJXw" name="Callerverifiedandsynced_trigger" event="_n8ZsoURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n86qAkRNEeWkj9RR80hJXw" name="Calledverifiedandsynced2" source="_n7Do0kRNEeWkj9RR80hJXw" target="_n7KWg0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n87REURNEeWkj9RR80hJXw" name="Calledverifiedandsynced_trigger" event="_n8aTsERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n87REkRNEeWkj9RR80hJXw" name="Calledverifiedandsynced3" source="_n7KWgURNEeWkj9RR80hJXw" target="_n7K9k0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n874IERNEeWkj9RR80hJXw" name="Calledverifiedandsynced_trigger" event="_n8aTsERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n874IURNEeWkj9RR80hJXw" name="Callerverifiedandsynced3" source="_n7KWg0RNEeWkj9RR80hJXw" target="_n7K9k0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n874I0RNEeWkj9RR80hJXw" name="Callerverifiedandsynced_trigger" event="_n8ZsoURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n88fM0RNEeWkj9RR80hJXw" name="CallRcvd" source="_n7FeAURNEeWkj9RR80hJXw" target="_n7GFEURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n89GQURNEeWkj9RR80hJXw" name="Callrcvd" event="_n8X3c0RNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n89GQkRNEeWkj9RR80hJXw" name="Endcallrcvd" source="_n7BzoURNEeWkj9RR80hJXw" target="_n7Do0kRNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n89tUURNEeWkj9RR80hJXw" name="Endcallrcvd_trigger" event="_n8cv8ERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n89tUkRNEeWkj9RR80hJXw" name="Callerverifiedandsynced4" source="_n7H6QERNEeWkj9RR80hJXw" target="_n7K9k0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8-UYERNEeWkj9RR80hJXw" name="Callerverifiedandsynced_trigger" event="_n8ZsoURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8-UYURNEeWkj9RR80hJXw" name="Callerverifiedandsynced5" source="_n7IhUURNEeWkj9RR80hJXw" target="_n7K9k0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n8-UY0RNEeWkj9RR80hJXw" name="Callerverifiedandsynced_trigger" event="_n8ZsoURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n8_igERNEeWkj9RR80hJXw" name="Callerverifiedandsynced6" source="_n7JIYURNEeWkj9RR80hJXw" target="_n7K9k0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9AJkERNEeWkj9RR80hJXw" name="Callerverifiedandsynced_trigger" event="_n8ZsoURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9AJkURNEeWkj9RR80hJXw" name="Endcallrcvd2" source="_n7BMkERNEeWkj9RR80hJXw" target="_n7Do0kRNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9AJk0RNEeWkj9RR80hJXw" name="Endcallrcvd_trigger" event="_n8cv8ERNEeWkj9RR80hJXw"/>
+              </transition>
+              <subvertex xmi:type="uml:State" xmi:id="_n7BMkERNEeWkj9RR80hJXw" name="CallInitiation">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7BMkkRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one caller related by self->Caller[R2];&#xD;
+  Caller caller = this->caller;&#xD;
+  // select one called related by self->Called[R3];&#xD;
+ Called called = this->called;&#xD;
+  // create event instance of ringing_expiration_event of Call8:'RingingTimerExpired' to self;&#xD;
+  // !!! ALF does not allow pre-creation of events. Please update your model. Note, however that ALF code might still work if variable storing created event is not written by more than one event creation statement.&#xD;
+  // assign self.RingingExpirationTimer = timer_start::Time(event_inst: ringing_expiration_event, microseconds: 20000000);&#xD;
+//  this.ringingexpirationtimer = phonex.TIM.timerStart(ringingExpirationEvent, 20000000);&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7BzoURNEeWkj9RR80hJXw" name="SessionTimeout">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7CasURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // generate Call7:'EndCallRcvd' to self;&#xD;
+  send new Call::Endcallrcvd() to this;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7DBwURNEeWkj9RR80hJXw" name="InACall">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7Do0ERNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>//check if it's mine ServiceID&#xD;
+if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
+	return;&#xD;
+}&#xD;
+UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances()->filter(selected : selected.'PhoneNumber' == sigdata.'UserId').one();&#xD;
+if(unregsub==null){&#xD;
+	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
+if(sigdata.'isSuccessfull' == true){&#xD;
+	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
+}&#xD;
+else {&#xD;
+	send new RegistrationProcess::Registrationnotconfirmed() to regproc;&#xD;
+}&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7Do0kRNEeWkj9RR80hJXw" name="CallTermination">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7EP4URNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one called related by self->Called[R3];&#xD;
+  Called called = this->'called';&#xD;
+  // select one caller related by self->Caller[R2];&#xD;
+  Caller caller = this->'caller';&#xD;
+//send PhoneXPort::TerminateCall(UserID: caller.PhoneNumber);&#xD;
+send new PhoneXPort_Out::TerminateCall(UserID=> caller.PhoneNumber) to PhoneXPort_Out::instances().one();&#xD;
+//send PhoneXPort::TerminateCall(UserID: called.PhoneNumber);&#xD;
+send new PhoneXPort_Out::TerminateCall(UserID=> called.PhoneNumber) to PhoneXPort_Out::instances().one();&#xD;
+  // generate Subscriber8:'CallEnded' to caller;&#xD;
+  send new Subscriber::Callended() to caller;&#xD;
+  // generate Subscriber8:'CallEnded' to called;&#xD;
+  send new Subscriber::Callended() to called;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7E28URNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7FeAURNEeWkj9RR80hJXw" name="_initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7GFEURNEeWkj9RR80hJXw" name="VerifyingCaller">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7GsIERNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one caller related by self->Caller[R2];&#xD;
+  Caller caller = this->'caller';&#xD;
+  // if empty caller&#xD;
+  if(caller == null) {&#xD;
+    // return;&#xD;
+    return;&#xD;
+  // end if;&#xD;
+  }&#xD;
+  // generate Subscriber9:'StartVerification' to caller;&#xD;
+  send new Subscriber::Startverification() to caller;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7GsIkRNEeWkj9RR80hJXw" name="VerifyingCalled">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7HTMURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one called related by self->Called[R3];&#xD;
+  Called called = this->'called';&#xD;
+  // if empty called&#xD;
+  if(called == null) {&#xD;
+    // return;&#xD;
+    return;&#xD;
+  // end if;&#xD;
+  }&#xD;
+  // generate Subscriber9:'StartVerification' to called;&#xD;
+  send new Subscriber::Startverification() to called;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7H6QERNEeWkj9RR80hJXw" name="HackingAttempt">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7H6QkRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>//TRACE::traceWarn(msg=>&quot;Hacking attempt - call by either unknown or busy subscriber has been attempted!&quot;);&#xD;
+TRACE::traceWarning(msg=>&quot;Hacking attempt - call by either unknown or busy subscriber has been attempted!&quot;);  &#xD;
+// select one caller related by self->Caller[R2];&#xD;
+  Caller caller = this->'caller';&#xD;
+//send PhoneXPort::TerminateCall(UserID: caller.PhoneNumber);&#xD;
+send new PhoneXPort_Out::TerminateCall(UserID=> caller.PhoneNumber) to PhoneXPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7IhUURNEeWkj9RR80hJXw" name="UnknownNumber">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7IhU0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one caller related by self->Caller[R2];&#xD;
+  Caller caller = this->'caller';&#xD;
+//send PhoneXPort::UnknownNumber(UserID: caller.PhoneNumber);&#xD;
+send new PhoneXPort_Out::UnknownNumber(UserID=> caller.PhoneNumber) to PhoneXPort_Out::instances().one();&#xD;
+  // generate Subscriber8:'CallEnded' to caller;&#xD;
+  send new Subscriber::Callended() to caller;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7JIYURNEeWkj9RR80hJXw" name="LineIsBusy">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7JvcURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one caller related by self->Caller[R2];&#xD;
+  Caller caller = this->'caller';&#xD;
+//send PhoneXPort::LineIsBusy(UserID: caller.PhoneNumber);&#xD;
+send new PhoneXPort_Out::LineIsBusy(UserID=> caller.PhoneNumber) to PhoneXPort_Out::instances().one();&#xD;
+  // generate Subscriber8:'CallEnded' to caller;&#xD;
+  send new Subscriber::Callended() to caller;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7KWgURNEeWkj9RR80hJXw" name="WaitingForCalledReset"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7KWg0RNEeWkj9RR80hJXw" name="WaitingForCallerReset"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7K9k0RNEeWkj9RR80hJXw" name="Terminated">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7On8URNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>this.CleanUp();&#xD;
+  // select one service related by self->Service[R6];&#xD;
+  Service service = this->'service';&#xD;
+  // relate self to service across R6;&#xD;
+  R6::unlink('service'=>service,'call'=>this);</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7K9kURNEeWkj9RR80hJXw" name="terminate_ps" kind="terminate"/>
+            </region>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_nziEgERNEeWkj9RR80hJXw" name="CleanUp" method="_nzqnYERNEeWkj9RR80hJXw"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n7MLsERNEeWkj9RR80hJXw" name="_Call_termination"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8XQZERNEeWkj9RR80hJXw" name="Callrcvd"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8YegERNEeWkj9RR80hJXw" name="Callerbusyorunknown"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8ZFkkRNEeWkj9RR80hJXw" name="Callerverifiedandsynced"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8ZsokRNEeWkj9RR80hJXw" name="Calledverifiedandsynced"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8aTsURNEeWkj9RR80hJXw" name="Calledbusy"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8a6wkRNEeWkj9RR80hJXw" name="Calledunknown"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8bh1ERNEeWkj9RR80hJXw" name="Endcallrcvd"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8cv8URNEeWkj9RR80hJXw" name="Ringingtimerexpired"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8dXAkRNEeWkj9RR80hJXw" name="Callrequestaccepted"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n7MLskRNEeWkj9RR80hJXw" name="_Call_termination" signal="_n7MLsERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8X3cURNEeWkj9RR80hJXw" name="Callrcvd" signal="_n8XQZERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8YegkRNEeWkj9RR80hJXw" name="Callerbusyorunknown" signal="_n8YegERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8ZFlERNEeWkj9RR80hJXw" name="Callerverifiedandsynced" signal="_n8ZFkkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8ZspERNEeWkj9RR80hJXw" name="Calledverifiedandsynced" signal="_n8ZsokRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8aTs0RNEeWkj9RR80hJXw" name="Calledbusy" signal="_n8aTsURNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8bh0URNEeWkj9RR80hJXw" name="Calledunknown" signal="_n8a6wkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8cI4URNEeWkj9RR80hJXw" name="Endcallrcvd" signal="_n8bh1ERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8cv80RNEeWkj9RR80hJXw" name="Ringingtimerexpired" signal="_n8cv8URNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8d-EURNEeWkj9RR80hJXw" name="Callrequestaccepted" signal="_n8dXAkRNEeWkj9RR80hJXw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_nzBHIERNEeWkj9RR80hJXw" name="RegistrationProcess" classifierBehavior="_n7PPAURNEeWkj9RR80hJXw" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n7PPAURNEeWkj9RR80hJXw" name="RegistrationProcessStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n7P2EERNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n7QdI0RNEeWkj9RR80hJXw" name="tr_terminate" source="_n7QdIURNEeWkj9RR80hJXw" target="_n7P2EkRNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n7RrQkRNEeWkj9RR80hJXw" name="tr_terminate_trigger" event="_n7RrQURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n7S5YURNEeWkj9RR80hJXw" name="tr_init" source="_n7SSUERNEeWkj9RR80hJXw" target="_n7SSUkRNEeWkj9RR80hJXw"/>
+              <transition xmi:type="uml:Transition" xmi:id="_n9AJlERNEeWkj9RR80hJXw" name="Registrationconfirmed" source="_n7S5Y0RNEeWkj9RR80hJXw" target="_n7Tgc0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9AwoURNEeWkj9RR80hJXw" name="Registrationconfirmed_trigger" event="_n8jdoERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9BXsURNEeWkj9RR80hJXw" name="Registrationnotconfirmed" source="_n7S5Y0RNEeWkj9RR80hJXw" target="_n7UukERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9BXs0RNEeWkj9RR80hJXw" name="Registrationnotconfirmed_trigger" event="_n8kEskRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9DM4URNEeWkj9RR80hJXw" name="Registrationrequestrcvd" source="_n7SSUkRNEeWkj9RR80hJXw" target="_n7S5Y0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9DM40RNEeWkj9RR80hJXw" name="Registrationrequestrcvd_trigger" event="_n8fMMURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9Dz80RNEeWkj9RR80hJXw" name="Terminatecmd1" source="_n7UukERNEeWkj9RR80hJXw" target="_n7QdIURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9EbAURNEeWkj9RR80hJXw" name="Terminatecmd_trigger" event="_n8l54URNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9EbAkRNEeWkj9RR80hJXw" name="Terminatecmd2" source="_n7Tgc0RNEeWkj9RR80hJXw" target="_n7QdIURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9EbBERNEeWkj9RR80hJXw" name="Terminatecmd_trigger" event="_n8l54URNEeWkj9RR80hJXw"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7P2EkRNEeWkj9RR80hJXw" name="terminate_ps" kind="terminate"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7QdIURNEeWkj9RR80hJXw" name="Terminated">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7RrQ0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one unregsub related by self->UnregisteredSubscriber[R4];&#xD;
+  UnregisteredSubscriber unregsub = this->'unregisteredSubscriber';&#xD;
+  // relate unregsub to self across R4;&#xD;
+  R4::unlink('registrationProcess'=>this,'unregisteredSubscriber'=>unregsub);&#xD;
+  // delete object instance unregsub;&#xD;
+  delete unregsub;&#xD;
+  // select any service from instances of Service;&#xD;
+  Service service = Service::instances().one();&#xD;
+  // if not empty service&#xD;
+  if((service != null)) {&#xD;
+    // relate self to service across R7;&#xD;
+    R7::unlink('service'=>service,'registrationProcess'=>this);&#xD;
+  // end if;&#xD;
+  }</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7SSUERNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7SSUkRNEeWkj9RR80hJXw" name="_initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7S5Y0RNEeWkj9RR80hJXw" name="RegistrationStarted">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7TgcURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one unregsub related by self->UnregisteredSubscriber[R4];&#xD;
+ UnregisteredSubscriber unregsub = this->'unregisteredSubscriber';&#xD;
+//send DBPort_Out::AddUserIfNotExist(ServiceId: Service::GetServiceId(), UserId: unregsub.PhoneNumber );&#xD;
+send new DBPort_Out::AddUserIfNotExist(ServiceId=> Service::GetServiceId(), UserId=> unregsub.PhoneNumber ) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7Tgc0RNEeWkj9RR80hJXw" name="RegistrationSuccesfull">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7UHgURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one unregsub related by self->UnregisteredSubscriber[R4];&#xD;
+  UnregisteredSubscriber unregsub = this->'unregisteredSubscriber';&#xD;
+//send PhoneXPort::RegistrationResult(UserID: unregsub.PhoneNumber, isSuccessfull: true);&#xD;
+send new PhoneXPort_Out::RegistrationResult(UserID=> unregsub.PhoneNumber, isSuccessfull=> true) to PhoneXPort_Out::instances().one();&#xD;
+  // generate RegistrationProcess4:'TerminateCmd' to self;&#xD;
+  send new RegistrationProcess::Terminatecmd() to this;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7UukERNEeWkj9RR80hJXw" name="RegistrationFailed">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7UukkRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one unregsub related by self->UnregisteredSubscriber[R4];&#xD;
+  UnregisteredSubscriber unregsub = this->'unregisteredSubscriber';&#xD;
+//send PhoneXPort::RegistrationResult(UserID: unregsub.PhoneNumber, isSuccessfull: true);&#xD;
+send new PhoneXPort_Out::RegistrationResult(UserID=> unregsub.PhoneNumber, isSuccessfull=> false) to PhoneXPort_Out::instances().one();&#xD;
+  // generate RegistrationProcess4:'TerminateCmd' to self;&#xD;
+  send new RegistrationProcess::Terminatecmd() to this;</body>
+                </entry>
+              </subvertex>
+            </region>
+          </ownedBehavior>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n7REMERNEeWkj9RR80hJXw" name="_RegistrationProcess_termination"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8elIERNEeWkj9RR80hJXw" name="Registrationrequestrcvd"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8fMMkRNEeWkj9RR80hJXw" name="Registrationconfirmed"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8jdoURNEeWkj9RR80hJXw" name="Registrationnotconfirmed"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8krwERNEeWkj9RR80hJXw" name="Terminatecmd"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n7REMkRNEeWkj9RR80hJXw" name="_RegistrationProcess_termination" signal="_n7REMERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8elIkRNEeWkj9RR80hJXw" name="Registrationrequestrcvd" signal="_n8elIERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8fMNERNEeWkj9RR80hJXw" name="Registrationconfirmed" signal="_n8fMMkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8kEsERNEeWkj9RR80hJXw" name="Registrationnotconfirmed" signal="_n8jdoURNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8lS0URNEeWkj9RR80hJXw" name="Terminatecmd" signal="_n8krwERNEeWkj9RR80hJXw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_nzCVQERNEeWkj9RR80hJXw" name="UnregistrationProcess" classifierBehavior="_n7V8sERNEeWkj9RR80hJXw" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n7V8sERNEeWkj9RR80hJXw" name="UnregistrationProcessStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n7V8skRNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n7Xx40RNEeWkj9RR80hJXw" name="tr_init" source="_n7XK0URNEeWkj9RR80hJXw" target="_n7Xx4URNEeWkj9RR80hJXw"/>
+              <transition xmi:type="uml:Transition" xmi:id="_n9FCEERNEeWkj9RR80hJXw" name="Unregistrationconfirmed" source="_n7ZAAURNEeWkj9RR80hJXw" target="_n7ZnEURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9FCEkRNEeWkj9RR80hJXw" name="Unregistrationconfirmed_trigger" event="_n8nvEERNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9FpIkRNEeWkj9RR80hJXw" name="Unregistrationnotconfirmed" source="_n7ZAAURNEeWkj9RR80hJXw" target="_n7a1MERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9J6kERNEeWkj9RR80hJXw" name="Unregistrationnotconfirmed_trigger" event="_n8oWIURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9KhokRNEeWkj9RR80hJXw" name="TerminatecmdSucc" source="_n7ZnEURNEeWkj9RR80hJXw" target="_n7WjwURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9LIsERNEeWkj9RR80hJXw" name="Terminatecmd_trigger" event="_n8l54URNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9LIsURNEeWkj9RR80hJXw" name="TerminatecmdFailed" source="_n7a1MERNEeWkj9RR80hJXw" target="_n7WjwURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9LIs0RNEeWkj9RR80hJXw" name="Terminatecmd_trigger" event="_n8l54URNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9LvwkRNEeWkj9RR80hJXw" name="UnregistrationRequestReceived" source="_n7Xx4URNEeWkj9RR80hJXw" target="_n7ZAAURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9MW0URNEeWkj9RR80hJXw" name="from_initial_TXN_1_UnregistrationProcess1_1_trigger" event="_n8mg8kRNEeWkj9RR80hJXw"/>
+              </transition>
+              <subvertex xmi:type="uml:State" xmi:id="_n7WjwURNEeWkj9RR80hJXw" name="Terminated">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7Wjw0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one regsub related by self->RegisteredSubscriber[R5];&#xD;
+  RegisteredSubscriber regsub = this->'registeredSubscriber';&#xD;
+  // relate regsub to self across R5;&#xD;
+  R5::unlink('unregistrationProcess'=>this,'registeredSubscriber'=>regsub);&#xD;
+  // delete object instance regsub;&#xD;
+  delete regsub;&#xD;
+  // select any service from instances of Service;&#xD;
+  Service service = Service::instances().one();&#xD;
+  // if not empty service&#xD;
+  if((!(service == null))) {&#xD;
+    // relate self to service across R8;&#xD;
+    R8::unlink('service'=>service,'unregistrationProcess'=>this);&#xD;
+  // end if;&#xD;
+  }&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7XK0URNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7Xx4URNEeWkj9RR80hJXw" name="_initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7ZAAURNEeWkj9RR80hJXw" name="UnregistrationStarted">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7ZAA0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one regsub related by self->RegisteredSubscriber[R5];&#xD;
+  RegisteredSubscriber regsub = this->'registeredSubscriber';&#xD;
+//send DBPort_Out::RemoveUserIfExist(ServiceId: Service::GetServiceId(), UserId: regsub.PhoneNumber );&#xD;
+send new DBPort_Out::RemoveUserIfExist(ServiceId=> Service::GetServiceId(), UserId=> regsub.PhoneNumber ) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7ZnEURNEeWkj9RR80hJXw" name="UnregistrationSuccessfull">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7aOIERNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one regsub related by self->RegisteredSubscriber[R5];&#xD;
+  RegisteredSubscriber regsub = this->'registeredSubscriber';&#xD;
+//send PhoneXPort::UnregistrationResult(UserID: regsub.PhoneNumber, isSuccessfull: true);&#xD;
+send new PhoneXPort_Out::UnregistrationResult(UserID=> regsub.PhoneNumber, isSuccessfull=> true) to PhoneXPort_Out::instances().one();&#xD;
+  // generate UnregistrationProcess4:'TerminateCmd' to self;&#xD;
+  send new UnregistrationProcess::Terminatecmd() to this;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7a1MERNEeWkj9RR80hJXw" name="UnregistrationFailed">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7a1MkRNEeWkj9RR80hJXw" name="entryBehavior" language="" body=""/>
+              </subvertex>
+            </region>
+          </ownedBehavior>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8l54kRNEeWkj9RR80hJXw" name="Unregistrationrequestrcvd"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8mg80RNEeWkj9RR80hJXw" name="Unregistrationconfirmed"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8nvEURNEeWkj9RR80hJXw" name="Unregistrationnotconfirmed"/>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_n8rZcERNEeWkj9RR80hJXw" name="Terminatecmd"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8mg8ERNEeWkj9RR80hJXw" name="Unregistrationrequestrcvd" signal="_n8l54kRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8nIAURNEeWkj9RR80hJXw" name="Unregistrationconfirmed" signal="_n8mg80RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8nvE0RNEeWkj9RR80hJXw" name="Unregistrationnotconfirmed" signal="_n8nvEURNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_n8sAgURNEeWkj9RR80hJXw" name="Terminatecmd" signal="_n8rZcERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hShRcEW0EeWF_ZPyFqjTUQ" name="Userstatusfree" signal="_n8Rw0URNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSh4gEW0EeWF_ZPyFqjTUQ" name="Userstatusbusy" signal="_n8SX40RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSifkEW0EeWF_ZPyFqjTUQ" name="Userstatusunknown" signal="_n8S-9ERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSifkUW0EeWF_ZPyFqjTUQ" name="Userupdatesuccess" signal="_n8TmA0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSifkkW0EeWF_ZPyFqjTUQ" name="Userupdatefail" signal="_n8UNE0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSjGoEW0EeWF_ZPyFqjTUQ" name="Callrejected" signal="_n8U0IkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSjGoUW0EeWF_ZPyFqjTUQ" name="Callaccepted" signal="_n8VbMkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSjGokW0EeWF_ZPyFqjTUQ" name="Callended" signal="_n8WCQkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_hSjtsEW0EeWF_ZPyFqjTUQ" name="Startverification" signal="_n8WpUkRNEeWkj9RR80hJXw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_nzDjYURNEeWkj9RR80hJXw" name="Service">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_nzgPUURNEeWkj9RR80hJXw" name="ServiceId">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nzgPUkRNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nzg2YERNEeWkj9RR80hJXw" value="1"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_nzwuAURNEeWkj9RR80hJXw" name="GetServiceId$method$1" specification="_nzvf4ERNEeWkj9RR80hJXw">
+            <language>rALF</language>
+            <body>  // select any service from instances of Service;&#xD;
+  Service service = Service::instances().one();&#xD;
+  // if empty service&#xD;
+  if(service == null) {&#xD;
+    // create object instance service of Service;&#xD;
+    service = new Service();&#xD;
+    // assign service.ServiceId = 0;&#xD;
+    service.ServiceId = 0;&#xD;
+  // end if;&#xD;
+  }&#xD;
+  // return service.ServiceId;&#xD;
+  return service.ServiceId;&#xD;
+</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_nz2NkURNEeWkj9RR80hJXw" name="SetServiceId$method$1" specification="_nz1mgERNEeWkj9RR80hJXw">
+            <language>rALF</language>
+            <body>// select any service from instances of Service;&#xD;
+  Service service = Service::instances().one();&#xD;
+  // if empty service&#xD;
+  if(service == null) {&#xD;
+    // create object instance service of Service;&#xD;
+    service = new Service();&#xD;
+  // end if;&#xD;
+  }&#xD;
+  // assign service.ServiceId = param.serviceId;&#xD;
+  service.ServiceId = serviceId;</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_nzvf4ERNEeWkj9RR80hJXw" name="GetServiceId" isStatic="true" method="_nzwuAURNEeWkj9RR80hJXw">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_nzx8IURNEeWkj9RR80hJXw" name="returnValue" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nzyjMERNEeWkj9RR80hJXw" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nzyjMURNEeWkj9RR80hJXw" value="1"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_nz1mgERNEeWkj9RR80hJXw" name="SetServiceId" isStatic="true" method="_nz2NkURNEeWkj9RR80hJXw">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_nz3bsERNEeWkj9RR80hJXw" name="serviceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nz3bsURNEeWkj9RR80hJXw" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nz3bskRNEeWkj9RR80hJXw" value="1"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_nzExgURNEeWkj9RR80hJXw" name="RegisteredSubscriber" classifierBehavior="_n7bcQURNEeWkj9RR80hJXw" isActive="true">
+          <generalization xmi:type="uml:Generalization" xmi:id="_n0ft0ERNEeWkj9RR80hJXw" general="_ny-D0ERNEeWkj9RR80hJXw"/>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n7bcQURNEeWkj9RR80hJXw" name="RegisteredSubscriberStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n7cDUERNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n7dRcURNEeWkj9RR80hJXw" name="tr_init" source="_n7cqYERNEeWkj9RR80hJXw" target="_n7cqYkRNEeWkj9RR80hJXw"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7cqYERNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7cqYkRNEeWkj9RR80hJXw" name="workaround"/>
+            </region>
+          </ownedBehavior>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7IScEW0EeWF_ZPyFqjTUQ" name="Userstatusfree" signal="_n8Rw0URNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7I5gEW0EeWF_ZPyFqjTUQ" name="Userstatusbusy" signal="_n8SX40RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7JgkEW0EeWF_ZPyFqjTUQ" name="Userstatusunknown" signal="_n8S-9ERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7JgkUW0EeWF_ZPyFqjTUQ" name="Userupdatesuccess" signal="_n8TmA0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7KHoEW0EeWF_ZPyFqjTUQ" name="Userupdatefail" signal="_n8UNE0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7KusEW0EeWF_ZPyFqjTUQ" name="Callrejected" signal="_n8U0IkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7LVwEW0EeWF_ZPyFqjTUQ" name="Callaccepted" signal="_n8VbMkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7LVwUW0EeWF_ZPyFqjTUQ" name="Callended" signal="_n8WCQkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_j7L80EW0EeWF_ZPyFqjTUQ" name="Startverification" signal="_n8WpUkRNEeWkj9RR80hJXw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_nzGmsERNEeWkj9RR80hJXw" name="UnregisteredSubscriber" classifierBehavior="_n7dRc0RNEeWkj9RR80hJXw" isActive="true">
+          <generalization xmi:type="uml:Generalization" xmi:id="_n0ft0kRNEeWkj9RR80hJXw" general="_ny-D0ERNEeWkj9RR80hJXw"/>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n7dRc0RNEeWkj9RR80hJXw" name="UnregisteredSubscriberStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n7g70URNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n7iJ8URNEeWkj9RR80hJXw" name="tr_init" source="_n7hi4ERNEeWkj9RR80hJXw" target="_n7hi4kRNEeWkj9RR80hJXw"/>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7hi4ERNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7hi4kRNEeWkj9RR80hJXw" name="workaround"/>
+            </region>
+          </ownedBehavior>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_nzH00URNEeWkj9RR80hJXw" name="Caller" classifierBehavior="_n7iJ80RNEeWkj9RR80hJXw" isActive="true">
+          <generalization xmi:type="uml:Generalization" xmi:id="_n0gU4URNEeWkj9RR80hJXw" general="_ny-D0ERNEeWkj9RR80hJXw"/>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_n7iJ80RNEeWkj9RR80hJXw" name="CallerStateMachine">
+            <region xmi:type="uml:Region" xmi:id="_n7ixAURNEeWkj9RR80hJXw" name="DefaultRegion">
+              <transition xmi:type="uml:Transition" xmi:id="_n7j_IkRNEeWkj9RR80hJXw" name="tr_init" source="_n7ixA0RNEeWkj9RR80hJXw" target="_n7j_IERNEeWkj9RR80hJXw"/>
+              <transition xmi:type="uml:Transition" xmi:id="_n9Nk8URNEeWkj9RR80hJXw" name="Startverification" source="_n7j_IERNEeWkj9RR80hJXw" target="_n7kmMURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9Nk80RNEeWkj9RR80hJXw" name="Startverification_trigger" event="_n8XQY0RNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9OMA0RNEeWkj9RR80hJXw" name="Userstatusfree" source="_n7kmMURNEeWkj9RR80hJXw" target="_n7lNQURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9OzEURNEeWkj9RR80hJXw" name="Userstatusfree_trigger" event="_n8SX4kRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9PaIURNEeWkj9RR80hJXw" name="Userstatusbusy" source="_n7kmMURNEeWkj9RR80hJXw" target="_n7l0U0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9PaI0RNEeWkj9RR80hJXw" name="Userstatusbusy_trigger" event="_n8S-80RNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9QBM0RNEeWkj9RR80hJXw" name="Userstatusunknown" source="_n7kmMURNEeWkj9RR80hJXw" target="_n7mbY0RNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9QoQURNEeWkj9RR80hJXw" name="Userstatusunknown_trigger" event="_n8TmAkRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9R2YERNEeWkj9RR80hJXw" name="Userupdatesuccess1" source="_n7lNQURNEeWkj9RR80hJXw" target="_n7npgERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9R2YkRNEeWkj9RR80hJXw" name="Userupdatesuccess_trigger" event="_n8UNEkRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9SdcERNEeWkj9RR80hJXw" name="Callaccepted" source="_n7npgERNEeWkj9RR80hJXw" target="_n7oQkURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9SdckRNEeWkj9RR80hJXw" name="Callaccepted_trigger" event="_n8WCQURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9Sdc0RNEeWkj9RR80hJXw" name="Callended1" source="_n7oQkURNEeWkj9RR80hJXw" target="_n8PUkERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9TEgURNEeWkj9RR80hJXw" name="Callended_trigger" event="_n8WpUURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9TEgkRNEeWkj9RR80hJXw" name="Userupdatesuccess2" source="_n8PUkERNEeWkj9RR80hJXw" target="_n8QisERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9TrkERNEeWkj9RR80hJXw" name="Userupdatesuccess_trigger" event="_n8UNEkRNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9TrkURNEeWkj9RR80hJXw" name="Userupdatefail1" source="_n7lNQURNEeWkj9RR80hJXw" target="_n8RJwURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9USoERNEeWkj9RR80hJXw" name="Userupdatefail_trigger" event="_n8U0IURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9USoURNEeWkj9RR80hJXw" name="Userupdatefail2" source="_n8PUkERNEeWkj9RR80hJXw" target="_n8RJwURNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9U5sERNEeWkj9RR80hJXw" name="Userupdatefail_trigger" event="_n8U0IURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9U5sURNEeWkj9RR80hJXw" name="Callrejected" source="_n7npgERNEeWkj9RR80hJXw" target="_n8PUkERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9U5s0RNEeWkj9RR80hJXw" name="Callrejected_trigger" event="_n8VbMURNEeWkj9RR80hJXw"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_n9VgwERNEeWkj9RR80hJXw" name="Callended2" source="_n7npgERNEeWkj9RR80hJXw" target="_n8PUkERNEeWkj9RR80hJXw">
+                <trigger xmi:type="uml:Trigger" xmi:id="_n9VgwkRNEeWkj9RR80hJXw" name="Callended_trigger" event="_n8WpUURNEeWkj9RR80hJXw"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_n7ixA0RNEeWkj9RR80hJXw" name="initial_ps"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7j_IERNEeWkj9RR80hJXw" name="_initial"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n7kmMURNEeWkj9RR80hJXw" name="Unchecked">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7kmM0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>//send DBPort_Out::GetUserStatus(ServiceId: Service::GetServiceId(), UserId:self.PhoneNumber);&#xD;
+send new DBPort_Out::GetUserStatus(ServiceId=> Service::GetServiceId(), UserId=>this.PhoneNumber) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7lNQURNEeWkj9RR80hJXw" name="Free">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7l0UURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>//send DBPort_Out::SetUserStatus(ServiceId: Service::GetServiceId(), UserId: self.PhoneNumber, isBusy: true, isRemovingNow: false);&#xD;
+send new DBPort_Out::SetUserStatus(ServiceId=> Service::GetServiceId(), UserId=> this.PhoneNumber, isBusy=> true, isRemovingNow=> false) to DBPort_Out::instances().one();</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7l0U0RNEeWkj9RR80hJXw" name="AlreadyBusy">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7mbYURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R2];&#xD;
+  Call call = this->'call';&#xD;
+  // generate Call2:'CallerBusyOrUnknown' to call;&#xD;
+  send new Call::Callerbusyorunknown() to call;&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7mbY0RNEeWkj9RR80hJXw" name="Unknown">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7nCcURNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R2];&#xD;
+  Call call = this->'call';&#xD;
+  // generate Call2:'CallerBusyOrUnknown' to call;&#xD;
+  send new Call::Callerbusyorunknown() to call;&#xD;
+</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7npgERNEeWkj9RR80hJXw" name="ReadyToInitiateCall">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7npgkRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R2];&#xD;
+  Call call = this->'call';&#xD;
+  // generate Call3:'CallerVerifiedAndSynced' to call;&#xD;
+  send new Call::Callerverifiedandsynced() to call;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n7oQkURNEeWkj9RR80hJXw" name="InACall"/>
+              <subvertex xmi:type="uml:State" xmi:id="_n8PUkERNEeWkj9RR80hJXw" name="TerminatingCall">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n8P7oURNEeWkj9RR80hJXw" name="entryBehavior" language="" body=""/>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n8QisERNEeWkj9RR80hJXw" name="Terminated">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n8QiskRNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R2];&#xD;
+  Call call = this->'call';&#xD;
+  // generate Call3:'CallerVerifiedAndSynced' to call;&#xD;
+  send new Call::Callerverifiedandsynced() to call;</body>
+                </entry>
+              </subvertex>
+              <subvertex xmi:type="uml:State" xmi:id="_n8RJwURNEeWkj9RR80hJXw" name="UpdateStatusFailed-Hanging">
+                <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n8RJw0RNEeWkj9RR80hJXw" name="entryBehavior">
+                  <language>rALF</language>
+                  <body>  // select one call related by self->Call[R2];&#xD;
+  Call call = this->'call';&#xD;
+  // generate Call7:'EndCallRcvd' to call;&#xD;
+  send new Call::Endcallrcvd() to call;&#xD;
+</body>
+                </entry>
+              </subvertex>
+            </region>
+          </ownedBehavior>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tAl8EW0EeWF_ZPyFqjTUQ" name="Userstatusfree" signal="_n8Rw0URNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tBNAEW0EeWF_ZPyFqjTUQ" name="Userstatusbusy" signal="_n8SX40RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tB0EEW0EeWF_ZPyFqjTUQ" name="Userstatusunknown" signal="_n8S-9ERNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tB0EUW0EeWF_ZPyFqjTUQ" name="Userupdatesuccess" signal="_n8TmA0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tCbIEW0EeWF_ZPyFqjTUQ" name="Userupdatefail" signal="_n8UNE0RNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tDCMEW0EeWF_ZPyFqjTUQ" name="Callrejected" signal="_n8U0IkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tDpQEW0EeWF_ZPyFqjTUQ" name="Callaccepted" signal="_n8VbMkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tEQUEW0EeWF_ZPyFqjTUQ" name="Callended" signal="_n8WCQkRNEeWkj9RR80hJXw"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_4tEQUUW0EeWF_ZPyFqjTUQ" name="Startverification" signal="_n8WpUkRNEeWkj9RR80hJXw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_nz538ERNEeWkj9RR80hJXw" name="R3" memberEnd="_nz7GEERNEeWkj9RR80hJXw _n0E3EERNEeWkj9RR80hJXw" navigableOwnedEnd="_nz7GEERNEeWkj9RR80hJXw _n0E3EERNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_nz7GEERNEeWkj9RR80hJXw" name="called" type="_ny8OoERNEeWkj9RR80hJXw" association="_nz538ERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nz7GEURNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_nz7GEkRNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0E3EERNEeWkj9RR80hJXw" name="call" type="_ny_5AERNEeWkj9RR80hJXw" association="_nz538ERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0E3EURNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0GFMERNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_n0HTUERNEeWkj9RR80hJXw" name="R6" memberEnd="_n0H6YURNEeWkj9RR80hJXw _n0JIgURNEeWkj9RR80hJXw" navigableOwnedEnd="_n0H6YURNEeWkj9RR80hJXw _n0JIgURNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0H6YURNEeWkj9RR80hJXw" name="call" type="_ny_5AERNEeWkj9RR80hJXw" association="_n0HTUERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0H6YkRNEeWkj9RR80hJXw"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0IhcERNEeWkj9RR80hJXw" value="*"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0JIgURNEeWkj9RR80hJXw" name="service" type="_nzDjYURNEeWkj9RR80hJXw" association="_n0HTUERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0JIgkRNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0JIg0RNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_n0KWoERNEeWkj9RR80hJXw" name="R7" memberEnd="_n0K9sURNEeWkj9RR80hJXw _n0ML0URNEeWkj9RR80hJXw" navigableOwnedEnd="_n0K9sURNEeWkj9RR80hJXw _n0ML0URNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0K9sURNEeWkj9RR80hJXw" name="registrationProcess" type="_nzBHIERNEeWkj9RR80hJXw" association="_n0KWoERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0K9skRNEeWkj9RR80hJXw"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0LkwERNEeWkj9RR80hJXw" value="*"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0ML0URNEeWkj9RR80hJXw" name="service" type="_nzDjYURNEeWkj9RR80hJXw" association="_n0KWoERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0ML0kRNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0My4ERNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_n0OBAERNEeWkj9RR80hJXw" name="R8" memberEnd="_n0OBAkRNEeWkj9RR80hJXw _n0P2MERNEeWkj9RR80hJXw" navigableOwnedEnd="_n0OBAkRNEeWkj9RR80hJXw _n0P2MERNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0OBAkRNEeWkj9RR80hJXw" name="unregistrationProcess" type="_nzCVQERNEeWkj9RR80hJXw" association="_n0OBAERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0OoEERNEeWkj9RR80hJXw"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0OoEURNEeWkj9RR80hJXw" value="*"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0P2MERNEeWkj9RR80hJXw" name="service" type="_nzDjYURNEeWkj9RR80hJXw" association="_n0OBAERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0P2MURNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0QdQERNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_n0REUERNEeWkj9RR80hJXw" name="R5" memberEnd="_n0RrYURNEeWkj9RR80hJXw _n0SScURNEeWkj9RR80hJXw" navigableOwnedEnd="_n0RrYURNEeWkj9RR80hJXw _n0SScURNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0RrYURNEeWkj9RR80hJXw" name="unregistrationProcess" type="_nzCVQERNEeWkj9RR80hJXw" association="_n0REUERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0RrYkRNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0RrY0RNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0SScURNEeWkj9RR80hJXw" name="registeredSubscriber" type="_nzExgURNEeWkj9RR80hJXw" association="_n0REUERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0S5gERNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0S5gURNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_n0UusERNEeWkj9RR80hJXw" name="R4" memberEnd="_n0VVwERNEeWkj9RR80hJXw _n0V80URNEeWkj9RR80hJXw" navigableOwnedEnd="_n0VVwERNEeWkj9RR80hJXw _n0V80URNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0VVwERNEeWkj9RR80hJXw" name="unregisteredSubscriber" type="_nzGmsERNEeWkj9RR80hJXw" association="_n0UusERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0VVwURNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0VVwkRNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0V80URNEeWkj9RR80hJXw" name="registrationProcess" type="_nzBHIERNEeWkj9RR80hJXw" association="_n0UusERNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0Wj4ERNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0Wj4URNEeWkj9RR80hJXw" value="*"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_n0XK8URNEeWkj9RR80hJXw" name="R2" memberEnd="_n0XyAURNEeWkj9RR80hJXw _n0ZAIURNEeWkj9RR80hJXw" navigableOwnedEnd="_n0XyAURNEeWkj9RR80hJXw _n0ZAIURNEeWkj9RR80hJXw">
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0XyAURNEeWkj9RR80hJXw" name="caller" type="_nzH00URNEeWkj9RR80hJXw" association="_n0XK8URNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0XyAkRNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0YZEERNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_n0ZAIURNEeWkj9RR80hJXw" name="call" type="_ny_5AERNEeWkj9RR80hJXw" association="_n0XK8URNEeWkj9RR80hJXw">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_n0ZAIkRNEeWkj9RR80hJXw" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_n0ZAI0RNEeWkj9RR80hJXw" value="1"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_ZVzNAES4EeWF_ZPyFqjTUQ" name="DBPort_Out" classifierBehavior="_TUgNkETnEeWF_ZPyFqjTUQ" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_TUgNkETnEeWF_ZPyFqjTUQ" name="DBPort_InSM">
+            <region xmi:type="uml:Region" xmi:id="_YW2GEETnEeWF_ZPyFqjTUQ" name="Region1">
+              <transition xmi:type="uml:Transition" xmi:id="_dNazcETnEeWF_ZPyFqjTUQ" name="Init" source="_ZXo0sETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ"/>
+              <transition xmi:type="uml:Transition" xmi:id="_x1RoQETnEeWF_ZPyFqjTUQ" name="GetUserStatus" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_rqBKcEToEeWF_ZPyFqjTUQ" name="effect$GetUserStatus">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_EnrgIFV3EeWvoJvRwuAmVg">
+                    <body>//check if it's mine ServiceID&#xD;
+if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
+	return;&#xD;
+}&#xD;
+UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances()->filter(selected : selected.'PhoneNumber' == sigdata.'UserId').one();&#xD;
+if(unregsub==null){&#xD;
+	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
+if(sigdata. == true){&#xD;
+	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
+}&#xD;
+else {&#xD;
+	send new RegistrationProcess::Registrationnotconfirmed() to regproc;&#xD;
+}&#xD;
+</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+if (user==null){ //no such user! FALSE&#xD;
+  send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isBusy=> false, isKnown=> false) to DBPort_In::instances().one();&#xD;
+}&#xD;
+else{&#xD;
+  //USER - send UserStatus with what we have&#xD;
+  send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isBusy=> user.Busy, isKnown=> true) to DBPort_In::instances().one();&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_nQ6cMEToEeWF_ZPyFqjTUQ" name="GetUserStatus" event="_kkp_IEWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_zgXboEToEeWF_ZPyFqjTUQ" name="AddUserIfNotExists" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ptBAUETqEeWF_ZPyFqjTUQ" name="effect$AddUserIfNotExists">
+                  <language>rALF</language>
+                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+if (user==null){ //no such user! FALSE&#xD;
+  send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isBusy=> false, isKnown=> false) to DBPort_In::instances().one();&#xD;
+}&#xD;
+else{&#xD;
+  //USER - send UserStatus with what we have&#xD;
+  send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isBusy=> user.Busy, isKnown=> true) to DBPort_In::instances().one();&#xD;
+}&#xD;
+</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_invmwETqEeWF_ZPyFqjTUQ" name="AddUserIfNotExists" event="_kkoxAEWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_z41UEETqEeWF_ZPyFqjTUQ" name="RemoveUserIfExists" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_mu7-QETtEeWF_ZPyFqjTUQ" name="effect$RemoveUserIfExists">
+                  <language>rALF</language>
+                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+if(  user !=null){ //add one, send back Success!&#xD;
+	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> true) to DBPort_In::instances().one();&#xD;
+	delete user;&#xD;
+}&#xD;
+else{&#xD;
+	//not empty, already there, send back NoSuccess!&#xD;
+	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_GZ2GQETtEeWF_ZPyFqjTUQ" name="RemoveUserIfExists" event="_kkr0UEWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_iL2isETvEeWF_ZPyFqjTUQ" name="SetUserStatus" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_W-PlUETwEeWF_ZPyFqjTUQ" name="effect$SetUserStatus">
+                  <language>rALF</language>
+                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+if(  user !=null){ //add one, send back Success!&#xD;
+	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> true) to DBPort_In::instances().one();&#xD;
+	delete user;&#xD;
+}&#xD;
+else{&#xD;
+	//not empty, already there, send back NoSuccess!&#xD;
+	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_nTaSYETvEeWF_ZPyFqjTUQ" name="SetUserStatus" event="_kkrNQEWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_ZXo0sETnEeWF_ZPyFqjTUQ" name="Initial1"/>
+              <subvertex xmi:type="uml:State" xmi:id="_aYHaQETnEeWF_ZPyFqjTUQ" name="Init"/>
+            </region>
+          </ownedBehavior>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_kvWfMES4EeWF_ZPyFqjTUQ" name="AddUserIfNotExist">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvWfMUS4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvWfMkS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvWfM0S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvWfNES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvWfNUS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvWfNkS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_kvZigES4EeWF_ZPyFqjTUQ" name="GetUserStatus">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvZigUS4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvZigkS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvZig0S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvZihES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvZihUS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvZihkS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_kvawoES4EeWF_ZPyFqjTUQ" name="SetUserStatus">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvawoUS4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvawokS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvawo0S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvawpES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvawpUS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvawpkS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvawp0S4EeWF_ZPyFqjTUQ" name="isBusy">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvawqES4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvawqUS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvawqkS4EeWF_ZPyFqjTUQ" name="isRemovingNow">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvawq0S4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvawrES4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_kvcl0ES4EeWF_ZPyFqjTUQ" name="RemoveUserIfExist">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvcl0US4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvcl0kS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvcl00S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_kvcl1ES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvcl1US4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvcl1kS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_kvdz8ES4EeWF_ZPyFqjTUQ" name="AddUserIfNotExist" signal="_kvWfMES4EeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvdz8US4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvdz8kS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvdz80S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvdz9ES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvdz9US4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvdz9kS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_kvfpIES4EeWF_ZPyFqjTUQ" name="GetUserStatus" signal="_kvZigES4EeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvfpIUS4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvfpIkS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvfpI0S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvfpJES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvfpJUS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvfpJkS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_kvg3QES4EeWF_ZPyFqjTUQ" name="SetUserStatus" signal="_kvawoES4EeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvg3QUS4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvg3QkS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvg3Q0S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvg3RES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvg3RUS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvg3RkS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvg3R0S4EeWF_ZPyFqjTUQ" name="isBusy">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvg3SES4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvg3SUS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kvg3SkS4EeWF_ZPyFqjTUQ" name="isRemovingNow">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kvg3S0S4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kvg3TES4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_kviFYES4EeWF_ZPyFqjTUQ" name="RemoveUserIfExist" signal="_kvcl0ES4EeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kviFYUS4EeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kviFYkS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kviFY0S4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_kviFZES4EeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_kviFZUS4EeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_kviFZkS4EeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_BaSWoETaEeWF_ZPyFqjTUQ" name="DBPort_In" classifierBehavior="_kqyoIETgEeWF_ZPyFqjTUQ" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_kqyoIETgEeWF_ZPyFqjTUQ" name="DBPort_InSM">
+            <region xmi:type="uml:Region" xmi:id="_sZy7METgEeWF_ZPyFqjTUQ" name="Region1">
+              <transition xmi:type="uml:Transition" xmi:id="_wogXUETgEeWF_ZPyFqjTUQ" name="init" source="_tSbzYETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ"/>
+              <transition xmi:type="uml:Transition" xmi:id="_AzQHoEThEeWF_ZPyFqjTUQ" name="AddUserResponse" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_YWHVAEThEeWF_ZPyFqjTUQ" name="effect$AddUserResponse">
+                  <language>rALF</language>
+                  <body>if((sigdata.'ServiceId' != Service::GetServiceId()) &amp;&amp; (sigdata.'ServiceId' !=0) ){//not for me&#xD;
+	return;&#xD;
+}&#xD;
+Subscriber subscriber = Subscriber::instances()->filter(selected : selected.PhoneNumber == sigdata.'UserId').one();&#xD;
+if(subscriber == null){&#xD;
+	TRACE::traceError(msg=> &quot;PhoneX/DBPort/SetUserStatusResponse - UserStatus signal missrouted!&quot;);&#xD;
+	return;//this is not good LOG this&#xD;
+}&#xD;
+&#xD;
+if(sigdata.'isSuccessfull'==true){&#xD;
+	send new Subscriber::Userupdatesuccess() to subscriber;&#xD;
+}&#xD;
+else{&#xD;
+	send new Subscriber::Userupdatefail() to subscriber;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_SAtSIEThEeWF_ZPyFqjTUQ" name="AddUserResponse" event="_kkpYEEWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_Xerr0ETjEeWF_ZPyFqjTUQ" name="RemoveUserResponse" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_RZbIUETkEeWF_ZPyFqjTUQ" name="effect$RemoveUserResponse">
+                  <language>rALF</language>
+                  <body>//check if it's mine ServiceID &#xD;
+if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
+	return;&#xD;
+}&#xD;
+UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances()->filter(selected : selected.'PhoneNumber' == sigdata.'UserId').one();&#xD;
+if(unregsub==null){&#xD;
+	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
+	return;&#xD;
+}&#xD;
+RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
+if(sigdata.'isSuccessfull' == true){&#xD;
+	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
+}&#xD;
+else {&#xD;
+	send new RegistrationProcess::Registrationnotconfirmed() to regproc;&#xD;
+}&#xD;
+</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_f2lK4ETjEeWF_ZPyFqjTUQ" name="RemoveUserResponse" event="_kkr0UUWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_QAvosETlEeWF_ZPyFqjTUQ" name="SetUserResponseStatus" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aGmeYETlEeWF_ZPyFqjTUQ" name="effect$SetUserStatusResponse">
+                  <language>rALF</language>
+                  <body>Subscriber subscriber = Subscriber::instances()->filter(selected : selected.PhoneNumber==sigdata.'UserId').one();&#xD;
+&#xD;
+if(subscriber==null){&#xD;
+	TRACE::traceError(msg=>&quot;EndCall: no such EndCall subscriber/UserId&quot;);&#xD;
+}&#xD;
+else{&#xD;
+	Caller caller = (Caller)subscriber;&#xD;
+	if(caller!=null){&#xD;
+		Call call = caller->call;&#xD;
+		send new Call::Endcallrcvd() to call;&#xD;
+	}&#xD;
+	else {&#xD;
+		Called called = (Called)subscriber;&#xD;
+		Call call = called->call;&#xD;
+		send new Call::Endcallrcvd() to call;&#xD;
+	}&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_V05_sETlEeWF_ZPyFqjTUQ" name="SetUserStatusResponse" event="_kkrNQUWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_2l5wkETlEeWF_ZPyFqjTUQ" name="UserStatus" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="__OUX4ETlEeWF_ZPyFqjTUQ" name="effect$UserStatus">
+                  <language>rALF</language>
+                  <body>if((sigdata.'ServiceId' != Service::GetServiceId()) &amp;&amp; (sigdata.'ServiceId' !=0) ){//not for me&#xD;
+	return;&#xD;
+}&#xD;
+Subscriber subscriber = Subscriber::instances()->filter(selected : selected.PhoneNumber == sigdata.'UserId').one();&#xD;
+if(subscriber==null){&#xD;
+	TRACE::traceError(msg=> &quot;PhoneX/DBPort/UserStatus - UserStatus signal missrouted!&quot;);&#xD;
+	return;//this is not good LOG this &#xD;
+}&#xD;
+&#xD;
+if(sigdata.'isKnown' == false){&#xD;
+	send new Subscriber::Userstatusunknown() to subscriber;&#xD;
+}&#xD;
+else if (sigdata.'isBusy' == false){&#xD;
+	send new Subscriber::Userstatusfree() to subscriber;&#xD;
+}&#xD;
+else{&#xD;
+	send new Subscriber::Userstatusbusy() to subscriber;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_8KZ68ETlEeWF_ZPyFqjTUQ" name="UserStatus" event="_kkqmMEWJEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_tSbzYETgEeWF_ZPyFqjTUQ" name="Initial1"/>
+              <subvertex xmi:type="uml:State" xmi:id="_ts_ocETgEeWF_ZPyFqjTUQ" name="Init"/>
+            </region>
+          </ownedBehavior>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_mtcuUETeEeWF_ZPyFqjTUQ" name="AddUserResponse">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtcuUUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtcuUkTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtcuU0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtcuVETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtcuVUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtcuVkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtcuV0TeEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtcuWETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtcuWUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_mtejgETeEeWF_ZPyFqjTUQ" name="UserStatus">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtejgUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtejgkTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtejg0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtejhETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtejhUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtejhkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtejh0TeEeWF_ZPyFqjTUQ" name="isBusy">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtejiETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtejiUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtejikTeEeWF_ZPyFqjTUQ" name="isKnown">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mteji0TeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtejjETeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_mtfKkETeEeWF_ZPyFqjTUQ" name="SetUserStatusResponse">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtfKkUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtfKkkTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtfKk0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtfKlETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtfKlUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtfKlkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtfKl0TeEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtfKmETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtfKmUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_mtfxoETeEeWF_ZPyFqjTUQ" name="RemoveUserResponse">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtfxoUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtfxokTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtfxo0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtfxpETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtfxpUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtfxpkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_mtfxp0TeEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtfxqETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtfxqUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_mtgYsETeEeWF_ZPyFqjTUQ" name="AddUserResponse" signal="_mtcuUETeEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtgYsUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtgYskTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtgYs0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtgYtETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtgYtUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtgYtkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtgYt0TeEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtgYuETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtgYuUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_mthm0ETeEeWF_ZPyFqjTUQ" name="UserStatus" signal="_mtejgETeEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mthm0UTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mthm0kTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mthm00TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mthm1ETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mthm1UTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mthm1kTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mthm10TeEeWF_ZPyFqjTUQ" name="isBusy">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mthm2ETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mthm2UTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mthm2kTeEeWF_ZPyFqjTUQ" name="isKnown">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mthm20TeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mthm3ETeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_mtkDEETeEeWF_ZPyFqjTUQ" name="SetUserStatusResponse" signal="_mtfKkETeEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtkDEUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtkDEkTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtkDE0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtkDFETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtkDFUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtkDFkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtkDF0TeEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtkDGETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtkDGUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_mtkqIETeEeWF_ZPyFqjTUQ" name="RemoveUserResponse" signal="_mtfxoETeEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtkqIUTeEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtkqIkTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtkqI0TeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtkqJETeEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtkqJUTeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtkqJkTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_mtkqJ0TeEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_mtkqKETeEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mtkqKUTeEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_A5HJwES6EeWF_ZPyFqjTUQ" name="TRACE">
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_ycJV8EXiEeWF_ZPyFqjTUQ" name="method$traceError$1" specification="_I0XwIES6EeWF_ZPyFqjTUQ">
+            <language>rALF</language>
+            <body>std::out::println(msg=>msg);</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_5qbhkEXiEeWF_ZPyFqjTUQ" name="method$traceWarning$1" specification="_5dj10ETHEeWF_ZPyFqjTUQ">
+            <language>rALF</language>
+            <body>std::out::println(msg=>msg);</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_I0XwIES6EeWF_ZPyFqjTUQ" name="traceError" isStatic="true" method="_ycJV8EXiEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_MnDXkES6EeWF_ZPyFqjTUQ" name="msg">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_5dj10ETHEeWF_ZPyFqjTUQ" name="traceWarning" isStatic="true" method="_5qbhkEXiEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_5dj10UTHEeWF_ZPyFqjTUQ" name="msg">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_bcwG4ETCEeWF_ZPyFqjTUQ" name="TIM">
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_dnSr0ETCEeWF_ZPyFqjTUQ" name="timerCancel" isStatic="true">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_g4bscETCEeWF_ZPyFqjTUQ" name="timer_inst_ref">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_iM0sgETCEeWF_ZPyFqjTUQ" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="__dmNAETEEeWF_ZPyFqjTUQ" name="PhoneXPort_Out" classifierBehavior="_QeRCkEXfEeWF_ZPyFqjTUQ" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_QeRCkEXfEeWF_ZPyFqjTUQ" name="PhoneXPort_OutSM">
+            <region xmi:type="uml:Region" xmi:id="_VsHngEXfEeWF_ZPyFqjTUQ" name="Region1">
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="UnknownNumber" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$UnknownNumber">
+                  <language>rALF</language>
+                  <body>if(this->test1!=null){&#xD;
+	send new UnknownNumber() to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send new UnknownNumber() to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="UnknownNumber" event="_NLKloEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="LineIsBusy" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$LineIsBusy">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_d-1lYFVmEeWLm7pzgixIxA">
+                    <body>LineIsBusy sig = new LineIsBusy();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>LineIsBusy sig = new LineIsBusy();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="LineIsBusy" event="_NLLMsEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="CalledBy" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$CalledBy">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_pfC5MFVmEeWLm7pzgixIxA">
+                    <body>CalledBy sig = new CalledBy();&#xD;
+sig.'CalledID' = sigdata.'CalledID';&#xD;
+sig.'CallerID' = sigdata.'CallerID';&#xD;
+sig.'ServiceId' = sigdata.'ServiceId';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>CalledBy sig = new CalledBy();&#xD;
+sig.'CalledID' = sigdata.'CalledID';&#xD;
+sig.'CallerID' = sigdata.'CallerID';&#xD;
+sig.'ServiceId' = sigdata.'ServiceId';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="CalledBy" event="_NLLzwEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="InitiateCall" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$InitiateCall">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_GSaW4FVnEeWLm7pzgixIxA">
+                    <body>InitiateCall sig = new InitiateCall();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+sig.'ServiceId' = sigdata.'ServiceId';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>InitiateCall sig = new InitiateCall();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+sig.'ServiceId' = sigdata.'ServiceId';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="InitiateCall" event="_NLNB4EWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="TerminateCall" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$TerminateCall">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_L_YgwFVnEeWLm7pzgixIxA">
+                    <body>TerminateCall sig = new TerminateCall();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>TerminateCall sig = new TerminateCall();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="TerminateCall" event="_NLNo8EWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="RegistrationResult" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$RegistrationResult">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_XQDjwFVnEeWLm7pzgixIxA">
+                    <body>RegistrationResult sig = new RegistrationResult();&#xD;
+sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>RegistrationResult sig = new RegistrationResult();&#xD;
+sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="RegistrationResult" event="_NLO3EUWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="UnregistrationResult" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$UnregistrationResult">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_U1Cn8FVpEeWLm7pzgixIxA">
+                    <body>UnregistrationResult sig = new UnregistrationResult();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>UnregistrationResult sig = new UnregistrationResult();&#xD;
+sig.'UserID' = sigdata.'UserID';&#xD;
+sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="UnregistrationResult" event="_NLQFMEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="AllUserUnregistered" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$AllUserUnregistered">
+                  <language>rALF</language>
+                  <body>AllUserUnregistered sig = new AllUserUnregistered();&#xD;
+if(this->test1!=null){&#xD;
+	send sig to this->test1;&#xD;
+}&#xD;
+else if(this->test2!=null){&#xD;
+	send sig to this->test2;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="AllUserUnregistered" event="_NLQsQUWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_X8HUMEXfEeWF_ZPyFqjTUQ" name="Initial1"/>
+              <subvertex xmi:type="uml:State" xmi:id="_aRNjUEXfEeWF_ZPyFqjTUQ" name="Init"/>
+            </region>
+          </ownedBehavior>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5WAcETFEeWF_ZPyFqjTUQ" name="UnknownNumber">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5WAcUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5WAckTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5WAc0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5XOkETFEeWF_ZPyFqjTUQ" name="LineIsBusy">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5XOkUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5XOkkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5XOk0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5YcsETFEeWF_ZPyFqjTUQ" name="CalledBy">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5YcsUTFEeWF_ZPyFqjTUQ" name="CallerID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5YcskTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5Ycs0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5YctETFEeWF_ZPyFqjTUQ" name="CalledID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5YctUTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5YctkTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5Yct0TFEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5YcuETFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5YcuUTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5Zq0ETFEeWF_ZPyFqjTUQ" name="InitiateCall">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5Zq0UTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5Zq0kTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5Zq00TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5Zq1ETFEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5Zq1UTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5Zq1kTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5aR4ETFEeWF_ZPyFqjTUQ" name="TerminateCall">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5aR4UTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5aR4kTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5aR40TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5a48ETFEeWF_ZPyFqjTUQ" name="RegistrationResult">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5a48UTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5a48kTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5bgAETFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5bgAUTFEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5bgAkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5bgA0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5cHEETFEeWF_ZPyFqjTUQ" name="UnregistrationResult">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5cHEUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5cHEkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5cHE0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_M5cHFETFEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5cHFUTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5cHFkTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_M5dVMETFEeWF_ZPyFqjTUQ" name="AllUserUnregistered"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5d8QETFEeWF_ZPyFqjTUQ" name="UnknownNumber" signal="_M5WAcETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5d8QUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5d8QkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5d8Q0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5fKYETFEeWF_ZPyFqjTUQ" name="LineIsBusy" signal="_M5XOkETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5fKYUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5fKYkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5fKY0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5fxcETFEeWF_ZPyFqjTUQ" name="CalledBy" signal="_M5YcsETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5fxcUTFEeWF_ZPyFqjTUQ" name="CallerID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5fxckTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5fxc0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5fxdETFEeWF_ZPyFqjTUQ" name="CalledID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5fxdUTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5fxdkTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5fxd0TFEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5fxeETFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5fxeUTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5g_kETFEeWF_ZPyFqjTUQ" name="InitiateCall" signal="_M5Zq0ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5g_kUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5g_kkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5g_k0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5g_lETFEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5g_lUTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5g_lkTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5hmoETFEeWF_ZPyFqjTUQ" name="TerminateCall" signal="_M5aR4ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5hmoUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5hmokTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5hmo0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5i0wETFEeWF_ZPyFqjTUQ" name="RegistrationResult" signal="_M5a48ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5i0wUTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5i0wkTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5i0w0TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5i0xETFEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5i0xUTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5i0xkTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5jb0ETFEeWF_ZPyFqjTUQ" name="UnregistrationResult" signal="_M5cHEETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5jb0UTFEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5jb0kTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5jb00TFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_M5jb1ETFEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_M5jb1UTFEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_M5jb1kTFEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_M5kp8ETFEeWF_ZPyFqjTUQ" name="AllUserUnregistered" signal="_M5dVMETFEeWF_ZPyFqjTUQ"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_Dq_BkEUUEeWF_ZPyFqjTUQ" name="PhoneXPort_In" classifierBehavior="_UUbgEEUUEeWF_ZPyFqjTUQ" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_UUbgEEUUEeWF_ZPyFqjTUQ" name="PhoneXPort_InSM">
+            <region xmi:type="uml:Region" xmi:id="_ZvZ7AEUUEeWF_ZPyFqjTUQ" name="Region1">
+              <transition xmi:type="uml:Transition" xmi:id="_sssrcEUUEeWF_ZPyFqjTUQ" source="_qz5WwEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ"/>
+              <transition xmi:type="uml:Transition" xmi:id="_AvAjMEUVEeWF_ZPyFqjTUQ" name="AcceptCall" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_vN8jYEUYEeWF_ZPyFqjTUQ" name="effect$AcceptCall">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_IIErcFV8EeWvoJvRwuAmVg">
+                    <body>Called called = Called::instances()->filter(selected:selected.PhoneNumber == sigdata.UserID).one();&#xD;
+if(called == null){&#xD;
+	TRACE::traceError(msg=>&quot;AcceptCall: no such called subscriber&quot;);&#xD;
+}&#xD;
+else{&#xD;
+	Call call = called->call;&#xD;
+	send new Call::CallRequestAccepted() to call;&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>Called called = Called::instances()->filter(selected:selected.PhoneNumber == sigdata.UserID).one();&#xD;
+if(called == null){&#xD;
+	TRACE::traceError(msg=>&quot;AcceptCall: no such called subscriber&quot;);&#xD;
+}&#xD;
+else{&#xD;
+	Call call = called->call;&#xD;
+	send new Call::CallRequestAccepted() to call;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_ptrYwEUYEeWF_ZPyFqjTUQ" name="AcceptCall" event="_NLMa0EWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_FFaiwEUVEeWF_ZPyFqjTUQ" name="Call" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_8QuyUEUaEeWF_ZPyFqjTUQ" name="effect$Call">
+                  <ownedComment xmi:type="uml:Comment" xmi:id="_ZowQwFV4EeWvoJvRwuAmVg">
+                    <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
+//check if there are local caller or called&#xD;
+Subscriber subscriber = Subscriber::instances()->filter(selected: selected.PhoneNumber==sigdata.CallerID || selected.PhoneNumber==sigdata.CalledID).one();&#xD;
+if(subscriber!=null){&#xD;
+	send new PhoneXPort_Out::LineIsBusy(UserID=> sigdata.CallerID) to subscriber;&#xD;
+}&#xD;
+else{&#xD;
+	if(sigdata.CallerID==sigdata.CalledID){&#xD;
+		send new PhoneXPort_Out::TerminateCall(UserID=> sigdata.CallerID);&#xD;
+	}&#xD;
+	else{&#xD;
+		Caller caller = new Caller();&#xD;
+		caller.PhoneNumber=sigdata.CallerID;&#xD;
+&#xD;
+&#xD;
+		Called called = new Called();&#xD;
+		called.PhoneNumber=sigdata.CalledID;&#xD;
+&#xD;
+		Call call = new Call();&#xD;
+		Service service = Service::instances().one();&#xD;
+		if(service==null){&#xD;
+			service = new Service();&#xD;
+			service.ServiceId=0;&#xD;
+		}&#xD;
+		R6::link(call=>call,service=>service);&#xD;
+		R2::link(call=>call,caller=>caller);&#xD;
+		R3::link(call=>call,called=>called);&#xD;
+&#xD;
+		send new Call::Callrcvd() to call;&#xD;
+	}&#xD;
+}</body>
+                  </ownedComment>
+                  <language>rALF</language>
+                  <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
+//check if there are local caller or called&#xD;
+Subscriber subscriber = Subscriber::instances()->filter(selected: selected.PhoneNumber==sigdata.CallerID || selected.PhoneNumber==sigdata.CalledID).one();&#xD;
+if(subscriber!=null){&#xD;
+	send new PhoneXPort_Out::LineIsBusy(UserID=> sigdata.CallerID) to subscriber;&#xD;
+}&#xD;
+else{&#xD;
+	if(sigdata.CallerID==sigdata.CalledID){&#xD;
+		send new PhoneXPort_Out::TerminateCall(UserID=> sigdata.CallerID);&#xD;
+	}&#xD;
+	else{&#xD;
+		Caller caller = new Caller();&#xD;
+		caller.PhoneNumber=sigdata.CallerID;&#xD;
+&#xD;
+&#xD;
+		Called called = new Called();&#xD;
+		called.PhoneNumber=sigdata.CalledID;&#xD;
+&#xD;
+		Call call = new Call();&#xD;
+		Service service = Service::instances().one();&#xD;
+		if(service==null){&#xD;
+			service = new Service();&#xD;
+			service.ServiceId=0;&#xD;
+		}&#xD;
+		R6::link(call=>call,service=>service);&#xD;
+		R2::link(call=>call,caller=>caller);&#xD;
+		R3::link(call=>call,called=>called);&#xD;
+&#xD;
+		send new Call::Callrcvd() to call;&#xD;
+	}&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_4i_VQEUaEeWF_ZPyFqjTUQ" name="Call" event="_NLOQAEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_JlrB4EUVEeWF_ZPyFqjTUQ" name="RegisterUser" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_x7n1sEWIEeWF_ZPyFqjTUQ" name="effect$RegisterUser">
+                  <language>rALF</language>
+                  <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
+&#xD;
+UnregisteredSubscriber unregsub = new UnregisteredSubscriber();&#xD;
+unregsub.PhoneNumber=sigdata.UserID;&#xD;
+&#xD;
+RegistrationProcess regprocess = new RegistrationProcess();&#xD;
+Service service = Service::instances().one();&#xD;
+if(service == null){&#xD;
+	service = new Service();&#xD;
+	service.ServiceId=0;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_nQ28IEWIEeWF_ZPyFqjTUQ" name="RegisterUser" event="_NLO3EEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_aE1jAEUVEeWF_ZPyFqjTUQ" name="UnregisterUser" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_2VxFwEWIEeWF_ZPyFqjTUQ" name="effect$UnregisterUser">
+                  <language>rALF</language>
+                  <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
+&#xD;
+RegisteredSubscriber regsub = new RegisteredSubscriber();&#xD;
+regsub.PhoneNumber=sigdata.UserID;&#xD;
+&#xD;
+UnregistrationProcess unregprocess = new UnregistrationProcess();&#xD;
+Service service = Service::instances().one();&#xD;
+if(service == null){&#xD;
+	service = new Service();&#xD;
+	service.ServiceId=0;&#xD;
+}&#xD;
+&#xD;
+R8::link(service=>service,unregistrationProcess=>unregprocess);&#xD;
+R5::link(unregistrationProcess=>unregprocess,registeredSubscriber=>regsub);&#xD;
+&#xD;
+&#xD;
+send new UnregistrationProcess::Unregistrationrequestrcvd() to unregprocess;</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_s-TnIEWIEeWF_ZPyFqjTUQ" name="UnregisterUser" event="_NLPeIEWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_HULq8EUWEeWF_ZPyFqjTUQ" name="EndCall" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_C9-Y4EWIEeWF_ZPyFqjTUQ" name="effect$EndCall">
+                  <language>rALF</language>
+                  <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
+&#xD;
+UnregisteredSubscriber unregsub = new UnregisteredSubscriber();&#xD;
+unregsub.PhoneNumber=sigdata.UserID;&#xD;
+&#xD;
+RegistrationProcess regprocess = new RegistrationProcess();&#xD;
+Service service = Service::instances().one();&#xD;
+if(service == null){&#xD;
+	service = new Service();&#xD;
+	service.ServiceId=0;&#xD;
+}</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="__bYb4EWHEeWF_ZPyFqjTUQ" name="EndCall" event="_NLNB4UWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_qz5WwEUUEeWF_ZPyFqjTUQ" name="Initial1"/>
+              <subvertex xmi:type="uml:State" xmi:id="_reaTYEUUEeWF_ZPyFqjTUQ" name="Init"/>
+            </region>
+          </ownedBehavior>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_PenAoEUUEeWF_ZPyFqjTUQ" name="AcceptCall">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PenAoUUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PenAokUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PenAo0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PenApEUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PenApUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PenApkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_PeoOwEUUEeWF_ZPyFqjTUQ" name="EndCall">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PeoOwUUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeoOwkUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeoOw0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PeoOxEUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeoOxUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeoOxkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_Peo10EUUEeWF_ZPyFqjTUQ" name="Call">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_Peo10UUUEeWF_ZPyFqjTUQ" name="CallerID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Peo10kUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Peo100UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_Peo11EUUEeWF_ZPyFqjTUQ" name="CalledID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Peo11UUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Peo11kUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_Peo110UUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Peo12EUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Peo12UUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_PeqD8EUUEeWF_ZPyFqjTUQ" name="RegisterUser">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PeqD8UUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeqD8kUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeqD80UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PeqD9EUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeqD9UUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeqD9kUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_PeqrAEUUEeWF_ZPyFqjTUQ" name="UnregisterUser">
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PeqrAUUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeqrAkUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeqrA0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+            <ownedAttribute xmi:type="uml:Property" xmi:id="_PeqrBEUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeqrBUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeqrBkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedAttribute>
+          </nestedClassifier>
+          <nestedClassifier xmi:type="uml:Signal" xmi:id="_Per5IEUUEeWF_ZPyFqjTUQ" name="EndAllCall"/>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_Per5IUUUEeWF_ZPyFqjTUQ" name="AcceptCall" signal="_PenAoEUUEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PesgMEUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PesgMUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PesgMkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PesgM0UUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PesgNEUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PesgNUUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_PeuVYEUUEeWF_ZPyFqjTUQ" name="EndCall" signal="_PeoOwEUUEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PeuVYUUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeuVYkUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeuVY0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PeuVZEUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PeuVZUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PeuVZkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_Peu8cEUUEeWF_ZPyFqjTUQ" name="Call" signal="_Peo10EUUEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Peu8cUUUEeWF_ZPyFqjTUQ" name="CallerID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Peu8ckUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Peu8c0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Peu8dEUUEeWF_ZPyFqjTUQ" name="CalledID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Peu8dUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Peu8dkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Peu8d0UUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_Peu8eEUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Peu8eUUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_PewKkEUUEeWF_ZPyFqjTUQ" name="RegisterUser" signal="_PeqD8EUUEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PewKkUUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PewKkkUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PewKk0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PewKlEUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PewKlUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PewKlkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_PewxoEUUEeWF_ZPyFqjTUQ" name="UnregisterUser" signal="_PeqrAEUUEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PewxoUUUEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PewxokUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Pewxo0UUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_PewxpEUUEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_PewxpUUUEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_PewxpkUUEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_PexYsEUUEeWF_ZPyFqjTUQ" name="EndAllCall" signal="_Per5IEUUEeWF_ZPyFqjTUQ"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_5_9nMETmEeWF_ZPyFqjTUQ" name="User">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_7BvNQETmEeWF_ZPyFqjTUQ" name="ID" visibility="public">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="__Hs9EETmEeWF_ZPyFqjTUQ" name="Busy" visibility="public">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_DqGC0ETqEeWF_ZPyFqjTUQ" name="method$User$1" specification="_rhKT8ETpEeWF_ZPyFqjTUQ">
+            <language>rALF</language>
+            <body>this.ID = UserId;&#xD;
+this.Busy=Busy;</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_rhKT8ETpEeWF_ZPyFqjTUQ" name="User" method="_DqGC0ETqEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_6d7OMETpEeWF_ZPyFqjTUQ" name="UserId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_9NnHkETpEeWF_ZPyFqjTUQ" name="Busy">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_iWhjkEWdEeWF_ZPyFqjTUQ" name="Test1" isActive="true">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_QL7jIEXkEeWF_ZPyFqjTUQ" name="PopulatedUsers">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_WrJCQEXkEeWF_ZPyFqjTUQ" name="MaxUsers">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_BiWgEEXjEeWF_ZPyFqjTUQ" name="Test1SM">
+            <region xmi:type="uml:Region" xmi:id="_E2MPYEXjEeWF_ZPyFqjTUQ" name="Region1">
+              <transition xmi:type="uml:Transition" xmi:id="_HgJUMEXjEeWF_ZPyFqjTUQ" source="_FnJyQEXjEeWF_ZPyFqjTUQ" target="_GayOoEXjEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_eVPcoEXjEeWF_ZPyFqjTUQ" name="effect$initial">
+                  <language>rALF</language>
+                  <body>send new PhoneXPort_In::RegisterUser(UserID=>0,ServiceId=>0) to  PhoneXPort_In::instances().one();</body>
+                </effect>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_sqtGUEXjEeWF_ZPyFqjTUQ" name="RegistrationResult" source="_GayOoEXjEeWF_ZPyFqjTUQ" target="_GayOoEXjEeWF_ZPyFqjTUQ">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_8lXzQEXjEeWF_ZPyFqjTUQ">
+                  <language>rALF</language>
+                  <body>send new PhoneXPort_In::RegisterUser(UserID=>1,ServiceId=>0) to  PhoneXPort_In::instances().one();</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_uLoGgUXjEeWF_ZPyFqjTUQ" name="RegistrationResult" event="_NLO3EUWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_FnJyQEXjEeWF_ZPyFqjTUQ" name="Initial1"/>
+              <subvertex xmi:type="uml:State" xmi:id="_GayOoEXjEeWF_ZPyFqjTUQ" name="Populate"/>
+            </region>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_brpuwEXkEeWF_ZPyFqjTUQ" name="Test1">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_hWfxsEXkEeWF_ZPyFqjTUQ" name="maxUsers">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvR5EEXgEeWF_ZPyFqjTUQ" name="UnknownNumber" signal="_M5WAcETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvR5EUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvR5EkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvR5E0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvTHMEXgEeWF_ZPyFqjTUQ" name="LineIsBusy" signal="_M5XOkETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvTHMUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvTHMkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvTHM0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvUVUEXgEeWF_ZPyFqjTUQ" name="CalledBy" signal="_M5YcsETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvUVUUXgEeWF_ZPyFqjTUQ" name="CallerID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvUVUkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvUVU0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvUVVEXgEeWF_ZPyFqjTUQ" name="CalledID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvUVVUXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvUVVkXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvUVV0XgEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvUVWEXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvUVWUXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvU8YEXgEeWF_ZPyFqjTUQ" name="InitiateCall" signal="_M5Zq0ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvU8YUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvU8YkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvVjcEXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvVjcUXgEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvVjckXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvVjc0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvWKgEXgEeWF_ZPyFqjTUQ" name="TerminateCall" signal="_M5aR4ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvWKgUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvWKgkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvWKg0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvWxkEXgEeWF_ZPyFqjTUQ" name="RegistrationResult" signal="_M5a48ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvWxkUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvWxkkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvWxk0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvWxlEXgEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvWxlUXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvWxlkXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvX_sEXgEeWF_ZPyFqjTUQ" name="UnregistrationResult" signal="_M5cHEETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvX_sUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvX_skXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvX_s0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_fvX_tEXgEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_fvX_tUXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_fvX_tkXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_fvZN0EXgEeWF_ZPyFqjTUQ" name="AllUserUnregistered" signal="_M5dVMETFEeWF_ZPyFqjTUQ"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_5tPsYEXfEeWF_ZPyFqjTUQ" name="R100" visibility="public" memberEnd="_5tT90EXfEeWF_ZPyFqjTUQ _5tVL8EXfEeWF_ZPyFqjTUQ" navigableOwnedEnd="_5tT90EXfEeWF_ZPyFqjTUQ _5tVL8EXfEeWF_ZPyFqjTUQ">
+          <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_5tSIoEXfEeWF_ZPyFqjTUQ" source="org.eclipse.papyrus">
+            <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_5tSIoUXfEeWF_ZPyFqjTUQ" key="nature" value="UML_Nature"/>
+          </eAnnotations>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_5tVL8EXfEeWF_ZPyFqjTUQ" name="test1" type="_iWhjkEWdEeWF_ZPyFqjTUQ" association="_5tPsYEXfEeWF_ZPyFqjTUQ">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_T0ds4EXgEeWF_ZPyFqjTUQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_T0fiEEXgEeWF_ZPyFqjTUQ" value="1"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_5tT90EXfEeWF_ZPyFqjTUQ" name="phonexport_out" type="__dmNAETEEeWF_ZPyFqjTUQ" association="_5tPsYEXfEeWF_ZPyFqjTUQ"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_D6-EoEXgEeWF_ZPyFqjTUQ" name="Test2" isActive="true">
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTNskEXgEeWF_ZPyFqjTUQ" name="UnknownNumber" signal="_M5WAcETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTNskUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTNskkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTNsk0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTOToEXgEeWF_ZPyFqjTUQ" name="LineIsBusy" signal="_M5XOkETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTOToUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTOTokXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTOTo0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTO6sEXgEeWF_ZPyFqjTUQ" name="CalledBy" signal="_M5YcsETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTO6sUXgEeWF_ZPyFqjTUQ" name="CallerID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTO6skXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTO6s0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTO6tEXgEeWF_ZPyFqjTUQ" name="CalledID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTO6tUXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTO6tkXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTO6t0XgEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTO6uEXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTO6uUXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTQI0EXgEeWF_ZPyFqjTUQ" name="InitiateCall" signal="_M5Zq0ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTQI0UXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTQI0kXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTQI00XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTQI1EXgEeWF_ZPyFqjTUQ" name="ServiceId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTQI1UXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTQI1kXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTQv4EXgEeWF_ZPyFqjTUQ" name="TerminateCall" signal="_M5aR4ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTQv4UXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTQv4kXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTQv40XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTRW8EXgEeWF_ZPyFqjTUQ" name="RegistrationResult" signal="_M5a48ETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTRW8UXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTRW8kXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTRW80XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTRW9EXgEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTRW9UXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTRW9kXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTSlEEXgEeWF_ZPyFqjTUQ" name="UnregistrationResult" signal="_M5cHEETFEeWF_ZPyFqjTUQ">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTSlEUXgEeWF_ZPyFqjTUQ" name="UserID">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTSlEkXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTSlE0XgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTSlFEXgEeWF_ZPyFqjTUQ" name="isSuccessfull">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+              <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_gTSlFUXgEeWF_ZPyFqjTUQ" value="1"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_gTSlFkXgEeWF_ZPyFqjTUQ" value="1"/>
+            </ownedParameter>
+          </ownedReception>
+          <ownedReception xmi:type="uml:Reception" xmi:id="_gTTMIEXgEeWF_ZPyFqjTUQ" name="AllUserUnregistered" signal="_M5dVMETFEeWF_ZPyFqjTUQ"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_IAFf4EXgEeWF_ZPyFqjTUQ" name="R101" memberEnd="_IAGuAkXgEeWF_ZPyFqjTUQ _IAH8IEXgEeWF_ZPyFqjTUQ" navigableOwnedEnd="_IAH8IEXgEeWF_ZPyFqjTUQ _IAGuAkXgEeWF_ZPyFqjTUQ">
+          <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_IAGuAEXgEeWF_ZPyFqjTUQ" source="org.eclipse.papyrus">
+            <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_IAGuAUXgEeWF_ZPyFqjTUQ" key="nature" value="UML_Nature"/>
+          </eAnnotations>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_IAGuAkXgEeWF_ZPyFqjTUQ" name="test2" type="_D6-EoEXgEeWF_ZPyFqjTUQ" association="_IAFf4EXgEeWF_ZPyFqjTUQ">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_QD2iAEXgEeWF_ZPyFqjTUQ"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_QD5lUEXgEeWF_ZPyFqjTUQ" value="1"/>
+          </ownedEnd>
+          <ownedEnd xmi:type="uml:Property" xmi:id="_IAH8IEXgEeWF_ZPyFqjTUQ" name="phonexport_out" type="__dmNAETEEeWF_ZPyFqjTUQ" association="_IAFf4EXgEeWF_ZPyFqjTUQ"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_2xbAEEUREeWF_ZPyFqjTUQ" name="SigEvents" URI="">
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n7MywURNEeWkj9RR80hJXw" name="_Call_termination" signal="_n7MLsERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n7RrQURNEeWkj9RR80hJXw" name="_RegistrationProcess_termination" signal="_n7REMERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8SX4kRNEeWkj9RR80hJXw" name="Userstatusfree" signal="_n8Rw0URNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8S-80RNEeWkj9RR80hJXw" name="Userstatusbusy" signal="_n8SX40RNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8TmAkRNEeWkj9RR80hJXw" name="Userstatusunknown" signal="_n8S-9ERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8UNEkRNEeWkj9RR80hJXw" name="Userupdatesuccess" signal="_n8TmA0RNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8U0IURNEeWkj9RR80hJXw" name="Userupdatefail" signal="_n8UNE0RNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8VbMURNEeWkj9RR80hJXw" name="Callrejected" signal="_n8U0IkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8WCQURNEeWkj9RR80hJXw" name="Callaccepted" signal="_n8VbMkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8WpUURNEeWkj9RR80hJXw" name="Callended" signal="_n8WCQkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8XQY0RNEeWkj9RR80hJXw" name="Startverification" signal="_n8WpUkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8X3c0RNEeWkj9RR80hJXw" name="Callrcvd" signal="_n8XQZERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8ZFkURNEeWkj9RR80hJXw" name="Callerbusyorunknown" signal="_n8YegERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8ZsoURNEeWkj9RR80hJXw" name="Callerverifiedandsynced" signal="_n8ZFkkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8aTsERNEeWkj9RR80hJXw" name="Calledverifiedandsynced" signal="_n8ZsokRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8a6wURNEeWkj9RR80hJXw" name="Calledbusy" signal="_n8aTsURNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8bh00RNEeWkj9RR80hJXw" name="Calledunknown" signal="_n8a6wkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8cv8ERNEeWkj9RR80hJXw" name="Endcallrcvd" signal="_n8bh1ERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8dXAURNEeWkj9RR80hJXw" name="Ringingtimerexpired" signal="_n8cv8URNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8d-E0RNEeWkj9RR80hJXw" name="Callrequestaccepted" signal="_n8dXAkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8fMMURNEeWkj9RR80hJXw" name="Registrationrequestrcvd" signal="_n8elIERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8jdoERNEeWkj9RR80hJXw" name="Registrationconfirmed" signal="_n8fMMkRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8kEskRNEeWkj9RR80hJXw" name="Registrationnotconfirmed" signal="_n8jdoURNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8l54URNEeWkj9RR80hJXw" name="RegTerminatecmd" signal="_n8krwERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8mg8kRNEeWkj9RR80hJXw" name="Unregistrationrequestrcvd" signal="_n8l54kRNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8nvEERNEeWkj9RR80hJXw" name="Unregistrationconfirmed" signal="_n8mg80RNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8oWIURNEeWkj9RR80hJXw" name="Unregistrationnotconfirmed" signal="_n8nvEURNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_n8snkURNEeWkj9RR80hJXw" name="UnRegTerminatecmd" signal="_n8rZcERNEeWkj9RR80hJXw"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLKloEWIEeWF_ZPyFqjTUQ" name="UnknownNumber" signal="_M5WAcETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLLMsEWIEeWF_ZPyFqjTUQ" name="LineIsBusy" signal="_M5XOkETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLLzwEWIEeWF_ZPyFqjTUQ" name="CalledBy" signal="_M5YcsETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLMa0EWIEeWF_ZPyFqjTUQ" name="AcceptCall" signal="_PenAoEUUEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLNB4EWIEeWF_ZPyFqjTUQ" name="InitiateCall" signal="_M5Zq0ETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLNB4UWIEeWF_ZPyFqjTUQ" name="EndCall" signal="_PeoOwEUUEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLNo8EWIEeWF_ZPyFqjTUQ" name="TerminateCall" signal="_M5aR4ETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLOQAEWIEeWF_ZPyFqjTUQ" name="Call" signal="_Peo10EUUEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLO3EEWIEeWF_ZPyFqjTUQ" name="RegisterUser" signal="_PeqD8EUUEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLO3EUWIEeWF_ZPyFqjTUQ" name="RegistrationResult" signal="_M5a48ETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLPeIEWIEeWF_ZPyFqjTUQ" name="UnregisterUser" signal="_PeqrAEUUEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLQFMEWIEeWF_ZPyFqjTUQ" name="UnregistrationResult" signal="_M5cHEETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLQsQEWIEeWF_ZPyFqjTUQ" name="EndAllCall" signal="_Per5IEUUEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_NLQsQUWIEeWF_ZPyFqjTUQ" name="AllUserUnregistered" signal="_M5dVMETFEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkoxAEWJEeWF_ZPyFqjTUQ" name="AddUserIfNotExist" signal="_kvWfMES4EeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkpYEEWJEeWF_ZPyFqjTUQ" name="AddUserResponse" signal="_mtcuUETeEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkp_IEWJEeWF_ZPyFqjTUQ" name="GetUserStatus" signal="_kvZigES4EeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkqmMEWJEeWF_ZPyFqjTUQ" name="UserStatus" signal="_mtejgETeEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkrNQEWJEeWF_ZPyFqjTUQ" name="SetUserStatus" signal="_kvawoES4EeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkrNQUWJEeWF_ZPyFqjTUQ" name="SetUserStatusResponse" signal="_mtfKkETeEeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkr0UEWJEeWF_ZPyFqjTUQ" name="RemoveUserIfExist" signal="_kvcl0ES4EeWF_ZPyFqjTUQ"/>
+        <packagedElement xmi:type="uml:SignalEvent" xmi:id="_kkr0UUWJEeWF_ZPyFqjTUQ" name="RemoveUserResponse" signal="_mtfxoETeEeWF_ZPyFqjTUQ"/>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_vncM0ETpEeWF_ZPyFqjTUQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_vneCAETpEeWF_ZPyFqjTUQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_UbJI8FVjEeWLm7pzgixIxA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UbJI8VVjEeWLm7pzgixIxA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    </profileApplication>
+  </uml:Model>
+  <standard:Create xmi:id="_wcFV0ETpEeWF_ZPyFqjTUQ" base_BehavioralFeature="_rhKT8ETpEeWF_ZPyFqjTUQ"/>
+  <standard:Create xmi:id="_dH6RYEXkEeWF_ZPyFqjTUQ" base_BehavioralFeature="_brpuwEXkEeWF_ZPyFqjTUQ"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_d-2McFVmEeWLm7pzgixIxA" base_Comment="_d-1lYFVmEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_pfEHUFVmEeWLm7pzgixIxA" base_Comment="_pfC5MFVmEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_GSblAFVnEeWLm7pzgixIxA" base_Comment="_GSaW4FVnEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_L_Zu4FVnEeWLm7pzgixIxA" base_Comment="_L_YgwFVnEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_XQEx4FVnEeWLm7pzgixIxA" base_Comment="_XQDjwFVnEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_U1D2EFVpEeWLm7pzgixIxA" base_Comment="_U1Cn8FVpEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_EpT30FV3EeWvoJvRwuAmVg" base_Comment="_EnrgIFV3EeWvoJvRwuAmVg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_Zow30FV4EeWvoJvRwuAmVg" base_Comment="_ZowQwFV4EeWvoJvRwuAmVg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_IIFSgFV8EeWvoJvRwuAmVg" base_Comment="_IIErcFV8EeWvoJvRwuAmVg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+</xmi:XMI>

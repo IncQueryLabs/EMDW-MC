@@ -164,7 +164,6 @@ class StateTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val eventType = incomingEventType(state)
 		val castedEventName = "casted_const_event"
-		
 		'''
 		«IF state.commonState.entryAction != null»
 			void «cppClassFQN»::«performEntryActionSignature(state)»{
@@ -179,7 +178,7 @@ class StateTemplates extends CPPTemplate {
 	def performEntryActionCall(CPPState targetState, String eventName){
 		'''
 		«IF targetState == null»
-«««			no entry action for Terminate state
+				no entry action for Terminate state
 		«ELSEIF targetState.commonState.entryAction != null»
 			// entry action
 			«performEntryActionMethodName(targetState)»(«eventName»);
@@ -209,7 +208,6 @@ class StateTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val eventType = outgoingEventType(state)
 		val castedEventName = "casted_const_event"
-		
 		'''
 		«IF state.commonState.exitAction != null»	
 			void «cppClassFQN»::«performExitActionSignature(state)»{

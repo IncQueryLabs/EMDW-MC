@@ -11,6 +11,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Trigger
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEventTrigger
 
 class TransitionTemplates extends CPPTemplate {
+	
 	extension val EventTemplates eventTemplates
 	extension val ActionCodeTemplates actionCodeTemplates
 	

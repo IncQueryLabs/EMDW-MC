@@ -1,0 +1,37 @@
+package com.incquerylabs.uml.ralf.transformation.impl.queries
+
+import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://incquerylabs.com/emdw/umlintegration/trace"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+
+
+pattern umlOperation2CppOperation(
+	cppOperation : CPPOperation,
+	umlOperation
+) {
+	CPPOperation.commonOperation(cppOperation, xtumlOperation);
+	Trace.xtumlrtElements(trace, xtumlOperation);
+	Trace.umlElements(trace, umlOperation);
+}
+
+pattern umlState2CppState(
+	cppState : CPPState,
+	umlState
+) {
+	CPPState.commonState(cppState, xtumlState);
+	Trace.xtumlrtElements(trace, xtumlState);
+	Trace.umlElements(trace, umlState);
+}
+
+pattern umlTransition2CppTransition(
+	cppTransition : CPPTransition,
+	umlTransition
+) {
+	CPPTransition.commonTransition(cppTransition, xtumlTransition);
+	Trace.xtumlrtElements(trace, xtumlTransition);
+	Trace.umlElements(trace, umlTransition);
+}

@@ -29,7 +29,7 @@ abstract class OoplValueDescriptorFactory {
 	 */
 	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName)
 	
-	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type) 
+	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type)
 	
 	def SingleVariableDescriptor prepareSingleVariableDescriptorForExistingVariable(OOPLType type, String localVariableName)
 	

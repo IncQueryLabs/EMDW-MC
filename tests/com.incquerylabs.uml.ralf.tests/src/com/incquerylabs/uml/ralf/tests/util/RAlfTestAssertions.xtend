@@ -8,7 +8,7 @@ class RAlfTestAssertions {
    
     static def void assertAll(Iterable<Issue> issues, String... issueCodes) {
         val unConsumedCodes = newArrayList(issueCodes)
-        val unConsumedIssues = issues.toList
+        val unConsumedIssues = issues.toList.clone
             
         for (Issue i : issues) {
             var String foundCode

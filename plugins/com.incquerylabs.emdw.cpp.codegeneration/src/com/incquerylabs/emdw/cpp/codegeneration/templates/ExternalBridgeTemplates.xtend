@@ -70,7 +70,7 @@ class ExternalBridgeTemplates extends CPPTemplate {
 		val operations = cppExternalBridge.subElements.filter(CPPOperation).sortBy[cppName]
 		'''
 		«FOR operation : operations»
-			«operationTemplates.operationDeclarationInClassHeader(operation, true, false)»
+			«operationTemplates.operationSignature(operation, false, true, false, false)»;
 		«ENDFOR»
 		'''
 	}

@@ -51,16 +51,17 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
     	// *******************************************************************************
     	// Call body converter
     	// *******************************************************************************
-       			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList
+       			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList.sortBy[qualifiedName]
        			operations.forEach[ operation |
        				operationSum++
        				try {
        					val body = bodyConverter.convertOperation(operation)
+       					val ralfCodes = operation.ralfCode
        					codes += 
        					'''
        					Operation: «operation.qualifiedName»
        					rALF:
-       						«operation.ralfCode»
+       						«ralfCodes»
        					C++ code:
        						«body»
        					
@@ -69,15 +70,16 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					«operation.qualifiedName» | :white_check_mark: | «body.markdownBody»
+       					**«operation.qualifiedName»**  <br /><br /> <i>«ralfCodes.markdownBody»<i /> | :white_check_mark: | <i>«body.markdownBody»<i />
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					val ralfCodes = operation.ralfCode
        					codes += 
        					'''
        					Operation: «operation.qualifiedName»)
        					rALF:
-       						«operation.ralfCode»
+       						«ralfCodes»
        					Exception:
        						«ex.message»
        					
@@ -85,22 +87,23 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					«operation.qualifiedName» | :x: | «ex.reducedMessage» 
+       					**«operation.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | «IF ralfCodes == "null"»:grey_question:«ELSE»:x:«ENDIF» | «ex.reducedMessage» 
        					'''
        				}
        			]
        		}
        		if(conversionTypes.contains(ConversionType.StateEntry)) {
-       			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList
+       			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList.sortBy[qualifiedName]
        			states.forEach[ state |
        				stateEntrySum++
        				try {
        					val body = bodyConverter.convertStateEntry(state)
+       					val ralfCodes = state.ralfCode(true)
        					codes += 
        					'''
        					State Entry: «state.qualifiedName»
        					rALF:
-       						«state.ralfCode(true)»
+       						«ralfCodes»
        					C++ code:
        					«body»
        					
@@ -109,15 +112,16 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Entry of «state.qualifiedName» | :white_check_mark: | «body.markdownBody»
+       					Entry of **«state.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | :white_check_mark: | <i>«body.markdownBody»<i />
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					val ralfCodes = state.ralfCode(true)
        					codes += 
        					'''
        					State Entry: «state.qualifiedName»
        					rALF:
-       						«state.ralfCode(true)»
+       						«ralfCodes»
        					Exception:
        						«ex.message»
        					
@@ -125,22 +129,23 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Entry of «state.qualifiedName» | :x: | «ex.reducedMessage» 
+       					Entry of **«state.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | «IF ralfCodes == "null"»:grey_question:«ELSE»:x:«ENDIF» | «ex.reducedMessage» 
        					'''
        				}
        			]
        		}
        		if(conversionTypes.contains(ConversionType.StateExit)) {
-       			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null].toList
+       			val states = cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null].toList.sortBy[qualifiedName]
        			states.forEach[ state |
        				stateExitSum++
        				try {
        					val body = bodyConverter.convertStateExit(state)
+       					val ralfCodes = state.ralfCode(false) 
        					codes += 
        					'''
        					State Exit: «state.qualifiedName»
        					rALF:
-       						«state.ralfCode(false)»
+       						«ralfCodes»
        					C++ code:
        					«body»
        					
@@ -149,15 +154,16 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Exit of «state.qualifiedName» | :white_check_mark: | «body.markdownBody»
+       					Exit of **«state.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | :white_check_mark: | <i>«body.markdownBody»<i />
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					val ralfCodes = state.ralfCode(false)
        					codes += 
        					'''
        					State Exit: «state.qualifiedName»
        					rALF:
-       						«state.ralfCode(false)»
+       						«ralfCodes»
        					Exception:
        						«ex.message»
        					
@@ -165,22 +171,23 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Exit of «state.qualifiedName» | :x: | «ex.reducedMessage» 
+       					Exit of **«state.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | «IF ralfCodes == "null"»:grey_question:«ELSE»:x:«ENDIF» | «ex.reducedMessage» 
        					'''
        				}
        			]
        		}
        		if(conversionTypes.contains(ConversionType.Transition)) {
-       			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty].toList
+       			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty].toList.sortBy[qualifiedName]
        			transitions.forEach[ transition |
        				transitionSum++
        				try {
        					val body = bodyConverter.convertTransition(transition)
+       					val ralfCodes = transition.ralfCode(false) 
        					codes += 
        					'''
        					Transition: «transition.qualifiedName»
        					rALF:
-       						«transition.ralfCode(false)»
+       						«ralfCodes»
        					C++ code:
        					«body»
        					
@@ -189,15 +196,16 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Effect of «transition.qualifiedName» | :white_check_mark: | «body.markdownBody»
+       					Effect of **«transition.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | :white_check_mark: | <i>«body.markdownBody»<i />
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					val ralfCodes = transition.ralfCode(false)
        					codes += 
        					'''
        					Transition: «transition.qualifiedName»
        					rALF:
-       						«transition.ralfCode(false)»
+       						«ralfCodes»
        					Exception:
        						«ex.message»
        					
@@ -205,22 +213,23 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Effect of «transition.qualifiedName» | :x: | «ex.reducedMessage» 
+       					Effect of **«transition.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i />  | «IF ralfCodes == "null"»:grey_question:«ELSE»:x:«ENDIF» | «ex.reducedMessage» 
        					'''
        				}
        			]
        		}
        		if(conversionTypes.contains(ConversionType.TransitionGuard)) {
-       			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null].toList
+       			val transitions = cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null].toList.sortBy[qualifiedName]
        			transitions.forEach[ transition |
        				transitionGuardSum++
        				try {
        					val body = bodyConverter.convertTransitionGuard(transition)
+       					val ralfCodes = transition.ralfCode(false)
        					codes += 
        					'''
        					Transition Guard: «transition.qualifiedName»
        					rALF:
-       						«transition.ralfCode(true)»
+       						«ralfCodes»
        					C++ code:
        					«body»
        					
@@ -229,15 +238,16 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Guard of «transition.qualifiedName» | :white_check_mark: | «body.markdownBody»
+       					Guard of **«transition.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | :white_check_mark: | <i>«body.markdownBody»<i />
        					'''
        				} catch (Exception ex) {
        					exceptions += ex
+       					val ralfCodes = transition.ralfCode(false)
        					codes += 
        					'''
        					Transition Guard: «transition.qualifiedName»
        					rALF:
-       						«transition.ralfCode(true)»
+       						«ralfCodes»
        					Exception:
        						«ex.message»
        					
@@ -245,7 +255,7 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
        					wikiTable = 
        					'''
        					«wikiTable»
-       					Guard of «transition.qualifiedName» | :x: | «ex.reducedMessage» 
+       					Guard of **«transition.qualifiedName»** <br /><br /> <i>«ralfCodes.markdownBody»<i /> | «IF ralfCodes == "null"»:grey_question:«ELSE»:x:«ENDIF» | «ex.reducedMessage» 
        					'''
        				}
        			]
@@ -281,7 +291,7 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
 	
 	public static var codes = <String>newArrayList
 	public static String wikiTable = '''
-									UML fully qualified name | isOK | Exception / C++ code
+									UML fully qualified name and rALF code | isOK | Exception / C++ code
 									------------------------ | ---- | --------------------
 									'''
 	public static int operationSum

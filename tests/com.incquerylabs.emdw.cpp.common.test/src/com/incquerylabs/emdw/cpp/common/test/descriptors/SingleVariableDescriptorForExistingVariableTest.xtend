@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
+import com.incquerylabs.emdw.cpp.common.test.CachedValueDescriptorBaseTest
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
@@ -17,7 +17,7 @@ import static org.junit.Assert.*
 @RunWith(Suite)
 class SingleVariableDescriptorForExistingVariableTestSuite {}
 
-class SingleVariableDescriptorForExistingVariableTest extends ValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
+class SingleVariableDescriptorForExistingVariableTest extends CachedValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
 	private static final String VARIABLE_NAME = "classVariable"
 	
 	override protected createUmlObject(Model umlModel) {

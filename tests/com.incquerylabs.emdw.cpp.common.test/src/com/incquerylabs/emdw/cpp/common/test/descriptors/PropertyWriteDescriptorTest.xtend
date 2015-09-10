@@ -7,8 +7,6 @@ import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Property
-import org.junit.Ignore
-import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
@@ -68,21 +66,6 @@ class PropertyWriteDescriptorForAttributeTest extends ValueDescriptorBaseTest<Pr
 					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
 		)
 	}
-	
-	@Ignore("There is no caching function in Descriptor API for property read descriptors.")
-	@Test
-	override cache() {
-		
-	}
-	
-	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Property object) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override protected assertResult(PropertyWriteDescriptor originalDescriptor, PropertyWriteDescriptor cachedDescriptor) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
 }
 
 class PropertyWriteDescriptorForAssociationTest extends ValueDescriptorBaseTest<Property, PropertyWriteDescriptor> {
@@ -133,19 +116,4 @@ class PropertyWriteDescriptorForAssociationTest extends ValueDescriptorBaseTest<
 					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
 		)
 	}
-	
-	@Ignore("There is no caching function in Descriptor API for property read descriptors.")
-	@Test
-	override cache() {
-		
-	}
-	
-	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Property object) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override protected assertResult(PropertyWriteDescriptor originalDescriptor, PropertyWriteDescriptor cachedDescriptor) {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
 }

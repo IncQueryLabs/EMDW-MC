@@ -42,6 +42,10 @@
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_uzx64TEXEeW_U4Ge-CTh1A" name="parameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_UDWwcFYmEeWHrYT4XNh9GA" name="parameter2">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_UDWwcVYmEeWHrYT4XNh9GA" name="default"/>
+        </ownedParameter>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_0Dh9QDEXEeW_U4Ge-CTh1A" name="doRealVoid">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_0Dh9QTEXEeW_U4Ge-CTh1A" name="parameter">

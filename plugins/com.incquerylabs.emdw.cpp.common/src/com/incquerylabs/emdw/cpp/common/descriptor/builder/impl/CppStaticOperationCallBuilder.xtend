@@ -1,13 +1,11 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplStaticOperationCallBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
-class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
-	
-	private ValueDescriptor variable
+class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplStaticOperationCallBuilder {
 	private Operation operation
 	
 	
@@ -15,16 +13,10 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		super(engine)
 	}
 	
-	
 	override build() {
 		return prepareOperationCallDescriptor(operation, params) => [
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterList»)'''
+			it.stringRepresentation = '''«cppOperation.cppQualifiedName»(«parameterList»)'''
 		]
-	}
-	
-	override setVariable(ValueDescriptor variable) {
-		this.variable = variable
-		return this
 	}
 	
 	override setOperation(Operation operation) {

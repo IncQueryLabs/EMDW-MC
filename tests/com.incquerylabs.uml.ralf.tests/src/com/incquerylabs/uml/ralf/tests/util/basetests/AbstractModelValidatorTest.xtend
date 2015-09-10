@@ -35,7 +35,7 @@ abstract class AbstractModelValidatorTest {
         model.eAllContents.filter(BodyOwner).filter[languages.contains(IReducedAlfParser.LANGUAGE_NAME)].
         <BodyOwner, Object[]>map[
             #[
-                EcoreUtil2.getContainerOfType(it as EObject, typeof(NamedElement)).qualifiedName,
+                EcoreUtil2.getContainerOfType(it as EObject, typeof(NamedElement)).qualifiedName + "(" + Integer.toString(it.hashCode) + ")",
                 it
             ].toArray
         ].<Object[]>toList

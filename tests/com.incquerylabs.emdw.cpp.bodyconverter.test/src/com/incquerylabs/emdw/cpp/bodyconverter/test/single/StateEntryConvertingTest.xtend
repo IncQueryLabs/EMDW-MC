@@ -19,6 +19,34 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
 				__ralf__0__Pong->generate_event(__ralf__1__ping_s);
 				'''
+			],
+			#[  "Unlink expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
+				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				ConversionType.StateEntry,
+				'''
+				Service service = this->'service';
+				R6::unlink('service'=>service,'call'=>this);
+				''',
+				'''
+				PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
+				this->R6_service = null;
+				__ralf__0__service->R6_call = null;
+				'''
+			],
+			#[  "Link expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
+				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				ConversionType.StateEntry,
+				'''
+				Service service = this->'service';
+				R6::link('service'=>service,'call'=>this);
+				''',
+				'''
+				PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
+				this->R6_service = __ralf__0__service;
+				__ralf__0__service->R6_call = this;
+				'''
 			]
 		)
 	}

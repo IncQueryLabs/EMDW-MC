@@ -22,6 +22,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
@@ -45,8 +46,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import java.util.List
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
-import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.uml2.uml.Property
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -122,6 +123,9 @@ class ExpressionVisitor {
 		}
 	}
 	
+	def dispatch String visit(InstanceDeletionExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("InstanceDeletionExpression not supported yet")
+	}
 
 	def dispatch String visit(ThisExpression ex, StringBuilder parent){
 		getDescriptor(ex).stringRepresentation

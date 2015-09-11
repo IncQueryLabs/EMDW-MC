@@ -47,6 +47,19 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				this->R6_service = __ralf__0__service;
 				__ralf__0__service->R6_call = this;
 				'''
+			],
+			#[  "Delete expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
+				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				ConversionType.StateEntry,
+				'''
+				Service service = this->'service';
+				delete service;
+				''',
+				'''
+				PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
+				delete __ralf__0__service;
+				'''
 			]
 		)
 	}

@@ -131,11 +131,11 @@ class CPPExternalBridgeMapping extends AbstractMapping<XtClassMatch> {
 	}
 	
 	def getExternalTypeStereotype(Class umlClass) {
-		val profileApplication = umlClass.model.profileApplications.findFirst[appliedProfile.name == "ExternalTypes"]
+		val profileApplication = umlClass.model.profileApplications.findFirst[appliedProfile.name == "xUML-RT"]
 		if(profileApplication == null){
 			return null
 		}
-		val appliedStereotype = umlClass.appliedStereotypes.findFirst[name == "external_type"]
+		val appliedStereotype = umlClass.appliedStereotypes.findFirst[name == "ExternalEntity"]
 		if(appliedStereotype == null) {
 			return null
 		}
@@ -147,7 +147,7 @@ class CPPExternalBridgeMapping extends AbstractMapping<XtClassMatch> {
 		if(appliedStereotype == null) {
 			return null
 		}
-		return umlClass.getValue(appliedStereotype, "ExternalHeaderLocation") as String
+		return umlClass.getValue(appliedStereotype, "externalHeaderLocation") as String
 	}
 	
 	def getExternalNamespace(Class umlClass) {
@@ -155,7 +155,7 @@ class CPPExternalBridgeMapping extends AbstractMapping<XtClassMatch> {
 		if(appliedStereotype == null) {
 			return null
 		}
-		return umlClass.getValue(appliedStereotype, "ExternalNamespace") as String
+		return umlClass.getValue(appliedStereotype, "externalNamespace") as String
 	}
 	
 	def getXtClass(Class umlClass) {

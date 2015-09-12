@@ -10,7 +10,7 @@ class UMLOperationReturnValidatorTest extends AbstractPluginValidatorTest{
 		newArrayList(
 			#[  "Return Ping Signal Operation Call: Assignment",
 			    '''
-				ping_s x = new ping_s();
+				ping_s x = new ping_s(2, this);
 				x = this.returnPingSignal();''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
@@ -51,7 +51,7 @@ class UMLOperationReturnValidatorTest extends AbstractPluginValidatorTest{
 			],
 			#[  "Return Ping Operation Call: Assignment, no this",
 			    '''
-				ping_s x = new ping_s();
+				ping_s x = new ping_s(2, this);
 				x = returnPingSignal();''',
 				"model::Comp::Pong::TestOperation",
 			    #[]

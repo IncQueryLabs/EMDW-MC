@@ -1,19 +1,28 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
+import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.emf.ecore.EObject
 
 class NavigationVisitor {
 
-	extension ExpressionVisitor expressionVisitor;
-	extension ReducedAlfSystem typeSystem;
+	private static val OPERATION_NAMESPACE = "::xtuml"
 
-	new(ExpressionVisitor expressionVisitor, ReducedAlfSystem typeSystem) {
+	extension ExpressionVisitor expressionVisitor
+	extension ReducedAlfSystem typeSystem
+	extension SnippetTemplateCompilerUtil util
+
+	new(ExpressionVisitor expressionVisitor, ReducedAlfSystem typeSystem, SnippetTemplateCompilerUtil util) {
 		this.expressionVisitor = expressionVisitor
-		this.typeSystem = typeSystem;
+		this.typeSystem = typeSystem
+		this.util = util
 	}
 
 	/**
@@ -26,25 +35,28 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
+		val childExpr = delegate(ex.context, parent)
+
 		val ctx = ex.context
-		if(ctx instanceof AssociationAccessExpression) {
+		if (ctx instanceof AssociationAccessExpression) { // if an association access precedes this association access
+			val assocDescriptor = ex.descriptor
+			val ctxDescriptor = ctx.descriptor
+
 			val parentAssociation = ctx as AssociationAccessExpression
 			val parentUpperBound = parentAssociation.association.upper
 			val parentLowerBound = parentAssociation.association.lower
-			if(parentUpperBound == 1 && parentLowerBound == 1) {
-				// simple dereference
-				'''->«ex.association.name»'''
-			} else if (parentUpperBound == 1 && parentLowerBound == 0) {
-				// safe chain
-				'''::xtuml::safe_chain<>();'''
-			} else {
+			if (parentUpperBound == 1 && parentLowerBound == 1) { // a->(1)b->c => simple dereference
+				'''«childExpr»->«ex.name»'''
+			} else if (parentUpperBound == 1 && parentLowerBound == 0) { // a->(0..1)b->c => safe chain
+				'''«OPERATION_NAMESPACE»::safe_chain(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+			} else { // a->(*)b->c
 				val currentUpperBound = ex.association.upper
-				if(currentUpperBound == -1) {
-					// merged chain
-					'''::xtuml::merged_chain<>();'''
-				} else {
-					// indirect chain
-					'''::xtuml::indirect_chain<>();'''
+				if (currentUpperBound ==
+					-1
+				) { // a->(*)b->(*)c => merged chain
+					'''«OPERATION_NAMESPACE»::merged_chain< «assocDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+				} else { // a->(*)b->(0..1)c or a->(*)b->(1)c => indirect chain
+					'''«OPERATION_NAMESPACE»::indirect_chain< «assocDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 				}
 			}
 		}
@@ -62,8 +74,18 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitFilter(FilterExpression ex, StringBuilder parent) {
-		val type = typeSystem.variableType(ex.declaration)
-		throw new UnsupportedOperationException("Navigation chain visiting is unimplemented")
+		val parameterType = typeSystem.type(ex.declaration).value.umlType
+		val typeDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = parameterType
+			name = null
+		]).build
+
+		var lambda = ex.composeLambda(parent, typeDescriptor)
+		var childExpr = ex.context.delegate(parent)
+
+		val operation = if(ex.eContainer.isOne) "select_any_where" else "select_many_where"
+
+		'''«OPERATION_NAMESPACE»::«operation»<«typeDescriptor.fullType»>(«childExpr», «lambda»)'''
 	}
 
 	/**
@@ -78,9 +100,7 @@ class NavigationVisitor {
 	 */
 	def String visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
 		val childExpression = delegate(ex.context, parent)
-		if(!(ex.context instanceof FilterExpression))
-			'''::xtuml::select_any(«childExpression»)'''
-		else
+		if (!(ex.context instanceof FilterExpression)) '''«OPERATION_NAMESPACE»::select_any(«childExpression»)''' else
 			childExpression
 	}
 
@@ -96,15 +116,47 @@ class NavigationVisitor {
 		throw new UnsupportedOperationException("Navigation chain visiting is unimplemented")
 	}
 
-//	private def dispatch String delegate(AssociationAccessExpression ex, StringBuilder parent) {
-//		visitAssociation(ex, parent)
-//	}
-
-	private def dispatch String delegate(FilterExpression ex, StringBuilder parent) {
-		visitFilter(ex, parent)
+	private def composeLambda(FilterExpression it, StringBuilder parent, VariableDescriptor typeDescriptor) {
+		// TODO: determine the capture type (reference or value)
+		val captureType = "="
+		val parameterList = '''«typeDescriptor.fullType» «declaration.name»'''
+		val lambdaBody = expression.delegate(parent)
+		'''[«captureType»](«parameterList») {
+			«lambdaBody»
+		}'''
 	}
 
-	private def dispatch String delegate(Expression ex, StringBuilder parent) {
-		ex.visit(parent)
+	private def dispatch String delegate(FilterExpression it, StringBuilder parent) {
+		visitFilter(parent)
+	}
+
+	private def dispatch String delegate(Expression it, StringBuilder parent) {
+		visit(parent)
+	}
+
+	private def isOne(EObject eObj) {
+		if (eObj instanceof FeatureInvocationExpression) {
+			val featureInvocationExpression = eObj as FeatureInvocationExpression
+			if (featureInvocationExpression.feature instanceof Operation) {
+				val operation = featureInvocationExpression.feature as Operation
+
+				if (operation.name.equals("one") && operation.ownedParameters.filter [ param |
+					!(param.direction == ParameterDirectionKind.RETURN_LITERAL)
+				].size == 0) {
+					return true
+				}
+			}
+		}
+		return false
+	}
+
+	private def getName(AssociationAccessExpression it) '''«association.association.name»_«association.name»'''
+
+	private def toMemberAccess(AssociationAccessExpression it, ValueDescriptor parentDescriptor) {
+		'''&«IF parentDescriptor.templateTypes.empty»«parentDescriptor.baseType.removePointer»«ELSE»«parentDescriptor.templateTypes.get(0).removePointer»«ENDIF»::«name»'''
+	}
+
+	private def removePointer(String it) {
+		replace('*', '')
 	}
 }

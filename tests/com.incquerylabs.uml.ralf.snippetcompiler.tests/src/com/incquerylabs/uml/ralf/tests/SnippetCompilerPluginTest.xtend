@@ -22,6 +22,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				model::Comp::Pong p = new model::Comp::Pong();
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+				s->integerAttribute = 2;
+				s->pongAttribute = this;
 				model::Comp::Ping temp0 = p->ping;
 				temp0->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
@@ -32,6 +34,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				model::Comp::Ping temp0 = this->ping;
 				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+				temp1->integerAttribute = 2;
+				temp1->pongAttribute = this;
 				temp0->generate_event(temp1);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -47,6 +51,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong temp0 = new model::Comp::Pong();
 				p = temp0;
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+				s->integerAttribute = 2;
+				s->pongAttribute = this;
 				model::Comp::Ping temp1 = p->ping;
 				temp1->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"

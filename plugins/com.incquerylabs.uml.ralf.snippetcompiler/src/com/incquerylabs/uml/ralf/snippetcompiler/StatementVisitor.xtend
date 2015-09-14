@@ -11,6 +11,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ReturnStatement
@@ -18,6 +19,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
+import org.eclipse.uml2.uml.Signal
 
 class StatementVisitor {
 	extension ReducedAlfSnippetTemplateCompiler compiler
@@ -81,9 +83,14 @@ class StatementVisitor {
 		} else{
 			expressionsnippet = ""
 		}
-		builder.append('''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ENDIF»«expressionsnippet»;''')
-
-		builder.toString		
+		
+		
+		if(st.expression instanceof InstanceCreationExpression && (st.expression as InstanceCreationExpression).instance instanceof Signal){
+			'''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ENDIF»«expressionsnippet»;'''+'\n'+builder.toString
+		}else{
+			builder.append('''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ENDIF»«expressionsnippet»;''')
+			builder.toString
+		}		
 	}
 	
 	def dispatch String visit(IfStatement st){

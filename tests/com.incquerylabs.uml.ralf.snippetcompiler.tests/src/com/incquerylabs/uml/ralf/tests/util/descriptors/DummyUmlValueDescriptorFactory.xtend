@@ -47,7 +47,7 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createLinkUnlinkBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new DummyLinkUnlinkBuilder
 	}
 	
 	override createDeleteBuilder() {

@@ -274,7 +274,8 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(LinkOperationExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("Link operations not supported yet")
+		val linkOperationDescriptor = ex.descriptor
+		return linkOperationDescriptor.stringRepresentation
 	}
 	
 	def dispatch String visit(AssociationAccessExpression ex, StringBuilder parent){

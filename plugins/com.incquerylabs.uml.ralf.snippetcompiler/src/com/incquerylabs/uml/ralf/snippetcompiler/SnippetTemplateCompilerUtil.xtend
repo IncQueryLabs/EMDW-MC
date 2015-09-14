@@ -24,6 +24,9 @@ import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
+import org.eclipse.uml2.uml.Association
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 
 class SnippetTemplateCompilerUtil {
 	
@@ -176,6 +179,37 @@ class SnippetTemplateCompilerUtil {
 			]).build
 		} else {
 			throw new UnsupportedOperationException("Only type references are supported in ClassExtentExpressions")
+		}
+	}
+	
+	def dispatch ValueDescriptor getDescriptor(LinkOperationExpression ex){
+		val reference = ex.association.reference
+		val parameters = ex.parameters as NamedTuple
+		
+		val sourceNamedExpression = parameters.expressions.get(0)
+		val targetNamedExpression = parameters.expressions.get(1)
+		
+		val sourceDescriptor = sourceNamedExpression.expression.descriptor
+		val targetDescriptor = targetNamedExpression.expression.descriptor
+		
+		if(reference instanceof Association){
+			val sourceProperty= reference.memberEnds.findFirst[name == sourceNamedExpression.name]
+			val targetProperty= reference.memberEnds.findFirst[name == targetNamedExpression.name]
+			
+			val isUnlink = switch ex.linkOperation {
+				case UNLINK : true
+				case LINK : false
+			}
+			return (descriptorFactory.createLinkUnlinkBuilder => [
+				it.isUnlink(isUnlink)
+				it.association = reference
+				it.sourceProperty = sourceProperty
+				it.targetProperty = targetProperty
+				it.sourceDescriptor = sourceDescriptor
+				it.targetDescriptor = targetDescriptor
+			]).build
+		} else {
+			throw new UnsupportedOperationException("Only association references are supported in LinkOperationExpression")
 		}
 	}
 	

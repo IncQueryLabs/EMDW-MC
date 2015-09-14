@@ -356,6 +356,38 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
+			#[  "Class instances test",
+			    '''
+				Pong::instances();''',
+				
+				'''
+				model::Comp::Pong::_instances();''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Link association test",
+				'''
+				Ping myPing = this->'ping';
+				R1::link('ping'=>myPing,'pong'=>this);
+				''',
+				
+				'''
+				model::Comp::Ping myPing = this->ping;
+				this->R1_ping = myPing;
+				myPing->R1_pong = this;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Unlink association test",
+				'''
+				Ping myPing = this->'ping';
+				R1::unlink('ping'=>myPing,'pong'=>this);
+				''',
+				
+				'''
+				model::Comp::Ping myPing = this->ping;
+				this->R1_ping = NULL;
+				myPing->R1_pong = NULL;''',
+				"model::Comp::Pong::TestOperation"
+			],
 			#[  "Empty return statement",
 			    '''return;''',
 				

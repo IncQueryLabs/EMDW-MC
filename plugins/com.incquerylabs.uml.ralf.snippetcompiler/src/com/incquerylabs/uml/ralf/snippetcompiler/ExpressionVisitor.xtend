@@ -51,6 +51,7 @@ import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -62,6 +63,24 @@ class ExpressionVisitor {
 		this.typeSystem = typeSystem
 		this.util = util
 	}
+	
+	def dispatch String visit(InstanceDeletionExpression ex, StringBuilder parent){
+		val referenceString = ex.reference.visit(parent)
+		val variableType = typeSystem.type(ex.reference).value.umlType
+		
+		val valueDdescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = referenceString
+			isExistingVariable = true
+		]).build
+		
+		val descriptor = (descriptorFactory.createDeleteBuilder => [
+			variable = valueDdescriptor
+		]).build
+			
+		descriptor.stringRepresentation
+	}
+	
 		
 	def dispatch String visit(CastExpression ex, StringBuilder parent){
 		val operandVariable = ex.operand.visit(parent)

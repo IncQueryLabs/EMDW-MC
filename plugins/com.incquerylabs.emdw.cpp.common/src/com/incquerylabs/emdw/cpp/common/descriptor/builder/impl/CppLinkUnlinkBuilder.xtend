@@ -41,7 +41,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		}
 		return factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
-										«sourceToTargetWriteBuilder.build»,
+										«sourceToTargetWriteBuilder.build»;
 										«targetToSourceWriteBuilder.build»
 										'''
 			it.baseType = "void"

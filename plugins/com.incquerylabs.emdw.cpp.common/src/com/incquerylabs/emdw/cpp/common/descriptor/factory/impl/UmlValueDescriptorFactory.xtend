@@ -3,11 +3,15 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.incquerylabs.emdw.cpp.common.descriptor.IDescriptorCacheManager
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlInstancesBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLinkUnlinkBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyReadBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyWriteBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleVariableDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
@@ -19,10 +23,6 @@ import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlInstancesBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLinkUnlinkBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -287,6 +287,14 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createLinkUnlinkBuilder() {
 		new UmlLinkUnlinkBuilder(engine)
+	}
+	
+	override createDeleteBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override createSendSignalBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 	

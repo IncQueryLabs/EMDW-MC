@@ -10,6 +10,8 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDes
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlInstancesBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLinkUnlinkBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlDeleteBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSendSignalBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
@@ -33,4 +35,8 @@ interface IUmlDescriptorFactory {
 	def IUmlInstancesBuilder createInstancesBuilder()
 	
 	def IUmlLinkUnlinkBuilder createLinkUnlinkBuilder()
+	
+	def IUmlDeleteBuilder createDeleteBuilder()
+	
+	def IUmlSendSignalBuilder createSendSignalBuilder()
 }

@@ -317,4 +317,12 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		collectionVariableCache.put(variableName, descriptor)
 	}
 	
+	override createInstancesBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override createLinkUnlinkBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

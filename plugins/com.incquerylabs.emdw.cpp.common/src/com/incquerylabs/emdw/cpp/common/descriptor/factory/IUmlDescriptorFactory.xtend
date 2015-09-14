@@ -8,6 +8,8 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuild
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyWriteBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlInstancesBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLinkUnlinkBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
@@ -27,4 +29,8 @@ interface IUmlDescriptorFactory {
 	def IUmlConstructorCallBuilder createConstructorCallBuilder()
 	
 	def IUmlStaticOperationCallBuilder createStaticOperationCallBuilder()
+	
+	def IUmlInstancesBuilder createInstancesBuilder()
+	
+	def IUmlLinkUnlinkBuilder createLinkUnlinkBuilder()
 }

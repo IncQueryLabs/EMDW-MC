@@ -28,7 +28,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Pong::instances();
 				''',
 				'''
-				::model::Comp::Pong::__instances;
+				::model::Comp::Pong::_instances;
 				'''
 			]
 		)

@@ -22,7 +22,7 @@ class CppInstancesBuilder implements IOoplInstancesBuilder {
 	
 	override build() {
 		val cppClass = mapper.convertType(xtClass) as CPPClass
-		val instances = cppClass.referenceStorage as CPPClassReferenceStorage
+		val instances = cppClass.referenceStorage.head as CPPClassReferenceStorage
 		val collectionType = (instances.type as CPPClassRefSimpleCollection).cppContainer
 		val cvd = factory.createCollectionVariableDescriptor => [
 			it.stringRepresentation = instances.cppQualifiedName

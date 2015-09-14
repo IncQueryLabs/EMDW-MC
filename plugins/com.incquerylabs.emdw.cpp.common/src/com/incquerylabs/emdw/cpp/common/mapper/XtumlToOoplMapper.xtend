@@ -44,4 +44,8 @@ class XtumlToOoplMapper {
 	def convertOperation(Operation operation) {
 		return engine.cppOperation2Operation.getAllValuesOfcppOperation(operation).head
 	}
+	
+	def findBasicType(String primitiveType) {
+		return engine.cppPrimitiveTypes.allValuesOfbasicType.findFirst[bt | primitiveType.equals(bt.cppName)]
+	}
 }

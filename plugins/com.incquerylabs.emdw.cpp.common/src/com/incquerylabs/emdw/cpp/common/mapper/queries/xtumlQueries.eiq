@@ -48,3 +48,9 @@ pattern cppOperation2Operation(
 ) {
 	CPPOperation.commonOperation(cppOperation, commonOperation);
 }
+
+pattern cppPrimitiveTypes(
+	basicType : CPPBasicType
+) {
+	CPPBasicType(basicType);
+}

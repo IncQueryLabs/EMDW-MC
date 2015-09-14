@@ -103,11 +103,32 @@ class StatementVisitor {
 	}
 	
 	def dispatch String visit(SendSignalStatement st){
+		val targetType = typeSystem.type(st.target).value.umlType
+		val signalType = typeSystem.type(st.signal).value.umlType
+		
 		val builder = new StringBuilder
 		val targetString = st.target.visit(builder) 		
 		val signalString = st.signal.visit(builder) 
 		
-		builder.append('''«targetString»->generate_event(«signalString»);''')
+		val targetDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = targetType
+			name = targetString
+			isExistingVariable = true
+		]).build
+		
+		val signalDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = signalType
+			name = signalString
+			isExistingVariable = true
+		]).build
+		
+		val descriptor = (descriptorFactory.createSendSignalBuilder => [
+			variable = targetDescriptor
+			signal = signalDescriptor
+		]).build
+		
+		//builder.append('''«targetString»->generate_event(«signalString»);''')
+		builder.append('''«descriptor.stringRepresentation»;''')
 		builder.toString
 	}
 	

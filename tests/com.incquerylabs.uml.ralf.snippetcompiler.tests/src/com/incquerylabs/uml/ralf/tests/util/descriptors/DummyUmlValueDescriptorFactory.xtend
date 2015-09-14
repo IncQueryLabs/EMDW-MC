@@ -50,4 +50,12 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
+	override createDeleteBuilder() {
+		new DummyDeleteBuilder
+	}
+	
+	override createSendSignalBuilder() {
+		new DummySendSignalBuilder
+	}
+	
 }

@@ -4,9 +4,7 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
-import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
-import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
-import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
 import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
@@ -49,11 +47,10 @@ abstract class AbstractConversionTest {
 	protected AdvancedIncQueryEngine engine
 	protected BasicUMLContextProvider context
 	
-	protected TransformationQrt xtTrafo
-	protected XtumlCPPTransformationQrt cppTrafo
-	protected XtumlComponentCPPTransformation compTrafo
 	protected BodyConverter bodyConverter
 	protected extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
+    private extension TransformationUtil trafoUtil = new TransformationUtil
+    
     
     public enum ConversionType {
     	Operation, StateEntry, StateExit, Transition, TransitionGuard
@@ -62,41 +59,21 @@ abstract class AbstractConversionTest {
     protected def initTrafos(String umlModelPath) {
     	val resourceSet = new ResourceSetImpl
     	
-	    engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(resourceSet))
+	    engine = initializeEngine(resourceSet)
 	    context =  new BasicUMLContextProvider(engine)
 		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 		QueryBasedFeatures.instance.prepare(managedEngine)
         createRootMapping(umlModelPath, resourceSet)
     	val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet)
-    	
-	    xtTrafo = new TransformationQrt
-		xtTrafo.externalTypeMap = primitiveTypeMapping
-		xtTrafo.initialize(engine)
-		cppTrafo = new XtumlCPPTransformationQrt
-		cppTrafo.initialize(engine)
-		compTrafo = new XtumlComponentCPPTransformation
-		compTrafo.initialize(engine)
+    	initializeAllTransformation(resourceSet, primitiveTypeMapping)
     }
     
 	def void executeTrafos() {
-		xtTrafo.execute
-		cppTrafo.execute
-		compTrafo.transformComponents
+		executeAllTransformationWithoutCodeCompile
 	}
 	
 	def void clearTrafos() {
-		if(xtTrafo != null) {
-			xtTrafo.dispose
-		}
-		if(cppTrafo != null) {
-			cppTrafo.dispose
-		}
-		if(compTrafo != null) {
-			compTrafo.dispose
-		}
-    	if(engine != null) {
-    		engine.dispose
-    	}
+		cleanupTransformation
 	}
 	
 	def createRootMapping(String umlModelPath, ResourceSet resourceSet) {

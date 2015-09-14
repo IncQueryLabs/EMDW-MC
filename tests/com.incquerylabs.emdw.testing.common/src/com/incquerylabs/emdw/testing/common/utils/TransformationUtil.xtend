@@ -100,6 +100,12 @@ class TransformationUtil {
 		compTrafo.execute
 	}
 
+	def executeAllTransformationWithoutCodeCompile() {
+		xtTrafo.execute
+		cppTrafo.execute
+		compTrafo.transformComponents
+	}
+
 	def cleanupTransformation() {
 		if (xtTrafo != null) {
 			xtTrafo.dispose

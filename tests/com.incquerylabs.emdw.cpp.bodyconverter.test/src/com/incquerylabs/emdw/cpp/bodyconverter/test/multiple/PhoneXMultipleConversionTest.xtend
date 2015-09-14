@@ -2,6 +2,8 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test.multiple
 
 import org.junit.runners.Parameterized.Parameters
 import java.util.Collection
+import org.junit.Ignore
+import org.junit.Test
 
 class PhoneXMultipleConversionTest extends AbstractMultipleConversionTest {
 	@Parameters(name = "{0}")
@@ -17,5 +19,11 @@ class PhoneXMultipleConversionTest extends AbstractMultipleConversionTest {
 				)
 			]
 		)
+	}
+	
+	@Test
+	@Ignore("This is just for testing PhoneX model on individual PCs and not on the server")
+	override test_multipleConversion() {
+		super.test_multipleConversion
 	}
 }

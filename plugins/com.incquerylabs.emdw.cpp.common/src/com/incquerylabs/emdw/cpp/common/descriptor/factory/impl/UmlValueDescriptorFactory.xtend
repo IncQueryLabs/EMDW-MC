@@ -4,12 +4,14 @@ import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.incquerylabs.emdw.cpp.common.descriptor.IDescriptorCacheManager
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlDeleteBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlInstancesBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLinkUnlinkBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyReadBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyWriteBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSendSignalBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
@@ -290,11 +292,11 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createDeleteBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new UmlDeleteBuilder
 	}
 	
 	override createSendSignalBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new UmlSendSignalBuilder
 	}
 	
 	

@@ -8,6 +8,8 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 interface IUmlLinkUnlinkBuilder extends IValueDescriptorBuilder<OperationCallDescriptor> {
 	def IUmlLinkUnlinkBuilder isUnlink(boolean isUnlink)
 	def IUmlLinkUnlinkBuilder setAssociation(Association association)
-	def IUmlLinkUnlinkBuilder setSource(Property sourceProperty, ValueDescriptor sourceDescriptor)
-	def IUmlLinkUnlinkBuilder setTarget(Property targetProperty, ValueDescriptor targetDescriptor)
+	def IUmlLinkUnlinkBuilder setSourceProperty(Property sourceProperty)
+	def IUmlLinkUnlinkBuilder setSourceDescriptor(ValueDescriptor sourceDescriptor)
+	def IUmlLinkUnlinkBuilder setTargetProperty(Property targetProperty)
+	def IUmlLinkUnlinkBuilder setTargetDescriptor(ValueDescriptor targetDescriptor)
 }

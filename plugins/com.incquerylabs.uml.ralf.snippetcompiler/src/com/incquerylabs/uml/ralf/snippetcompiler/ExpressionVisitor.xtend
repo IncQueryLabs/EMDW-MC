@@ -149,10 +149,13 @@ class ExpressionVisitor {
 	
 	private def initiateAttributes(InstanceCreationExpression ex, Signal cl, StringBuilder builder, ValueDescriptor descriptor){
 		val List<ValueDescriptor> descriptors = Lists.newArrayList
-		if(ex.parameters!=null){
+		if((ex.parameters instanceof NamedTuple && (ex.parameters as NamedTuple).expressions.size != 0) 
+			|| (ex.parameters instanceof ExpressionList && (ex.parameters as ExpressionList).expressions.size != 0)
+		){
 			if(ex.parameters instanceof NamedTuple){
 				val tuple = ex.parameters as NamedTuple
 				tuple.expressions.forEach[ exp |
+					
 					val attribute = getAttribute(cl, exp.name, typeSystem.type(exp.expression).value.umlType)
 					if(attribute!=null){
 						val rhsString = exp.expression.visit(builder)

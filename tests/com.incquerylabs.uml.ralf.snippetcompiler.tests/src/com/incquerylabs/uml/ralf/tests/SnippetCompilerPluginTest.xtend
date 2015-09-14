@@ -13,6 +13,13 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''model::Comp::Pong x = new model::Comp::Pong();''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
+			#[  "Signal creation test_noparam",
+			    '''Ping::pong_s s = new Ping::pong_s();''',
+				
+				'''model::Comp::Ping::pong_s s = new model::Comp::Ping::pong_s();
+				''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
 			#[  "Send Signal test",
 			    '''
 				Pong p = new Pong();

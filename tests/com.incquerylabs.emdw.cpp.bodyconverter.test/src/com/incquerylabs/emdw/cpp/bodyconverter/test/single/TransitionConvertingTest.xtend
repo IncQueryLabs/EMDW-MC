@@ -17,8 +17,8 @@ class TransitionConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::model::Comp::Ping* __ralf__0__Ping = this->R1_ping;
 				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = new ::model::Comp::Ping::pong_s_event(false);
-				__ralf__0__Ping->generate_event(__ralf__1__pong_s);
-				'''
+				
+				__ralf__0__Ping->generate_event(__ralf__1__pong_s);'''
 			]
 		)
 	}

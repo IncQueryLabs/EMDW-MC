@@ -31,13 +31,14 @@ class CppConstructorCallBuilder implements IOoplConstructorCallBuilder {
 		var ocd = factory.createOperationCallDescriptor
 		if(re instanceof XTClassEvent) {
 			val cppEvent = mapper.convertEvent(re)
-			ocd.baseType = converter.convertType(cppEvent)
+			ocd.baseType = '''«converter.convertType(cppEvent)»_event'''
+			ocd.stringRepresentation = '''new «ocd.baseType»(false)'''
 		} else {
 			val cppClass = mapper.convertType(re as Type) as CPPClass
 			ocd.baseType = converter.convertType(cppClass)
+			ocd.stringRepresentation = '''new «ocd.baseType»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
 		}
 		ocd.fullType = ocd.baseType
-		ocd.stringRepresentation = '''new «ocd.baseType»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
 		return ocd
 	}
 	

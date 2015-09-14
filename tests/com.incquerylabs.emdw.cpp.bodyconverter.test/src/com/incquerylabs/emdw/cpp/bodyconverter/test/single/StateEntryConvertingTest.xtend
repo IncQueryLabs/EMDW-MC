@@ -17,8 +17,8 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::model::Comp::Pong* __ralf__0__Pong = this->R1_pong;
 				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
-				__ralf__0__Pong->generate_event(__ralf__1__ping_s);
-				'''
+				
+				__ralf__0__Pong->generate_event(__ralf__1__ping_s);'''
 			],
 			#[  "Unlink expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",

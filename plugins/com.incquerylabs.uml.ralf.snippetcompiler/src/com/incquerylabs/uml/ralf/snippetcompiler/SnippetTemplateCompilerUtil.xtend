@@ -7,6 +7,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
@@ -22,6 +23,7 @@ import java.util.List
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
+import org.eclipse.uml2.uml.Type
 
 class SnippetTemplateCompilerUtil {
 	
@@ -166,5 +168,15 @@ class SnippetTemplateCompilerUtil {
 		]).build
 	}
 	
-
+	def dispatch ValueDescriptor getDescriptor(ClassExtentExpression ex){
+		val reference = ex.class_.reference
+		if(reference instanceof Type){
+			return (descriptorFactory.createInstancesBuilder => [
+				umlClass = reference
+			]).build
+		} else {
+			throw new UnsupportedOperationException("Only type references are supported in ClassExtentExpressions")
+		}
+	}
+	
 }

@@ -42,4 +42,12 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummyStaticOperationCallBuilder
 	}
 	
+	override createInstancesBuilder() {
+		new DummyInstancesBuilder
+	}
+	
+	override createLinkUnlinkBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

@@ -196,7 +196,22 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("ClassExtentExpression not supported yet")
+		val classDescriptor = ex.descriptor
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		if(ex.isFlatteningNeeded){
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+			
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»'''+'\n')
+			
+			descriptor.stringRepresentation
+		} else {
+			classDescriptor.stringRepresentation
+		}
 	}
 	
 	def dispatch String visit(FilterExpression ex, StringBuilder parent){

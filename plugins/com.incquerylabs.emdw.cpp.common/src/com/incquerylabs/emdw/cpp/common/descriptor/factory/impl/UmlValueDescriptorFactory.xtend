@@ -21,6 +21,8 @@ import org.eclipse.uml2.uml.Type
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlInstancesBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLinkUnlinkBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -279,6 +281,14 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		new UmlStaticOperationCallBuilder(engine)
 	}
 	
+	override createInstancesBuilder() {
+		new UmlInstancesBuilder(engine)
+	}
+	
+	override createLinkUnlinkBuilder() {
+		new UmlLinkUnlinkBuilder(engine)
+	}
+	
 	
 	
 	override isSingleVariableInCache(String variableName) {
@@ -315,14 +325,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override putCollectionVariableIntoCache(String variableName, CollectionVariableDescriptor descriptor) {
 		collectionVariableCache.put(variableName, descriptor)
-	}
-	
-	override createInstancesBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
-	}
-	
-	override createLinkUnlinkBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

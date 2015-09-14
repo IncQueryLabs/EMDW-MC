@@ -16,7 +16,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			#[  "Send Signal test",
 			    '''
 				Pong p = new Pong();
-				ping_s s = new ping_s();
+				ping_s s = new ping_s(integerAttribute => 2, pongAttribute => this);
 				send s to p->ping;''',
 				
 				'''
@@ -27,7 +27,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test this",
-			    '''send new ping_s() to this->ping;''',
+			    '''send new ping_s(integerAttribute => 2, pongAttribute => this) to this->ping;''',
 				
 				'''
 				model::Comp::Ping temp0 = this->ping;
@@ -39,7 +39,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				Pong p = null;
 				p = new Pong();
-				ping_s s = new ping_s();
+				ping_s s = new ping_s(integerAttribute => 2, pongAttribute => this);
 				send s to p->ping;''',
 				
 				'''

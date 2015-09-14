@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ActionLanguage="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ">
+  <uml:Model xmi:id="_BW0fAFYJEeWw7MjRJ-O23g" name="RootElement">
+    <packagedElement xmi:type="uml:Class" xmi:id="_EnRjIFYJEeWw7MjRJ-O23g" name="Class1">
+      <generalization xmi:type="uml:Generalization" xmi:id="_zpGzAFYiEeWw7MjRJ-O23g" general="_v6xgEFYiEeWw7MjRJ-O23g"/>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_QEMSYFYJEeWw7MjRJ-O23g" name="simple_calls">
+        <language>rALF</language>
+        <body>staticOperation(test =>  &quot;2&quot;);
+new Class1();</body>
+      </ownedBehavior>
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_culrUFjQEeWmSLkF6IwqgQ" name="signal_creation">
+        <language>rALF</language>
+        <body>new Signal1(1);
+new Signal1(sup => 1);
+
+new Signal2(sup =>1, sub => 2, name => &quot;n&quot;);
+new Signal2(1, &quot;n&quot;, 2);</body>
+      </ownedBehavior>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_GiVhoFYJEeWw7MjRJ-O23g" name="testOperation"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_H6Gl0FYJEeWw7MjRJ-O23g" name="testOperation">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_OZfEEFYJEeWw7MjRJ-O23g" name="index">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_5v7SQFfNEeWbM72lTpxfaQ" name="staticOperation" isStatic="true">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_8l-SUFfNEeWbM72lTpxfaQ" name="test">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_v6xgEFYiEeWw7MjRJ-O23g" name="SuperClass">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_xqP5oFYiEeWw7MjRJ-O23g" name="testOperation"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Class" xmi:id="_Ji-PEFfgEeWh-93zEv-5Ww" name="ConstructedClass">
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_dC7AoFfgEeWh-93zEv-5Ww" name="Constructors">
+        <language>rALF</language>
+        <body>new ConstructedClass();
+new ConstructedClass(2);
+new ConstructedClass(&quot;2&quot;);
+new ConstructedClass(2, &quot;2&quot; ); 
+
+new ConstructedClass(index => 2);
+new ConstructedClass(name => &quot;2&quot;);
+new ConstructedClass(index => 2, name => &quot;2&quot;);
+new ConstructedClass(name => &quot;2&quot;, index => 2);</body>
+      </ownedBehavior>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_MJHK4FfgEeWh-93zEv-5Ww" name="ConstructedClass"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_Oi8wEFfgEeWh-93zEv-5Ww" name="ConstructedClass">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_ReD2UFfgEeWh-93zEv-5Ww" name="index">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_SN5-4FfgEeWh-93zEv-5Ww" name="ConstructedClass">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_WV-AcFfgEeWh-93zEv-5Ww" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_XT1W4FfgEeWh-93zEv-5Ww" name="ConstructedClass">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_Zw-HsFfgEeWh-93zEv-5Ww" name="index">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_bRBlMFfgEeWh-93zEv-5Ww" name="name">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Signal" xmi:id="_GqgwIFjQEeWmSLkF6IwqgQ" name="Signal1">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_MS1qkFjQEeWmSLkF6IwqgQ" name="sup">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Signal" xmi:id="_HSG7oFjQEeWmSLkF6IwqgQ" name="Signal2">
+      <generalization xmi:type="uml:Generalization" xmi:id="_J3xWUFjQEeWmSLkF6IwqgQ" general="_GqgwIFjQEeWmSLkF6IwqgQ"/>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_PuAJ4FjQEeWmSLkF6IwqgQ" name="sub">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_R1Cu4FjQEeWmSLkF6IwqgQ" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Signal" xmi:id="_H97f0FjQEeWmSLkF6IwqgQ" name="Signal3">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_VJsWgFjQEeWmSLkF6IwqgQ" name="name">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_YIVH8FYJEeWw7MjRJ-O23g">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_YIZZYFYJEeWw7MjRJ-O23g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    </profileApplication>
+  </uml:Model>
+  <ActionLanguage:TextualRepresentation xmi:id="_YOW3cFYJEeWw7MjRJ-O23g" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_R58GkFfLEeWbM72lTpxfaQ" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_2ul6IFfLEeWbM72lTpxfaQ" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_-6chQFfLEeWbM72lTpxfaQ" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+  <ActionLanguage:TextualRepresentation xmi:id="_2i_yoFjSEeWcF_TeoWnQcg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
+</xmi:XMI>

@@ -36,8 +36,8 @@ class SingleVariableDescriptorForExistingVariableTest extends CachedValueDescrip
 	}
 	
 	override protected assertResult(Class object, SingleVariableDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be ::test::TestComponent::TestClass instead of «descriptor.baseType».''', 
-					descriptor.baseType=="::test::TestComponent::TestClass")
+		assertTrue('''Descriptor's value type should be ::test::TestComponent::TestClass* instead of «descriptor.baseType».''', 
+					descriptor.baseType=="::test::TestComponent::TestClass*")
 		assertTrue('''Descriptor's string representation should be classVariable.''', 
 					descriptor.stringRepresentation=="classVariable")
 	}

@@ -22,7 +22,7 @@ class PhoneXMultipleConversionTest extends AbstractMultipleConversionTest {
 	}
 	
 	@Test
-	//@Ignore("This is just for testing PhoneX model on individual PCs and not on the server")
+	@Ignore("This is just for testing PhoneX model on individual PCs and not on the server")
 	override test_multipleConversion() {
 		super.test_multipleConversion
 	}

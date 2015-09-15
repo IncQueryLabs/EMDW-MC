@@ -25,7 +25,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Cache
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
 	private static final val VARIABLE_NAME = "classVariable"
-	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»'''
+	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
 	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME»'''
 	
 	override protected createUmlObject(Model umlModel) {
@@ -69,7 +69,7 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends CachedValueD
 	
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
-	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»'''
+	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
 	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«CLASS_NAME»'''
 	private String VARIABLE_NAME
 	

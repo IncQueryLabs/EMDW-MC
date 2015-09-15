@@ -178,7 +178,7 @@ class StateTemplates extends CPPTemplate {
 	def performEntryActionCall(CPPState targetState, String eventName){
 		'''
 		«IF targetState == null»
-				no entry action for Terminate state
+			// no entry action for Terminate state
 		«ELSEIF targetState.commonState.entryAction != null»
 			// entry action
 			«performEntryActionMethodName(targetState)»(«eventName»);

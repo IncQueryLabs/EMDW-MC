@@ -26,6 +26,7 @@ import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCopyConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSigdataDescriptorBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -302,6 +303,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createCopyConstructorCallBuilder() {
 		new UmlCopyConstructorCallBuilder(engine)
+	}
+	
+	override createSigdataDescriptorBuilder() {
+		new UmlSigdataDescriptorBuilder(this)
 	}
 	
 	

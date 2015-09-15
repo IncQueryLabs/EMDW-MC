@@ -39,7 +39,7 @@ public class ModelUtil {
 			}
 		}
 
-		return null;
+		return code;
 	}
 
 	/**
@@ -64,13 +64,14 @@ public class ModelUtil {
 						code = bodies.get(i);
 					}
 				} else if("ralf".equalsIgnoreCase(language)) {
+				    // FIXME this is temporal until XTActionCode is not used
 				    code = null;
-				    return code;
+				    return null;
 				}
 			}
 		}
 
-		return null;
+		return code;
 	}
 
 	/**

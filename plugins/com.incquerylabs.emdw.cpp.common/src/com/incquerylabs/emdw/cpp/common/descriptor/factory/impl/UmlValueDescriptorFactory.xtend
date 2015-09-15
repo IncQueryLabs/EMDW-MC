@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCopyConstructorCallBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -297,6 +298,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createSendSignalBuilder() {
 		new UmlSendSignalBuilder
+	}
+	
+	override createCopyConstructorCallBuilder() {
+		new UmlCopyConstructorCallBuilder(engine)
 	}
 	
 	

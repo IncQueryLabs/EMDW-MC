@@ -53,6 +53,7 @@ import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionLiteralExpression
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -63,6 +64,10 @@ class ExpressionVisitor {
 		this.navigationVisitor = new NavigationVisitor
 		this.typeSystem = typeSystem
 		this.util = util
+	}
+	
+	def dispatch String visit(CollectionLiteralExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("Collection literals are not supported yet")
 	}
 	
 	def dispatch String visit(InstanceDeletionExpression ex, StringBuilder parent){
@@ -809,7 +814,7 @@ class ExpressionVisitor {
 			}
 			
 		}else{
-			throw new UnsupportedOperationException("Only expression list based tuples are supported")
+			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
 		return descriptors
 	}
@@ -899,7 +904,7 @@ class ExpressionVisitor {
 			]
 			
 		}else{
-			throw new UnsupportedOperationException("Only expression list based tuples are supported")
+			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
 		return descriptors
 	}

@@ -58,4 +58,12 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummySendSignalBuilder
 	}
 	
+	override createCopyConstructorCallBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
+	override createSigdataDescriptorBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

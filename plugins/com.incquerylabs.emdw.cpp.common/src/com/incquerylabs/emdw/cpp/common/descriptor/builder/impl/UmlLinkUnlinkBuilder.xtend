@@ -27,6 +27,7 @@ class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
 	override build() {
 		val sourceToTargetAssociation = mapper.convertPropertyToAssociation(targetProperty)
 		return (builder => [
+					it.isUnlink(isUnlink)
 					it.sourceDescriptor = this.sourceDescriptor
 					it.targetDescriptor = this.targetDescriptor
 					it.sourceToTargetAssociation = sourceToTargetAssociation

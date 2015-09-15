@@ -39,7 +39,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		val nullDescriptor = factory.createSingleVariableDescriptor => [
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
-			it.stringRepresentation = "null"
+			it.stringRepresentation = "NULL"
 		]
 		val resultDescriptor = (new CppValueDescriptorFactory()).prepareSingleVariableDescriptorForNewLocalVariable(mapper.findBasicType("bool"))
 		
@@ -100,8 +100,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		return factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
 										«sourceToTargetString»
-										«targetToSourceString»
-										'''
+										«targetToSourceString»'''
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
 		]

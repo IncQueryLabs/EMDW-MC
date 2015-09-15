@@ -25,28 +25,26 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Service service = this->'service';
-				R6::unlink('service'=>service,'call'=>this);
+				Called cd = this->'called';
+				R3::unlink('call'=>this,'called'=>cd);
 				''',
 				'''
-				PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
-				this->R6_service = null;
-				__ralf__0__service->R6_call = null;
-				'''
+				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = this->R3_called;
+				this->R3_called = NULL;
+				__ralf__0__cd->R3_call = NULL;'''
 			],
 			#[  "Link expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Service service = this->'service';
-				R6::link('service'=>service,'call'=>this);
+				Called cd = this->'called';
+				R3::link('call'=>this,'called'=>cd);
 				''',
 				'''
-				PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
-				this->R6_service = __ralf__0__service;
-				__ralf__0__service->R6_call = this;
-				'''
+				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = this->R3_called;
+				this->R3_called = __ralf__0__cd;
+				__ralf__0__cd->R3_call = this;'''
 			],
 			#[  "Delete expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -57,9 +55,8 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				delete service;
 				''',
 				'''
-				PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
-				delete __ralf__0__service;
-				'''
+				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
+				delete __ralf__0__service;'''
 			]
 		)
 	}

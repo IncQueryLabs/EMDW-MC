@@ -9,7 +9,7 @@ import static com.google.common.base.Preconditions.*
 
 class XtumlValueDescriptorFactory {
 	private XtumlValueDescriptorFactory parent
-	private CppValueDescriptorFactory factory
+	public CppValueDescriptorFactory factory
 	private XtumlToOoplMapper mapper
 	private AdvancedIncQueryEngine engine
 	

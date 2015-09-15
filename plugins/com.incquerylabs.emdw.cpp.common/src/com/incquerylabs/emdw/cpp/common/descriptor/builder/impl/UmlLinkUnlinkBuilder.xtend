@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplLinkUnlinkBuilder
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 
 class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
 	private UmlToXtumlMapper mapper
@@ -19,9 +20,9 @@ class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
 	private Property targetProperty
 	private ValueDescriptor targetDescriptor
 	
-	new(AdvancedIncQueryEngine engine) {
+	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
-		builder = new CppLinkUnlinkBuilder(engine)
+		builder = new CppLinkUnlinkBuilder(factory, engine, mapper)
 	}
 	
 	override build() {

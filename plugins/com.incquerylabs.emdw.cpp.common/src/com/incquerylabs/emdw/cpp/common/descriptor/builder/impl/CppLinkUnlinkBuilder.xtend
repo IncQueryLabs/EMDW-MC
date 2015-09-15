@@ -3,21 +3,26 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplLinkUnlinkBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
+import org.eclipse.uml2.uml.Type
 
 class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private AdvancedIncQueryEngine engine
 	private XtumlToOoplMapper mapper
+	private UmlToXtumlMapper umlMapper
 	private TypeConverter converter
+	private UmlValueDescriptorFactory umlFactory
 	
 	private String sourceToTargetString
 	private String targetToSourceString
@@ -28,23 +33,47 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	private ValueDescriptor targetDescriptor
 	
 	
-	new(AdvancedIncQueryEngine engine) {
+	new(UmlValueDescriptorFactory umlFactory, AdvancedIncQueryEngine engine, UmlToXtumlMapper umlMapper) {
 		this.engine = engine
 		this.mapper = new XtumlToOoplMapper(engine)
+		this.umlMapper = umlMapper
 		this.converter = new TypeConverter
+		this.umlFactory = umlFactory
 	}
 	
 	override build() {
+		if(xtAssociation.upperBound == 1) {
+			var sourceToTargetWriteBuilder = createAssociationWriteDescriptor(sourceDescriptor, targetDescriptor, xtAssociation)
+			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»'''
+		} else {
+			sourceToTargetString = collectionModificationCode(xtAssociation, sourceDescriptor, targetDescriptor)
+		}
+		
+		if(xtAssociation.opposite.upperBound == 1) {
+			var targetToSourceWriteBuilder = createAssociationWriteDescriptor(targetDescriptor, sourceDescriptor, xtAssociation.opposite)
+			targetToSourceString = '''«targetToSourceWriteBuilder.stringRepresentation»'''
+		} else {
+			targetToSourceString = collectionModificationCode(xtAssociation.opposite, targetDescriptor, sourceDescriptor)
+		}
+		
+		val voidTypeString = converter.convertType(mapper.findBasicType("void"))
+		return factory.createOperationCallDescriptor => [
+			it.stringRepresentation =	'''
+										«sourceToTargetString»;
+										«targetToSourceString»'''
+			it.baseType = voidTypeString
+			it.fullType = voidTypeString
+		]
+	}
+	
+	def createAssociationWriteDescriptor(ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor, XTAssociation xtAssociation) {
 		val voidTypeString = converter.convertType(mapper.findBasicType("void"))
 		val nullDescriptor = factory.createSingleVariableDescriptor => [
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
 			it.stringRepresentation = "NULL"
 		]
-		val resultDescriptor = (new CppValueDescriptorFactory()).prepareSingleVariableDescriptorForNewLocalVariable(mapper.findBasicType("bool"))
-		
-		if(xtAssociation.upperBound>0) {
-			var sourceToTargetWriteBuilder = ((new CppAssociationWriteBuilder(engine)) => [
+		return ((new CppAssociationWriteBuilder(engine)) => [
 				var newTargetDescriptor = targetDescriptor
 				if(isUnlink) {
 					newTargetDescriptor = nullDescriptor
@@ -53,57 +82,42 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 				it.association = xtAssociation
 				it.newValue = newTargetDescriptor
 			]).build
-			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»;'''
-		} else {
-			val rel = mapper.convertAssociation(xtAssociation)
-			if(isUnlink) {
-				sourceToTargetString = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
-						sourceDescriptor as CollectionVariableDescriptor, 
-						targetDescriptor as SingleVariableDescriptor
-				)
-			} else {
-				sourceToTargetString = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
-						sourceDescriptor as CollectionVariableDescriptor, 
-						targetDescriptor as SingleVariableDescriptor, 
-						resultDescriptor
-				)
-			}
-		}
+	}
+	
+	def collectionModificationCode(XTAssociation xtAssociation, ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor) {
+		val resultDescriptor = umlFactory.prepareSingleVariableDescriptorForNewLocalVariable(umlMapper.findUmlPrimitiveType(mapper.findBasicType("bool").commonType as PrimitiveType) as Type)
 		
-		if(xtAssociation.opposite.upperBound>0) {
-			var targetToSourceWriteBuilder = ((new CppAssociationWriteBuilder(engine)) => [
-				var newSourceDescriptor = sourceDescriptor
-				if(isUnlink) {
-					newSourceDescriptor = nullDescriptor
-				}
-				it.variable = targetDescriptor
-				it.association = xtAssociation.opposite
-				it.newValue = newSourceDescriptor
+		val rel = mapper.convertAssociation(xtAssociation)
+		val cvd = createCollectionDescriptorForAssociation(xtAssociation)
+		val initCVD = '''«cvd.fullType» «cvd.stringRepresentation» = «createAssociationReadDescriptor(sourceDescriptor, xtAssociation).stringRepresentation»'''
+		var String operationD
+		if(isUnlink) {
+			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
+					cvd, 
+					targetDescriptor as SingleVariableDescriptor
+			)
+		} else {
+			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
+					cvd, 
+					targetDescriptor as SingleVariableDescriptor, 
+					resultDescriptor
+			)
+		}
+		return	'''
+				«initCVD»;
+				«operationD»'''
+	}
+	
+	def createAssociationReadDescriptor(ValueDescriptor sourceDescriptor, XTAssociation xtAssociation) {
+		return ((new CppAssociationReadBuilder(engine)) => [
+				it.variable = sourceDescriptor
+				it.association = xtAssociation
 			]).build
-			targetToSourceString = '''«targetToSourceWriteBuilder.stringRepresentation»'''
-		} else {
-			val rel = mapper.convertAssociation(xtAssociation.opposite)
-			if(isUnlink) {
-				targetToSourceString = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
-						targetDescriptor as CollectionVariableDescriptor, 
-						sourceDescriptor as SingleVariableDescriptor
-				)
-			} else {
-				targetToSourceString = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
-						targetDescriptor as CollectionVariableDescriptor, 
-						sourceDescriptor as SingleVariableDescriptor, 
-						resultDescriptor
-				)
-			}
-		}
-		
-		return factory.createOperationCallDescriptor => [
-			it.stringRepresentation =	'''
-										«sourceToTargetString»
-										«targetToSourceString»'''
-			it.baseType = voidTypeString
-			it.fullType = voidTypeString
-		]
+	}
+	
+	def CollectionVariableDescriptor createCollectionDescriptorForAssociation(XTAssociation xtAssociation) {
+		val rel = mapper.convertAssociation(xtAssociation)
+		return umlFactory.factory.factory.prepareCollectionVariableDescriptorForNewLocalVariable(rel.referenceStorage.head.type, (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).ooplClass)
 	}
 	
 	override isUnlink(boolean isUnlink) {

@@ -53,4 +53,8 @@ class UmlToXtumlMapper {
 	def convertOperation(Operation operation) {
 		return engine.operation2UmlOperation.getAllValuesOfxtumlOperation(operation).head
 	}
+	
+	def findUmlPrimitiveType(org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType type) {
+		return engine.primitiveType2EcorePrimitiveType.getAllValuesOfumlPT(type).head
+	}
 }

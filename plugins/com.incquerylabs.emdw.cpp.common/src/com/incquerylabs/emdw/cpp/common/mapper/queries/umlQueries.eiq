@@ -44,3 +44,11 @@ pattern operation2UmlOperation(
 	Trace.umlElements(trace, umlOperation);
 	Trace.xtumlrtElements(trace, xtumlOperation);
 }
+
+pattern primitiveType2EcorePrimitiveType(
+	umlPT,
+	xtumlPT : PrimitiveType
+) {
+	Trace.umlElements(trace, umlPT);
+	Trace.xtumlrtElements(trace, xtumlPT);
+}

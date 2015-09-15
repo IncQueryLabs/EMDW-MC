@@ -236,23 +236,16 @@ Call call = this->call;&#xD;
               <subvertex xmi:type="uml:State" xmi:id="_n7DBwURNEeWkj9RR80hJXw" name="InACall">
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7Do0ERNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
-                  <body>//check if it's mine ServiceID&#xD;
-if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
-	return;&#xD;
-}&#xD;
-UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances()->filter(selected : selected.'PhoneNumber' == sigdata.'UserId').one();&#xD;
-if(unregsub==null){&#xD;
-	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
-	return;&#xD;
-}&#xD;
-RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
-if(sigdata.'isSuccessfull' == true){&#xD;
-	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
-}&#xD;
-else {&#xD;
-	send new RegistrationProcess::Registrationnotconfirmed() to regproc;&#xD;
-}&#xD;
-</body>
+                  <body>  // assign td = timer_cancel::Time(timer_inst_ref: self.RingingExpirationTimer);&#xD;
+  Boolean td = TIM::timerCancel(timer_inst_ref=>this.ringingexpirationtimer);&#xD;
+  // select one called related by self->Called[R3];&#xD;
+Called called = this->'called';&#xD;
+  // select one caller related by self->Caller[R2];&#xD;
+Caller caller = this->'caller';&#xD;
+  // generate Subscriber7:'CallAccepted' to caller;&#xD;
+  send new Subscriber::Callaccepted() to caller;&#xD;
+  // generate Subscriber7:'CallAccepted' to called;&#xD;
+  send new Subscriber::Callaccepted() to called;</body>
                 </entry>
               </subvertex>
               <subvertex xmi:type="uml:State" xmi:id="_n7Do0kRNEeWkj9RR80hJXw" name="CallTermination">
@@ -822,27 +815,8 @@ send new DBPort_Out::SetUserStatus(ServiceId=> Service::GetServiceId(), UserId=>
               <transition xmi:type="uml:Transition" xmi:id="_dNazcETnEeWF_ZPyFqjTUQ" name="Init" source="_ZXo0sETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ"/>
               <transition xmi:type="uml:Transition" xmi:id="_x1RoQETnEeWF_ZPyFqjTUQ" name="GetUserStatus" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_rqBKcEToEeWF_ZPyFqjTUQ" name="effect$GetUserStatus">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_EnrgIFV3EeWvoJvRwuAmVg">
-                    <body>//check if it's mine ServiceID&#xD;
-if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
-	return;&#xD;
-}&#xD;
-UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances()->filter(selected : selected.'PhoneNumber' == sigdata.'UserId').one();&#xD;
-if(unregsub==null){&#xD;
-	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
-	return;&#xD;
-}&#xD;
-RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
-if(sigdata. == true){&#xD;
-	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
-}&#xD;
-else {&#xD;
-	send new RegistrationProcess::Registrationnotconfirmed() to regproc;&#xD;
-}&#xD;
-</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+                  <body>User user = User::instances().filter(selected: selected.ID == sigdata.UserId).one();&#xD;
 if (user==null){ //no such user! FALSE&#xD;
   send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isBusy=> false, isKnown=> false) to DBPort_In::instances().one();&#xD;
 }&#xD;
@@ -856,22 +830,22 @@ else{&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_zgXboEToEeWF_ZPyFqjTUQ" name="AddUserIfNotExists" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_ptBAUETqEeWF_ZPyFqjTUQ" name="effect$AddUserIfNotExists">
                   <language>rALF</language>
-                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
-if (user==null){ //no such user! FALSE&#xD;
-  send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isBusy=> false, isKnown=> false) to DBPort_In::instances().one();&#xD;
+                  <body>User user = User::instances().filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+if(  user ==null){ //add one, send back Success!&#xD;
+	user = new User(UserId=>sigdata.UserId,Busy=>false);&#xD;
+	send new DBPort_In::AddUserResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> true) to DBPort_In::instances().one();&#xD;
 }&#xD;
 else{&#xD;
-  //USER - send UserStatus with what we have&#xD;
-  send new DBPort_In::UserStatus(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isBusy=> user.Busy, isKnown=> true) to DBPort_In::instances().one();&#xD;
-}&#xD;
-</body>
+//not empty, already there, send back NoSuccess!&#xD;
+send new DBPort_In::AddUserResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
+}</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_invmwETqEeWF_ZPyFqjTUQ" name="AddUserIfNotExists" event="_kkoxAEWJEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_z41UEETqEeWF_ZPyFqjTUQ" name="RemoveUserIfExists" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_mu7-QETtEeWF_ZPyFqjTUQ" name="effect$RemoveUserIfExists">
                   <language>rALF</language>
-                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+                  <body>User user = User::instances().filter(selected: selected.ID == sigdata.UserId).one();&#xD;
 if(  user !=null){ //add one, send back Success!&#xD;
 	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> true) to DBPort_In::instances().one();&#xD;
 	delete user;&#xD;
@@ -886,15 +860,15 @@ else{&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_iL2isETvEeWF_ZPyFqjTUQ" name="SetUserStatus" source="_aYHaQETnEeWF_ZPyFqjTUQ" target="_aYHaQETnEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_W-PlUETwEeWF_ZPyFqjTUQ" name="effect$SetUserStatus">
                   <language>rALF</language>
-                  <body>User user = User::instances()->filter(selected: selected.ID == sigdata.UserId).one();&#xD;
-if(  user !=null){ //add one, send back Success!&#xD;
-	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> true) to DBPort_In::instances().one();&#xD;
-	delete user;&#xD;
+                  <body>User user = User::instances().filter(selected: selected.ID == sigdata.UserId).one();&#xD;
+if(  user ==null){ //add one, send back Success!&#xD;
+	send new DBPort_In::SetUserStatusResponse(ServiceId=> sigdata.ServiceId, UserId=> sigdata.ID, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
 }&#xD;
 else{&#xD;
-	//not empty, already there, send back NoSuccess!&#xD;
-	send new DBPort_In::RemoveUserResponse(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
-}</body>
+	user.Busy=sigdata.isBusy;&#xD;
+	send new DBPort_In::SetUserStatusResponse(ServiceId=> sigdata.ServiceId, UserId=> user.ID, isSuccessfull=> true) to DBPort_In::instances().one();&#xD;
+}&#xD;
+</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_nTaSYETvEeWF_ZPyFqjTUQ" name="SetUserStatus" event="_kkrNQEWJEeWF_ZPyFqjTUQ"/>
               </transition>
@@ -1026,32 +1000,34 @@ else{&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_AzQHoEThEeWF_ZPyFqjTUQ" name="AddUserResponse" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_YWHVAEThEeWF_ZPyFqjTUQ" name="effect$AddUserResponse">
                   <language>rALF</language>
-                  <body>if((sigdata.'ServiceId' != Service::GetServiceId()) &amp;&amp; (sigdata.'ServiceId' !=0) ){//not for me&#xD;
+                  <body>//check if it's mine ServiceID&#xD;
+if(param.ServiceId != Service::GetServiceId() and (param.ServiceId !=0) ){//this is not related to me&#xD;
 	return;&#xD;
 }&#xD;
-Subscriber subscriber = Subscriber::instances()->filter(selected : selected.PhoneNumber == sigdata.'UserId').one();&#xD;
-if(subscriber == null){&#xD;
-	TRACE::traceError(msg=> &quot;PhoneX/DBPort/SetUserStatusResponse - UserStatus signal missrouted!&quot;);&#xD;
-	return;//this is not good LOG this&#xD;
+UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances().filter(selected: selected.PhoneNumber == UserId).one();&#xD;
+if(unregsub==null){&#xD;
+	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
+	return;&#xD;
 }&#xD;
-&#xD;
-if(sigdata.'isSuccessfull'==true){&#xD;
-	send new Subscriber::Userupdatesuccess() to subscriber;&#xD;
+RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
+if(isSuccessfull == true){&#xD;
+	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
 }&#xD;
-else{&#xD;
-	send new Subscriber::Userupdatefail() to subscriber;&#xD;
-}</body>
+else {&#xD;
+	send new RegistrationProcess::Registrationnotconfirmed() to regproc;&#xD;
+}&#xD;
+</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_SAtSIEThEeWF_ZPyFqjTUQ" name="AddUserResponse" event="_kkpYEEWJEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_Xerr0ETjEeWF_ZPyFqjTUQ" name="RemoveUserResponse" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_RZbIUETkEeWF_ZPyFqjTUQ" name="effect$RemoveUserResponse">
                   <language>rALF</language>
-                  <body>//check if it's mine ServiceID &#xD;
+                  <body>//check if it's mine ServiceID&#xD;
 if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
 	return;&#xD;
 }&#xD;
-UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances()->filter(selected : selected.'PhoneNumber' == sigdata.'UserId').one();&#xD;
+UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances().filter(selected : selected.PhoneNumber == sigdata.UserId).one();&#xD;
 if(unregsub==null){&#xD;
 	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
 	return;&#xD;
@@ -1070,22 +1046,20 @@ else {&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_QAvosETlEeWF_ZPyFqjTUQ" name="SetUserResponseStatus" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aGmeYETlEeWF_ZPyFqjTUQ" name="effect$SetUserStatusResponse">
                   <language>rALF</language>
-                  <body>Subscriber subscriber = Subscriber::instances()->filter(selected : selected.PhoneNumber==sigdata.'UserId').one();&#xD;
+                  <body>if((ServiceId != Service::GetServiceId()) &amp;&amp; (ServiceId !=0) ){//not for me&#xD;
+	return;&#xD;
+}&#xD;
+Subscriber subscriber = Subscriber::instances().filter(selected:selected.PhoneNumber == sigdata.UserId).one();&#xD;
+if(subscriber == null){&#xD;
+	TRACE::traceError(msg=> &quot;PhoneX/DBPort/SetUserStatusResponse - UserStatus signal missrouted!&quot;);&#xD;
+	return;//this is not good LOG this&#xD;
+}&#xD;
 &#xD;
-if(subscriber==null){&#xD;
-	TRACE::traceError(msg=>&quot;EndCall: no such EndCall subscriber/UserId&quot;);&#xD;
+if(isSuccessfull==true)}&#xD;
+	send new Subscriber::Userupdatesuccess() to subscriber;&#xD;
 }&#xD;
 else{&#xD;
-	Caller caller = (Caller)subscriber;&#xD;
-	if(caller!=null){&#xD;
-		Call call = caller->call;&#xD;
-		send new Call::Endcallrcvd() to call;&#xD;
-	}&#xD;
-	else {&#xD;
-		Called called = (Called)subscriber;&#xD;
-		Call call = called->call;&#xD;
-		send new Call::Endcallrcvd() to call;&#xD;
-	}&#xD;
+	send new Subscriber::Userupdatefail() to subscriber;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_V05_sETlEeWF_ZPyFqjTUQ" name="SetUserStatusResponse" event="_kkrNQUWJEeWF_ZPyFqjTUQ"/>
@@ -1096,10 +1070,10 @@ else{&#xD;
                   <body>if((sigdata.'ServiceId' != Service::GetServiceId()) &amp;&amp; (sigdata.'ServiceId' !=0) ){//not for me&#xD;
 	return;&#xD;
 }&#xD;
-Subscriber subscriber = Subscriber::instances()->filter(selected : selected.PhoneNumber == sigdata.'UserId').one();&#xD;
-if(subscriber==null){&#xD;
+Subscriber subscriber = Subscriber::instances().filter(selected: selected.PhoneNumber == sigdata.UserId).one();&#xD;
+if(subscriber == null){&#xD;
 	TRACE::traceError(msg=> &quot;PhoneX/DBPort/UserStatus - UserStatus signal missrouted!&quot;);&#xD;
-	return;//this is not good LOG this &#xD;
+	return;//this is not good LOG this&#xD;
 }&#xD;
 &#xD;
 if(sigdata.'isKnown' == false){&#xD;
@@ -1302,164 +1276,82 @@ else{&#xD;
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$UnknownNumber">
                   <language>rALF</language>
                   <body>if(this->test1!=null){&#xD;
-	send new UnknownNumber() to this->test1;&#xD;
+	send new Test1::UnknownNumber() to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send new UnknownNumber() to this->test2;&#xD;
+	send new Test2::UnknownNumber() to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="UnknownNumber" event="_NLKloEWIEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="LineIsBusy" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$LineIsBusy">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_d-1lYFVmEeWLm7pzgixIxA">
-                    <body>LineIsBusy sig = new LineIsBusy();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
-}&#xD;
-else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>LineIsBusy sig = new LineIsBusy();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="LineIsBusy" event="_NLLMsEWIEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="CalledBy" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$CalledBy">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_pfC5MFVmEeWLm7pzgixIxA">
-                    <body>CalledBy sig = new CalledBy();&#xD;
-sig.'CalledID' = sigdata.'CalledID';&#xD;
-sig.'CallerID' = sigdata.'CallerID';&#xD;
-sig.'ServiceId' = sigdata.'ServiceId';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
-}&#xD;
-else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>CalledBy sig = new CalledBy();&#xD;
-sig.'CalledID' = sigdata.'CalledID';&#xD;
-sig.'CallerID' = sigdata.'CallerID';&#xD;
-sig.'ServiceId' = sigdata.'ServiceId';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="CalledBy" event="_NLLzwEWIEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="InitiateCall" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$InitiateCall">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_GSaW4FVnEeWLm7pzgixIxA">
-                    <body>InitiateCall sig = new InitiateCall();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-sig.'ServiceId' = sigdata.'ServiceId';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
-}&#xD;
-else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>InitiateCall sig = new InitiateCall();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-sig.'ServiceId' = sigdata.'ServiceId';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="InitiateCall" event="_NLNB4EWIEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="TerminateCall" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$TerminateCall">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_L_YgwFVnEeWLm7pzgixIxA">
-                    <body>TerminateCall sig = new TerminateCall();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
-}&#xD;
-else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>TerminateCall sig = new TerminateCall();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="TerminateCall" event="_NLNo8EWIEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="RegistrationResult" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$RegistrationResult">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_XQDjwFVnEeWLm7pzgixIxA">
-                    <body>RegistrationResult sig = new RegistrationResult();&#xD;
-sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
-}&#xD;
-else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>RegistrationResult sig = new RegistrationResult();&#xD;
-sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="RegistrationResult" event="_NLO3EUWIEeWF_ZPyFqjTUQ"/>
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="UnregistrationResult" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$UnregistrationResult">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_U1Cn8FVpEeWLm7pzgixIxA">
-                    <body>UnregistrationResult sig = new UnregistrationResult();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
-}&#xD;
-else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>UnregistrationResult sig = new UnregistrationResult();&#xD;
-sig.'UserID' = sigdata.'UserID';&#xD;
-sig.'isSuccessfull' = sigdata.'isSuccessfull';&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="UnregistrationResult" event="_NLQFMEWIEeWF_ZPyFqjTUQ"/>
@@ -1467,12 +1359,11 @@ else if(this->test2!=null){&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_c7IL4EXfEeWF_ZPyFqjTUQ" name="AllUserUnregistered" source="_aRNjUEXfEeWF_ZPyFqjTUQ" target="_aRNjUEXfEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$AllUserUnregistered">
                   <language>rALF</language>
-                  <body>AllUserUnregistered sig = new AllUserUnregistered();&#xD;
-if(this->test1!=null){&#xD;
-	send sig to this->test1;&#xD;
+                  <body>if(this->test1!=null){&#xD;
+	send sigdata to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send sig to this->test2;&#xD;
+	send sigdata to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="AllUserUnregistered" event="_NLQsQUWIEeWF_ZPyFqjTUQ"/>
@@ -1638,18 +1529,8 @@ else if(this->test2!=null){&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_sssrcEUUEeWF_ZPyFqjTUQ" source="_qz5WwEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ"/>
               <transition xmi:type="uml:Transition" xmi:id="_AvAjMEUVEeWF_ZPyFqjTUQ" name="AcceptCall" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_vN8jYEUYEeWF_ZPyFqjTUQ" name="effect$AcceptCall">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_IIErcFV8EeWvoJvRwuAmVg">
-                    <body>Called called = Called::instances()->filter(selected:selected.PhoneNumber == sigdata.UserID).one();&#xD;
-if(called == null){&#xD;
-	TRACE::traceError(msg=>&quot;AcceptCall: no such called subscriber&quot;);&#xD;
-}&#xD;
-else{&#xD;
-	Call call = called->call;&#xD;
-	send new Call::CallRequestAccepted() to call;&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
-                  <body>Called called = Called::instances()->filter(selected:selected.PhoneNumber == sigdata.UserID).one();&#xD;
+                  <body>Called called = Called::instances().filter(selected:selected.PhoneNumber == sigdata.UserID).one();&#xD;
 if(called == null){&#xD;
 	TRACE::traceError(msg=>&quot;AcceptCall: no such called subscriber&quot;);&#xD;
 }&#xD;
@@ -1662,43 +1543,10 @@ else{&#xD;
               </transition>
               <transition xmi:type="uml:Transition" xmi:id="_FFaiwEUVEeWF_ZPyFqjTUQ" name="Call" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_8QuyUEUaEeWF_ZPyFqjTUQ" name="effect$Call">
-                  <ownedComment xmi:type="uml:Comment" xmi:id="_ZowQwFV4EeWvoJvRwuAmVg">
-                    <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
-//check if there are local caller or called&#xD;
-Subscriber subscriber = Subscriber::instances()->filter(selected: selected.PhoneNumber==sigdata.CallerID || selected.PhoneNumber==sigdata.CalledID).one();&#xD;
-if(subscriber!=null){&#xD;
-	send new PhoneXPort_Out::LineIsBusy(UserID=> sigdata.CallerID) to subscriber;&#xD;
-}&#xD;
-else{&#xD;
-	if(sigdata.CallerID==sigdata.CalledID){&#xD;
-		send new PhoneXPort_Out::TerminateCall(UserID=> sigdata.CallerID);&#xD;
-	}&#xD;
-	else{&#xD;
-		Caller caller = new Caller();&#xD;
-		caller.PhoneNumber=sigdata.CallerID;&#xD;
-&#xD;
-&#xD;
-		Called called = new Called();&#xD;
-		called.PhoneNumber=sigdata.CalledID;&#xD;
-&#xD;
-		Call call = new Call();&#xD;
-		Service service = Service::instances().one();&#xD;
-		if(service==null){&#xD;
-			service = new Service();&#xD;
-			service.ServiceId=0;&#xD;
-		}&#xD;
-		R6::link(call=>call,service=>service);&#xD;
-		R2::link(call=>call,caller=>caller);&#xD;
-		R3::link(call=>call,called=>called);&#xD;
-&#xD;
-		send new Call::Callrcvd() to call;&#xD;
-	}&#xD;
-}</body>
-                  </ownedComment>
                   <language>rALF</language>
                   <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
 //check if there are local caller or called&#xD;
-Subscriber subscriber = Subscriber::instances()->filter(selected: selected.PhoneNumber==sigdata.CallerID || selected.PhoneNumber==sigdata.CalledID).one();&#xD;
+Subscriber subscriber = Subscriber::instances().filter(selected: selected.PhoneNumber==sigdata.CallerID || selected.PhoneNumber==sigdata.CalledID).one();&#xD;
 if(subscriber!=null){&#xD;
 	send new PhoneXPort_Out::LineIsBusy(UserID=> sigdata.CallerID) to subscriber;&#xD;
 }&#xD;
@@ -1743,7 +1591,13 @@ Service service = Service::instances().one();&#xD;
 if(service == null){&#xD;
 	service = new Service();&#xD;
 	service.ServiceId=0;&#xD;
-}</body>
+}&#xD;
+&#xD;
+R7::link(service=>service,registrationProcess=>regprocess);&#xD;
+R4::link(registrationProcess=>regprocess,unregisteredSubscriber=>unregsub);&#xD;
+&#xD;
+&#xD;
+send new RegistrationProcess::Registrationrequestrcvd() to regprocess;</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_nQ28IEWIEeWF_ZPyFqjTUQ" name="RegisterUser" event="_NLO3EEWIEeWF_ZPyFqjTUQ"/>
               </transition>
@@ -1773,16 +1627,22 @@ send new UnregistrationProcess::Unregistrationrequestrcvd() to unregprocess;</bo
               <transition xmi:type="uml:Transition" xmi:id="_HULq8EUWEeWF_ZPyFqjTUQ" name="EndCall" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_C9-Y4EWIEeWF_ZPyFqjTUQ" name="effect$EndCall">
                   <language>rALF</language>
-                  <body>Service::SetServiceId(serviceId=> sigdata.ServiceId);&#xD;
+                  <body>Subscriber subscriber = Subscriber::instances.filter(selected=> selected.PhoneNumber==sigdata.UserID);&#xD;
 &#xD;
-UnregisteredSubscriber unregsub = new UnregisteredSubscriber();&#xD;
-unregsub.PhoneNumber=sigdata.UserID;&#xD;
-&#xD;
-RegistrationProcess regprocess = new RegistrationProcess();&#xD;
-Service service = Service::instances().one();&#xD;
-if(service == null){&#xD;
-	service = new Service();&#xD;
-	service.ServiceId=0;&#xD;
+if(subscriber==null){&#xD;
+	TRACE::traceError(msg=>&quot;EndCall: no such EndCall subscriber/UserId&quot;);&#xD;
+}&#xD;
+else{&#xD;
+	Caller caller = subscriber->caller;&#xD;
+	if(caller!=null){&#xD;
+		Call call = caller->call;&#xD;
+		send new Call::Endcallrcvd() to call;&#xD;
+	}&#xD;
+	else {&#xD;
+		Called called = subscriber->called;&#xD;
+		Call call = called->call;&#xD;
+		send new Call::Endcallrcvd() to call;&#xD;
+	}&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="__bYb4EWHEeWF_ZPyFqjTUQ" name="EndCall" event="_NLNB4UWIEeWF_ZPyFqjTUQ"/>
@@ -2209,22 +2069,7 @@ this.Busy=Busy;</body>
       </eAnnotations>
       <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
     </profileApplication>
-    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_UbJI8FVjEeWLm7pzgixIxA">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UbJI8VVjEeWLm7pzgixIxA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
-      </eAnnotations>
-      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
-    </profileApplication>
   </uml:Model>
   <standard:Create xmi:id="_wcFV0ETpEeWF_ZPyFqjTUQ" base_BehavioralFeature="_rhKT8ETpEeWF_ZPyFqjTUQ"/>
   <standard:Create xmi:id="_dH6RYEXkEeWF_ZPyFqjTUQ" base_BehavioralFeature="_brpuwEXkEeWF_ZPyFqjTUQ"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_d-2McFVmEeWLm7pzgixIxA" base_Comment="_d-1lYFVmEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_pfEHUFVmEeWLm7pzgixIxA" base_Comment="_pfC5MFVmEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_GSblAFVnEeWLm7pzgixIxA" base_Comment="_GSaW4FVnEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_L_Zu4FVnEeWLm7pzgixIxA" base_Comment="_L_YgwFVnEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_XQEx4FVnEeWLm7pzgixIxA" base_Comment="_XQDjwFVnEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_U1D2EFVpEeWLm7pzgixIxA" base_Comment="_U1Cn8FVpEeWLm7pzgixIxA" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_EpT30FV3EeWvoJvRwuAmVg" base_Comment="_EnrgIFV3EeWvoJvRwuAmVg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_Zow30FV4EeWvoJvRwuAmVg" base_Comment="_ZowQwFV4EeWvoJvRwuAmVg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_IIFSgFV8EeWvoJvRwuAmVg" base_Comment="_IIErcFV8EeWvoJvRwuAmVg" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
 </xmi:XMI>

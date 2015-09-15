@@ -30,7 +30,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSigdataDescri
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
-	private XtumlValueDescriptorFactory factory
+	public XtumlValueDescriptorFactory factory
 	private UmlToXtumlMapper mapper
 	private AdvancedIncQueryEngine engine
 	private Map<String, SingleVariableDescriptor> singleVariableCache
@@ -290,7 +290,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createLinkUnlinkBuilder() {
-		new UmlLinkUnlinkBuilder(engine)
+		new UmlLinkUnlinkBuilder(this, engine)
 	}
 	
 	override createDeleteBuilder() {

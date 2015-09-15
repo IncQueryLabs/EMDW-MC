@@ -320,7 +320,7 @@ class AbstractMultipleConversionTest extends AbstractConversionTest {
 	
 	def form(String string) '''«string.replace("PhoneX::PhoneX::Implementation::", "")»'''
 	def getReducedMessage(Exception ex) '''«ex.message.replace('\n', "<br />")»'''
-	def markdownBody(String body) '''«body.replace("\r\n", "<br />")»'''
+	def markdownBody(String body) '''«body.replace("\r\n", "<br />").replace('|', "\\|")»'''
 	
 	def String ralfCode(CPPOperation operation) {
 		val op = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(operation).head as Operation

@@ -238,7 +238,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(SignalDataExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("SignalDataExpression not supported yet")
+		
 	}
 	
 	def dispatch String visit(StaticFeatureInvocationExpression ex, StringBuilder parent){

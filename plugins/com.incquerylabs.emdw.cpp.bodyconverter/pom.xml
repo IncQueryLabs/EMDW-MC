@@ -27,6 +27,98 @@
 					</filesets>
 				</configuration>
 			</plugin>
+			
+			<plugin>
+				<groupId>org.eclipse.incquery</groupId>
+				<artifactId>incquery-maven-plugin</artifactId>
+				<version>${incquery.version}</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<outputDirectory>src-gen</outputDirectory>
+					<metamodels>
+						<metamodel>
+							<packageClass>org.eclipse.uml2.uml.UMLPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>org.eclipse.uml2.types.TypesPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>org.eclipse.papyrusrt.xtumlrt.common.CommonPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.incquerylabs.emdw.umlintegration.trace.TracePackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.incquerylabs.emdw.valuedescriptor.ValuedescriptorPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.OoplPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage</packageClass>
+						</metamodel>
+					</metamodels>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.eclipse.uml2</groupId>
+						<artifactId>org.eclipse.uml2.uml</artifactId>
+						<version>5.0.1.v20140910-1354</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.uml2</groupId>
+						<artifactId>org.eclipse.uml2.types</artifactId>
+						<version>2.0.0.v20140910-1354</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.papyrusrt</groupId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
+						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.eclipse.papyrusrt</groupId>
+						<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
+						<version>${org.eclipse.papyrusrt.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.incquerylabs.emdw.valuedescriptor.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.incquerylabs.emdw.snippet.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.cpp.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			
+			
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>

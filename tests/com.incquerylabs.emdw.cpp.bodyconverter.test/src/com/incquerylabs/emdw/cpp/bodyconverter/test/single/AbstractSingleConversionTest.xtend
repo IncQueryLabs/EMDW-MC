@@ -4,7 +4,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
-import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
+import com.incquerylabs.emdw.cpp.bodyconverter.test.AbstractConversionTest
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import org.eclipse.uml2.uml.BodyOwner
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.NamedElement
@@ -19,7 +20,6 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameter
 
 import static org.junit.Assert.*
-import com.incquerylabs.emdw.cpp.bodyconverter.test.AbstractConversionTest
 
 @RunWith(Parameterized)
 abstract class AbstractSingleConversionTest extends AbstractConversionTest {

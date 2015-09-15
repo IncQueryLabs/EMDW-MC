@@ -1,11 +1,11 @@
-package com.incquerylabs.uml.ralf.scoping
+package com.incquerylabs.emdw.cpp.bodyconverter.scoping
 
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.OpaqueBehavior
 import org.eclipse.uml2.uml.OpaqueExpression
 
-class BasicUMLContextProvider extends UMLContextProvider {
+class BasicUMLContextProvider extends com.incquerylabs.uml.ralf.scoping.UMLContextProvider {
 	
 	private AdvancedIncQueryEngine engine
 	private EObject contextObject

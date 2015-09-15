@@ -1,11 +1,11 @@
-package com.incquerylabs.uml.ralf.transformation;
+package com.incquerylabs.emdw.cpp.bodyconverter.transformation;
 
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine;
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation;
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState;
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition;
-import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider;
+import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider;
 
 public interface IBodyConverter {    
     public void initialize(AdvancedIncQueryEngine engine, BasicUMLContextProvider context);

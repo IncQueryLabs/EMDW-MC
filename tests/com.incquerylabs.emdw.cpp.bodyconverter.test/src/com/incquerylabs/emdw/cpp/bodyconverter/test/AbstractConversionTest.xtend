@@ -4,11 +4,11 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
-import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
-import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
-import com.incquerylabs.uml.ralf.transformation.impl.queries.UmlCppMappingQueries
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl

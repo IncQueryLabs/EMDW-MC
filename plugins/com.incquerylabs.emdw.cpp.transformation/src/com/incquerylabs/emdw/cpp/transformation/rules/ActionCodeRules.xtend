@@ -1,16 +1,16 @@
 package com.incquerylabs.emdw.cpp.transformation.rules
 
+import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
-import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 class ActionCodeRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance

@@ -3,7 +3,8 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test.multiple
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
-import com.incquerylabs.uml.ralf.transformation.impl.BodyConverter
+import com.incquerylabs.emdw.cpp.bodyconverter.test.AbstractConversionTest
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import java.util.List
 import org.eclipse.uml2.uml.BodyOwner
 import org.eclipse.uml2.uml.OpaqueBehavior
@@ -11,14 +12,13 @@ import org.eclipse.uml2.uml.OpaqueExpression
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.Transition
+import org.junit.AfterClass
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameter
 
 import static org.junit.Assert.*
-import com.incquerylabs.emdw.cpp.bodyconverter.test.AbstractConversionTest
-import org.junit.AfterClass
 
 @RunWith(Parameterized)
 class AbstractMultipleConversionTest extends AbstractConversionTest {

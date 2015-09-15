@@ -1,16 +1,16 @@
-package com.incquerylabs.uml.ralf.transformation.impl
+package com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
+import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.IBodyConverter
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
+import com.incquerylabs.uml.ralf.api.impl.ParsingResults
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
-import com.incquerylabs.uml.ralf.scoping.BasicUMLContextProvider
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.transformation.IBodyConverter
-import com.incquerylabs.uml.ralf.transformation.impl.queries.UmlCppMappingQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.BodyOwner
 import org.eclipse.uml2.uml.OpaqueBehavior
@@ -18,7 +18,7 @@ import org.eclipse.uml2.uml.OpaqueExpression
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.Transition
-import com.incquerylabs.uml.ralf.api.impl.ParsingResults
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 
 class BodyConverter implements IBodyConverter {
 	extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance

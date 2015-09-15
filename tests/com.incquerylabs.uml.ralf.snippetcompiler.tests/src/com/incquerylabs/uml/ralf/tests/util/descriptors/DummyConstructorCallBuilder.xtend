@@ -17,7 +17,7 @@ class DummyConstructorCallBuilder implements IUmlConstructorCallBuilder{
 		val descriptor = createOperationCallDescriptor => [
 			baseType = type.qualifiedName
 			fullType = type.qualifiedName
-			stringRepresentation = ''' new '''+type.qualifiedName+'''('''+parameters+''')'''
+			stringRepresentation = '''new '''+type.qualifiedName+'''('''+parameters+''')'''
 		]
 		descriptor
 	}

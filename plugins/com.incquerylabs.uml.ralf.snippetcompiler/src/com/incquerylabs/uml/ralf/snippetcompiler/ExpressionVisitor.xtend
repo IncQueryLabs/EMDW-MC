@@ -26,6 +26,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NullExpression
@@ -43,10 +44,16 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import java.util.List
+import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
-import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.uml2.uml.Property
+import org.eclipse.uml2.uml.Signal
+import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionLiteralExpression
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -58,6 +65,28 @@ class ExpressionVisitor {
 		this.typeSystem = typeSystem
 		this.util = util
 	}
+	
+	def dispatch String visit(CollectionLiteralExpression ex, StringBuilder parent){
+		throw new UnsupportedOperationException("Collection literals are not supported yet")
+	}
+	
+	def dispatch String visit(InstanceDeletionExpression ex, StringBuilder parent){
+		val referenceString = ex.reference.visit(parent)
+		val variableType = typeSystem.type(ex.reference).value.umlType
+		
+		val valueDdescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = referenceString
+			isExistingVariable = true
+		]).build
+		
+		val descriptor = (descriptorFactory.createDeleteBuilder => [
+			variable = valueDdescriptor
+		]).build
+			
+		descriptor.stringRepresentation
+	}
+	
 		
 	def dispatch String visit(CastExpression ex, StringBuilder parent){
 		val operandVariable = ex.operand.visit(parent)
@@ -88,19 +117,113 @@ class ExpressionVisitor {
 		'''0'''
 	}
 	
-	def dispatch String visit(InstanceCreationExpression ex, StringBuilder parent){
-		//TODO use instance creation descriptors
+	def dispatch String visit(InstanceCreationExpression ex, StringBuilder parent){		
 		val variableType = typeSystem.type(ex).value.umlType
-		val List<String> parameterStrings = Lists.newArrayList
 		
-		if(ex.parameters instanceof ExpressionList){
-			val parameters = ex.parameters as ExpressionList
-			parameters.expressions.forEach[ expr |
-				parameterStrings.add(expr.visit(parent))
-			]
-		}else{
-			throw new UnsupportedOperationException("Only expression list based tuples are supported")
+		
+		val parameters = prepareInstanceCreationTuple(ex, ex.instance, parent)
+		val type = ex.instance
+		
+		val descriptor = (descriptorFactory.createConstructorCallBuilder => [
+			type = variableType
+			it.parameters = parameters
+		]).build
+		
+		switch(type){
+			Signal: {
+				var ValueDescriptor variableDescriptor
+				
+				if(ex.eContainer instanceof LocalNameDeclarationStatement){
+					val statement = ex.eContainer as LocalNameDeclarationStatement
+					variableDescriptor = statement.descriptor
+					
+					initiateAttributes(ex, type, parent, variableDescriptor)
+					return descriptor.stringRepresentation
+					
+				}else{
+					variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						type = variableType
+						name = null
+					]).build
+					
+					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;'''+'\n')
+	
+					initiateAttributes(ex, type, parent, variableDescriptor)
+					parent.append('\n')
+					return variableDescriptor.stringRepresentation
+				}
+				
+
+			}
+			Class : {
+				if(ex.isFlatteningNeeded){
+					val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						type = variableType
+						name = null
+					]).build
+					
+					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;'''+'\n')
+
+					return variableDescriptor.stringRepresentation
+				}else{
+					return descriptor.stringRepresentation	
+				}
+			}
 		}
+	}
+	
+	private def initiateAttributes(InstanceCreationExpression ex, Signal cl, StringBuilder builder, ValueDescriptor descriptor){
+		val List<ValueDescriptor> descriptors = Lists.newArrayList
+		if((ex.parameters instanceof NamedTuple && (ex.parameters as NamedTuple).expressions.size != 0) 
+			|| (ex.parameters instanceof ExpressionList && (ex.parameters as ExpressionList).expressions.size != 0)
+		){
+			if(ex.parameters instanceof NamedTuple){
+				val tuple = ex.parameters as NamedTuple
+				tuple.expressions.forEach[ exp |
+					
+					val attribute = getAttribute(cl, exp.name, typeSystem.type(exp.expression).value.umlType)
+					if(attribute!=null){
+						val rhsString = exp.expression.visit(builder)
+						
+						val rhsDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+							it.name = rhsString
+							it.type = typeSystem.type(exp.expression).value.umlType
+							isExistingVariable = true
+						]).build
+						
+						val assignmentDescriptor =  (descriptorFactory.createPropertyWriteBuilder => [
+							variable = descriptor
+							property = attribute
+							newValue = rhsDescriptor
+						]).build
+						
+						descriptors.add(assignmentDescriptor)
+					}
+				]
+				builder.append('''«FOR descr : descriptors SEPARATOR '\n'»«descr.stringRepresentation»;«ENDFOR»''')
+			}else{
+				throw new UnsupportedOperationException("Signal creation is only supported with named tuples")
+			}
+		}
+	}
+	
+	private def getAttribute(Signal cl, String name, Type type) {
+		val candidates = cl.ownedAttributes.filter[attr| attr.name.equals(name) && attr.getType.equals(type)]
+		if(candidates.size != 0){
+			return candidates.head
+		}else{
+			return null
+		}
+	}
+
+	def dispatch String visit(ThisExpression ex, StringBuilder parent){
+		getDescriptor(ex).stringRepresentation
+	}
+	
+	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
+		val classDescriptor = ex.descriptor
+		
+		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
@@ -108,27 +231,12 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = new «descriptor.fullType»(«FOR f : parameterStrings SEPARATOR ", "»«f»«ENDFOR»);'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»'''+'\n')
 			
 			descriptor.stringRepresentation
-		}else{
-			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-				isExistingVariable = true
-			]).build
-			
-			'''new «descriptor.fullType»(«FOR f : parameterStrings SEPARATOR ", "»«f»«ENDFOR»)'''	
+		} else {
+			classDescriptor.stringRepresentation
 		}
-	}
-	
-
-	def dispatch String visit(ThisExpression ex, StringBuilder parent){
-		getDescriptor(ex).stringRepresentation
-	}
-	
-	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("ClassExtentExpression not supported yet")
 	}
 	
 	def dispatch String visit(FilterExpression ex, StringBuilder parent){
@@ -136,7 +244,32 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(SignalDataExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("SignalDataExpression not supported yet")
+		val container = ex.eContainer
+		val datatype = typeSystem.type(ex).value.umlType
+		if(container instanceof SendSignalStatement){
+			val sigdataDescriptor = (descriptorFactory.createSigdataDescriptorBuilder => [
+				type = datatype
+			]).build
+			
+			val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = datatype
+				name = null
+			]).build
+			
+			val cloneDescriptor = (descriptorFactory.createCopyConstructorCallBuilder => [
+				type = datatype
+				parameter = sigdataDescriptor
+			]).build
+			
+			parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «cloneDescriptor.stringRepresentation»;'''+'\n')
+			
+			variableDescriptor.stringRepresentation
+			
+		}else{
+			(descriptorFactory.createSigdataDescriptorBuilder => [
+				type = datatype
+			]).build.stringRepresentation			
+		}
 	}
 	
 	def dispatch String visit(StaticFeatureInvocationExpression ex, StringBuilder parent){
@@ -172,7 +305,8 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(LinkOperationExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("Link operations not supported yet")
+		val linkOperationDescriptor = ex.descriptor
+		return linkOperationDescriptor.stringRepresentation
 	}
 	
 	def dispatch String visit(AssociationAccessExpression ex, StringBuilder parent){
@@ -629,6 +763,115 @@ class ExpressionVisitor {
 			}
 		}
 	}
+		
+	private dispatch def prepareInstanceCreationTuple(InstanceCreationExpression ex, Signal signal, StringBuilder parent){
+		val List<Pair<Type, ValueDescriptor>> descriptors = Lists.newArrayList	
+		return descriptors
+	}
+	
+	private dispatch def prepareInstanceCreationTuple(InstanceCreationExpression ex, Class c, StringBuilder parent){
+		val List<Pair<Type, ValueDescriptor>> descriptors = Lists.newArrayList	
+		
+		if(ex.parameters instanceof ExpressionList){
+			val parameters = ex.parameters as ExpressionList
+			val op = getOperation(parameters, c)
+			
+			if(op !=null){
+				parameters.expressions.forEach[ expr |
+					val string = expr.visit(parent)
+					val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						name = string
+						type = typeSystem.type(expr).value.umlType
+						isExistingVariable = true
+					]).build
+					descriptors.add(new Pair<Type, ValueDescriptor>(typeSystem.type(expr).value.umlType, descriptor))					
+				]
+			}else{
+				return descriptors
+			}
+		}else if(ex.parameters instanceof NamedTuple){
+			val parameters = ex.parameters as NamedTuple
+			val op = getOperation(parameters, c)
+			
+			if(op !=null){
+				val operationParameters = op.ownedParameters
+
+				operationParameters.forEach[operationParameter |
+					parameters.expressions.forEach[ namedExpression |
+						if(namedExpression.name.equals(operationParameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(operationParameter.getType)){
+							val string = namedExpression.expression.visit(parent)
+							val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+								name = string
+								type = typeSystem.type(namedExpression.expression).value.umlType
+								isExistingVariable = true
+							]).build
+							descriptors.add(new Pair<Type, ValueDescriptor>(typeSystem.type(namedExpression.expression).value.umlType, descriptor))
+						}
+					]
+				]
+			}else{
+				return descriptors
+			}
+			
+		}else{
+			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
+		}	
+		return descriptors
+	}
+	
+	private dispatch def getOperation(NamedTuple parameters, Class c){
+		val candidates = c.ownedOperations.filter[op | op.name.equals(class.name)]
+		val List<Operation> operations = Lists.newArrayList
+		candidates.forEach[operation | 
+			var valid = true
+			for(NamedExpression namedExpression : parameters.expressions){
+				var expressionFound = false
+				for(Parameter parameter : operation.ownedParameters){
+					if(namedExpression.name.equals(parameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(parameter.getType)){
+						expressionFound = true
+					}
+				}
+				if(!expressionFound){
+					valid = false
+				}
+			}
+			if(valid){
+				operations.add(operation)
+			}
+		]
+		if(operations.size == 0){
+			return null
+		}else{
+			return operations.head
+		}
+	}
+	
+	private dispatch def getOperation(ExpressionList parameters, Class c){
+		val candidates = c.ownedOperations.filter[op | op.name.equals(class.name)]
+		val List<Operation> operations = Lists.newArrayList
+		candidates.forEach[operation | 
+			var valid = true
+			for(Expression expression : parameters.expressions){
+				var expressionFound = false
+				for(Parameter parameter : operation.ownedParameters){
+					if(typeSystem.type(expression).value.umlType.equals(parameter.getType)){
+						expressionFound = true
+					}
+				}
+				if(!expressionFound){
+					valid = false
+				}
+			}
+			if(valid){
+				operations.add(operation)
+			}
+		]
+		if(operations.size == 0){
+			return null
+		}else{
+			return operations.head
+		}
+	}
 	
 	private dispatch def prepareTuple(FeatureInvocationExpression ex, Operation op, StringBuilder parent){
 		val List<ValueDescriptor> descriptors = Lists.newArrayList
@@ -661,7 +904,7 @@ class ExpressionVisitor {
 			]
 			
 		}else{
-			throw new UnsupportedOperationException("Only expression list based tuples are supported")
+			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
 		return descriptors
 	}
@@ -697,7 +940,7 @@ class ExpressionVisitor {
 			]
 			
 		}else{
-			throw new UnsupportedOperationException("Only expression list based tuples are supported")
+			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
 		return descriptors
 	}

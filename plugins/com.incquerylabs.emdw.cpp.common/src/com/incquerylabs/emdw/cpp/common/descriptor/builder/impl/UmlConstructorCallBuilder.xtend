@@ -8,6 +8,8 @@ import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.Signal
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 
 class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 	private UmlToXtumlMapper mapper
@@ -28,11 +30,19 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 		val List<ValueDescriptor> parameters = newArrayList
 		params?.forEach[pair | parameters += pair.value]
 		
-		val xtClass = mapper.convertType(type) as XTClass
-		return (builder => [
-					it.xtClass = xtClass
-					it.parameters = parameters
-				]).build
+		if(type instanceof Signal) {
+			val xtEvent = mapper.convertSignal(type) as XTClassEvent
+			return (builder => [
+						it.redefinableElement = xtEvent
+						it.parameters = parameters
+					]).build
+		} else {
+			val xtClass = mapper.convertType(type) as XTClass
+			return (builder => [
+						it.redefinableElement = xtClass
+						it.parameters = parameters
+					]).build
+		}
 	}
 	
 	override setType(Type type) {

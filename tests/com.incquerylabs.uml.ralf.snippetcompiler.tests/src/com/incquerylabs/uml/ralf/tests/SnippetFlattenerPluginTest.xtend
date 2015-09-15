@@ -216,7 +216,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Pong::StaticTestOperation(1, a);''',
 				'''
 				PrimitiveTypes::Integer a;
-				model::Comp::Pong::TestOperation(1, a);''',
+				model::Comp::Pong::StaticTestOperation(1, a);''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Operation call Static_Variable_Alternative_Syn",
@@ -225,7 +225,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Pong::StaticTestOperation(outParameter => 1, inParameter => a);''',
 				'''
 				PrimitiveTypes::Integer a;
-				model::Comp::Pong::TestOperation(a, 1);''',
+				model::Comp::Pong::StaticTestOperation(a, 1);''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Operation call Static Qualified name",

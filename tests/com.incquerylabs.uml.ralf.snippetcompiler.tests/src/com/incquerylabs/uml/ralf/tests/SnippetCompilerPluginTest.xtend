@@ -13,6 +13,22 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''model::Comp::Pong x = new model::Comp::Pong();''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
+			#[  "UML Type deletion",
+			    '''
+			    Pong x = new Pong();
+			    delete x;''',
+				'''
+				model::Comp::Pong x = new model::Comp::Pong();
+				delete x;''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Signal creation test_noparam",
+			    '''Ping::pong_s s = new Ping::pong_s();''',
+				
+				'''model::Comp::Ping::pong_s s = new model::Comp::Ping::pong_s();
+				''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
 			#[  "Send Signal test",
 			    '''
 				Pong p = new Pong();
@@ -22,6 +38,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				model::Comp::Pong p = new model::Comp::Pong();
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+				s->integerAttribute = 2;
+				s->pongAttribute = this;
 				model::Comp::Ping temp0 = p->ping;
 				temp0->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
@@ -32,6 +50,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				model::Comp::Ping temp0 = this->ping;
 				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
+				temp1->integerAttribute = 2;
+				temp1->pongAttribute = this;
 				temp0->generate_event(temp1);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -47,6 +67,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong temp0 = new model::Comp::Pong();
 				p = temp0;
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
+				s->integerAttribute = 2;
+				s->pongAttribute = this;
 				model::Comp::Ping temp1 = p->ping;
 				temp1->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
@@ -334,11 +356,64 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
+			#[  "Class instances test",
+			    '''
+				Pong::instances();''',
+				
+				'''
+				model::Comp::Pong::_instances();''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Link association test",
+				'''
+				Ping myPing = this->'ping';
+				R1::link('ping'=>myPing,'pong'=>this);
+				''',
+				
+				'''
+				model::Comp::Ping myPing = this->ping;
+				this->R1_ping = myPing;
+				myPing->R1_pong = this;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Unlink association test",
+				'''
+				Ping myPing = this->'ping';
+				R1::unlink('ping'=>myPing,'pong'=>this);
+				''',
+				
+				'''
+				model::Comp::Ping myPing = this->ping;
+				this->R1_ping = NULL;
+				myPing->R1_pong = NULL;''',
+				"model::Comp::Pong::TestOperation"
+			],
 			#[  "Empty return statement",
 			    '''return;''',
 				
 				'''return;''',
 				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Signal Data Access",
+			    '''sigdata;''',
+			    '''sigdata;''',
+				"sendPong"
+			],
+			#[  "Signal Data Property Access",
+			    '''sigdata.integerAttribute;''',
+			    '''sigdata->integerAttribute;''',
+				"sendPong"
+			],
+			#[  "Signal Data send",
+			    '''
+				Pong p = new Pong();
+				send sigdata to p->ping;''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				model::Comp::Ping temp0 = p->ping;
+				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
+				temp0->generate_event(temp1);''',
+				"sendPong"
 			]
 		)
 	}

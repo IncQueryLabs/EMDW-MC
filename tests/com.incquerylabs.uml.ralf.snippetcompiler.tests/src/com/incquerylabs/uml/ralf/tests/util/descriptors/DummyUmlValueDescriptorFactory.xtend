@@ -15,7 +15,8 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		val builder = new DummyUmlCollectionVariableDescriptorBuilder
+		builder.descrFactory = this
 	}
 	
 	override createPropertyWriteBuilder() {
@@ -42,4 +43,27 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummyStaticOperationCallBuilder
 	}
 	
+	override createInstancesBuilder() {
+		new DummyInstancesBuilder
+	}
+	
+	override createLinkUnlinkBuilder() {
+		new DummyLinkUnlinkBuilder
+	}
+	
+	override createDeleteBuilder() {
+		new DummyDeleteBuilder
+	}
+	
+	override createSendSignalBuilder() {
+		new DummySendSignalBuilder
+	}
+	
+	override createCopyConstructorCallBuilder() {
+		new DummyCopyConstructorCallBuilder
+	}
+	
+	override createSigdataDescriptorBuilder() {
+		new DummySigDataBuilder
+	}	
 }

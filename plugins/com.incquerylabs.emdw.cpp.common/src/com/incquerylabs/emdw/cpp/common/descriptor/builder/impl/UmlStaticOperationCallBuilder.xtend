@@ -4,11 +4,14 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplStaticOperationC
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List
-import org.eclipse.uml2.uml.Operation
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.uml2.uml.Operation
 
 class UmlStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder {
+	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
+	
 	private UmlToXtumlMapper mapper
 	private IOoplStaticOperationCallBuilder builder
 	
@@ -22,6 +25,13 @@ class UmlStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder {
 	
 	override build() {
 		val xtOperation = mapper.convertOperation(operation)
+		if(operation.qualifiedName.contains("std::out::println")) {
+			return factory.createOperationCallDescriptor => [
+						it.baseType = "void"
+						it.fullType = "void"
+						it.stringRepresentation = '''::std::cout«FOR param : params BEFORE " << " SEPARATOR " << "»«param.stringRepresentation»«ENDFOR» << ::std::endl'''
+					]
+		}
 		return (builder => [
 					it.operation = xtOperation
 					it.parameters = params

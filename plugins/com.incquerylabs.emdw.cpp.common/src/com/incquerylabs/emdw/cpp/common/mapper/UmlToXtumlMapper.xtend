@@ -2,9 +2,10 @@ package com.incquerylabs.emdw.cpp.common.mapper
 
 import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.uml2.uml.Property
-import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.Property
+import org.eclipse.uml2.uml.Signal
+import org.eclipse.uml2.uml.Type
 
 class UmlToXtumlMapper {
 	extension UmlQueries umlQueries = UmlQueries.instance
@@ -27,6 +28,10 @@ class UmlToXtumlMapper {
 		return engine.type2UmlElement.getAllValuesOfxtumlType(umlType).head
 	}
 	
+	def convertSignal(Signal signal) {
+		return engine.xtEvent2Signal.getAllValuesOfxtEvent(signal).head
+	}
+	
 	/**
 	 * @param umlProperty Cannot be null
 	 * 
@@ -47,5 +52,9 @@ class UmlToXtumlMapper {
 	
 	def convertOperation(Operation operation) {
 		return engine.operation2UmlOperation.getAllValuesOfxtumlOperation(operation).head
+	}
+	
+	def findUmlPrimitiveType(org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType type) {
+		return engine.primitiveType2EcorePrimitiveType.getAllValuesOfumlPT(type).head
 	}
 }

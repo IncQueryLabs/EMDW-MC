@@ -63,6 +63,10 @@ public class ModelUtil {
 					if(bodies.size() > i) {
 						code = bodies.get(i);
 					}
+				} else if("ralf".equalsIgnoreCase(language)) {
+				    // FIXME this is temporal until XTActionCode is not used
+				    code = null;
+				    return null;
 				}
 			}
 		}
@@ -78,14 +82,14 @@ public class ModelUtil {
 		String code = null;
 		for (Behavior behaviour : operation.getMethods()) {
 			String cppCode = getCppCode(behaviour);
-			if (cppCode != null) {
+			//if (cppCode != null) {
 				if (code == null)
 					code = cppCode;
 				else
 					throw new RuntimeException(
 							"too many C++-compatible behaviours for "
 									+ operation.getQualifiedName());
-			}
+			//}
 		}
 
 		return code;

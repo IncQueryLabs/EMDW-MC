@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses
 	StateEntryConvertingTest,
 	StateExitConvertingTest,
 	TransitionConvertingTest,
-	TransitionGuardConvertingTest
+	TransitionGuardConvertingTest,
+	CollectionDescriptorTest
 ])
 @RunWith(Suite)
 class SingleConversionTestSuite {}

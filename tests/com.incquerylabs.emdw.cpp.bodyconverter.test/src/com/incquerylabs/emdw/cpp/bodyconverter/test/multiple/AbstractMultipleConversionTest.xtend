@@ -21,7 +21,7 @@ import org.junit.runners.Parameterized.Parameter
 import static org.junit.Assert.*
 
 @RunWith(Parameterized)
-class AbstractMultipleConversionTest extends AbstractConversionTest {
+abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	
     @Parameter(0)
     public String name

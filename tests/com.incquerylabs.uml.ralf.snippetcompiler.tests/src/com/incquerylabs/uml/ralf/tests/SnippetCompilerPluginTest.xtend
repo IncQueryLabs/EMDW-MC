@@ -393,6 +393,27 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''return;''',
 				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Signal Data Access",
+			    '''sigdata;''',
+			    '''sigdata;''',
+				"sendPong"
+			],
+			#[  "Signal Data Property Access",
+			    '''sigdata.integerAttribute;''',
+			    '''sigdata->integerAttribute;''',
+				"sendPong"
+			],
+			#[  "Signal Data send",
+			    '''
+				Pong p = new Pong();
+				send sigdata to p->ping;''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				model::Comp::Ping temp0 = p->ping;
+				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
+				temp0->generate_event(temp1);''',
+				"sendPong"
 			]
 		)
 	}

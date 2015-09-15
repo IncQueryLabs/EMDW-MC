@@ -52,6 +52,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -238,7 +239,32 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(SignalDataExpression ex, StringBuilder parent){
-		
+		val container = ex.eContainer
+		val datatype = typeSystem.type(ex).value.umlType
+		if(container instanceof SendSignalStatement){
+			val sigdataDescriptor = (descriptorFactory.createSigdataDescriptorBuilder => [
+				type = datatype
+			]).build
+			
+			val variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = datatype
+				name = null
+			]).build
+			
+			val cloneDescriptor = (descriptorFactory.createCopyConstructorCallBuilder => [
+				type = datatype
+				parameter = sigdataDescriptor
+			]).build
+			
+			parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «cloneDescriptor.stringRepresentation»;'''+'\n')
+			
+			variableDescriptor.stringRepresentation
+			
+		}else{
+			(descriptorFactory.createSigdataDescriptorBuilder => [
+				type = datatype
+			]).build.stringRepresentation			
+		}
 	}
 	
 	def dispatch String visit(StaticFeatureInvocationExpression ex, StringBuilder parent){

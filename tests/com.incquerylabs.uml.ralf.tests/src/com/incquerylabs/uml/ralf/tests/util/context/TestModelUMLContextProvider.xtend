@@ -10,10 +10,11 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.uml2.uml.OpaqueBehavior
 
 @Singleton
 class TestModelUMLContextProvider extends UMLContextProvider {
-
+	var String elementFQN
     var Operation definedOperation
 	var Model model
 	val ResourceSet resourceSet
@@ -31,12 +32,17 @@ class TestModelUMLContextProvider extends UMLContextProvider {
 	}
 	
 	public def setDefinedOperation(String elementFQN) {
+		this.elementFQN = elementFQN
 		definedOperation = model.allOwnedElements.filter(Operation)
            .findFirst[qualifiedName == elementFQN] 
 	}
 	
 	override protected getContextObject() {
-		definedOperation
+		if(definedOperation != null){
+			definedOperation
+		}else{
+			model.allOwnedElements.filter(OpaqueBehavior).findFirst[qualifiedName == elementFQN]
+		}
 	}
 	
 	override protected doGetEngine() {

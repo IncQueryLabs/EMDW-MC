@@ -15,7 +15,7 @@ class UMLSigdataValidatorTest extends AbstractPluginValidatorTest{
 			    '''
 			    this;
 			    sigdata.integerAttribute;''',
-				"model::Comp::Pong::Pong_SM::Region1::e2::sendPong",
+				"sendPong",
 			    #[]
 			],
 			#[  "Signal Data Access: association access",

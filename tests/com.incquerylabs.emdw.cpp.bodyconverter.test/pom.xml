@@ -9,8 +9,8 @@
 		<relativePath>../../releng/com.incquerylabs.emdw.parent</relativePath>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.incquerylabs.uml.ralf.tests.examples</artifactId>
-	<packaging>eclipse-plugin</packaging>
+	<artifactId>com.incquerylabs.emdw.cpp.bodyconverter.test</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
 	<build>
 		<plugins>
 			<plugin>
@@ -30,6 +30,14 @@
 			<plugin>
 				<groupId>org.eclipse.xtend</groupId>
 				<artifactId>xtend-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>0.21.0</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

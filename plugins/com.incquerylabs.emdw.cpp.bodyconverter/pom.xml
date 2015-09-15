@@ -9,7 +9,7 @@
 		<relativePath>../../releng/com.incquerylabs.emdw.parent</relativePath>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.incquerylabs.uml.ralf.transformation</artifactId>
+	<artifactId>com.incquerylabs.emdw.cpp.bodyconverter</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<build>
 		<plugins>

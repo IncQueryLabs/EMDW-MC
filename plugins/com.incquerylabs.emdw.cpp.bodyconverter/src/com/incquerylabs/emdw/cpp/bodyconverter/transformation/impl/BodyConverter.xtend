@@ -5,7 +5,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.IBodyConverter
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.snippettemplate.SnippetTemplateFactory
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.impl.ParsingResults
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
@@ -18,13 +20,13 @@ import org.eclipse.uml2.uml.OpaqueExpression
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.Transition
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 
 class BodyConverter implements IBodyConverter {
 	extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
 	
 	private static final val rALF = "rALF"
 	
+	private SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	private AdvancedIncQueryEngine engine
 	private ReducedAlfParser parser
 	private BasicUMLContextProvider context
@@ -48,13 +50,21 @@ class BodyConverter implements IBodyConverter {
 	 */
 	override String convertOperation(CPPOperation target) throws IllegalArgumentException {
 		val umlOperation = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(target).head as Operation
-		val opaqueBehavior = umlOperation.methods.filter(OpaqueBehavior).head
-		if(opaqueBehavior==null) {
+		val behavior = umlOperation.methods.filter(OpaqueBehavior).head
+		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior with rALF language for «umlOperation.name» operation.''')
 		}
 		try {
-			context.contextObject = opaqueBehavior
-			return opaqueBehavior.parseAndGenerate
+			context.contextObject = behavior
+			if(!behavior.hasRalfBody) {
+				target.compiledBody = factory.createStringSnippet => [
+					it.value = behavior.cppCode
+				]
+			} else {
+		       	target.compiledBody = behavior.createSnippet
+	       	}
+	       	//Create the snippet code based on the snippet template
+	       	return serializer.serialize(target.compiledBody)
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlOperation.name» operation.''', cause)
 		}
@@ -62,14 +72,22 @@ class BodyConverter implements IBodyConverter {
 	
 	override String convertStateEntry(CPPState target) throws IllegalArgumentException {
 		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State 
-		var OpaqueBehavior behavior = umlState.entry as OpaqueBehavior
+		val OpaqueBehavior behavior = umlState.entry as OpaqueBehavior
 		
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's entry.''')
 		}
 		try {
 			context.contextObject = behavior
-			return behavior.parseAndGenerate
+			if(!behavior.hasRalfBody) {
+				target.compiledEntryBody = factory.createStringSnippet => [
+					it.value = behavior.cppCode
+				]
+			} else {
+		       	target.compiledEntryBody = behavior.createSnippet
+	       	}
+	       	//Create the snippet code based on the snippet template
+	       	return serializer.serialize(target.compiledEntryBody)
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlState.name» state's entry.''', cause)
 		}
@@ -77,14 +95,22 @@ class BodyConverter implements IBodyConverter {
 	
 	override String convertStateExit(CPPState target) throws IllegalArgumentException {
 		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State 
-		var OpaqueBehavior behavior = umlState.exit as OpaqueBehavior
+		val OpaqueBehavior behavior = umlState.exit as OpaqueBehavior
 		
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's exit.''')
 		}
 		try {
 			context.contextObject = behavior
-			return behavior.parseAndGenerate
+			if(!behavior.hasRalfBody) {
+				target.compiledExitBody = factory.createStringSnippet => [
+					it.value = behavior.cppCode
+				]
+			} else {
+		       	target.compiledExitBody = behavior.createSnippet
+	       	}
+	       	//Create the snippet code based on the snippet template
+	       	return serializer.serialize(target.compiledExitBody)
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlState.name» state's exit.''', cause)
 		}
@@ -99,7 +125,15 @@ class BodyConverter implements IBodyConverter {
 		}
 		try {
 			context.contextObject = opaqueBehavior
-			return opaqueBehavior.parseAndGenerate
+			if(!opaqueBehavior.hasRalfBody) {
+				target.compiledEffectBody = factory.createStringSnippet => [
+					it.value = opaqueBehavior.cppCode
+				]
+			} else {
+		       	target.compiledEffectBody = opaqueBehavior.createSnippet
+	       	}
+	       	//Create the snippet code based on the snippet template
+	       	return serializer.serialize(target.compiledEffectBody)
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlTransition.name» transition's effect.''', cause)
 		}
@@ -114,7 +148,15 @@ class BodyConverter implements IBodyConverter {
 		}
 		try {
 			context.contextObject = opaqueExpression
-			return opaqueExpression.parseAndGenerate
+			if(!opaqueExpression.hasRalfBody) {
+				target.compiledGuardBody = factory.createStringSnippet => [
+					it.value = opaqueExpression.cppCode
+				]
+			} else {
+		       	target.compiledGuardBody = opaqueExpression.createSnippet
+	       	}
+	       	//Create the snippet code based on the snippet template
+	       	return serializer.serialize(target.compiledGuardBody)
 		} catch(IndexOutOfBoundsException cause) {
 			throw new IllegalArgumentException('''There is no body for rALF language in «umlTransition.guard.name» constraint's specification.''', cause)
 		}
@@ -134,11 +176,7 @@ class BodyConverter implements IBodyConverter {
 		return ""
 	}
 	
-	private def String parseAndGenerate(BodyOwner bodyOwner) throws IndexOutOfBoundsException {
-		if(!bodyOwner.hasRalfBody) {
-			return bodyOwner.cppCode
-		}
-		
+	private def createSnippet(BodyOwner bodyOwner) throws IndexOutOfBoundsException {
 		var ParsingResults result
 		if(bodyOwner instanceof OpaqueBehavior) {
 			result = parser.parse(bodyOwner, engine)
@@ -146,8 +184,6 @@ class BodyConverter implements IBodyConverter {
 			result = parser.parse(bodyOwner, engine)
 		}
        	//Create the snippet template based on the parsed abstract syntax tree
-       	val snippet = generator.createSnippet(result, compiler)
-       	//Create the snippet code based on the snippet template
-       	return serializer.serialize(snippet)
+       	return generator.createSnippet(result, compiler)
 	}
 }

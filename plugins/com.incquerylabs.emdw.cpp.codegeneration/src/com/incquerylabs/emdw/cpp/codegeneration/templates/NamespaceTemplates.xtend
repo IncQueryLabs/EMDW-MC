@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalBridge
 
 class NamespaceTemplates {
 	public def namespaceOpenerTemplate(CPPQualifiedNamedElement cppElement){
@@ -27,6 +28,11 @@ class NamespaceTemplates {
 	dispatch def getNamespaces(CPPClass cppClass){
 		val namespaces = cppClass.cppQualifiedName.split("::")
 		return namespaces.take(namespaces.size-1).tail
+	}
+	
+	dispatch def getNamespaces(CPPExternalBridge cppExternalBridge){
+		val namespaces = cppExternalBridge.cppQualifiedName.split("::")
+		return namespaces.tail
 	}
 	
 	dispatch def getNamespaces(CPPComponent cppComponent){

@@ -53,6 +53,9 @@ class TypeConverter {
 	}
 	
 	def dispatch String convertType(CPPBasicType basicType) {
+		if(basicType.cppQualifiedName != null){
+			return basicType.cppQualifiedName
+		}
 		return basicType.cppName
 	}
 	

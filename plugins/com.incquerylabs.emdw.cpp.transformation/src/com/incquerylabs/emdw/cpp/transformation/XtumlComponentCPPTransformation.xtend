@@ -25,6 +25,7 @@ import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ExternalBridgeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 
@@ -42,6 +43,7 @@ class XtumlComponentCPPTransformation {
 	ComponentRules componentRules
 	PackageRules packageRules
 	ClassRules classRules
+	ExternalBridgeRules externalBridgeRules
 	AttributeRules attributeRules
 	OperationRules operationRules
 	ReturnValueRules returnValueRules
@@ -81,8 +83,9 @@ class XtumlComponentCPPTransformation {
 			associationRules = new AssociationRules(statements, classReferenceRules)
 			classEventRules = new ClassEventRules(statements, attributeRules)
 			classRules = new ClassRules(statements, classReferenceRules, associationRules, attributeRules, operationRules, classEventRules, includeRules)
-			packageRules = new PackageRules(statements, typeDefinitionRules, classRules, includeRules)
-			componentRules = new ComponentRules(statements, packageRules, typeDefinitionRules, classRules, attributeRules, operationRules, includeRules)
+			externalBridgeRules = new ExternalBridgeRules(engine, statements, operationRules, includeRules)
+			packageRules = new PackageRules(statements, typeDefinitionRules, classRules, externalBridgeRules, includeRules)
+			componentRules = new ComponentRules(statements, packageRules, typeDefinitionRules, classRules, externalBridgeRules, attributeRules, operationRules, includeRules)
 			actionCodeRules = new ActionCodeRules(statements, engine as AdvancedIncQueryEngine)
 			
 			includeRules.addRules(transform)

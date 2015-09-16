@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalBridge
 
 class CPPTemplates {
 	public static boolean GENERATE_TRACING_CODE = true
@@ -11,6 +12,7 @@ class CPPTemplates {
 	val NamespaceTemplates namespaceTemplates
 	val ClassTemplates classTemplates
 	val ComponentTemplates componentTemplates
+	val ExternalBridgeTemplates externalBridgeTemplates
 	val PackageTemplates packageTemplates
 	
 	new(IncQueryEngine engine) {
@@ -18,6 +20,7 @@ class CPPTemplates {
 		packageTemplates = new PackageTemplates(engine)
 		componentTemplates = new ComponentTemplates(engine)
 		classTemplates = new ClassTemplates(engine)
+		externalBridgeTemplates = new ExternalBridgeTemplates(engine)
 	}
 	
 	def CharSequence componentDeclHeaderTemplate(CPPComponent cppComponent){
@@ -50,6 +53,14 @@ class CPPTemplates {
 	
 	def classBodyTemplate(CPPClass cppClass) {
 		classTemplates.classBodyTemplate(cppClass)
+	}
+	
+	def externalBridgeHeaderTemplate(CPPExternalBridge externalBridge){
+		externalBridgeTemplates.externalBridgeHeaderTemplate(externalBridge)
+	}
+	
+	def externalBridgeBodyTemplate(CPPExternalBridge externalBridge){
+		externalBridgeTemplates.externalBridgeBodyTemplate(externalBridge)
 	}
 	
 }

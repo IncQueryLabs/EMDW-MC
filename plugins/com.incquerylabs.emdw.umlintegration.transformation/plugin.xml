@@ -2,4 +2,7 @@
   <extension id="com.incquerylabs.emdw.umlintegration.queries.Trace" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.Trace" id="com.incquerylabs.emdw.umlintegration.queries.Trace"/>
   </extension>
+  <extension id="com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries" id="com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries"/>
+  </extension>
 </plugin>

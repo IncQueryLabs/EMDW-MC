@@ -37,6 +37,7 @@ class TransformationQrt {
 	private var ISchedulerFactory schedulerFactory
 	private var Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> externalTypeMap
 	
+	var Set<UmlIntegrationExtension> extensionServices = #{}
 	private var initialized = false;
 
 	EventDrivenTransformation transform
@@ -96,6 +97,10 @@ class TransformationQrt {
 			debug("Preparing transformation rules.")
 			val transformationBuilder = EventDrivenTransformation.forEngine(engine)
 			ruleProvider = new RuleProvider(engine)
+			
+			// Add extension services to the rule provider
+			ruleProvider.addExtensions(extensionServices)
+			
 			initRules
 			val fixedPriorityResolver = new PerJobFixedPriorityConflictResolver
 			fixedPriorityResolver.setPriorities
@@ -137,6 +142,10 @@ class TransformationQrt {
 		this.externalTypeMap = externalTypeMap
 	}
 
+	def setExtensionServices(Set<UmlIntegrationExtension> extensionServices) {
+		this.extensionServices = extensionServices
+	}
+	
 	def dispose() {
 		transform?.executionSchema?.dispose
 	}

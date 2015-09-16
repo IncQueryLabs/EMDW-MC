@@ -68,6 +68,15 @@
 						<metamodel>
 							<packageClass>com.incquerylabs.emdw.umlintegration.trace.TracePackage</packageClass>
 						</metamodel>
+						<metamodel>
+							<packageClass>com.incquerylabs.emdw.valuedescriptor.ValuedescriptorPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.OoplPackage</packageClass>
+						</metamodel>
+						<metamodel>
+							<packageClass>com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage</packageClass>
+						</metamodel>
 					</metamodels>
 				</configuration>
 				<dependencies>
@@ -101,6 +110,26 @@
 					<dependency>
 						<groupId>com.incquerylabs.emdw</groupId>
 						<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.incquerylabs.emdw.snippet.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.ericsson.xtumlrt.oopl.cpp.model</artifactId>
+						<version>1.0.0-SNAPSHOT</version>
+					</dependency>
+					<dependency>
+						<groupId>com.incquerylabs.emdw</groupId>
+						<artifactId>com.incquerylabs.emdw.valuedescriptor.model</artifactId>
 						<version>1.0.0-SNAPSHOT</version>
 					</dependency>
 				</dependencies>

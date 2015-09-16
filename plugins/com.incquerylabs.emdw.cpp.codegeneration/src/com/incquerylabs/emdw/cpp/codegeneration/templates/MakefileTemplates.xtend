@@ -35,6 +35,8 @@ class MakefileTemplates {
 	.SUFFIXES: .cc .hh .o
 	
 	SOURCES := $(wildcard *.cc)
+	# Add external code location here
+	# SOURCES += $(wildcard [PATH TO EXTERNAL CODE]/*.cc)
 	OBJECTS := $(SOURCES:%.cc=%.o)
 	BINARY := «modelname».out
 	

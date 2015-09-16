@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Ecore="http://www.eclipse.org/uml2/schemas/Ecore/5" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.eclipse.org/uml2/schemas/Ecore/5 pathmap://UML_PROFILES/Ecore.profile.uml#_z1OFcHjqEdy8S4Cr8Rc_NA">
+  <uml:Profile xmi:id="_HaqtUBDoEeWE3_d6VQejPQ" name="xUML-RT" URI="">
+    <eAnnotations xmi:id="_U5vjwBD3EeWqUf_YOii-sA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <contents xmi:type="ecore:EPackage" xmi:id="_52VpAFfdEeW6U6aAzmmp4Q" name="xumlrt" nsURI="http://modelexecution.eltesoft.hu/xumlrt/" nsPrefix="xumlrt">
+        <eAnnotations xmi:id="_52VpAVfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/uml2/2.0.0/UML">
+          <details xmi:id="_52VpAlfdEeW6U6aAzmmp4Q" key="originalName" value="xUMLRT"/>
+        </eAnnotations>
+        <eAnnotations xmi:id="_52VpA1fdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore">
+          <details xmi:id="_52VpBFfdEeW6U6aAzmmp4Q" key="validationDelegates" value="http://www.eclipse.org/emf/2002/Ecore/OCL"/>
+        </eAnnotations>
+        <eAnnotations xmi:id="_52YFQVfdEeW6U6aAzmmp4Q" source="PapyrusVersion">
+          <details xmi:id="_52YFQlfdEeW6U6aAzmmp4Q" key="Version" value="0.0.9"/>
+          <details xmi:id="_52YFQ1fdEeW6U6aAzmmp4Q" key="Comment" value=""/>
+          <details xmi:id="_52YFRFfdEeW6U6aAzmmp4Q" key="Copyright" value=""/>
+          <details xmi:id="_52YFRVfdEeW6U6aAzmmp4Q" key="Date" value="2015-09-10"/>
+          <details xmi:id="_52YFRlfdEeW6U6aAzmmp4Q" key="Author" value=""/>
+        </eAnnotations>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_52VpBVfdEeW6U6aAzmmp4Q" name="Callable">
+          <eAnnotations xmi:id="_52VpBlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_eU0U4BDoEeWE3_d6VQejPQ"/>
+          <eOperations xmi:id="_52VpB1fdEeW6U6aAzmmp4Q" name="ClassNameIsValid">
+            <eAnnotations xmi:id="_52VpCFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpCVfdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*'),&#xD;&#xA;  message='Name of a callable class must be a valid Java class name.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpC1fdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpDFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpDVfdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpD1fdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpEFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpEVfdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpElfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpE1fdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpFFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpFVfdEeW6U6aAzmmp4Q" name="ReceptionNamesAreValid">
+            <eAnnotations xmi:id="_52VpFlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpF1fdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedReception->forAll(r | r.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*')),&#xD;&#xA;  message='Name of a reception on a callable class must be a valid Java method name.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpGVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpGlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpG1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpHVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpHlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpH1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpIFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpIVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpIlfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_52VpI1fdEeW6U6aAzmmp4Q" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EClass" xmi:id="_52VpJVfdEeW6U6aAzmmp4Q" name="ExternalEntity">
+          <eAnnotations xmi:id="_52VpJlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_khOz0BDoEeWE3_d6VQejPQ"/>
+          <eOperations xmi:id="_52VpJ1fdEeW6U6aAzmmp4Q" name="AllOperationsAreStatic">
+            <eAnnotations xmi:id="_52VpKFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpKVfdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.isStatic),&#xD;&#xA;  message='Only static operations are accepted on an external entity.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpK1fdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpLFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpLVfdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpL1fdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpMFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpMVfdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpMlfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpM1fdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpNFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpNVfdEeW6U6aAzmmp4Q" name="HasNoAttributes">
+            <eAnnotations xmi:id="_52VpNlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpN1fdEeW6U6aAzmmp4Q" key="body" value="&#xD;&#xA;Tuple{&#xD;&#xA;  status=base_Class.ownedAttribute->isEmpty(),&#xD;&#xA;  message='External entity must not have any attribute.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpOVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpOlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpO1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpPVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpPlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpP1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpQFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpQVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpQlfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpQ1fdEeW6U6aAzmmp4Q" name="ReferencedClassNameIsValid">
+            <eAnnotations xmi:id="_52VpRFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpRVfdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=class.matches('([\\p{L}_$][\\p{L}\\p{N}_$]*\\.)*[\\p{L}_$][\\p{L}\\p{N}_$]*'),&#xD;&#xA;  message='External entity must specify a fully qualified Java class name.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpR1fdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpSFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpSVfdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpS1fdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpTFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpTVfdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpTlfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpT1fdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpUFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpUVfdEeW6U6aAzmmp4Q" name="OperationNamesAreValid">
+            <eAnnotations xmi:id="_52VpUlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpU1fdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*')),&#xD;&#xA;  message='Name of an operation on an external entity must be a valid Java method name.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpVVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpVlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpV1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpWVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpWlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpW1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpXFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpXVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpXlfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpX1fdEeW6U6aAzmmp4Q" name="NumberOfParametersIsValid">
+            <eAnnotations xmi:id="_52VpYFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpYVfdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() &lt;= 1),&#xD;&#xA;  message='Operation on an external entity could only have at most one parameter.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpY1fdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpZFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpZVfdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpZ1fdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpaFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpaVfdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpalfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52Vpa1fdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpbFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpbVfdEeW6U6aAzmmp4Q" name="ParameterIsCallable">
+            <eAnnotations xmi:id="_52VpblfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52Vpb1fdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;&#xA;      let param : Parameter = op.ownedParameter->first()&#xD;&#xA;      in param.type.getAppliedStereotype('xUML-RT::Callable') &lt;> null&#xD;&#xA;  ),&#xD;&#xA;  message='Type of a parameter on an external entity operation must be a class with Callable stereotype applied.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpcVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpclfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52Vpc1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpdVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpdlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52Vpd1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpeFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpeVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpelfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52Vpe1fdEeW6U6aAzmmp4Q" name="ParameterDirectionIsIn">
+            <eAnnotations xmi:id="_52VpfFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpfVfdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;&#xA;      let param : Parameter = op.ownedParameter->first()&#xD;&#xA;      in param.direction = ParameterDirectionKind::_'in'&#xD;&#xA;  ),&#xD;&#xA;  message='Only an input parameter is accepted on an external entity operation.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52Vpf1fdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpgFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpgVfdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52Vpg1fdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VphFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VphVfdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VphlfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52Vph1fdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpiFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VpiVfdEeW6U6aAzmmp4Q" name="ParameterNameIsValid">
+            <eAnnotations xmi:id="_52VpilfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52Vpi1fdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;&#xA;      let param : Parameter = op.ownedParameter->first()&#xD;&#xA;      in param.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*')&#xD;&#xA;  ),&#xD;&#xA;  message='Name of an operation parameter on an external entity must be a valid Java identifier.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpjVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpjlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52Vpj1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VpkVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpklfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52Vpk1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VplFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VplVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VpllfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52Vpl1fdEeW6U6aAzmmp4Q" name="ParameterMultiplicityIsOne">
+            <eAnnotations xmi:id="_52VpmFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52VpmVfdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;&#xA;      let param : Parameter = op.ownedParameter->first()&#xD;&#xA;      in param.lower = 1 and param.upper = 1&#xD;&#xA;  ),&#xD;&#xA;  message='Multiplicity of an operation parameter on an external entity must be 1.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52Vpm1fdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpnFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpnVfdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52Vpn1fdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VpoFfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52VpoVfdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpolfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52Vpo1fdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52VppFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52VppVfdEeW6U6aAzmmp4Q" name="ClassMustBeAbstract">
+            <eAnnotations xmi:id="_52VpplfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52Vpp1fdEeW6U6aAzmmp4Q" key="body" value="&#xD;&#xA;Tuple{&#xD;&#xA;  status=base_Class.isAbstract,&#xD;&#xA;  message='External entity must be an abstract class.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52VpqVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52VpqlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52Vpq1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52VprVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52VprlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52Vpr1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52VpsFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52VpsVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52WQEFfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eOperations xmi:id="_52WQEVfdEeW6U6aAzmmp4Q" name="ClassNameIsValid">
+            <eAnnotations xmi:id="_52WQElfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/Ecore/OCL">
+              <details xmi:id="_52WQE1fdEeW6U6aAzmmp4Q" key="body" value="Tuple{&#xD;&#xA;  status=base_Class.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*'),&#xD;&#xA;  message='Name of an external entity class must be a valid Java class name.',&#xD;&#xA;  severity=-5&#xD;&#xA;}.status"/>
+            </eAnnotations>
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+            <eParameters xmi:id="_52WQFVfdEeW6U6aAzmmp4Q" name="diagnostics">
+              <eAnnotations xmi:id="_52WQFlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52WQF1fdEeW6U6aAzmmp4Q" key="documentation" value="The chain of diagnostics to which problems are to be appended."/>
+              </eAnnotations>
+              <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDiagnosticChain"/>
+            </eParameters>
+            <eParameters xmi:id="_52WQGVfdEeW6U6aAzmmp4Q" name="context">
+              <eAnnotations xmi:id="_52WQGlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/emf/2002/GenModel">
+                <details xmi:id="_52WQG1fdEeW6U6aAzmmp4Q" key="documentation" value="The cache of context-specific information."/>
+              </eAnnotations>
+              <eGenericType xmi:id="_52WQHFfdEeW6U6aAzmmp4Q">
+                <eTypeArguments xmi:id="_52WQHVfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eTypeArguments xmi:id="_52WQHlfdEeW6U6aAzmmp4Q">
+                  <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+                </eTypeArguments>
+                <eClassifier xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EMap"/>
+              </eGenericType>
+            </eParameters>
+          </eOperations>
+          <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_52WQH1fdEeW6U6aAzmmp4Q" name="base_Class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Class"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_52WQIVfdEeW6U6aAzmmp4Q" name="class" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_52WQI1fdEeW6U6aAzmmp4Q" name="type" ordered="false" lowerBound="1" eType="_52WQKVfdEeW6U6aAzmmp4Q" defaultValueLiteral="Stateless"/>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_52WQJVfdEeW6U6aAzmmp4Q" name="externalHeaderLocation" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+          <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_52WQJ1fdEeW6U6aAzmmp4Q" name="externalNamespace" ordered="false" lowerBound="1">
+            <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//String"/>
+          </eStructuralFeatures>
+        </eClassifiers>
+        <eClassifiers xmi:type="ecore:EEnum" xmi:id="_52WQKVfdEeW6U6aAzmmp4Q" name="EntityType">
+          <eAnnotations xmi:id="_52WQKlfdEeW6U6aAzmmp4Q" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_0JRBIBQ0EeWKZJ_DKPt7bg"/>
+          <eLiterals xmi:id="_52WQK1fdEeW6U6aAzmmp4Q" name="Stateless"/>
+          <eLiterals xmi:id="_52WQLFfdEeW6U6aAzmmp4Q" name="Singleton" value="1"/>
+        </eClassifiers>
+      </contents>
+    </eAnnotations>
+    <elementImport xmi:id="_CA8oEBETEeW-FJt9YDjaNQ" alias="Class">
+      <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+    </elementImport>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_eU0U4BDoEeWE3_d6VQejPQ" name="Callable">
+      <ownedRule xmi:id="_uFWtEBD2EeWqUf_YOii-sA" name="ClassNameIsValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_4CfEkBD2EeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*'),&#xD;
+  message='Name of a callable class must be a valid Java class name.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_Hk9T8BD3EeWqUf_YOii-sA" name="ReceptionNamesAreValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_MJ7T8BD3EeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedReception->forAll(r | r.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*')),&#xD;
+  message='Name of a reception on a callable class must be a valid Java method name.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedAttribute xmi:id="_DlJlwBETEeW-FJt9YDjaNQ" name="base_Class" association="_DlKM0BETEeW-FJt9YDjaNQ">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Stereotype" xmi:id="_khOz0BDoEeWE3_d6VQejPQ" name="ExternalEntity">
+      <ownedRule xmi:id="_MMsccBDpEeWE3_d6VQejPQ" name="AllOperationsAreStatic">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_dMDR0BDvEeWE3_d6VQejPQ">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.isStatic),&#xD;
+  message='Only static operations are accepted on an external entity.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_AURxEBD2EeWqUf_YOii-sA" name="HasNoAttributes">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_Cn7OsBD2EeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>&#xD;
+Tuple{&#xD;
+  status=base_Class.ownedAttribute->isEmpty(),&#xD;
+  message='External entity must not have any attribute.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_TV4ZwBD2EeWqUf_YOii-sA" name="ReferencedClassNameIsValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_YiiE0BD2EeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=class.matches('([\\p{L}_$][\\p{L}\\p{N}_$]*\\.)*[\\p{L}_$][\\p{L}\\p{N}_$]*'),&#xD;
+  message='External entity must specify a fully qualified Java class name.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_MfEi4BEKEeWqUf_YOii-sA" name="OperationNamesAreValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_S1huoBEKEeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*')),&#xD;
+  message='Name of an operation on an external entity must be a valid Java method name.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_Xag8wBEKEeWqUf_YOii-sA" name="NumberOfParametersIsValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_fB8BIBEKEeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() &lt;= 1),&#xD;
+  message='Operation on an external entity could only have at most one parameter.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_rqXEwBELEeWqUf_YOii-sA" name="ParameterIsCallable">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_5OIy0BELEeWqUf_YOii-sA">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;
+      let param : Parameter = op.ownedParameter->first()&#xD;
+      in param.type.getAppliedStereotype('xUML-RT::Callable') &lt;> null&#xD;
+  ),&#xD;
+  message='Type of a parameter on an external entity operation must be a class with Callable stereotype applied.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_8AqykBEQEeW-FJt9YDjaNQ" name="ParameterDirectionIsIn">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_CaKEMBEREeW-FJt9YDjaNQ">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;
+      let param : Parameter = op.ownedParameter->first()&#xD;
+      in param.direction = ParameterDirectionKind::_'in'&#xD;
+  ),&#xD;
+  message='Only an input parameter is accepted on an external entity operation.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_g3Rt8BEREeW-FJt9YDjaNQ" name="ParameterNameIsValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_mQ5eABEREeW-FJt9YDjaNQ">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;
+      let param : Parameter = op.ownedParameter->first()&#xD;
+      in param.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*')&#xD;
+  ),&#xD;
+  message='Name of an operation parameter on an external entity must be a valid Java identifier.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_EGhp8BESEeW-FJt9YDjaNQ" name="ParameterMultiplicityIsOne">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_Iv_IYBESEeW-FJt9YDjaNQ">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.ownedOperation->forAll(op | op.ownedParameter->size() = 1 implies&#xD;
+      let param : Parameter = op.ownedParameter->first()&#xD;
+      in param.lower = 1 and param.upper = 1&#xD;
+  ),&#xD;
+  message='Multiplicity of an operation parameter on an external entity must be 1.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_xlUGoBETEeW-FJt9YDjaNQ" name="ClassMustBeAbstract">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_5xyY0BETEeW-FJt9YDjaNQ">
+          <language>OCL</language>
+          <body>&#xD;
+Tuple{&#xD;
+  status=base_Class.isAbstract,&#xD;
+  message='External entity must be an abstract class.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedRule xmi:id="_S7oXkBQ0EeWKZJ_DKPt7bg" name="ClassNameIsValid">
+        <specification xmi:type="uml:OpaqueExpression" xmi:id="_dQhHwBQ0EeWKZJ_DKPt7bg">
+          <language>OCL</language>
+          <body>Tuple{&#xD;
+  status=base_Class.name.matches('[\\p{L}_$][\\p{L}\\p{N}_$]*'),&#xD;
+  message='Name of an external entity class must be a valid Java class name.',&#xD;
+  severity=-5&#xD;
+}.status</body>
+        </specification>
+      </ownedRule>
+      <ownedAttribute xmi:id="_rjLMkBDoEeWE3_d6VQejPQ" name="base_Class" association="_rjLzoBDoEeWE3_d6VQejPQ">
+        <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Class"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_tobo4BDoEeWE3_d6VQejPQ" name="class">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+        <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_zRVLEBDoEeWE3_d6VQejPQ" value="1"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_zRbRsBDoEeWE3_d6VQejPQ" value="1"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="__-uzQBQ0EeWKZJ_DKPt7bg" name="type" type="_0JRBIBQ0EeWKZJ_DKPt7bg">
+        <defaultValue xmi:type="uml:InstanceValue" xmi:id="_OMD0oBQ1EeWKZJ_DKPt7bg" instance="_5DyaYBQ0EeWKZJ_DKPt7bg"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_SF4BEFfcEeW6U6aAzmmp4Q" name="externalHeaderLocation">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:id="_dh9C0FfcEeW6U6aAzmmp4Q" name="externalNamespace">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+      </ownedAttribute>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_rjLzoBDoEeWE3_d6VQejPQ" name="E_ExternalEntity_Class1" memberEnd="_rjLzoRDoEeWE3_d6VQejPQ _rjLMkBDoEeWE3_d6VQejPQ">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_rjLzoRDoEeWE3_d6VQejPQ" name="extension_ExternalEntity" type="_khOz0BDoEeWE3_d6VQejPQ" aggregation="composite" association="_rjLzoBDoEeWE3_d6VQejPQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Extension" xmi:id="_DlKM0BETEeW-FJt9YDjaNQ" name="E_Callable_Class1" memberEnd="_DlKM0RETEeW-FJt9YDjaNQ _DlJlwBETEeW-FJt9YDjaNQ">
+      <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_DlKM0RETEeW-FJt9YDjaNQ" name="extension_Callable" type="_eU0U4BDoEeWE3_d6VQejPQ" aggregation="composite" association="_DlKM0BETEeW-FJt9YDjaNQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_0JRBIBQ0EeWKZJ_DKPt7bg" name="EntityType">
+      <ownedLiteral xmi:id="_5DyaYBQ0EeWKZJ_DKPt7bg" name="Stateless"/>
+      <ownedLiteral xmi:id="_6Y82gBQ0EeWKZJ_DKPt7bg" name="Singleton"/>
+    </packagedElement>
+    <profileApplication xmi:id="_KgyDcBQ6EeWKZJ_DKPt7bg">
+      <eAnnotations xmi:id="_KgyDcRQ6EeWKZJ_DKPt7bg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UML_PROFILES/Ecore.profile.uml#_z1OFcHjqEdy8S4Cr8Rc_NA"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UML_PROFILES/Ecore.profile.uml#_0"/>
+    </profileApplication>
+  </uml:Profile>
+  <Ecore:EPackage xmi:id="_K5naMBQ6EeWKZJ_DKPt7bg" base_Package="_HaqtUBDoEeWE3_d6VQejPQ" packageName="xumlrt" nsPrefix="xumlrt" nsURI="http://modelexecution.eltesoft.hu/xumlrt/" basePackage="hu.eltesoft.modelexecution.profile" prefix="xumlrt"/>
+</xmi:XMI>

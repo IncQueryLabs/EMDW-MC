@@ -6,12 +6,14 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalBridge
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalHeader
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPHeaderFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructMember
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
@@ -22,7 +24,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructMember
 
 class IncludeRules {
 	static extension val CppQueries cppQueries = CppQueries.instance
@@ -67,6 +68,22 @@ class IncludeRules {
 		componentDefHeader.includedHeaders += classHeader
 		
 		trace('''Added includes between «cppClass.cppName» and «cppComponent.cppName»''')
+	].build
+	
+	@Accessors(PUBLIC_GETTER)
+	val externalBridgeComponentIncludeRule = createRule.precondition(cppExternalBridgeInComponentSubPackages).action[ match |
+		val cppExternalBridge = match.cppExternalBridge
+		val cppComponent = match.cppComponent
+		val componentDeclHeader = cppComponent.declarationHeaderFile
+		val componentDefHeader = cppComponent.definitionHeaderFile
+		val bridgeHeader = cppExternalBridge.headerFile
+		val bridgeBody = cppExternalBridge.bodyFile
+
+		bridgeHeader.includedHeaders += componentDeclHeader
+		bridgeBody.includedHeaders += componentDefHeader
+		componentDefHeader.includedHeaders += bridgeHeader
+		
+		trace('''Added includes between «cppExternalBridge.cppName» and «cppComponent.cppName»''')
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -188,6 +205,10 @@ class IncludeRules {
 	
 	def addIncludesBetweenOwnFiles(CPPClass cppClass){
 		cppClass.bodyFile.includedHeaders += cppClass.headerFile
+	}
+	
+	def addIncludesBetweenOwnFiles(CPPExternalBridge cppExternalBridge){
+		cppExternalBridge.bodyFile.includedHeaders += cppExternalBridge.headerFile
 	}
 	
 	def getExternalHeaders(CPPClassRefSimpleCollection cppRefCollection) {

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmlns:xumlrt="http://modelexecution.eltesoft.hu/xumlrt/">
+  <uml:Model xmi:id="_N2mMAFIwEeW1tdRAFScF0Q" name="ExternalClasses">
+    <packagedElement xmi:type="uml:Component" xmi:id="_PwQcUFIwEeW1tdRAFScF0Q" name="ExternalClassesComp">
+      <packagedElement xmi:type="uml:Package" xmi:id="_4LNgwFL3EeWXlfADFXb0rg" name="ExternalClasses">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TNTyAFIwEeW1tdRAFScF0Q" name="RandomNumberGenerator">
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_y6jvMFLmEeWXlfADFXb0rg" name="getRandomNumber">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_Y9S_IFLqEeWXlfADFXb0rg" name="returnValue" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_4NieEFb_EeWBkb9xlVtRjw" name="setRandomGeneratorParameter">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="__-_oMFb_EeWBkb9xlVtRjw" name="generatorParameter">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_6SpHUFL3EeWXlfADFXb0rg" name="InternalClasses">
+        <packagedElement xmi:type="uml:Class" xmi:id="_ucEh8FL3EeWXlfADFXb0rg" name="Gambler">
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_5-lUAFb2EeWSnpzPt4aYDw" name="gambleBehavior" specification="_yy-30FL3EeWXlfADFXb0rg">
+            <language>C++</language>
+            <body>long result = ::ExternalClasses::ExternalClassesComp::ExternalClasses::RandomNumberGenerator::getRandomNumber();&#xD;
+&#xD;
+::std::cout &lt;&lt; &quot;The gambling result is &quot; &lt;&lt; result &lt;&lt; ::std::endl;</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_epMrsFcAEeWBkb9xlVtRjw" name="hackBehavior" specification="_FFKQwFcAEeWBkb9xlVtRjw">
+            <language>C++</language>
+            <body>::ExternalClasses::ExternalClassesComp::ExternalClasses::RandomNumberGenerator::setRandomGeneratorParameter(generatorParameter);&#xD;
+::std::cout &lt;&lt; &quot;Hacked the random generator with parameter &quot; &lt;&lt; generatorParameter &lt;&lt; ::std::endl;</body>
+          </ownedBehavior>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_yy-30FL3EeWXlfADFXb0rg" name="gamble" method="_5-lUAFb2EeWSnpzPt4aYDw"/>
+          <ownedOperation xmi:type="uml:Operation" xmi:id="_FFKQwFcAEeWBkb9xlVtRjw" name="hackRandomGenerator" method="_epMrsFcAEeWBkb9xlVtRjw">
+            <ownedParameter xmi:type="uml:Parameter" xmi:id="_L_rL0FcAEeWBkb9xlVtRjw" name="generatorParameter">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Okc5kFhcEeWa3ZbbMuJz5w">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_OkeHsFhcEeWa3ZbbMuJz5w" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="http://modelexecution.eltesoft.hu/xumlrt/#/"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="profile/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"/>
+    </profileApplication>
+  </uml:Model>
+  <xumlrt:ExternalEntity xmi:id="_4uO-wFhcEeWa3ZbbMuJz5w" base_Class="_TNTyAFIwEeW1tdRAFScF0Q" externalHeaderLocation="&quot;ExternalHeaders/ExternalRandomNumberGenerator.hh&quot;" externalNamespace="::ExternalNamespace::ExternalRandomNumberGenerator"/>
+</xmi:XMI>

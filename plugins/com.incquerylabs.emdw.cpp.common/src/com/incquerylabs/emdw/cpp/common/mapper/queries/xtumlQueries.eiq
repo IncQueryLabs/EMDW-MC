@@ -15,6 +15,13 @@ pattern ooplType2Type(
 	CPPClass.xtClass(ooplType, commonType);
 }
 
+pattern cppevent2XtEvent(
+	xtEvent : XTEvent,
+	cppEvent : CPPEvent
+) {
+	CPPEvent.xtEvent(cppEvent, xtEvent);
+}
+
 pattern isXtClass(
 	xtType : Type
 ) {
@@ -40,4 +47,10 @@ pattern cppOperation2Operation(
 	cppOperation : CPPOperation
 ) {
 	CPPOperation.commonOperation(cppOperation, commonOperation);
+}
+
+pattern cppPrimitiveTypes(
+	basicType : CPPBasicType
+) {
+	CPPBasicType(basicType);
 }

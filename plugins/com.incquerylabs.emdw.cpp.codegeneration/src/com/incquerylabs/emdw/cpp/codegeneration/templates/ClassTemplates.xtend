@@ -83,6 +83,8 @@ class ClassTemplates extends CPPTemplate {
 		
 		«destructorDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 		
+		«cppClass.instanceStorageInClassHeader»
+		
 		«typeIdTemplate(cppClass)»
 		
 		// Initialization
@@ -130,8 +132,6 @@ class ClassTemplates extends CPPTemplate {
 		
 		// Deny copy of the class using assignment
 		«cppClassName»& operator=(const «cppClassName»&);
-		
-		«cppClass.instanceStorageInClassHeader»
 		
 		«constructorDeclarationsInClassHeader(cppClass, VisibilityKind.PRIVATE)»
 		

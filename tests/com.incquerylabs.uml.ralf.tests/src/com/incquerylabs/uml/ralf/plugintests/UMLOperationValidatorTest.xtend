@@ -4,6 +4,7 @@ import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTes
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
 import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 
 class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 	@Parameters(name = "{0}")
@@ -47,18 +48,18 @@ class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 			],
 			#[  "Ping Signal Operation Call: Variable Parameter",
 			    '''
-				ping_s s = new ping_s();
+				ping_s s = new ping_s(1, this);
 				this.doPingSignalVoid(s);''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
 			#[  "Ping Signal Operation Call: New Instance Parameter",
-			    '''this.doPingSignalVoid(new ping_s());''',
+			    '''this.doPingSignalVoid(new ping_s(1, this));''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
 			#[  "Ping Signal Operation Call: New Instance Parameter, without this",
-			    '''doPingSignalVoid(new ping_s());''',
+			    '''doPingSignalVoid(new ping_s(1, this));''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
@@ -107,7 +108,7 @@ class UMLOperationValidatorTest extends AbstractPluginValidatorTest{
 			#[  "Operation Call Optional Parameters: default value no this",
 			    '''doDefaultValue();''',
 				"model::Comp::Pong::TestOperation",
-			    #[]
+			    #[ReducedAlfSystem.PARAMETERLISTTYPING]
 			]
 		)
 	}

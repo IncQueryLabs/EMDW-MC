@@ -3,27 +3,34 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 import com.google.common.collect.HashBasedTable
 import com.google.common.collect.Table
 import com.incquerylabs.emdw.cpp.common.descriptor.IDescriptorCacheManager
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleVariableDescriptorBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlDeleteBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlInstancesBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLinkUnlinkBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyReadBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlPropertyWriteBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSendSignalBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSingleVariableDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
+import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import java.util.Map
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlLiteralDescriptorBuilder
-import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlOperationCallBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlStaticOperationCallBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCopyConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSigdataDescriptorBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
-	private XtumlValueDescriptorFactory factory
+	public XtumlValueDescriptorFactory factory
 	private UmlToXtumlMapper mapper
 	private AdvancedIncQueryEngine engine
 	private Map<String, SingleVariableDescriptor> singleVariableCache
@@ -79,18 +86,46 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name based on <code>localVariableName</code>
 	 */
-	def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName) {
 		val xtumlType = mapper.convertType(type)
 		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType, localVariableName).cache(localVariableName)
+	}
+	
+	/**
+	 * Create a new SingleVariableDescriptor which stringRepresentation won't be the same as 
+	 * <code>localVariableName</code> because we need to provide a unique name so it will add 
+	 * a unique prefix to the <code>localVariableName</code>. This method caches the returned 
+	 * SingleVariableDescriptor to the <code>localVariableName</code> and you can get it through 
+	 * {@link UmlValueDescriptorFactory#prepareSingleVariableDescriptorForExistingVariable 
+	 * <em>prepareSingleVariableDescriptorForExistingVariable</em>} method.
+	 * 
+	 * @param signal Cannot be null
+	 * @param localVariableName Cannot be null
+	 * 
+	 * @return The SingleVariableDescriptor with the resolved <code>signal</code> based on implementation
+	 *         and with unique name based on <code>localVariableName</code>
+	 */
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Signal signal, String localVariableName) {
+		val xtumlSignal = mapper.convertSignal(signal)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlSignal, localVariableName).cache(localVariableName)
 	}
 	
 	/**
 	 * @return The SingleVariableDescriptor with the resolved type based on implementation and 
 	 *         with unique name
 	 */
-	def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
 		val xtumlType = mapper.convertType(type)
 		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType)
+	}
+	
+	/**
+	 * @return The SingleVariableDescriptor with the resolved signal based on implementation and 
+	 *         with unique name
+	 */
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Signal signal) {
+		val xtumlEvent = mapper.convertSignal(signal)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlEvent)
 	}
 	
 	/**
@@ -107,8 +142,30 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 *         and with <code>stringRepresentation</code> which can be a unique name if SVD is a cached 
 	 *         variable or the same as <code>localVariableName</code> if it is not
 	 */
-	def prepareSingleVariableDescriptorForExistingVariable(Type type, String localVariableName) {
+	dispatch def prepareSingleVariableDescriptorForExistingVariable(Type type, String localVariableName) {
 		val xtumlType = mapper.convertType(type)
+		if(isSingleVariableInCache(localVariableName)) {
+			return getSingleVariableFromCache(localVariableName)
+		}
+		return factory.prepareSingleVariableDescriptorForExistingVariable(xtumlType, localVariableName).cache(localVariableName)
+	}
+	
+	/**
+	 * Create a new SingleVariableDescriptor which stringRepresentation is not necessarily the
+	 * same as <code>localVariableName</code> because cached new variables are available also 
+	 * through this method. If there is no variable in cache to <code>localVariableName</code> 
+	 * a new SVD will be returned which <code>stringRepresentation</code> will be the same as 
+	 * <code>localVariableName</code>.
+	 * 
+	 * @param signal Only can be null if the required SVD in cache
+	 * @param localVariableName Cannot be null
+	 * 
+	 * @return The SingleVariableDescriptor with the resolved <code>signal</code> based on implementation 
+	 *         and with <code>stringRepresentation</code> which can be a unique name if SVD is a cached 
+	 *         variable or the same as <code>localVariableName</code> if it is not
+	 */
+	dispatch def prepareSingleVariableDescriptorForExistingVariable(Signal signal, String localVariableName) {
+		val xtumlType = mapper.convertSignal(signal)
 		if(isSingleVariableInCache(localVariableName)) {
 			return getSingleVariableFromCache(localVariableName)
 		}
@@ -131,21 +188,42 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return factory.prepareSingleVariableDescriptorForLiteral(xtumlType, literal).cache(literal, type)
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType, String localVariableName) {
+	dispatch def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType, String localVariableName) {
 		val xtumlCollectionType = mapper.convertType(collectionType)
 		val xtumlElementType = mapper.convertType(elementType)
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(xtumlCollectionType, xtumlElementType, localVariableName).cache(localVariableName)
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType) {
+	dispatch def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Signal elementType, String localVariableName) {
+		val xtumlCollectionType = mapper.convertType(collectionType)
+		val xtumlElementType = mapper.convertSignal(elementType)
+		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(xtumlCollectionType, xtumlElementType, localVariableName).cache(localVariableName)
+	}
+	
+	dispatch def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType) {
 		val xtumlCollectionType = mapper.convertType(collectionType)
 		val xtumlElementType = mapper.convertType(elementType)
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(xtumlCollectionType, xtumlElementType)
 	}
 	
-	def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, Type elementType, String localVariableName) {
+	dispatch def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Signal elementType) {
+		val xtumlCollectionType = mapper.convertType(collectionType)
+		val xtumlElementType = mapper.convertSignal(elementType)
+		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(xtumlCollectionType, xtumlElementType)
+	}
+	
+	dispatch def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, Type elementType, String localVariableName) {
 		val xtumlCollectionType = mapper.convertType(collectionType)
 		val xtumlElementType = mapper.convertType(elementType)
+		if(isCollectionVariableInCache(localVariableName)) {
+			return getCollectionVariableFromCache(localVariableName)
+		}
+		return factory.prepareCollectionVariableDescriptorForExistingVariable(xtumlCollectionType, xtumlElementType, localVariableName).cache(localVariableName)
+	}
+	
+	dispatch def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, Signal elementType, String localVariableName) {
+		val xtumlCollectionType = mapper.convertType(collectionType)
+		val xtumlElementType = mapper.convertSignal(elementType)
 		if(isCollectionVariableInCache(localVariableName)) {
 			return getCollectionVariableFromCache(localVariableName)
 		}
@@ -205,6 +283,30 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createStaticOperationCallBuilder() {
 		new UmlStaticOperationCallBuilder(engine)
+	}
+	
+	override createInstancesBuilder() {
+		new UmlInstancesBuilder(engine)
+	}
+	
+	override createLinkUnlinkBuilder() {
+		new UmlLinkUnlinkBuilder(this, engine)
+	}
+	
+	override createDeleteBuilder() {
+		new UmlDeleteBuilder
+	}
+	
+	override createSendSignalBuilder() {
+		new UmlSendSignalBuilder
+	}
+	
+	override createCopyConstructorCallBuilder() {
+		new UmlCopyConstructorCallBuilder(engine)
+	}
+	
+	override createSigdataDescriptorBuilder() {
+		new UmlSigdataDescriptorBuilder(this)
 	}
 	
 	

@@ -4,6 +4,8 @@ import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
+import org.eclipse.xtext.diagnostics.Diagnostic
+import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 
 class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 	
@@ -156,7 +158,7 @@ class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 			    Ping x = new Ping();
 			    x.stringProperty;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
+			    #[ReducedAlfLanguageValidator.CODE_INVALID_FEATURE, ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
 			]
 			
 		)

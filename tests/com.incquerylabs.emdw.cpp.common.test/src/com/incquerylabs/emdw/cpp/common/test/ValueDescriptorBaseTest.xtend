@@ -51,7 +51,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeAllTransformation(rs, primitiveTypeMapping)
-		executeAllTransformation
+		executeAllTransformationWithoutCodeCompile
 		val factory = new UmlValueDescriptorFactory(transformationEngine)
 		val valueDescriptor = factory.prepareValueDescriptor(umlObject)
 		assertResult(umlObject, valueDescriptor)

@@ -12,6 +12,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 
 class TypeConverter {
 	
@@ -72,6 +73,10 @@ class TypeConverter {
 	
 	def dispatch String convertType(CPPClass ooplClass) {
 		return ooplClass.cppQualifiedName
+	}
+	
+	def dispatch String convertType(CPPEvent event) {
+		return event.cppQualifiedName
 	}
 	
 	def dispatch convertType(Type type) {

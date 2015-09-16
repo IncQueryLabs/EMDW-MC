@@ -26,6 +26,8 @@ import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ExternalBridgeRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 
 class XtumlComponentCPPTransformation {
 
@@ -52,6 +54,7 @@ class XtumlComponentCPPTransformation {
 	SequenceRules sequenceRules
 	IncludeRules includeRules
 	TypeDefinitionRules typeDefinitionRules
+	ActionCodeRules actionCodeRules
 	
 
 	def initialize(IncQueryEngine engine) {
@@ -83,6 +86,7 @@ class XtumlComponentCPPTransformation {
 			externalBridgeRules = new ExternalBridgeRules(engine, statements, operationRules, includeRules)
 			packageRules = new PackageRules(statements, typeDefinitionRules, classRules, externalBridgeRules, includeRules)
 			componentRules = new ComponentRules(statements, packageRules, typeDefinitionRules, classRules, externalBridgeRules, attributeRules, operationRules, includeRules)
+			actionCodeRules = new ActionCodeRules(statements, engine as AdvancedIncQueryEngine)
 			
 			includeRules.addRules(transform)
 			sequenceRules.addRules(transform)
@@ -93,6 +97,7 @@ class XtumlComponentCPPTransformation {
 			classRules.addRules(transform)
 			packageRules.addRules(transform)
 			componentRules.addRules(transform)
+			actionCodeRules.addRules(transform)
 			
 			info('''Prepared transformation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
@@ -103,20 +108,46 @@ class XtumlComponentCPPTransformation {
 	def execute() {
 			info('''Executing transformation on all xtComponents''')
 			val watch = Stopwatch.createStarted
+			transformComponents
+			compileActionCodes
+			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+	}
+	
+	def transformComponents() {
 			statements.fireAllCurrent(componentRules.cleanComponentsRule)
 			statements.fireAllCurrent(componentRules.componentRule)
-			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
+	}
+	
+	def compileActionCodes() {
+			statements.fireAllCurrent(actionCodeRules.operationActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule)
+			statements.fireAllCurrent(actionCodeRules.guardActionCodeRule)
 	}
 
 	def execute(XTComponent xtComponent) {
 			checkArgument(xtComponent != null, "XTUML Component cannot be null!")
 			info('''Executing transformation on «xtComponent.name»''')
 			val watch = Stopwatch.createStarted
-			statements.fireAllCurrent(componentRules.cleanComponentsRule, [it.xtComponent == xtComponent])
-			statements.fireAllCurrent(componentRules.componentRule, [it.xtComponent == xtComponent])
+			xtComponent.transformComponent
+			xtComponent.compileActionCodes
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
-
+	
+	def transformComponent(XTComponent xtComponent) {
+			statements.fireAllCurrent(componentRules.cleanComponentsRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(componentRules.componentRule, [it.xtComponent == xtComponent])
+	}
+	
+	def compileActionCodes(XTComponent xtComponent) {
+			statements.fireAllCurrent(actionCodeRules.operationActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule, [it.xtComponent == xtComponent])
+			statements.fireAllCurrent(actionCodeRules.guardActionCodeRule, [it.xtComponent == xtComponent])
+	}
+	
 	def dispose() {
 		transform?.dispose
 	}

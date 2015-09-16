@@ -5,6 +5,7 @@ import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
+import org.eclipse.xtext.diagnostics.Diagnostic
 
 class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 	@Parameters(name = "{0}")
@@ -25,7 +26,7 @@ class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 			#[  "Static Operation Call: variable",
 			    '''
 				Integer a;
-				Pong::TestOperation(1, a);''',
+				Pong::StaticTestOperation(1, a);''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],

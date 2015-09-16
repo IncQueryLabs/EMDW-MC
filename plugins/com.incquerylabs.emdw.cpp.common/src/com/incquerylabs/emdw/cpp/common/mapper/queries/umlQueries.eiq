@@ -13,6 +13,14 @@ pattern type2UmlElement(
 	Trace.xtumlrtElements(trace, xtumlType);
 }
 
+pattern xtEvent2Signal(
+	umlSignal,
+	xtEvent : XTEvent
+) {
+	Trace.umlElements(trace, umlSignal);
+	Trace.xtumlrtElements(trace, xtEvent);
+}
+
 pattern attribute2UmlProperty(
 	umlProperty,
 	xtumlAttribute : Attribute
@@ -35,4 +43,12 @@ pattern operation2UmlOperation(
 ) {
 	Trace.umlElements(trace, umlOperation);
 	Trace.xtumlrtElements(trace, xtumlOperation);
+}
+
+pattern primitiveType2EcorePrimitiveType(
+	umlPT,
+	xtumlPT : PrimitiveType
+) {
+	Trace.umlElements(trace, umlPT);
+	Trace.xtumlrtElements(trace, xtumlPT);
 }

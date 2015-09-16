@@ -169,7 +169,7 @@ class StateTemplates extends CPPTemplate {
 			void «cppClassFQN»::«performEntryActionSignature(state)»{
 				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Entry: «state.cppName»]''')»
-				«generateActionCode(state.commonState.entryAction)»
+				«generateActionCode(state.compiledEntryBody)»
 			}
 		«ENDIF»
 		'''
@@ -213,7 +213,7 @@ class StateTemplates extends CPPTemplate {
 			void «cppClassFQN»::«performExitActionSignature(state)»{
 				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Exit]''')»
-				«generateActionCode(state.commonState.exitAction)»
+				«generateActionCode(state.compiledExitBody)»
 			}
 		«ENDIF»
 		'''

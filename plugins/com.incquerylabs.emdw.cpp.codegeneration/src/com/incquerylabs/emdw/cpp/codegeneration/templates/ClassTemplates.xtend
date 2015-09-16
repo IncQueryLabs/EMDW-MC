@@ -340,7 +340,7 @@ class ClassTemplates extends CPPTemplate {
 		val constructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == cppClass.cppName].sortBy[cppName]
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
-		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
+		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null, null)
 		
 		val List<CharSequence> fieldInitializations = newArrayList()
 		
@@ -454,7 +454,7 @@ class ClassTemplates extends CPPTemplate {
 		val cppFQN = cppClass.cppQualifiedName
 		
 		val initStateMatcher = codeGenQueries.getCppClassInitState(engine)
-		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null)
+		val cppInitStateMatch = initStateMatcher.getOneArbitraryMatch(cppClass, null, null, null)
 		
 		var CharSequence fieldInitialization = ""
 		if(cppInitStateMatch != null){
@@ -469,8 +469,8 @@ class ClassTemplates extends CPPTemplate {
 			«ENDIF»
 			«IF cppInitStateMatch != null»
 				// execute actions
-				«actionCodeTemplates.generateActionCode(cppInitStateMatch.initTrans.actionChain)»
-				«actionCodeTemplates.generateActionCode(cppInitStateMatch.cppInitState.commonState.entryAction)»
+				«actionCodeTemplates.generateActionCode(cppInitStateMatch.cppTransition.compiledEffectBody)»
+				«actionCodeTemplates.generateActionCode(cppInitStateMatch.cppInitState.compiledEntryBody)»
 			«ELSE»
 				// no action
 			«ENDIF»

@@ -49,7 +49,7 @@ class OperationTemplates extends CPPTemplate{
 		'''
 			«operationSignature» {
 				«tracingMessage('''[«containerElement.cppName»] operation call: «operationSignature»''')»
-				«actionCodeTemplates.generateActionCode(operation.commonOperation.body)»
+				«actionCodeTemplates.generateActionCode(operation.compiledBody)»
 			}
 		'''
 	}
@@ -60,7 +60,7 @@ class OperationTemplates extends CPPTemplate{
 		'''
 			«constructorSignature»«fieldInitialization» {
 				«tracingMessage('''[«containerElement.cppName»] constructor call: «constructorSignature»''')»
-				«actionCodeTemplates.generateActionCode(constructor.commonOperation.body)»
+				«actionCodeTemplates.generateActionCode(constructor.compiledBody)»
 				«instancesAddTemplates(cppClass)»
 			}
 		'''
@@ -87,7 +87,7 @@ class OperationTemplates extends CPPTemplate{
 		'''
 			«destructorSignature» {
 				«tracingMessage('''[«containerElement.cppName»] destructor call: «destructorSignature»''')»
-				«actionCodeTemplates.generateActionCode(destructor.commonOperation.body)»
+				«actionCodeTemplates.generateActionCode(destructor.compiledBody)»
 				«instancesRemoveTemplates(cppClass)»
 			}
 		'''

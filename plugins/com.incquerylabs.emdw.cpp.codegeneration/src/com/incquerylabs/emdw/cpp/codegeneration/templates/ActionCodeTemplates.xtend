@@ -12,6 +12,8 @@ class ActionCodeTemplates extends CPPTemplate {
 	}
 	
 	def CharSequence generateActionCode(Snippet snippet) {
-		snippet.serialize
+		if(snippet!= null){
+			return snippet.serialize
+		}
 	}
 }

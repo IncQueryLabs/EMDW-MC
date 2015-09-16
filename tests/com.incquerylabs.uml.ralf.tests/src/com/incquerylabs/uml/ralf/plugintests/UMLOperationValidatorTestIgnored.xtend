@@ -8,6 +8,10 @@ import org.junit.Ignore
 
 @Ignore("These features are not yet supported")
 class UMLOperationValidatorTestIgnored extends AbstractPluginValidatorTest{
+	def static getModelName(){
+		return "/com.incquerylabs.uml.ralf.tests/model/model.uml"
+	}
+	
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(

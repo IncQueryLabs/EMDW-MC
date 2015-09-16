@@ -49,6 +49,24 @@ pattern cppOperation2Operation(
 	CPPOperation.commonOperation(cppOperation, commonOperation);
 }
 
+pattern structuredTypeChildren(
+	parent : StructuredType,
+	child : StructuredType
+) {
+	Generalization.^super(gen, parent);
+	Generalization.sub(gen, child);
+}
+
+pattern childrenWhichHasSameNameOperation(
+	operation : Operation,
+	type : StructuredType
+) {
+	find structuredTypeChildren+(type, child);
+	StructuredType.operations(child, hidder);
+	Operation.name(hidder, name);
+	Operation.name(operation, name);
+}
+
 pattern cppPrimitiveTypes(
 	basicType : CPPBasicType
 ) {

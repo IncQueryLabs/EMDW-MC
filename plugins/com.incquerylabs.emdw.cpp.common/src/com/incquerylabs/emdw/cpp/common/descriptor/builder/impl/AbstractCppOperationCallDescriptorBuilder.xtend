@@ -14,8 +14,8 @@ import java.util.List
 abstract class AbstractCppOperationCallDescriptorBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
-	private XtumlToOoplMapper mapper
-	private TypeConverter converter
+	protected XtumlToOoplMapper mapper
+	protected TypeConverter converter
 	protected CPPOperation cppOperation
 	protected List<ValueDescriptor> params
 	

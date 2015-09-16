@@ -15,11 +15,13 @@ public:
     }
 
     virtual ~event() {}
+    virtual event* clone() const {
+      return new event(*this);
+    }
 
     int _id;
     bool _isInternal;
 private:
-    event(const event&);
     event& operator=(const event&);
 };
 

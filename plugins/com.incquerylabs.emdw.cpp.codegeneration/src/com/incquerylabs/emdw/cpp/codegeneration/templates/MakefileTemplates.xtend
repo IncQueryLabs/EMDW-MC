@@ -20,11 +20,11 @@ class MakefileTemplates {
 	MAKE=make
 	«IF false»
 	# IF HAS INCLUDED PROJECT
-	CXXFLAGS=-O3 -Wall -Wextra -I. -I(../)*[INCLUDED_PROJECT]/
+	CXXFLAGS=-O3 -Wall -Wextra -std=c++11 -I. -I(../)*[INCLUDED_PROJECT]/
 	LIBPATH=-L"(../)*[INCLUDED_PROJECT]/[Release/Debug]" -Wl,-rpath,"(../)*[INCLUDED_PROJECT]/[Release/Debug]"
 	LIBS=$(LIBPATH) -l[INCLUDED_PROJECT]
 	«ELSE»
-	CXXFLAGS=-O3 -Wall -Wextra -I.
+	CXXFLAGS=-O3 -Wall -Wextra -std=c++11 -I.
 	LIBS=-lrt
 	«ENDIF»
 	

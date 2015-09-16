@@ -55,6 +55,8 @@ class EventTemplates extends CPPTemplate {
 				public:
 					// Constructor
 					«event.generatedEventClassName»(bool isInternal);
+					// Virtual clone
+					virtual «event.generatedEventClassQualifiedName»* clone() const;
 					// Attributes
 					«event.attributesInEventClassHeader»
 			};
@@ -106,6 +108,7 @@ class EventTemplates extends CPPTemplate {
 		'''
 		«FOR event : classEvents»
 			«event.constructorTemplate»
+			«event.cloneTemplate»
 		«ENDFOR»
 		'''
 	}
@@ -130,6 +133,14 @@ class EventTemplates extends CPPTemplate {
 		}
 		
 		
+	}
+	
+	def cloneTemplate(CPPEvent event){
+		'''
+			«event.generatedEventClassQualifiedName»* «event.generatedEventClassQualifiedName»::clone() const {
+				return new «event.generatedEventClassQualifiedName»(*this);
+			}
+		'''
 	}
 	
 	def incomingEventType(CPPState cppState){

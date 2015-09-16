@@ -62,10 +62,10 @@ class EventUserDefinedTypeTest extends DynamicBehaviorBaseTest {
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		s1.createExitActionCode("exit", "STATE_EXIT_CODE")
-		s2.createEntryActionCode("entry", "STATE_ENTRY_CODE")
+		s1.createExitActionCode("exit", "C++", "STATE_EXIT_CODE")
+		s2.createEntryActionCode("entry", "C++", "STATE_ENTRY_CODE")
 		topState.createTransition(init,s1,"t1")
-		topState.createTransition(s1,s2,"t2", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
+		topState.createTransition(s1,s2,"t2", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(signalEvent, "Trigger")
 
 		pack
 	}

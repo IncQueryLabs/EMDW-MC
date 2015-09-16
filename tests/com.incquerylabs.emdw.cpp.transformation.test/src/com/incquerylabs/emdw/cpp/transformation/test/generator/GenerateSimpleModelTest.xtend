@@ -59,10 +59,10 @@ class GenerateSimpleModelTest extends TransformationTest<Package, CPPDirectory> 
 		val exit = topState.createExitPoint("exit")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		s1.createExitActionCode("exit", "STATE_EXIT_CODE")
-		s2.createEntryActionCode("entry", "STATE_ENTRY_CODE")
+		s1.createExitActionCode("exit", "C++", "STATE_EXIT_CODE")
+		s2.createEntryActionCode("entry", "C++", "STATE_ENTRY_CODE")
 		topState.createTransition(init,s1,"t1")
-		topState.createTransition(s1,s2,"t2", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(signalevent, "Trigger")
+		topState.createTransition(s1,s2,"t2", new Pair( "C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(signalevent, "Trigger")
 		topState.createTransition(s2,exit,"t3")
 	
 		val reg = Resource.Factory.Registry.INSTANCE
@@ -114,10 +114,10 @@ class GenerateSimpleModelTest extends TransformationTest<Package, CPPDirectory> 
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		s1.createExitActionCode("exit", "STATE_EXIT_CODE")
-		s2.createEntryActionCode("entry", "STATE_ENTRY_CODE")
+		s1.createExitActionCode("exit", "C++", "STATE_EXIT_CODE")
+		s2.createEntryActionCode("entry", "C++", "STATE_ENTRY_CODE")
 		val t1 = topState.createTransition(init,s1,"t1")
-		val t2 = topState.createTransition(s1,s2,"t2", "TRANSITION_SAMPLE_CODE")
+		val t2 = topState.createTransition(s1,s2,"t2", new Pair( "C++", "TRANSITION_SAMPLE_CODE"))
 		t2.createXTEventTrigger(signalevent, "Trigger")
 		
 		cppclass.createCPPState(s1)

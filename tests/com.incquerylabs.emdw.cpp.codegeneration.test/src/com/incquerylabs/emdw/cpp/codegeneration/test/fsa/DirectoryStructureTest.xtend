@@ -35,15 +35,15 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 		
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
-		s1.createEntryActionCode("entry", "SAMPLE_entry")
-		s1.createExitActionCode("s1_exit", "SOME s1 exit code")
-		topState.createTransition(init, s1, "initTrans",
+		s1.createEntryActionCode("entry", "C++", "SAMPLE_entry")
+		s1.createExitActionCode("s1_exit", "C++", "SOME s1 exit code")
+		topState.createTransition(init, s1, "initTrans","C++", 
 			'''
 				SAMPLE_CODE
 				some other code
 			''')
 		val s2 = topState.createSimpleState("s2")
-		s2.createEntryActionCode("s2_entry", "SOME s2 entry action")
+		s2.createEntryActionCode("s2_entry", "C++", "SOME s2 entry action")
 		
 		val t1 = topState.createTransition(s1,s2,"t1", "SAMPLE_CODE",
 			'''
@@ -51,13 +51,13 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 				some more code
 			''')
 		t1.createXTEventTrigger(classEvent, "Trigger1")
-		val t2 = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
+		val t2 = topState.createTransition(s1,s2,"t2", "C++", "SAMPLE_CODE")
 		t2.createXTEventTrigger(classEvent2, "Trigger2")
 		
 		
-		val t3 = topState.createTransition(s1,s2,"t3", "SAMPLE_CODE")
+		val t3 = topState.createTransition(s1,s2,"t3", "C++", "SAMPLE_CODE")
 		t3.createXTEventTrigger(classEvent2, "Trigger3")
-		val t4 = topState.createTransition(s1,s2,"t4", "SAMPLE_CODE")
+		val t4 = topState.createTransition(s1,s2,"t4", "C++", "SAMPLE_CODE")
 		t4.createXTEventTrigger(classEvent, "Trigger4")
 		
 		val cppModelBodyDirectory = cppModel.eResource.createCPPDirectory
@@ -99,15 +99,15 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 		
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
-		s1.createEntryActionCode("entry", "SAMPLE_entry")
-		s1.createExitActionCode("s1_exit", "SOME s1 exit code")
-		topState.createTransition(init, s1, "initTrans",
+		s1.createEntryActionCode("entry", "C++", "SAMPLE_entry")
+		s1.createExitActionCode("s1_exit", "C++", "SOME s1 exit code")
+		topState.createTransition(init, s1, "initTrans","C++", 
 			'''
 				SAMPLE_CODE
 				some other code
 			''')
 		val s2 = topState.createSimpleState("s2")
-		s2.createEntryActionCode("s2_entry", "SOME s2 entry action")
+		s2.createEntryActionCode("s2_entry", "C++", "SOME s2 entry action")
 		
 		val t1 = topState.createTransition(s1,s2,"t1", "SAMPLE_CODE",
 			'''
@@ -115,13 +115,13 @@ class DirectoryStructureTest extends FileAndDirectoryBaseTest<Model, CPPModel> {
 				some more code
 			''')
 		t1.createXTEventTrigger(classEvent, "Trigger1")
-		val t2 = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
+		val t2 = topState.createTransition(s1,s2,"t2", "C++", "SAMPLE_CODE")
 		t2.createXTEventTrigger(classEvent2, "Trigger2")
 		
 		
-		val t3 = topState.createTransition(s1,s2,"t3", "SAMPLE_CODE")
+		val t3 = topState.createTransition(s1,s2,"t3", "C++", "SAMPLE_CODE")
 		t3.createXTEventTrigger(classEvent2, "Trigger3")
-		val t4 = topState.createTransition(s1,s2,"t4", "SAMPLE_CODE")
+		val t4 = topState.createTransition(s1,s2,"t4", "C++", "SAMPLE_CODE")
 		t4.createXTEventTrigger(classEvent, "Trigger4")
 		
 		val cppModelBodyDirectory = createCPPDirectory(cppModel.eResource)

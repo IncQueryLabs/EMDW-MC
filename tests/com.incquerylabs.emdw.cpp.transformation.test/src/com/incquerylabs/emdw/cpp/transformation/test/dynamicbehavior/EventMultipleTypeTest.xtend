@@ -105,18 +105,18 @@ class EventMultipleTypeTest extends DynamicBehaviorBaseTest {
 		val s3 = topState.createSimpleState("s3")
 		val s4 = topState.createSimpleState("s4")
 		val s5 = topState.createSimpleState("s5")
-		s1.createExitActionCode("exit", "STATE_EXIT_CODE")
-		s2.createEntryActionCode("entry", "STATE_ENTRY_CODE")
+		s1.createExitActionCode("exit", "C++", "STATE_EXIT_CODE")
+		s2.createEntryActionCode("entry", "C++", "STATE_ENTRY_CODE")
 		
 		topState.createTransition(init,s1,"t1")
 		
-		topState.createTransition(s1,s2,"t2", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(primitiveEvent, "Trigger")
-		topState.createTransition(s1,s3,"t3", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(userDefinedEvent, "Trigger")
-		topState.createTransition(s1,s4,"t4", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(classEvent, "Trigger")
+		topState.createTransition(s1,s2,"t2", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(primitiveEvent, "Trigger")
+		topState.createTransition(s1,s3,"t3", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(userDefinedEvent, "Trigger")
+		topState.createTransition(s1,s4,"t4", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(classEvent, "Trigger")
 		
-		topState.createTransition(s2,s5,"t2", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(primitiveEvent, "Trigger")
-		topState.createTransition(s3,s5,"t3", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(userDefinedEvent, "Trigger")
-		topState.createTransition(s4,s5,"t1", "TRANSITION_SAMPLE_CODE").createXTEventTrigger(classEvent, "Trigger")
+		topState.createTransition(s2,s5,"t2", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(primitiveEvent, "Trigger")
+		topState.createTransition(s3,s5,"t3", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(userDefinedEvent, "Trigger")
+		topState.createTransition(s4,s5,"t1", new Pair("C++", "TRANSITION_SAMPLE_CODE")).createXTEventTrigger(classEvent, "Trigger")
 
 		pack
 	}

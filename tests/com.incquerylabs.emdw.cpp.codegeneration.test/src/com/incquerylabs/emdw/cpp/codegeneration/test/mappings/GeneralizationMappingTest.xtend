@@ -32,27 +32,27 @@ class GeneralizationMappingTest extends TransformationTest<CPPComponent, CPPComp
 		val xtBaseClass = xtComponent.createXtClass("BaseClass")
 		val xtDerivedClass = xtComponent.createXtClass("DerivedClass")
 		val xtParam1 = createParameter(xtBooleanType, "FunctionParamBool", DirectionKind.IN)
-		val xtBaseVirtualOperation = xtBaseClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, "myVirtualFunction", "// this is the virtual function", xtParam1)
+		val xtBaseVirtualOperation = xtBaseClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, "myVirtualFunction", "C++", "// this is the virtual function", xtParam1)
 		
 		val xtBaseVirtualReturnType = xtBooleanType.createTypedMultiplicityElement(1, 1, false, false)
 		xtBaseVirtualOperation.returnType = xtBaseVirtualReturnType
 		
 		val xtParam2 = createParameter(xtBooleanType, "ParamBool", DirectionKind.IN)
 		val xtParam3 = createParameter(xtIntType, "ParamInt", DirectionKind.IN)
-		val xtBaseConstructor1 = xtBaseClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, xtBaseClass.name, "// this is a constructor", xtParam2, xtParam3)
+		val xtBaseConstructor1 = xtBaseClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, xtBaseClass.name, "C++", "// this is a constructor", xtParam2, xtParam3)
 		
 		val xtParam4 = createParameter(xtBooleanType, "ParamBool", DirectionKind.IN)
-		val xtBaseConstructor2 = xtBaseClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, xtBaseClass.name, "// this is another constructor", xtParam4)
+		val xtBaseConstructor2 = xtBaseClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, xtBaseClass.name, "C++", "// this is another constructor", xtParam4)
 		
 		xtDerivedClass.createGeneralization(xtBaseClass)
 		val xtParam1d = createParameter(xtBooleanType, "FunctionParamBool", DirectionKind.IN)
-		val xtDerivedVirtualOperation = xtDerivedClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, "myVirtualFunction", "// this is the virtual function in the derived class", xtParam1d)
+		val xtDerivedVirtualOperation = xtDerivedClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, "myVirtualFunction", "C++", "// this is the virtual function in the derived class", xtParam1d)
 		val xtDerivedVirtualReturnType = createTypedMultiplicityElement(xtBooleanType, 1, 1, false, false)
 		xtDerivedVirtualOperation.returnType = xtDerivedVirtualReturnType
 		
 		val xtParam2d = createParameter(xtBooleanType, "ParamBool", DirectionKind.IN)
 		val xtParam3d = createParameter(xtIntType, "NotTheSameParamInt", DirectionKind.IN)
-		val xtDerivedConstructor1 = xtDerivedClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, xtDerivedClass.name, "// this is a constructor", xtParam2d, xtParam3d)
+		val xtDerivedConstructor1 = xtDerivedClass.createOperation(VisibilityKind.PUBLIC, false, xtBooleanType, xtDerivedClass.name, "C++", "// this is a constructor", xtParam2d, xtParam3d)
 		
 		// Prepare cppmodel
 		val cppPackage = cppModel.createCPPPackage(xtPackage)

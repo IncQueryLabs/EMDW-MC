@@ -40,7 +40,7 @@ class CPPReturnValueSingleBasicTypeTest extends SingleComponentTransformTest {
 		val xtTypeDef = pack.createTypeDefinition("td")
 		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
 		
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType,"Op", "Body")
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType,"Op", "C++", "Body")
 		
 		xtComponent
 	}
@@ -96,7 +96,7 @@ class CPPReturnValueBasicTypeSequenceTest extends SingleComponentTransformTest {
 		val xtTypeDef = pack.createTypeDefinition("td")
 		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
 		
-		val xtOperation = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType,"Op", "Body")
+		val xtOperation = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType,"Op", "C++", "Body")
 		xtOperation.returnType.lowerBound = 0
 		xtOperation.returnType.upperBound = -1
 		
@@ -156,7 +156,7 @@ class CPPReturnValueSingleClassTypeTest extends SingleComponentTransformTest {
 		val xtComponent = pack.createXtComponent("Component")
 		val xtClass = xtComponent.createXtClass("Class")
 		
-		val xtOperation = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtClass,"Op", "Body")
+		val xtOperation = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtClass,"Op", "C++", "Body")
 		xtOperation.returnType.lowerBound = 1
 		xtOperation.returnType.upperBound = 1
 		
@@ -213,7 +213,7 @@ class CPPReturnValueClassCollectionTypeTest extends SingleComponentTransformTest
 		val xtComponent = pack.createXtComponent("Component")
 		val xtClass = xtComponent.createXtClass("Class")
 		
-		val xtOperation = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtClass,"Op", "Body")
+		val xtOperation = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtClass,"Op", "C++", "Body")
 		xtOperation.returnType.lowerBound = 0
 		xtOperation.returnType.upperBound = -1
 		

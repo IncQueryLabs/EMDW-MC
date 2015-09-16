@@ -49,7 +49,7 @@ class CPPFormalParameterBasicTypeTest extends SingleComponentTransformTest {
 		val xtTypeDef = pack.createTypeDefinition("td")
 		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
 		val xtParam = createParameter(xtType,"Param",DirectionKind.IN)
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "C++", "Body", xtParam)
 		
 		component
 	}
@@ -108,7 +108,7 @@ class CPPFormalParameterBasicTypeSequenceTest extends SingleComponentTransformTe
 		val xtParam = createParameter(xtType,"Param",DirectionKind.IN_OUT) => [
 			upperBound = 5
 		]
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "C++", "Body", xtParam)
 		
 		component
 	}
@@ -153,7 +153,7 @@ class CPPFormalParameterClassTypeTest extends SingleComponentTransformTest {
 		val xtClass = component.createXtClass("Class")
 		val xtClass2 = component.createXtClass("Class2")
 		val xtParam = createParameter(xtClass2,"Param",DirectionKind.IN)
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "C++", "Body", xtParam)
 		
 		component
 	}
@@ -213,7 +213,7 @@ class CPPFormalParameterClassTypeSequenceTest extends SingleComponentTransformTe
 		val xtParam = createParameter(xtClass2,"Param",DirectionKind.IN) => [
 			upperBound = 5
 		]
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "C++", "Body", xtParam)
 		
 		component
 	}

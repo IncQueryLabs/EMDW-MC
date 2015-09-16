@@ -59,7 +59,7 @@ class StateEntryBehaviorTest extends DynamicBehaviorBaseTest {
 		val init = topState.createInitialPoint("init")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		s2.createEntryActionCode("Entry action", "TEST CODE")
+		s2.createEntryActionCode("Entry action", "C++", "TEST CODE")
 		topState.createTransition(init,s1,"t1")
 		topState.createTransition(s1,s2,"t2").createXTEventTrigger(signalEvent, "Trigger")
 

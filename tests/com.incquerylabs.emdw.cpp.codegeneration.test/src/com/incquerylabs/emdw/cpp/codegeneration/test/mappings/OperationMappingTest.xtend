@@ -32,7 +32,7 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		val xtPar = createParameter(xtType, "myParam", DirectionKind.IN)
 		val xtPar2 = createParameter(xtType, "myParam2", DirectionKind.IN)
 		xtPar2.upperBound = 2;
-		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "PSEUDO_CODE", xtPar, xtPar2)
+		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "C++", "PSEUDO_CODE", xtPar, xtPar2)
 		
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)

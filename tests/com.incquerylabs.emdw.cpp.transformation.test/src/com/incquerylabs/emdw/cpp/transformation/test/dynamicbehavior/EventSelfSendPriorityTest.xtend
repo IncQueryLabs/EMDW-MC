@@ -100,7 +100,7 @@ class EventSelfSendPriorityTest extends DynamicBehaviorBaseTest{
 		val aS3 = aTop.createSimpleState("s3")
 		
 		aTop.createTransition(aInit,aS1,"aT1")
-		aTop.createTransition(aS1,aS2,"aT2", "i++", "Send E1 to SELF").createGuard("aT2Guard", "[i<10]")
+		aTop.createTransition(aS1,aS2,"aT2", new Pair("C++", "i++"), new Pair("C++", "Send E1 to SELF")).createGuard("aT2Guard", "C++", "[i<10]")
 		aTop.createTransition(aS2,aS1,"aT3").createXTEventTrigger(e1SignalEvent, "E1_Trigger_At_aT3")
 		aTop.createTransition(aS2,aS3,"aT4").createXTEventTrigger(e2SignalEvent, "E2_Trigger_At_aT4")
 		aTop.createTransition(aS1,aS3,"aT5").createXTEventTrigger(e2SignalEvent, "E2_Trigger_At_aT5")
@@ -111,8 +111,8 @@ class EventSelfSendPriorityTest extends DynamicBehaviorBaseTest{
 		val bS2 = bTop.createSimpleState("s2")
 		
 		bTop.createTransition(bInit,bS1,"bT1")
-		bTop.createTransition(bS1,bS1,"bT2", "i++").createGuard("bt1Guard", "[i<5]")
-		bTop.createTransition(bS1,bS2,"bT3", "SEND E2 to A").createGuard("bt1Guard", "[i==5]")
+		bTop.createTransition(bS1,bS1,"bT2", new Pair("C++", "i++")).createGuard("bt1Guard", "C++", "[i<5]")
+		bTop.createTransition(bS1,bS2,"bT3", new Pair("C++", "SEND E2 to A")).createGuard("bt1Guard", "C++", "[i==5]")
 
 		pack
 	}

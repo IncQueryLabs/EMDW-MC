@@ -35,7 +35,7 @@ class CPPTransitionInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
+		topState.createTransition(s1,s2,"t2", new Pair("C++", "SAMPLE_CODE"))
 		
 		return xtClass
 	}

@@ -8,7 +8,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ 
     UMLAssociationValidatorTest.class, 
     UMLOpaqueOperationParameterValidatorTest.class,
-    UMLOpaqueOperationParameterValidatorTestIgnored.class,
     UMLOperationValidatorTest.class,
     UMLOperationPrimitiveValidatorTest.class,
     UMLOperationReturnValidatorTest.class,
@@ -16,6 +15,7 @@ import org.junit.runners.Suite.SuiteClasses;
     UMLPropertyAccessValidatorTest.class,
     UMLPropertyAccessValidatorTestIgnored.class,
     UMLSigdataValidatorTest.class,
+    UMLOperationValidatorTestIgnored.class,
     UMLVariableDeclarationValidatorTest.class,
     UMLVariableDeclarationValidatorTestIgnored.class})
 public class RalfValidatorPluginTestSuite {}

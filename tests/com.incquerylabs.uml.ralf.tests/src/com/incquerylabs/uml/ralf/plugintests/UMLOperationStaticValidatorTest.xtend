@@ -1,13 +1,19 @@
 package com.incquerylabs.uml.ralf.plugintests
 
-import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
-import java.util.Collection
-import org.junit.runners.Parameterized.Parameters
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
+import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
-import org.eclipse.xtext.diagnostics.Diagnostic
+import java.util.Collection
+import org.junit.BeforeClass
+import org.junit.runners.Parameterized.Parameters
 
 class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
+	@BeforeClass
+	def static void setup(){
+		modelName = "/com.incquerylabs.uml.ralf.tests/model/model.uml"
+		init()
+	}
+	
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
@@ -59,6 +65,12 @@ class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 			    #[
 			        ReducedAlfLanguageValidator.CODE_THIS_IN_STATIC
 			    ]
+			],
+			#[  "Class Extent: instances() filter",
+			    '''
+			    Pong::instances().filter( p : p.integerProperty == 1 );''',
+				"model::Comp::Pong::TestOperation",
+			    #[ ]
 			]
 		)
 	}

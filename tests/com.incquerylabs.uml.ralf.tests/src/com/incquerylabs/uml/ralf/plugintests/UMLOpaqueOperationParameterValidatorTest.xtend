@@ -3,9 +3,16 @@ package com.incquerylabs.uml.ralf.plugintests
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import java.util.Collection
+import org.junit.BeforeClass
 import org.junit.runners.Parameterized.Parameters
 
 class UMLOpaqueOperationParameterValidatorTest extends AbstractPluginValidatorTest{
+	@BeforeClass
+	def static void setup(){
+		modelName = "/com.incquerylabs.uml.ralf.tests/model/model.uml"
+		init()
+	}
+	
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
@@ -77,6 +84,50 @@ class UMLOpaqueOperationParameterValidatorTest extends AbstractPluginValidatorTe
 			    '''outParameter = this.returnPong();''',
 				"model::Comp::Pong::TestOperation",
 			    #[ReducedAlfSystem.ASSIGNMENTEXPRESSION]
+			],
+			#[  "Return Parameter: Addition",
+			    '''return 1+2;''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Return Parameter: Multiplication",
+			    '''return 1*2;''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Return Parameter: Shift",
+			    '''return 1 >> 2;''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Return Parameter: Operation",
+			    '''
+				Integer x = this.returnInteger();
+				return x;''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Return Parameter: Integer Literal",
+			    '''return 1;''',
+				"model::Comp::Pong::TestOperation",
+			    #[]
+			],
+			#[  "Invalid Return Parameter: Real Literal",
+			    '''return 1.1;''',
+				"model::Comp::Pong::TestOperation",
+			    #["null"]
+			],
+			#[  "Invalid Return Parameter: String Literal",
+			    '''return "1";''',
+				"model::Comp::Pong::TestOperation",
+			    #["null"]
+			],
+			#[  "Invalid Return Parameter: String variable",
+			    '''
+				Pong x = this.returnPong();
+				return x;''',
+				"model::Comp::Pong::TestOperation",
+			    #["null"]
 			]	
 		)
 	}	

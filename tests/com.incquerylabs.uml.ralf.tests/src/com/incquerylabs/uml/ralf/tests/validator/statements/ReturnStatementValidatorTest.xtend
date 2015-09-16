@@ -2,10 +2,8 @@ package com.incquerylabs.uml.ralf.tests.validator.statements
 
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractValidatorTest
 import java.util.Collection
-import org.junit.Ignore
 import org.junit.runners.Parameterized.Parameters
 
-@Ignore("Return statements are unstable")
 class ReturnStatementValidatorTest extends AbstractValidatorTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {

@@ -1,13 +1,17 @@
 package com.incquerylabs.uml.ralf.plugintests
 
-import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTest
 import java.util.Collection
-import org.junit.Ignore
+import org.junit.BeforeClass
 import org.junit.runners.Parameterized.Parameters
 
-@Ignore("The current state of the context provider does not allow these test cases to function properly")
 class UMLSigdataValidatorTest extends AbstractPluginValidatorTest{
+	@BeforeClass
+	def static void setup(){
+		modelName = "/com.incquerylabs.uml.ralf.tests/model/model.uml"
+		init()
+	}
+	
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
@@ -37,12 +41,6 @@ class UMLSigdataValidatorTest extends AbstractPluginValidatorTest{
 			    ''',
 				"sendPong",
 			    #[]
-			],
-			#[  "Invalid Signal Data Access: not appropriate attribute",
-			    '''
-			    sigdata.stringAttribute;''',
-				"sendPong",
-			    #[ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
 			]
 		)
 	}

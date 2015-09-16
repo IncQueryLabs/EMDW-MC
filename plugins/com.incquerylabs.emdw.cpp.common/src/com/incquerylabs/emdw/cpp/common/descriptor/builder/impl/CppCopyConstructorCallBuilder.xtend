@@ -27,7 +27,7 @@ class CppCopyConstructorCallBuilder implements IOoplCopyConstructorCallBuilder {
 		var ocd = factory.createOperationCallDescriptor
 		val cppEvent = mapper.convertEvent(re)
 		ocd.baseType = '''«converter.convertType(cppEvent)»_event'''
-		ocd.stringRepresentation = '''new «ocd.baseType»(«IF param!=null»«param.stringRepresentation»«ENDIF»)'''
+		ocd.stringRepresentation = '''«IF param!=null»«param.stringRepresentation»«ENDIF».clone()'''
 		ocd.fullType = ocd.baseType
 		return ocd
 	}

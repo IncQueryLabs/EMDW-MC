@@ -49,7 +49,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 			sourceToTargetString = collectionModificationCode(xtAssociation, sourceDescriptor, targetDescriptor)
 		}
 		
-		if(xtAssociation.opposite.upperBound == 1) {
+		if(xtAssociation.opposite!=null && xtAssociation.opposite.upperBound == 1) {
 			var targetToSourceWriteBuilder = createAssociationWriteDescriptor(targetDescriptor, sourceDescriptor, xtAssociation.opposite)
 			targetToSourceString = '''«targetToSourceWriteBuilder.stringRepresentation»'''
 		} else {
@@ -59,8 +59,8 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		val voidTypeString = converter.convertType(mapper.findBasicType("void"))
 		return factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
-										«sourceToTargetString»;
-										«targetToSourceString»'''
+										«sourceToTargetString»«IF xtAssociation.opposite!=null»;
+										«targetToSourceString»«ENDIF»'''
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
 		]
@@ -117,7 +117,8 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	
 	def CollectionVariableDescriptor createCollectionDescriptorForAssociation(XTAssociation xtAssociation) {
 		val rel = mapper.convertAssociation(xtAssociation)
-		return umlFactory.factory.factory.prepareCollectionVariableDescriptorForNewLocalVariable(rel.referenceStorage.head.type, (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).ooplClass)
+		val collection = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection)
+		return umlFactory.factory.factory.prepareCollectionVariableDescriptorForNewLocalVariable(collection, collection.ooplClass)
 	}
 	
 	override isUnlink(boolean isUnlink) {

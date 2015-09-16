@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.OOPLBasicType
 import com.ericsson.xtumlrt.oopl.OOPLEnumType
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
@@ -182,7 +183,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		'''«event»_event'''
 	}
 	
-	private def prepareCollectionVariableDescriptor(OOPLType collectionType, OOPLType elementType, String localVariableName) {
+	private dispatch def prepareCollectionVariableDescriptor(OOPLType collectionType, OOPLType elementType, String localVariableName) {
 		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
 				it.baseType = (collectionType as CPPQualifiedNamedElement).cppQualifiedName
@@ -192,7 +193,17 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		return preparedDescriptor
 	}
 	
-	private def prepareCollectionVariableDescriptor(OOPLType collectionType, CPPEvent elementType, String localVariableName) {
+	private dispatch def prepareCollectionVariableDescriptor(CPPClassRefSimpleCollection collectionType, OOPLType elementType, String localVariableName) {
+		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
+				it.stringRepresentation = localVariableName
+				it.baseType = (collectionType).cppContainer
+				it.templateTypes.add((elementType as CPPQualifiedNamedElement).cppQualifiedName)
+				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
+		]
+		return preparedDescriptor
+	}
+	
+	private dispatch def prepareCollectionVariableDescriptor(OOPLType collectionType, CPPEvent elementType, String localVariableName) {
 		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
 				it.baseType = (collectionType as CPPQualifiedNamedElement).cppQualifiedName

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ActionLanguage="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ">
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
   <uml:Model xmi:id="_nrzE0ERNEeWkj9RR80hJXw" name="PhoneX">
     <packageImport xmi:type="uml:PackageImport" xmi:id="_nrzE0URNEeWkj9RR80hJXw">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
@@ -237,7 +237,7 @@ Call call = this->call;&#xD;
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7Do0ERNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
                   <body>  // assign td = timer_cancel::Time(timer_inst_ref: self.RingingExpirationTimer);&#xD;
-  Boolean td = TIM::timerCancel(timer_inst_ref=>this.ringingexpirationtimer);&#xD;
+  Boolean td = TIM::timerCancel(timer_inst_ref=>this.'RingingExpirationTimer');&#xD;
   // select one called related by self->Called[R3];&#xD;
 Called called = this->'called';&#xD;
   // select one caller related by self->Caller[R2];&#xD;
@@ -862,7 +862,7 @@ else{&#xD;
                   <language>rALF</language>
                   <body>User user = User::instances().filter(selected: selected.ID == sigdata.UserId).one();&#xD;
 if(  user ==null){ //add one, send back Success!&#xD;
-	send new DBPort_In::SetUserStatusResponse(ServiceId=> sigdata.ServiceId, UserId=> sigdata.ID, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
+	send new DBPort_In::SetUserStatusResponse(ServiceId=> sigdata.ServiceId, UserId=> sigdata.UserId, isSuccessfull=> false) to DBPort_In::instances().one();&#xD;
 }&#xD;
 else{&#xD;
 	user.Busy=sigdata.isBusy;&#xD;
@@ -1001,16 +1001,16 @@ else{&#xD;
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_YWHVAEThEeWF_ZPyFqjTUQ" name="effect$AddUserResponse">
                   <language>rALF</language>
                   <body>//check if it's mine ServiceID&#xD;
-if(param.ServiceId != Service::GetServiceId() and (param.ServiceId !=0) ){//this is not related to me&#xD;
+if(sigdata.'ServiceId' != Service::GetServiceId() &amp;&amp; (sigdata.'ServiceId' !=0) ){//this is not related to me&#xD;
 	return;&#xD;
 }&#xD;
-UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances().filter(selected: selected.PhoneNumber == UserId).one();&#xD;
+UnregisteredSubscriber unregsub  = UnregisteredSubscriber::instances().filter(selected: selected.PhoneNumber == sigdata.UserId).one();&#xD;
 if(unregsub==null){&#xD;
 	TRACE::traceError(msg=>&quot;PhoneX/DBPort/AddUserResponse - Registration result (AddUserResponse) received for unknown user&quot;);&#xD;
 	return;&#xD;
 }&#xD;
 RegistrationProcess regproc =  unregsub->registrationProcess;&#xD;
-if(isSuccessfull == true){&#xD;
+if(sigdata.'isSuccessfull' == true){&#xD;
 	send new RegistrationProcess::Registrationconfirmed() to regproc;&#xD;
 }&#xD;
 else {&#xD;
@@ -1046,7 +1046,7 @@ else {&#xD;
               <transition xmi:type="uml:Transition" xmi:id="_QAvosETlEeWF_ZPyFqjTUQ" name="SetUserResponseStatus" source="_ts_ocETgEeWF_ZPyFqjTUQ" target="_ts_ocETgEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_aGmeYETlEeWF_ZPyFqjTUQ" name="effect$SetUserStatusResponse">
                   <language>rALF</language>
-                  <body>if((ServiceId != Service::GetServiceId()) &amp;&amp; (ServiceId !=0) ){//not for me&#xD;
+                  <body>if((sigdata.ServiceId != Service::GetServiceId()) &amp;&amp; (sigdata.ServiceId !=0) ){//not for me&#xD;
 	return;&#xD;
 }&#xD;
 Subscriber subscriber = Subscriber::instances().filter(selected:selected.PhoneNumber == sigdata.UserId).one();&#xD;
@@ -1055,7 +1055,7 @@ if(subscriber == null){&#xD;
 	return;//this is not good LOG this&#xD;
 }&#xD;
 &#xD;
-if(isSuccessfull==true)}&#xD;
+if(sigdata.isSuccessfull==true){&#xD;
 	send new Subscriber::Userupdatesuccess() to subscriber;&#xD;
 }&#xD;
 else{&#xD;
@@ -1242,11 +1242,11 @@ else{&#xD;
         <packagedElement xmi:type="uml:Class" xmi:id="_A5HJwES6EeWF_ZPyFqjTUQ" name="TRACE">
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_ycJV8EXiEeWF_ZPyFqjTUQ" name="method$traceError$1" specification="_I0XwIES6EeWF_ZPyFqjTUQ">
             <language>rALF</language>
-            <body>std::out::println(msg=>msg);</body>
+            <body>std::out::println(value=>msg);</body>
           </ownedBehavior>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_5qbhkEXiEeWF_ZPyFqjTUQ" name="method$traceWarning$1" specification="_5dj10ETHEeWF_ZPyFqjTUQ">
             <language>rALF</language>
-            <body>std::out::println(msg=>msg);</body>
+            <body>std::out::println(value=>msg);</body>
           </ownedBehavior>
           <ownedOperation xmi:type="uml:Operation" xmi:id="_I0XwIES6EeWF_ZPyFqjTUQ" name="traceError" isStatic="true" method="_ycJV8EXiEeWF_ZPyFqjTUQ">
             <ownedParameter xmi:type="uml:Parameter" xmi:id="_MnDXkES6EeWF_ZPyFqjTUQ" name="msg">
@@ -1276,10 +1276,10 @@ else{&#xD;
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_0iI5cEXfEeWF_ZPyFqjTUQ" name="effect$UnknownNumber">
                   <language>rALF</language>
                   <body>if(this->test1!=null){&#xD;
-	send new Test1::UnknownNumber() to this->test1;&#xD;
+	send new PhoneX::PhoneX::Implementation::PhoneXPort_Out::UnknownNumber(UserID=>sigdata.'UserID') to this->test1;&#xD;
 }&#xD;
 else if(this->test2!=null){&#xD;
-	send new Test2::UnknownNumber() to this->test2;&#xD;
+	send new PhoneX::PhoneX::Implementation::PhoneXPort_Out::UnknownNumber(UserID=>sigdata.'UserID') to this->test2;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_uMOgQEXfEeWF_ZPyFqjTUQ" name="UnknownNumber" event="_NLKloEWIEeWF_ZPyFqjTUQ"/>
@@ -1535,8 +1535,8 @@ if(called == null){&#xD;
 	TRACE::traceError(msg=>&quot;AcceptCall: no such called subscriber&quot;);&#xD;
 }&#xD;
 else{&#xD;
-	Call call = called->call;&#xD;
-	send new Call::CallRequestAccepted() to call;&#xD;
+	PhoneX::PhoneX::Implementation::Call call = called->call;&#xD;
+	send new PhoneX::PhoneX::Implementation::Call::Callrequestaccepted() to call;&#xD;
 }</body>
                 </effect>
                 <trigger xmi:type="uml:Trigger" xmi:id="_ptrYwEUYEeWF_ZPyFqjTUQ" name="AcceptCall" event="_NLMa0EWIEeWF_ZPyFqjTUQ"/>
@@ -1552,7 +1552,7 @@ if(subscriber!=null){&#xD;
 }&#xD;
 else{&#xD;
 	if(sigdata.CallerID==sigdata.CalledID){&#xD;
-		send new PhoneXPort_Out::TerminateCall(UserID=> sigdata.CallerID);&#xD;
+		send new PhoneX::PhoneX::Implementation::PhoneXPort_Out::TerminateCall(UserID=> sigdata.CallerID) to PhoneXPort_Out::instances().one();&#xD;
 	}&#xD;
 	else{&#xD;
 		Caller caller = new Caller();&#xD;
@@ -1562,7 +1562,7 @@ else{&#xD;
 		Called called = new Called();&#xD;
 		called.PhoneNumber=sigdata.CalledID;&#xD;
 &#xD;
-		Call call = new Call();&#xD;
+		PhoneX::PhoneX::Implementation::Call call = new PhoneX::PhoneX::Implementation::Call();&#xD;
 		Service service = Service::instances().one();&#xD;
 		if(service==null){&#xD;
 			service = new Service();&#xD;
@@ -1572,7 +1572,7 @@ else{&#xD;
 		R2::link(call=>call,caller=>caller);&#xD;
 		R3::link(call=>call,called=>called);&#xD;
 &#xD;
-		send new Call::Callrcvd() to call;&#xD;
+		send new PhoneX::PhoneX::Implementation::Call::Callrcvd() to call;&#xD;
 	}&#xD;
 }</body>
                 </effect>
@@ -1627,20 +1627,20 @@ send new UnregistrationProcess::Unregistrationrequestrcvd() to unregprocess;</bo
               <transition xmi:type="uml:Transition" xmi:id="_HULq8EUWEeWF_ZPyFqjTUQ" name="EndCall" source="_reaTYEUUEeWF_ZPyFqjTUQ" target="_reaTYEUUEeWF_ZPyFqjTUQ">
                 <effect xmi:type="uml:OpaqueBehavior" xmi:id="_C9-Y4EWIEeWF_ZPyFqjTUQ" name="effect$EndCall">
                   <language>rALF</language>
-                  <body>Subscriber subscriber = Subscriber::instances.filter(selected=> selected.PhoneNumber==sigdata.UserID);&#xD;
+                  <body>Subscriber subscriber = Subscriber::instances().filter(selected: selected.PhoneNumber==sigdata.UserID).one();&#xD;
 &#xD;
 if(subscriber==null){&#xD;
 	TRACE::traceError(msg=>&quot;EndCall: no such EndCall subscriber/UserId&quot;);&#xD;
 }&#xD;
 else{&#xD;
-	Caller caller = subscriber->caller;&#xD;
-	if(caller!=null){&#xD;
-		Call call = caller->call;&#xD;
+	if(subscriber instanceof Caller){&#xD;
+		Caller caller = (Caller)subscriber;&#xD;
+		PhoneX::PhoneX::Implementation::Call call = caller->call;&#xD;
 		send new Call::Endcallrcvd() to call;&#xD;
 	}&#xD;
 	else {&#xD;
-		Called called = subscriber->called;&#xD;
-		Call call = called->call;&#xD;
+		Called called = (Called)subscriber;&#xD;
+		PhoneX::PhoneX::Implementation::Call call = called->call;&#xD;
 		send new Call::Endcallrcvd() to call;&#xD;
 	}&#xD;
 }</body>
@@ -2068,6 +2068,12 @@ this.Busy=Busy;</body>
         <references xmi:type="ecore:EPackage" href="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard#/"/>
       </eAnnotations>
       <appliedProfile xmi:type="uml:Profile" href="pathmap://UML_PROFILES/Standard.profile.uml#_0"/>
+    </profileApplication>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_UbJI8FVjEeWLm7pzgixIxA">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_UbJI8VVjEeWLm7pzgixIxA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
     </profileApplication>
   </uml:Model>
   <standard:Create xmi:id="_wcFV0ETpEeWF_ZPyFqjTUQ" base_BehavioralFeature="_rhKT8ETpEeWF_ZPyFqjTUQ"/>

@@ -55,8 +55,8 @@ class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavio
 			val xtAction = xtumlrtObject.actions.head as XTAction
 			if(xtAction != null) {
 				xtAction.body.clear
-				for(var i = 0; i<behavior.languages.size; i++) {
-					val index = i
+				val actionSize = Math.min(behavior.languages.size, behavior.bodies.size)
+				for(index : 0 ..< actionSize) {
 					xtAction.body += xtumlFactory.createXTActionBody => [
 						it.language = behavior.languages.get(index)
 						it.source = behavior.bodies.get(index)

@@ -63,7 +63,7 @@ class ClassDestructorTest extends DynamicBehaviorBaseTest {
 		xtClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false, "a")
 		xtClass.createSingleAttribute(userDefinedType, VisibilityKind.PUBLIC, false, "b")
 
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null, "~TestClass()", "DESTRUCTOR")
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null, "~TestClass()", "C++", "DESTRUCTOR")
 
 		val topState = xtClass.createStateMachine("SM").createCompositeState("top")
 		val protocol = pack.createXtProtocol("Protocol")
@@ -74,7 +74,7 @@ class ClassDestructorTest extends DynamicBehaviorBaseTest {
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
 		topState.createTransition(init, s1, "t1")
-		topState.createTransition(s1, s2, "t2", "SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
+		topState.createTransition(s1, s2, "t2", new Pair("C++", "SAMPLE_CODE")).createXTEventTrigger(signalEvent, "Trigger")
 
 		pack
 	}

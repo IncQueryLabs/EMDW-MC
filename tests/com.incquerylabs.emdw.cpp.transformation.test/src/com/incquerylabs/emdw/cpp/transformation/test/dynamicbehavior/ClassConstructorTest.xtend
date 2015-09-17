@@ -69,6 +69,7 @@ class ClassConstructorTest extends DynamicBehaviorBaseTest {
 			false,
 			null,
 			"TestClass()",
+			"C++",
 			"CONSTRUCTOR_THAT_SETS_ATTRIBUTES",
 			primitiveType.createParameter("a", DirectionKind.IN),
 			userDefinedType.createParameter("b", DirectionKind.IN)
@@ -83,7 +84,7 @@ class ClassConstructorTest extends DynamicBehaviorBaseTest {
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
 		topState.createTransition(init, s1, "t1")
-		topState.createTransition(s1, s2, "t2", "SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
+		topState.createTransition(s1, s2, "t2", "C++", "SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
 
 		pack
 	}

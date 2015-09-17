@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.umlintegration.test.mappings
 import com.incquerylabs.emdw.umlintegration.test.TransformationTest
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.Model
 import org.junit.runner.RunWith
@@ -11,7 +12,6 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static com.incquerylabs.emdw.testing.common.utils.ModelUtil.*
 import static org.junit.Assert.assertEquals
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 
 @SuiteClasses(#[
 	ActionChainMappingTest
@@ -32,7 +32,7 @@ class ActionChainMappingTest extends TransformationTest<Behavior, ActionChain> {
 	}
 	
 	override protected checkXtumlrtObject(RootMapping mapping, Behavior umlObject, ActionChain xtumlrtObject) {
-		assertEquals(TEST_SIDE_EFFECT_1, (xtumlrtObject.actions.head as ActionCode).source)
+		assertEquals(TEST_SIDE_EFFECT_1, (xtumlrtObject.actions.head as XTAction).body.head.source)
 	}
 
 }

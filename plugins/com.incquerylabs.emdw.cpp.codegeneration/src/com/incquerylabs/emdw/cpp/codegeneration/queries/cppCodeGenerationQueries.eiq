@@ -320,13 +320,15 @@ pattern cppTransitionToTerminate(
 pattern cppClassInitState(
 	cppClass : CPPClass,
 	cppInitState : CPPState,
-	initTrans : Transition
+	initTrans : Transition,
+	cppTransition : CPPTransition
 ) {
 	find cppClassStateMachine(_, cppClass, statemachine);
 	StateMachine.top.initial(statemachine, initial);
 	Transition.sourceVertex(initTrans, initial);
 	Transition.targetVertex(initTrans, init);
 	CPPState.commonState(cppInitState, init);
+	CPPTransition.commonTransition(cppTransition, initTrans);
 }
 
 pattern cppClassFinalStates(

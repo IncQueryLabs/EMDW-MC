@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.ActionChainMatch
-import com.incquerylabs.emdw.umlintegration.util.ModelUtil
-import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
-import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
+import org.eclipse.papyrusrt.xtumlrt.common.Transition
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Behavior
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import org.eclipse.uml2.uml.OpaqueBehavior
 
 class ActionChainRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -44,13 +44,26 @@ class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavio
 
 	override createXtumlrtObject() {
 		commonFactory.createActionChain => [
-			actions += commonFactory.createActionCode
+			actions += xtumlFactory.createXTAction
 		]
 	}
 
 	override updateXtumlrtObject(ActionChain xtumlrtObject, ActionChainMatch match) {
-		(xtumlrtObject.actions.head as ActionCode).source = ModelUtil.getCppCode(match.umlObject)
-		xtumlrtObject.actions.head.name =match.umlObject.name
+		val behavior = match.umlObject
+		xtumlrtObject.name = behavior.name
+		if(behavior instanceof OpaqueBehavior) {
+			val xtAction = xtumlrtObject.actions.head as XTAction
+			if(xtAction != null) {
+				xtAction.body.clear
+				val actionSize = Math.min(behavior.languages.size, behavior.bodies.size)
+				for(index : 0 ..< actionSize) {
+					xtAction.body += xtumlFactory.createXTActionBody => [
+						it.language = behavior.languages.get(index)
+						it.source = behavior.bodies.get(index)
+					]
+				}
+			}
+		}
 	}
 
 	def getXtumlrtContainer(ActionChainMatch match) {

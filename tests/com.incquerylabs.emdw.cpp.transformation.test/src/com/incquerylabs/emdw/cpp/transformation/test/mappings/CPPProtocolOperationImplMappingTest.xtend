@@ -39,7 +39,7 @@ class CPPProtocolOperationImplMappingTest extends MappingBaseTest<XTPort, CPPCom
 		xtdef = protocol.createXtProtocolOperationDefinition("Def",
 			VisibilityKind.PUBLIC, false, null, ProtocolBehaviourFeatureKind.IN
 		)
-		 port.createXtProtocolOperationImplementation(xtdef,"TEST")
+		 port.createXtProtocolOperationImplementation(xtdef, "C++","TEST")
 		port
 	}
 		

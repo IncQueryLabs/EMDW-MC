@@ -60,7 +60,7 @@ class TransitionBehaviorTest extends DynamicBehaviorBaseTest{
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
 		topState.createTransition(init,s1,"t1")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
+		topState.createTransition(s1,s2,"t2", new Pair( "C++", "SAMPLE_CODE")).createXTEventTrigger(signalEvent, "Trigger")
 		
 		pack
 	}

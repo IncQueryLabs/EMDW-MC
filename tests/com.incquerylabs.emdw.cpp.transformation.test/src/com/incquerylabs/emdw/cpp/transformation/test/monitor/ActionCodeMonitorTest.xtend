@@ -22,7 +22,7 @@ class ActionCodeMonitorTestSuite{}
 class ActionCodeCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 	override protected modifyXtumlModel(Model xtModel) {
-		_actionchain_pong_e2.createActionCode("newActionCode", '''::std::cout << "Smile";''')
+		_actionchain_pong_e2.createActionCode("newActionCode", "C++", '''::std::cout << "Smile";''')
 	}
 	
 	override protected assertDirtyComponents(Set<XTComponent> components) {
@@ -61,7 +61,7 @@ class ActionCodeWithModifiedNameMonitorTest extends XtumlMonitorWithModelBaseTes
 class ActionCodeWithModifiedBodyMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 	override protected modifyXtumlModel(Model xtModel) {
-		_actioncode_ping_s1entry.source = '''«_actioncode_ping_s1entry.source»;\n::std::cout << "Modified";'''
+		_actioncode_ping_s1entry.body.head.source = '''«_actioncode_ping_s1entry.body.head.source»;\n::std::cout << "Modified";'''
 	}
 	
 	override protected assertDirtyComponents(Set<XTComponent> components) {

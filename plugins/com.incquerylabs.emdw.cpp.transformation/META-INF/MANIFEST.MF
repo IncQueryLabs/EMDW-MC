@@ -18,6 +18,7 @@ Require-Bundle: com.ericsson.xtumlrt.oopl.cpp.model,
  org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="1.0.0",
  com.google.guava;bundle-version="[15.0.0,16.0.0)",
  com.incquerylabs.emdw.valuedescriptor.model;bundle-version="1.0.0",
- com.incquerylabs.emdw.cpp.bodyconverter;bundle-version="1.0.0"
+ com.incquerylabs.emdw.cpp.bodyconverter;bundle-version="1.0.0",
+ com.incquerylabs.emdw.snippet.model;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.apache.log4j;version="1.2.15"

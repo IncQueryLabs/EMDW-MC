@@ -32,7 +32,7 @@ class CPPEventMappingTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val classEvent = xtClass.createXtClassEvent("ClassEvent")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		val trans = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
+		val trans = topState.createTransition(s1,s2,"t2", new Pair( "C++", "SAMPLE_CODE"))
 		trans.createXTEventTrigger(classEvent, "Trigger")
 		
 		return xtClass

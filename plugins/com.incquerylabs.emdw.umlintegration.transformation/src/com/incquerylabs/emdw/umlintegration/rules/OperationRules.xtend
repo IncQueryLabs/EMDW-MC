@@ -1,26 +1,27 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
+import com.google.common.collect.Ordering
 import com.incquerylabs.emdw.umlintegration.queries.ConstructorOperationMatch
 import com.incquerylabs.emdw.umlintegration.queries.DestructorOperationMatch
+import com.incquerylabs.emdw.umlintegration.queries.OperationBehaviorMatch
 import com.incquerylabs.emdw.umlintegration.queries.RegularOperationMatch
-import com.incquerylabs.emdw.umlintegration.util.ModelUtil
 import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import java.util.Set
+import org.eclipse.emf.common.util.ECollections
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Entity
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
-import java.util.Comparator
-import org.eclipse.emf.common.util.ECollections
-import com.google.common.collect.Ordering
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
+import org.eclipse.uml2.uml.OpaqueBehavior
 
 class OperationRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
 			new OperationMapping(engine),
 			new ConstructorMapping(engine),
-			new DestructorMapping(engine)
+			new DestructorMapping(engine),
+			new OperationBehaviorMapping(engine)
 		}
 	}
 }
@@ -54,14 +55,11 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 	}
 
 	override createXtumlrtObject() {
-		commonFactory.createOperation => [
-			body = commonFactory.createActionCode
-		]
+		commonFactory.createOperation
 	}
 
 	override updateXtumlrtObject(Operation xtumlrtObject, RegularOperationMatch match) {
 		val umlObject = match.umlObject;
-		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 		
@@ -116,14 +114,11 @@ class ConstructorMapping extends AbstractObjectMapping<ConstructorOperationMatch
 	}
 
 	override createXtumlrtObject() {
-		commonFactory.createOperation => [
-			body = commonFactory.createActionCode
-		]
+		commonFactory.createOperation
 	}
 
 	override updateXtumlrtObject(Operation xtumlrtObject, ConstructorOperationMatch match) {
 		val umlObject = match.umlObject;
-		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -167,14 +162,11 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 	}
 
 	override createXtumlrtObject() {
-		commonFactory.createOperation => [
-			body = commonFactory.createActionCode
-		]
+		commonFactory.createOperation
 	}
 
 	override updateXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
 		val umlObject = match.umlObject;
-		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(umlObject)
 		xtumlrtObject.static = umlObject.static
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 	}
@@ -186,4 +178,62 @@ class DestructorMapping extends AbstractObjectMapping<DestructorOperationMatch, 
 	override protected insertXtumlrtObject(Operation xtumlrtObject, DestructorOperationMatch match) {
 		match.xtumlrtContainer.operations += xtumlrtObject
 	}
+}
+
+
+/**
+ * Transforms Operations which are a Class's or Component's owned operations and not named 'ClassName' or '~ClassName'
+ * to the transformed Entity's operations. Transformed fields: body, static, visibility.
+ */
+class OperationBehaviorMapping extends AbstractObjectMapping<OperationBehaviorMatch, OpaqueBehavior, XTAction> {
+
+	new(IncQueryEngine engine) {
+		super(engine)
+	}
+
+	override getXtumlrtClass() {
+		XTAction
+	}
+	
+	public static val PRIORITY = CommonPriorities.OPERATION_BEHAVIOR_MAPPING_PRIORITY
+
+	override getRulePriority() {
+		PRIORITY
+	}
+
+	override getQuerySpecification() {
+		operationBehavior
+	}
+
+	override getUmlObject(OperationBehaviorMatch match) {
+		match.behavior
+	}
+
+	override createXtumlrtObject() {
+		xtumlFactory.createXTAction
+	}
+
+	override updateXtumlrtObject(XTAction xtumlrtObject, OperationBehaviorMatch match) {
+		val behavior = match.umlObject
+		xtumlrtObject.name = behavior.name
+		xtumlrtObject.body.clear
+		for(var i = 0; i<behavior.languages.size; i++) {
+			val index = i
+			xtumlrtObject.body += xtumlFactory.createXTActionBody => [
+				it.language = behavior.languages.get(index)
+				it.source = behavior.bodies.get(index)
+			]
+		}
+	}
+	
+	
+	
+	def getXtumlrtContainer(OperationBehaviorMatch match) {
+		match.operation.findXtumlrtObject(Operation)
+	}
+
+	override protected insertXtumlrtObject(XTAction xtumlrtObject, OperationBehaviorMatch match) {
+		match.xtumlrtContainer.body = xtumlrtObject
+	}
+
 }

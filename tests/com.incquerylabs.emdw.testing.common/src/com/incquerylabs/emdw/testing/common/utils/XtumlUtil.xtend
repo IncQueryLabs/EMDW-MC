@@ -181,11 +181,11 @@ class XtumlUtil extends ModelUtil {
 	}
 
 	def createXtProtocolOperationImplementation(XTPort root, XTProtocolOperationDefinition definition,
-		String body) {
+		String language, String body) {
 		var def = xtumlFactory.createXTProtocolOperationImplementation => [
 			it.implements = definition
 		]
-		def.createActionCode("", body)
+		def.createActionCode("", language, body)
 		root.realizedOperations += def
 		def
 	}
@@ -323,7 +323,11 @@ class XtumlUtil extends ModelUtil {
 		transition
 	}
 
-	def createTransition(CompositeState root, Vertex source, Vertex target, String name, String ... code) {
+	def createTransition(CompositeState root, Vertex source, Vertex target, String name, String language,String code) {
+		root.createTransition(source, target, name, new Pair(language, code))
+	}
+	
+	def createTransition(CompositeState root, Vertex source, Vertex target, String name, Pair<String,String>... code) {
 		var transition = commonFactory.createTransition => [
 			it.name = name
 			sourceVertex = source
@@ -334,76 +338,79 @@ class XtumlUtil extends ModelUtil {
 			createActionChain(transition, name, code)
 		transition
 	}
-
-	def createActionCode(ActionChain root, String name, String code) {
-		val action = commonFactory.createActionCode => [
+	
+	private def createXTAction(String name, String language, String code) {
+		xtumlFactory.createXTAction => [
 			it.name = name
-			it.source = code
+			it.body += xtumlFactory.createXTActionBody => [
+				it.language = language
+				it.source = code
+			]
+		]
+	}
+
+	def createActionCode(ActionChain root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
+		root.actions += action
+		action
+	}
+
+	def createActionCode(ActionChain root, String name, Pair<String,String>... codes) {
+		val action = xtumlFactory.createXTAction => [action |
+			action.name = name
+			codes.forEach[code |
+				action.body += xtumlFactory.createXTActionBody => [
+					it.language = code.key
+					it.source = code.value
+				]
+			]
 		]
 		root.actions += action
 		action
 	}
 
-	def createEntryActionCode(SimpleState root, String name, String code) {
-		val action = commonFactory.createActionCode => [
-			it.name = name
-			it.source = code
-		]
+	def createEntryActionCode(SimpleState root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
 		root.entryAction = action
 		action
 	}
 
-	def createEntryActionCode(CompositeState root, String name, String code) {
-		val action = commonFactory.createActionCode => [
-			it.name = name
-			it.source = code
-		]
+	def createEntryActionCode(CompositeState root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
 		root.entryAction = action
 		action
 	}
 
-	def createExitActionCode(SimpleState root, String name, String code) {
-		val action = commonFactory.createActionCode => [
-			it.name = name
-			it.source = code
-		]
+	def createExitActionCode(SimpleState root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
 		root.exitAction = action
 		action
 	}
 
-	def createExitActionCode(CompositeState root, String name, String code) {
-		val action = commonFactory.createActionCode => [
-			it.name = name
-			it.source = code
-		]
+	def createExitActionCode(CompositeState root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
 		root.exitAction = action
 		action
 	}
 
-	def createActionCode(Operation root, String name, String code) {
-		val action = commonFactory.createActionCode => [
-			it.name = name
-			it.source = code
-		]
+	def createActionCode(Operation root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
 		root.body = action
 		action
 	}
 
-	def createActionCode(XTProtocolOperationImplementation root, String name, String code) {
-		val action = commonFactory.createActionCode => [
-			it.name = name
-			it.source = code
-		]
+	def createActionCode(XTProtocolOperationImplementation root, String name, String language, String code) {
+		val action = createXTAction(name, language, code)
 		root.protocolOperationImplementationAction += action
 		action
 	}
 
-	def createActionChain(Transition root, String name, String ... code) {
+	def createActionChain(Transition root, String name, Pair<String, String>... code) {
 		val aChain = commonFactory.createActionChain => [
 			it.name = name
 		]
 		root.actionChain = aChain
-		code.forEach[createActionCode(aChain, name, it)]
+		createActionCode(aChain, name, code)
 		aChain
 	}
 
@@ -494,7 +501,7 @@ class XtumlUtil extends ModelUtil {
 	}
 
 	def createOperation(Entity root, VisibilityKind visibility, boolean isStatic, Type returnType, String name,
-		String body, Parameter ... parameter) {
+		String language, String body, Parameter ... parameter) {
 		val op = commonFactory.createOperation => [
 			it.name = name
 			it.visibility = visibility
@@ -502,7 +509,7 @@ class XtumlUtil extends ModelUtil {
 			it.returnType = commonFactory.createTypedMultiplicityElement => [
 				type = returnType
 			]
-			it.body = createActionCode(name, body)
+			it.body = createActionCode(name, language, body)
 			it.parameters += parameter
 		]
 		root.operations += op
@@ -564,10 +571,10 @@ class XtumlUtil extends ModelUtil {
 		]
 	}
 
-	def createGuard(Transition root, String name, String code) {
+	def createGuard(Transition root, String name, String language, String code) {
 		val action = commonFactory.createGuard => [
 			it.name = name
-			it.body = commonFactory.createActionCode => [it.source = code]
+			it.body = createXTAction(name, language, code)
 		]
 		root.guard = action
 		action

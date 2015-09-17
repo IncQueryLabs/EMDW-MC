@@ -32,7 +32,7 @@ class CPPStateInClassTest extends MappingBaseTest<CompositeState, CPPComponent> 
 		val classEvent = xtClass.createXtClassEvent("ClassEvent")
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE").createXTEventTrigger(classEvent, "Trigger")
+		topState.createTransition(s1,s2,"t2", new Pair( "C++", "SAMPLE_CODE")).createXTEventTrigger(classEvent, "Trigger")
 		
 		return topState
 	}

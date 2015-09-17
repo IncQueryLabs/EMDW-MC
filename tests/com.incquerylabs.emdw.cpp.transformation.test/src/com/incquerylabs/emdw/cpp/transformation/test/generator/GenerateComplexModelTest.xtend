@@ -75,7 +75,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		
 		xtClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false,"i")
 		
-		xtClass.createOperation(VisibilityKind.PUBLIC,false,null,"operation","Operation",
+		xtClass.createOperation(VisibilityKind.PUBLIC,false,null,"operation", "C++","Operation",
 			userDefinedType.createParameter("a", DirectionKind.IN),
 			paramClass.createParameter("b", DirectionKind.IN)
 		)
@@ -95,16 +95,16 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val s32 = topState.createSimpleState("s32")
 		val s33 = topState.createSimpleState("s33")
 		
-		s1.createEntryActionCode("entry1", "//Entry behavior")
-		s3.createEntryActionCode("entry2", "//Entry behavior")
-		s3.createExitActionCode("exit1", "//Exit behavior")
-		s4.createExitActionCode("exit2", "//Exit behavior")
+		s1.createEntryActionCode("entry1", "C++", "//Entry behavior")
+		s3.createEntryActionCode("entry2", "C++", "//Entry behavior")
+		s3.createExitActionCode("exit1", "C++", "//Exit behavior")
+		s4.createExitActionCode("exit2", "C++", "//Exit behavior")
 		
 		topState.createTransition(init,s1,"t1")
-		topState.createTransition(s1,s2,"t2", "//Transition action")
+		topState.createTransition(s1,s2,"t2", new Pair("C++", "//Transition action"))
 		val t3 = topState.createTransition(s2,s4,"t3")
-		val t4 = topState.createTransition(s4,s3,"t4", "//Transition action")
-		val t5 = topState.createTransition(s4,s5,"t5", "//Transition action")
+		val t4 = topState.createTransition(s4,s3,"t4", new Pair("C++", "//Transition action"))
+		val t5 = topState.createTransition(s4,s5,"t5", new Pair("C++", "//Transition action"))
 		topState.createTransition(hist,s31,"t6")
 		topState.createTransition(s31,s32,"t7")
 		val t8 = topState.createTransition(s31,s33,"t8")
@@ -112,8 +112,8 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		topState.createTransition(s1,s3,"t10")
 		topState.createTransition(s33,s5,"t11")
 
-		t3.createGuard("t3guard","[i>10]")
-		t5.createGuard("t5guard","[i>15]")
+		t3.createGuard("t3guard", "C++","[i>10]")
+		t5.createGuard("t5guard", "C++","[i>15]")
 
 		t4.createXTEventTrigger(e3, "t4Trigger")
 		t5.createXTEventTrigger(e3, "t5Trigger")
@@ -129,7 +129,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val init2 = topState2.createInitialPoint("ini2t")
 		val s6 = topState2.createSimpleState("s6")
 
-		s6.createExitActionCode("exit3", "//Exit behavior")
+		s6.createExitActionCode("exit3", "C++", "//Exit behavior")
 		
 		topState2.createTransition(init2,s6,"t12")
 		val t13 = topState2.createTransition(s6,s6,"t13")
@@ -231,7 +231,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val attr = xtClass.createSingleAttribute(primitiveType, VisibilityKind.PUBLIC, false,"i")
 		cppclass.createCPPAttribute(attr)
 		
-		val op = xtClass.createOperation(VisibilityKind.PUBLIC,false,null,"operation","Operation",
+		val op = xtClass.createOperation(VisibilityKind.PUBLIC,false,null,"operation", "C++","Operation",
 			userDefinedType.createParameter("a", DirectionKind.IN),
 			paramClass.createParameter("b", DirectionKind.IN)
 		)
@@ -252,16 +252,16 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val s32 = s3.createSimpleState("s32")
 		val s33 = s3.createSimpleState("s33")
 		
-		s1.createEntryActionCode("entry1", "//Entry behavior")
-		s3.createEntryActionCode("entry2", "//Entry behavior")
-		s3.createExitActionCode("exit1", "//Exit behavior")
-		s4.createExitActionCode("exit2", "//Exit behavior")
+		s1.createEntryActionCode("entry1", "C++", "//Entry behavior")
+		s3.createEntryActionCode("entry2", "C++", "//Entry behavior")
+		s3.createExitActionCode("exit1", "C++", "//Exit behavior")
+		s4.createExitActionCode("exit2", "C++", "//Exit behavior")
 		
 		val t1 = topState.createTransition(init,s1,"t1")
-		val t2 = topState.createTransition(s1,s2,"t2", "//Transition action")
+		val t2 = topState.createTransition(s1,s2,"t2", new Pair( "C++","//Transition action"))
 		val t3 = topState.createTransition(s2,s4,"t3")
-		val t4 = topState.createTransition(s4,s3,"t4", "//Transition action")
-		val t5 = topState.createTransition(s4,s5,"t5", "//Transition action")
+		val t4 = topState.createTransition(s4,s3,"t4", new Pair( "C++","//Transition action"))
+		val t5 = topState.createTransition(s4,s5,"t5", new Pair( "C++","//Transition action"))
 		val t6 = topState.createTransition(hist,s31,"t6")
 		val t7 = topState.createTransition(s31,s32,"t7")
 		val t8 = topState.createTransition(s31,s33,"t8")
@@ -269,8 +269,8 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val t10 = topState.createTransition(s1,s3,"t10")
 		val t11 = topState.createTransition(s33,s5,"t11")
 
-		t3.createGuard("t3guard","[i>10]")
-		t5.createGuard("t5guard","[i>15]")
+		t3.createGuard("t3guard", "C++","[i>10]")
+		t5.createGuard("t5guard", "C++","[i>15]")
 
 		t4.createXTEventTrigger(e3, "t4Trigger")
 		t5.createXTEventTrigger(e3, "t5Trigger")
@@ -307,7 +307,7 @@ class GenerateComplexModelTest extends TransformationTest<XTClass, CPPClass> {
 		val init2 = topState2.createInitialPoint("ini2t")
 		val s6 = topState2.createSimpleState("s6")
 
-		s6.createExitActionCode("exit3", "//Exit behavior")
+		s6.createExitActionCode("exit3", "C++", "//Exit behavior")
 		
 		val t12 = topState2.createTransition(init2,s6,"t12")
 		val t13 = topState2.createTransition(s6,s6,"t13")

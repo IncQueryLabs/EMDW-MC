@@ -130,6 +130,24 @@ pattern changedActionCodes(
 	ActionCode(monitoredElement);
 }
 
+pattern changedActionChain(
+	monitoredElement : ActionChain
+) {
+	ActionChain(monitoredElement);
+}
+
+pattern changedXtAction(
+	monitoredElement : XTAction
+) {
+	XTAction(monitoredElement);
+}
+
+pattern changedXtActionBody(
+	monitoredElement : XTActionBody
+) {
+	XTActionBody(monitoredElement);
+}
+
 //* Transition changes 
 pattern changedTransitions(
 	monitoredElement : Transition

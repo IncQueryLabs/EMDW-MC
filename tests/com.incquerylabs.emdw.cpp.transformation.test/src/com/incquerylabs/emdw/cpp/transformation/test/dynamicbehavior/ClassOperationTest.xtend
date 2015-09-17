@@ -64,7 +64,7 @@ class ClassOperationTest extends DynamicBehaviorBaseTest {
 		val classType = component.createXtClass("ParamClass")
 		pack.createTypeDefinition(classType, "ClassTypeDef")
 		
-		xtClass.createOperation(VisibilityKind.PUBLIC,false,classType,"operation","OPERATION_WITH_MULTIPLE_PARAMS",
+		xtClass.createOperation(VisibilityKind.PUBLIC,false,classType,"operation","C++", "OPERATION_WITH_MULTIPLE_PARAMS",
 			primitiveType.createParameter("a", DirectionKind.IN),
 			userDefinedType.createParameter("b", DirectionKind.IN)
 		)
@@ -77,7 +77,7 @@ class ClassOperationTest extends DynamicBehaviorBaseTest {
 		val s1 = topState.createSimpleState("s1")
 		val s2 = topState.createSimpleState("s2")
 		topState.createTransition(init,s1,"t1")
-		topState.createTransition(s1,s2,"t2", "SAMPLE_CODE").createXTEventTrigger(signalEvent, "Trigger")
+		topState.createTransition(s1,s2,"t2", new Pair("C++", "SAMPLE_CODE")).createXTEventTrigger(signalEvent, "Trigger")
 
 		pack
 	}

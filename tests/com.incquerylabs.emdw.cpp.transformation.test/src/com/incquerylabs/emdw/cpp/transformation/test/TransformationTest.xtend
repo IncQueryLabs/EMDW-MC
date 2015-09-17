@@ -52,7 +52,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val cppObject = prepareCppModel(cppModel)
 		// transform to CPP
 		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformation
+		executeCppComponentTransformationWithoutCodeCompile
 		// Check result
 		assertResult(xtModel, cppModel, xtObject, cppObject)
 		endTest(testId)

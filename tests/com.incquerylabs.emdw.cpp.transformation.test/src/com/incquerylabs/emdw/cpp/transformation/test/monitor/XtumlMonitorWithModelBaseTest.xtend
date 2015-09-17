@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.cpp.transformation.test.monitor
 
 import org.eclipse.papyrusrt.xtumlrt.common.ActionChain
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 import org.eclipse.papyrusrt.xtumlrt.common.CompositeState
 import org.eclipse.papyrusrt.xtumlrt.common.DirectionKind
@@ -15,6 +14,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.SimpleState
 import org.eclipse.papyrusrt.xtumlrt.common.StateMachine
 import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
@@ -35,9 +35,9 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 	protected CompositeState _compositestate_ping
 	protected InitialPoint _initialpoint_ping_Initial
 	protected SimpleState _simplestate_ping_S1
-	protected ActionCode _actioncode_ping_s1entry
+	protected XTAction _actioncode_ping_s1entry
 	protected SimpleState _simplestate_ping_S2
-	protected ActionCode _actioncode_ping_s2entry
+	protected XTAction _actioncode_ping_s2entry
 	protected Transition _transition_ping_E1
 	protected XTEventTrigger _eventtrigger_ping_e1
 	protected Transition _transition_ping_E2
@@ -51,13 +51,13 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 	protected InitialPoint _initialpoint_pong_Initial
 	protected SimpleState _simplestate_pong_S1
 	protected SimpleState _simplestate_pong_S2
-	protected ActionCode _actioncode_pong_s2entry
+	protected XTAction _actioncode_pong_s2entry
 	protected Transition _transition_pong_E1
 	protected XTEventTrigger _eventtrigger_pong_e1
 	protected Transition _transition_pong_E2
 	protected XTEventTrigger _eventtrigger_pong_e2
 	protected ActionChain _actionchain_pong_e2
-	protected ActionCode _actioncode_pong_e2
+	protected XTAction _actioncode_pong_e2
 	protected Transition _transition_pong_I
 	protected XTClass _class_TableUser
 	protected Attribute _attribute_isPlaying
@@ -82,9 +82,9 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 	 *   │    │    │         └─ CompositeState _compositestate_ping
 	 *   │    │    │              ├─ InitialPoint _initialpoint_ping_Initial
 	 *   │    │    │              ├─ SimpleState _simplestate_ping_S1
-	 *   │    │    │              │    └─ ActionCode _actioncode_ping_s1entry
+	 *   │    │    │              │    └─ XTAction _actioncode_ping_s1entry
 	 *   │    │    │              ├─ SimpleState _simplestate_ping_S2
-	 *   │    │    │              │    └─ ActionCode _actioncode_ping_s2entry
+	 *   │    │    │              │    └─ XTAction _actioncode_ping_s2entry
 	 *   │    │    │              ├─ Transition _transition_ping_E1
 	 *   │    │    │              │    └─ XTEventTrigger _eventtrigger_ping_e1
 	 *   │    │    │              ├─ Transition _transition_ping_E2
@@ -98,13 +98,13 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 	 *   │    │                   ├─ InitialPoint _initialpoint_pong_Initial
 	 *   │    │                   ├─ SimpleState _simplestate_pong_S1
 	 *   │    │                   ├─ SimpleState _simplestate_pong_S2
-	 *   │    │                   │    └─ ActionCode _actioncode_pong_s2entry
+	 *   │    │                   │    └─ XTAction _actioncode_pong_s2entry
 	 *   │    │                   ├─ Transition _transition_pong_E1
 	 *   │    │                   │    └─ XTEventTrigger _eventtrigger_pong_e1
 	 *   │    │                   ├─ Transition _transition_pong_E2
 	 *   │    │                   │    ├─ XTEventTrigger _eventtrigger_pong_e2
 	 *   │    │                   │    └─ ActionChain _actionchain_pong_e2
-	 *   │    │                   │         └─ ActionCode _actioncode_pong_e2
+	 *   │    │                   │         └─ XTAction _actioncode_pong_e2
 	 *   │    │                   └─ Transition _transition_pong_I
 	 *   │    └─ XTClass _class_TableUser
 	 *   │         ├─ Attribute _attribute_isPlaying
@@ -126,9 +126,9 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 		_compositestate_ping = _statemachine_Ping_SM.createCompositeState("")
 		_initialpoint_ping_Initial = _compositestate_ping.createInitialPoint("initial")
 		_simplestate_ping_S1 = _compositestate_ping.createSimpleState("s1")
-		_actioncode_ping_s1entry = _simplestate_ping_S1.createEntryActionCode("sendPing", "R1_pong->generate_event(new Pong::ping_s_event(false));")
+		_actioncode_ping_s1entry = _simplestate_ping_S1.createEntryActionCode("sendPing", "C++", "R1_pong->generate_event(new Pong::ping_s_event(false));")
 		_simplestate_ping_S2 = _compositestate_ping.createSimpleState("s2")
-		_actioncode_ping_s2entry = _simplestate_ping_S2.createEntryActionCode("sendPing", "R1_pong->generate_event(new Pong::ping_s_event(false));")
+		_actioncode_ping_s2entry = _simplestate_ping_S2.createEntryActionCode("sendPing", "C++", "R1_pong->generate_event(new Pong::ping_s_event(false));")
 		_transition_ping_E1 = _compositestate_ping.createTransition(_simplestate_ping_S1, _simplestate_ping_S2, "e1")
 		_eventtrigger_ping_e1 = _transition_ping_E1.createXTEventTrigger(_classevent_Pong_s, "pong_t")
 		_transition_ping_E2 = _compositestate_ping.createTransition(_simplestate_ping_S2, _simplestate_ping_S1, "e2")
@@ -142,13 +142,13 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 		_initialpoint_pong_Initial = _compositestate_ping.createInitialPoint("initial")
 		_simplestate_pong_S1 = _compositestate_ping.createSimpleState("s1")
 		_simplestate_pong_S2 = _compositestate_ping.createSimpleState("s2")
-		_actioncode_pong_s2entry = _simplestate_pong_S2.createEntryActionCode("sendPong", "R1_ping->generate_event(new Ping::pong_s_event(false));")
+		_actioncode_pong_s2entry = _simplestate_pong_S2.createEntryActionCode("sendPong", "C++", "R1_ping->generate_event(new Ping::pong_s_event(false));")
 		_transition_pong_E1 = _compositestate_ping.createTransition(_simplestate_pong_S1, _simplestate_pong_S2, "e1")
 		_eventtrigger_pong_e1 = _transition_pong_E1.createXTEventTrigger(_classevent_Pong_s, "ping_t")
 		_transition_pong_E2 = _compositestate_ping.createTransition(_simplestate_pong_S2, _simplestate_pong_S1, "e2")
 		_eventtrigger_pong_e2 = _transition_pong_E2.createXTEventTrigger(_classevent_Pong_s, "ping_t")
 		_actionchain_pong_e2 = _transition_pong_E2.createActionChain("sendPong")
-		_actioncode_pong_e2 = _actionchain_pong_e2.createActionCode("sendPong", "R1_ping->generate_event(new Ping::pong_s_event(false));")
+		_actioncode_pong_e2 = _actionchain_pong_e2.createActionCode("sendPong", "C++", "R1_ping->generate_event(new Ping::pong_s_event(false));")
 		_transition_pong_I = _compositestate_ping.createTransition(_initialpoint_pong_Initial, _simplestate_pong_S1, "i")
 		
 		_association_R1pong = _class_Ping.createXtAssociation(_class_Pong, "R1_pong", true, false, 1, 1)
@@ -160,7 +160,7 @@ abstract class XtumlMonitorWithModelBaseTest extends XtumlMonitorBaseTest {
 		_class_TableUser = _component_PingPong.createXtClass("TableUser")
 		_attribute_isPlaying = _class_TableUser.createSingleAttribute(_type_boolean, VisibilityKind.PRIVATE, false, "isInUse")
 		_parameter_isPlaying = createParameter(_type_boolean, "isP", DirectionKind.IN)
-		_operation_setIsPlaying = _class_TableUser.createOperation(VisibilityKind.PUBLIC, false, _type_boolean, "setIsInUse", '''::std::cout << "TableUser is playing"''', _parameter_isPlaying)
+		_operation_setIsPlaying = _class_TableUser.createOperation(VisibilityKind.PUBLIC, false, _type_boolean, "setIsInUse", "C++", '''::std::cout << "TableUser is playing"''', _parameter_isPlaying)
 		
 		_component_Other = model.createXtComponent("Component2")
 	}

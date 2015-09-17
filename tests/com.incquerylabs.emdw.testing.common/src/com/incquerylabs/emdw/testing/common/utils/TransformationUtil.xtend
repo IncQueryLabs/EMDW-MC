@@ -90,8 +90,16 @@ class TransformationUtil {
 		compTrafo.execute
 	}
 
+	def executeCppComponentTransformationWithoutCodeCompile() {
+		compTrafo.transformComponents
+	}
+
 	def executeCppComponentTransformation(XTComponent component) {
 		compTrafo.execute(component)
+	}
+	
+	def executeCppComponentTransformationWithoutCodeCompile(XTComponent component) {
+		compTrafo.transformComponent(component)
 	}
 
 	def executeAllTransformation() {

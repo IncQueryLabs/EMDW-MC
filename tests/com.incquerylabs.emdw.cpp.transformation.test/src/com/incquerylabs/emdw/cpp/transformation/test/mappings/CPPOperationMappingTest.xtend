@@ -37,7 +37,7 @@ class CPPOperationInClassTest extends MappingBaseTest<XTClass, CPPComponent> {
 		val xtParam = createParameter(xtType,"Param",DirectionKind.IN) => [
 			upperBound = 5
 		]
-		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body",xtParam)
+		xtClass.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "C++", "Body",xtParam)
 		
 		xtClass
 	}
@@ -94,7 +94,7 @@ class CPPOperationInComponentTest extends MappingBaseTest<XTComponent, CPPCompon
 		val xtTypeDef = pack.createTypeDefinition("td")
 		val xtType = createPrimitiveType(xtTypeDef, "primitiveType")
 		val xtParam = createParameter(xtType,"Param",DirectionKind.IN)
-		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "Body", xtParam)
+		component.createOperation(VisibilityKind.PUBLIC, false, null,"Op", "C++", "Body", xtParam)
 		
 		component
 	}

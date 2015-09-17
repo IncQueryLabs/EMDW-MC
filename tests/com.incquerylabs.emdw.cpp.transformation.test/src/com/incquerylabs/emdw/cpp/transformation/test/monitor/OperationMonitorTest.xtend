@@ -26,7 +26,7 @@ class OperationMonitorTestSuite {}
 class OperationCreationMonitorTest extends XtumlMonitorWithModelBaseTest {
 	
 	override protected modifyXtumlModel(Model xtModel) {
-		_class_Ping.createOperation(VisibilityKind.PROTECTED, true, _type_boolean, "isEverythingOk", "return true;")
+		_class_Ping.createOperation(VisibilityKind.PROTECTED, true, _type_boolean, "isEverythingOk", "C++", "return true;")
 	}
 	
 	override protected assertDirtyComponents(Set<XTComponent> components) {

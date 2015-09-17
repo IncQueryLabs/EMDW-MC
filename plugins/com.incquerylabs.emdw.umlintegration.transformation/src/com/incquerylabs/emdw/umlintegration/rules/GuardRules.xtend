@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.GuardMatch
-import com.incquerylabs.emdw.umlintegration.util.ModelUtil
-import org.eclipse.papyrusrt.xtumlrt.common.Guard
-import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Guard
+import org.eclipse.papyrusrt.xtumlrt.common.Transition
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Constraint
-import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import org.eclipse.uml2.uml.OpaqueExpression
 
 class GuardRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -44,12 +44,26 @@ class GuardMapping extends AbstractObjectMapping<GuardMatch, Constraint, Guard> 
 
 	override createXtumlrtObject() {
 		commonFactory.createGuard => [
-			body = commonFactory.createActionCode
+			body = xtumlFactory.createXTAction
 		]
 	}
 
 	override updateXtumlrtObject(Guard xtumlrtObject, GuardMatch match) {
-		(xtumlrtObject.body as ActionCode).source = ModelUtil.getCppCode(match.umlObject)
+		xtumlrtObject.name = match.umlObject.name
+		val xtAction = xtumlrtObject.body as XTAction
+		if(xtAction != null) {
+			xtAction.body.clear
+			val spec = match.umlObject.specification as OpaqueExpression
+			if(spec != null) {
+				for(var i = 0; i<spec.languages.size; i++) {
+					val index = i
+					xtAction.body += xtumlFactory.createXTActionBody => [
+						it.language = spec.languages.get(index)
+						it.source = spec.bodies.get(index)
+					]
+				}
+			}
+		}
 	}
 
 	def getXtumlrtContainer(GuardMatch match) {

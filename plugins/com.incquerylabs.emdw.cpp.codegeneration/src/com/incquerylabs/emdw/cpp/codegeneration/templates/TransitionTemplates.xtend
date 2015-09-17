@@ -47,12 +47,13 @@ class TransitionTemplates extends CPPTemplate {
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: StateTemplates.TERMINATE_POSTFIX
 		val transition = transitionInfo.transition
+		val cppTransition = transitionInfo.cppTransition
 		'''
 		«IF transition.guard != null»
 			bool «cppClassFQN»::«evaluateGuardOnTransitionSignature(transitionInfo)»{
 				«tracingMessage('''    [Guard: -> «targetStateCppName»]''')»
 				
-				if(«actionCodeTemplates.generateActionCode(transition.guard.body)») {
+				if(«actionCodeTemplates.generateActionCode(cppTransition.compiledGuardBody)») {
 					return true;
 				} else {
 					«tracingMessage('''    Guard false''')»
@@ -90,6 +91,7 @@ class TransitionTemplates extends CPPTemplate {
 		val targetState = transitionInfo.cppTarget
 		val targetStateCppName = targetState?.cppName ?: StateTemplates.TERMINATE_POSTFIX
 		val transition = transitionInfo.transition
+		val cppTransition = transitionInfo.cppTransition
 		val eventType = eventType(transitionInfo.cppTransition)
 		val castedEventName = "casted_const_event"
 		
@@ -98,7 +100,7 @@ class TransitionTemplates extends CPPTemplate {
 			void «cppClassFQN»::«performActionsOnTransitionSignature(transitionInfo)»{
 				const «eventType»* «castedEventName» = static_cast<const «eventType»*>(event);
 				«tracingMessage('''    [Action: -> «targetStateCppName»]''')»
-				«actionCodeTemplates.generateActionCode(transition.actionChain)»
+				«actionCodeTemplates.generateActionCode(cppTransition.compiledEffectBody)»
 			}
 		«ENDIF»
 		'''

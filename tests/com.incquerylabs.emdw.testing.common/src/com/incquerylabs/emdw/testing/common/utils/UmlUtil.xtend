@@ -128,30 +128,37 @@ class UmlUtil extends ModelUtil {
 		umlClass.ownedAttributes += attribute
 		return attribute
 	}
+	
+	private def createOperation(Model umlRoot, String body) {
+		val beh = createBehavior(body)
+		val operation = umlFactory.createOperation => [
+			methods += beh
+		]
+		val cl = createClassInModel(umlRoot)
+		cl.ownedOperations += operation
+		cl.nestedClassifiers += beh
+		operation
+	}
 
 	def createOperation(Model umlRoot, String body, Type returnType) {
-		val operation = umlFactory.createOperation => [
-			methods += createBehavior(body)
+		val operation = createOperation(umlRoot, body) => [
 			ownedParameters += umlFactory.createParameter => [
 				direction = ParameterDirectionKind.RETURN_LITERAL
 				type = returnType
 			]
 		]
-		createClassInModel(umlRoot).ownedOperations += operation
-		operation
+		return operation
 	}
 	
 	def createOperation(Model umlRoot, String body, Type returnType, Parameter... parameters) {
-		val operation = umlFactory.createOperation => [
-			methods += createBehavior(body)
+		val operation = createOperation(umlRoot, body) => [
 			ownedParameters += umlFactory.createParameter => [
 				direction = ParameterDirectionKind.RETURN_LITERAL
 				type = returnType
 			]
 			ownedParameters += parameters
 		]
-		createClassInModel(umlRoot).ownedOperations += operation
-		operation
+		return operation
 	}
 
 	def createOperation(Class umlClass, String name, Parameter... parameters) {
@@ -183,11 +190,14 @@ class UmlUtil extends ModelUtil {
 	}
 
 	def createDestructor(Model umlRoot, String body) {
+		val beh = createBehavior(body)
 		val destructor = umlFactory.createOperation => [
-			methods += createBehavior(body)
+			methods += beh
 			name = NAME_DESTRUCTOR
 		]
-		createClassInModel(umlRoot).ownedOperations += destructor
+		val cl = createClassInModel(umlRoot)
+		cl.ownedOperations += destructor
+		cl.nestedClassifiers += beh
 		destructor
 	}
 
@@ -382,13 +392,6 @@ class UmlUtil extends ModelUtil {
 		state
 	}
 
-	def static createBehavior(String body) {
-		umlFactory.createOpaqueBehavior => [
-			bodies += body
-			languages += CPP_LANGUAGE
-		]
-	}
-
 	def createCompositeState(StateMachine stateMachine, String name) {
 		createSimpleState(stateMachine.regions.head, name) => [
 			regions += umlFactory.createRegion
@@ -433,12 +436,16 @@ class UmlUtil extends ModelUtil {
 		transition.guard = guard
 		guard
 	}
-	
-	def createOpaqueBehavior(Transition transition) {
-		val effect = UMLFactory.eINSTANCE.createOpaqueBehavior => [
-			bodies += TEST_SIDE_EFFECT_1
+
+	def createBehavior(String body) {
+		umlFactory.createOpaqueBehavior => [
+			bodies += body
 			languages += CPP_LANGUAGE
 		]
+	}
+	
+	def createOpaqueBehavior(Transition transition) {
+		val effect = createBehavior(TEST_SIDE_EFFECT_1)
 		transition.effect = effect
 		effect
 	}

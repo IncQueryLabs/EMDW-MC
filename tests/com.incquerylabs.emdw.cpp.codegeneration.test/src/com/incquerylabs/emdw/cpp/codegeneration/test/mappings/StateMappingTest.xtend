@@ -30,7 +30,7 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 		val s1 = topState.createSimpleState("s1")
 		topState.createTransition(init, s1, "SAMPLE_CODE")
 		val s2 = topState.createSimpleState("s2")
-		val t = topState.createTransition(s1,s2,"t2", "SAMPLE_CODE")
+		val t = topState.createTransition(s1,s2,"t2", "C++", "SAMPLE_CODE")
 		t.createXTEventTrigger(classEvent, "Trigger")
 		
 		val cppPackage = cppModel.createCPPPackage(xtPackage)

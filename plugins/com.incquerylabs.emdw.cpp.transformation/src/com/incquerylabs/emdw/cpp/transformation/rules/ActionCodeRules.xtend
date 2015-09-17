@@ -11,6 +11,7 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 
 class ActionCodeRules {
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
@@ -40,12 +41,22 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val operationActionCodeRule = createRule.precondition(cppOperationWithActionCodes).action[ match |
 		val operation = match.cppOperation
-		if((operation.commonOperation.body as ActionCode).source==null) {
+		val body = operation.commonOperation.body
+		if(body instanceof ActionCode) {
+			if(body.source==null) {
+				try{
+					body.source = operation.convertOperation
+					debug('''Converted Operation «operation.cppName»'s code''')
+				} catch (Exception e) {
+					body.source = ""
+					error('''ERROR in Operation «operation.cppName»'s code''', e)
+				}
+			}
+		} else if(body instanceof XTAction) {
 			try{
-				(operation.commonOperation.body as ActionCode).source = operation.convertOperation
+				operation.convertOperation
 				debug('''Converted Operation «operation.cppName»'s code''')
 			} catch (Exception e) {
-				(operation.commonOperation.body as ActionCode).source = ""
 				error('''ERROR in Operation «operation.cppName»'s code''', e)
 			}
 		}
@@ -55,12 +66,22 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val stateEntryActionCodeRule = createRule.precondition(cppStateWithEntryActionCodes).action[ match |
 		val state = match.cppState
-		if((state.commonState.entryAction as ActionCode).source == null) {
+		val entryAction = state.commonState.entryAction
+		if(entryAction instanceof ActionCode) {
+			if(entryAction.source == null) {
+				try{
+					entryAction.source = state.convertStateEntry
+					debug('''Converted State «state.cppName»'s entry code''')
+				} catch (Exception e) {
+					entryAction.source = ""
+					error('''ERROR in State «state.cppName»'s entry code''', e)
+				}
+			}
+		} else if(entryAction instanceof XTAction) {
 			try{
-				(state.commonState.entryAction as ActionCode).source = state.convertStateEntry
+				state.convertStateEntry
 				debug('''Converted State «state.cppName»'s entry code''')
 			} catch (Exception e) {
-				(state.commonState.entryAction as ActionCode).source = ""
 				error('''ERROR in State «state.cppName»'s entry code''', e)
 			}
 		}
@@ -70,12 +91,22 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val stateExitActionCodeRule = createRule.precondition(cppStateWithExitActionCodes).action[ match |
 		val state = match.cppState
-		if((state.commonState.exitAction as ActionCode).source == null) {
+		val stateExit = state.commonState.exitAction
+		if(stateExit instanceof ActionCode) {
+			if(stateExit.source == null) {
+				try{
+					stateExit.source = state.convertStateExit
+					debug('''Converted State «state.cppName»'s exit code''')
+				} catch (Exception e) {
+					stateExit.source = ""
+					error('''ERROR in State «state.cppName»'s exit code''', e)
+				}
+			}
+		} else if(stateExit instanceof XTAction) {
 			try{
-				(state.commonState.exitAction as ActionCode).source = state.convertStateExit
+				state.convertStateExit
 				debug('''Converted State «state.cppName»'s exit code''')
 			} catch (Exception e) {
-				(state.commonState.exitAction as ActionCode).source = ""
 				error('''ERROR in State «state.cppName»'s exit code''', e)
 			}
 		}
@@ -85,14 +116,25 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val transitionActionCodeRule = createRule.precondition(cppTransitionWithActionCodes).action[ match |
 		val transition = match.cppTransition
-		if((transition.commonTransition.actionChain.actions.head as ActionCode).source == null) {
+		val transitionAction = transition.commonTransition.actionChain.actions.head
+		if(transitionAction instanceof ActionCode) {
+			if(transitionAction.source == null) {
+				try{
+					transitionAction.source = transition.convertTransition
+					debug('''Converted Transition «transition.cppName»'s code''')
+				} catch (Exception e) {
+					transitionAction.source = ""
+					error('''ERROR in Transition «transition.cppName»'s code''', e)
+				}
+			}
+		} else if(transitionAction instanceof XTAction) {
 			try{
-				(transition.commonTransition.actionChain.actions.head as ActionCode).source = transition.convertTransition
+				transition.convertTransition
 				debug('''Converted Transition «transition.cppName»'s code''')
 			} catch (Exception e) {
-				(transition.commonTransition.actionChain.actions.head as ActionCode).source = ""
 				error('''ERROR in Transition «transition.cppName»'s code''', e)
 			}
+			
 		}
 		
 	].build
@@ -100,12 +142,22 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val guardActionCodeRule = createRule.precondition(cppTransitionWithGuardActionCodes).action[ match |
 		val transition = match.cppTransition
-		if((transition.commonTransition.guard.body as ActionCode).source == null) {
+		val transitionGuard = transition.commonTransition.guard.body
+		if(transitionGuard instanceof ActionCode){
+			if(transitionGuard.source == null) {
+				try{
+					transitionGuard.source = transition.convertTransitionGuard
+					debug('''Converted Transition «transition.cppName»'s guard code''')
+				} catch (Exception e) {
+					transitionGuard.source = ""
+					error('''ERROR in Transition «transition.cppName»'s guard code''', e)
+				}
+			}
+		} else if(transitionGuard instanceof XTAction) {
 			try{
-				(transition.commonTransition.guard.body as ActionCode).source = transition.convertTransitionGuard
+				transition.convertTransitionGuard
 				debug('''Converted Transition «transition.cppName»'s guard code''')
 			} catch (Exception e) {
-				(transition.commonTransition.guard.body as ActionCode).source = ""
 				error('''ERROR in Transition «transition.cppName»'s guard code''', e)
 			}
 		}

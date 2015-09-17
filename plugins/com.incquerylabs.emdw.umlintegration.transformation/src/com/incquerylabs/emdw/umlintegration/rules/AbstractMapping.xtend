@@ -11,6 +11,8 @@ import org.eclipse.incquery.runtime.api.IncQueryMatcher
 import org.eclipse.uml2.uml.Element
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.papyrusrt.xtumlrt.common.CommonElement
+import org.eclipse.emf.ecore.EObject
 
 /**
  * A transformation rule with a priority.
@@ -55,10 +57,24 @@ abstract class AbstractMapping<Match extends IPatternMatch> {
 	}
 
 	/**
-	 * Finds the xtumlrt object in the trace which was transformed from the given UML object.
+	 * Finds the xUML-RT object in the trace which was transformed from the given UML object.
 	 */
 	protected def <T> findXtumlrtObject(Element umlObject, Class<T> type) {
 		engine.trace.getAllValuesOfxtumlrtElement(null, null, umlObject).filter(type).head		
+	}
+
+	/**
+	 * Finds the trace which was created for the given UML object.
+	 */
+	protected def <T> findTrace(Element umlObject) {
+		engine.trace.getAllValuesOftrace(null, umlObject, null)
+	}
+	
+	/**
+	 * Finds the trace which was created for the given xUML-RT object.
+	 */
+	protected def <T> findTrace(CommonElement xumlrtObject) {
+		engine.trace.getAllValuesOftrace(null, null, xumlrtObject)
 	}
 
 }

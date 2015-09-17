@@ -48,7 +48,7 @@ class ModelMapping extends AbstractMapping<ModelMatch> {
 	override def disappeared(ModelMatch match) {
 	}
 	
-	private def findTrace(Element umlObject) {
-		engine.trace.getAllMatches(rootMapping, null, umlObject, null).filter[xtumlrtClass.isAssignableFrom(xtumlrtElement.class)].head
-	}
+//	private def findTrace(Element umlObject) {
+//		engine.trace.getAllMatches(rootMapping, null, umlObject, null).filter[xtumlrtClass.isAssignableFrom(xtumlrtElement.class)].head
+//	}
 }

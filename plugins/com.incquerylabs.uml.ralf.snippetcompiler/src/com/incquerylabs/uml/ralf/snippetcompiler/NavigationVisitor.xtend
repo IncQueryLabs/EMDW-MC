@@ -18,6 +18,9 @@ class NavigationVisitor {
 	extension ExpressionVisitor expressionVisitor
 	extension ReducedAlfSystem typeSystem
 	extension SnippetTemplateCompilerUtil util
+	
+	// TODO: Temporary solution
+	private boolean associating;
 
 	new(ExpressionVisitor expressionVisitor, ReducedAlfSystem typeSystem, SnippetTemplateCompilerUtil util) {
 		this.expressionVisitor = expressionVisitor
@@ -35,11 +38,14 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
+		if(!associating)
+			associating = true
+			
 		val childExpr = delegate(ex.context, parent)
-
+		val assocDescriptor = ex.descriptor
 		val ctx = ex.context
-		if (ctx instanceof AssociationAccessExpression) { // if an association access precedes this association access
-			val assocDescriptor = ex.descriptor
+		
+		val expr = if (ctx instanceof AssociationAccessExpression) { // if an association access precedes this association access	
 			val ctxDescriptor = ctx.descriptor
 
 			val parentAssociation = ctx as AssociationAccessExpression
@@ -59,7 +65,16 @@ class NavigationVisitor {
 					'''«OPERATION_NAMESPACE»::indirect_chain< «assocDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 				}
 			}
+		} else {
+			'''«assocDescriptor.stringRepresentation»'''
 		}
+		
+		if (associating && ex.association.upper == -1 && !ex.eContainer.isOne) {
+			associating = false
+			'''«OPERATION_NAMESPACE»::select_many(«expr»)'''
+		} else {
+			return expr
+		}		
 	}
 
 	/**
@@ -80,7 +95,7 @@ class NavigationVisitor {
 			name = null
 		]).build
 
-		var lambda = ex.composeLambda(parent, typeDescriptor)
+		var lambda = ex.composeLambda(typeDescriptor)
 		var childExpr = ex.context.delegate(parent)
 
 		val operation = if(ex.eContainer.isOne) "select_any_where" else "select_many_where"
@@ -116,18 +131,25 @@ class NavigationVisitor {
 		throw new UnsupportedOperationException("Navigation chain visiting is unimplemented")
 	}
 
-	private def composeLambda(FilterExpression it, StringBuilder parent, VariableDescriptor typeDescriptor) {
-		// TODO: determine the capture type (reference or value)
-		val captureType = "="
+	private def composeLambda(FilterExpression it, VariableDescriptor typeDescriptor) {
+		
+		val lambdaPreprocess = new StringBuilder;
+		
+		val captureType = "&"
 		val parameterList = '''«typeDescriptor.fullType» «declaration.name»'''
-		val lambdaBody = expression.delegate(parent)
+		val lambdaBody = expression.delegate(lambdaPreprocess)
 		'''[«captureType»](«parameterList») {
-			«lambdaBody»
+			«lambdaPreprocess»
+			return «lambdaBody»;
 		}'''
 	}
 
 	private def dispatch String delegate(FilterExpression it, StringBuilder parent) {
 		visitFilter(parent)
+	}
+	
+	private def dispatch String delegate(AssociationAccessExpression it, StringBuilder parent) {
+		visitAssociation(parent)
 	}
 
 	private def dispatch String delegate(Expression it, StringBuilder parent) {

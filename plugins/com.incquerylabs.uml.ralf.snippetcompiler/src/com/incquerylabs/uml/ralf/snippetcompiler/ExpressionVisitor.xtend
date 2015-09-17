@@ -54,6 +54,7 @@ import org.eclipse.uml2.uml.Type
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionLiteralExpression
+import com.incquerylabs.uml.ralf.types.CollectionTypeReference
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -223,15 +224,17 @@ class ExpressionVisitor {
 	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
 		val classDescriptor = ex.descriptor
 		
-		val variableType = typeSystem.type(ex).value.umlType
+		val collectionType = (typeSystem.type(ex).value as CollectionTypeReference);
+		val variableType = collectionType.valueType.umlType
 		
 		if(ex.isFlatteningNeeded){
-			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			// only the name is needed, since the type is given by the classDescriptor
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder=> [
 				type = variableType
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»'''+'\n')
+			parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»'''+'\n')
 			
 			descriptor.stringRepresentation
 		} else {

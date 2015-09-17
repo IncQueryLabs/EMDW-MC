@@ -98,7 +98,7 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
        		}
        		case Transition,
        		case TransitionGuard: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(Transition).findFirst[state | state.qualifiedName.equals(scopedUmlObjectFQN)]
+       			scopedUmlObject = umlModel.allOwnedElements.filter(Transition).findFirst[state | scopedUmlObjectFQN == state.qualifiedName]
        		}
        	}
     	}

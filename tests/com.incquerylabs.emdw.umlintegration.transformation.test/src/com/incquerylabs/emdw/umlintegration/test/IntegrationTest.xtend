@@ -48,6 +48,7 @@ import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
 
 @SuiteClasses(#[
 	IntegrationTest
@@ -59,10 +60,12 @@ class IntegrationTest {
 
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
 	static extension val TraceFactory traceFactory = TraceFactory.eINSTANCE
-
+	
 	@Test
 	def gpsWatch() {
+		val util = new TransformationUtil
 		val resourceSet = new ResourceSetImpl
+		
 		
 		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.umlintegration.transformation.test/model/GPSWatch.uml", true)) => [
 			load(#{})	
@@ -82,7 +85,7 @@ class IntegrationTest {
 		]
 
 		val transformation = new TransformationQrt
-		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(new EMFScope(resourceSet))
+		val engine = util.initializeEngine(resourceSet)
 		transformation.initialize(engine)
 		transformation.execute
 		

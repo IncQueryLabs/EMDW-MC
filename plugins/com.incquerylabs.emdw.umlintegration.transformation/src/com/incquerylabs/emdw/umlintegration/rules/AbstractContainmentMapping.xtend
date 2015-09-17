@@ -1,9 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.CommonElement
+import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 
 /**
  * Establishes containment reference edges between already transformed objects.

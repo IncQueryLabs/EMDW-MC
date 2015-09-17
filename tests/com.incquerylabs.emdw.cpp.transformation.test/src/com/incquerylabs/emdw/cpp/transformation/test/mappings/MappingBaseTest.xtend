@@ -23,12 +23,12 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		val cppObject = prepareCppModel(cppModel)
 		// transform to CPP
 		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformation
+		executeCppComponentTransformationWithoutCodeCompile
 		// Check if added properly
 		assertResult(xtModel, cppModel, xtObject, cppObject)
 		//remove added xtuml element
 		clearXtUmlElement(xtObject)
-		executeCppComponentTransformation
+		executeCppComponentTransformationWithoutCodeCompile
 		//check if removed properly
 		assertClear(xtModel, cppModel, xtObject, cppObject)
 		endTest(testId)

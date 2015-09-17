@@ -18,7 +18,7 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val cppComponent = prepareCppModel(cppModel)
 		// transform to CPP
 		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformation(xtComponent)
+		executeCppComponentTransformationWithoutCodeCompile(xtComponent)
 		// Check result
 		assertResult(xtModel, cppModel, xtComponent, cppComponent)
 		endTest(testId)
@@ -37,12 +37,12 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val cppComponent = prepareCppModel(cppModel)
 		// transform to CPP
 		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformation(xtComponent)
+		executeCppComponentTransformationWithoutCodeCompile(xtComponent)
 		// Check if added properly
 		assertResult(xtModel, cppModel, xtComponent, cppComponent)
 		//remove added xtuml element
 		clearXtUmlElement(xtComponent)
-		executeCppComponentTransformation(xtComponent)
+		executeCppComponentTransformationWithoutCodeCompile(xtComponent)
 		//check if removed properly
 		assertClear(xtModel, cppModel, xtComponent, cppComponent)
 		endTest(testId)

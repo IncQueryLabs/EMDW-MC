@@ -9,12 +9,15 @@ import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.common.TypeDefinition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.emdw.umlintegration.queries.TypeDefinitionInModelMatch
+import org.eclipse.papyrusrt.xtumlrt.common.Model
 
 class TypeDefinitionRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
 		#{
 			new TypeDefinitionMapping(engine),
 			new TypeDefinitionInPackageMapping(engine),
+			new TypeDefinitionInModelMapping(engine),
 			new TypeDefinitionInComponentMapping(engine)
 		}
 	}
@@ -89,6 +92,38 @@ class TypeDefinitionInPackageMapping extends AbstractContainmentMapping<TypeDefi
 	}
 	
 	override insertChild(Package parent, TypeDefinition child, TypeDefinitionInPackageMatch match) {
+		parent.typeDefinitions += child
+	}
+}
+
+/**
+ * Inserts TypeDefinitions in their parent Model.
+ */
+class TypeDefinitionInModelMapping extends AbstractContainmentMapping<TypeDefinitionInModelMatch, Model, TypeDefinition> {
+
+	new(IncQueryEngine engine) {
+		super(engine)
+	}
+	
+	public static val PRIORITY = Math.max(TypeDefinitionMapping.PRIORITY, CommonPriorities.VERTEX_MAPPING_PRIORITY) + 1
+	
+	override getRulePriority() {
+		PRIORITY
+	}
+
+	override getQuerySpecification() {
+		typeDefinitionInModel
+	}
+
+	override findParent(TypeDefinitionInModelMatch match) {
+		match.umlModel.findXtumlrtObject(Model)
+	}
+	
+	override findChild(TypeDefinitionInModelMatch match) {
+		match.type.findXtumlrtObject(TypeDefinition)
+	}
+	
+	override insertChild(Model parent, TypeDefinition child, TypeDefinitionInModelMatch match) {
 		parent.typeDefinitions += child
 	}
 }

@@ -38,12 +38,12 @@
         </packagedElement>
       </packagedElement>
     </packagedElement>
-    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_Okc5kFhcEeWa3ZbbMuJz5w">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_OkeHsFhcEeWa3ZbbMuJz5w" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_G7gvIFx2EeWh6b4jwQWDog">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_G7h9QFx2EeWh6b4jwQWDog" source="http://www.eclipse.org/uml2/2.0.0/UML">
         <references xmi:type="ecore:EPackage" href="http://modelexecution.eltesoft.hu/xumlrt/#/"/>
       </eAnnotations>
-      <appliedProfile xmi:type="uml:Profile" href="profile/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"/>
+      <appliedProfile xmi:type="uml:Profile" href="platform:/plugin/hu.eltesoft.modelexecution.profile/profile/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"/>
     </profileApplication>
   </uml:Model>
-  <xumlrt:ExternalEntity xmi:id="_4uO-wFhcEeWa3ZbbMuJz5w" base_Class="_TNTyAFIwEeW1tdRAFScF0Q" externalHeaderLocation="&quot;ExternalHeaders/ExternalRandomNumberGenerator.hh&quot;" externalNamespace="::ExternalNamespace::ExternalRandomNumberGenerator"/>
+  <xumlrt:ExternalEntity xmi:id="_ID3eUFx2EeWh6b4jwQWDog" base_Class="_TNTyAFIwEeW1tdRAFScF0Q" externalHeaderLocation="&quot;ExternalHeaders/ExternalRandomNumberGenerator.hh&quot;" externalNamespace="::ExternalNamespace::ExternalRandomNumberGenerator"/>
 </xmi:XMI>

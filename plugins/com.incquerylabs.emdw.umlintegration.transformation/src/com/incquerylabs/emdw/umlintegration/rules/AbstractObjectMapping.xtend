@@ -38,7 +38,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 	
 	override def updated(Match match) {
 		val umlObject = match.umlObject
-		val traceMatch = findTrace(umlObject)
+		val traceMatch = findTraceMatch(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
@@ -47,7 +47,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 
 	override def disappeared(Match match) {
 		val umlObject = match.umlObject
-		val traceMatch = findTrace(umlObject)
+		val traceMatch = findTraceMatch(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		EcoreUtil.remove(xtumlrtObject)
 		removeTrace(traceMatch.trace, xtumlrtObject)
@@ -88,7 +88,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 		}
 	}
 
-	private def findTrace(Element umlObject) {
+	private def findTraceMatch(Element umlObject) {
 		engine.trace.getAllMatches(rootMapping, null, umlObject, null).filter[xtumlrtClass.isAssignableFrom(xtumlrtElement.class)].head
 	}
 

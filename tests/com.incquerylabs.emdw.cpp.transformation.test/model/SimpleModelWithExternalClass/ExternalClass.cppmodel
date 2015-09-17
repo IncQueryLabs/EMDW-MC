@@ -18,26 +18,14 @@
           </ooplNameProvider>
           <subElements xsi:type="cpp:CPPOperation">
             <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1"/>
+              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0"/>
             </ooplNameProvider>
             <subElements xsi:type="cpp:CPPFormalParameter">
               <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-                <commonNamedElement xsi:type="common:Parameter" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1/@parameters.0"/>
+                <commonNamedElement xsi:type="common:Parameter" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0/@parameters.0"/>
               </ooplNameProvider>
-              <commonParameter href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1/@parameters.0"/>
+              <commonParameter href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0/@parameters.0"/>
             </subElements>
-            <subElements xsi:type="cpp:CPPReturnValue">
-              <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-                <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1"/>
-              </ooplNameProvider>
-              <commonTypedMultiplicityElement href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1/@returnType"/>
-            </subElements>
-            <commonOperation href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1"/>
-          </subElements>
-          <subElements xsi:type="cpp:CPPOperation">
-            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0"/>
-            </ooplNameProvider>
             <subElements xsi:type="cpp:CPPReturnValue">
               <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
                 <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0"/>
@@ -45,6 +33,18 @@
               <commonTypedMultiplicityElement href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0/@returnType"/>
             </subElements>
             <commonOperation href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.0"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPOperation">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1"/>
+            </ooplNameProvider>
+            <subElements xsi:type="cpp:CPPReturnValue">
+              <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+                <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1"/>
+              </ooplNameProvider>
+              <commonTypedMultiplicityElement href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1/@returnType"/>
+            </subElements>
+            <commonOperation href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0/@operations.1"/>
           </subElements>
           <xtClass href="ExternalClass.xtuml#//@entities.0/@packages.0/@entities.0"/>
         </subElements>
@@ -70,26 +70,14 @@
           </subElements>
           <subElements xsi:type="cpp:CPPOperation">
             <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0"/>
+              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1"/>
             </ooplNameProvider>
             <subElements xsi:type="cpp:CPPFormalParameter">
               <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-                <commonNamedElement xsi:type="common:Parameter" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0/@parameters.0"/>
+                <commonNamedElement xsi:type="common:Parameter" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1/@parameters.0"/>
               </ooplNameProvider>
-              <commonParameter href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0/@parameters.0"/>
+              <commonParameter href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1/@parameters.0"/>
             </subElements>
-            <subElements xsi:type="cpp:CPPReturnValue">
-              <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-                <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0"/>
-              </ooplNameProvider>
-              <commonTypedMultiplicityElement href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0/@returnType"/>
-            </subElements>
-            <commonOperation href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0"/>
-          </subElements>
-          <subElements xsi:type="cpp:CPPOperation">
-            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
-              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1"/>
-            </ooplNameProvider>
             <subElements xsi:type="cpp:CPPReturnValue">
               <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
                 <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1"/>
@@ -97,6 +85,18 @@
               <commonTypedMultiplicityElement href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1/@returnType"/>
             </subElements>
             <commonOperation href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.1"/>
+          </subElements>
+          <subElements xsi:type="cpp:CPPOperation">
+            <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+              <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0"/>
+            </ooplNameProvider>
+            <subElements xsi:type="cpp:CPPReturnValue">
+              <ooplNameProvider xsi:type="oopl:OOPLExistingNameProvider">
+                <commonNamedElement xsi:type="common:Operation" href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0"/>
+              </ooplNameProvider>
+              <commonTypedMultiplicityElement href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0/@returnType"/>
+            </subElements>
+            <commonOperation href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0/@operations.0"/>
           </subElements>
           <xtClass href="ExternalClass.xtuml#//@entities.0/@packages.1/@entities.0"/>
         </subElements>
@@ -113,7 +113,7 @@
         <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@subDirectories.0/@files.2 /1/@subDirectories.0/@files.3"/>
         <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
         <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2">
-          <externalHeaderInclusion externalHeader="/2/@externalHeader.1" comment="&lt;iostream> for standard io; "/>
+          <externalHeaderInclusion externalHeader="/2/@externalHeader.5" comment="&lt;iostream> for standard io; "/>
         </files>
         <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@subDirectories.0/@files.3 /1/@subDirectories.0/@files.3">
           <externalHeaderInclusion externalHeader="/2/@externalHeader.0" comment="Own external header"/>
@@ -125,27 +125,27 @@
         <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
         <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@subDirectories.1/@files.4 /1/@subDirectories.0/@files.3"/>
         <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2">
-          <externalHeaderInclusion externalHeader="/2/@externalHeader.2" comment="&quot;xumlrt_runtime/unique_number.hh&quot; for Type identifier generation; "/>
-          <externalHeaderInclusion externalHeader="/2/@externalHeader.3" comment="&quot;xumlrt_runtime/type_number.hh&quot; for Type identifier generation; "/>
-          <externalHeaderInclusion externalHeader="/2/@externalHeader.4" comment="&lt;list> for _instances; "/>
-          <externalHeaderInclusion externalHeader="/2/@externalHeader.5" comment="&lt;queue> for event queues; "/>
-          <externalHeaderInclusion externalHeader="/2/@externalHeader.1" comment="&lt;iostream> for standard io; "/>
+          <externalHeaderInclusion externalHeader="/2/@externalHeader.1" comment="&quot;xumlrt_runtime/unique_number.hh&quot; for Type identifier generation; "/>
+          <externalHeaderInclusion externalHeader="/2/@externalHeader.2" comment="&quot;xumlrt_runtime/type_number.hh&quot; for Type identifier generation; "/>
+          <externalHeaderInclusion externalHeader="/2/@externalHeader.3" comment="&lt;list> for _instances; "/>
+          <externalHeaderInclusion externalHeader="/2/@externalHeader.4" comment="&lt;queue> for event queues; "/>
+          <externalHeaderInclusion externalHeader="/2/@externalHeader.5" comment="&lt;iostream> for standard io; "/>
         </files>
       </subDirectories>
       <files xsi:type="cpp:CPPBodyFile" includedHeaders="/1/@subDirectories.0/@files.1 /1/@subDirectories.0/@files.3"/>
       <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@files.2"/>
       <files xsi:type="cpp:CPPHeaderFile"/>
-      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@subDirectories.0/@files.3 /1/@subDirectories.0/@subDirectories.0/@files.2 /1/@subDirectories.0/@subDirectories.1/@files.4 /1/@subDirectories.0/@subDirectories.1/@files.2 /1/@subDirectories.0/@files.1"/>
+      <files xsi:type="cpp:CPPHeaderFile" includedHeaders="/1/@subDirectories.0/@subDirectories.1/@files.4 /1/@subDirectories.0/@subDirectories.1/@files.2 /1/@subDirectories.0/@subDirectories.0/@files.3 /1/@subDirectories.0/@subDirectories.0/@files.2 /1/@subDirectories.0/@files.1"/>
       <files xsi:type="cpp:CPPMakeFile"/>
     </subDirectories>
     <files xsi:type="cpp:CPPMakeFile"/>
   </cpp:CPPDirectory>
   <cpp:CPPExternalLibrary>
     <externalHeader name="&quot;ExternalHeaders/ExternalRandomNumberGenerator.hh&quot;"/>
-    <externalHeader name="&lt;iostream>"/>
     <externalHeader name="&quot;xumlrt_runtime/unique_number.hh&quot;"/>
     <externalHeader name="&quot;xumlrt_runtime/type_number.hh&quot;"/>
     <externalHeader name="&lt;list>"/>
     <externalHeader name="&lt;queue>"/>
+    <externalHeader name="&lt;iostream>"/>
   </cpp:CPPExternalLibrary>
 </xmi:XMI>

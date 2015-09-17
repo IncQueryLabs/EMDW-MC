@@ -1,8 +1,8 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
-import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 
 /**
  * Establishes containment reference edges between already transformed objects.
@@ -19,6 +19,8 @@ abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent ex
 		val child = match.findChild
 		if(parent == null){
 			logger.debug('''Containment edge for «child» without parent not added''')
+			// save parentless objects to trace model to avoid exceptions on resource saving
+			rootMapping.eResource.contents.add(child)
 		} else {
 			parent.insertChild(child, match)
 			logger.debug('''Added containment edge «parent» -> «child»''')

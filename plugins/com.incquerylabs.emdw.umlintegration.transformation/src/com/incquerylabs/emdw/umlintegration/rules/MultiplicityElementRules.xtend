@@ -61,8 +61,8 @@ class MultiplicityElementMapping extends AbstractMapping<MultiplicityElementMatc
 	
 	override def updated(MultiplicityElementMatch match) {
 		val umlObject = match.umlObject
-		val traceMatch = findTrace(umlObject)
-		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
+		val trace = findTraceMatch(umlObject)
+		val xtumlrtObject = xtumlrtClass.cast(trace.xtumlrtElement)
 		updateXtumlrtObject(match)
 		logger.debug('''Updated xtumlrt object «xtumlrtObject»''')
 	}
@@ -70,7 +70,7 @@ class MultiplicityElementMapping extends AbstractMapping<MultiplicityElementMatc
 	override def disappeared(MultiplicityElementMatch match) {
 	}
 	
-	private def findTrace(Element umlObject) {
+	private def findTraceMatch(Element umlObject) {
 		engine.trace.getAllMatches(rootMapping, null, umlObject, null).filter[xtumlrtClass.isAssignableFrom(xtumlrtElement.class)].head
 	}
 	

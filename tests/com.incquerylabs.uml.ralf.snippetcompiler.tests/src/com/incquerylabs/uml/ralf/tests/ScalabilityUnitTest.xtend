@@ -121,12 +121,12 @@ class ScalabilityUnitTest {
     def void t01_createSnippet() {
     	val parser = new ReducedAlfParser
 	    val context = new SimpleUMLContextProvider()
-	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), context)
+	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory())
 	    val serializer = new ReducedAlfSnippetTemplateSerializer
 	    val generator = new ReducedAlfGenerator
 	    
        	val result = parser.parse(input, context)
-       	val snippet = generator.createSnippet(result, compiler)
+       	val snippet = generator.createSnippet(result, context, compiler)
        	val serializedSnippet = serializer.serialize(snippet)
     	assertEquals("The created snippet does not match the expected result",expectedOutput,serializedSnippet)
 	

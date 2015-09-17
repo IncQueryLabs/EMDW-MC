@@ -319,7 +319,7 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	def String getQualifiedName(CPPTransition qne) '''Transition: «(engine.umlTransition2CppTransition.getAllValuesOfumlTransition(qne).head as Transition).qualifiedName.form»'''
 	
 	def form(String string) '''«string.replace("PhoneX::PhoneX::Implementation::", "")»'''
-	def getReducedMessage(Exception ex) '''«ex.message.replace('\n', "<br />")»'''
+	def getReducedMessage(Exception ex) '''«ex.message?.replace('\n', "<br />")»'''
 	def markdownBody(String body) '''«body.replace("\r\n", "<br />").replace('|', "\\|")»'''
 	
 	def String ralfCode(CPPOperation operation) {

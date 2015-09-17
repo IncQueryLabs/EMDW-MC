@@ -25,7 +25,7 @@ class CppLiteralConverter {
 			CPPBasicType case type.commonType.name == "Real":
 				return Double.parseDouble(literal).toString
 			CPPBasicType case type.commonType.name == "String":
-				return '''"«literal»"'''
+				return literal
 		}
 		throw new IllegalArgumentException("Unsupported type: "+type)
 	}

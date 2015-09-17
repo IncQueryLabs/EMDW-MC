@@ -37,7 +37,7 @@ abstract class AbstractPluginSnippetTest {
 
     @Test 
     def void t01_createSnippet() {
-	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), context)
+	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory())
 	    //Serializer component
 	    val serializer = new ReducedAlfSnippetTemplateSerializer
 	    //API class
@@ -51,7 +51,7 @@ abstract class AbstractPluginSnippetTest {
     	//Parse the action code
        	val result = parser.parse(input, context)
        	//Create the snippet template based on the parsed abstract syntax tree
-       	val snippet = generator.createSnippet(result, compiler)
+       	val snippet = generator.createSnippet(result, context, compiler)
        	//Create the snippet code based on the snippet template
        	val serializedSnippet = serializer.serialize(snippet)
        	//compare results

@@ -310,11 +310,11 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(AssociationAccessExpression ex, StringBuilder parent){
-		if(ex.context instanceof AssociationAccessExpression 
-			|| ((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property))
-		){
+		if(ex.context instanceof AssociationAccessExpression){
 			ex.visitAssociation(parent)
-		}else{
+		} else if((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property)){
+			throw new IllegalStateException("Association access on property values is not allowed (e.g. a.prop->b)")
+		} else {
 			val associationDescriptor = ex.descriptor
 			val variableType = typeSystem.type(ex).value.umlType
 			
@@ -335,9 +335,7 @@ class ExpressionVisitor {
 	
 	def dispatch String visit(FeatureInvocationExpression ex, StringBuilder parent){
 		if(ex.feature instanceof Property){
-			if(ex.context instanceof AssociationAccessExpression 
-				|| ((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property))
-			){
+			if(ex.context instanceof AssociationAccessExpression){
 				return ex.visitAttribute(parent)
 			}else{
 				ex.visitFeatureInvocationExpression(parent)

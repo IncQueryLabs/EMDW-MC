@@ -55,6 +55,7 @@ class XtumlModelChangeMonitor {
 		changedTypedMultiplicityElementTypes.registerQuerySpecification(0)
 		changedVertices.registerQuerySpecification(0)
 		changedXtAction.registerQuerySpecification(0)
+		changedXtActionBody.registerQuerySpecification(0)
 		
 	}
 	

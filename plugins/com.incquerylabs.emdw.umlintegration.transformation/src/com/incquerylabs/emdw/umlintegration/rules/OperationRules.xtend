@@ -216,14 +216,7 @@ class OperationBehaviorMapping extends AbstractObjectMapping<OperationBehaviorMa
 	override updateXtumlrtObject(XTAction xtumlrtObject, OperationBehaviorMatch match) {
 		val behavior = match.umlObject
 		xtumlrtObject.name = behavior.name
-		xtumlrtObject.body.clear
-		for(var i = 0; i<behavior.languages.size; i++) {
-			val index = i
-			xtumlrtObject.body += xtumlFactory.createXTActionBody => [
-				it.language = behavior.languages.get(index)
-				it.source = behavior.bodies.get(index)
-			]
-		}
+		TransformationUtil.mapXTAction(behavior, xtumlrtObject)
 	}
 	
 	

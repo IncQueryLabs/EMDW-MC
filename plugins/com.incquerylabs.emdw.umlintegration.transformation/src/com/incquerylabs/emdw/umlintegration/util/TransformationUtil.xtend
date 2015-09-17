@@ -15,11 +15,15 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Property
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
+import org.eclipse.uml2.uml.BodyOwner
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 
 class TransformationUtil {
 
 	static val commonFactory = CommonFactory.eINSTANCE
 	static val traceFactory = TraceFactory.eINSTANCE
+	static val xtumlFactory = XtumlFactory.eINSTANCE
 	
 	static def transform(org.eclipse.uml2.uml.VisibilityKind kind) {
 		switch kind {
@@ -78,5 +82,18 @@ class TransformationUtil {
 		attribute.upperBound = property.upper
 		attribute.ordered = property.isOrdered
 		attribute.unique = property.isUnique
+	}
+	
+	static def mapXTAction(BodyOwner bodyOwner, XTAction xtAction){
+		if(xtAction != null) {
+			xtAction.body.clear
+			val actionSize = Math.min(bodyOwner.languages.size, bodyOwner.bodies.size)
+			for(index : 0 ..< actionSize) {
+				xtAction.body += xtumlFactory.createXTActionBody => [
+					it.language = bodyOwner.languages.get(index)
+					it.source = bodyOwner.bodies.get(index)
+				]
+			}
+		}
 	}
 }

@@ -8,6 +8,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Constraint
 import org.eclipse.uml2.uml.OpaqueExpression
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 
 class GuardRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -51,19 +52,8 @@ class GuardMapping extends AbstractObjectMapping<GuardMatch, Constraint, Guard> 
 	override updateXtumlrtObject(Guard xtumlrtObject, GuardMatch match) {
 		xtumlrtObject.name = match.umlObject.name
 		val xtAction = xtumlrtObject.body as XTAction
-		if(xtAction != null) {
-			xtAction.body.clear
-			val spec = match.umlObject.specification as OpaqueExpression
-			if(spec != null) {
-				for(var i = 0; i<spec.languages.size; i++) {
-					val index = i
-					xtAction.body += xtumlFactory.createXTActionBody => [
-						it.language = spec.languages.get(index)
-						it.source = spec.bodies.get(index)
-					]
-				}
-			}
-		}
+		val behavior = match.umlObject.specification as OpaqueExpression
+		TransformationUtil.mapXTAction(behavior, xtAction)
 	}
 
 	def getXtumlrtContainer(GuardMatch match) {

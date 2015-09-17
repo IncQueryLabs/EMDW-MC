@@ -7,6 +7,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.State
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.OpaqueBehavior
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 
 class StateEntryRules {
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -45,17 +46,8 @@ class StateEntryMapping extends AbstractObjectMapping<StateEntryBehaviorMatch, B
 	override protected updateXtumlrtObject(XTAction xtumlrtObject, StateEntryBehaviorMatch match) {
 		val behavior = match.umlObject
 		xtumlrtObject.name = behavior.name
-		xtumlrtObject.body.clear
 		if(behavior instanceof OpaqueBehavior) {
-			for(var i = 0; i<behavior.languages.size; i++) {
-				val index = i
-				if(index<behavior.bodies.size) {
-					xtumlrtObject.body += xtumlFactory.createXTActionBody => [
-						it.language = behavior.languages.get(index)
-						it.source = behavior.bodies.get(index)
-					]
-				}
-			}
+			TransformationUtil.mapXTAction(behavior, xtumlrtObject)
 		}
 	}
 

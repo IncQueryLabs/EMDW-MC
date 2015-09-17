@@ -8,6 +8,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Transition
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.Behavior
 import org.eclipse.uml2.uml.OpaqueBehavior
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 
 class ActionChainRules{
 	static def Set<AbstractMapping<?>> getRules(IncQueryEngine engine) {
@@ -53,16 +54,7 @@ class ActionChainMapping extends AbstractObjectMapping<ActionChainMatch, Behavio
 		xtumlrtObject.name = behavior.name
 		if(behavior instanceof OpaqueBehavior) {
 			val xtAction = xtumlrtObject.actions.head as XTAction
-			if(xtAction != null) {
-				xtAction.body.clear
-				val actionSize = Math.min(behavior.languages.size, behavior.bodies.size)
-				for(index : 0 ..< actionSize) {
-					xtAction.body += xtumlFactory.createXTActionBody => [
-						it.language = behavior.languages.get(index)
-						it.source = behavior.bodies.get(index)
-					]
-				}
-			}
+			TransformationUtil.mapXTAction(behavior, xtAction)
 		}
 	}
 

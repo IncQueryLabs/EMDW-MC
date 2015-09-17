@@ -3,7 +3,6 @@ package com.incquerylabs.uml.ralf.tests.validator.expressions
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractValidatorTest
 import java.util.Collection
-import org.junit.Ignore
 import org.junit.runners.Parameterized.Parameters
 
 class CollectionValidatorTest extends AbstractValidatorTest{

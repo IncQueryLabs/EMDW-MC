@@ -38,7 +38,7 @@ class BodyConverter implements IBodyConverter {
 		this.engine = engine
     	parser = new ReducedAlfParser
 	    this.context = context
-	    compiler = new ReducedAlfSnippetTemplateCompiler(new UmlValueDescriptorFactory(engine), context)
+	    compiler = new ReducedAlfSnippetTemplateCompiler(new UmlValueDescriptorFactory(engine))
 	    serializer = new ReducedAlfSnippetTemplateSerializer
 	    generator = new ReducedAlfGenerator
 	}
@@ -184,6 +184,6 @@ class BodyConverter implements IBodyConverter {
 			result = parser.parse(bodyOwner, engine)
 		}
        	//Create the snippet template based on the parsed abstract syntax tree
-       	return generator.createSnippet(result, compiler)
+       	return generator.createSnippet(result, context, compiler)
 	}
 }

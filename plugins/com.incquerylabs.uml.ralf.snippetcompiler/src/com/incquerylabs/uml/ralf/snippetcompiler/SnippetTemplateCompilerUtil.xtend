@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
@@ -11,8 +12,10 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NaturalLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.RealLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
@@ -20,22 +23,22 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
 import java.util.List
+import org.eclipse.uml2.uml.Association
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
-import org.eclipse.uml2.uml.Association
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedTuple
 
 class SnippetTemplateCompilerUtil {
 	
 	public IUmlDescriptorFactory descriptorFactory;
 	public IUMLContextProvider context
+	private val ReducedAlfSystem typeSystem
 	
-	new(IUmlDescriptorFactory factory, IUMLContextProvider context){
+	new(IUmlDescriptorFactory factory, IUMLContextProvider context, ReducedAlfSystem typeSystem){
 		descriptorFactory = factory
 		this.context = context
+		this.typeSystem = typeSystem
 	}	
 	//Descriptors
 	//Model Access
@@ -106,7 +109,7 @@ class SnippetTemplateCompilerUtil {
 	
 	def dispatch ValueDescriptor getDescriptor(CastExpression ex){
 		(descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = ex.type.type
+			type = typeSystem.type(ex).value.umlType
 		]).build
 		
 	}
@@ -115,7 +118,7 @@ class SnippetTemplateCompilerUtil {
 	def dispatch ValueDescriptor getDescriptor(LocalNameDeclarationStatement st){
 		(descriptorFactory.createSingleVariableDescriptorBuilder => [
 			name = st.variable.name
-			type = st.variable.type.type
+			type = typeSystem.type(st.variable).value.umlType
 		]).build
 	}
 		
@@ -125,7 +128,7 @@ class SnippetTemplateCompilerUtil {
 			if(variable != null){
 				return (descriptorFactory.createSingleVariableDescriptorBuilder => [
 					name = variable.name
-					type = variable.type.type
+					type = typeSystem.type(variable).value.umlType
 					isExistingVariable = true
 				]).build	
 			}

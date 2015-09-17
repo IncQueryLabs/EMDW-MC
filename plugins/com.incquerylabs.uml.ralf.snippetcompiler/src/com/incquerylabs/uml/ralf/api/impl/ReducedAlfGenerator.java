@@ -9,32 +9,26 @@ import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider;
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler;
 
 public class ReducedAlfGenerator implements IReducedAlfGenerator {
-      
 
-    @Override
-    public Snippet createSnippet(OpaqueBehavior behavior, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
-        ParsingResults result = parser.parse(behavior);
-        return createSnippet(result, templateCompiler);
-    }
-    
-    @Override
-    public Snippet createSnippet(String behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
-    	ParsingResults result = parser.parse(behavior, contextProvider);
-    	return createSnippet(result, templateCompiler);
-    }
-    @Override
-    public Snippet createSnippet(String behavior, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
-        ParsingResults result = parser.parse(behavior);
-        return createSnippet(result, templateCompiler);
-    }
+	@Override
+	public Snippet createSnippet(OpaqueBehavior behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
+		ParsingResults result = parser.parse(behavior);
+		return createSnippet(result, contextProvider, templateCompiler);
+	}
 
-    @Override
-    public Snippet createSnippet(ParsingResults result, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
-        if(result.validationOK()){
-            return templateCompiler.createSnippet(result);
-        }else{
-            throw new SnippetCompilerException("Validation: "+result.toString());
-        }
-        
-    }
+	@Override
+	public Snippet createSnippet(String behavior, IUMLContextProvider contextProvider, IReducedAlfParser parser, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
+		ParsingResults result = parser.parse(behavior, contextProvider);
+		return createSnippet(result, contextProvider, templateCompiler);
+	}
+
+	@Override
+	public Snippet createSnippet(ParsingResults result, IUMLContextProvider contextProvider, ReducedAlfSnippetTemplateCompiler templateCompiler) throws SnippetCompilerException {
+		if (result.validationOK()) {
+			return templateCompiler.createSnippet(result, contextProvider);
+		} else {
+			throw new SnippetCompilerException("Validation: " + result.toString());
+		}
+
+	}
 }

@@ -61,7 +61,7 @@ class AbstractUnitTest {
 	    //Snippet compiler that creates a snippet template tree based on the parsed code
 	    //It needs an UML valueDescriptor factory which is used for determining which CPP element can be traced 
 	    //back to what UML element
-	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory(), context)
+	    val compiler = new ReducedAlfSnippetTemplateCompiler(new DummyUmlValueDescriptorFactory())
 	    //Serializer component
 	    val serializer = new ReducedAlfSnippetTemplateSerializer
 	    //API class
@@ -70,7 +70,7 @@ class AbstractUnitTest {
 	    //Parse the action code
        	val result = parser.parse(input, context)
        	//Create the snippet template based on the parsed abstract syntax tree
-       	val snippet = generator.createSnippet(result, compiler)
+       	val snippet = generator.createSnippet(result, context, compiler)
        	//Create the snippet code based on the snippet template
        	val serializedSnippet = serializer.serialize(snippet)
        	//compare results

@@ -63,7 +63,7 @@ class ExpressionVisitor {
 	new(SnippetTemplateCompilerUtil util, ReducedAlfSystem typeSystem){
 		this.typeSystem = typeSystem
 		this.util = util
-		this.navigationVisitor = new NavigationVisitor(this, typeSystem)
+		this.navigationVisitor = new NavigationVisitor(this, typeSystem, util)
 	}
 	
 	def dispatch String visit(CollectionLiteralExpression ex, StringBuilder parent){

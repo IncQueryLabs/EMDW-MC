@@ -5,7 +5,8 @@ import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 @SuiteClasses(#[
-	PhoneXMultipleConversionTest
+	PhoneXMultipleConversionTest,
+	EATFMultipleConversionTest
 ])
 @RunWith(Suite)
 class MultipleConversionTestSuite {}

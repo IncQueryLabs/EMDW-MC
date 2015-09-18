@@ -148,7 +148,7 @@ class LiteralDescriptorForSimpleStringTest extends CachedValueDescriptorBaseTest
 	
 	override protected assertResult(PrimitiveType object, LiteralDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be std::string.", descriptor.baseType=="::std::string")
-		assertTrue('''Descriptor's string representation should be "simple string".''', descriptor.stringRepresentation=="\"simple string\"")
+		assertTrue('''Descriptor's string representation should be "simple string".''', descriptor.stringRepresentation=="simple string")
 	}
 	
 	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
@@ -184,7 +184,7 @@ class LiteralDescriptorForHeavyStringTest extends CachedValueDescriptorBaseTest<
 	
 	override protected assertResult(PrimitiveType object, LiteralDescriptor descriptor) {
 		assertTrue("Descriptor's value type should be std::string.", descriptor.baseType=="::std::string")
-		assertTrue('''Descriptor's string representation should be "heavy \" string".''', descriptor.stringRepresentation=="\"heavy \" string\"")
+		assertTrue('''Descriptor's string representation should be "heavy \" string".''', descriptor.stringRepresentation=="heavy \" string")
 	}
 	
 	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {

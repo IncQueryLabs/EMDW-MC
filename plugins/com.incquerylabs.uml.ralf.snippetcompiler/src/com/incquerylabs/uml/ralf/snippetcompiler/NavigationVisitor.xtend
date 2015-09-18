@@ -100,7 +100,7 @@ class NavigationVisitor {
 
 		val operation = if(ex.eContainer.isOne) "select_any_where" else "select_many_where"
 
-		'''«OPERATION_NAMESPACE»::«operation»<«typeDescriptor.fullType»>(«childExpr», «lambda»)'''
+		'''«OPERATION_NAMESPACE»::«operation»< «typeDescriptor.fullType» >(«childExpr», «lambda»)'''
 	}
 
 	/**

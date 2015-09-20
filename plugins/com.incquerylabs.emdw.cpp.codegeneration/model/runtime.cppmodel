@@ -47,6 +47,104 @@
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="unique_number"/>
     </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.8">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="indirect_chain"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.9">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="merged_chain"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.10">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="safe_chain"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.11">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="select"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.12">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="select_any"/>
+    </subElements>    
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.13">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="select_any_where"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.14">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="select_if"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.15">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="select_many"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.16">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="select_many_where"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.17">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="cardinality"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.18">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="downcasted_chain"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.19">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="empty"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.20">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="upcasted_chain"/>
+    </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.21">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="set_operations"/>
+    </subElements>
   </cpp:CPPPackage>
   <cpp:CPPDirectory
       makeRulesFile="/1/@files.4">
@@ -56,6 +154,20 @@
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPMakeFile"/>
     <files xsi:type="cpp:CPPBodyFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
   </cpp:CPPDirectory>

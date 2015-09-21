@@ -118,7 +118,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	def CollectionVariableDescriptor createCollectionDescriptorForAssociation(XTAssociation xtAssociation) {
 		val rel = mapper.convertAssociation(xtAssociation)
 		val collection = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection)
-		return umlFactory.factory.factory.prepareCollectionVariableDescriptorForNewLocalVariable(collection, collection.ooplClass)
+		return umlFactory.factory.factory.prepareCollectionVariableDescriptorForNewLocalVariable(collection.implementation, collection.ooplClass)
 	}
 	
 	override isUnlink(boolean isUnlink) {

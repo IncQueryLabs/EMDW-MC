@@ -131,4 +131,8 @@ abstract class AbstractConversionTest {
 		rs.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true), true) => [ load(#{}) ]
 		primitiveTypeMapping
 	}
+	
+	def purgeRalfComments(String string){
+		string.replaceAll("(?s)// RALF:.+?\n", "")
+	}
 }

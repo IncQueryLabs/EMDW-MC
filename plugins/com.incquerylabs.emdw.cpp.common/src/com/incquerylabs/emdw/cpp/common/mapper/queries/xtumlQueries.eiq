@@ -72,3 +72,15 @@ pattern cppPrimitiveTypes(
 ) {
 	CPPBasicType(basicType);
 }
+
+pattern ooplClassReferenceSimpleCollectionImplementations(
+	implementation : OOPLClassRefSimpleCollectionImplementation
+) {
+	OOPLClassRefSimpleCollectionImplementation(implementation);
+}
+
+pattern ooplSequenceImplementations(
+	implementation : OOPLSequenceImplementation
+) {
+	OOPLSequenceImplementation(implementation);
+}

@@ -13,6 +13,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPParameterPassingKind
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 
 class TypeConverter {
 	
@@ -49,6 +52,18 @@ class TypeConverter {
 	def dispatch String convertType(CPPSequence sequence) {
 		val cppContainer = sequence.cppContainer
 		val cppType = convertType(sequence.elementType)
+		return '''«cppContainer»< «cppType» >''' 
+	}
+	
+	def dispatch String convertType(OOPLClassRefSimpleCollectionImplementation collection, CPPQualifiedNamedElement elementType) {
+		val cppContainer = collection.containerQualifiedName
+		val cppType = elementType.convertType
+		return '''«cppContainer»< «cppType»* >''' 
+	}
+	
+	def dispatch String convertType(OOPLSequenceImplementation collection, CPPQualifiedNamedElement elementType) {
+		val cppContainer = collection.containerQualifiedName
+		val cppType = elementType.convertType
 		return '''«cppContainer»< «cppType» >''' 
 	}
 	

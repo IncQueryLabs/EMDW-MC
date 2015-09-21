@@ -49,6 +49,14 @@ class XtumlToOoplMapper {
 		return engine.cppPrimitiveTypes.allValuesOfbasicType.findFirst[bt | primitiveType.equals(bt.cppName)]
 	}
 	
+	def findSequenceCollection(String collection) {
+		return engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[si | collection.equals(si.containerQualifiedName)]
+	}
+	
+	def findClassRefCollection(String collection) {
+		return engine.ooplClassReferenceSimpleCollectionImplementations.allValuesOfimplementation.findFirst[crsci | collection.equals(crsci.containerQualifiedName)]
+	}
+	
 	def isHiddenByChild(Operation operation) {
 		return !engine.childrenWhichHasSameNameOperation.getAllValuesOftype(operation).empty
 	}

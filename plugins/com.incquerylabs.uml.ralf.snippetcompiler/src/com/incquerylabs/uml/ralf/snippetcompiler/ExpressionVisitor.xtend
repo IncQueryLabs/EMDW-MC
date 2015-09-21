@@ -68,6 +68,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(CollectionLiteralExpression ex, StringBuilder parent){
+		//TODO collection literal
 		throw new UnsupportedOperationException("Collection literals are not supported yet")
 	}
 	
@@ -75,6 +76,7 @@ class ExpressionVisitor {
 		val referenceString = ex.reference.visit(parent)
 		val variableType = typeSystem.type(ex.reference).value.umlType
 		
+		//TODO collections
 		val valueDdescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 			type = variableType
 			name = referenceString
@@ -94,6 +96,7 @@ class ExpressionVisitor {
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
+			//TODO collections
 			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 				type = variableType
 				name = null
@@ -102,6 +105,7 @@ class ExpressionVisitor {
 					
 			descriptor.stringRepresentation
 		}else{
+			//TODO collections
 			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 				type = variableType
 				name = null
@@ -374,6 +378,7 @@ class ExpressionVisitor {
 		        	val op = ex.feature as Operation
 					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
 					
+					//TODO collections
 					val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 						name = contextString
 						type = typeSystem.type(ex.context).value.umlType
@@ -417,13 +422,14 @@ class ExpressionVisitor {
 			val rhsString = ex.rightHandSide.visit(parent)
 			val contextString = propAccess.context.visit(parent)
 			
-				
+			//TODO collections	
 			val rhsDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 				name = rhsString
 				type = variableType
 				isExistingVariable = true
 			]).build
-
+			
+			//TODO collections
 	        val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 				name = contextString
 				type = variableType
@@ -437,6 +443,7 @@ class ExpressionVisitor {
 			]).build
 			
 			if(ex.isFlatteningNeeded){
+				//TODO collections
 				val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 					type = variableType
 					name = null
@@ -453,6 +460,7 @@ class ExpressionVisitor {
 		    val rhsString = ex.rightHandSide.visit(parent)
 		    
 		    if(ex.isFlatteningNeeded){
+		    	//TODO collections
 				val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 					type = variableType
 					name = null

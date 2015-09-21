@@ -82,7 +82,7 @@ class DummyUmlCollectionVariableDescriptorBuilder implements IUmlCollectionVaria
 	}
 	
 	override setElementType(Type elementType) {
-		this.collectionType = collectionType
+		this.elementType = elementType
 		this
 	}
 	

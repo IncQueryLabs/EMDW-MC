@@ -414,7 +414,20 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
 				temp0->generate_event(temp1);''',
 				"sendPong"
+			],
+			#[  "Collection variable declaration",
+			    '''
+				Set<Integer> p = Set<Integer>{1, 2, 3};''',
+			    '''''',
+				"sendPong"
+			],
+			#[  "Collection variable declaration_ no_literal",
+			    '''
+				Set<Integer> p;''',
+			    '''''',
+				"sendPong"
 			]
+			
 		)
 	}
 }

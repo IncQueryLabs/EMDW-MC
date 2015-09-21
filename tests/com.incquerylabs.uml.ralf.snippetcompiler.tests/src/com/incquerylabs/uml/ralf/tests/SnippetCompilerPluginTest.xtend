@@ -424,6 +424,63 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''Set<Integer> p;''',
 			    '''std::collections::Set<PrimitiveTypes::Integer> p;''',
 				"sendPong"
+			],
+			#[  "Collection property access",
+			    '''
+			    Pong p = new Pong();
+			    Set<Integer> s = Set<Integer>{1, 2, 3};
+			    s = p.integerMultiple;
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
+				std::collections::Set<PrimitiveTypes::Integer> temp0 = p->integerMultiple;
+				s = temp0;''',
+				"sendPong"
+			],
+			#[  "Collection property write",
+			    '''
+			    Pong p = new Pong();
+			    Set<Integer> s = Set<Integer>{1, 2, 3};
+			    p.integerMultiple = s;
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
+				p->integerMultiple = s;''',
+				"sendPong"
+			],
+			#[  "Collection operation call",
+			    '''
+			    Pong p = new Pong();
+			    p.doIntegerMultiple(Set<Integer>{1, 2, 3});
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				p.doIntegerMultiple(std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 });''',
+				"sendPong"
+			],
+			#[  "Collection operation call, property access",
+			    '''
+			    Pong p = new Pong();
+			    p.doIntegerMultiple(p.integerMultiple);
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				std::collections::Set<PrimitiveTypes::Integer> temp0 = p->integerMultiple;
+				p.doIntegerMultiple(temp0);''',
+				"sendPong"
+			],
+			#[  "Collection operation call, navigation",
+			    '''
+			    Pong p = new Pong();
+			    p.doPongMultiple(Pong::instances());
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				model::Comp::Pong temp0 = model::Comp::Pong::_instances()
+				p.doPongMultiple(temp0);''',
+				"sendPong"
 			]
 			
 		)

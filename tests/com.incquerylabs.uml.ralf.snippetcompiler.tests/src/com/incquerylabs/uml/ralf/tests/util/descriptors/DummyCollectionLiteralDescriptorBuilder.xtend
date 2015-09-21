@@ -10,7 +10,6 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 	private Type collectionType
 	private Type elementType
 	private List<ValueDescriptor> elements
-	private DummyUmlValueDescriptorFactory descrFactory
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
@@ -22,11 +21,6 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 			descr.fullType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''
 		}
 		descr
-	}
-	
-	def setDescrFactory(DummyUmlValueDescriptorFactory descrFactory) {
-		this.descrFactory = descrFactory
-		this
 	}
 	
 	override setCollectionType(Type collectionType) {
@@ -43,5 +37,4 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 		this.elements = elems.toList
 		this
 	}
-	
 }

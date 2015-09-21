@@ -55,6 +55,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionLiteralExpression
 import com.incquerylabs.uml.ralf.types.CollectionTypeReference
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -68,8 +70,38 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(CollectionLiteralExpression ex, StringBuilder parent){
-		//TODO collection literal
-		throw new UnsupportedOperationException("Collection literals are not supported yet")
+		if(ex instanceof ElementCollectionExpression){
+			val elementType = ex.typeDeclaration.type
+			val collectionType = typeSystem.type(ex).value.umlType
+			val List<ValueDescriptor> elements = Lists.newArrayList
+			
+			for(Expression e : ex.elements.expressions){
+				val expressionString = e.visit(parent)
+				switch(e){
+					LiteralExpression: {
+						elements.add((descriptorFactory.createLiteralDescriptorBuilder => [
+							literal = expressionString
+							type = typeSystem.type(e).value.umlType
+						]).build)
+					}
+					default : {
+						elements.add(descriptorFactory.getCachedVariableDescriptor(expressionString))
+					}
+				}
+				
+			}
+						
+			val valueDescriptor = (descriptorFactory.createIUmlCollectionLiteralBuilder => [
+				it.elementType = elementType
+				it.collectionType = collectionType
+				it.elements = elements
+			]).build
+			
+			valueDescriptor.stringRepresentation
+			
+		}else{
+			throw new UnsupportedOperationException("Only Element collections are supported")
+		}
 	}
 	
 	def dispatch String visit(InstanceDeletionExpression ex, StringBuilder parent){

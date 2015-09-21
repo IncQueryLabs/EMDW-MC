@@ -416,15 +416,13 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				"sendPong"
 			],
 			#[  "Collection variable declaration",
-			    '''
-				Set<Integer> p = Set<Integer>{1, 2, 3};''',
-			    '''''',
+			    '''Set<Integer> p = Set<Integer>{1, 2, 3};''',
+			    '''std::collections::Set<PrimitiveTypes::Integer> p = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };''',
 				"sendPong"
 			],
 			#[  "Collection variable declaration_ no_literal",
-			    '''
-				Set<Integer> p;''',
-			    '''''',
+			    '''Set<Integer> p;''',
+			    '''std::collections::Set<PrimitiveTypes::Integer> p;''',
 				"sendPong"
 			]
 			

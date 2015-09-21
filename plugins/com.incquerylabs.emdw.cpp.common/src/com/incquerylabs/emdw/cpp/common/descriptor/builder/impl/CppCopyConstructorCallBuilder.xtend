@@ -12,7 +12,7 @@ class CppCopyConstructorCallBuilder implements IOoplCopyConstructorCallBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
-	private TypeConverter converter
+	extension TypeConverter converter
 	
 	private XTClassEvent re
 	private ValueDescriptor param
@@ -26,7 +26,7 @@ class CppCopyConstructorCallBuilder implements IOoplCopyConstructorCallBuilder {
 	override build() {
 		var ocd = factory.createOperationCallDescriptor
 		val cppEvent = mapper.convertEvent(re)
-		ocd.baseType = '''«converter.convertType(cppEvent)»_event'''
+		ocd.baseType = cppEvent.convertToType
 		ocd.stringRepresentation = '''«IF param!=null»«param.stringRepresentation»->clone()«ENDIF»'''
 		ocd.fullType = ocd.baseType
 		return ocd

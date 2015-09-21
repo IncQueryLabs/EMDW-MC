@@ -81,7 +81,7 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
        			serializedSnippet = bodyConverter.convertTransitionGuard(scopedCppObject as CPPTransition)
        		}
        	}
-       	
+       	serializedSnippet = serializedSnippet.purgeRalfComments
     	assertEquals("The created snippet does not match the expected result",expectedOutput,serializedSnippet)
 	
     }

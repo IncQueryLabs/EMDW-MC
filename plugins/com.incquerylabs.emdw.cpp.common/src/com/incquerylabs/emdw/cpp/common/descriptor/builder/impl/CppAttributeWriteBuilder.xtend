@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.incquerylabs.emdw.cpp.common.TypeConverter
-import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeWriteBuilder
+import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -30,14 +30,12 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 		val cppAttribute = mapper.convertAttribute(attribute)
 		val type = cppAttribute.type
 		val svd = factory.createPropertyWriteDescriptor => [
-			it.fullType = converter.convertType(type)
+			it.baseType = converter.convertToBaseType(type)
+			it.fullType = converter.convertToType(type)
 			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.stringRepresentation»'''
 		]
 		if(type instanceof CPPSequence) {
-			svd.baseType = type.cppContainer
-			svd.templateTypes.add(converter.convertType(type.elementType))
-		} else {
-			svd.baseType = converter.convertType(type)
+			svd.templateTypes.add(converter.convertToType(type.elementType))
 		}
 		return svd
 	}

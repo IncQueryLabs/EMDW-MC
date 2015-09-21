@@ -25,6 +25,6 @@ class AttributeTemplates extends CPPTemplate {
 	
 	def generateCPPAttributeType(CPPAttribute attribute){
 		val type = attribute.type
-		typeConverter.convertType(type)
+		typeConverter.convertToType(type)
 	}
 }

@@ -29,7 +29,7 @@ abstract class AbstractConstructorCallDescriptorTest extends ValueDescriptorBase
 	protected static final val CLASS_NAME = "TestClass"
 	protected static final val OPERATION_NAME = "TestClass"
 	
-	protected static final val EXPECTED_TYPE = '''::«MODEL_NAME»::«COMPONENT_NAME»::«CLASS_NAME»'''
+	protected static final val EXPECTED_TYPE = '''::«MODEL_NAME»::«COMPONENT_NAME»::«CLASS_NAME»*'''
 	protected static final val EXPECTED_REPRESENTATION_PREFIX = '''new ::«MODEL_NAME»::«COMPONENT_NAME»::«CLASS_NAME»'''
 }
 

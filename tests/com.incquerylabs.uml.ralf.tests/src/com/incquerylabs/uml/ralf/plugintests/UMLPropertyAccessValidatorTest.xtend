@@ -154,7 +154,7 @@ class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 			#[  "Property Access: association",
 			    '''
 			    Ping p = new Ping();
-			    p->pong.integerProperty;''',
+			    p->pong.one().integerProperty;''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],

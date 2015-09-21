@@ -11,7 +11,7 @@ import org.eclipse.xtend2.lib.StringConcatenation
 
 class SnippetTraceCommentUtil {
 	private static val NEW_LINE = StringConcatenation.DEFAULT_LINE_DELIMITER
-	static boolean ADD_COMMENTS = false
+	static boolean ADD_COMMENTS = true
 	
 	def appendTraceComment(StringBuilder builder, EObject eObject) {
 		if(ADD_COMMENTS){
@@ -31,7 +31,7 @@ class SnippetTraceCommentUtil {
 		if (string.nullOrEmpty) {
 			return "// RALF: Trace serialization error"
 		}
-		var ralfTraceInfo = string
+		var ralfTraceInfo = string.replace("\r\n", "\n").replace("\n", NEW_LINE)
 		ralfTraceInfo = NEW_LINE + ralfTraceInfo.trim
 		ralfTraceInfo = ralfTraceInfo.replaceAll(Pattern::quote(NEW_LINE),Matcher::quoteReplacement('''«NEW_LINE»// RALF: '''))
 		return ralfTraceInfo.trim + NEW_LINE

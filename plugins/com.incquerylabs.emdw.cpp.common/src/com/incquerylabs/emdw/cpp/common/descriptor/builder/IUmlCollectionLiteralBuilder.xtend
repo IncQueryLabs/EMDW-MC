@@ -12,5 +12,5 @@ interface IUmlCollectionLiteralBuilder extends IValueDescriptorBuilder<Collectio
 	
 	def IUmlCollectionLiteralBuilder setElements(ValueDescriptor... elems)
 	
-	def IUmlCollectionLiteralBuilder setStringBuffer(StringBuffer buffer)
+	def IUmlCollectionLiteralBuilder setStringBuilder(StringBuilder builder)
 }

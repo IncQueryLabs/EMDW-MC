@@ -1,30 +1,34 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
+import com.ericsson.xtumlrt.oopl.BaseContainerImplementationTemplateReplacer
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementationTemplateReplacer
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionLiteralBuilder
-import org.eclipse.uml2.uml.Type
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
+import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
-import org.eclipse.uml2.uml.Signal
-import org.eclipse.uml2.uml.PrimitiveType
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
-import com.incquerylabs.emdw.cpp.common.TypeConverter
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
+import org.eclipse.uml2.uml.Type
 
 class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
-	private static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
-	private static extension TypeConverter typeConverter = new TypeConverter
-	
 	private UmlToXtumlMapper xumlMapper
 	private XtumlToOoplMapper ooplMapper
+	private UmlValueDescriptorFactory factory
 	
 	private Type collectionType
 	private Type elementType
 	private List<ValueDescriptor> elems
-	private StringBuffer buffer
+	private StringBuilder builder
 	
-	new(AdvancedIncQueryEngine engine) {
+	new(AdvancedIncQueryEngine engine, UmlValueDescriptorFactory factory) {
+		this.factory = factory
 		xumlMapper = new UmlToXtumlMapper(engine)
 		ooplMapper = new XtumlToOoplMapper(engine)
 	}
@@ -39,26 +43,55 @@ class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
 				collectionString = "::std::list"
 			}
 		}
+		val cvd = factory.prepareCollectionVariableDescriptorForNewLocalVariable(collectionType, elementType)
 		switch elementType {
-			case Signal: {
-				val xtEvent = xumlMapper.convertSignal(elementType as Signal)
-				val cppEvent = ooplMapper.convertEvent(xtEvent)
-				val collection = ooplMapper.findClassRefCollection(collectionString)
-				return createCollectionVariableDescriptor => [
-					it.baseType = collection.containerQualifiedName
-					it.templateTypes += '''«cppEvent.convertType»*'''
-					it.fullType = collection.convertType(cppEvent)
-					it.stringRepresentation = '''new «it.fullType»();
-					'''
-				]
-			}
-			case PrimitiveType: {
-				
+			case org.eclipse.uml2.uml.PrimitiveType: {
+				val collection = ooplMapper.findSequenceCollectionImplementation(collectionString)
+				builder.append('''
+					«cvd.fullType» «cvd.stringRepresentation»;
+					«FOR elem : elems.filter(SingleVariableDescriptor)»
+					«collection.addTemplate(cvd, elem)»
+					«ENDFOR»
+					«FOR elem : elems.filter(LiteralDescriptor)»
+					«collection.addTemplate(cvd, elem)»
+					«ENDFOR»''')
 			}
 			default: {
-				
+				val collection = ooplMapper.findClassRefCollectionImplementation(collectionString)
+				builder.append('''
+					«cvd.fullType» «cvd.stringRepresentation»;
+					«FOR elem : elems.filter(SingleVariableDescriptor)»
+					«collection.addTemplate(cvd, elem)»
+					«ENDFOR»''')
 			}
 		}
+		return cvd
+	}
+	
+	def String addTemplate(BaseContainerImplementation collection, CollectionVariableDescriptor cvd, SingleVariableDescriptor elem) {
+		return BaseContainerImplementationTemplateReplacer.generateAdd(
+						collection, 
+						cvd, 
+						elem, 
+						factory.prepareSingleVariableDescriptorForNewLocalVariable(
+							xumlMapper.findUmlPrimitiveType(
+								ooplMapper.findBasicType("bool").commonType as PrimitiveType
+							) as Type
+						)
+					)
+	}
+	
+	def String addTemplate(OOPLSequenceImplementation collection, CollectionVariableDescriptor cvd, LiteralDescriptor elem) {
+		return OOPLSequenceImplementationTemplateReplacer.generateAdd(
+						collection, 
+						cvd, 
+						elem, 
+						factory.prepareSingleVariableDescriptorForNewLocalVariable(
+							xumlMapper.findUmlPrimitiveType(
+								ooplMapper.findBasicType("bool").commonType as PrimitiveType
+							) as Type
+						)
+					)
 	}
 	
 	override setCollectionType(Type collectionType) {
@@ -76,8 +109,8 @@ class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
 		return this
 	}
 	
-	override setStringBuffer(StringBuffer buffer) {
-		this.buffer = buffer
+	override setStringBuilder(StringBuilder builder) {
+		this.builder = builder
 		return this
 	}
 	

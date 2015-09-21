@@ -128,6 +128,14 @@ pattern cppClassEvent(
 	XTClass.events(xtClass, event);
 }
 
+pattern cppClassAllParentEvent(
+	cppClass : CPPClass,
+	event : XTEvent
+) {
+	find cppSuperClasses+(cppClass, superClass);
+	find cppClassEvent(_, superClass, event);
+}
+
 pattern cppClassAttributes(
 	cppClass : CPPClass,
 	cppAttribute : CPPAttribute,

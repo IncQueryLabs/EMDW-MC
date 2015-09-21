@@ -312,11 +312,19 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	
 	override isSingleVariableInCache(String variableName) {
-		return singleVariableCache.containsKey(variableName)
+		val inCache = singleVariableCache.containsKey(variableName)
+		if(!inCache && parent!=null) {
+			return parent.isSingleVariableInCache(variableName)
+		}
+		return inCache
 	}
 	
 	override getSingleVariableFromCache(String variableName) {
-		return singleVariableCache.get(variableName)
+		val cached = singleVariableCache.get(variableName)
+		if(cached!=null) {
+			return cached
+		}
+		return parent.getSingleVariableFromCache(variableName)
 	}
 	
 	override putSingleVariableIntoCache(String variableName, SingleVariableDescriptor descriptor) {
@@ -324,11 +332,19 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override isLiteralInCache(Type type, String literal) {
-		return literalCache.contains(type, literal)
+		val inCache = literalCache.contains(type, literal)
+		if(!inCache && parent!=null) {
+			return parent.isLiteralInCache(type, literal)	
+		}
+		return inCache
 	}
 	
 	override getLiteralFromCache(Type type, String literal) {
-		return literalCache.get(type, literal)
+		val cached = literalCache.get(type, literal)
+		if(cached!=null) {
+			return cached
+		}
+		return parent.getLiteralFromCache(type, literal)
 	}
 	
 	override putLiteralIntoCache(Type type, String literal, LiteralDescriptor descriptor) {
@@ -336,11 +352,19 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override isCollectionVariableInCache(String variableName) {
-		return collectionVariableCache.containsKey(variableName)
+		val inCache = collectionVariableCache.containsKey(variableName)
+		if(!inCache && parent!=null) {
+			return parent.isCollectionVariableInCache(variableName)
+		}
+		return inCache
 	}
 	
 	override getCollectionVariableFromCache(String variableName) {
-		return collectionVariableCache.get(variableName)
+		val cached = collectionVariableCache.get(variableName)
+		if(cached!=null) {
+			return cached
+		}
+		return parent.getCollectionVariableFromCache(variableName)
 	}
 	
 	override putCollectionVariableIntoCache(String variableName, CollectionVariableDescriptor descriptor) {

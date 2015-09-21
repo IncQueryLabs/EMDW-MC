@@ -27,6 +27,8 @@ import org.eclipse.uml2.uml.Type
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCopyConstructorCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlSigdataDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCollectionVariableDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCollectionLiteralBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -58,6 +60,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private def init(UmlValueDescriptorFactory parent, AdvancedIncQueryEngine engine) {
 		checkArgument(engine!=null)
 		this.singleVariableCache = newHashMap()
+		this.collectionVariableCache = newHashMap()
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
@@ -262,7 +265,11 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {
-		throw new UnsupportedOperationException("TODO: not implemented yet")
+		return new UmlCollectionVariableDescriptorBuilder(this)
+	}
+	
+	override createIUmlCollectionLiteralBuilder() {
+		return new UmlCollectionLiteralBuilder(this.engine, this)
 	}
 	
 	override createPropertyReadBuilder() {
@@ -376,10 +383,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override putCollectionVariableIntoCache(String variableName, CollectionVariableDescriptor descriptor) {
 		collectionVariableCache.put(variableName, descriptor)
-	}
-	
-	override createIUmlCollectionLiteralBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
 	}
 	
 }

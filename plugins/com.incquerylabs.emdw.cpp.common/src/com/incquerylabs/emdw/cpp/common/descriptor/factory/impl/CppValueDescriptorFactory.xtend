@@ -114,14 +114,14 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	override prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, OOPLType elementType) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, collectionType.containerQualifiedName.escapeName.qualifiedName)
 		return preparedDescriptor
 	}
 	
 	def prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, CPPEvent elementType) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, collectionType.containerQualifiedName.escapeName.qualifiedName)
 		return preparedDescriptor
 	}
 	
@@ -190,6 +190,16 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 				it.stringRepresentation = localVariableName
 				it.baseType = (collectionType).containerQualifiedName
 				it.templateTypes.add((elementType as CPPQualifiedNamedElement).cppQualifiedName)
+				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
+		]
+		return preparedDescriptor
+	}
+	
+	private dispatch def prepareCollectionVariableDescriptor(OOPLSequenceImplementation collectionType, CPPBasicType elementType, String localVariableName) {
+		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
+				it.stringRepresentation = localVariableName
+				it.baseType = (collectionType).containerQualifiedName
+				it.templateTypes.add(elementType.cppName)
 				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
 		]
 		return preparedDescriptor

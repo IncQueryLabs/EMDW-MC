@@ -2,13 +2,51 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test.single
 
 import java.util.Collection
 import org.junit.runners.Parameterized.Parameters
-import org.junit.Ignore
 
-@Ignore
 class CollectionDescriptorTest extends AbstractSingleConversionTest {
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
+			#[
+				"Set creation with default literal values test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing",
+				ConversionType.Operation,
+				'''
+				Set<Integer> p = Set<Integer>{1, 2, 3};
+				''',
+				'''
+				::std::set< long > __ralf__0____std__set = { 1, 2, 3 };
+				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
+			],
+//			#[
+//				"Set creation with default variable values test",
+//				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+//				"model::Comp::Pong::sendPing",
+//				ConversionType.Operation,
+//				'''
+//				Integer i = 0;
+//				Set<Integer> p = Set<Integer>{i};
+//				''',
+//				'''
+//				long i = 0;
+//				::std::set< long > __ralf__0____std__set = { i };
+//				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
+//			],
+//			#[
+//				"Set creation with default literal and variable values test",
+//				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+//				"model::Comp::Pong::sendPing",
+//				ConversionType.Operation,
+//				'''
+//				Integer i = 0;
+//				Set<Integer> p = Set<Integer>{i, 1, 2, 3};
+//				''',
+//				'''
+//				long i = 0;
+//				::std::set< long > __ralf__0____std__set = { 1, 2, 3, i };
+//				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
+//			],
 			#[  "Unlink expression collection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
@@ -19,9 +57,9 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
-				this->R6_service = NULL;
-				__ralf__0__service->R6_call = NULL;
-				'''
+				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__2____std__list = __ralf__0__service->R6_call;
+				__ralf__2____std__list.remove(this);
+				this->R6_service = NULL;'''
 			],
 			#[  "Link expression collection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -29,13 +67,14 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				ConversionType.StateEntry,
 				'''
 				Service service = this->'service';
-				R6::link('service'=>service,'call'=>this);
+				R6::link('call'=>this,'service'=>service);
 				''',
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = this->R6_service;
 				this->R6_service = __ralf__0__service;
-				__ralf__0__service->R6_call = this;
-				'''
+				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__2____std__list = __ralf__0__service->R6_call;
+				__ralf__2____std__list.push_back(this);
+				bool __ralf__1__bool = true;'''
 			]
 		)
 	}

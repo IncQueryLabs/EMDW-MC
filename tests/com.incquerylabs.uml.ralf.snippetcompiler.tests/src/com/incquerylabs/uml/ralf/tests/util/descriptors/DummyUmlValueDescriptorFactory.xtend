@@ -1,10 +1,19 @@
 package com.incquerylabs.uml.ralf.tests.util.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import java.util.List
+import com.google.common.collect.Lists
+import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 
 class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
-	public int number = 0;		
+	public int number = 0;	
+	List<ValueDescriptor> cache;	
 			
+	new(){
+		cache = Lists.newArrayList	
+	}
+	
 	override createChild() {
 		return this
 	}
@@ -32,7 +41,8 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createLiteralDescriptorBuilder() {
-		new DummyLiteralDescriptorBuilder
+		val builder = new DummyLiteralDescriptorBuilder
+		builder.descrFactory = this
 	}
 	
 	override createConstructorCallBuilder() {
@@ -65,5 +75,15 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	
 	override createSigdataDescriptorBuilder() {
 		new DummySigDataBuilder
-	}	
+	}
+	
+	override createIUmlCollectionLiteralBuilder() {
+		val builder = new DummyCollectionLiteralDescriptorBuilder
+		builder.descrFactory = this
+	}
+	
+	override getCachedVariableDescriptor(String name) {
+		(cache.filter[vd | vd.stringRepresentation.equals(name)]).head as VariableDescriptor
+	}
+	
 }

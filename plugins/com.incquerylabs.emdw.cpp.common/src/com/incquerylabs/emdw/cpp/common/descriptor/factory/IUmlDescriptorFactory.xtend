@@ -2,7 +2,6 @@ package com.incquerylabs.emdw.cpp.common.descriptor.factory
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlConstructorCallBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionConstructorCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCopyConstructorCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlDeleteBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlInstancesBuilder
@@ -15,6 +14,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSendSignalBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSigdataDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionLiteralBuilder
 import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 
 interface IUmlDescriptorFactory {
@@ -34,7 +34,7 @@ interface IUmlDescriptorFactory {
 	
 	def IUmlConstructorCallBuilder createConstructorCallBuilder()
 
-	def IUmlCollectionConstructorCallBuilder createCollectionConstructorCallBuilder()
+	def IUmlCollectionLiteralBuilder createIUmlCollectionLiteralBuilder()
 	
 	def IUmlCopyConstructorCallBuilder createCopyConstructorCallBuilder()
 	

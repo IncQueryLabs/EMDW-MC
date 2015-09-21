@@ -309,12 +309,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		new UmlSigdataDescriptorBuilder(this)
 	}
 	
-	override createCollectionConstructorCallBuilder() {
-		throw new UnsupportedOperationException("TODO: not implemented yet")
-	}
-	
-	
-	
 	override getCachedVariableDescriptor(String name) {
 		val cached = getSingleVariableFromCache(name)
 		if(cached!=null) {
@@ -383,4 +377,9 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	override putCollectionVariableIntoCache(String variableName, CollectionVariableDescriptor descriptor) {
 		collectionVariableCache.put(variableName, descriptor)
 	}
+	
+	override createIUmlCollectionLiteralBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

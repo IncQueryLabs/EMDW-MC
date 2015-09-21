@@ -7,6 +7,7 @@ import org.eclipse.uml2.uml.Type
 class DummyLiteralDescriptorBuilder implements IUmlLiteralDescriptorBuilder{
 	private String literal
 	private Type type
+	private DummyUmlValueDescriptorFactory descrFactory
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 
@@ -17,6 +18,11 @@ class DummyLiteralDescriptorBuilder implements IUmlLiteralDescriptorBuilder{
 	
 	override setLiteral(String literal) {
 		this.literal=literal
+		this
+	}
+	
+	def setDescrFactory(DummyUmlValueDescriptorFactory descrFactory) {
+		this.descrFactory = descrFactory
 		this
 	}
 	

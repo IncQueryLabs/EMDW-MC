@@ -11,7 +11,7 @@ import org.eclipse.xtend2.lib.StringConcatenation
 
 class SnippetTraceCommentUtil {
 	private static val NEW_LINE = StringConcatenation.DEFAULT_LINE_DELIMITER
-	static boolean ADD_COMMENTS = true
+	static boolean ADD_COMMENTS = false
 	
 	def appendTraceComment(StringBuilder builder, EObject eObject) {
 		if(ADD_COMMENTS){

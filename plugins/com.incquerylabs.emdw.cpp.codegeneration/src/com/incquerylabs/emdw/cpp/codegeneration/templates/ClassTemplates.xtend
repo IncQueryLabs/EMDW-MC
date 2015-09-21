@@ -255,6 +255,9 @@ class ClassTemplates extends CPPTemplate {
 	}
 	
 	def isVirtual(CPPOperation cppOperation, CPPClass cppClass) {
+		if(cppOperation.commonOperation.static){
+			return false
+		}
 		val cppVirtualOperationMatcher = codeGenQueries.getCppVirtualOperation(engine)
 		val overridingOperations = cppVirtualOperationMatcher.getAllValuesOfcppOverridingOperation(cppClass, cppOperation)
 		val parameters = cppOperation.subElements.filter(CPPFormalParameter)

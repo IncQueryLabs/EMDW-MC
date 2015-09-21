@@ -98,7 +98,7 @@ class ExternalBridgeRules {
 		val cppHeader = cppExternalBridge.headerFile
 		val cppBody = cppExternalBridge.bodyFile
 		val externalHeaderInclusion = cppBody.externalHeaderInclusion.head
-		val externalHeader = externalHeaderInclusion.externalHeader
+		val externalHeader = externalHeaderInclusion?.externalHeader
 		
 		val objectsToCopy = #[
 			cppExternalBridge,

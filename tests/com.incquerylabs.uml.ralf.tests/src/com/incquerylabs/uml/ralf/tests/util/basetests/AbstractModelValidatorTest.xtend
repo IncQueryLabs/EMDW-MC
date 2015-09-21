@@ -40,11 +40,21 @@ abstract class AbstractModelValidatorTest {
         model.eAllContents.filter(BodyOwner).filter[languages.contains(IReducedAlfParser.LANGUAGE_NAME)].
         <BodyOwner, Object[]>map[
             #[
-                EcoreUtil2.getContainerOfType(it as EObject, typeof(NamedElement)).qualifiedName + "(" + Integer.toString(it.hashCode) + ")",
+                calculateTestName(it as EObject),
                 it,
                 engine
             ].toArray
         ].<Object[]>toList
+    }
+    
+    def protected static String calculateTestName(EObject context) {
+        val container = EcoreUtil2.getContainerOfType(context, typeof(NamedElement))
+        switch (container) {
+            OpaqueBehavior : 
+                container.eContainer.calculateTestName + "::" + container.qualifiedName
+            default :
+                container.qualifiedName
+        }
     }
 
     @Parameter(0)

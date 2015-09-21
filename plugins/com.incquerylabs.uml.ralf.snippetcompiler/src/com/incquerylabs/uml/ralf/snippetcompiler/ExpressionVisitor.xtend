@@ -96,6 +96,7 @@ class ExpressionVisitor {
 				it.elementType = elementType
 				it.collectionType = collectionType
 				it.elements = elements
+				it.stringBuilder = parent
 			]).build
 			
 			valueDescriptor.stringRepresentation

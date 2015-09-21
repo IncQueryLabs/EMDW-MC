@@ -10,11 +10,12 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 	private Type collectionType
 	private Type elementType
 	private List<ValueDescriptor> elements
+	StringBuilder builder
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	override build() {
-		val descr = factory.createLiteralDescriptor()
+		val descr = factory.createCollectionVariableDescriptor()
 		descr.stringRepresentation = '''«collectionType.qualifiedName»<«elementType.qualifiedName»> {«FOR d : elements SEPARATOR ', '»«d.stringRepresentation»«ENDFOR» }'''
 		if(collectionType != null && elementType !=null){
 			descr.baseType = collectionType.qualifiedName
@@ -37,4 +38,10 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 		this.elements = elems.toList
 		this
 	}
+	
+	override setStringBuilder(StringBuilder builder) {
+		this.builder = builder
+		this
+	}
+	
 }

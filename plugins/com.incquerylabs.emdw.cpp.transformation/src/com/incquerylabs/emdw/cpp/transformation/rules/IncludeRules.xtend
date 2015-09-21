@@ -138,6 +138,8 @@ class IncludeRules {
 		val cppHeader = cppClass.headerFile
 		val eventExternalHeader = getExternalHeader('''"xumlrt_runtime/event.hh"''')
 		cppHeader.addInclude(eventExternalHeader, "Event class in Runtime")
+		val statefulClassExternalHeader = getExternalHeader('''"xumlrt_runtime/stateful_class.hh"''')
+		cppHeader.addInclude(statefulClassExternalHeader, "Stateful Class superclass in Runtime is necessary for event owners")
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

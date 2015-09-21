@@ -17,7 +17,7 @@ class StructTemplates {
 		'''
 		struct «cppStructType.cppName» {
 			«FOR structMember : structMembers»
-				«structMember.type.convertType» «structMember.cppName»;
+				«structMember.type.convertToType» «structMember.cppName»;
 			«ENDFOR»
 		};
 		'''

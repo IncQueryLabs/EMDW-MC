@@ -39,6 +39,6 @@ class AssociationTemplates extends CPPTemplate {
 	
 	def generateCPPReferenceStorageType(CPPClassReferenceStorage cppClassReferenceStorage){
 		val type = cppClassReferenceStorage.type
-		typeConverter.convertType(type)
+		typeConverter.convertToType(type)
 	}
 }

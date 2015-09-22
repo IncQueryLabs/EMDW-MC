@@ -273,7 +273,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return new UmlCollectionVariableDescriptorBuilder(this)
 	}
 	
-	override createIUmlCollectionLiteralBuilder() {
+	override createCollectionLiteralBuilder() {
 		return new UmlCollectionLiteralBuilder(this.engine, this)
 	}
 	

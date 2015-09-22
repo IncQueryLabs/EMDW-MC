@@ -37,7 +37,7 @@ interface IUmlDescriptorFactory {
 	
 	def IUmlConstructorCallBuilder createConstructorCallBuilder()
 
-	def IUmlCollectionLiteralBuilder createIUmlCollectionLiteralBuilder()
+	def IUmlCollectionLiteralBuilder createCollectionLiteralBuilder()
 	
 	def IUmlCopyConstructorCallBuilder createCopyConstructorCallBuilder()
 	

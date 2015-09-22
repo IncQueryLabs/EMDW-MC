@@ -12,8 +12,8 @@ class UmlCastDescriptorBuilder implements IUmlCastDescriptorBuilder {
 	ValueDescriptor descriptor
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
-	override setDescriptor(ValueDescriptor castableDEscriptor) {
-		this.descriptor = castableDEscriptor
+	override setDescriptor(ValueDescriptor castableDescriptor) {
+		this.descriptor = castableDescriptor
 		this
 	}
 	

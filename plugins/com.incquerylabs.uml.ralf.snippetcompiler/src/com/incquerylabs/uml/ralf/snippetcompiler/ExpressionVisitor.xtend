@@ -93,7 +93,7 @@ class ExpressionVisitor {
 				
 			}
 						
-			val valueDescriptor = (descriptorFactory.createIUmlCollectionLiteralBuilder => [
+			val valueDescriptor = (descriptorFactory.createCollectionLiteralBuilder => [
 				it.elementType = elementType
 				it.collectionType = collectionType
 				it.elements = elements

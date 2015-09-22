@@ -75,7 +75,7 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummySigDataBuilder
 	}
 	
-	override createIUmlCollectionLiteralBuilder() {
+	override createCollectionLiteralBuilder() {
 		new DummyCollectionLiteralDescriptorBuilder
 	}
 	

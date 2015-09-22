@@ -276,6 +276,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		return new UmlCollectionLiteralBuilder(this.engine, this)
 	}
 	
+	override createCastDescriptorBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 	override createPropertyReadBuilder() {
 		new UmlPropertyReadBuilder(engine)
 	}

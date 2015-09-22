@@ -33,26 +33,24 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				Pong p = new Pong();
 				ping_s s = new ping_s(integerAttribute => 2, pongAttribute => this);
-				send s to p->ping;''',
+				send s to p->ping.one();''',
 				
 				'''
 				model::Comp::Pong p = new model::Comp::Pong();
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
-				model::Comp::Ping temp0 = p->ping;
-				temp0->generate_event(s);''',
+				::xtuml::select_any(p->ping)->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test this",
-			    '''send new ping_s(integerAttribute => 2, pongAttribute => this) to this->ping;''',
+			    '''send new ping_s(integerAttribute => 2, pongAttribute => this) to this->ping.one();''',
 				
 				'''
-				model::Comp::Ping temp0 = this->ping;
-				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
-				temp1->integerAttribute = 2;
-				temp1->pongAttribute = this;
-				temp0->generate_event(temp1);''',
+				model::Comp::Pong::ping_s temp0 = new model::Comp::Pong::ping_s();
+				temp0->integerAttribute = 2;
+				temp0->pongAttribute = this;
+				::xtuml::select_any(this->ping)->generate_event(temp0);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test null",
@@ -60,7 +58,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				Pong p = null;
 				p = new Pong();
 				ping_s s = new ping_s(integerAttribute => 2, pongAttribute => this);
-				send s to p->ping;''',
+				send s to p->ping.one();''',
 				
 				'''
 				model::Comp::Pong p = 0;
@@ -69,8 +67,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
-				model::Comp::Ping temp1 = p->ping;
-				temp1->generate_event(s);''',
+				::xtuml::select_any(p->ping)->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property assignment",
@@ -366,24 +363,24 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			],
 			#[  "Link association test",
 				'''
-				Ping myPing = this->'ping';
+				Ping myPing = this->'ping'.one();
 				R1::link('ping'=>myPing,'pong'=>this);
 				''',
 				
 				'''
-				model::Comp::Ping myPing = this->ping;
+				model::Comp::Ping myPing = ::xtuml::select_any(this->ping);
 				this->R1_ping = myPing;
 				myPing->R1_pong = this;''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Unlink association test",
 				'''
-				Ping myPing = this->'ping';
+				Ping myPing = this->'ping'.one();
 				R1::unlink('ping'=>myPing,'pong'=>this);
 				''',
 				
 				'''
-				model::Comp::Ping myPing = this->ping;
+				model::Comp::Ping myPing = ::xtuml::select_any(this->ping);
 				this->R1_ping = NULL;
 				myPing->R1_pong = NULL;''',
 				"model::Comp::Pong::TestOperation"
@@ -407,12 +404,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			#[  "Signal Data send",
 			    '''
 				Pong p = new Pong();
-				send sigdata to p->ping;''',
+				send sigdata to p->ping.one();''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				model::Comp::Ping temp0 = p->ping;
-				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
-				temp0->generate_event(temp1);''',
+				model::Comp::Pong::ping_s temp0 = model::Comp::Pong::ping_s.clone(sigdata);
+				::xtuml::select_any(p->ping)->generate_event(temp0);''',
 				"sendPong"
 			],
 			#[  "Collection variable declaration",

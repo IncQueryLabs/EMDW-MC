@@ -57,7 +57,7 @@ class XtumlToOoplMapper {
 	}
 	
 	def findClassRefCollectionImplementation(String collection) {
-		return engine.ooplClassReferenceSimpleCollectionImplementations.allValuesOfimplementation.findFirst[crsci | collection.equals(crsci.containerQualifiedName)]
+		return engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[crsci | collection.equals(crsci.containerQualifiedName)]
 	}
 	
 	def dispatch findCollectionImplementation(String collection, OOPLBasicType basicType) {

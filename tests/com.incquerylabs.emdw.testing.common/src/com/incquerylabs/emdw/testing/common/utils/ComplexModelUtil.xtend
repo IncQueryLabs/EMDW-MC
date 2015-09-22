@@ -27,6 +27,8 @@ class ComplexModelUtil extends ModelUtil {
 		val xtumlrtResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_XTUML»'''))
 		val traceResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_TRACE»'''))
 		val cppResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_CPP»'''))
+		resourceSet.getResource(URI.createURI(PATH_RALF_COLLECTIONS), true)
+		resourceSet.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
 
 		val umlModel = umlFactory.createModel => [
 			name = umlModelName
@@ -67,7 +69,6 @@ class ComplexModelUtil extends ModelUtil {
 		]
 		
 		logger.debug("Created primitive type mapping")
-		rs.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
 		rs.getResource(URI.createPlatformPluginURI(PATH_CPP_TYPES, true), true)
 		primitiveTypeMapping
 	}

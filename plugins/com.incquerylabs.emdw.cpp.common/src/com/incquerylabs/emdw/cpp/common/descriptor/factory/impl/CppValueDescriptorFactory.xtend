@@ -190,7 +190,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 				it.stringRepresentation = localVariableName
 				it.baseType = (collectionType).containerQualifiedName
 				it.templateTypes.add((elementType as CPPQualifiedNamedElement).cppQualifiedName)
-				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
+				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»*«ENDFOR» >'''
 		]
 		return preparedDescriptor
 	}

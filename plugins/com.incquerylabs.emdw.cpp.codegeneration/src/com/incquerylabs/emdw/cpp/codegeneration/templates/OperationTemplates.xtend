@@ -29,7 +29,7 @@ class OperationTemplates extends CPPTemplate{
 		
 		val staticKeyword = '''«IF isStatic»static «ENDIF»'''
 		val virtualKeyword = '''«IF isVirtual»virtual «ENDIF»'''
-		val returnTypeString = '''«IF hasReturnType»«typeConverter.convertType(returnType)» «ENDIF»'''
+		val returnTypeString = '''«IF hasReturnType»«typeConverter.convertToType(returnType)» «ENDIF»'''
 		val operationName = '''«IF useQualifiedName»«operation.cppQualifiedName»«ELSE»«operation.cppName»«ENDIF»'''
 		val parenthesizedName = '''«IF hasReturnType && useQualifiedName»(«operationName»)«ELSE»«operationName»«ENDIF»'''
 		val operationParameters = '''«FOR param : parameters SEPARATOR ", "»«generateCPPFormalParameterType(param)» «param.cppName»«ENDFOR»'''
@@ -109,6 +109,6 @@ class OperationTemplates extends CPPTemplate{
 	}
 	
 	def generateCPPFormalParameterType(CPPFormalParameter param){
-		typeConverter.convertType(param)
+		typeConverter.convertToType(param)
 	}
 }

@@ -154,7 +154,7 @@ class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 			#[  "Property Access: association",
 			    '''
 			    Ping p = new Ping();
-			    p->pong.integerProperty;''',
+			    p->pong.one().integerProperty;''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
 			],
@@ -163,7 +163,7 @@ class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 			    Ping x = new Ping();
 			    x.stringProperty;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfLanguageValidator.CODE_INVALID_FEATURE, ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
+			    #[ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
 			]
 			
 		)

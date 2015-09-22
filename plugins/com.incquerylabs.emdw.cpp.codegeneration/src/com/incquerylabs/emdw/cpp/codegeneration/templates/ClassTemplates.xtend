@@ -45,6 +45,7 @@ class ClassTemplates extends CPPTemplate {
 	def classHeaderTemplate(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
+		val anyParentHasEvents = codeGenQueries.getCppClassAllParentEvent(engine).hasMatch(cppClass, null)
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 		val headerGuardPostfix = "HEADER"
 		
@@ -55,7 +56,7 @@ class ClassTemplates extends CPPTemplate {
 		
 		«cppClass.namespaceOpenerTemplate»
 		
-		class «cppClassName»«classInheritance(cppClass, hasStateMachine)» {
+		class «cppClassName»«classInheritance(cppClass, hasStateMachine, hasEvents, anyParentHasEvents)» {
 		
 		public:
 		
@@ -155,11 +156,11 @@ class ClassTemplates extends CPPTemplate {
 		'''
 	}
 	
-	def classInheritance(CPPClass cppClass, boolean hasStateMachine) {
+	def classInheritance(CPPClass cppClass, boolean hasStateMachine, boolean hasEvents, boolean parentHasEvents) {
 		val List<String> superClassStrings = newArrayList()
 		val cppSuperClasses = getSuperClasses(cppClass)
 		
-		if(hasStateMachine){
+		if(!parentHasEvents && (hasStateMachine || hasEvents)){
 			superClassStrings += '''public «StatefulClassFQN»'''
 		}
 		cppSuperClasses.forEach[ superClass |
@@ -254,6 +255,9 @@ class ClassTemplates extends CPPTemplate {
 	}
 	
 	def isVirtual(CPPOperation cppOperation, CPPClass cppClass) {
+		if(cppOperation.commonOperation.static){
+			return false
+		}
 		val cppVirtualOperationMatcher = codeGenQueries.getCppVirtualOperation(engine)
 		val overridingOperations = cppVirtualOperationMatcher.getAllValuesOfcppOverridingOperation(cppClass, cppOperation)
 		val parameters = cppOperation.subElements.filter(CPPFormalParameter)

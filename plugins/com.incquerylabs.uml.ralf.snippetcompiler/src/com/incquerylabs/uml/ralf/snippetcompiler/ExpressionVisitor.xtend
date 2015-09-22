@@ -58,6 +58,7 @@ import com.incquerylabs.uml.ralf.types.CollectionTypeReference
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
+import org.eclipse.xtend2.lib.StringConcatenation
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -125,7 +126,8 @@ class ExpressionVisitor {
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = descriptorFactory.getCachedVariableDescriptor(operandVariable)
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («descriptor.fullType») «operandVariable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («descriptor.fullType») «operandVariable»;
+			''')
 					
 			descriptor.stringRepresentation
 		}else{
@@ -181,10 +183,11 @@ class ExpressionVisitor {
 						name = null
 					]).build
 					
-					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;'''+'\n')
+					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;
+					''')
 	
 					initiateAttributes(ex, type, parent, variableDescriptor)
-					parent.append('\n')
+					parent.append(StringConcatenation.DEFAULT_LINE_DELIMITER)
 					return variableDescriptor.stringRepresentation
 				}
 				
@@ -197,7 +200,8 @@ class ExpressionVisitor {
 						name = null
 					]).build
 					
-					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;'''+'\n')
+					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;
+					''')
 
 					return variableDescriptor.stringRepresentation
 				}else{
@@ -235,7 +239,7 @@ class ExpressionVisitor {
 						descriptors.add(assignmentDescriptor)
 					}
 				]
-				builder.append('''«FOR descr : descriptors SEPARATOR '\n'»«descr.stringRepresentation»;«ENDFOR»''')
+				builder.append('''«FOR descr : descriptors SEPARATOR StringConcatenation.DEFAULT_LINE_DELIMITER»«descr.stringRepresentation»;«ENDFOR»''')
 			}else{
 				throw new UnsupportedOperationException("Signal creation is only supported with named tuples")
 			}
@@ -268,7 +272,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»'''+'\n')
+			parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»;
+			''')
 			
 			descriptor.stringRepresentation
 		} else {
@@ -298,7 +303,8 @@ class ExpressionVisitor {
 				parameter = sigdataDescriptor
 			]).build
 			
-			parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «cloneDescriptor.stringRepresentation»;'''+'\n')
+			parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «cloneDescriptor.stringRepresentation»;
+			''')
 			
 			variableDescriptor.stringRepresentation
 			
@@ -330,7 +336,9 @@ class ExpressionVisitor {
 		]).build
 		
 		if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
-	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;'''+'\n')
+	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
+	    	''')
+	    	
 	    	descriptor.stringRepresentation
 	    }else{
 	    	invocationDescriptor.stringRepresentation
@@ -361,7 +369,8 @@ class ExpressionVisitor {
 					name = null
 				]).build
 				
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «associationDescriptor.stringRepresentation»;'''+'\n')
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «associationDescriptor.stringRepresentation»;
+				''')
 			
 				descriptor.stringRepresentation
 			}else{
@@ -436,7 +445,8 @@ class ExpressionVisitor {
 		    }
 		    
 		    if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
-		    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;'''+'\n')
+		    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
+		    	''')
 		    	descriptor.stringRepresentation
 		    }else{
 		    	invocationDescriptor.stringRepresentation
@@ -478,7 +488,8 @@ class ExpressionVisitor {
 					]).build
 				}
 				
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («assignmentDescriptor.stringRepresentation»);'''+'\n')
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («assignmentDescriptor.stringRepresentation»);
+				''')
 			
 				descriptor.stringRepresentation
 			}else{
@@ -504,7 +515,8 @@ class ExpressionVisitor {
 					]).build
 				}
 				
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsString» «ex.operator» «rhsString»);'''+'\n')
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsString» «ex.operator» «rhsString»);
+				''')
 			
 				descriptor.stringRepresentation
 			}else{
@@ -525,7 +537,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -545,7 +558,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -565,7 +579,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -585,7 +600,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -605,7 +621,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -625,7 +642,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Variable» «ex.operator» «operand2Variable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -644,7 +662,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -663,7 +682,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operandVariable»«ex.operator.literal»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operandVariable»«ex.operator.literal»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -685,7 +705,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («operand1Variable») ? («operand2Variable») : («operand3Variable»);'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («operand1Variable») ? («operand2Variable») : («operand3Variable»);
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -722,7 +743,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -740,7 +762,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{
@@ -758,7 +781,8 @@ class ExpressionVisitor {
 				name = null
 			]).build
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;'''+'\n')
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;
+			''')
 		
 			descriptor.stringRepresentation
 		}else{

@@ -16,7 +16,7 @@ class CppConstructorCallBuilder implements IOoplConstructorCallBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
-	private TypeConverter converter
+	extension TypeConverter converter
 	
 	private RedefinableElement re
 	private List<ValueDescriptor> params
@@ -31,12 +31,12 @@ class CppConstructorCallBuilder implements IOoplConstructorCallBuilder {
 		var ocd = factory.createOperationCallDescriptor
 		if(re instanceof XTClassEvent) {
 			val cppEvent = mapper.convertEvent(re)
-			ocd.baseType = '''«converter.convertType(cppEvent)»_event'''
-			ocd.stringRepresentation = '''new «ocd.baseType»(false)'''
+			ocd.baseType = cppEvent.convertToType
+			ocd.stringRepresentation = '''new «cppEvent.convertToQualifiedName»(false)'''
 		} else {
 			val cppClass = mapper.convertType(re as Type) as CPPClass
-			ocd.baseType = converter.convertType(cppClass)
-			ocd.stringRepresentation = '''new «ocd.baseType»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
+			ocd.baseType = cppClass.convertToType
+			ocd.stringRepresentation = '''new «cppClass.convertToQualifiedName»(«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»)'''
 		}
 		ocd.fullType = ocd.baseType
 		return ocd

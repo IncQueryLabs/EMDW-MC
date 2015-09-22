@@ -1,19 +1,18 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
 import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
-import com.ericsson.xtumlrt.oopl.OOPLBasicType
-import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
-import com.ericsson.xtumlrt.oopl.OOPLEnumType
-import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
+import com.incquerylabs.emdw.cpp.common.TypeConverter
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.emf.ecore.EObject
 
 class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
+	extension TypeConverter typeConverter
 	private CppLiteralConverter converter
 	
 	private static final String LOCAL_VARIABLE_PREFIX = "ralf"
@@ -37,6 +36,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		index = start_index
 		this.parent = parent
 		converter = new CppLiteralConverter
+		typeConverter = new TypeConverter
 	}
 	
 	
@@ -87,11 +87,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		val basicType = type as CPPBasicType
 		val preparedDescriptor = factory.createLiteralDescriptor => [
 				it.stringRepresentation = converter.convertLiteral(type, literal)
-				if(basicType.cppQualifiedName != null){
-					it.baseType = basicType.cppQualifiedName					
-				} else {
-					it.baseType = basicType.cppName			
-				}
+				it.baseType = basicType.convertToType
 				it.fullType = it.baseType
 		]
 		return preparedDescriptor
@@ -139,98 +135,21 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		return preparedDescriptor
 	}
 	
-	
-	
-	private dispatch def prepareSingleVariableDescriptor(OOPLType type, String localVariableName) {
+	private def prepareSingleVariableDescriptor(EObject type, String localVariableName) {
 		val preparedDescriptor = createSingleVariableDescriptor => [
 				it.stringRepresentation = localVariableName
-				it.baseType = (type as CPPQualifiedNamedElement).cppQualifiedName.toReference
+				it.baseType = type.convertToType
 				it.fullType = it.baseType
 		]
 		return preparedDescriptor
 	}
 	
-	private dispatch def prepareSingleVariableDescriptor(OOPLEnumType type, String localVariableName) {
-		val preparedDescriptor = createSingleVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = (type as CPPQualifiedNamedElement).cppQualifiedName
-				it.fullType = it.baseType
-		]
-		return preparedDescriptor
-	}
-	
-	private dispatch def prepareSingleVariableDescriptor(OOPLBasicType type, String localVariableName) {
-		val preparedDescriptor = createSingleVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = (type as CPPQualifiedNamedElement).cppName
-				it.fullType = it.baseType
-		]
-		return preparedDescriptor
-	}
-	
-	private dispatch def prepareSingleVariableDescriptor(CPPEvent cppEvent, String localVariableName) {
-		val preparedDescriptor = createSingleVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = cppEvent.cppQualifiedName.toEvent.toReference
-				it.fullType = it.baseType
-		]
-		return preparedDescriptor
-	}
-	
-	private def String toReference(String type) {
-		'''«type»*'''
-	}
-	
-	private def String toEvent(String event) {
-		'''«event»_event'''
-	}
-	
-	private dispatch def prepareCollectionVariableDescriptor(OOPLSequenceImplementation collectionType, OOPLType elementType, String localVariableName) {
+	private def prepareCollectionVariableDescriptor(BaseContainerImplementation collectionType, EObject elementType, String localVariableName) {
 		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
-				it.baseType = (collectionType).containerQualifiedName
-				it.templateTypes.add((elementType as CPPQualifiedNamedElement).cppQualifiedName)
-				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»*«ENDFOR» >'''
-		]
-		return preparedDescriptor
-	}
-	
-	private dispatch def prepareCollectionVariableDescriptor(OOPLSequenceImplementation collectionType, CPPBasicType elementType, String localVariableName) {
-		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = (collectionType).containerQualifiedName
-				it.templateTypes.add(elementType.cppName)
-				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
-		]
-		return preparedDescriptor
-	}
-	
-	private dispatch def prepareCollectionVariableDescriptor(OOPLSequenceImplementation collectionType, CPPEvent elementType, String localVariableName) {
-		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = (collectionType).containerQualifiedName
-				it.templateTypes.add((elementType).cppQualifiedName)
-				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»«ENDFOR» >'''
-		]
-		return preparedDescriptor
-	}
-	
-	private dispatch def prepareCollectionVariableDescriptor(OOPLClassRefSimpleCollectionImplementation collectionType, OOPLType elementType, String localVariableName) {
-		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = (collectionType).containerQualifiedName
-				it.templateTypes.add((elementType as CPPQualifiedNamedElement).cppQualifiedName)
-				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»*«ENDFOR» >'''
-		]
-		return preparedDescriptor
-	}
-	
-	private dispatch def prepareCollectionVariableDescriptor(OOPLClassRefSimpleCollectionImplementation collectionType, CPPEvent elementType, String localVariableName) {
-		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = (collectionType).containerQualifiedName
-				it.templateTypes.add(elementType.cppQualifiedName)
-				it.fullType = '''«it.baseType»< «FOR templateType : it.templateTypes SEPARATOR ", "»«templateType»*«ENDFOR» >'''
+				it.baseType = collectionType.convertToBaseType
+				it.templateTypes.add(elementType.convertToType)
+				it.fullType = getFullType(baseType, templateTypes)
 		]
 		return preparedDescriptor
 	}

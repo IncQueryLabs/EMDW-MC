@@ -59,7 +59,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 			}
 		}
 		
-		val voidTypeString = converter.convertType(mapper.findBasicType("void"))
+		val voidTypeString = converter.convertToType(mapper.findBasicType("void"))
 		return factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
 										«sourceToTargetString»«IF xtAssociation.opposite!=null»
@@ -70,7 +70,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	}
 	
 	def createAssociationWriteDescriptor(ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor, XTAssociation xtAssociation) {
-		val voidTypeString = converter.convertType(mapper.findBasicType("void"))
+		val voidTypeString = converter.convertToType(mapper.findBasicType("void"))
 		val nullDescriptor = factory.createSingleVariableDescriptor => [
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString

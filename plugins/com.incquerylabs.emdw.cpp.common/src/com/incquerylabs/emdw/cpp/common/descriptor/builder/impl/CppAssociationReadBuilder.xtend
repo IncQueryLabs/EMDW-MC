@@ -1,7 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
+import com.ericsson.xtumlrt.oopl.OOPLClassReferenceCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAssociationReadBuilder
@@ -32,17 +31,12 @@ class CppAssociationReadBuilder implements IOoplAssociationReadBuilder {
 			val refStorage = cppAssociation.referenceStorage.head
 			val type = refStorage.type
 			val svd = factory.createPropertyReadDescriptor => [
-				it.fullType = converter.convertType(type)
+				it.baseType = converter.convertToBaseType(type)
+				it.fullType = converter.convertToType(type)
 				it.stringRepresentation = '''«variable.stringRepresentation»->«cppAssociation.cppName»'''
 			]
-			if(type instanceof CPPClassRefAssocCollection) {
-				svd.baseType = type.cppContainer
-				svd.templateTypes.add(converter.convertType(type.ooplClass))
-			} else if(type instanceof CPPClassRefSimpleCollection) {
-				svd.baseType = type.cppContainer
-				svd.templateTypes.add(converter.convertType(type.ooplClass))
-			} else {
-				svd.baseType = converter.convertType(type)
+			if(type instanceof OOPLClassReferenceCollection) {
+				svd.templateTypes.add(converter.convertToType(type.ooplClass))
 			}
 			refStorage.required = true
 			return svd

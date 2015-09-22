@@ -60,14 +60,16 @@ class CPPExternalBridgeMapping extends AbstractMapping<XtClassMatch> {
 		cppRootDirectory.files += bodyFile
 		cppRootDirectory.files += headerFile
 		
-		val externalHeader = createCPPExternalHeader
-		cppResource.contents += externalHeader
-		
-		val externalHeaderInclusion = createCPPExternalHeaderInclusion => [
-			it.externalHeader = externalHeader
-			it.comment = "Own external header"
-		]
-		bodyFile.externalHeaderInclusion += externalHeaderInclusion
+		if(!umlClass.externalHeaderLocation.isNullOrEmpty){
+			val externalHeader = createCPPExternalHeader
+			cppResource.contents += externalHeader
+			
+			val externalHeaderInclusion = createCPPExternalHeaderInclusion => [
+				it.externalHeader = externalHeader
+				it.comment = "Own external header"
+			]
+			bodyFile.externalHeaderInclusion += externalHeaderInclusion
+		}
 		
 		val externalBridge = createCPPExternalBridge => [
 			it.xtClass = xtClass
@@ -104,10 +106,11 @@ class CPPExternalBridgeMapping extends AbstractMapping<XtClassMatch> {
 	
 	def updateExternalBridge(CPPExternalBridge externalBridge, Class umlClass) {
 		val externalHeaderInclusion = externalBridge.bodyFile.externalHeaderInclusion.head
-		val externalHeader = externalHeaderInclusion.externalHeader
-		
+		if(externalHeaderInclusion != null){
+			val externalHeader = externalHeaderInclusion.externalHeader
+			externalHeader.name = umlClass.getExternalHeaderLocation
+		}
 		externalBridge.cppExternalNamespace = umlClass.getExternalNamespace
-		externalHeader.name = umlClass.getExternalHeaderLocation
 	}
 	
 	def removeExternalBridge(CPPExternalBridge externalBridge) {

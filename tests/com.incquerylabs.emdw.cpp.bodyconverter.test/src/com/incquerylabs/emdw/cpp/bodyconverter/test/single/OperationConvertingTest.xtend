@@ -28,6 +28,17 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::model::Comp::Pong::_instances;'''
+			],
+			#[  "Instances selection test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Pong::instances().one();
+				''',
+				'''
+				::std::list< ::model::Comp::Pong* > __ralf__0__Pong = ::model::Comp::Pong::_instances;
+				::xtuml::select_any(__ralf__0__Pong);'''
 			]
 		)
 	}

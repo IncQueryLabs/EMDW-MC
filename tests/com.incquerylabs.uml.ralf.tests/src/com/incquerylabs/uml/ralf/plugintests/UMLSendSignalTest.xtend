@@ -28,20 +28,20 @@ class UMLSendSignalTest extends AbstractPluginValidatorTest{
                 '''
                 Pong p = null;
                 ping_s s = new ping_s(integerAttribute => 2, pongAttribute => this);
-                send s to p->ping;''',
+                send s to p->ping.one();''',
                 "model::Comp::Pong::TestOperation",
                 #[]
             ],
             #[  "Trying to send null signal local variable - OK",
                 '''
                 ping_s s = null;
-                send s to this->ping;''',
+                send s to this->ping.one();''',
                 "model::Comp::Pong::TestOperation",
                 #[]
             ],
             #[  "Sending null directly",
                 '''
-                send null to this->ping;''',
+                send null to this->ping.one();''',
                 "model::Comp::Pong::TestOperation",
                 #["null"]
             ],

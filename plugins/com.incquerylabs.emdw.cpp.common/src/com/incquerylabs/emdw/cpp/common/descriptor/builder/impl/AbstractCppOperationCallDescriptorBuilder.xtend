@@ -1,15 +1,14 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
-import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
-import com.incquerylabs.emdw.cpp.common.TypeConverter
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
-import org.eclipse.papyrusrt.xtumlrt.common.Operation
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
+import com.incquerylabs.emdw.cpp.common.TypeConverter
+import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
 abstract class AbstractCppOperationCallDescriptorBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -26,15 +25,10 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 	
 	def prepareOperationCallDescriptor(Operation operation, ValueDescriptor... params) {
 		cppOperation = mapper.convertOperation(operation)
-		val retType = cppOperation.subElements.filter(CPPReturnValue).head
-		var baseType = retType.type
-		if(baseType instanceof CPPSequence) {
-			baseType = baseType.elementType
-		}
-		val baseTypeFinal = baseType
+		val returnValue = cppOperation.subElements.filter(CPPReturnValue).head
 		val ocd = factory.createOperationCallDescriptor => [
-			it.baseType = converter.convertType(baseTypeFinal)
-			it.fullType = converter.convertType(retType)
+			it.baseType = converter.convertToBaseType(returnValue)
+			it.fullType = converter.convertToType(returnValue)
 		]
 		return ocd
 	}

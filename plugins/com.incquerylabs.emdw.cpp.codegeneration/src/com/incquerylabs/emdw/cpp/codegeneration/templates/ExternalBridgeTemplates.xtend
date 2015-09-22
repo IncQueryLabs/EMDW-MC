@@ -80,7 +80,11 @@ class ExternalBridgeTemplates extends CPPTemplate {
 		'''
 		«FOR operation : operations»
 			«operationTemplates.operationSignature(operation, true, true, false, false)» {
-				return «cppExternalBridge.cppExternalNamespace»::«operation.cppName»(«operation.operationParameters»);
+				«IF cppExternalBridge.cppExternalNamespace.isNullOrEmpty»
+					// Write your code here
+				«ELSE»
+					return «cppExternalBridge.cppExternalNamespace»::«operation.cppName»(«operation.operationParameters»);
+				«ENDIF»
 			}
 		«ENDFOR»
 		'''

@@ -53,7 +53,7 @@ abstract class AbstractPluginSnippetTest {
        	//Create the snippet template based on the parsed abstract syntax tree
        	val snippet = generator.createSnippet(result, context, compiler)
        	//Create the snippet code based on the snippet template
-       	val serializedSnippet = serializer.serialize(snippet)
+       	val serializedSnippet = serializer.serialize(snippet).purgeRalfComments
        	//compare results
     	assertEquals("The created snippet does not match the expected result",expectedOutput,serializedSnippet)
     }
@@ -62,5 +62,9 @@ abstract class AbstractPluginSnippetTest {
 	def static void init(){                    
         parser = new ReducedAlfParser
 	    context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.snippetcompiler.tests/model/model.uml");
+	}
+	
+	def purgeRalfComments(String string){
+		string.replaceAll("(?s)// RALF:.+?\n", "")
 	}
 }

@@ -343,6 +343,9 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override putSingleVariableIntoCache(String variableName, SingleVariableDescriptor descriptor) {
 		singleVariableCache.put(variableName, descriptor)
+		if(variableName!=descriptor.stringRepresentation) {
+			singleVariableCache.put(descriptor.stringRepresentation, descriptor)
+		}
 	}
 	
 	override isLiteralInCache(Type type, String literal) {
@@ -383,6 +386,9 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override putCollectionVariableIntoCache(String variableName, CollectionVariableDescriptor descriptor) {
 		collectionVariableCache.put(variableName, descriptor)
+		if(variableName!=descriptor.stringRepresentation) {
+			collectionVariableCache.put(descriptor.stringRepresentation, descriptor)
+		}
 	}
 	
 }

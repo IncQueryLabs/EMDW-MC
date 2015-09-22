@@ -19,34 +19,34 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				::std::set< long > __ralf__0____std__set = { 1, 2, 3 };
 				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
 			],
-//			#[
-//				"Set creation with default variable values test",
-//				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
-//				"model::Comp::Pong::sendPing",
-//				ConversionType.Operation,
-//				'''
-//				Integer i = 0;
-//				Set<Integer> p = Set<Integer>{i};
-//				''',
-//				'''
-//				long i = 0;
-//				::std::set< long > __ralf__0____std__set = { i };
-//				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
-//			],
-//			#[
-//				"Set creation with default literal and variable values test",
-//				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
-//				"model::Comp::Pong::sendPing",
-//				ConversionType.Operation,
-//				'''
-//				Integer i = 0;
-//				Set<Integer> p = Set<Integer>{i, 1, 2, 3};
-//				''',
-//				'''
-//				long i = 0;
-//				::std::set< long > __ralf__0____std__set = { 1, 2, 3, i };
-//				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
-//			],
+			#[
+				"Set creation with default variable values test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing",
+				ConversionType.Operation,
+				'''
+				Integer i = 0;
+				Set<Integer> p = Set<Integer>{i};
+				''',
+				'''
+				long __ralf__0__i = 0;
+				::std::set< long > __ralf__1____std__set = { __ralf__0__i };
+				::std::set< long > __ralf__1__p = __ralf__1____std__set;'''
+			],
+			#[
+				"Set creation with default literal and variable values test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing",
+				ConversionType.Operation,
+				'''
+				Integer i = 0;
+				Set<Integer> p = Set<Integer>{i, 1, 2, 3};
+				''',
+				'''
+				long __ralf__0__i = 0;
+				::std::set< long > __ralf__1____std__set = { 1, 2, 3, __ralf__0__i };
+				::std::set< long > __ralf__1__p = __ralf__1____std__set;'''
+			],
 			#[  "Unlink expression collection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",

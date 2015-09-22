@@ -15,9 +15,10 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				send new Pong::ping_s() to this->pong.one();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event(false);
-
-				::xtuml::select_any(this->R1_pong)->generate_event(__ralf__0__ping_s);'''
+				::model::Comp::Pong* __ralf__0__Pong = ::xtuml::select_any(this->R1_pong);
+				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
+				
+				__ralf__0__Pong->generate_event(__ralf__1__ping_s);'''
 			]
 		)
 	}

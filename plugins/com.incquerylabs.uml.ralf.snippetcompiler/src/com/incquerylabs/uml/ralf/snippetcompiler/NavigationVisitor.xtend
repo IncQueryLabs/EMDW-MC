@@ -228,7 +228,8 @@ class NavigationVisitor {
 			]).build
 		}
 		
-		parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «builtExpression»;''')
+		parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «builtExpression»;
+		''')
 		return variableDescriptor.stringRepresentation
 	}
 

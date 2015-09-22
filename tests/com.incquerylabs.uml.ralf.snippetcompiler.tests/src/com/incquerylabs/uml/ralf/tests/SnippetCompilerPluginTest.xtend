@@ -474,7 +474,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    ''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				model::Comp::Pong temp0 = model::Comp::Pong::_instances()
+				model::Comp::Pong temp0 = model::Comp::Pong::_instances();
 				p.doPongMultiple(temp0);''',
 				"sendPong"
 			]

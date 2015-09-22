@@ -477,6 +477,32 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong temp0 = model::Comp::Pong::_instances();
 				p.doPongMultiple(temp0);''',
 				"sendPong"
+			],
+			#[  "Cast expression",
+			    '''
+			    Pong p;
+			    Pong2 p2 = new Pong2();
+			    p = ((Pong) p2);
+			    ''',
+			    '''
+				model::Comp::Pong p;
+				model::Comp::Pong2 p2 = new model::Comp::Pong2();
+				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
+				p = temp0;''',
+				"sendPong"
+			],
+			#[  "Cast expression operation call",
+			    '''
+			    Pong p;
+			    Pong2 p2 = new Pong2();
+			    p.doPongVoid(((Pong) p2));
+			    ''',
+			    '''
+				model::Comp::Pong p;
+				model::Comp::Pong2 p2 = new model::Comp::Pong2();
+				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
+				p.doPongVoid(temp0);''',
+				"sendPong"
 			]
 			
 		)

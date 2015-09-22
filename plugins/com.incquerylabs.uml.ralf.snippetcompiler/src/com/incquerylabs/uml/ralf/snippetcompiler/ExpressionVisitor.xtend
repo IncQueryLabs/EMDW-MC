@@ -125,36 +125,6 @@ class ExpressionVisitor {
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
-			val descriptor = descriptorFactory.getCachedVariableDescriptor(operandVariable)
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («descriptor.fullType») «operandVariable»;
-			''')
-					
-			descriptor.stringRepresentation
-		}else{
-			var ValueDescriptor descriptor 
-			if(ex.isCollection){
-				descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
-					elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
-					collectionType = variableType
-					name = null
-				]).build
-			}else{
-				descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					type = variableType
-					name = null
-				]).build
-			}
-			'''(«descriptor.fullType») «operandVariable»'''	
-		}
-		
-		
-	}
-	
-	private def String doVisit(CastExpression ex, StringBuilder parent){
-		val operandVariable = ex.operand.visit(parent)
-		val variableType = typeSystem.type(ex).value.umlType
-		
-		if(ex.isFlatteningNeeded){
 			val operandDescriptor = ex.getCachedDescriptor(operandVariable)
 			
 			val castDescriptor = (descriptorFactory.createCastDescriptorBuilder => [

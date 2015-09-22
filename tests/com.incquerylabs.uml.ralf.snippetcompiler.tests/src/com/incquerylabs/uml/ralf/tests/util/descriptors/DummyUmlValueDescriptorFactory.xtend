@@ -83,4 +83,8 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		(cache.filter[vd | vd.stringRepresentation.equals(name)]).head
 	}
 	
+	override createCastDescriptorBuilder() {
+		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+	}
+	
 }

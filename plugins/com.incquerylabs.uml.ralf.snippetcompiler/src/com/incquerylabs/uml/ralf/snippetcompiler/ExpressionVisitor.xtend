@@ -150,6 +150,44 @@ class ExpressionVisitor {
 		
 	}
 	
+	private def String doVisit(CastExpression ex, StringBuilder parent){
+		val operandVariable = ex.operand.visit(parent)
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		if(ex.isFlatteningNeeded){
+			//TODO
+			//Query operandVariable from factory
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+			
+			val castDescriptor = (descriptorFactory.createCastDescriptorBuilder => [
+				castingType = variableType
+				it.descriptor = descriptor
+			]).build
+			
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «castDescriptor.stringRepresentation»;
+			''')
+					
+			descriptor.stringRepresentation
+		}else{
+			//TODO
+			//Query operandVariable from factory
+			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+			
+			val castDescriptor = (descriptorFactory.createCastDescriptorBuilder => [
+				castingType = variableType
+				it.descriptor = descriptor
+			]).build
+			
+			castDescriptor.stringRepresentation	
+		}
+	}
+	
 	def dispatch String visit(NullExpression ex, StringBuilder parent){
 		'''0'''
 	}

@@ -84,7 +84,7 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createCastDescriptorBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new DummyCastDescriptorBuilder
 	}
 	
 }

@@ -438,59 +438,17 @@ class ExpressionVisitor {
 		        	val op = ex.feature as Operation
 					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
 					
-					var contextDescriptor = ex.context.getCachedDescriptor(contextString)
-					//TODO this should not be null as LHS expressions can either be raLF local variables or flattened local variables
-					if(contextDescriptor ==null){
-						var ValueDescriptor tempDescriptor 
-						if(ex.isCollection){
-							tempDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
-								elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
-								collectionType = variableType
-								name = null
-							]).build
-						}else{
-							tempDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-								type = variableType
-								name = null
-							]).build
-						}
-						parent.append('''«tempDescriptor.fullType» «tempDescriptor.stringRepresentation» = «contextString»;
-		    			''')
-						contextDescriptor = tempDescriptor	
-					}
-					val finalDescriptor = contextDescriptor
-					
+					val contextDescriptor = ex.context.getCachedDescriptor(contextString)
 					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-						variable = finalDescriptor
+						variable = contextDescriptor
 						operation = op
 						parameters = descriptors
 					]).build
 		        }
 		        Property: {
-		        	var contextDescriptor = ex.context.getCachedDescriptor(contextString)
-					//TODO this should not be null as LHS expressions can either be raLF local variables or flattened local variables
-					
-					if(contextDescriptor ==null){
-						var ValueDescriptor tempDescriptor 
-						if(ex.isCollection){
-							tempDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
-								elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
-								collectionType = variableType
-								name = null
-							]).build
-						}else{
-							tempDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-								type = variableType
-								name = null
-							]).build
-						}
-						parent.append('''«tempDescriptor.fullType» «tempDescriptor.stringRepresentation» = «contextString»;
-		    			''')
-						contextDescriptor = tempDescriptor	
-					}
-					val finalDescriptor = contextDescriptor
+		        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)
 		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
-						variable = finalDescriptor
+						variable = contextDescriptor
 						property = ex.feature as Property
 					]).build
 		        }

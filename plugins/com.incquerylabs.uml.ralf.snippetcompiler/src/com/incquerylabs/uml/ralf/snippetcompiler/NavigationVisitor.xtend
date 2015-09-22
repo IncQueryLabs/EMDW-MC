@@ -4,12 +4,15 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
+import com.incquerylabs.uml.ralf.types.CollectionTypeReference
+import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
-import org.eclipse.emf.ecore.EObject
+import org.eclipse.uml2.uml.Type
 
 class NavigationVisitor {
 
@@ -20,7 +23,7 @@ class NavigationVisitor {
 	extension SnippetTemplateCompilerUtil util
 	
 	// TODO: Temporary solution
-	private boolean associating;
+	private int recursionDepth;
 
 	new(ExpressionVisitor expressionVisitor, ReducedAlfSystem typeSystem, SnippetTemplateCompilerUtil util) {
 		this.expressionVisitor = expressionVisitor
@@ -38,8 +41,7 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
-		if(!associating)
-			associating = true
+		recursionDepth++
 			
 		val childExpr = delegate(ex.context, parent)
 		val assocDescriptor = ex.descriptor
@@ -69,12 +71,17 @@ class NavigationVisitor {
 			'''«assocDescriptor.stringRepresentation»'''
 		}
 		
-		if (associating && ex.association.upper == -1 && !ex.eContainer.isOne) {
-			associating = false
-			'''«OPERATION_NAMESPACE»::select_many(«expr»)'''
+		recursionDepth--
+		
+		if (recursionDepth == 0) {
+			return if(ex.association.upper == -1) {
+				'''«OPERATION_NAMESPACE»::select_many(«expr»)'''	
+			} else {
+				expr
+			}.finalize(ex, parent)
 		} else {
 			return expr
-		}		
+		}
 	}
 
 	/**
@@ -89,6 +96,8 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitFilter(FilterExpression ex, StringBuilder parent) {
+		recursionDepth++
+			
 		val parameterType = typeSystem.type(ex.declaration).value.umlType
 		val typeDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 			type = parameterType
@@ -100,7 +109,13 @@ class NavigationVisitor {
 
 		val operation = if(ex.eContainer.isOne) "select_any_where" else "select_many_where"
 
-		'''«OPERATION_NAMESPACE»::«operation»< «typeDescriptor.fullType» >(«childExpr», «lambda»)'''
+		val expr = '''«OPERATION_NAMESPACE»::«operation»< «typeDescriptor.fullType» >(«childExpr», «lambda»)'''
+		
+		recursionDepth--
+		if(recursionDepth == 0) {
+			return expr.finalize(ex, parent)
+		} else 
+			return expr		
 	}
 
 	/**
@@ -114,9 +129,19 @@ class NavigationVisitor {
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 */
 	def String visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
+		recursionDepth++
+		
 		val childExpression = delegate(ex.context, parent)
-		if (!(ex.context instanceof FilterExpression)) '''«OPERATION_NAMESPACE»::select_any(«childExpression»)''' else
+		val expr = if (!(ex.context instanceof FilterExpression)) 
+			'''«OPERATION_NAMESPACE»::select_any(«childExpression»)''' 
+		else
 			childExpression
+			
+		recursionDepth--
+		if(recursionDepth == 0) 
+			return expr.finalize(ex, parent)
+		else
+			return expr
 	}
 
 	/**
@@ -187,4 +212,29 @@ class NavigationVisitor {
 	private def removePointer(String it) {
 		replace('*', '')
 	}
+	
+	private def finalize(CharSequence builtExpression, Expression ex, StringBuilder parent) {
+		val variableType = ex.type.value.umlType
+		val variableDescriptor = if(variableType.isCollection) {
+			(descriptorFactory.createCollectionVariableDescriptorBuilder => [
+				elementType = (ex.type.value as CollectionTypeReference).valueType.umlType
+				collectionType = variableType
+				name = null
+			]).build
+		} else {
+			(descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+		}
+		
+		parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «builtExpression»;''')
+		return variableDescriptor.stringRepresentation
+	}
+
+
+	private def isCollection(Type type){
+		type.equals(context.getCollectionType(CollectionType.SET))
+	}
+		
 }

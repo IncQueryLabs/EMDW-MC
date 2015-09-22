@@ -52,7 +52,7 @@ class NavigationVisitor {
 			val parentUpperBound = parentAssociation.association.upper
 			val parentLowerBound = parentAssociation.association.lower
 			if (parentUpperBound == 1 && parentLowerBound == 1) { // a->(1)b->c => simple dereference
-				'''«childExpr»->«ex.name»'''
+				assocDescriptor.stringRepresentation
 			} else if (parentUpperBound == 1 && parentLowerBound == 0) { // a->(0..1)b->c => safe chain
 				'''«OPERATION_NAMESPACE»::safe_chain(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 			} else { // a->(*)b->c
@@ -172,10 +172,16 @@ class NavigationVisitor {
 		return false
 	}
 
-	private def getName(AssociationAccessExpression it) '''«association.association.name»_«association.name»'''
+	// TODO: This should use a descriptor instead of string replace
+	private def getName(AssociationAccessExpression it, ValueDescriptor parentDescriptor) {
+		val contextString = '''«parentDescriptor.stringRepresentation»->'''
+		val assocDescriptor = it.descriptor
+		val result = assocDescriptor.stringRepresentation.replace(contextString, "")
+		return result
+	}
 
 	private def toMemberAccess(AssociationAccessExpression it, ValueDescriptor parentDescriptor) {
-		'''&«IF parentDescriptor.templateTypes.empty»«parentDescriptor.baseType.removePointer»«ELSE»«parentDescriptor.templateTypes.get(0).removePointer»«ENDIF»::«name»'''
+		'''&«IF parentDescriptor.templateTypes.empty»«parentDescriptor.baseType.removePointer»«ELSE»«parentDescriptor.templateTypes.get(0).removePointer»«ENDIF»::«it.getName(parentDescriptor)»'''
 	}
 
 	private def removePointer(String it) {

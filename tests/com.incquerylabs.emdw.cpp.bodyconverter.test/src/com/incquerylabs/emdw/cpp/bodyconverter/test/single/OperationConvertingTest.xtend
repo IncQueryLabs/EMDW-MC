@@ -39,6 +39,19 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::std::list< ::model::Comp::Pong* > __ralf__0__Pong = ::model::Comp::Pong::_instances;
 				::xtuml::select_any(__ralf__0__Pong);'''
+			],
+			#[  "Association access test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
+				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 
+				ConversionType.Operation,
+				'''
+					PacketSwitchLeg packetSwitchLeg = PacketSwitchLeg::instances().one();
+					PublicSafetyAccessPointLeg psapLeg = packetSwitchLeg->'manages incoming side of'->'is terminated in'.one();
+				''',
+				'''
+					::std::list< ::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* > __ralf__1__PacketSwitchLeg = ::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg::_instances;
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* __ralf__0__packetSwitchLeg = ::xtuml::select_any(__ralf__1__PacketSwitchLeg);
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* __ralf__2__psapLeg = ::xtuml::select_any(__ralf__0__packetSwitchLeg->R101_manages_incoming_side_of->R102_is_terminated_in);'''
 			]
 		)
 	}

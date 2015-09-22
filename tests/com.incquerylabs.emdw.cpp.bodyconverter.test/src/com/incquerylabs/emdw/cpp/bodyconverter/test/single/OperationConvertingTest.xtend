@@ -12,13 +12,12 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
 				'''
-				send new ping_s() to this->ping;
+				send new ping_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Ping* __ralf__0__Ping = this->R1_ping;
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
-				
-				__ralf__0__Ping->generate_event(__ralf__1__ping_s);'''
+				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event(false);
+
+				::xtuml::select_any(this->R1_ping)->generate_event(__ralf__0__ping_s);'''
 			],
 			#[  "Instances expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

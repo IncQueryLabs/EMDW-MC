@@ -21,6 +21,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.SwitchStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.xtend2.lib.StringConcatenation
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForEachStatement
 
 class StatementVisitor {
 	extension SnippetTraceCommentUtil traceCommentUtil = new SnippetTraceCommentUtil
@@ -252,6 +253,10 @@ class StatementVisitor {
 		
 		util.descriptorFactory = parent
 		builder.toString
+	}
+	
+	def dispatch String visit(ForEachStatement st){
+		'''***** FOREACH Statement not supported yet *****'''
 	}
 	
 	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){

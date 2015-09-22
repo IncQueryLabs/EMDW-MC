@@ -359,7 +359,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(SuperInvocationExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("Super invocations not supported yet")
+		'''***** SUPER invocations not supported yet *****'''
 	}
 	
 	def dispatch String visit(LinkOperationExpression ex, StringBuilder parent){

@@ -1,10 +1,11 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
 import com.ericsson.xtumlrt.oopl.OOPLType
-import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 
 abstract class OoplValueDescriptorFactory {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -35,10 +36,10 @@ abstract class OoplValueDescriptorFactory {
 	
 	def LiteralDescriptor prepareSingleVariableDescriptorForLiteral(OOPLType type, String literal) 
 	
-	def CollectionVariableDescriptor prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType, String localVariableName)
+	def CollectionVariableDescriptor prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, OOPLType elementType, String localVariableName)
 	
-	def CollectionVariableDescriptor prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType) 
+	def CollectionVariableDescriptor prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, OOPLType elementType) 
 	
-	def CollectionVariableDescriptor prepareCollectionVariableDescriptorForExistingVariable(OOPLType collectionType, OOPLType elementType, String localVariableName)
+	def CollectionVariableDescriptor prepareCollectionVariableDescriptorForExistingVariable(BaseContainerImplementation collectionType, OOPLType elementType, String localVariableName)
 	
 }

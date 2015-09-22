@@ -28,6 +28,7 @@ import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionVariable
 
 class SnippetTemplateCompilerUtil {
 	
@@ -116,14 +117,30 @@ class SnippetTemplateCompilerUtil {
 	
 	
 	def dispatch ValueDescriptor getDescriptor(LocalNameDeclarationStatement st){
-		(descriptorFactory.createSingleVariableDescriptorBuilder => [
-			name = st.variable.name
-			type = typeSystem.type(st.variable).value.umlType
-		]).build
+		if(st.variable instanceof CollectionVariable){
+			val collection = st.variable as CollectionVariable
+			(descriptorFactory.createCollectionVariableDescriptorBuilder => [
+				name = collection.name
+				collectionType = context.getCollectionType(collection.collectionType)
+				elementType = collection.type.type
+			]).build
+		}else{
+			(descriptorFactory.createSingleVariableDescriptorBuilder => [
+				name = st.variable.name
+				type = typeSystem.type(st.variable).value.umlType
+			]).build
+		}
 	}
 		
 	def dispatch ValueDescriptor getDescriptor(NameExpression ex){
-		if(ex.reference instanceof Variable){
+		if(ex.reference instanceof CollectionVariable){
+			val collection = ex.reference as CollectionVariable
+			(descriptorFactory.createCollectionVariableDescriptorBuilder => [
+				name = collection.name
+				collectionType = context.getCollectionType(collection.collectionType)
+				elementType = collection.type.type
+			]).build
+		}else if(ex.reference instanceof Variable){
 			val variable = ex.reference as Variable
 			if(variable != null){
 				return (descriptorFactory.createSingleVariableDescriptorBuilder => [
@@ -142,7 +159,7 @@ class SnippetTemplateCompilerUtil {
 				]).build	
 			}
 		}else{
-			throw new UnsupportedOperationException("Only variables and parameters are supported")
+			throw new UnsupportedOperationException("Only single/collection variables and parameters are supported")
 		}
 	}
 	

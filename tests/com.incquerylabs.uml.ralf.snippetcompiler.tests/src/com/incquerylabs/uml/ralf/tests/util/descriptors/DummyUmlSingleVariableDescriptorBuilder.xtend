@@ -39,9 +39,13 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 		if(isExistingVariable) {
 			return prepareSingleValueDescriptorForExistingVariable(type, name)
 		} else if(name!=null) {
-			return prepareSingleValueDescriptorForNewLocalVariable(type, name)
+			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type, name)
+			descrFactory.cache.add(descriptor)
+			return descriptor
 		} else {
-			return prepareSingleValueDescriptorForNewLocalVariable(type)
+			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type)
+			descrFactory.cache.add(descriptor)
+			return descriptor
 		}
 	}
 	

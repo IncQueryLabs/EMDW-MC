@@ -14,6 +14,9 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSendSignalBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSigdataDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionLiteralBuilder
+import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCastDescriptorBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
@@ -24,6 +27,8 @@ interface IUmlDescriptorFactory {
 	
 	def IUmlCollectionVariableDescriptorBuilder createCollectionVariableDescriptorBuilder()
 	
+	def IUmlCastDescriptorBuilder createCastDescriptorBuilder()
+	
 	def IUmlPropertyReadBuilder createPropertyReadBuilder()
 	
 	def IUmlPropertyWriteBuilder createPropertyWriteBuilder()
@@ -31,6 +36,8 @@ interface IUmlDescriptorFactory {
 	def IUmlOperationCallBuilder createOperationCallBuilder()
 	
 	def IUmlConstructorCallBuilder createConstructorCallBuilder()
+
+	def IUmlCollectionLiteralBuilder createCollectionLiteralBuilder()
 	
 	def IUmlCopyConstructorCallBuilder createCopyConstructorCallBuilder()
 	
@@ -45,4 +52,6 @@ interface IUmlDescriptorFactory {
 	def IUmlSigdataDescriptorBuilder createSigdataDescriptorBuilder()
 	
 	def IUmlSendSignalBuilder createSendSignalBuilder()
+	
+	def VariableDescriptor getCachedVariableDescriptor(String name)
 }

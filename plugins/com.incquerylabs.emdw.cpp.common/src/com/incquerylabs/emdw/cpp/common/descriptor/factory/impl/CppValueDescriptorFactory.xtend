@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.factory.impl
 
+import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
@@ -8,6 +9,7 @@ import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.emf.ecore.EObject
 
 class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	extension TypeConverter typeConverter
@@ -91,49 +93,49 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		return preparedDescriptor
 	}
 	
-	override prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType, String localVariableName) {
+	override prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, OOPLType elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
 		return preparedDescriptor
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, CPPEvent elementType, String localVariableName) {
+	def prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, CPPEvent elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
 		return preparedDescriptor
 	}
 	
-	override prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, OOPLType elementType) {
+	override prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, OOPLType elementType) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, collectionType.containerQualifiedName.escapeName.qualifiedName)
 		return preparedDescriptor
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(OOPLType collectionType, CPPEvent elementType) {
+	def prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, CPPEvent elementType) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, (collectionType as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, collectionType.containerQualifiedName.escapeName.qualifiedName)
 		return preparedDescriptor
 	}
 	
-	override prepareCollectionVariableDescriptorForExistingVariable(OOPLType collectionType, OOPLType elementType, String localVariableName) {
-		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
-		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
-		return preparedDescriptor
-	}
-	
-	def prepareCollectionVariableDescriptorForExistingVariable(OOPLType collectionType, CPPEvent elementType, String localVariableName) {
+	override prepareCollectionVariableDescriptorForExistingVariable(BaseContainerImplementation collectionType, OOPLType elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
 		return preparedDescriptor
 	}
 	
-	private def prepareSingleVariableDescriptor(OOPLType type, String localVariableName) {
+	def prepareCollectionVariableDescriptorForExistingVariable(BaseContainerImplementation collectionType, CPPEvent elementType, String localVariableName) {
+		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
+		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
+		return preparedDescriptor
+	}
+	
+	private def prepareSingleVariableDescriptor(EObject type, String localVariableName) {
 		val preparedDescriptor = createSingleVariableDescriptor => [
 				it.stringRepresentation = localVariableName
 				it.baseType = type.convertToType
@@ -142,26 +144,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		return preparedDescriptor
 	}
 	
-	private def prepareSingleVariableDescriptor(CPPEvent cppEvent, String localVariableName) {
-		val preparedDescriptor = createSingleVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = cppEvent.convertToType
-				it.fullType = it.baseType
-		]
-		return preparedDescriptor
-	}
-	
-	private def prepareCollectionVariableDescriptor(OOPLType collectionType, OOPLType elementType, String localVariableName) {
-		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
-				it.stringRepresentation = localVariableName
-				it.baseType = collectionType.convertToBaseType
-				it.templateTypes.add(elementType.convertToType)
-				it.fullType = getFullType(baseType, templateTypes)
-		]
-		return preparedDescriptor
-	}
-	
-	private def prepareCollectionVariableDescriptor(OOPLType collectionType, CPPEvent elementType, String localVariableName) {
+	private def prepareCollectionVariableDescriptor(BaseContainerImplementation collectionType, EObject elementType, String localVariableName) {
 		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
 				it.baseType = collectionType.convertToBaseType

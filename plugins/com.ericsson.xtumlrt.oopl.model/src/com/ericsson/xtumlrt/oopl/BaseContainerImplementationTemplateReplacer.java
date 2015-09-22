@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor;
+import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor;
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor;
 
 public class BaseContainerImplementationTemplateReplacer {
@@ -122,6 +123,10 @@ public class BaseContainerImplementationTemplateReplacer {
     
     
     public static String generateAdd(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToAdd, SingleVariableDescriptor result) {
+        return generateAdd(impl, context.getStringRepresentation(), itemToAdd.getStringRepresentation(), result.getStringRepresentation());
+    }
+    
+    public static String generateAdd(BaseContainerImplementation impl, CollectionVariableDescriptor context, LiteralDescriptor itemToAdd, SingleVariableDescriptor result) {
         return generateAdd(impl, context.getStringRepresentation(), itemToAdd.getStringRepresentation(), result.getStringRepresentation());
     }
     

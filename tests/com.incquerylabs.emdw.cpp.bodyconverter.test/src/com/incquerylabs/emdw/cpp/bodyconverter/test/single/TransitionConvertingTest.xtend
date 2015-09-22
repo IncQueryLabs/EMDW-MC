@@ -12,13 +12,12 @@ class TransitionConvertingTest extends AbstractSingleConversionTest{
 				"model::Comp::Pong::Pong_SM::Region1::e2",
 				ConversionType.Transition,
 				'''
-				send new Ping::pong_s() to this->ping;
+				send new Ping::pong_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Ping* __ralf__0__Ping = this->R1_ping;
-				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = new ::model::Comp::Ping::pong_s_event(false);
-				
-				__ralf__0__Ping->generate_event(__ralf__1__pong_s);'''
+				::model::Comp::Ping::pong_s_event* __ralf__0__pong_s = new ::model::Comp::Ping::pong_s_event(false);
+
+				::xtuml::select_any(this->R1_ping)->generate_event(__ralf__0__pong_s);'''
 			]
 		)
 	}

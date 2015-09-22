@@ -16,6 +16,9 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
+import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 
 class TypeConverter {
 	
@@ -124,6 +127,14 @@ class TypeConverter {
 	
 	def dispatch String convertToBaseType(CPPSequence sequence) {
 		return sequence.cppContainer
+	}
+	
+	def dispatch String convertToBaseType(OOPLClassRefSimpleCollectionImplementation collection) {
+		return collection.containerQualifiedName
+	}
+	
+	def dispatch String convertToBaseType(OOPLSequenceImplementation collection) {
+		return collection.containerQualifiedName
 	}
 	
 	def dispatch String convertToBaseType(OOPLType type) {

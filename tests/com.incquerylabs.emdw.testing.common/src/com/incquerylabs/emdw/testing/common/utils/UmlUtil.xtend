@@ -25,6 +25,8 @@ import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Trigger
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
+import org.eclipse.uml2.uml.DataType
+import org.eclipse.emf.ecore.EObject
 
 class UmlUtil extends ModelUtil {
 	static extension val UMLFactory umlFactory = UMLFactory.eINSTANCE
@@ -310,6 +312,14 @@ class UmlUtil extends ModelUtil {
 		]
 		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
 		return primitiveTypes.findFirst[it.name == name]
+	}
+
+	def DataType findCollectionType(EObject eobject, String qualifiedName) {
+		val umlCollectionTypesResource = eobject.eResource.resourceSet.resources.findFirst [
+			it.URI.toString.contains(PATH_RALF_COLLECTIONS)
+		]
+		val collectionType = umlCollectionTypesResource.allContents.filter(DataType).toList
+		return collectionType.findFirst[it.qualifiedName == qualifiedName]
 	}
 
 	def createStructType(Package umlPackage) {

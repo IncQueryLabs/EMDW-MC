@@ -34,11 +34,15 @@ class DummyUmlCollectionVariableDescriptorBuilder implements IUmlCollectionVaria
 		checkArgument(collectionType!=null, "Type cannot be null")
 		checkArgument(elementType!=null, "Type cannot be null")
 		if(isExistingVariable) {
-			return prepareCollectionValueDescriptorForExistingVariable(collectionType, elementType, name)
+			prepareCollectionValueDescriptorForExistingVariable(collectionType, elementType, name)
 		} else if(name!=null) {
-			return prepareCollectionValueDescriptorForNewLocalVariable(collectionType, elementType, name)
+			val descriptor = prepareCollectionValueDescriptorForNewLocalVariable(collectionType, elementType, name)
+			descrFactory.cache.add(descriptor)
+			return descriptor
 		} else {
-			return prepareCollectionValueDescriptorForNewLocalVariable(collectionType, elementType)
+			val descriptor = prepareCollectionValueDescriptorForNewLocalVariable(collectionType, elementType)
+			descrFactory.cache.add(descriptor)
+			return descriptor
 		}
 	}
 	
@@ -82,7 +86,7 @@ class DummyUmlCollectionVariableDescriptorBuilder implements IUmlCollectionVaria
 	}
 	
 	override setElementType(Type elementType) {
-		this.collectionType = collectionType
+		this.elementType = elementType
 		this
 	}
 	

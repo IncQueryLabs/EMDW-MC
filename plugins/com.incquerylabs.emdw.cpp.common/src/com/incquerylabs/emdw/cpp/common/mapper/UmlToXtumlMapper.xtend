@@ -32,6 +32,17 @@ class UmlToXtumlMapper {
 		return engine.xtEvent2Signal.getAllValuesOfxtEvent(signal).head
 	}
 	
+	def decodeCollectionType(Type collectionType) {
+		switch collectionType.qualifiedName {
+		case "std::collections::Set": {
+			return "::std::set"
+		}
+		default: {
+			return "::std::list"
+		}
+	}
+	}
+	
 	/**
 	 * @param umlProperty Cannot be null
 	 * 

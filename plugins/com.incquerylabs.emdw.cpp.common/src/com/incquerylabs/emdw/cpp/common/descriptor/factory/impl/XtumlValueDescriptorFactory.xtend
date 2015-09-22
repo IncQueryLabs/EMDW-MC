@@ -134,51 +134,51 @@ class XtumlValueDescriptorFactory {
 		return factory.prepareSingleVariableDescriptorForLiteral(ooplType, literal)
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType, String localVariableName) {
+	def prepareCollectionVariableDescriptorForNewLocalVariable(String collectionType, Type elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
-		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertType(elementType)
+		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType, localVariableName)
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, XTEvent elementType, String localVariableName) {
+	def prepareCollectionVariableDescriptorForNewLocalVariable(String collectionType, XTEvent elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
-		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertEvent(elementType)
+		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType, localVariableName)
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, Type elementType) {
+	def prepareCollectionVariableDescriptorForNewLocalVariable(String collectionType, Type elementType) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
-		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertType(elementType)
+		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType)
 	}
 	
-	def prepareCollectionVariableDescriptorForNewLocalVariable(Type collectionType, XTEvent elementType) {
+	def prepareCollectionVariableDescriptorForNewLocalVariable(String collectionType, XTEvent elementType) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
-		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertEvent(elementType)
+		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		return factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType)
 	}
 	
-	def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, Type elementType, String localVariableName) {
+	def prepareCollectionVariableDescriptorForExistingVariable(String collectionType, Type elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
-		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertType(elementType)
+		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		return factory.prepareCollectionVariableDescriptorForExistingVariable(ooplCollectionType, ooplElementType, localVariableName)
 	}
 	
-	def prepareCollectionVariableDescriptorForExistingVariable(Type collectionType, XTEvent elementType, String localVariableName) {
+	def prepareCollectionVariableDescriptorForExistingVariable(String collectionType, XTEvent elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "Type (collectionType) cannot be null")
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
-		val ooplCollectionType = mapper.convertType(collectionType)
 		val ooplElementType = mapper.convertEvent(elementType)
+		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		return factory.prepareCollectionVariableDescriptorForExistingVariable(ooplCollectionType, ooplElementType, localVariableName)
 	}
 

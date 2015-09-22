@@ -55,6 +55,9 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionLiteralExpression
 import com.incquerylabs.uml.ralf.types.CollectionTypeReference
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import org.eclipse.xtend2.lib.StringConcatenation
 
 class ExpressionVisitor {
@@ -69,21 +72,48 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(CollectionLiteralExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("Collection literals are not supported yet")
+		if(ex instanceof ElementCollectionExpression){
+			val elementType = ex.typeDeclaration.type
+			val collectionType = typeSystem.type(ex).value.umlType
+			val List<ValueDescriptor> elements = Lists.newArrayList
+			
+			for(Expression e : ex.elements.expressions){
+				val expressionString = e.visit(parent)
+				switch(e){
+					LiteralExpression: {
+						elements.add((descriptorFactory.createLiteralDescriptorBuilder => [
+							literal = expressionString
+							type = typeSystem.type(e).value.umlType
+						]).build)
+					}
+					default : {
+						elements.add(descriptorFactory.getCachedVariableDescriptor(expressionString))
+					}
+				}
+				
+			}
+						
+			val valueDescriptor = (descriptorFactory.createCollectionLiteralBuilder => [
+				it.elementType = elementType
+				it.collectionType = collectionType
+				it.elements = elements
+				it.stringBuilder = parent
+			]).build
+			
+			valueDescriptor.stringRepresentation
+			
+		}else{
+			throw new UnsupportedOperationException("Only Element collections are supported")
+		}
 	}
 	
 	def dispatch String visit(InstanceDeletionExpression ex, StringBuilder parent){
 		val referenceString = ex.reference.visit(parent)
-		val variableType = typeSystem.type(ex.reference).value.umlType
-		
-		val valueDdescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = variableType
-			name = referenceString
-			isExistingVariable = true
-		]).build
+				
+		val valueDescriptor = ex.reference.getCachedDescriptor(referenceString)
 		
 		val descriptor = (descriptorFactory.createDeleteBuilder => [
-			variable = valueDdescriptor
+			variable = valueDescriptor
 		]).build
 			
 		descriptor.stringRepresentation
@@ -95,25 +125,42 @@ class ExpressionVisitor {
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
-			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
+			val operandDescriptor = ex.getCachedDescriptor(operandVariable)
+			
+			val castDescriptor = (descriptorFactory.createCastDescriptorBuilder => [
+				castingType = variableType
+				it.descriptor = operandDescriptor
 			]).build
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («descriptor.fullType») «operandVariable»;
+			
+			var ValueDescriptor descriptor 
+			if(ex.isCollection){
+				descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+					elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+					collectionType = variableType
+					name = null
+				]).build
+			}else{
+				descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+					type = variableType
+					name = null
+				]).build
+			}
+			
+			
+			
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «castDescriptor.stringRepresentation»;
 			''')
 					
 			descriptor.stringRepresentation
 		}else{
-			val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-				isExistingVariable = true
+			val operandDescriptor = ex.getCachedDescriptor(operandVariable)
+			val castDescriptor = (descriptorFactory.createCastDescriptorBuilder => [
+				castingType = variableType
+				it.descriptor = operandDescriptor
 			]).build
 			
-			'''(«descriptor.fullType») «operandVariable»'''	
+			castDescriptor.stringRepresentation	
 		}
-		
-		
 	}
 	
 	def dispatch String visit(NullExpression ex, StringBuilder parent){
@@ -312,7 +359,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(SuperInvocationExpression ex, StringBuilder parent){
-		throw new UnsupportedOperationException("Super invocations not supported yet")
+		'''***** SUPER invocations not supported yet *****'''
 	}
 	
 	def dispatch String visit(LinkOperationExpression ex, StringBuilder parent){
@@ -372,10 +419,18 @@ class ExpressionVisitor {
 			
 			var ValueDescriptor descriptor 
 			if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression)&& ex.isFlatteningNeeded){
-				descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					type = variableType
-					name = null
-				]).build
+				if(ex.isCollection){
+					descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+						elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+						collectionType = variableType
+						name = null
+					]).build
+				}else{
+					descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						type = variableType
+						name = null
+					]).build
+				}
 			}
 			
 			switch (ex.feature) {
@@ -383,27 +438,59 @@ class ExpressionVisitor {
 		        	val op = ex.feature as Operation
 					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
 					
-					val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-						name = contextString
-						type = typeSystem.type(ex.context).value.umlType
-						isExistingVariable = true
-					]).build
+					var contextDescriptor = ex.context.getCachedDescriptor(contextString)
+					//TODO this should not be null as LHS expressions can either be raLF local variables or flattened local variables
+					if(contextDescriptor ==null){
+						var ValueDescriptor tempDescriptor 
+						if(ex.isCollection){
+							tempDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+								elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+								collectionType = variableType
+								name = null
+							]).build
+						}else{
+							tempDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+								type = variableType
+								name = null
+							]).build
+						}
+						parent.append('''«tempDescriptor.fullType» «tempDescriptor.stringRepresentation» = «contextString»;
+		    			''')
+						contextDescriptor = tempDescriptor	
+					}
+					val finalDescriptor = contextDescriptor
 					
 					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-						variable = contextDescriptor
+						variable = finalDescriptor
 						operation = op
 						parameters = descriptors
 					]).build
 		        }
 		        Property: {
-		        	val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-						name = contextString
-						type = variableType
-						isExistingVariable = true
-					]).build
-	
+		        	var contextDescriptor = ex.context.getCachedDescriptor(contextString)
+					//TODO this should not be null as LHS expressions can either be raLF local variables or flattened local variables
+					
+					if(contextDescriptor ==null){
+						var ValueDescriptor tempDescriptor 
+						if(ex.isCollection){
+							tempDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+								elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+								collectionType = variableType
+								name = null
+							]).build
+						}else{
+							tempDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+								type = variableType
+								name = null
+							]).build
+						}
+						parent.append('''«tempDescriptor.fullType» «tempDescriptor.stringRepresentation» = «contextString»;
+		    			''')
+						contextDescriptor = tempDescriptor	
+					}
+					val finalDescriptor = contextDescriptor
 		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
-						variable = contextDescriptor
+						variable = finalDescriptor
 						property = ex.feature as Property
 					]).build
 		        }
@@ -427,18 +514,11 @@ class ExpressionVisitor {
 			val rhsString = ex.rightHandSide.visit(parent)
 			val contextString = propAccess.context.visit(parent)
 			
-				
-			val rhsDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				name = rhsString
-				type = variableType
-				isExistingVariable = true
-			]).build
-
-	        val contextDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				name = contextString
-				type = variableType
-				isExistingVariable = true
-			]).build
+			
+					
+			val rhsDescriptor = ex.rightHandSide.getCachedDescriptor(rhsString)
+			
+	        val contextDescriptor = propAccess.context.getCachedDescriptor(contextString)
 			
 			val assignmentDescriptor =  (descriptorFactory.createPropertyWriteBuilder => [
 				variable = contextDescriptor
@@ -447,10 +527,19 @@ class ExpressionVisitor {
 			]).build
 			
 			if(ex.isFlatteningNeeded){
-				val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					type = variableType
-					name = null
-				]).build
+				var ValueDescriptor descriptor 
+				if(ex.isCollection){
+					descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+						elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+						collectionType = variableType
+						name = null
+					]).build
+				}else{
+					descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						type = variableType
+						name = null
+					]).build
+				}
 				
 				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («assignmentDescriptor.stringRepresentation»);
 				''')
@@ -464,10 +553,20 @@ class ExpressionVisitor {
 		    val rhsString = ex.rightHandSide.visit(parent)
 		    
 		    if(ex.isFlatteningNeeded){
-				val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					type = variableType
-					name = null
-				]).build
+		    	var ValueDescriptor descriptor 
+		    	
+				if(ex.isCollection){
+					descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+						elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+						collectionType = variableType
+						name = null
+					]).build
+				}else{
+					descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+						type = variableType
+						name = null
+					]).build
+				}
 				
 				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsString» «ex.operator» «rhsString»);
 				''')
@@ -968,6 +1067,38 @@ class ExpressionVisitor {
 			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
 		return descriptors
+	}
+	
+	private def isCollection(Expression ex){
+		if(typeSystem.type(ex).value.umlType.equals(context.getCollectionType(CollectionType.SET))){
+			true
+		}else{
+			false
+		}
+		
+	}
+	
+	private def ValueDescriptor getCachedDescriptor(Expression ex, String string){
+		var ValueDescriptor tempDescriptor
+		switch(ex){
+			SignalDataExpression: {
+				(descriptorFactory.createSigdataDescriptorBuilder => [
+					type = typeSystem.type(ex).value.umlType
+				]).build
+			}
+			ThisExpression: {
+				ex.descriptor
+			}
+			LiteralExpression: {
+				tempDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
+					literal = string
+					type = typeSystem.type(ex).value.umlType
+				]).build
+			}
+			default : {
+				tempDescriptor = descriptorFactory.getCachedVariableDescriptor(string)
+			}
+		}
 	}
 	
 }

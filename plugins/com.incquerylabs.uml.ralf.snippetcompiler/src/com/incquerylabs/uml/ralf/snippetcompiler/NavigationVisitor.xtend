@@ -13,6 +13,9 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Type
+import com.incquerylabs.emdw.valuedescriptor.impl.ValueDescriptorImpl
+import com.incquerylabs.emdw.valuedescriptor.impl.LiteralDescriptorImpl
+import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 
 class NavigationVisitor {
 
@@ -44,7 +47,13 @@ class NavigationVisitor {
 		recursionDepth++
 			
 		val childExpr = delegate(ex.context, parent)
-		val assocDescriptor = ex.descriptor
+		val propertyAccessDescriptor = (descriptorFactory.createPropertyReadBuilder => [
+			property = ex.association
+			// XXX: hack
+			variable =  ValuedescriptorFactory.eINSTANCE.createSingleVariableDescriptor => [
+				stringRepresentation = childExpr
+			]
+		]).build
 		val ctx = ex.context
 		
 		val expr = if (ctx instanceof AssociationAccessExpression) { // if an association access precedes this association access	
@@ -54,21 +63,19 @@ class NavigationVisitor {
 			val parentUpperBound = parentAssociation.association.upper
 			val parentLowerBound = parentAssociation.association.lower
 			if (parentUpperBound == 1 && parentLowerBound == 1) { // a->(1)b->c => simple dereference
-				assocDescriptor.stringRepresentation
+				propertyAccessDescriptor.stringRepresentation
 			} else if (parentUpperBound == 1 && parentLowerBound == 0) { // a->(0..1)b->c => safe chain
 				'''«OPERATION_NAMESPACE»::safe_chain(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 			} else { // a->(*)b->c
 				val currentUpperBound = ex.association.upper
-				if (currentUpperBound ==
-					-1
-				) { // a->(*)b->(*)c => merged chain
-					'''«OPERATION_NAMESPACE»::merged_chain< «assocDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+				if (currentUpperBound == -1) { // a->(*)b->(*)c => merged chain
+					'''«OPERATION_NAMESPACE»::merged_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 				} else { // a->(*)b->(0..1)c or a->(*)b->(1)c => indirect chain
-					'''«OPERATION_NAMESPACE»::indirect_chain< «assocDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+					'''«OPERATION_NAMESPACE»::indirect_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 				}
 			}
 		} else {
-			'''«assocDescriptor.stringRepresentation»'''
+			propertyAccessDescriptor.stringRepresentation
 		}
 		
 		recursionDepth--

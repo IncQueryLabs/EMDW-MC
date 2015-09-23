@@ -17,6 +17,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCa
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionLiteralBuilder
 import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCastDescriptorBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlForeachBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
@@ -34,6 +35,8 @@ interface IUmlDescriptorFactory {
 	def IUmlPropertyWriteBuilder createPropertyWriteBuilder()
 	
 	def IUmlOperationCallBuilder createOperationCallBuilder()
+	
+	def IUmlForeachBuilder createForeachBuilder()
 	
 	def IUmlConstructorCallBuilder createConstructorCallBuilder()
 

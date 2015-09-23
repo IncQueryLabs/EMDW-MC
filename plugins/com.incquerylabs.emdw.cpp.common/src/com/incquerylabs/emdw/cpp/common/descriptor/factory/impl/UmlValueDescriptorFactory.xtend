@@ -30,6 +30,7 @@ import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlForeachBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -291,6 +292,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createOperationCallBuilder() {
 		new UmlOperationCallBuilder(engine)
+	}
+	
+	override createForeachBuilder() {
+		new UmlForeachBuilder(engine)
 	}
 	
 	override createConstructorCallBuilder() {

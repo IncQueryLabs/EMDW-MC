@@ -41,6 +41,12 @@ namespace xtuml {
   }
 
   template<class Value, class Predicate>
+  inline Value select_any_where(const std::set<Value> &ct, const Predicate &pr) {
+    typename std::list<Value>::const_iterator match = std::find_if(ct.begin(), ct.end(), pr);
+    return (match!=ct.end())?(*match):nullptr;
+  }
+
+  template<class Value, class Predicate>
   inline Value select_any_where(Value const val, const Predicate& pr) {
     return (val&&pr(val))?val:nullptr;
   }

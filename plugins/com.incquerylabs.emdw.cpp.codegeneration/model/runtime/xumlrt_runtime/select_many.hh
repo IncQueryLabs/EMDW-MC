@@ -15,6 +15,11 @@ namespace xtuml {
     return std::set<Value>(ct.begin(), ct.end());
   }
 
+  template<class Value>
+  inline std::set<Value> select_many(const std::set<Value> &ct) {
+    return std::set<Value>(ct.begin(), ct.end());
+  }
+
   template<class Value, class Container>
   inline std::set<Value> select_many(const downcasted_multi_selection<Value, Container> &ct) {
     return std::set<Value>(ct.begin(), ct.end());

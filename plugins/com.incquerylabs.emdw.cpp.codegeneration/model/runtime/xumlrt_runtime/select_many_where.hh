@@ -58,6 +58,14 @@ namespace xtuml {
   }
 
   template<class Value, class Predicate>
+  inline std::set<Value> select_many_where(const std::set<Value> &ct, const Predicate& pr) {
+    std::set<Value> result;
+    typename std::set<Value>::iterator res_it = result.begin();
+    std::copy_if(ct.begin(), ct.end(), std::inserter(result, res_it), pr);
+    return result;
+  }
+
+  template<class Value, class Predicate>
   inline std::set<Value> select_many_where(Value const val, const Predicate& pr) {
     std::set<Value> result;
     if(val&&pr(val)) {

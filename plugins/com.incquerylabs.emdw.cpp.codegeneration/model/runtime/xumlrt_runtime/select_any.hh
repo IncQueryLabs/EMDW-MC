@@ -14,6 +14,11 @@ namespace xtuml {
     return (ct.begin()!=ct.end())?*ct.begin():nullptr;
   }
 
+  template<class Value>
+  inline Value select_any(const std::set<Value> &ct) {
+    return (ct.begin()!=ct.end())?*ct.begin():nullptr;
+  }
+
   template<class Value, class Container>
   inline Value select_any(const downcasted_multi_selection<Value, Container> &ct) {
     return (ct.begin()!=ct.end())?*ct.begin():nullptr;

@@ -510,11 +510,18 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				p.doPongVoid(temp0);''',
 				"sendPong"
 			],
-			#[  "Operation parameter usage",
-			    '''if(inParameter == 1){
-			    	
-			    }else if(inParameter == 2){}''',
-			    '''''',
+			#[  "For Each test",
+			    '''
+			    Set<Integer> s = Set<Integer>{1, 2, 3};
+			    for(Integer i in s){
+			    	i+1;
+			    }''',
+			    '''
+				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
+				for(PrimitiveTypes::Integer temp0 : s)
+				{
+				i + 1;
+				}''',
 				"model::Comp::Pong::TestOperation"
 			]
 			

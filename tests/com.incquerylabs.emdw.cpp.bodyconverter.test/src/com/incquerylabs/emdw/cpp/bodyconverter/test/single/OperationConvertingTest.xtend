@@ -30,6 +30,16 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::model::Comp::Pong::_instances;'''
 			],
+			#[  "Cast expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Ping ping = (Ping)this;
+				''',
+				'''
+				::model::Comp::Ping* __ralf__0__ping = dynamic_cast<::model::Comp::Ping*>(this);'''
+			],
 			#[  "Instances selection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::sendPing", 

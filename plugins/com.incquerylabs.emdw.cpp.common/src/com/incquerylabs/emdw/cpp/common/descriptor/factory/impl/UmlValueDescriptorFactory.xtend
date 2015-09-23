@@ -278,8 +278,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createCastDescriptorBuilder() {
-		//TODO dummy implementation
-		new UmlCastDescriptorBuilder
+		new UmlCastDescriptorBuilder(engine)
 	}
 	
 	override createPropertyReadBuilder() {

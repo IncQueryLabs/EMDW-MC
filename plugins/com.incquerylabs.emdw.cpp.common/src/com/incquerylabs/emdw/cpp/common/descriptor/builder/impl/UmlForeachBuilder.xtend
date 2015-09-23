@@ -16,7 +16,10 @@ class UmlForeachBuilder implements IUmlForeachBuilder {
 	}
 	
 	override build() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		return (builder => [
+					it.collectionDescriptor = collection
+					it.variableDescriptor = variable
+				]).build
 	}
 	
 	override setCollectionDescriptor(ValueDescriptor collection) {

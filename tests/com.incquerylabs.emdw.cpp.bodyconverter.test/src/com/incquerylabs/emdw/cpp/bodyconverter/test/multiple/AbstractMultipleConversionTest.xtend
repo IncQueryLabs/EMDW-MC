@@ -101,10 +101,14 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 				} catch (Exception ex) {
 					exceptions += ex
 					codes += getResultString(element, ralfCode, ex.message, conversionType, true)
+					var message = ex.message.markdownBody
+					if (message.isNullOrEmpty){
+						message = ex.stackTrace.toString.markdownBody
+					}
 					wikiTable = 
 					'''
 					«wikiTable»
-					**«element.qualifiedName»** <br /><br /> <i>«ralfCode.markdownBody»<i /> | :x: | «ex.reducedMessage» 
+					**«element.qualifiedName»** <br /><br /> <i>«ralfCode.markdownBody»<i /> | :x: | «message» 
 					'''
 				}
 			]
@@ -185,8 +189,7 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	}
 	
 	def form(String string) '''«string.replace("PhoneX::PhoneX::Implementation::", "")»'''
-	def getReducedMessage(Exception ex) '''«ex.message?.replace('\n', "<br />")»'''
-	def markdownBody(String body) '''«body.replace("\r\n", "<br />").replace("\n", "<br />").replace('|', "\\|")»'''
+	def String markdownBody(String body) '''«body?.replace("\r\n", "<br />")?.replace("\n", "<br />")?.replace('|', "\\|")»'''
 	
 	def String ralfCode(NamedElement umlElement, ConversionType conversionType){
 		switch conversionType{

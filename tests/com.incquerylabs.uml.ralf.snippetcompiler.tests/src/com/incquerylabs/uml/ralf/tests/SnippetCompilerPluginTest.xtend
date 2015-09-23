@@ -509,6 +509,13 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
 				p.doPongVoid(temp0);''',
 				"sendPong"
+			],
+			#[  "Operation parameter usage",
+			    '''if(inParameter == 1){
+			    	
+			    }else if(inParameter == 2){}''',
+			    '''''',
+				"model::Comp::Pong::TestOperation"
 			]
 			
 		)

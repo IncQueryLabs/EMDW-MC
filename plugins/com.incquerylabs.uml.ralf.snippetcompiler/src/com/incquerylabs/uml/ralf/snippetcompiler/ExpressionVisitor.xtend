@@ -377,8 +377,7 @@ class ExpressionVisitor {
 		        	val op = ex.feature as Operation
 					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
 					
-					val contextDescriptor = ex.context.getCachedDescriptor(contextString)
-					
+					val contextDescriptor = ex.context.getCachedDescriptor(contextString)					
 					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
 						variable = contextDescriptor
 						operation = op
@@ -386,7 +385,7 @@ class ExpressionVisitor {
 					]).build
 		        }
 		        Property: {
-		        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)
+		        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)				
 		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
 						variable = contextDescriptor
 						property = ex.feature as Property
@@ -901,8 +900,8 @@ class ExpressionVisitor {
 		return descriptors
 	}
 	
-	private def isCollection(Expression ex){
-		if(typeSystem.type(ex).value.umlType.equals(context.getCollectionType(CollectionType.SET))){
+	private def isCollection(Type variableType){
+		if(variableType != null && variableType.equals(context.getCollectionType(CollectionType.SET))){
 			true
 		}else{
 			false
@@ -911,8 +910,11 @@ class ExpressionVisitor {
 	}
 	
 	private def createNewVariableDescriptor(Expression ex, Type variableType){
+		if(variableType == null){
+			return null
+		}
 		var ValueDescriptor descriptor 
-		if(ex.isCollection){
+		if(variableType.isCollection){
 			descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
 				elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
 				collectionType = variableType

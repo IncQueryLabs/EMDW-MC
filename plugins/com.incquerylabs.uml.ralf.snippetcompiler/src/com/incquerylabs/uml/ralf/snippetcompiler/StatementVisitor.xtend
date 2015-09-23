@@ -43,8 +43,8 @@ class StatementVisitor {
 	
 	def dispatch String visit(ExpressionStatement st){
 		val builder = new StringBuilder
-		val expressionsnippet = st.expression.visit(builder)
 		builder.appendTraceComment(st)
+		val expressionsnippet = st.expression.visit(builder)
 		builder.append('''«expressionsnippet»;''')
 		builder.toString
 	} 

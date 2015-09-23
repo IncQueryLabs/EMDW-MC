@@ -33,5 +33,5 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 		return ocd
 	}
 	
-	def getParameterList() '''«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»'''
+	def String getParameterList() '''«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»'''
 }

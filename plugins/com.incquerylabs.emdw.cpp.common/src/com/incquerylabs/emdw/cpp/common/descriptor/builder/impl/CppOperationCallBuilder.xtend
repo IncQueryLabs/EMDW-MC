@@ -8,7 +8,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Operation
 class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
 	
 	private ValueDescriptor variable
-	private Operation operation
+	private Object operation
 	
 	
 	new(AdvancedIncQueryEngine engine) {
@@ -17,13 +17,30 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 	
 	
 	override build() {
-		val od = prepareOperationCallDescriptor(operation, params)
-		if(mapper.isHiddenByChild(operation)) {
-			od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterList»)'''
-		} else {
-			od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterList»)'''
+		if(operation instanceof Operation) {
+			val od = prepareOperationCallDescriptor(operation, params)
+			if(mapper.isHiddenByChild(operation)) {
+				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterList»)'''
+			} else {
+				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterList»)'''
+			}
+			return od
+		} else if(operation instanceof Pair<?,?>) {
+			val operation = operation as Pair<String, String>
+			val sequenceImplementation = mapper.findSequenceCollectionImplementation(operation.key)
+			switch(operation.value) {
+				case "add": {
+					val returnValue = converter.convertToType(mapper.findBasicType("bool"))
+					val ocd = factory.createOperationCallDescriptor => [
+						it.baseType = returnValue
+						it.fullType = it.baseType
+						it.stringRepresentation = '''«sequenceImplementation.generateAdd(variable.stringRepresentation, parameterList, "")»'''
+					]
+					return ocd
+				}
+			}
+			return null
 		}
-		return od
 	}
 	
 	override setVariable(ValueDescriptor variable) {
@@ -31,7 +48,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		return this
 	}
 	
-	override setOperation(Operation operation) {
+	override setOperation(Object operation) {
 		this.operation = operation
 		return this
 	}

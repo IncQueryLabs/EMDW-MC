@@ -367,40 +367,66 @@ class ExpressionVisitor {
 	
 	private def visitFeatureInvocationExpression(FeatureInvocationExpression ex, StringBuilder parent){
 		var ValueDescriptor invocationDescriptor
-			val contextString = ex.context.visit(parent)
-			
-			val variableType = typeSystem.type(ex).value.umlType
-			
-			val descriptor = createNewVariableDescriptor(ex, variableType)
-			switch (ex.feature) {
-		        Operation: {
-		        	val op = ex.feature as Operation
-					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
-					
-					val contextDescriptor = ex.context.getCachedDescriptor(contextString)					
-					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-						variable = contextDescriptor
-						operation = op
-						parameters = descriptors
-					]).build
-		        }
-		        Property: {
-		        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)				
-		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
-						variable = contextDescriptor
-						property = ex.feature as Property
-					]).build
-		        }
-		        default: throw new UnsupportedOperationException("Invalid feature invocation")
-		    }
-		    
-		    if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
-		    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
-		    	''')
-		    	descriptor.stringRepresentation
-		    }else{
-		    	invocationDescriptor.stringRepresentation
-		    }
+		val contextString = ex.context.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = createNewVariableDescriptor(ex, variableType)
+		switch (ex.feature) {
+	        Operation: {
+	        	val op = ex.feature as Operation
+				val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
+				
+				val contextDescriptor = ex.context.getCachedDescriptor(contextString)					
+				invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
+					variable = contextDescriptor
+					operation = op
+					parameters = descriptors
+				]).build
+	        }
+	        Property: {
+	        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)				
+	        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
+					variable = contextDescriptor
+					property = ex.feature as Property
+				]).build
+	        }
+	        default: throw new UnsupportedOperationException("Invalid feature invocation")
+	    }
+	    
+	    if((typeSystem.type(ex).value instanceof CollectionTypeReference) && invocationDescriptor.hasMultilineRepresentation) {
+	    	val lastLine = invocationDescriptor.cutRepresentationLastLine
+			parent.append(	'''
+							«invocationDescriptor.stringRepresentation»
+							«descriptor.fullType» «descriptor.stringRepresentation» = «lastLine»
+	    					''')
+	    	descriptor.stringRepresentation
+	    } else if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
+	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
+	    	''')
+	    	descriptor.stringRepresentation
+	    }else{
+	    	invocationDescriptor.stringRepresentation
+	    }
+	}
+	
+	def String cutRepresentationLastLine(ValueDescriptor descriptor) {
+		val original = descriptor.stringRepresentation.toCharArray
+		descriptor.stringRepresentation = ""
+		val penultimateLineLastCharIndex = original.lastIndexOf('\n')
+		var String lastLine
+		for(var i = 0 ; i < original.length; i++) {
+			if(i < penultimateLineLastCharIndex) {
+				descriptor.stringRepresentation = descriptor.stringRepresentation + original.get(i)
+			} else if(i > penultimateLineLastCharIndex) {
+				lastLine += original.get(i)
+			}
+		}
+		return lastLine
+	}
+	
+	def boolean hasMultilineRepresentation(ValueDescriptor descriptor) {
+		return descriptor.stringRepresentation.contains('\n')
 	}
 	
 	def dispatch String visit(AssignmentExpression ex, StringBuilder parent){

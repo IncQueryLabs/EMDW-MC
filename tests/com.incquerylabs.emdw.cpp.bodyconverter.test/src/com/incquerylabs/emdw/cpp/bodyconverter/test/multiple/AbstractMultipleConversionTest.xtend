@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.bodyconverter.test.multiple
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalBridge
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
@@ -51,7 +52,10 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
     	// *******************************************************************************
     	// Call body converter
     	// *******************************************************************************
-       			val operations = cppModel.eResource.allContents.filter(CPPOperation).toList.sortBy[qualifiedName]
+       			val operations = cppModel.eResource.allContents.filter(CPPOperation).filter[
+       				!(it.eContainer instanceof CPPExternalBridge)
+       			].toList.sortBy[qualifiedName]
+       			
        			operations.forEach[ operation |
        				operationSum++
        				try {

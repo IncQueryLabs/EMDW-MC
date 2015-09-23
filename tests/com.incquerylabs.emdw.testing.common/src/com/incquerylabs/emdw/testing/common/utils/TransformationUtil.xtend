@@ -3,7 +3,10 @@ package com.incquerylabs.emdw.testing.common.utils
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
+import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
 import java.util.Map
+import java.util.Set
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.base.api.BaseIndexOptions
@@ -44,13 +47,9 @@ class TransformationUtil {
 		if(engine==null) {
 			engine = initializeEngine(rs)
 		}
-		xtTrafo = new TransformationQrt
-		xtTrafo.externalTypeMap = primitiveTypeMapping
-		xtTrafo.initialize(engine)
-		cppTrafo = new XtumlCPPTransformationQrt
-		cppTrafo.initialize(engine)
-		compTrafo = new XtumlComponentCPPTransformation
-		compTrafo.initialize(engine)
+		initializeXtTransformation(rs, primitiveTypeMapping)
+		initializeCppTransformation(rs)
+		initializeCppComponentTransformation(rs)
 	}
 	
 	def initializeXtTransformation(ResourceSet rs, Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping) {
@@ -58,6 +57,11 @@ class TransformationUtil {
 			engine = initializeEngine(rs)
 		}
 		xtTrafo = new TransformationQrt
+		
+		val xUmlRtResource = rs.resources.findFirst[it.URI.toString.contains(".xtuml")]
+		val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
+		extensionServices.forEach[initialize(xUmlRtResource)]
+		xtTrafo.extensionServices = extensionServices
 		xtTrafo.externalTypeMap = primitiveTypeMapping
 		xtTrafo.initialize(engine)
 	}

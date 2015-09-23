@@ -1,6 +1,7 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
@@ -13,9 +14,6 @@ import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
 import org.eclipse.uml2.uml.Type
-import com.incquerylabs.emdw.valuedescriptor.impl.ValueDescriptorImpl
-import com.incquerylabs.emdw.valuedescriptor.impl.LiteralDescriptorImpl
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 
 class NavigationVisitor {
 
@@ -82,7 +80,7 @@ class NavigationVisitor {
 		
 		if (recursionDepth == 0) {
 			return if(ex.association.upper == -1) {
-				'''«OPERATION_NAMESPACE»::select_many(«expr»)'''	
+				'''«OPERATION_NAMESPACE»::select_many(«expr»)'''
 			} else {
 				expr
 			}.finalize(ex, parent)
@@ -99,7 +97,7 @@ class NavigationVisitor {
 	 * 
 	 * Params:
 	 * 	- FilterExpression ex: filter expression that contains the navigation chain
-	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement		
+	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 * 
 	 */
 	def String visitFilter(FilterExpression ex, StringBuilder parent) {
@@ -139,8 +137,8 @@ class NavigationVisitor {
 		recursionDepth++
 		
 		val childExpression = delegate(ex.context, parent)
-		val expr = if (!(ex.context instanceof FilterExpression)) 
-			'''«OPERATION_NAMESPACE»::select_any(«childExpression»)''' 
+		val expr = if (!(ex.context instanceof FilterExpression))
+			'''«OPERATION_NAMESPACE»::select_any(«childExpression»)'''
 		else
 			childExpression
 			
@@ -164,16 +162,21 @@ class NavigationVisitor {
 	}
 
 	private def composeLambda(FilterExpression it, VariableDescriptor typeDescriptor) {
+		val tmpRecursionDepth = recursionDepth
+		recursionDepth = 0
 		
-		val lambdaPreprocess = new StringBuilder;
+		val lambdaPreprocess = new StringBuilder
 		
 		val captureType = "&"
 		val parameterList = '''«typeDescriptor.fullType» «declaration.name»'''
 		val lambdaBody = expression.delegate(lambdaPreprocess)
-		'''[«captureType»](«parameterList») {
+				
+		recursionDepth = tmpRecursionDepth
+		
+		return '''[«captureType»](«parameterList») {
 			«lambdaPreprocess»
 			return «lambdaBody»;
-		}'''
+		}''' 
 	}
 
 	private def dispatch String delegate(FilterExpression it, StringBuilder parent) {
@@ -190,15 +193,12 @@ class NavigationVisitor {
 
 	private def isOne(EObject eObj) {
 		if (eObj instanceof FeatureInvocationExpression) {
-			val featureInvocationExpression = eObj as FeatureInvocationExpression
-			if (featureInvocationExpression.feature instanceof Operation) {
-				val operation = featureInvocationExpression.feature as Operation
+			if (eObj.feature instanceof Operation) {
+				val operation = eObj.feature as Operation
 
-				if (operation.name.equals("one") && operation.ownedParameters.filter [ param |
+				return operation.name.equals("one") && operation.ownedParameters.filter [ param |
 					!(param.direction == ParameterDirectionKind.RETURN_LITERAL)
-				].size == 0) {
-					return true
-				}
+				].size == 0
 			}
 		}
 		return false

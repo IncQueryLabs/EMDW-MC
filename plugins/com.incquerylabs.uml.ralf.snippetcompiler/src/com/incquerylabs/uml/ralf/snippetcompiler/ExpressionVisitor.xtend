@@ -59,6 +59,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import org.eclipse.xtend2.lib.StringConcatenation
+import com.google.common.base.Preconditions
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -368,28 +369,12 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(AssociationAccessExpression ex, StringBuilder parent){
-		if(ex.context instanceof AssociationAccessExpression){
-			ex.visitAssociation(parent)
-		} else if((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property)){
-			throw new IllegalStateException("Association access on property values is not allowed (e.g. a.prop->b)")
-		} else {
-			val associationDescriptor = ex.descriptor
-			val variableType = typeSystem.type(ex).value.umlType
-			
-			if(ex.isFlatteningNeeded){
-				val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					type = variableType
-					name = null
-				]).build
-				
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «associationDescriptor.stringRepresentation»;
-				''')
-			
-				descriptor.stringRepresentation
-			}else{
-				associationDescriptor.stringRepresentation	
-			}	
-		}
+		Preconditions.checkState(
+			!((ex.context instanceof FeatureInvocationExpression) && ((ex.context as FeatureInvocationExpression).feature instanceof Property)),
+			"Association access on property values is not allowed (e.g. a.prop->b)"
+		)
+		
+		ex.visitAssociation(parent)
 	}
 	
 	def dispatch String visit(FeatureInvocationExpression ex, StringBuilder parent){
@@ -438,59 +423,17 @@ class ExpressionVisitor {
 		        	val op = ex.feature as Operation
 					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
 					
-					var contextDescriptor = ex.context.getCachedDescriptor(contextString)
-					//TODO this should not be null as LHS expressions can either be raLF local variables or flattened local variables
-					if(contextDescriptor ==null){
-						var ValueDescriptor tempDescriptor 
-						if(ex.isCollection){
-							tempDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
-								elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
-								collectionType = variableType
-								name = null
-							]).build
-						}else{
-							tempDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-								type = variableType
-								name = null
-							]).build
-						}
-						parent.append('''«tempDescriptor.fullType» «tempDescriptor.stringRepresentation» = «contextString»;
-		    			''')
-						contextDescriptor = tempDescriptor	
-					}
-					val finalDescriptor = contextDescriptor
-					
+					val contextDescriptor = ex.context.getCachedDescriptor(contextString)
 					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-						variable = finalDescriptor
+						variable = contextDescriptor
 						operation = op
 						parameters = descriptors
 					]).build
 		        }
 		        Property: {
-		        	var contextDescriptor = ex.context.getCachedDescriptor(contextString)
-					//TODO this should not be null as LHS expressions can either be raLF local variables or flattened local variables
-					
-					if(contextDescriptor ==null){
-						var ValueDescriptor tempDescriptor 
-						if(ex.isCollection){
-							tempDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
-								elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
-								collectionType = variableType
-								name = null
-							]).build
-						}else{
-							tempDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-								type = variableType
-								name = null
-							]).build
-						}
-						parent.append('''«tempDescriptor.fullType» «tempDescriptor.stringRepresentation» = «contextString»;
-		    			''')
-						contextDescriptor = tempDescriptor	
-					}
-					val finalDescriptor = contextDescriptor
+		        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)
 		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
-						variable = finalDescriptor
+						variable = contextDescriptor
 						property = ex.feature as Property
 					]).build
 		        }

@@ -15,9 +15,10 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new ping_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event(false);
+				::model::Comp::Ping* __ralf__0__Ping = ::xtuml::select_any(this->R1_ping);
+				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
 
-				::xtuml::select_any(this->R1_ping)->generate_event(__ralf__0__ping_s);'''
+				__ralf__0__Ping->generate_event(__ralf__1__ping_s);'''
 			],
 			#[  "Instances expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -38,7 +39,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::std::list< ::model::Comp::Pong* > __ralf__0__Pong = ::model::Comp::Pong::_instances;
-				::xtuml::select_any(__ralf__0__Pong);'''
+				::model::Comp::Pong* __ralf__1__Pong = ::xtuml::select_any(__ralf__0__Pong);
+				__ralf__1__Pong;'''
 			],
 			#[  "Association access test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
@@ -50,8 +52,10 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 					::std::list< ::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* > __ralf__1__PacketSwitchLeg = ::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg::_instances;
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* __ralf__0__packetSwitchLeg = ::xtuml::select_any(__ralf__1__PacketSwitchLeg);
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* __ralf__2__psapLeg = ::xtuml::select_any(__ralf__0__packetSwitchLeg->R101_manages_incoming_side_of->R102_is_terminated_in);'''
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* __ralf__2__PacketSwitchLeg = ::xtuml::select_any(__ralf__1__PacketSwitchLeg);
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* __ralf__0__packetSwitchLeg = __ralf__2__PacketSwitchLeg;
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* __ralf__4__PublicSafetyAccessPointLeg = ::xtuml::select_any(__ralf__0__packetSwitchLeg->R101_manages_incoming_side_of->R102_is_terminated_in);
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* __ralf__3__psapLeg = __ralf__4__PublicSafetyAccessPointLeg;'''
 			]
 		)
 	}

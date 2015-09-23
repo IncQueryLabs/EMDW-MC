@@ -394,7 +394,7 @@ class ExpressionVisitor {
 	        default: throw new UnsupportedOperationException("Invalid feature invocation")
 	    }
 	    
-	    if((typeSystem.type(ex).value instanceof CollectionTypeReference) && invocationDescriptor.hasMultilineRepresentation) {
+	    if((typeSystem.type(ex.context).value instanceof CollectionTypeReference) && invocationDescriptor.hasMultilineRepresentation) {
 	    	val lastLine = invocationDescriptor.cutRepresentationLastLine
 			parent.append(	'''
 							«invocationDescriptor.stringRepresentation»
@@ -411,15 +411,17 @@ class ExpressionVisitor {
 	}
 	
 	def String cutRepresentationLastLine(ValueDescriptor descriptor) {
+		var penultimateLineLastCharIndex = descriptor.stringRepresentation.lastIndexOf('\n')
 		val original = descriptor.stringRepresentation.toCharArray
 		descriptor.stringRepresentation = ""
-		val penultimateLineLastCharIndex = original.lastIndexOf('\n')
-		var String lastLine
+		var String lastLine = ""
 		for(var i = 0 ; i < original.length; i++) {
 			if(i < penultimateLineLastCharIndex) {
 				descriptor.stringRepresentation = descriptor.stringRepresentation + original.get(i)
 			} else if(i > penultimateLineLastCharIndex) {
-				lastLine += original.get(i)
+				if(!original.get(i).equals(';')) {
+					lastLine += original.get(i)
+				}
 			}
 		}
 		return lastLine

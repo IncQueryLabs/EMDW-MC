@@ -4,11 +4,14 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBui
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.eclipse.emf.common.util.ECollections
 
 class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
 	
 	private ValueDescriptor variable
-	private Object operation
+	private Operation operation
+	private String collectionType
+	private String operationName
 	
 	
 	new(AdvancedIncQueryEngine engine) {
@@ -17,7 +20,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 	
 	
 	override build() {
-		if(operation instanceof Operation) {
+		if(operation!=null) {
 			val od = prepareOperationCallDescriptor(operation, params)
 			if(mapper.isHiddenByChild(operation)) {
 				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterList»)'''
@@ -25,21 +28,21 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterList»)'''
 			}
 			return od
-		} else if(operation instanceof Pair<?,?>) {
-			val operation = operation as Pair<String, String>
-			val sequenceImplementation = mapper.findSequenceCollectionImplementation(operation.key)
-			switch(operation.value) {
-				case "add": {
-					val returnValue = converter.convertToType(mapper.findBasicType("bool"))
-					val ocd = factory.createOperationCallDescriptor => [
-						it.baseType = returnValue
-						it.fullType = it.baseType
-						it.stringRepresentation = '''«sequenceImplementation.generateAdd(variable.stringRepresentation, parameterList, "")»'''
-					]
-					return ocd
-				}
-			}
-			return null
+		} else {
+			val sequenceImplementation = mapper.findSequenceCollectionImplementation(collectionType)
+			val op = sequenceImplementation.eClass.EAllOperations.findFirst[eop |
+				val retValue = eop.name.toLowerCase.equals('''generate«operationName.toLowerCase»'''.toString)
+				return retValue
+			]
+			val paramsList = ECollections.asEList(newArrayList(variable.stringRepresentation, parameterList, ""))
+			val operationCode = sequenceImplementation.eInvoke(op, paramsList)
+			val returnValue = converter.convertToType(mapper.findBasicType("bool"))
+			val ocd = factory.createOperationCallDescriptor => [
+				it.baseType = returnValue
+				it.fullType = it.baseType
+				it.stringRepresentation = '''«operationCode»'''
+			]
+			return ocd
 		}
 	}
 	
@@ -48,13 +51,23 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		return this
 	}
 	
-	override setOperation(Object operation) {
+	override setOperation(Operation operation) {
 		this.operation = operation
 		return this
 	}
 	
 	override setParameters(ValueDescriptor... params) {
 		this.params = params
+		return this
+	}
+	
+	override setOperationName(String operationName) {
+		this.operationName = operationName
+		return this
+	}
+	
+	override setCollectionType(String collectionType) {
+		this.collectionType = collectionType
 		return this
 	}
 	

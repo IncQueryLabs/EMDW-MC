@@ -7,11 +7,12 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.DataType
 
 class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	private UmlToXtumlMapper mapper
 	private IOoplOperationCallBuilder builder
-	private static final val collections = newArrayList("std::collections::set")
+	private static final val collections = newArrayList("std::collections::Set")
 	
 	private ValueDescriptor variable
 	private Operation operation
@@ -31,9 +32,9 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 			it.variable = variable
 			it.parameters = params
 		]
-		if(collections.contains(operation.class_.qualifiedName)) {
-			val collectionOperationPair = new Pair(operation.class_.qualifiedName,operation.name)
-			return builder.setOperation(collectionOperationPair).build
+		val dataType = operation.eContainer as DataType
+		if(dataType!=null && collections.contains(dataType.qualifiedName)) {
+			return builder.setOperationName(operation.name).setCollectionType(mapper.decodeCollectionType(dataType)).build
 		} else {
 			val xtOperation = mapper.convertOperation(operation)
 			return builder.setOperation(xtOperation).build

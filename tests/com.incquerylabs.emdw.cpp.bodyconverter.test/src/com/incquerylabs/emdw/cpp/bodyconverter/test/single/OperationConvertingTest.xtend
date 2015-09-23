@@ -52,6 +52,19 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				::model::Comp::Pong* __ralf__1__Pong = ::xtuml::select_any(__ralf__0__Pong);
 				__ralf__1__Pong;'''
 			],
+			#[  "Add element to collection test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Boolean b = Pong::instances().add(this);
+				''',
+				'''
+				::std::list< ::model::Comp::Pong* > __ralf__1__Pong = ::model::Comp::Pong::_instances;
+				::std::pair< ::std::_Rb_tree_const_iterator< int>, bool> result = __ralf__1__Pong.insert(this);
+				bool __ralf__2__bool = result.second;
+				bool __ralf__0__b = __ralf__2__bool;'''
+			],
 			#[  "Association access test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
 				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 

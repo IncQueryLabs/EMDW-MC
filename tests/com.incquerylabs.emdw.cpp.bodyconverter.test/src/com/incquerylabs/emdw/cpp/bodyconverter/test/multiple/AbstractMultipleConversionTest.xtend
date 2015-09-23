@@ -147,7 +147,11 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	}
 	
 	static def int getSum(HashMap<?, Integer> map) {
-		return map.values.reduce[a, b| a + b]
+		val result = map.values.reduce[a, b| a + b]
+		if(result != null){
+			return result
+		}
+		return 0
 	}
 	
 	def getElements(ConversionType conversionType) {

@@ -15,7 +15,7 @@ class TransitionConvertingTest extends AbstractSingleConversionTest{
 				send new Ping::pong_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Ping* __ralf__0__Ping = ::xtuml::select_any(this->R1_ping);
+				::model::Comp::Ping* __ralf__0__Ping = ::xumlrt::select_any(this->R1_ping);
 				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = new ::model::Comp::Ping::pong_s_event(false);
 				
 				__ralf__0__Ping->generate_event(__ralf__1__pong_s);'''

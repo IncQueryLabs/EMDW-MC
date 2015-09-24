@@ -56,7 +56,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				R6::unlink('service'=>service,'call'=>this);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* __ralf__1__Service = ::xtuml::select_any(this->R6_service);
+				::PhoneX::PhoneX::Implementation::Service* __ralf__1__Service = ::xumlrt::select_any(this->R6_service);
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = __ralf__1__Service;
 				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__3____std__list = __ralf__0__service->R6_call;
 				__ralf__3____std__list.remove(this);
@@ -71,7 +71,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				R6::link('call'=>this,'service'=>service);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* __ralf__1__Service = ::xtuml::select_any(this->R6_service);
+				::PhoneX::PhoneX::Implementation::Service* __ralf__1__Service = ::xumlrt::select_any(this->R6_service);
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = __ralf__1__Service;
 				this->R6_service = __ralf__0__service;
 				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__3____std__list = __ralf__0__service->R6_call;

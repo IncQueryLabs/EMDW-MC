@@ -96,7 +96,7 @@ class StateTemplates extends CPPTemplate {
 	}
 	
 	def processEventInStateSignature(CPPState state){
-		'''«processEventInStateMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«processEventInStateMethodName(state)»(const «ClassTemplates.EVENT_FQN»* event)'''
 	}
 	
 	def processEventInStateDeclaration(CPPState state){
@@ -149,7 +149,7 @@ class StateTemplates extends CPPTemplate {
 	}
 	
 	def performEntryActionSignature(CPPState state){
-		'''«performEntryActionMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«performEntryActionMethodName(state)»(const «ClassTemplates.EVENT_FQN»* event)'''
 	}
 	
 	def performEntryActionDeclaration(CPPState state){
@@ -193,7 +193,7 @@ class StateTemplates extends CPPTemplate {
 	}
 	
 	def performExitActionSignature(CPPState state){
-		'''«performExitActionMethodName(state)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«performExitActionMethodName(state)»(const «ClassTemplates.EVENT_FQN»* event)'''
 	}
 	
 	def performExitActionDeclaration(CPPState state){

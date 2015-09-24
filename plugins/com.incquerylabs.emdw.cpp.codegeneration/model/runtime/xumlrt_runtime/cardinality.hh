@@ -1,9 +1,9 @@
-#ifndef __XTUML__CARDINALITY_HH
-#define __XTUML__CARDINALITY_HH
+#ifndef __XUMLRT__CARDINALITY_HH
+#define __XUMLRT__CARDINALITY_HH
 
 #include <iterator>
 
-namespace xtuml {
+namespace xumlrt {
   template <class T>
   unsigned long cardinality(T *const t) {
     return (t!=nullptr)?1:0;

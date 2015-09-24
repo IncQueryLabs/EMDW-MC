@@ -1,5 +1,5 @@
-#ifndef __XTUML__SELECT_MANY_HH
-#define __XTUML__SELECT_MANY_HH
+#ifndef __XUMLRT__SELECT_MANY_HH
+#define __XUMLRT__SELECT_MANY_HH
 
 #include <list>
 #include <set>
@@ -9,9 +9,14 @@
 #include "merged_chain.hh"
 #include "upcasted_chain.hh"
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value>
   inline std::set<Value> select_many(const std::list<Value> &ct) {
+    return std::set<Value>(ct.begin(), ct.end());
+  }
+
+  template<class Value>
+  inline std::set<Value> select_many(const std::set<Value> &ct) {
     return std::set<Value>(ct.begin(), ct.end());
   }
 

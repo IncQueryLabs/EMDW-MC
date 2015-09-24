@@ -1,5 +1,5 @@
-#ifndef __XTUML__SELECT_MANY_WHERE_HH
-#define __XTUML__SELECT_MANY_WHERE_HH
+#ifndef __XUMLRT__SELECT_MANY_WHERE_HH
+#define __XUMLRT__SELECT_MANY_WHERE_HH
 
 #include <algorithm>
 #include <functional>
@@ -12,7 +12,7 @@
 #include "merged_chain.hh"
 #include "upcasted_chain.hh"
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value, class Predicate, class Container, class Member>
   inline std::set<Value> select_many_where(const indirect_multi_selection<Value, Container, Member> &ct,
       const Predicate& pr) {
@@ -51,6 +51,14 @@ namespace xtuml {
 
   template<class Value, class Predicate>
   inline std::set<Value> select_many_where(const std::list<Value> &ct, const Predicate& pr) {
+    std::set<Value> result;
+    typename std::set<Value>::iterator res_it = result.begin();
+    std::copy_if(ct.begin(), ct.end(), std::inserter(result, res_it), pr);
+    return result;
+  }
+
+  template<class Value, class Predicate>
+  inline std::set<Value> select_many_where(const std::set<Value> &ct, const Predicate& pr) {
     std::set<Value> result;
     typename std::set<Value>::iterator res_it = result.begin();
     std::copy_if(ct.begin(), ct.end(), std::inserter(result, res_it), pr);

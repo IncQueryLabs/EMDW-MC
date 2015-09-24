@@ -1,5 +1,5 @@
-#ifndef __XTUML__SELECT_HH
-#define __XTUML__SELECT_HH
+#ifndef __XUMLRT__SELECT_HH
+#define __XUMLRT__SELECT_HH
 
 #include <algorithm>
 #include <iterator>

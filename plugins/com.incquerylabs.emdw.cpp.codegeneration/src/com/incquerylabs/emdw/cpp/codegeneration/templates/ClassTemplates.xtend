@@ -15,8 +15,10 @@ import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
 class ClassTemplates extends CPPTemplate {
 	
 	val TypeConverter typeConverter
-	public static val StatefulClassFQN = "::stateful_class"
-	public static val EventFQN = "::event"
+	public static val STATEFUL_CLASS_FQN = '''«RUNTIME_NAMESPACE»::stateful_class'''
+	public static val EVENT_FQN = '''«RUNTIME_NAMESPACE»::event'''
+	public static val UNIQUE_NUMBER_FQN = '''«RUNTIME_NAMESPACE»::unique_number'''
+	public static val TYPE_NUMBER_FQN = '''«RUNTIME_NAMESPACE»::type_number'''
 
 	extension val NamespaceTemplates namespaceTemplates
 	extension val HeaderGuardTemplates headerGuardTemplates
@@ -151,8 +153,8 @@ class ClassTemplates extends CPPTemplate {
 	def typeIdTemplate(CPPClass cppClass) {
 		'''
 		// Type id getters
-		static ::unique_number __get_static_type_number() { return ::type_number<«cppClass.cppName»*>::number; }
-		virtual ::unique_number __get_dynamic_type_number() { return __get_static_type_number(); }
+		static «UNIQUE_NUMBER_FQN» __get_static_type_number() { return «TYPE_NUMBER_FQN»<«cppClass.cppName»*>::number; }
+		virtual «UNIQUE_NUMBER_FQN» __get_dynamic_type_number() { return __get_static_type_number(); }
 		'''
 	}
 	
@@ -161,7 +163,7 @@ class ClassTemplates extends CPPTemplate {
 		val cppSuperClasses = getSuperClasses(cppClass)
 		
 		if(!parentHasEvents && (hasStateMachine || hasEvents)){
-			superClassStrings += '''public «StatefulClassFQN»'''
+			superClassStrings += '''public «STATEFUL_CLASS_FQN»'''
 		}
 		cppSuperClasses.forEach[ superClass |
 			superClassStrings += '''public «superClass.cppQualifiedName»'''
@@ -287,10 +289,10 @@ class ClassTemplates extends CPPTemplate {
 
 		«cppClassName»_state current_state;
 
-		virtual void generate_event(const «EventFQN»* e);
+		virtual void generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e);
 		virtual void process();
 		
-		void process_event(const «EventFQN»* event);
+		void process_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* event);
 		'''
 	}
 	
@@ -300,7 +302,7 @@ class ClassTemplates extends CPPTemplate {
 			«stateTemplates.methodDeclarationsInClassHeader(state)»
 		«ENDFOR»
 		// State queues
-		::std::queue<const «EventFQN»*> _internalEvents, _externalEvents;
+		::std::queue<const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»*> _internalEvents, _externalEvents;
 		'''
 	}
 	
@@ -493,7 +495,7 @@ class ClassTemplates extends CPPTemplate {
 		'''
 		«statefulClassMethodDefinitions(cppClass)»
 		
-		void «cppFQN»::process_event(const «EventFQN»* event) {
+		void «cppFQN»::process_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* event) {
 			«IF generateTracingCode»
 				::std::cout << "[«cppClassName»] Event " << event->_id << " received." << ::std::endl;
 			«ENDIF»
@@ -522,7 +524,7 @@ class ClassTemplates extends CPPTemplate {
 	def statefulClassMethodDefinitions(CPPClass cppClass) {
 		val cppClassFQN = cppClass.cppQualifiedName
 		'''
-		void «cppClassFQN»::generate_event(const «EventFQN»* e) {
+		void «cppClassFQN»::generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) {
 			if(e->_isInternal) {
 				_internalEvents.push(e);
 			} else {
@@ -534,7 +536,7 @@ class ClassTemplates extends CPPTemplate {
 		}
 		
 		void «cppClassFQN»::process() {
-			const «EventFQN»* evt;
+			const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* evt;
 			if(!_internalEvents.empty()) {
 				evt = _internalEvents.front();
 				_internalEvents.pop();

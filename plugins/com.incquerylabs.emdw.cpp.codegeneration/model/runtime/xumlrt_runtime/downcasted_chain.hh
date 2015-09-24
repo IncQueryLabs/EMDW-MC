@@ -1,12 +1,12 @@
-#ifndef __XTUML__DOWNCASTED_CHAIN_HH
-#define __XTUML__DOWNCASTED_CHAIN_HH
+#ifndef __XUMLRT__DOWNCASTED_CHAIN_HH
+#define __XUMLRT__DOWNCASTED_CHAIN_HH
 
 #include <iterator>
 #include <utility>
 
 #include "type_number.hh"
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value, class Iter>
   class downcast_iterator: public std::iterator<std::forward_iterator_tag, Value> {
   public:

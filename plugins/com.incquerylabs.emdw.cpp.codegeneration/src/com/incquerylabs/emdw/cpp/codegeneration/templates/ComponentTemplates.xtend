@@ -9,6 +9,9 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 
 class ComponentTemplates extends CPPTemplate {
+	
+	public static val String ACTIVE_COMPONENT_FQN = '''«RUNTIME_NAMESPACE»::active_component'''
+	
 	extension val NamespaceTemplates namespaceTemplates
 	extension val HeaderGuardTemplates headerGuardTemplates
 	extension val IncludeTemplates includeTemplates
@@ -119,7 +122,7 @@ class ComponentTemplates extends CPPTemplate {
 		val stateMachineMatcher = codeGenQueries.getCppComponentStateMachines(engine)
 		val isActiveComponent = stateMachineMatcher.hasMatch(cppComponent, null);
 		
-		'''«IF isActiveComponent»: public active_component «ENDIF»'''
+		'''«IF isActiveComponent»: public «ACTIVE_COMPONENT_FQN» «ENDIF»'''
 	}
 	
 	def componentMainBodyTemplate(CPPComponent cppComponent) {

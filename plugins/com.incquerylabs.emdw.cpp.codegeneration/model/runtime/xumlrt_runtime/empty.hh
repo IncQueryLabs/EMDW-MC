@@ -1,7 +1,7 @@
-#ifndef __XTUML__EMPTY_HH
-#define __XTUML__EMPTY_HH
+#ifndef __XUMLRT__EMPTY_HH
+#define __XUMLRT__EMPTY_HH
 
-namespace xtuml {
+namespace xumlrt {
   template <class T>
   bool empty(T *const t) {
     return t==nullptr;

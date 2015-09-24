@@ -1,11 +1,11 @@
-#ifndef __XTUML__SET_OPERATIONS_HH
-#define __XTUML__SET_OPERATIONS_HH
+#ifndef __XUMLRT__SET_OPERATIONS_HH
+#define __XUMLRT__SET_OPERATIONS_HH
 
 #include <algorithm>
 #include <iterator>
 #include <set>
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value> std::set<Value*> set_union(Value* const& lhs, Value* const& rhs) {
     std::set<Value*> result;
     result.insert(lhs);

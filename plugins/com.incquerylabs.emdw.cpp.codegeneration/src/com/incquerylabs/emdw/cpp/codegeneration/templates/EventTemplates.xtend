@@ -76,7 +76,7 @@ class EventTemplates extends CPPTemplate {
 	def superEventsTemplate(CPPEvent cppEvent) {
 		val superEvents = cppEvent.superEvents
 		if(superEvents.isNullOrEmpty){
-			return '''public «ClassTemplates.EventFQN»'''
+			return '''public «ClassTemplates.EVENT_FQN»'''
 		} else {
 			return '''«FOR superEvent : superEvents SEPARATOR ","»
 			public «superEvent.generatedEventClassQualifiedName»«ENDFOR»'''
@@ -120,14 +120,14 @@ class EventTemplates extends CPPTemplate {
 		if(superEvents.isNullOrEmpty){
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
-				«ClassTemplates.EventFQN»(«eventEnumeratorQualifiedName(cppClass, event)», isInternal){
+				«ClassTemplates.EVENT_FQN»(«eventEnumeratorQualifiedName(cppClass, event)», isInternal){
 				}
 			'''
 		} else {
 			'''
 				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
 				«superEvents.head.generatedEventClassQualifiedName»(isInternal){
-					this->«ClassTemplates.EventFQN»::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
+					this->«ClassTemplates.EVENT_FQN»::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
 				}
 			'''
 		}
@@ -162,7 +162,7 @@ class EventTemplates extends CPPTemplate {
 	}
 	
 	def eventType(Iterable<CPPEvent> events){
-		var CharSequence ancestorQualifiedName = ClassTemplates.EventFQN
+		var CharSequence ancestorQualifiedName = ClassTemplates.EVENT_FQN
 		if(events.length > 0) {
 			val lowestCommonAncestorEvent = events.fold(events.head,[result, event | getLowestCommonAncestor(result, event)])
 			if (lowestCommonAncestorEvent != null){

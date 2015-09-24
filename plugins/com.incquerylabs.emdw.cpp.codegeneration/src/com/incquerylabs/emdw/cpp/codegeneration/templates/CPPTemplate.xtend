@@ -4,6 +4,9 @@ import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class CPPTemplate {
+	
+	public static val String RUNTIME_NAMESPACE = "::xumlrt"
+	
 	// TODO @Inject
 	protected val generateTracingCode = CPPTemplates.GENERATE_TRACING_CODE
 	

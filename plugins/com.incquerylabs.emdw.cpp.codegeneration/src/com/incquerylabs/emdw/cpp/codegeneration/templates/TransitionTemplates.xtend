@@ -30,7 +30,7 @@ class TransitionTemplates extends CPPTemplate {
 	}
 	
 	def evaluateGuardOnTransitionSignature(TransitionInfo transitionInfo){
-		'''«evaluateGuardOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«evaluateGuardOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EVENT_FQN»* event)'''
 	}
 	
 	def evaluateGuardOnTransitionDeclaration(TransitionInfo transitionInfo){
@@ -74,7 +74,7 @@ class TransitionTemplates extends CPPTemplate {
 	}
 	
 	def performActionsOnTransitionSignature(TransitionInfo transitionInfo){
-		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EventFQN»* event)'''
+		'''«performActionsOnTransitionMethodName(transitionInfo)»(const «ClassTemplates.EVENT_FQN»* event)'''
 	}
 	
 	def performActionsOnTransitionDeclaration(TransitionInfo transitionInfo){

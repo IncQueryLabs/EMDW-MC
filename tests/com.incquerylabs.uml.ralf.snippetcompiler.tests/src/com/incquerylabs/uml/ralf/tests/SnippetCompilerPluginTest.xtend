@@ -40,7 +40,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
-				model::Comp::Ping temp0 = ::xtuml::select_any(p->ping);
+				model::Comp::Ping temp0 = ::xumlrt::select_any(p->ping);
 				temp0->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -48,7 +48,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''send new ping_s(integerAttribute => 2, pongAttribute => this) to this->ping.one();''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xtuml::select_any(this->ping);
+				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
 				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
 				temp1->integerAttribute = 2;
 				temp1->pongAttribute = this;
@@ -69,7 +69,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
-				model::Comp::Ping temp1 = ::xtuml::select_any(p->ping);
+				model::Comp::Ping temp1 = ::xumlrt::select_any(p->ping);
 				temp1->generate_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -361,7 +361,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				Pong::instances();''',
 				
 				'''
-				model::Comp::Pong::_instances();''',
+				::xumlrt::select_many(model::Comp::Pong::_instances());''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Link association test",
@@ -371,7 +371,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xtuml::select_any(this->ping);
+				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
 				model::Comp::Ping myPing = temp0;
 				this->R1_ping = myPing;
 				myPing->R1_pong = this;''',
@@ -384,7 +384,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xtuml::select_any(this->ping);
+				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
 				model::Comp::Ping myPing = temp0;
 				this->R1_ping = NULL;
 				myPing->R1_pong = NULL;''',
@@ -412,7 +412,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				send sigdata to p->ping.one();''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				model::Comp::Ping temp0 = ::xtuml::select_any(p->ping);
+				model::Comp::Ping temp0 = ::xumlrt::select_any(p->ping);
 				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
 				temp0->generate_event(temp1);''',
 				"sendPong"
@@ -518,8 +518,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    }''',
 			    '''
 				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
-				for(PrimitiveTypes::Integer temp0 : s)
-				{
+				for(PrimitiveTypes::Integer i : s) {
 				i + 1;
 				}''',
 				"model::Comp::Pong::TestOperation"

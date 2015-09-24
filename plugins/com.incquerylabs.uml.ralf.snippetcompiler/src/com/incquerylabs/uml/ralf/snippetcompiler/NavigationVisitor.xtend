@@ -163,9 +163,9 @@ class NavigationVisitor {
 		val collectionType = (typeSystem.type(ex).value as CollectionTypeReference);
 		val variableType = collectionType.valueType.umlType
 
-		val expr = if (ex.isFlatteningNeeded) {
+		val flatteningNeeded = ex.isFlatteningNeeded
+		val expr = if (flatteningNeeded) {
 				val descriptor = createNewVariableDescriptor(ex, variableType)
-
 				parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»;
 					''')
 
@@ -176,7 +176,7 @@ class NavigationVisitor {
 
 		recursionDepth--
 
-		if (recursionDepth == 0)
+		if (recursionDepth == 0 && !flatteningNeeded)
 			return '''«SELECT_MANY_FQN»(«expr»)'''
 
 		return expr

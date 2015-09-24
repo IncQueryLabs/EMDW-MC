@@ -254,21 +254,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(ClassExtentExpression ex, StringBuilder parent){
-		val classDescriptor = ex.descriptor
-		
-		val collectionType = (typeSystem.type(ex).value as CollectionTypeReference);
-		val variableType = collectionType.valueType.umlType
-		
-		if(ex.isFlatteningNeeded){
-			val descriptor = createNewVariableDescriptor(ex, variableType)
-			
-			parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»;
-			''')
-			
-			descriptor.stringRepresentation
-		} else {
-			classDescriptor.stringRepresentation
-		}
+		ex.visitClassExtent(parent)
 	}
 	
 	def dispatch String visit(FilterExpression ex, StringBuilder parent){

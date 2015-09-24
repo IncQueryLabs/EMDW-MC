@@ -2,9 +2,9 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
-import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
@@ -22,7 +22,7 @@ class NavigationVisitor {
 	extension ExpressionVisitor expressionVisitor
 	extension ReducedAlfSystem typeSystem
 	extension SnippetTemplateCompilerUtil util
-	
+
 	// TODO: Temporary solution
 	private int recursionDepth;
 
@@ -43,50 +43,52 @@ class NavigationVisitor {
 	 */
 	def String visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
 		recursionDepth++
-			
+
 		val childExpr = delegate(ex.context, parent)
 		val propertyAccessDescriptor = (descriptorFactory.createPropertyReadBuilder => [
 			property = ex.association
 			// XXX: hack
-			variable =  ValuedescriptorFactory.eINSTANCE.createSingleVariableDescriptor => [
+			variable = ValuedescriptorFactory.eINSTANCE.createSingleVariableDescriptor => [
 				stringRepresentation = childExpr
 			]
 		]).build
 		val ctx = ex.context
-		
-		val expr = if (ctx instanceof AssociationAccessExpression) { // if an association access precedes this association access	
-			val ctxDescriptor = ctx.descriptor
 
-			val parentAssociation = ctx as AssociationAccessExpression
-			val parentUpperBound = parentAssociation.association.upper
-			val parentLowerBound = parentAssociation.association.lower
-			if (parentUpperBound == 1 && parentLowerBound == 1) { // a->(1)b->c => simple dereference
-				propertyAccessDescriptor.stringRepresentation
-			} else if (parentUpperBound == 1 && parentLowerBound == 0) { // a->(0..1)b->c => safe chain
-				'''«OPERATION_NAMESPACE»::safe_chain(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
-			} else { // a->(*)b->c
-				val currentUpperBound = ex.association.upper
-				if (currentUpperBound == -1) { // a->(*)b->(*)c => merged chain
-					'''«OPERATION_NAMESPACE»::merged_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
-				} else { // a->(*)b->(0..1)c or a->(*)b->(1)c => indirect chain
-					'''«OPERATION_NAMESPACE»::indirect_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+		val expr = if (ctx instanceof AssociationAccessExpression) { // if an association access precedes this association access	
+				val ctxDescriptor = ctx.descriptor
+
+				val parentAssociation = ctx as AssociationAccessExpression
+				val parentUpperBound = parentAssociation.association.upper
+				val parentLowerBound = parentAssociation.association.lower
+				if (parentUpperBound == 1 && parentLowerBound == 1) { // a->(1)b->c => simple dereference
+					propertyAccessDescriptor.stringRepresentation
+				} else if (parentUpperBound == 1 && parentLowerBound == 0) { // a->(0..1)b->c => safe chain
+					'''«OPERATION_NAMESPACE»::safe_chain(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+				} else { // a->(*)b->c
+					val currentUpperBound = ex.association.upper
+					if (currentUpperBound ==
+						-1
+					) { // a->(*)b->(*)c => merged chain
+						'''«OPERATION_NAMESPACE»::merged_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+					} else { // a->(*)b->(0..1)c or a->(*)b->(1)c => indirect chain
+						'''«OPERATION_NAMESPACE»::indirect_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+					}
 				}
+			} else {
+				propertyAccessDescriptor.stringRepresentation
 			}
-		} else {
-			propertyAccessDescriptor.stringRepresentation
-		}
 		
 		recursionDepth--
-		
-		if (recursionDepth == 0) {
-			return if(ex.association.upper == -1) {
+
+		if (recursionDepth == 0)
+			return if (ex.association.upper == -1) {
 				'''«OPERATION_NAMESPACE»::select_many(«expr»)'''
-			} else {
-				expr
-			}.finalize(ex, parent)
-		} else {
-			return expr
-		}
+			} else
+				{
+					expr
+				}.finalize(ex, parent)
+
+		return expr
 	}
 
 	/**
@@ -102,12 +104,9 @@ class NavigationVisitor {
 	 */
 	def String visitFilter(FilterExpression ex, StringBuilder parent) {
 		recursionDepth++
-			
+
 		val parameterType = typeSystem.type(ex.declaration).value.umlType
-		val typeDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = parameterType
-			name = null
-		]).build
+		val typeDescriptor = ex.createNewVariableDescriptor(parameterType)
 
 		var lambda = ex.composeLambda(typeDescriptor)
 		var childExpr = ex.context.delegate(parent)
@@ -115,12 +114,13 @@ class NavigationVisitor {
 		val operation = if(ex.eContainer.isOne) "select_any_where" else "select_many_where"
 
 		val expr = '''«OPERATION_NAMESPACE»::«operation»< «typeDescriptor.fullType» >(«childExpr», «lambda»)'''
-		
+
 		recursionDepth--
-		if(recursionDepth == 0) {
+		
+		if (recursionDepth == 0)
 			return expr.finalize(ex, parent)
-		} else 
-			return expr		
+
+		return expr
 	}
 
 	/**
@@ -135,7 +135,7 @@ class NavigationVisitor {
 	 */
 	def String visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
 		recursionDepth++
-		
+
 		val childExpression = delegate(ex.context, parent)
 		val expr = if (!(ex.context instanceof FilterExpression))
 			'''«OPERATION_NAMESPACE»::select_any(«childExpression»)'''
@@ -143,10 +143,38 @@ class NavigationVisitor {
 			childExpression
 			
 		recursionDepth--
-		if(recursionDepth == 0) 
+		
+		if (recursionDepth == 0)
 			return expr.finalize(ex, parent)
-		else
-			return expr
+
+		return expr
+	}
+	
+	def String visitClassExtent(ClassExtentExpression ex, StringBuilder parent) {
+		recursionDepth++
+
+		val classDescriptor = ex.descriptor
+
+		val collectionType = (typeSystem.type(ex).value as CollectionTypeReference);
+		val variableType = collectionType.valueType.umlType
+
+		val expr = if (ex.isFlatteningNeeded) {
+				val descriptor = createNewVariableDescriptor(ex, variableType)
+
+				parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»;
+					''')
+
+				descriptor.stringRepresentation
+			} else {
+				classDescriptor.stringRepresentation
+			}
+
+		recursionDepth--
+
+		if (recursionDepth == 0)
+			return '''«OPERATION_NAMESPACE»::select_many(«expr»)'''
+
+		return expr
 	}
 
 	/**
@@ -161,7 +189,7 @@ class NavigationVisitor {
 		throw new UnsupportedOperationException("Navigation chain visiting is unimplemented")
 	}
 
-	private def composeLambda(FilterExpression it, VariableDescriptor typeDescriptor) {
+	private def composeLambda(FilterExpression it, ValueDescriptor typeDescriptor) {
 		val tmpRecursionDepth = recursionDepth
 		recursionDepth = 0
 		
@@ -219,30 +247,39 @@ class NavigationVisitor {
 	private def removePointer(String it) {
 		replace('*', '')
 	}
-	
+
 	private def finalize(CharSequence builtExpression, Expression ex, StringBuilder parent) {
 		val variableType = ex.type.value.umlType
-		val variableDescriptor = if(variableType.isCollection) {
-			(descriptorFactory.createCollectionVariableDescriptorBuilder => [
-				elementType = (ex.type.value as CollectionTypeReference).valueType.umlType
-				collectionType = variableType
-				name = null
-			]).build
-		} else {
-			(descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-			]).build
-		}
-		
+		val variableDescriptor = ex.createNewVariableDescriptor(variableType)
+
 		parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «builtExpression»;
 		''')
 		return variableDescriptor.stringRepresentation
 	}
 
-
-	private def isCollection(Type type){
+	// TODO: This is copied from expression visitor
+	private def isCollection(Type type) {
 		type.equals(context.getCollectionType(CollectionType.SET))
 	}
-		
+
+	// TODO: This is copied from expression visitor	
+	private def createNewVariableDescriptor(Expression ex, Type variableType) {
+		if (variableType == null) {
+			return null
+		}
+		var ValueDescriptor descriptor
+		if (variableType.isCollection) {
+			descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+				elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
+				collectionType = variableType
+				name = null
+			]).build
+		} else {
+			descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+				type = variableType
+				name = null
+			]).build
+		}
+	}
+
 }

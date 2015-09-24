@@ -90,8 +90,13 @@ class NavigationVisitor {
 		
 		recursionDepth--
 
-		if (recursionDepth == 0)
-			return '''«SELECT_MANY_FQN»(«expr»)'''.finalize(ex, parent)
+		if (recursionDepth == 0) {
+			val wrappedEx = '''«SELECT_MANY_FQN»(«expr»)'''
+			return if(ex.isFlatteningNeeded)			
+					wrappedEx.finalize(ex, parent)
+				else 
+					wrappedEx
+		}				
 
 		return expr
 	}
@@ -122,7 +127,7 @@ class NavigationVisitor {
 
 		recursionDepth--
 		
-		if (recursionDepth == 0)
+		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
 
 		return expr
@@ -149,7 +154,7 @@ class NavigationVisitor {
 			
 		recursionDepth--
 		
-		if (recursionDepth == 0)
+		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
 
 		return expr
@@ -159,25 +164,16 @@ class NavigationVisitor {
 		recursionDepth++
 
 		val classDescriptor = ex.descriptor
-
-		val collectionType = (typeSystem.type(ex).value as CollectionTypeReference);
-		val variableType = collectionType.valueType.umlType
-
-		val flatteningNeeded = ex.isFlatteningNeeded
-		val expr = if (flatteningNeeded) {
-				val descriptor = createNewVariableDescriptor(ex, variableType)
-				parent.append('''«classDescriptor.fullType» «descriptor.stringRepresentation» = «classDescriptor.stringRepresentation»;
-					''')
-
-				descriptor.stringRepresentation
-			} else {
-				classDescriptor.stringRepresentation
-			}
+		val expr = classDescriptor.stringRepresentation
 
 		recursionDepth--
 
-		if (recursionDepth == 0 && !flatteningNeeded)
-			return '''«SELECT_MANY_FQN»(«expr»)'''
+		if(recursionDepth == 0) {
+			if (ex.isFlatteningNeeded)
+				return expr.finalize(ex, parent)
+			else
+				return '''«SELECT_MANY_FQN»(«expr»)'''
+		}
 
 		return expr
 	}

@@ -256,19 +256,25 @@ class StatementVisitor {
 	}
 	
 	def dispatch String visit(ForEachStatement st){
-		//TODO Dummy implementation
 		val builder = new StringBuilder
 		val variableType = st.variableDefinition.getType.type
-		
+		val variableName = st.variableDefinition.name
 		val collectionString = st.expression.visit(builder)
-		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-			]).build
+		
 		val collectionDescriptor = descriptorFactory.getCachedVariableDescriptor(collectionString)
-		'''
-		for(«descriptor.fullType» «descriptor.stringRepresentation» : «collectionDescriptor.stringRepresentation»)
-		«st.body.visit»'''
+		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+			type = variableType
+			name = variableName
+		]).build
+		
+		val foreachDescriptor = (descriptorFactory.createForeachBuilder => [
+			it.variableDescriptor = descriptor
+			it.collectionDescriptor = collectionDescriptor
+		]).build
+		
+		builder.append('''
+		«foreachDescriptor.stringRepresentation» «st.body.visit»''')
+		builder.toString
 	}
 	
 	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){

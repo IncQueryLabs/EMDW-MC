@@ -518,8 +518,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    }''',
 			    '''
 				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
-				for(PrimitiveTypes::Integer temp0 : s)
-				{
+				for(PrimitiveTypes::Integer i : s) {
 				i + 1;
 				}''',
 				"model::Comp::Pong::TestOperation"

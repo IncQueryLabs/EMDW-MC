@@ -63,7 +63,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				send s to p->ping.one();''',
 				
 				'''
-				model::Comp::Pong p = 0;
+				model::Comp::Pong p = nullptr;
 				model::Comp::Pong temp0 = new model::Comp::Pong();
 				p = temp0;
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();

@@ -170,7 +170,7 @@ class NavigationVisitor {
 
 		if(recursionDepth == 0) {
 			if (ex.isFlatteningNeeded)
-				return expr.finalize(ex, parent)
+				return '''«SELECT_MANY_FQN»(«expr»)'''.finalize(ex, parent)
 			else
 				return '''«SELECT_MANY_FQN»(«expr»)'''
 		}

@@ -361,7 +361,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				Pong::instances();''',
 				
 				'''
-				model::Comp::Pong::_instances();''',
+				::xumlrt::select_many(model::Comp::Pong::_instances());''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Link association test",

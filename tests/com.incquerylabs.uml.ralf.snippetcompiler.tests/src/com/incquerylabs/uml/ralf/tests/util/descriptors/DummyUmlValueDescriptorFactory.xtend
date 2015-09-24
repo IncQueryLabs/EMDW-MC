@@ -88,7 +88,7 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createForeachBuilder() {
-		throw new UnsupportedOperationException("TODO: auto-generated method stub")
+		new DummyForeachBuilder
 	}
 	
 }

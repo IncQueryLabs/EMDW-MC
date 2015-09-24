@@ -6,6 +6,7 @@ import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 import java.util.Collection
 import org.junit.BeforeClass
 import org.junit.runners.Parameterized.Parameters
+import org.eclipse.xtext.diagnostics.Diagnostic
 
 class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 	@BeforeClass
@@ -163,7 +164,10 @@ class UMLPropertyAccessValidatorTest extends AbstractPluginValidatorTest{
 			    Ping x = new Ping();
 			    x.stringProperty;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION]
+			    #[
+			        ReducedAlfSystem.FEATUREINVOCATIONEXPRESSION,
+			        Diagnostic.LINKING_DIAGNOSTIC
+			    ]
 			]
 			
 		)

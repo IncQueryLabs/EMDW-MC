@@ -151,7 +151,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch String visit(NullExpression ex, StringBuilder parent){
-		'''0'''
+		'''nullptr'''
 	}
 	
 	def dispatch String visit(InstanceCreationExpression ex, StringBuilder parent){		

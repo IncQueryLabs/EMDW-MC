@@ -43,7 +43,7 @@ class StatementVisitor {
 	
 	def dispatch String visit(ExpressionStatement st){
 		val builder = new StringBuilder
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		val expressionsnippet = st.expression.visit(builder)
 		builder.append('''«expressionsnippet»;''')
 		builder.toString
@@ -68,7 +68,7 @@ class StatementVisitor {
 	
 	def dispatch String visit(ReturnStatement st){
 		val builder = new StringBuilder
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		if(st.expression != null){
 			val expressionsnippet = st.expression.visit(builder)	
 			builder.append('''return «expressionsnippet»;''')
@@ -80,7 +80,7 @@ class StatementVisitor {
 	
 	def dispatch String visit(LocalNameDeclarationStatement st){		
 		val builder = new StringBuilder
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		val descriptor = getDescriptor(st)
 		var String expressionsnippet
 		
@@ -103,7 +103,7 @@ class StatementVisitor {
 		val builder = new StringBuilder
 		
 		val ifString = '''
-		«FOR clause : st.clauses»«IF st.clauses.indexOf(clause) == 0»«clause.serializeToTraceComment»if «clause.visitClause(builder)»«ELSE»«IF clause instanceof BlockStatement» else «clause.visit»«ELSE»«clause.serializeToTraceComment» else if «clause.visitClause(builder)»«ENDIF»«ENDIF»«ENDFOR»'''
+		«FOR clause : st.clauses»«IF st.clauses.indexOf(clause) == 0»«clause.serializeToTraceComment("if %s")»if «clause.visitClause(builder)»«ELSE»«IF clause instanceof BlockStatement» else «clause.visit»«ELSE»«clause.serializeToTraceComment("else if %s")» else if «clause.visitClause(builder)»«ENDIF»«ENDIF»«ENDFOR»'''
 		builder.append(ifString)
 		builder.toString
 	}
@@ -113,7 +113,7 @@ class StatementVisitor {
 		val signalType = typeSystem.type(st.signal).value.umlType
 		
 		val builder = new StringBuilder
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		val targetString = st.target.visit(builder) 		
 		val signalString = st.signal.visit(builder) 
 		
@@ -141,7 +141,7 @@ class StatementVisitor {
 	
 	def dispatch String visit(SwitchStatement st){
 		val builder = new StringBuilder
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		val expressionString = st.expression.visit(builder)
 		
 		val clausesString = 
@@ -159,7 +159,7 @@ class StatementVisitor {
 	
 	def dispatch String visit(WhileStatement st){
 		val builder = new StringBuilder
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		val conditionString = createLoopVariable(st.condition, builder)
 		val block = st.body 
 		val parent = util.descriptorFactory
@@ -192,7 +192,7 @@ class StatementVisitor {
 		val block = st.body 
 		val parent = util.descriptorFactory
 		
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		builder.append('''do ''')
 		util.descriptorFactory = parent.createChild
 		builder.append('''{
@@ -224,7 +224,7 @@ class StatementVisitor {
 		val parent = util.descriptorFactory
 		
 		util.descriptorFactory = parent.createChild
-		builder.appendTraceComment(st)
+		builder.append(st.serializeToTraceComment)
 		builder.append('''
 		{
 		«st.initialization.visit»
@@ -257,6 +257,7 @@ class StatementVisitor {
 	
 	def dispatch String visit(ForEachStatement st){
 		val builder = new StringBuilder
+		builder.append(st.serializeToTraceComment)
 		val variableType = st.variableDefinition.getType.type
 		val variableName = st.variableDefinition.name
 		val collectionString = st.expression.visit(builder)
@@ -278,6 +279,7 @@ class StatementVisitor {
 	}
 	
 	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){
+		builder.append(nfc.serializeToTraceComment)
 		val conditionString = nfc.condition.visit(builder)
 		
 		val ret = '''(«conditionString») «nfc.body.visit»'''

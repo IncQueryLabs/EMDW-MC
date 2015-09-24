@@ -13,15 +13,26 @@ class SnippetTraceCommentUtil {
 	private static val NEW_LINE = StringConcatenation.DEFAULT_LINE_DELIMITER
 	static boolean ADD_COMMENTS = true
 	
-	def appendTraceComment(StringBuilder builder, EObject eObject) {
+	
+	/**
+	 *  Returns the original rALF code for the specified EObject as c++ comments
+	 *  The code inserted into the single '%s' format parameter in the format string
+	 */
+	def serializeToTraceComment(EObject eObject, String format) {
 		if(ADD_COMMENTS){
-			builder.append(eObject.serializeToTraceComment)
+			val traceCommentString = eObject.serialize
+			val formattedTraceComment = String.format(format, traceCommentString)
+			return formattedTraceComment.toRalfTraceComment
 		}
+		return ""
 	}
 	
+	/**
+	 * Returns the original rALF code for the specified EObject as c++ comments
+	 */
 	def serializeToTraceComment(EObject eObject) {
 		if(ADD_COMMENTS){
-			var traceCommentString = eObject.serialize
+			val traceCommentString = eObject.serialize
 			return traceCommentString.toRalfTraceComment
 		}
 		return ""

@@ -1,5 +1,5 @@
-#ifndef __XTUML__SELECT_ANY_HH
-#define __XTUML__SELECT_ANY_HH
+#ifndef __XUMLRT__SELECT_ANY_HH
+#define __XUMLRT__SELECT_ANY_HH
 
 #include <list>
 
@@ -8,7 +8,7 @@
 #include "merged_chain.hh"
 #include "upcasted_chain.hh"
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value>
   inline Value select_any(const std::list<Value> &ct) {
     return (ct.begin()!=ct.end())?*ct.begin():nullptr;

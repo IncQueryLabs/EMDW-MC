@@ -1,12 +1,12 @@
-#ifndef __XTUML__MERGED_CHAIN_HH
-#define __XTUML__MERGED_CHAIN_HH
+#ifndef __XUMLRT__MERGED_CHAIN_HH
+#define __XUMLRT__MERGED_CHAIN_HH
 
 #include <iterator>
 #include <utility>
 
 #include "type_number.hh"
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value, class Iter, class Member, class Remote>
   class merge_iterator: public std::iterator<std::forward_iterator_tag, Value> {
   public:

@@ -10,20 +10,21 @@
 
 #include <list>
 
-class stateful_class;
-
-/**
- * A component that has classes with state machine.
- */
-class active_component {
-public:
+namespace xumlrt {
+  class stateful_class;
+  
+  /**
+   * A component that has classes with state machine.
+   */
+  class active_component {
+  public:
     virtual ~active_component() {}
-
+  
     void schedule(stateful_class* stateful_class);
     void process();
-
-private:
+  
+  private:
     std::list<stateful_class*> _stateful_classes;
-};
-
+  };
+}
 #endif /* SRC_RUNTIME_ACTIVE_COMPONENT_HH_ */

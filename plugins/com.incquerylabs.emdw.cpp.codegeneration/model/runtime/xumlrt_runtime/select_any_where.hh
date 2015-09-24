@@ -1,5 +1,5 @@
-#ifndef __XTUML__SELECT_ANY_WHERE_HH
-#define __XTUML__SELECT_ANY_WHERE_HH
+#ifndef __XUMLRT__SELECT_ANY_WHERE_HH
+#define __XUMLRT__SELECT_ANY_WHERE_HH
 
 #include <algorithm>
 #include <list>
@@ -9,7 +9,7 @@
 #include "merged_chain.hh"
 #include "upcasted_chain.hh"
 
-namespace xtuml {
+namespace xumlrt {
   template<class Value, class Predicate, class Container>
   inline Value select_any_where(const downcasted_multi_selection<Value, Container> &ct, const Predicate &pr) {
     typename downcasted_multi_selection<Value, Container>::const_iterator match = std::find_if(ct.begin(), ct.end(), pr);

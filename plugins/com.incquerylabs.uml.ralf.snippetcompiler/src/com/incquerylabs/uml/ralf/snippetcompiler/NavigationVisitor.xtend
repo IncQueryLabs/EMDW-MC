@@ -17,7 +17,17 @@ import org.eclipse.uml2.uml.Type
 
 class NavigationVisitor {
 
-	private static val OPERATION_NAMESPACE = "::xtuml"
+	// TODO: extract from here and from CPPTemplate
+	public static val OPERATION_NAMESPACE = '''::xumlrt'''
+	public static val SELECT_ANY_FQN = '''«OPERATION_NAMESPACE»::select_any'''
+	public static val SELECT_ANY_WHERE_FQN = '''«OPERATION_NAMESPACE»::select_any_where'''
+	public static val SELECT_MANY_FQN = '''«OPERATION_NAMESPACE»::select_many'''
+	public static val SELECT_MANY_WHERE_FQN = '''«OPERATION_NAMESPACE»::select_many_where'''
+	public static val SAFE_CHAIN_FQN = '''«OPERATION_NAMESPACE»::safe_chain'''
+	public static val MERGED_CHAIN_FQN = '''«OPERATION_NAMESPACE»::merged_chain'''
+	public static val INDIRECT_CHAIN_FQN = '''«OPERATION_NAMESPACE»::indirect_chain'''
+	
+	
 
 	extension ExpressionVisitor expressionVisitor
 	extension ReducedAlfSystem typeSystem
@@ -63,15 +73,15 @@ class NavigationVisitor {
 				if (parentUpperBound == 1 && parentLowerBound == 1) { // a->(1)b->c => simple dereference
 					propertyAccessDescriptor.stringRepresentation
 				} else if (parentUpperBound == 1 && parentLowerBound == 0) { // a->(0..1)b->c => safe chain
-					'''«OPERATION_NAMESPACE»::safe_chain(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+					'''«SAFE_CHAIN_FQN»(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 				} else { // a->(*)b->c
 					val currentUpperBound = ex.association.upper
 					if (currentUpperBound ==
 						-1
 					) { // a->(*)b->(*)c => merged chain
-						'''«OPERATION_NAMESPACE»::merged_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+						'''«MERGED_CHAIN_FQN»< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 					} else { // a->(*)b->(0..1)c or a->(*)b->(1)c => indirect chain
-						'''«OPERATION_NAMESPACE»::indirect_chain< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+						'''«INDIRECT_CHAIN_FQN»< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
 					}
 				}
 			} else {
@@ -81,7 +91,7 @@ class NavigationVisitor {
 		recursionDepth--
 
 		if (recursionDepth == 0)
-			return '''«OPERATION_NAMESPACE»::select_many(«expr»)'''.finalize(ex, parent)
+			return '''«SELECT_MANY_FQN»(«expr»)'''.finalize(ex, parent)
 
 		return expr
 	}
@@ -106,9 +116,9 @@ class NavigationVisitor {
 		var lambda = ex.composeLambda(typeDescriptor)
 		var childExpr = ex.context.delegate(parent)
 
-		val operation = if(ex.eContainer.isOne) "select_any_where" else "select_many_where"
+		val operation = if(ex.eContainer.isOne) SELECT_ANY_WHERE_FQN else SELECT_MANY_WHERE_FQN
 
-		val expr = '''«OPERATION_NAMESPACE»::«operation»< «typeDescriptor.fullType» >(«childExpr», «lambda»)'''
+		val expr = '''«operation»< «typeDescriptor.fullType» >(«childExpr», «lambda»)'''
 
 		recursionDepth--
 		
@@ -133,7 +143,7 @@ class NavigationVisitor {
 
 		val childExpression = delegate(ex.context, parent)
 		val expr = if (!(ex.context instanceof FilterExpression))
-			'''«OPERATION_NAMESPACE»::select_any(«childExpression»)'''
+			'''«SELECT_ANY_FQN»(«childExpression»)'''
 		else
 			childExpression
 			
@@ -167,7 +177,7 @@ class NavigationVisitor {
 		recursionDepth--
 
 		if (recursionDepth == 0)
-			return '''«OPERATION_NAMESPACE»::select_many(«expr»)'''
+			return '''«SELECT_MANY_FQN»(«expr»)'''
 
 		return expr
 	}

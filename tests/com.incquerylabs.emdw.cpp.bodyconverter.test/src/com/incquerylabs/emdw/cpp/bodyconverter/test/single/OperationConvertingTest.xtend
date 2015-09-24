@@ -28,7 +28,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Pong::instances();
 				''',
 				'''
-				::model::Comp::Pong::_instances;'''
+				::xtuml::select_many(::model::Comp::Pong::_instances);'''
 			],
 			#[  "Cast expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

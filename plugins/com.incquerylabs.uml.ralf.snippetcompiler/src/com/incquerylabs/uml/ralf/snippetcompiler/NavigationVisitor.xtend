@@ -81,12 +81,7 @@ class NavigationVisitor {
 		recursionDepth--
 
 		if (recursionDepth == 0)
-			return if (ex.association.upper == -1) {
-				'''«OPERATION_NAMESPACE»::select_many(«expr»)'''
-			} else
-				{
-					expr
-				}.finalize(ex, parent)
+			return '''«OPERATION_NAMESPACE»::select_many(«expr»)'''.finalize(ex, parent)
 
 		return expr
 	}

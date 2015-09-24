@@ -9,6 +9,11 @@ class ForStatementValidatorTest extends AbstractValidatorTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
+		    #[
+		        "ForEach Statement: Missing type parameter for declaration",
+		        '''for(i in {1, 2, 3}){}''',
+		        #[]
+		    ],
 			#[  "ForEach Statement: Integer literal",
 			    '''for(Integer i in 5){}''',
 			    #["null"]

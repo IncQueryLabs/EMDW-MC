@@ -6,6 +6,7 @@ import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 import java.util.Collection
 import org.junit.BeforeClass
 import org.junit.runners.Parameterized.Parameters
+import org.eclipse.xtext.diagnostics.Diagnostic
 
 class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 	@BeforeClass
@@ -56,7 +57,8 @@ class UMLOperationStaticValidatorTest extends AbstractPluginValidatorTest{
 				"model::Comp::Pong::TestOperation",
 			    #[
 			    	ReducedAlfSystem.NAMEEXPRESSION,
-			    	ReducedAlfSystem.NAMEEXPRESSION
+			    	ReducedAlfSystem.NAMEEXPRESSION,
+			    	Diagnostic.LINKING_DIAGNOSTIC
 			    ]
 			],
 			#[  "This in a static operation",

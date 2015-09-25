@@ -247,6 +247,18 @@
               xsi:type="predicates:RepositoryPredicate"
               project="com.incquerylabs.emdw.common.parent"/>
         </operand>
+        <operand
+            xsi:type="predicates:NotPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*model.edit"/>
+        </operand>
+        <operand
+            xsi:type="predicates:NotPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*model.editor"/>
+        </operand>
       </predicate>
     </workingSet>
     <workingSet
@@ -301,6 +313,33 @@
         <operand
             xsi:type="predicates:LocationPredicate"
             pattern=".*/releng/.*"/>
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.parent"/>
+          <operand
+              xsi:type="predicates:RepositoryPredicate"
+              project="com.incquerylabs.emdw.common.parent"/>
+        </operand>
+      </predicate>
+    </workingSet>
+    <workingSet
+        name="Edit - Editor">
+      <predicate
+          xsi:type="predicates:AndPredicate">
+        <operand
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*model.editor"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern=".*model.edit"/>
+        </operand>
+        <operand
+            xsi:type="predicates:LocationPredicate"
+            pattern=".*/plugins/.*"/>
         <operand
             xsi:type="predicates:OrPredicate">
           <operand

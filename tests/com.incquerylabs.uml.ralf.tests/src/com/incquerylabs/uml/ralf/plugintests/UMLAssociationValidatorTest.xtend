@@ -5,6 +5,7 @@ import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTes
 import java.util.Collection
 import org.junit.BeforeClass
 import org.junit.runners.Parameterized.Parameters
+import org.eclipse.xtext.diagnostics.Diagnostic
 
 class UMLAssociationValidatorTest extends AbstractPluginValidatorTest{	
 	@BeforeClass
@@ -46,7 +47,10 @@ class UMLAssociationValidatorTest extends AbstractPluginValidatorTest{
 			    Pong p = new Pong();
 			    p->pong;''',
 				"model::Comp::Pong::TestOperation",
-			    #[ReducedAlfSystem.ASSOCIATIONACCESSEXPRESSION]
+			    #[
+			        ReducedAlfSystem.ASSOCIATIONACCESSEXPRESSION,
+			        Diagnostic.LINKING_DIAGNOSTIC
+			    ]
 			]
 		)
 	}

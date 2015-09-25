@@ -63,7 +63,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				send s to p->ping.one();''',
 				
 				'''
-				model::Comp::Pong p = 0;
+				model::Comp::Pong p = nullptr;
 				model::Comp::Pong temp0 = new model::Comp::Pong();
 				p = temp0;
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
@@ -371,8 +371,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
-				model::Comp::Ping myPing = temp0;
+				model::Comp::Ping myPing = ::xumlrt::select_any(this->ping);
 				this->R1_ping = myPing;
 				myPing->R1_pong = this;''',
 				"model::Comp::Pong::TestOperation"
@@ -384,8 +383,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
-				model::Comp::Ping myPing = temp0;
+				model::Comp::Ping myPing = ::xumlrt::select_any(this->ping);
 				this->R1_ping = NULL;
 				myPing->R1_pong = NULL;''',
 				"model::Comp::Pong::TestOperation"
@@ -480,7 +478,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    ''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				model::Comp::Pong temp0 = model::Comp::Pong::_instances();
+				std::collections::Set<model::Comp::Pong> temp0 = ::xumlrt::select_many(model::Comp::Pong::_instances());
 				p.doPongMultiple(temp0);''',
 				"sendPong"
 			],

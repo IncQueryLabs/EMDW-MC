@@ -10,6 +10,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
+import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 
 class XtumlToOoplMapper {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
@@ -46,6 +47,10 @@ class XtumlToOoplMapper {
 	
 	def convertOperation(Operation operation) {
 		return engine.cppOperation2Operation.getAllValuesOfcppOperation(operation).head
+	}
+	
+	def convertParameter(Parameter parameter) {
+		return engine.cppFormalParameter2Parameter.getAllValuesOfcppFormalParameter(parameter).head
 	}
 	
 	def findBasicType(String primitiveType) {

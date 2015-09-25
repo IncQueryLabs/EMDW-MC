@@ -31,6 +31,7 @@ import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlForeachBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlParameterDescriptorBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -268,6 +269,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createSingleVariableDescriptorBuilder() {
 		return new UmlSingleVariableDescriptorBuilder(this)
+	}
+	
+	override createParameterDescriptorBuilder() {
+		return new UmlParameterDescriptorBuilder(engine)
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {

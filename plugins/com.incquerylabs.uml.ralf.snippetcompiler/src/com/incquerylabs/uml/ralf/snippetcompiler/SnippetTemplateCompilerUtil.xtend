@@ -152,10 +152,8 @@ class SnippetTemplateCompilerUtil {
 		}else if (ex.reference instanceof Parameter){
 			val parameter = ex.reference as Parameter
 			if(parameter != null){
-				return (descriptorFactory.createSingleVariableDescriptorBuilder => [
-					name = parameter.name
-					type = parameter.type
-					isExistingVariable = true
+				return (descriptorFactory.createParameterDescriptorBuilder => [
+					it.parameter = parameter
 				]).build	
 			}
 		}else{

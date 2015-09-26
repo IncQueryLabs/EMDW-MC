@@ -60,6 +60,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.LiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import org.eclipse.xtend2.lib.StringConcatenation
 import com.google.common.base.Preconditions
+import java.util.spi.LocaleNameProvider
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -604,6 +605,8 @@ class ExpressionVisitor {
 			val parameter = ex.reference as Parameter
 			if(parameter != null){
 				val descriptor = getDescriptor(ex)
+				if(ex.eContainer instanceof LocalNameDeclarationStatement)
+					return descriptor.valueRepresentation
 				return descriptor.stringRepresentation
 			}
 		}else{
@@ -855,13 +858,8 @@ class ExpressionVisitor {
 		if(ex.parameters instanceof ExpressionList){
 			val parameters = ex.parameters as ExpressionList
 			parameters.expressions.forEach[ expr |
-				val string = expr.visit(parent)
-				descriptors.add((descriptorFactory.createSingleVariableDescriptorBuilder => [
-					name = string
-					type = typeSystem.type(expr).value.umlType
-					isExistingVariable = true
-				]).build)
-				
+				val name = expr.visit(parent)
+				descriptors.add(expr.getCachedDescriptor(name))				
 			]
 		}else if(ex.parameters instanceof NamedTuple){
 			val parameters = ex.parameters as NamedTuple
@@ -870,12 +868,8 @@ class ExpressionVisitor {
 			operationParameters.forEach[operationParameter |
 				parameters.expressions.forEach[ namedExpression |
 					if(namedExpression.name.equals(operationParameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(operationParameter.getType)){
-						val string = namedExpression.expression.visit(parent)
-							descriptors.add((descriptorFactory.createSingleVariableDescriptorBuilder => [
-							name = string
-							type = typeSystem.type(namedExpression.expression).value.umlType
-							isExistingVariable = true
-						]).build)
+						val name = namedExpression.expression.visit(parent)
+						descriptors.add(namedExpression.expression.getCachedDescriptor(name))
 					}
 				]
 			]
@@ -914,7 +908,7 @@ class ExpressionVisitor {
 		}
 	}
 	
-	private def ValueDescriptor getCachedDescriptor(Expression ex, String string){
+	def ValueDescriptor getCachedDescriptor(Expression ex, String string){
 		var ValueDescriptor tempDescriptor
 		switch(ex){
 			SignalDataExpression: {
@@ -936,5 +930,4 @@ class ExpressionVisitor {
 			}
 		}
 	}
-	
 }

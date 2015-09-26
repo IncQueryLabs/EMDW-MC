@@ -26,4 +26,5 @@
       eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyReadDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyWriteDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterDescriptor" eSuperTypes="#//VariableDescriptor"/>
 </ecore:EPackage>

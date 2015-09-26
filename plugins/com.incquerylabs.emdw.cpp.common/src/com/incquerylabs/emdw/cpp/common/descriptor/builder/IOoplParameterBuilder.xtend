@@ -1,9 +1,9 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder
 
+import com.incquerylabs.emdw.valuedescriptor.ParameterDescriptor
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
-import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 
-interface IOoplParameterBuilder extends IValueDescriptorBuilder<VariableDescriptor> {
+interface IOoplParameterBuilder extends IValueDescriptorBuilder<ParameterDescriptor> {
 	
 	def IOoplParameterBuilder setParameter(Parameter parameter)
 	 

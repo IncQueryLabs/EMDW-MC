@@ -9,12 +9,14 @@ import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import com.google.common.base.Preconditions
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPFormalParameter
 
 abstract class AbstractCppOperationCallDescriptorBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	protected XtumlToOoplMapper mapper
-	protected TypeConverter converter
+	protected extension TypeConverter converter
 	protected CPPOperation cppOperation
 	protected List<ValueDescriptor> params
 	
@@ -27,11 +29,26 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 		cppOperation = mapper.convertOperation(operation)
 		val returnValue = cppOperation.subElements.filter(CPPReturnValue).head
 		val ocd = factory.createOperationCallDescriptor => [
-			it.baseType = converter.convertToBaseType(returnValue)
-			it.fullType = converter.convertToType(returnValue)
+			it.baseType = returnValue.convertToBaseType
+			it.fullType = returnValue.convertToType
 		]
 		return ocd
 	}
 	
-	def getParameterList() '''«IF params!=null»«FOR param : params SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»«ENDIF»'''
+	def getParameterList() {
+		val parameters = newArrayList
+		val cppFormalParameters = cppOperation.subElements.filter(CPPFormalParameter)
+		
+		Preconditions.checkState(params.size == cppFormalParameters.size, "Invalid number of parameters provided.")
+		
+		for(int i : 0..<params.size) {
+			if(cppFormalParameters.get(i).isReferenceType) {
+				parameters += params.get(i).pointerRepresentation
+			} else {
+				parameters += params.get(i).valueRepresentation
+			}
+		}
+		
+		'''«IF params!=null»«FOR param : parameters SEPARATOR ", "»«param»«ENDFOR»«ENDIF»'''
+	}
 }

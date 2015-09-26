@@ -91,4 +91,8 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummyForeachBuilder
 	}
 	
+	override createParameterDescriptorBuilder() {
+		// TODO: implement this!
+	}
+	
 }

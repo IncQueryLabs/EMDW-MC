@@ -15,7 +15,6 @@ class CppParameterBuilder implements IOoplParameterBuilder {
 	Parameter parameter
 	XtumlToOoplMapper mapper
 	
-	
 	new(AdvancedIncQueryEngine engine) {
 		this.mapper = new XtumlToOoplMapper(engine)
 		this.typeConverter = new TypeConverter
@@ -28,30 +27,17 @@ class CppParameterBuilder implements IOoplParameterBuilder {
 	
 	override build() {
 		val cppFormalParameter = mapper.convertParameter(parameter)
-		val ooplType = cppFormalParameter.type		
-		val type = ooplType.convertToType
+		val type = cppFormalParameter.type
 		val name = cppFormalParameter.cppName
 		
-		var String valueRepresentation
-		var String pointerRepresentation
+		val variableRepresentations = name.createStringRepresentations(type)
 		
-		if(ooplType.isReferenceType) {
-			valueRepresentation = '''*«name»'''
-			pointerRepresentation = name
-		} else {
-			valueRepresentation = name
-			pointerRepresentation = '''&«name»'''
-		}
-		
-		val finalValueRepresentation = valueRepresentation
-		val finalPointerRepresentation = pointerRepresentation
-		
-		factory.createSingleVariableDescriptor => [
+		factory.createParameterDescriptor => [
 			it.stringRepresentation = name
-			it.baseType = type 
-			it.fullType = type
-			it.valueRepresentation = finalValueRepresentation
-			it.pointerRepresentation = finalPointerRepresentation
+			it.baseType = type.convertToType 
+			it.fullType = it.baseType
+			it.valueRepresentation = variableRepresentations.valueRepresentation
+			it.pointerRepresentation = variableRepresentations.pointerRepresentation
 		]
 	}
 	

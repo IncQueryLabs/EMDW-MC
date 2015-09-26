@@ -1,8 +1,12 @@
 package com.incquerylabs.emdw.cpp.common
 
+import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.OOPLDataType
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
+import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
@@ -14,11 +18,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Type
-import com.ericsson.xtumlrt.oopl.OOPLType
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
-import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
-import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
+import org.eclipse.xtend.lib.annotations.Data
 
 class TypeConverter {
 	
@@ -158,8 +158,8 @@ class TypeConverter {
 			CPPEvent : true
 			CPPClass : true
 			CPPClassReference : true
-			CPPFormalParameter case CPPParameterPassingKind.BY_REFERENCE : true
-			CPPFormalParameter case CPPParameterPassingKind.BY_CONSTANT_REFERENCE : true
+			CPPFormalParameter case type.passingMode == CPPParameterPassingKind.BY_REFERENCE : true
+			CPPFormalParameter case type.passingMode == CPPParameterPassingKind.BY_CONSTANT_REFERENCE : true
 			default : false
 		}
 	}
@@ -171,4 +171,46 @@ class TypeConverter {
 	def String toPointer(CharSequence type) {
 		'''«type»*'''
 	}
+	
+	/**
+	 * Prepends the address-of operator to the provided variable, literal or operation call
+	 * 
+	 * @param variable - The variable, literal or operation call to which the operator should be prepended to
+	 */
+	def String addressOf(CharSequence variable) {
+		'''&«variable»'''
+	}
+	
+	/**
+	 * Prepends the dereference operator to the provided pointer variable or operator which returns a pointer type
+	 * 
+	 * @param pointerVariable - The variable, literal or operation call to which the operator should be prepended to
+	 */
+	def String dereference(CharSequence pointerVariable) {
+		'''*«pointerVariable»'''
+	}
+	
+	
+	/**
+	 * Creates pointer and value representations of a variable based on it's type.
+	 * 
+	 * @param name - The name of the variable.
+	 * @param type - The type of the variable.
+	 */
+	def createStringRepresentations(String name, EObject type) {
+		if(type.isReferenceType) {
+			return new TypeConverter.ValueAndPointerRepresentationPair(name, name.dereference)
+		} else {
+			return new TypeConverter.ValueAndPointerRepresentationPair(name.addressOf, name)
+		}
+	}
+	
+	/**
+	 * Helper class to host the return value 
+	 */
+	@Data
+	static class ValueAndPointerRepresentationPair {
+		val String pointerRepresentation
+		val String valueRepresentation
+	} 
 }

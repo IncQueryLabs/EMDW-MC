@@ -21,5 +21,6 @@
     <genClasses image="false" ecoreClass="valuedescriptor.ecore#//PropertyAccessDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//PropertyReadDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//PropertyWriteDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//ParameterDescriptor"/>
   </genPackages>
 </genmodel:GenModel>

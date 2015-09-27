@@ -27,14 +27,13 @@ class CppParameterBuilder implements IOoplParameterBuilder {
 	
 	override build() {
 		val cppFormalParameter = mapper.convertParameter(parameter)
-		val type = cppFormalParameter.type
 		val name = cppFormalParameter.cppName
 		
-		val variableRepresentations = name.createStringRepresentations(type)
+		val variableRepresentations = name.createStringRepresentations(cppFormalParameter)
 		
 		factory.createParameterDescriptor => [
 			it.stringRepresentation = name
-			it.baseType = type.convertToType 
+			it.baseType = cppFormalParameter.type.convertToType 
 			it.fullType = it.baseType
 			it.valueRepresentation = variableRepresentations.valueRepresentation
 			it.pointerRepresentation = variableRepresentations.pointerRepresentation

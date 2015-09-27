@@ -161,12 +161,13 @@ class ExpressionVisitor {
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		
-		val parameters = prepareInstanceCreationTuple(ex, ex.instance, parent)
+		val operationParameters = prepareInstanceCreationTuple(ex, ex.instance, parent)
 		val type = ex.instance
 		
 		val descriptor = (descriptorFactory.createConstructorCallBuilder => [
 			type = variableType
-			it.parameters = parameters
+			it.operation = operationParameters.key
+			it.parameters = operationParameters.value
 		]).build
 		
 		switch(type){
@@ -427,7 +428,6 @@ class ExpressionVisitor {
 		    
 		    if(ex.isFlatteningNeeded){
 		    	val descriptor = createNewVariableDescriptor(ex, variableType)
-		    	// XXX: should assignment ever be flattened?
 				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsRep» «ex.operator» «rhsRep»);
 				''')
 			
@@ -752,17 +752,17 @@ class ExpressionVisitor {
 		}
 	}
 		
-	private dispatch def prepareInstanceCreationTuple(InstanceCreationExpression ex, Signal signal, StringBuilder parent){
-		val List<Pair<Type, ValueDescriptor>> descriptors = Lists.newArrayList	
-		return descriptors
+	private dispatch def Pair<Operation, ? extends List<Pair<Type, ? extends ValueDescriptor>>> prepareInstanceCreationTuple(InstanceCreationExpression ex, Signal signal, StringBuilder parent){
+		return null -> newArrayList
 	}
 	
-	private dispatch def prepareInstanceCreationTuple(InstanceCreationExpression ex, Class c, StringBuilder parent){
-		val List<Pair<Type, ValueDescriptor>> descriptors = Lists.newArrayList	
+	private dispatch def Pair<Operation, ? extends List<Pair<Type, ? extends ValueDescriptor>>> prepareInstanceCreationTuple(InstanceCreationExpression ex, Class c, StringBuilder parent){
+		val descriptors = newArrayList	
 		
+		var Operation op = null
 		if(ex.parameters instanceof ExpressionList){
 			val parameters = ex.parameters as ExpressionList
-			val op = getOperation(parameters, c)
+			op = getOperation(parameters, c)
 			
 			if(op !=null){
 				parameters.expressions.forEach[ expr |
@@ -772,14 +772,14 @@ class ExpressionVisitor {
 						type = typeSystem.type(expr).value.umlType
 						isExistingVariable = true
 					]).build
-					descriptors.add(new Pair<Type, ValueDescriptor>(typeSystem.type(expr).value.umlType, descriptor))					
+					descriptors.add(typeSystem.type(expr).value.umlType -> descriptor)				
 				]
 			}else{
-				return descriptors
+				return op -> descriptors
 			}
 		}else if(ex.parameters instanceof NamedTuple){
 			val parameters = ex.parameters as NamedTuple
-			val op = getOperation(parameters, c)
+			op = getOperation(parameters, c)
 			
 			if(op !=null){
 				val operationParameters = op.ownedParameters
@@ -798,17 +798,17 @@ class ExpressionVisitor {
 					]
 				]
 			}else{
-				return descriptors
+				return op -> descriptors
 			}
 			
 		}else{
 			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
-		return descriptors
+		return op -> descriptors
 	}
 	
 	private dispatch def getOperation(NamedTuple parameters, Class c){
-		val candidates = c.ownedOperations.filter[op | op.name.equals(class.name)]
+		val candidates = c.ownedOperations.filter[op | op.name.equals(c.name)]
 		val List<Operation> operations = Lists.newArrayList
 		candidates.forEach[operation | 
 			var valid = true
@@ -835,7 +835,7 @@ class ExpressionVisitor {
 	}
 	
 	private dispatch def getOperation(ExpressionList parameters, Class c){
-		val candidates = c.ownedOperations.filter[op | op.name.equals(class.name)]
+		val candidates = c.ownedOperations.filter[op | op.name.equals(c.name)]
 		val List<Operation> operations = Lists.newArrayList
 		candidates.forEach[operation | 
 			var valid = true

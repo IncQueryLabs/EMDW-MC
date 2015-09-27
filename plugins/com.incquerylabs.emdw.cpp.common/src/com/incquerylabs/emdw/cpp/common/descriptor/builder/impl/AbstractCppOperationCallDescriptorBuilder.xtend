@@ -25,12 +25,18 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 		converter = new TypeConverter
 	}
 	
-	def prepareOperationCallDescriptor(Operation operation, ValueDescriptor... params) {
+	def prepareOperationCallDescriptor(Operation operation) {
+		prepareOperationCallDescriptor(operation, true)
+	}
+	
+	def prepareOperationCallDescriptor(Operation operation, boolean calculateTypes) {
 		cppOperation = mapper.convertOperation(operation)
-		val returnValue = cppOperation.subElements.filter(CPPReturnValue).head
 		val ocd = factory.createOperationCallDescriptor => [
-			it.baseType = returnValue.convertToBaseType
-			it.fullType = returnValue.convertToType
+			if(calculateTypes) {
+				val returnValue = cppOperation.subElements.filter(CPPReturnValue).head
+				it.baseType = returnValue.convertToBaseType
+				it.fullType = returnValue.convertToType
+			}
 		]
 		return ocd
 	}

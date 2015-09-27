@@ -415,10 +415,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		}
 	}
 	
-	override isParameterInCahce(String parameterName) {
+	override isParameterInCache(String parameterName) {
 		val inCache = parameterCache.containsKey(parameterName)
 		if(!inCache && parent != null) {
-			return parent.isParameterInCahce(parameterName)
+			return parent.isParameterInCache(parameterName)
 		}
 		return inCache
 	}

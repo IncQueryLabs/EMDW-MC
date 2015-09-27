@@ -20,7 +20,7 @@ interface IDescriptorCacheManager {
 	def CollectionVariableDescriptor getCollectionVariableFromCache(String variableName)
 	def void putCollectionVariableIntoCache(String variableName, CollectionVariableDescriptor descriptor)
 	
-	def boolean isParameterInCahce(String parameterName)
+	def boolean isParameterInCache(String parameterName)
 	def ParameterDescriptor getParameterFromCache(String parameterName)
 	def void putParameterIntoCache(ParameterDescriptor descriptor)
 }

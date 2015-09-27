@@ -36,22 +36,24 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 	}
 	
 	def getParameterList() {
-		val parameters = newArrayList
+		val parameterStrings = newArrayList
 		val cppFormalParameters = cppOperation.subElements.filter(CPPFormalParameter)
+		val parameterDescriptors = if(params != null) params else #[]
 		
-		Preconditions.checkState(params.size == cppFormalParameters.size, 
+		
+		Preconditions.checkState(parameterDescriptors.size == cppFormalParameters.size, 
 		'''Invalid number of parameters provided when calling operation «cppOperation.cppName»:
-				received parameters «FOR p : params SEPARATOR ','»«p.stringRepresentation»«ENDFOR»
-				expected parameters «FOR p : cppFormalParameters SEPARATOR ','»«p.cppName»«ENDFOR»''')
+				received parameters «FOR p : parameterDescriptors SEPARATOR ','»«p.stringRepresentation» : «p.fullType»«ENDFOR»
+				expected parameters «FOR p : cppFormalParameters SEPARATOR ','»«p.cppName» : «p.type.convertToType»«ENDFOR»''')
 		
-		for(int i : 0..<params.size) {
+		for(int i : 0..<parameterDescriptors.size) {
 			if(cppFormalParameters.get(i).isReferenceType) {
-				parameters += params.get(i).pointerRepresentation
+				parameterStrings += params.get(i).pointerRepresentation
 			} else {
-				parameters += params.get(i).valueRepresentation
+				parameterStrings += params.get(i).valueRepresentation
 			}
 		}
 		
-		'''«IF params!=null»«FOR param : parameters SEPARATOR ", "»«param»«ENDFOR»«ENDIF»'''
+		'''«FOR param : parameterStrings SEPARATOR ", "»«param»«ENDFOR»'''
 	}
 }

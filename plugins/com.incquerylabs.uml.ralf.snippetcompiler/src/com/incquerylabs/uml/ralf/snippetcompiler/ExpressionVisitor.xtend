@@ -17,6 +17,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalLogicalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ConditionalTestExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.DoStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
@@ -25,6 +26,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
@@ -50,6 +52,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import com.incquerylabs.uml.ralf.types.CollectionTypeReference
 import java.util.List
 import org.eclipse.uml2.uml.Class
@@ -419,17 +422,18 @@ class ExpressionVisitor {
 			val lhsString = ex.leftHandSide.visit(parent)
 		    val rhsString = ex.rightHandSide.visit(parent)
 		    
-		    val lhsDescriptor = ex.leftHandSide.getCachedDescriptor(lhsString) // lhs should always be by value => rhs not necessary
+		    val lhsRep = ex.leftHandSide.getProperRepresentation(lhsString)
+		    val rhsRep = ex.rightHandSide.getProperRepresentation(rhsString)
 		    
 		    if(ex.isFlatteningNeeded){
 		    	val descriptor = createNewVariableDescriptor(ex, variableType)
 		    	// XXX: should assignment ever be flattened?
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsDescriptor.valueRepresentation» «ex.operator» «rhsString»);
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsRep» «ex.operator» «rhsRep»);
 				''')
 			
 				descriptor.stringRepresentation
 			}else{
-				'''«lhsDescriptor.valueRepresentation» «ex.operator» «rhsString»'''	
+				'''«lhsRep» «ex.operator» «rhsRep»'''	
 			}
 		}
 	}
@@ -501,23 +505,8 @@ class ExpressionVisitor {
 		val operand1Variable = ex.operand1.visit(parent)
 		val operand2Variable = ex.operand2.visit(parent)
 		
-		val operand1Descriptor = ex.operand1.getCachedDescriptor(operand1Variable)
-		val operand2Descriptor = ex.operand2.getCachedDescriptor(operand2Variable)
-		
-		val operand1Type = typeSystem.type(ex.operand1).value		
-		val operand2Type = typeSystem.type(ex.operand2).value
-		
-		val operand1String = if(operand1Type.umlType instanceof Class) {
-				operand1Descriptor.pointerRepresentation
-			} else {
-				operand1Descriptor.valueRepresentation
-			}
-			
-		val operand2String = if(operand2Type.umlType instanceof Class) {
-				operand2Descriptor.pointerRepresentation
-			} else {
-				operand2Descriptor.valueRepresentation
-			}
+		val String operand1String = ex.operand1.getProperRepresentation(operand1Variable)			
+		val String operand2String = ex.operand2.getProperRepresentation(operand2Variable)
 		
 		val variableType = typeSystem.type(ex).value.umlType
 		
@@ -537,20 +526,20 @@ class ExpressionVisitor {
 		val operand1Variable = ex.operand1.visit(parent)
 		val operand2Variable = ex.operand2.visit(parent)
 		
-		val operand1Descriptor = ex.operand1.getCachedDescriptor(operand1Variable)
-		val operand2Descriptor = ex.operand2.getCachedDescriptor(operand2Variable)
+		val String operand1String = ex.operand1.getCachedDescriptor(operand1Variable).valueRepresentation 
+		val String operand2String = ex.operand2.getCachedDescriptor(operand2Variable).valueRepresentation 
 		
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1String» «ex.operator» «operand2String»;
 			''')
 		
 			descriptor.stringRepresentation
 		}else{
-			'''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»'''	
+			'''«operand1String» «ex.operator» «operand2String»'''	
 		}
 	}
 	
@@ -558,58 +547,66 @@ class ExpressionVisitor {
 		val operand1Variable = ex.operand1.visit(parent)
 		val operand2Variable = ex.operand2.visit(parent)
 		
-		val operand1Descriptor = ex.operand1.getCachedDescriptor(operand1Variable)
-		val operand2Descriptor = ex.operand2.getCachedDescriptor(operand2Variable)
+		val String operand1String = ex.operand1.getCachedDescriptor(operand1Variable).valueRepresentation 
+		val String operand2String = ex.operand2.getCachedDescriptor(operand2Variable).valueRepresentation 
 		
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1String» «ex.operator» «operand2String»;
 			''')
 		
 			descriptor.stringRepresentation
 		}else{
-			'''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»'''	
+			'''«operand1String» «ex.operator» «operand2String»'''	
 		}
 	}
 
 	def dispatch String visit(PrefixExpression ex, StringBuilder parent){
 		val operandVariable = ex.operand.expression.visit(parent)
 		
-		val operandDescriptor = ex.operand.expression.getCachedDescriptor(operandVariable)
+		val String operandString = if(ex.operand.expression instanceof FeatureInvocationExpression) {
+			operandVariable
+		} else {
+			ex.operand.expression.getCachedDescriptor(operandVariable).valueRepresentation
+		}  
 		
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandDescriptor.valueRepresentation»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandString»;
 			''')
 		
 			descriptor.stringRepresentation
 		}else{
-			'''«ex.operator.literal»«operandDescriptor.valueRepresentation»'''	
+			'''«ex.operator.literal»«operandString»'''	
 		}
 	}
 	
 	def dispatch String visit(PostfixExpression ex, StringBuilder parent){
 		val operandVariable = ex.operand.expression.visit(parent)
 		
-		val operandDescriptor = ex.operand.expression.getCachedDescriptor(operandVariable)
+		val String operandString = if(ex.operand.expression instanceof FeatureInvocationExpression) {
+			operandVariable
+		} else {
+			ex.operand.expression.getCachedDescriptor(operandVariable).valueRepresentation
+		} 
 		
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operandDescriptor.valueRepresentation»«ex.operator.literal»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operandString»«ex.operator.literal»;
 			''')
 		
 			descriptor.stringRepresentation
 		}else{
-			'''«operandDescriptor.valueRepresentation»«ex.operator.literal»'''	
+			'''«operandString»«ex.operator.literal»'''	
 		}
 	}
 
@@ -619,17 +616,21 @@ class ExpressionVisitor {
 		val operand2Variable = ex.operand2.visit(parent)
 		val operand3Variable = ex.operand3.visit(parent)
 		
+		val String operand1String = ex.operand1.getCachedDescriptor(operand1Variable).valueRepresentation
+		val String operand2String = ex.operand2.getProperRepresentation(operand2Variable) 
+		val String operand3String = ex.operand3.getProperRepresentation(operand3Variable)
+		
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («operand1Variable») ? («operand2Variable») : («operand3Variable»);
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («operand1String») ? («operand2String») : («operand3String»);
 			''')
 		
 			descriptor.stringRepresentation
 		}else{
-			'''(«operand1Variable») ? («operand2Variable») : («operand3Variable»)'''	
+			'''(«operand1String») ? («operand2String») : («operand3String»)'''	
 		}
 	}
 
@@ -644,7 +645,7 @@ class ExpressionVisitor {
 			val parameter = ex.reference as Parameter
 			if(parameter != null){
 				val descriptor = getDescriptor(ex)
-				if(ex.eContainer instanceof LocalNameDeclarationStatement)
+				if(ex.isValueRepresentationRequired) //if this is true, the descriptor should never describe a class or signal
 					return descriptor.valueRepresentation
 				return descriptor.stringRepresentation
 			}
@@ -658,10 +659,12 @@ class ExpressionVisitor {
 		val operandVariable = ex.operand.visit(parent)
 		val variableType = typeSystem.type(ex).value.umlType
 		
+		val operandString = ex.operand.getCachedDescriptor(operandVariable).valueRepresentation
+		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandString»;
 			''')
 		
 			descriptor.stringRepresentation
@@ -674,10 +677,12 @@ class ExpressionVisitor {
 		val operandVariable = ex.operand.visit(parent)
 		val variableType = typeSystem.type(ex).value.umlType
 		
+		val operandString = ex.operand.getCachedDescriptor(operandVariable).valueRepresentation
+		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandString»;
 			''')
 		
 			descriptor.stringRepresentation
@@ -920,6 +925,16 @@ class ExpressionVisitor {
 		
 	}
 	
+	private def isValueRepresentationRequired(Expression ex) {
+		switch(ex.eContainer) {
+			LocalNameDeclarationStatement: true
+			IfClause : true
+			WhileStatement : true
+			DoStatement : true
+			default : false	
+		}
+	}
+	
 	private def createNewVariableDescriptor(Expression ex, Type variableType){
 		if(variableType == null){
 			return null
@@ -936,6 +951,17 @@ class ExpressionVisitor {
 				type = variableType
 				name = null
 			]).build
+		}
+	}
+	
+	def String getProperRepresentation(Expression ex, String name) {
+		if(ex instanceof NullExpression) {
+			name	
+		}			
+		else if(typeSystem.type(ex).value.umlType instanceof Class) {
+			ex.getCachedDescriptor(name).pointerRepresentation
+		} else { 
+			ex.getCachedDescriptor(name).valueRepresentation
 		}
 	}
 	

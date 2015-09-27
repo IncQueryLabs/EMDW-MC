@@ -178,7 +178,7 @@ class TypeConverter {
 	 * @param variable - The variable, literal or operation call to which the operator should be prepended to
 	 */
 	def String addressOf(CharSequence variable) {
-		'''&«variable»'''
+		'''(&«variable»)'''
 	}
 	
 	/**
@@ -187,7 +187,7 @@ class TypeConverter {
 	 * @param pointerVariable - The variable, literal or operation call to which the operator should be prepended to
 	 */
 	def String dereference(CharSequence pointerVariable) {
-		'''*«pointerVariable»'''
+		'''(*«pointerVariable»)'''
 	}
 	
 	

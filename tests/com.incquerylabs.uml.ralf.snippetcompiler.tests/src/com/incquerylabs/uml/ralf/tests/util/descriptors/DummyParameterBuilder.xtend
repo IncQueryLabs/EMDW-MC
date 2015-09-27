@@ -27,6 +27,8 @@ class DummyParameterBuilder implements IUmlParameterDescriptorBuilder {
 		
 		val desc = factory.createParameterDescriptor => [
 			it.stringRepresentation = parameter.name
+			it.valueRepresentation = '''value{«it.stringRepresentation»}'''
+			it.pointerRepresentation = '''pointer{«it.stringRepresentation»}'''
 			it.baseType = parameter.type.qualifiedName
 			it.fullType= parameter.type.qualifiedName
 		]

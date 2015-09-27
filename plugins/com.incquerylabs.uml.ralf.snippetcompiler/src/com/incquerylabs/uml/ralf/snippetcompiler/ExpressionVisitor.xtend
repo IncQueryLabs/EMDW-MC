@@ -822,12 +822,8 @@ class ExpressionVisitor {
 		if(ex.parameters instanceof ExpressionList){
 			val parameters = ex.parameters as ExpressionList
 			parameters.expressions.forEach[ expr |
-				val string = expr.visit(parent)
-				descriptors.add((descriptorFactory.createSingleVariableDescriptorBuilder => [
-					name = string
-					type = typeSystem.type(expr).value.umlType
-					isExistingVariable = true
-				]).build)
+				val name = expr.visit(parent)
+				descriptors.add(expr.getCachedDescriptor(name))
 				
 			]
 		}else if(ex.parameters instanceof NamedTuple){
@@ -837,12 +833,8 @@ class ExpressionVisitor {
 			operationParameters.forEach[operationParameter |
 				parameters.expressions.forEach[ namedExpression |
 					if(namedExpression.name.equals(operationParameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(operationParameter.getType)){
-						val string = namedExpression.expression.visit(parent)
-							descriptors.add((descriptorFactory.createSingleVariableDescriptorBuilder => [
-							name = string
-							type = typeSystem.type(namedExpression.expression).value.umlType
-							isExistingVariable = true
-						]).build)
+						val name = namedExpression.expression.visit(parent)
+						descriptors.add(namedExpression.expression.getCachedDescriptor(name))
 					}
 				]
 			]
@@ -859,7 +851,7 @@ class ExpressionVisitor {
 			val parameters = ex.parameters as ExpressionList
 			parameters.expressions.forEach[ expr |
 				val name = expr.visit(parent)
-				descriptors.add(expr.getCachedDescriptor(name))				
+				descriptors.add(expr.getCachedDescriptor(name))	
 			]
 		}else if(ex.parameters instanceof NamedTuple){
 			val parameters = ex.parameters as NamedTuple

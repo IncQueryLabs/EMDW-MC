@@ -5,10 +5,12 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List
 import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.Operation
 
 class DummyConstructorCallBuilder implements IUmlConstructorCallBuilder{
 	Type type
-	List<Pair<Type, ValueDescriptor>> params
+	List<Pair<Type, ? extends ValueDescriptor>> params
+	Operation operation
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
@@ -28,8 +30,13 @@ class DummyConstructorCallBuilder implements IUmlConstructorCallBuilder{
 	}
 	
 	
-	override setParameters(Pair<Type, ValueDescriptor>... params) {
+	override setParameters(Pair<Type, ? extends ValueDescriptor>... params) {
 		this.params = params.toList
+		this
+	}
+	
+	override setOperation(Operation operation) {
+		this.operation = operation
 		this
 	}
 	

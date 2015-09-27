@@ -32,7 +32,7 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 		val svd = factory.createPropertyWriteDescriptor => [
 			it.baseType = converter.convertToBaseType(type)
 			it.fullType = converter.convertToType(type)
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.stringRepresentation»'''
+			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName» = «newValue.valueRepresentation»'''
 		]
 		if(type instanceof CPPSequence) {
 			svd.templateTypes.add(converter.convertToType(type.elementType))

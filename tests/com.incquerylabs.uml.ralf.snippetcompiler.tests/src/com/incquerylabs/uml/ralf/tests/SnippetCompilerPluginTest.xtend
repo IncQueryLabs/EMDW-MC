@@ -63,9 +63,9 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				send s to p->ping.one();''',
 				
 				'''
-				model::Comp::Pong p = 0;
+				model::Comp::Pong p = nullptr;
 				model::Comp::Pong temp0 = new model::Comp::Pong();
-				p = temp0;
+				pointer{p} = pointer{temp0};
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
@@ -82,7 +82,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer i = 1;
-				i = 2;
+				value{i} = value{2};
 				model::Comp::Pong p = new model::Comp::Pong();
 				p->integerProperty = 1;''',
 				"model::Comp::Pong::doIntegerVoid"
@@ -110,7 +110,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				x = inParameter;''',
+				value{x} = value{inParameter};''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Out parameter assignment",
@@ -120,7 +120,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				outParameter = x;''',
+				value{outParameter} = value{x};''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Numeric Unary Expression test",
@@ -139,16 +139,16 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''(1 + 1) * 2;''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = 1 + 1;
-				temp0 * 2;''',
+				PrimitiveTypes::Integer temp0 = value{1} + value{1};
+				value{temp0} * value{2};''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Arithmetic Expression test unnecessary parentheses",
 			    '''(1 * 1) + 2;''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = 1 * 1;
-				temp0 + 2;''',
+				PrimitiveTypes::Integer temp0 = value{1} * value{1};
+				value{temp0} + value{2};''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Variable definition test",
@@ -164,7 +164,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				++x;''',
+				++value{x};''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Complex arithmetics test",
@@ -178,16 +178,16 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = 1 + 2;
-				PrimitiveTypes::Integer temp1 = temp0 * 3;
-				PrimitiveTypes::Integer x = temp1 + 4;
-				++x;
-				PrimitiveTypes::Boolean temp2 = x > 3;
-				PrimitiveTypes::Boolean temp3 = x == 1;
+				PrimitiveTypes::Integer temp0 = value{1} + value{2};
+				PrimitiveTypes::Integer temp1 = value{temp0} * value{3};
+				PrimitiveTypes::Integer x = value{temp1} + value{4};
+				++value{x};
+				PrimitiveTypes::Boolean temp2 = value{x} > value{3};
+				PrimitiveTypes::Boolean temp3 = value{x} == value{1};
 				if (temp2) {
-				x--;
+				value{x}--;
 				} else if (temp3) {
-				x++;
+				value{x}++;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -202,21 +202,21 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = 1 + 2;
-				PrimitiveTypes::Integer temp1 = temp0 * 3;
-				PrimitiveTypes::Integer temp2 = -4;
-				PrimitiveTypes::Integer x = temp1 + temp2;
-				++x;
+				PrimitiveTypes::Integer temp0 = value{1} + value{2};
+				PrimitiveTypes::Integer temp1 = value{temp0} * value{3};
+				PrimitiveTypes::Integer temp2 = -value{4};
+				PrimitiveTypes::Integer x = value{temp1} + value{temp2};
+				++value{x};
 				PrimitiveTypes::Integer y = x;
-				PrimitiveTypes::Integer temp3 = x - 15;
-				y = temp3;
-				PrimitiveTypes::Boolean temp4 = x > 3;
-				PrimitiveTypes::Integer temp5 = -5;
-				PrimitiveTypes::Boolean temp6 = y < temp5;
+				PrimitiveTypes::Integer temp3 = value{x} - value{15};
+				value{y} = value{temp3};
+				PrimitiveTypes::Boolean temp4 = value{x} > value{3};
+				PrimitiveTypes::Integer temp5 = -value{5};
+				PrimitiveTypes::Boolean temp6 = value{y} < value{temp5};
 				PrimitiveTypes::Boolean temp7 = !temp6;
-				PrimitiveTypes::Boolean temp8 = temp4 && temp7;
+				PrimitiveTypes::Boolean temp8 = value{temp4} && value{temp7};
 				if (temp8) {
-				x--;
+				value{x}--;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -232,11 +232,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer x = 1;
 				switch (x) {
 				case 1 : {
-				x++;
+				value{x}++;
 				break;
 				}
 				default : {
-				x++;
+				value{x}++;
 				}
 				}''',
 				"model::Comp::Pong::TestOperation"
@@ -252,7 +252,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer x = 1;
 				PrimitiveTypes::Boolean temp0 = true;
 				do {
-				x++;
+				value{x}++;
 				temp0 = true;
 				}while (temp0);''',
 				"model::Comp::Pong::TestOperation"
@@ -268,7 +268,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer x = 1;
 				PrimitiveTypes::Boolean temp0 = true;
 				while (temp0) {
-				x++;
+				value{x}++;
 				temp0 = true;
 				}''',
 				"model::Comp::Pong::TestOperation"
@@ -284,11 +284,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer x = 1;
 				{
 				PrimitiveTypes::Integer i = 0;
-				PrimitiveTypes::Boolean temp0 = i < 5;
+				PrimitiveTypes::Boolean temp0 = value{i} < value{5};
 				while (temp0) {
-				x++;
-				i++;
-				PrimitiveTypes::Boolean temp1 = i < 5;
+				value{x}++;
+				value{i}++;
+				PrimitiveTypes::Boolean temp1 = value{i} < value{5};
 				temp0 = temp1;
 				}
 				}''',
@@ -311,13 +311,13 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer x = 1;
 				if (true) {
-				x++;
+				value{x}++;
 				} else if (false) {
-				x++;
+				value{x}++;
 				} else if (true) {
-				x++;
+				value{x}++;
 				} else {
-				x++;
+				value{x}++;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -342,15 +342,15 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer x = 1;
 				if (true) {
-				x++;
+				value{x}++;
 				} else {
 				if (false) {
-				x++;
+				value{x}++;
 				} else {
 				if (true) {
-				x++;
+				value{x}++;
 				} else {
-				x++;
+				value{x}++;
 				}
 				}
 				}''',
@@ -371,8 +371,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
-				model::Comp::Ping myPing = temp0;
+				model::Comp::Ping myPing = ::xumlrt::select_any(this->ping);
 				this->R1_ping = myPing;
 				myPing->R1_pong = this;''',
 				"model::Comp::Pong::TestOperation"
@@ -384,8 +383,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
-				model::Comp::Ping myPing = temp0;
+				model::Comp::Ping myPing = ::xumlrt::select_any(this->ping);
 				this->R1_ping = NULL;
 				myPing->R1_pong = NULL;''',
 				"model::Comp::Pong::TestOperation"
@@ -437,7 +435,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong p = new model::Comp::Pong();
 				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
 				std::collections::Set<PrimitiveTypes::Integer> temp0 = p->integerMultiple;
-				s = temp0;''',
+				value{s} = value{temp0};''',
 				"sendPong"
 			],
 			#[  "Collection property write",
@@ -480,7 +478,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    ''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				model::Comp::Pong temp0 = model::Comp::Pong::_instances();
+				std::collections::Set<model::Comp::Pong> temp0 = ::xumlrt::select_many(model::Comp::Pong::_instances());
 				p.doPongMultiple(temp0);''',
 				"sendPong"
 			],
@@ -494,7 +492,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong p;
 				model::Comp::Pong2 p2 = new model::Comp::Pong2();
 				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
-				p = temp0;''',
+				pointer{p} = pointer{temp0};''',
 				"sendPong"
 			],
 			#[  "Cast expression operation call",
@@ -519,7 +517,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
 				for(PrimitiveTypes::Integer i : s) {
-				i + 1;
+				value{i} + value{1};
 				}''',
 				"model::Comp::Pong::TestOperation"
 			]

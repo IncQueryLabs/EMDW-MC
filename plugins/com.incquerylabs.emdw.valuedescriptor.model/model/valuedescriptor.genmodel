@@ -12,6 +12,8 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/templateTypes"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/fullType"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/stringRepresentation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/valueRepresentation"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute valuedescriptor.ecore#//ValueDescriptor/pointerRepresentation"/>
     </genClasses>
     <genClasses ecoreClass="valuedescriptor.ecore#//LiteralDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//VariableDescriptor"/>
@@ -21,5 +23,6 @@
     <genClasses image="false" ecoreClass="valuedescriptor.ecore#//PropertyAccessDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//PropertyReadDescriptor"/>
     <genClasses ecoreClass="valuedescriptor.ecore#//PropertyWriteDescriptor"/>
+    <genClasses ecoreClass="valuedescriptor.ecore#//ParameterDescriptor"/>
   </genPackages>
 </genmodel:GenModel>

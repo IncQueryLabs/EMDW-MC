@@ -29,8 +29,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				R3::unlink('call'=>this,'called'=>cd);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Called* __ralf__1__Called = ::xumlrt::select_any(this->R3_called);
-				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = __ralf__1__Called;
+				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = ::xumlrt::select_any(this->R3_called);
 				this->R3_called = NULL;
 				__ralf__0__cd->R3_call = NULL;'''
 			],
@@ -43,8 +42,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				R3::link('call'=>this,'called'=>cd);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Called* __ralf__1__Called = ::xumlrt::select_any(this->R3_called);
-				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = __ralf__1__Called;
+				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = ::xumlrt::select_any(this->R3_called);
 				this->R3_called = __ralf__0__cd;
 				__ralf__0__cd->R3_call = this;'''
 			],
@@ -57,8 +55,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				delete service;
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* __ralf__1__Service = ::xumlrt::select_any(this->R6_service);
-				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = __ralf__1__Service;
+				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
 				delete __ralf__0__service;'''
 			]
 		)

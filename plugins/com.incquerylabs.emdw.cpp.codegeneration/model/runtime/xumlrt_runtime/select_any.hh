@@ -2,6 +2,7 @@
 #define __XUMLRT__SELECT_ANY_HH
 
 #include <list>
+#include <set>
 
 #include "downcasted_chain.hh"
 #include "indirect_chain.hh"

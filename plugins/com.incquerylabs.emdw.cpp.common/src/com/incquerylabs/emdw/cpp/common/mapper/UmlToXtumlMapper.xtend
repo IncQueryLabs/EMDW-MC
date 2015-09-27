@@ -6,6 +6,7 @@ import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.Parameter
 
 class UmlToXtumlMapper {
 	extension UmlQueries umlQueries = UmlQueries.instance
@@ -65,7 +66,12 @@ class UmlToXtumlMapper {
 		return engine.operation2UmlOperation.getAllValuesOfxtumlOperation(operation).head
 	}
 	
+	def convertParameter(Parameter parameter) {
+		return engine.parameter2UmlParameter.getAllValuesOfxtumlParameter(parameter).head
+	}
+	
 	def findUmlPrimitiveType(org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType type) {
 		return engine.primitiveType2EcorePrimitiveType.getAllValuesOfumlPT(type).head
 	}
+	
 }

@@ -14,7 +14,7 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 	}
 	
 	override build() {
-		return prepareOperationCallDescriptor(operation, params) => [
+		return prepareOperationCallDescriptor(operation) => [
 			it.stringRepresentation = '''«cppOperation.cppQualifiedName»(«parameterList»)'''
 		]
 	}

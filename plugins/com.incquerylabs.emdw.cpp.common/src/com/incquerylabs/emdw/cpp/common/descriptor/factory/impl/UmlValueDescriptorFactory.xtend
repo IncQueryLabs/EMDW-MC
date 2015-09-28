@@ -31,6 +31,9 @@ import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlForeachBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlParameterDescriptorBuilder
+import com.incquerylabs.emdw.valuedescriptor.ParameterDescriptor
+import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -40,6 +43,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private Map<String, SingleVariableDescriptor> singleVariableCache
 	private Table<Type, String, LiteralDescriptor> literalCache
 	private Map<String, CollectionVariableDescriptor> collectionVariableCache
+	private Map<String, ParameterDescriptor> parameterCache
 	
 	/**
 	 * @param engine Cannot be null
@@ -63,6 +67,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		checkArgument(engine!=null)
 		this.singleVariableCache = newHashMap()
 		this.collectionVariableCache = newHashMap()
+		this.parameterCache = newHashMap()
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
@@ -237,9 +242,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 			return getCollectionVariableFromCache(localVariableName)
 		}
 		return factory.prepareCollectionVariableDescriptorForExistingVariable(xtumlCollectionType, xtumlElementType, localVariableName).cache(localVariableName)
-	}
-	
-	
+	}	
 	
 	private def SingleVariableDescriptor cache(SingleVariableDescriptor svd, String variableName) {
 		putSingleVariableIntoCache(variableName, svd)
@@ -255,9 +258,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		putCollectionVariableIntoCache(variableName, cvd)
 		return cvd
 	}
-	
-	
-	
+		
 	override createChild() {
 		return new UmlValueDescriptorFactory(this)
 	}
@@ -268,6 +269,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	
 	override createSingleVariableDescriptorBuilder() {
 		return new UmlSingleVariableDescriptorBuilder(this)
+	}
+	
+	override createParameterDescriptorBuilder() {
+		return new UmlParameterDescriptorBuilder(engine, this)
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {
@@ -331,11 +336,14 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override getCachedVariableDescriptor(String name) {
-		val cached = getSingleVariableFromCache(name)
-		if(cached!=null) {
+		var VariableDescriptor cached
+		if((cached = getSingleVariableFromCache(name)) != null) {
 			return cached;
 		}
-		return getCollectionVariableFromCache(name)
+		if((cached = getCollectionVariableFromCache(name)) != null) {
+			return cached;
+		}
+		return getParameterFromCache(name)
 	}
 	
 	
@@ -361,6 +369,8 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 			singleVariableCache.put(descriptor.stringRepresentation, descriptor)
 		}
 	}
+	
+	
 	
 	override isLiteralInCache(Type type, String literal) {
 		val inCache = literalCache.contains(type, literal)
@@ -403,6 +413,26 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		if(variableName!=descriptor.stringRepresentation) {
 			collectionVariableCache.put(descriptor.stringRepresentation, descriptor)
 		}
+	}
+	
+	override isParameterInCache(String parameterName) {
+		val inCache = parameterCache.containsKey(parameterName)
+		if(!inCache && parent != null) {
+			return parent.isParameterInCache(parameterName)
+		}
+		return inCache
+	}
+	
+	override getParameterFromCache(String parameterName) {
+		val cached = parameterCache.get(parameterName)
+		if(cached == null && parent != null) {
+			return parent.getParameterFromCache(parameterName)
+		}
+		return cached
+	}
+	
+	override putParameterIntoCache(ParameterDescriptor descriptor) {
+		parameterCache.put(descriptor.stringRepresentation, descriptor)
 	}
 	
 }

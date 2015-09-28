@@ -11,6 +11,10 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRepresentation" lowerBound="1"
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueRepresentation" lowerBound="1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pointerRepresentation"
+        lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="LiteralDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="VariableDescriptor" abstract="true"
@@ -22,4 +26,5 @@
       eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyReadDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyWriteDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ParameterDescriptor" eSuperTypes="#//VariableDescriptor"/>
 </ecore:EPackage>

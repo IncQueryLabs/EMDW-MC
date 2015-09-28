@@ -11,6 +11,7 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 	private Type elementType
 	private List<ValueDescriptor> elements
 	StringBuilder builder
+	DummyUmlValueDescriptorFactory descFactory
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
@@ -21,6 +22,7 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 			descr.baseType = collectionType.qualifiedName
 			descr.fullType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''
 		}
+		descFactory.cache.add(descr)
 		descr
 	}
 	
@@ -41,6 +43,11 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 	
 	override setStringBuilder(StringBuilder builder) {
 		this.builder = builder
+		this
+	}
+	
+	def setDescFactory(DummyUmlValueDescriptorFactory descFactory) {
+		this.descFactory = descFactory
 		this
 	}
 	

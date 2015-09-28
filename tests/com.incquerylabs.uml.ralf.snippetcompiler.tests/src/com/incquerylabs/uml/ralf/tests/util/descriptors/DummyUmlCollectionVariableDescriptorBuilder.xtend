@@ -49,6 +49,8 @@ class DummyUmlCollectionVariableDescriptorBuilder implements IUmlCollectionVaria
 	def prepareCollectionValueDescriptorForNewLocalVariable(Type collectionType, Type elementType, String localVariableName) {
 		val descr = factory.createCollectionVariableDescriptor()
 		descr.stringRepresentation = localVariableName
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		if(collectionType != null && elementType != null){
 			descr.baseType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''
 			descr.fullType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''
@@ -60,6 +62,8 @@ class DummyUmlCollectionVariableDescriptorBuilder implements IUmlCollectionVaria
 	def prepareCollectionValueDescriptorForNewLocalVariable(Type collectionType, Type elementType) {
 		val descr = factory.createCollectionVariableDescriptor()
 		descr.stringRepresentation = "temp"+descrFactory.number
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		descrFactory.number++
 		if(collectionType != null && elementType != null){
 			descr.baseType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''
@@ -72,6 +76,8 @@ class DummyUmlCollectionVariableDescriptorBuilder implements IUmlCollectionVaria
 	def prepareCollectionValueDescriptorForExistingVariable(Type collectionType, Type elementType, String localVariableName) {
 		val descr = factory.createCollectionVariableDescriptor()
 		descr.stringRepresentation = localVariableName
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		if(collectionType != null && elementType != null){
 			descr.baseType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''
 			descr.fullType = '''«collectionType.qualifiedName»<«elementType.qualifiedName»>'''

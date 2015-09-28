@@ -49,6 +49,13 @@ pattern cppOperation2Operation(
 	CPPOperation.commonOperation(cppOperation, commonOperation);
 }
 
+pattern cppFormalParameter2Parameter(
+	commonParameter : Parameter,
+	cppFormalParameter : CPPFormalParameter
+) {
+	CPPFormalParameter.commonParameter(cppFormalParameter, commonParameter);
+}
+
 pattern structuredTypeChildren(
 	parent : StructuredType,
 	child : StructuredType

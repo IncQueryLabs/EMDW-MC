@@ -52,6 +52,8 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName) {
 		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = localVariableName
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		if(type != null){
 			descr.baseType = type.qualifiedName
 			descr.fullType = type.qualifiedName
@@ -62,6 +64,8 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
 		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = "temp"+descrFactory.number
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		descrFactory.number++
 		if(type != null){
 			descr.baseType = type.qualifiedName
@@ -73,6 +77,8 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 	def prepareSingleValueDescriptorForExistingVariable(Type type, String localVariableName) {
 		val descr = factory.createSingleVariableDescriptor()
 		descr.stringRepresentation = localVariableName
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		if(type != null){
 			descr.baseType = type.qualifiedName
 			descr.fullType = type.qualifiedName

@@ -14,6 +14,7 @@ import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
 import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 import com.ericsson.xtumlrt.oopl.AssociativeCollectionKind
 import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
+import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 
 class XtumlToOoplMapper {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
@@ -50,6 +51,10 @@ class XtumlToOoplMapper {
 	
 	def convertOperation(Operation operation) {
 		return engine.cppOperation2Operation.getAllValuesOfcppOperation(operation).head
+	}
+	
+	def convertParameter(Parameter parameter) {
+		return engine.cppFormalParameter2Parameter.getAllValuesOfcppFormalParameter(parameter).head
 	}
 	
 	def findBasicType(String primitiveType) {

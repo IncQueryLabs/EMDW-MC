@@ -27,6 +27,11 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		builder.descrFactory = this
 	}
 	
+	override createParameterDescriptorBuilder() {
+		val builder = new DummyParameterBuilder
+		builder.descFactory = this
+	}
+	
 	override createPropertyWriteBuilder() {
 		new DummyPropertyWriteBuilder
 	}
@@ -76,7 +81,9 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createCollectionLiteralBuilder() {
-		new DummyCollectionLiteralDescriptorBuilder
+		val builder = new DummyCollectionLiteralDescriptorBuilder
+		builder.descFactory = this
+		
 	}
 	
 	override getCachedVariableDescriptor(String name) {

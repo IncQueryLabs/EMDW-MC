@@ -22,7 +22,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 	
 	override build() {
 		if(operation!=null) {
-			val od = prepareOperationCallDescriptor(operation, params)
+			val od = prepareOperationCallDescriptor(operation)
 			if(mapper.isHiddenByChild(operation)) {
 				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterList»)'''
 			} else {

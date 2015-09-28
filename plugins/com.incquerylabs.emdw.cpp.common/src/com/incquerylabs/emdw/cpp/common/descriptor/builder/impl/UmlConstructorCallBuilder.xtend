@@ -10,13 +10,15 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClass
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
+import org.eclipse.uml2.uml.Operation
 
 class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 	private UmlToXtumlMapper mapper
 	private IOoplConstructorCallBuilder builder
 	
 	private Type type
-	private List<Pair<Type, ValueDescriptor>> params
+	private List<Pair<Type, ? extends ValueDescriptor>> params
+	private Operation operation
 	
 	
 	
@@ -38,9 +40,11 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 					]).build
 		} else {
 			val xtClass = mapper.convertType(type) as XTClass
+			val xtOperation = if(operation != null) mapper.convertOperation(operation) else null
 			return (builder => [
 						it.redefinableElement = xtClass
 						it.parameters = parameters
+						it.operation = xtOperation
 					]).build
 		}
 	}
@@ -50,8 +54,14 @@ class UmlConstructorCallBuilder implements IUmlConstructorCallBuilder {
 		return this
 	}
 	
-	override setParameters(Pair<Type, ValueDescriptor>... params) {
+	override setParameters(Pair<Type, ? extends ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}
+	
+	override setOperation(Operation operation) {
+		this.operation = operation
+		this
+	}
+	
 }

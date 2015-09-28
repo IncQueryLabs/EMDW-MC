@@ -7,9 +7,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.incquerylabs.emdw.cpp.common.CppLiteralConverter
 import com.incquerylabs.emdw.cpp.common.TypeConverter
+import org.eclipse.emf.ecore.EObject
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.emf.ecore.EObject
 
 class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	extension TypeConverter typeConverter
@@ -85,8 +85,11 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(type!=null, "OOPLType cannot be null")
 		checkArgument(type instanceof CPPBasicType, "Literal only could be a CPPBasicType, not a(n) "+type.class.name)
 		val basicType = type as CPPBasicType
+		val convertedLiteral = converter.convertLiteral(type, literal)
 		val preparedDescriptor = factory.createLiteralDescriptor => [
-				it.stringRepresentation = converter.convertLiteral(type, literal)
+				it.stringRepresentation = convertedLiteral
+				it.valueRepresentation = convertedLiteral
+				it.pointerRepresentation = convertedLiteral
 				it.baseType = basicType.convertToType
 				it.fullType = it.baseType
 		]
@@ -136,8 +139,13 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	private def prepareSingleVariableDescriptor(EObject type, String localVariableName) {
+		
+		val variableRepresentations = localVariableName.createStringRepresentations(type)
+		
 		val preparedDescriptor = createSingleVariableDescriptor => [
 				it.stringRepresentation = localVariableName
+				it.valueRepresentation = variableRepresentations.valueRepresentation
+				it.pointerRepresentation = variableRepresentations.pointerRepresentation
 				it.baseType = type.convertToType
 				it.fullType = it.baseType
 		]

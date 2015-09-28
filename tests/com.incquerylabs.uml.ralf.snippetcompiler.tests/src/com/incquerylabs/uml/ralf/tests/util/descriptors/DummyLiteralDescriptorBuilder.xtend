@@ -23,6 +23,8 @@ class DummyLiteralDescriptorBuilder implements IUmlLiteralDescriptorBuilder{
 	override build() {
 		val descr = factory.createLiteralDescriptor()
 		descr.stringRepresentation = literal
+		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
+		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		if(type != null){
 			descr.baseType = type.qualifiedName
 			descr.fullType = type.qualifiedName

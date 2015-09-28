@@ -41,7 +41,7 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 		return ocd
 	}
 	
-	def getParameterList() {
+	def String getParameterList() {
 		val parameterDescriptors = if(params != null) params else #[]
 		
 		if(cppOperation != null){
@@ -61,7 +61,7 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 			
 			'''«FOR param : parameterStrings SEPARATOR ", "»«param»«ENDFOR»'''
 		} else {
-			'''«FOR param : parameterDescriptors SEPARATOR ", "»«param»«ENDFOR»'''
+			'''«FOR param : parameterDescriptors SEPARATOR ", "»«param.stringRepresentation»«ENDFOR»'''
 		}
 		
 	}

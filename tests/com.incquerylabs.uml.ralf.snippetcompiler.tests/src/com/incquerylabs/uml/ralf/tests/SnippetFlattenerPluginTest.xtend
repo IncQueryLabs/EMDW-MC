@@ -363,6 +363,60 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong x = new model::Comp::Pong();
 				++x->integerProperty;''',
 				"model::Comp::Pong::doIntegerVoid"
+			],
+			#[  "Flattened Assignment",
+			    '''
+			    Integer i;
+			    this.doIntegerVoid(i = 1);''',
+			    '''
+				PrimitiveTypes::Integer i;
+				PrimitiveTypes::Integer temp0 = (value{i} = value{1});
+				this.doIntegerVoid(temp0);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Flattened Assignment_property",
+			    '''
+			    Integer i;
+			    this.doIntegerVoid(this.integerProperty = 1);''',
+			    '''
+				PrimitiveTypes::Integer i;
+				PrimitiveTypes::Integer temp0 = (this->integerProperty = 1);
+				this.doIntegerVoid(temp0);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Not Flattened Shift",
+			    '''1 >> 2;''',
+			    '''value{1} >> value{2};''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Not Flattened Relational",
+			    '''1 > 2;''',
+			    '''value{1} > value{2};''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Not Flattened Equality",
+			    '''1 == 2;''',
+			    '''value{1} == value{2};''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Not Flattened Logical",
+			    '''true && false;''',
+			    '''value{true} && value{false};''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Not Flattened bitwise or",
+			    '''1 & 2;''',
+			    '''value{1} & value{2};''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Flattened Conditional test",
+			    '''
+			    this.doIntegerVoid((true || false) ? 1 : 2);''',
+			    '''
+				PrimitiveTypes::Boolean temp0 = value{true} || value{false};
+				PrimitiveTypes::Integer temp1 = (value{temp0}) ? (value{1}) : (value{2});
+				this.doIntegerVoid(temp1);''',
+				"model::Comp::Pong::TestOperation"
 			]
 		)
 	}

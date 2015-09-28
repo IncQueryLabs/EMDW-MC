@@ -13,6 +13,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''model::Comp::Pong x = new model::Comp::Pong();''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
+			#[  "UML Type Instantiation Named Tuple",
+			    '''Pong x = new Pong(parameter => 1, parameter2 => 2);''',
+				'''model::Comp::Pong x = new model::Comp::Pong(1, 2);''',
+				"model::Comp::Pong::doIntegerVoid"
+			],
 			#[  "UML Type deletion",
 			    '''
 			    Pong x = new Pong();
@@ -520,8 +525,69 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				value{i} + value{1};
 				}''',
 				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Cast Expression no flatten",
+			    '''
+			    Pong p = new Pong();
+			    (Pong2) p;''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				(model::Comp::Pong2) p;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Filter expression",
+			    '''
+			    Pong::instances().filter(p : p.integerProperty == 1);''',
+			    '''
+				::xumlrt::select_many_where< model::Comp::Pong >(model::Comp::Pong::_instances(), [&](model::Comp::Pong p) {
+							PrimitiveTypes::Integer temp1 = p->integerProperty;
+							PrimitiveTypes::Boolean temp2 = value{temp1} == value{1};
+							return temp2;
+						});''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Association access expression",
+			    '''
+			    Pong p = new Pong();
+			    p->ping;''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				::xumlrt::select_many(p->ping);''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Navigation Chain",
+			    '''
+			    Ping p = new Ping();
+			    p->pong.one().integerProperty;''',
+			    '''
+				model::Comp::Ping p = new model::Comp::Ping();
+				model::Comp::Pong temp0 = ::xumlrt::select_any(p->pong);
+				temp0->integerProperty;''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Conditional test",
+			    '''(true || false) ? 1 : 2;''',
+			    '''
+				PrimitiveTypes::Boolean temp0 = value{true} || value{false};
+				(value{temp0}) ? (value{1}) : (value{2});''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Name Expression Parameter value representation required test",
+			    '''Integer i = inParameter;''',
+			    '''PrimitiveTypes::Integer i = value{inParameter};''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Empty statement",
+			    ''';''',
+			    ''';''',
+				"model::Comp::Pong::TestOperation"
+			],
+			#[  "Return integer",
+			    '''return 1;''',
+				
+				'''return 1;''',
+				"model::Comp::Pong::returnInteger"
 			]
-			
 		)
 	}
 }

@@ -384,7 +384,10 @@ class ExpressionVisitor {
 	        default: throw new UnsupportedOperationException("Invalid feature invocation")
 	    }
 	    
-	    if((typeSystem.type(ex.context).value instanceof CollectionTypeReference) && invocationDescriptor.hasMultilineRepresentation) {
+	    if((typeSystem.type(ex.context).value instanceof CollectionTypeReference)
+	    	&& variableType != null
+	    	&& invocationDescriptor.hasMultilineRepresentation
+	    ) {
 	    	val lastLine = invocationDescriptor.cutRepresentationLastLine
 			parent.append(	'''
 							«invocationDescriptor.stringRepresentation»

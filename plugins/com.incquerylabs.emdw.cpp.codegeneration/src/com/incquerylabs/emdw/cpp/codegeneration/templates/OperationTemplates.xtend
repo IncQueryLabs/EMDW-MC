@@ -79,7 +79,7 @@ class OperationTemplates extends CPPTemplate{
 		val addTemplate = if(type instanceof CPPClassRefSimpleCollection) {
 			type.implementation.generateAdd(storage.cppName, value)
 		}
-		val addTemplateWithoutResult = addTemplate.removeLastLine
+		val addTemplateWithoutResult = '''«addTemplate.removeLastLine»;'''
 		addTemplateWithoutResult
 	}
 	

@@ -62,7 +62,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 				if(params.size == 1){
 					"generateAdd"
 				} else {
-					"generateReplaceElementAtIndex"
+					"generateInsertElementAtIndex"
 				}
 			case "addAll": "generateAddAll"
 			case "get": "generateElementAtIndex"

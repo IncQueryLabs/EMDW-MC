@@ -42,7 +42,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	override build() {
 		if(xtAssociation.upperBound == 1) {
 			var sourceToTargetWriteBuilder = createAssociationWriteDescriptor(sourceDescriptor, targetDescriptor, xtAssociation)
-			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»;'''
+			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»'''
 		} else {
 			sourceToTargetString = collectionModificationCode(xtAssociation, sourceDescriptor, targetDescriptor)
 		}
@@ -60,7 +60,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		val voidTypeString = converter.convertToType(mapper.findBasicType("void"))
 		return factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
-										«sourceToTargetString»«IF xtAssociation.opposite!=null»
+										«sourceToTargetString»«IF xtAssociation.opposite!=null»;
 										«targetToSourceString»«ENDIF»'''
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString

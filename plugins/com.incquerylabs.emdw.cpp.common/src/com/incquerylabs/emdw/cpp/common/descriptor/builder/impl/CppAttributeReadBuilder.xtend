@@ -27,10 +27,14 @@ class CppAttributeReadBuilder implements IOoplAttributeReadBuilder {
 	override build() {
 		val cppAttribute = mapper.convertAttribute(attribute)
 		val type = cppAttribute.type
+		val String stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName»'''
+		val variableRepresentations = converter.createStringRepresentations(stringRepresentation, type)
 		val svd = factory.createPropertyReadDescriptor => [
 			it.baseType = converter.convertToBaseType(type)
 			it.fullType = converter.convertToType(type)
-			it.stringRepresentation = '''«variable.stringRepresentation»->«cppAttribute.cppName»'''
+			it.stringRepresentation = stringRepresentation
+			it.pointerRepresentation = variableRepresentations.pointerRepresentation
+			it.valueRepresentation = variableRepresentations.valueRepresentation
 		]
 		if(type instanceof CPPSequence) {
 			svd.templateTypes.add(converter.convertToType(type.elementType))

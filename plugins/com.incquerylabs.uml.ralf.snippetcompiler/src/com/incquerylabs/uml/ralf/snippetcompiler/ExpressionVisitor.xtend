@@ -1008,12 +1008,12 @@ class ExpressionVisitor {
 		var ValueDescriptor tempDescriptor
 		switch(ex){
 			SignalDataExpression: {
-				(descriptorFactory.createSigdataDescriptorBuilder => [
+				tempDescriptor = (descriptorFactory.createSigdataDescriptorBuilder => [
 					type = typeSystem.type(ex).value.umlType
 				]).build
 			}
 			ThisExpression: {
-				ex.descriptor
+				tempDescriptor = ex.descriptor
 			}
 			LiteralExpression: {
 				tempDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
@@ -1025,5 +1025,9 @@ class ExpressionVisitor {
 				tempDescriptor = descriptorFactory.getCachedVariableDescriptor(string)
 			}
 		}
+		if(tempDescriptor==null) {
+			throw new IllegalArgumentException('''There is no cached descriptor for «string» (expression type: «ex.class.name»)!''')
+		}
+		return tempDescriptor
 	}
 }

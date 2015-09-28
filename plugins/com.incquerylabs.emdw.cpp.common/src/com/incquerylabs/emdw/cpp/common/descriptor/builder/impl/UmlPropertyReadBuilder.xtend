@@ -1,23 +1,27 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuilder
-import org.eclipse.uml2.uml.Property
-import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeReadBuilder
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAssociationReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
+import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.uml2.uml.Property
 
 class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 	private UmlToXtumlMapper mapper
 	private IOoplAttributeReadBuilder attributeBuilder
 	private IOoplAssociationReadBuilder associationBuilder
+	private UmlValueDescriptorFactory factory
 	
 	private ValueDescriptor variable
 	private Property property
 	
 	
-	new(AdvancedIncQueryEngine engine) {
+	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
+		this.factory = factory
 		mapper = new UmlToXtumlMapper(engine)
 		attributeBuilder = new CppAttributeReadBuilder(engine)
 		associationBuilder = new CppAssociationReadBuilder(engine)
@@ -25,18 +29,22 @@ class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 	
 	
 	override build() {
+		var PropertyReadDescriptor descriptor
 		val xtUmlAttribute = mapper.convertPropertyToAttribute(property)
 		if(xtUmlAttribute!=null) {
-			return (attributeBuilder => [
+			descriptor = (attributeBuilder => [
 						it.variable = variable
 						it.attribute = xtUmlAttribute
 					]).build
+		} else {
+			val xtUmlAssociation = mapper.convertPropertyToAssociation(property)
+			descriptor = (associationBuilder => [
+						it.variable = variable
+						it.association = xtUmlAssociation
+					]).build
 		}
-		val xtUmlAssociation = mapper.convertPropertyToAssociation(property)
-		return (associationBuilder => [
-					it.variable = variable
-					it.association = xtUmlAssociation
-				]).build
+		factory.putPropertyReadIntoCache(descriptor.stringRepresentation, descriptor)
+		return descriptor
 		
 	}
 	

@@ -77,7 +77,7 @@ class OperationTemplates extends CPPTemplate{
 	def String generateAddTemplate(CPPClassReferenceStorage storage, String value) {
 		var type = storage.type
 		if(type instanceof CPPClassRefSimpleCollection) {
-			return type.implementation.generateAdd(storage.cppName, value, "result")
+			return type.implementation.generateAdd(storage.cppName, value)
 		}
 	}
 	

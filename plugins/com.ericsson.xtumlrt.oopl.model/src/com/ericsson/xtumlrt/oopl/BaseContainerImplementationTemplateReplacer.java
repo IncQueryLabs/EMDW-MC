@@ -24,12 +24,11 @@ public class BaseContainerImplementationTemplateReplacer {
      * 
      **************************************************/
     
-    public static String generateAdd(BaseContainerImplementation impl, String collection, String value, String result) {
+    public static String generateAdd(BaseContainerImplementation impl, String collection, String value) {
         String template = impl.getAddTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
         map.put("$value$", value);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
@@ -48,40 +47,36 @@ public class BaseContainerImplementationTemplateReplacer {
         return generateTemplate(template, map.build());
     }
     
-    public static String generateClone(BaseContainerImplementation impl, String collection, String valueType, String result) {
+    public static String generateClone(BaseContainerImplementation impl, String collection, String valueType) {
         String template = impl.getCloneTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
         map.put("$valueType$", valueType);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
-    public static String generateContains(BaseContainerImplementation impl, String collection, String value, String result) {
+    public static String generateContains(BaseContainerImplementation impl, String collection, String value) {
         String template = impl.getContainsTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
         map.put("$value$", value);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
-    public static String generateContainsAll(BaseContainerImplementation impl, String collection, String values, String valuesType, String valueType, String result) {
+    public static String generateContainsAll(BaseContainerImplementation impl, String collection, String values, String valuesType, String valueType) {
         String template = impl.getContainsAllTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
         map.put("$values$", values);
         map.put("$valuesType$", valuesType);
         map.put("$valueType$", valueType);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
-    public static String generateIsEmpty(BaseContainerImplementation impl, String collection, String result) {
+    public static String generateIsEmpty(BaseContainerImplementation impl, String collection) {
         String template = impl.getIsEmptyTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
@@ -112,22 +107,21 @@ public class BaseContainerImplementationTemplateReplacer {
         return generateTemplate(template, map.build());
     }
     
-    public static String generateSize(BaseContainerImplementation impl, String collection, String result) {
+    public static String generateSize(BaseContainerImplementation impl, String collection) {
         String template = impl.getSizeTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
     
     
-    public static String generateAdd(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToAdd, SingleVariableDescriptor result) {
-        return generateAdd(impl, context.getStringRepresentation(), itemToAdd.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateAdd(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToAdd) {
+        return generateAdd(impl, context.getStringRepresentation(), itemToAdd.getStringRepresentation());
     }
     
-    public static String generateAdd(BaseContainerImplementation impl, CollectionVariableDescriptor context, LiteralDescriptor itemToAdd, SingleVariableDescriptor result) {
-        return generateAdd(impl, context.getStringRepresentation(), itemToAdd.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateAdd(BaseContainerImplementation impl, CollectionVariableDescriptor context, LiteralDescriptor itemToAdd) {
+        return generateAdd(impl, context.getStringRepresentation(), itemToAdd.getStringRepresentation());
     }
     
     public static String generateAddAll(BaseContainerImplementation impl, CollectionVariableDescriptor context, CollectionVariableDescriptor values) {
@@ -138,22 +132,22 @@ public class BaseContainerImplementationTemplateReplacer {
         return generateClear(impl, context.getStringRepresentation());
     }
     
-    public static String generateClone(BaseContainerImplementation impl, CollectionVariableDescriptor context, CollectionVariableDescriptor result) {
-        return generateClone(impl, context.getStringRepresentation(), result.getTemplateTypes().get(0), result.getStringRepresentation());
+    public static String generateClone(BaseContainerImplementation impl, CollectionVariableDescriptor context) {
+        return generateClone(impl, context.getStringRepresentation(), context.getTemplateTypes().get(0));
     }
     
-    public static String generateContains(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToContain, SingleVariableDescriptor result) {
-        return generateContains(impl, context.getStringRepresentation(), itemToContain.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateContains(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToContain) {
+        return generateContains(impl, context.getStringRepresentation(), itemToContain.getStringRepresentation());
     }
     
-    public static String generateContainsAll(BaseContainerImplementation impl, CollectionVariableDescriptor context, CollectionVariableDescriptor itemsToContain, SingleVariableDescriptor result) {
+    public static String generateContainsAll(BaseContainerImplementation impl, CollectionVariableDescriptor context, CollectionVariableDescriptor itemsToContain) {
         return generateContainsAll(impl, context.getStringRepresentation(), itemsToContain.getStringRepresentation(), 
                     itemsToContain.getBaseType(), 
-                    itemsToContain.getTemplateTypes().get(0), result.getStringRepresentation());
+                    itemsToContain.getTemplateTypes().get(0));
     }
     
-    public static String generateIsEmpty(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor result) {
-        return generateIsEmpty(impl, context.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateIsEmpty(BaseContainerImplementation impl, CollectionVariableDescriptor context) {
+        return generateIsEmpty(impl, context.getStringRepresentation());
     }
     
     public static String generateRemove(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToRemove) {
@@ -170,7 +164,7 @@ public class BaseContainerImplementationTemplateReplacer {
         return generateRetainAll(impl, context.getStringRepresentation(), itemsToRetain.getStringRepresentation(), context.getTemplateTypes().get(0));
     }
     
-    public static String generateSize(BaseContainerImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor result) {
-        return generateSize(impl, context.getStringRepresentation(), result.getStringRepresentation());
+    public static String generateSize(BaseContainerImplementation impl, CollectionVariableDescriptor context) {
+        return generateSize(impl, context.getStringRepresentation());
     }
 }

@@ -11,9 +11,7 @@ import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
-import org.eclipse.uml2.uml.Type
 
 class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -88,8 +86,6 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	}
 	
 	def collectionModificationCode(XTAssociation xtAssociation, ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor) {
-		val resultDescriptor = umlFactory.prepareSingleVariableDescriptorForNewLocalVariable(umlMapper.findUmlPrimitiveType(mapper.findBasicType("bool").commonType as PrimitiveType) as Type)
-		
 		val rel = mapper.convertAssociation(xtAssociation)
 		val cvd = createCollectionDescriptorForAssociation(xtAssociation)
 		val initCVD = '''«cvd.fullType» «cvd.stringRepresentation» = «createAssociationReadDescriptor(sourceDescriptor, xtAssociation).stringRepresentation»'''
@@ -102,8 +98,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		} else {
 			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
 					cvd, 
-					targetDescriptor as SingleVariableDescriptor, 
-					resultDescriptor
+					targetDescriptor as SingleVariableDescriptor
 			)
 		}
 		return	'''

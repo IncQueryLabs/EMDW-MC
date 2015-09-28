@@ -36,13 +36,15 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 			it.variable = variable
 			it.parameters = params
 		]
-		val dataType = operation.eContainer as DataType
-		if(dataType!=null && collections.contains(dataType.qualifiedName)) {
-			return builder.setOperationName(operation.name).setCollectionType(mapper.decodeCollectionType(dataType)).build
-		} else {
-			val xtOperation = mapper.convertOperation(operation)
-			return builder.setOperation(xtOperation).build
+		val dataType = operation.eContainer
+		if(dataType instanceof DataType) {
+			if(collections.contains(dataType.qualifiedName)) {
+				return builder.setOperationName(operation.name).setCollectionType(mapper.decodeCollectionType(dataType)).build
+			}
 		}
+		
+		val xtOperation = mapper.convertOperation(operation)
+		return builder.setOperation(xtOperation).build
 	}
 	
 	override setVariable(ValueDescriptor variable) {

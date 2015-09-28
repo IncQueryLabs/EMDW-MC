@@ -57,8 +57,8 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
-				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__2____std__list = __ralf__0__service->R6_call;
-				__ralf__2____std__list.remove(this);
+				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__1____std__list = __ralf__0__service->R6_call;
+				__ralf__1____std__list.remove(this);
 				this->R6_service = NULL;'''
 			],
 			#[  "Link expression collection test",
@@ -72,9 +72,9 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
 				this->R6_service = __ralf__0__service;
-				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__2____std__list = __ralf__0__service->R6_call;
-				__ralf__2____std__list.push_back(this);
-				bool __ralf__1__bool = true;'''
+				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__1____std__list = __ralf__0__service->R6_call;
+				__ralf__1____std__list.push_back(this);
+				bool __ralf__2__bool = true;'''
 			]
 		)
 	}

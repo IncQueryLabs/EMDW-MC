@@ -24,17 +24,20 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		if(operation!=null) {
 			val od = prepareOperationCallDescriptor(operation)
 			if(mapper.isHiddenByChild(operation)) {
-				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterList»)'''
+				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterString»)'''
 			} else {
-				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterList»)'''
+				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterString»)'''
 			}
 			return od
 		} else {
 			val sequenceImplementation = mapper.findSequenceCollectionImplementation(collectionType)
 			val eOperationName = operationName.eoperationName
 			val op = sequenceImplementation.getEoperation(eOperationName)
-			val paramsList = ECollections.asEList(newArrayList(variable.stringRepresentation, parameterList, ""))
-			val operationCode = sequenceImplementation.eInvoke(op, paramsList)
+			val paramList = <String>newArrayList(variable.stringRepresentation)
+			paramList += parameterList
+			paramList += ""
+			val paramsEList = ECollections.asEList(paramList)
+			val operationCode = sequenceImplementation.eInvoke(op, paramsEList)
 			val returnValue = converter.convertToType(mapper.findBasicType("bool"))
 			val ocd = factory.createOperationCallDescriptor => [
 				it.baseType = returnValue
@@ -59,7 +62,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 				if(params.size == 1){
 					"generateAdd"
 				} else {
-					"generateInsertElementAtIndex"
+					"generateReplaceElementAtIndex"
 				}
 			case "addAll": "generateAddAll"
 			case "get": "generateElementAtIndex"

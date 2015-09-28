@@ -12,7 +12,11 @@ import org.eclipse.uml2.uml.DataType
 class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	private UmlToXtumlMapper mapper
 	private IOoplOperationCallBuilder builder
-	private static final val collections = newArrayList("std::collections::Set")
+	private static final val collections = newArrayList(
+		"std::collections::Set",
+		"std::collections::Sequence",
+		"std::collections::Bag",
+		"std::collections::Collection")
 	
 	private ValueDescriptor variable
 	private Operation operation

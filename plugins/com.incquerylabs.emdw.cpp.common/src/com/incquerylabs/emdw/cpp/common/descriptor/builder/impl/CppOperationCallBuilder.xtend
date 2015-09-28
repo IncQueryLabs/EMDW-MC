@@ -5,6 +5,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.emf.common.util.ECollections
+import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
 
 class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
 	
@@ -30,10 +31,8 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 			return od
 		} else {
 			val sequenceImplementation = mapper.findSequenceCollectionImplementation(collectionType)
-			val op = sequenceImplementation.eClass.EAllOperations.findFirst[eop |
-				val retValue = eop.name.toLowerCase.equals('''generate«operationName.toLowerCase»'''.toString)
-				return retValue
-			]
+			val eOperationName = operationName.eoperationName
+			val op = sequenceImplementation.getEoperation(eOperationName)
 			val paramsList = ECollections.asEList(newArrayList(variable.stringRepresentation, parameterList, ""))
 			val operationCode = sequenceImplementation.eInvoke(op, paramsList)
 			val returnValue = converter.convertToType(mapper.findBasicType("bool"))
@@ -43,6 +42,27 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 				it.stringRepresentation = '''«operationCode»'''
 			]
 			return ocd
+		}
+	}
+	
+	private def getEoperation(BaseContainerImplementation containerImplementation, String eOperationName) {
+		containerImplementation.eClass.EAllOperations.findFirst[eop |
+			eop.name.toLowerCase.equals(eOperationName.toLowerCase)
+		]
+	}
+	
+	private def getEoperationName(String operationName){
+		switch(operationName) {
+			case "isEmpty" : "generateIsEmpty"
+			case "size": "generateSize" 
+			case "add": 
+				if(params.size == 1){
+					"generateAdd"
+				} else {
+					"generateInsertElementAtIndex"
+				}
+			case "addAll": "generateAddAll"
+			case "get": "generateElementAtIndex"
 		}
 	}
 	

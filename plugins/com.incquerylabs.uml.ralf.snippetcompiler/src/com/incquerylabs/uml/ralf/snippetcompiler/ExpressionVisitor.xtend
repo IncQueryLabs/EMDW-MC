@@ -915,10 +915,16 @@ class ExpressionVisitor {
 	}
 	
 	private def isCollection(Type variableType){
-		if(variableType != null && variableType.equals(context.getCollectionType(CollectionType.SET))){
-			true
+		if(variableType == null){
+			return false
+		}
+		if( variableType.equals(context.getCollectionType(CollectionType.SET)) ||
+			variableType.equals(context.getCollectionType(CollectionType.BAG)) ||
+			variableType.equals(context.getCollectionType(CollectionType.SEQUENCE))
+		){
+			return true
 		}else{
-			false
+			return false
 		}
 		
 	}

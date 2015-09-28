@@ -1,8 +1,13 @@
 package com.incquerylabs.emdw.cpp.common
 
+import com.ericsson.xtumlrt.oopl.OOPLClassRefAssocCollectionImplementation
+import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.OOPLDataType
+import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
+import com.ericsson.xtumlrt.oopl.OOPLType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPBasicType
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassReference
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEnumType
@@ -14,11 +19,6 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Type
-import com.ericsson.xtumlrt.oopl.OOPLType
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefAssocCollection
-import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
-import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 
 class TypeConverter {
 	
@@ -133,6 +133,10 @@ class TypeConverter {
 		return collection.containerQualifiedName
 	}
 	
+	def dispatch String convertToBaseType(OOPLClassRefAssocCollectionImplementation collection) {
+		return collection.containerQualifiedName
+	}
+	
 	def dispatch String convertToBaseType(OOPLSequenceImplementation collection) {
 		return collection.containerQualifiedName
 	}
@@ -153,13 +157,14 @@ class TypeConverter {
 		}
 	}
 	
-	def isReferenceType(EObject type) {
+	def boolean isReferenceType(EObject type) {
 		switch type {
 			CPPEvent : true
 			CPPClass : true
 			CPPClassReference : true
 			CPPFormalParameter case CPPParameterPassingKind.BY_REFERENCE : true
 			CPPFormalParameter case CPPParameterPassingKind.BY_CONSTANT_REFERENCE : true
+			CPPReturnValue : type.type.isReferenceType
 			default : false
 		}
 	}

@@ -452,16 +452,15 @@ class ExpressionVisitor {
 		    val rhsString = ex.rightHandSide.visit(parent)
 		    
 		    val lhsRep = ex.leftHandSide.getProperRepresentation(lhsString)
-		    val rhsRep = ex.rightHandSide.getProperRepresentation(rhsString)
 		    
 		    if(ex.isFlatteningNeeded){
 		    	val descriptor = createNewVariableDescriptor(ex, variableType)
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsRep» «ex.operator» «rhsRep»);
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsRep» «ex.operator» «rhsString»);
 				''')
 			
 				descriptor.stringRepresentation
 			}else{
-				'''«lhsRep» «ex.operator» «rhsRep»'''	
+				'''«lhsRep» «ex.operator» «rhsString»'''	
 			}
 		}
 	}
@@ -773,6 +772,9 @@ class ExpressionVisitor {
 					BlockStatement : return false
 					default: return true
 				}
+			}
+			AssignmentExpression: {
+				return !(ex instanceof FeatureInvocationExpression)
 			}
 			default: {
 				return true

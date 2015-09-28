@@ -139,6 +139,7 @@ class SnippetTemplateCompilerUtil {
 				name = collection.name
 				collectionType = context.getCollectionType(collection.collectionType)
 				elementType = collection.type.type
+				isExistingVariable = true
 			]).build
 		}else if(ex.reference instanceof Variable){
 			val variable = ex.reference as Variable

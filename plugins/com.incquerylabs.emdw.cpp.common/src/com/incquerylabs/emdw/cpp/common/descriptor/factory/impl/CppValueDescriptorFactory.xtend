@@ -153,8 +153,11 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	private def prepareCollectionVariableDescriptor(BaseContainerImplementation collectionType, EObject elementType, String localVariableName) {
+		val variableRepresentations = localVariableName.createStringRepresentations(collectionType)
 		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
+				it.valueRepresentation = variableRepresentations.valueRepresentation
+				it.pointerRepresentation = variableRepresentations.pointerRepresentation
 				it.baseType = collectionType.convertToBaseType
 				it.templateTypes.add(elementType.convertToType)
 				it.fullType = getFullType(baseType, templateTypes)

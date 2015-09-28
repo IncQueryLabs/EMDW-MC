@@ -79,6 +79,12 @@ pattern ooplClassReferenceSimpleCollectionImplementations(
 	OOPLClassRefSimpleCollectionImplementation(implementation);
 }
 
+pattern ooplClassReferenceAssocCollectionImplementations(
+	implementation : OOPLClassRefAssocCollectionImplementation
+) {
+	OOPLClassRefAssocCollectionImplementation(implementation);
+}
+
 pattern ooplSequenceImplementations(
 	implementation : OOPLSequenceImplementation
 ) {

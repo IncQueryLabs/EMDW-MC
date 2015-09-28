@@ -34,13 +34,10 @@ class UmlToXtumlMapper {
 	
 	def decodeCollectionType(Type collectionType) {
 		switch collectionType.qualifiedName {
-		case "std::collections::Set": {
-			return "::std::set"
+			case "std::collections::Set": "set"
+			case "std::collections::Bag": "bag"
+			default: "sequence"
 		}
-		default: {
-			return "::std::list"
-		}
-	}
 	}
 	
 	/**

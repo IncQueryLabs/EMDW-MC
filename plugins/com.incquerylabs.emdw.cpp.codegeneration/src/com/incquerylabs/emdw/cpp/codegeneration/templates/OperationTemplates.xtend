@@ -76,9 +76,21 @@ class OperationTemplates extends CPPTemplate{
 	
 	def String generateAddTemplate(CPPClassReferenceStorage storage, String value) {
 		var type = storage.type
-		if(type instanceof CPPClassRefSimpleCollection) {
-			return type.implementation.generateAdd(storage.cppName, value)
+		val addTemplate = if(type instanceof CPPClassRefSimpleCollection) {
+			type.implementation.generateAdd(storage.cppName, value)
 		}
+		val addTemplateWithoutResult = addTemplate.removeLastLine
+		addTemplateWithoutResult
+	}
+	
+	def String removeLastLine(String string) {
+		val lines = string.split('\n')
+		var result = lines.take(lines.length-1)
+		'''
+		«FOR line : result»
+			«line»
+		«ENDFOR»
+		'''
 	}
 	
 	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {

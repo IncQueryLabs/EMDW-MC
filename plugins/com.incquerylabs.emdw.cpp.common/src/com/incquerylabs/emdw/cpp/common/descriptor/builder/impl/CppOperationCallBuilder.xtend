@@ -1,12 +1,13 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.eclipse.emf.common.util.ECollections
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
-import org.eclipse.emf.common.util.ECollections
-import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 
 class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
 	
@@ -31,6 +32,13 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 			} else {
 				od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppName»(«parameterString»)'''
 			}
+			
+			val returnValue = cppOperation.subElements.filter(CPPReturnValue).head
+			val convertedRepresentations = od.stringRepresentation.createStringRepresentations(returnValue)
+			
+			od.valueRepresentation = convertedRepresentations.valueRepresentation
+			od.pointerRepresentation = convertedRepresentations.pointerRepresentation
+			
 			return od
 		} else {
 			val sequenceImplementation = mapper.findSequenceCollectionImplementation(collectionType)

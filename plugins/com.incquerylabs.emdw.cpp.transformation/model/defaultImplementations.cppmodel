@@ -24,7 +24,7 @@
     <containerHeaderIncludes>&lt;algorithm></containerHeaderIncludes>
   </oopl:OOPLSequenceImplementation>
   <oopl:OOPLSequenceImplementation anyTemplate="*$collection$.begin()"
-	addTemplate="::std::pair&lt; ::std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;result.second"
+	addTemplate="::std::pair&lt; ::std::set&lt; $valueType$>, bool> result = $collection$.insert($value$);&#xD;&#xA;result.second"
 	addAllTemplate="$collection$.insert($values$.begin(), $values$.end());"
 	clearTemplate="$collection$.clear();"
 	cloneTemplate="::std::set&lt; $valueType$> $result$($collection$);"
@@ -154,7 +154,7 @@
     <containerHeaderIncludes>&lt;iterator></containerHeaderIncludes>
   </oopl:OOPLClassRefSimpleCollectionImplementation>
   <oopl:OOPLClassRefAssocCollectionImplementation anyTemplate="*$collection$.begin()"
-	addTemplate="::std::pair&lt; ::std::_Rb_tree_const_iterator&lt; int>, bool> result = $collection$.insert($value$);&#xD;&#xA;result.second"
+	addTemplate="::std::pair&lt; ::std::set&lt; $valueType$>, bool> result = $collection$.insert($value$);&#xD;&#xA;result.second"
 	addAllTemplate="$collection$.insert($values$.begin(), $values$.end());&#xD;&#xA;true"
 	clearTemplate="$collection$.clear();"
 	cloneTemplate="::std::set&lt; $valueType$> $result$($collection$);"

@@ -391,7 +391,7 @@ class ExpressionVisitor {
 	    	val lastLine = invocationDescriptor.cutRepresentationLastLine
 			parent.append(	'''
 							«invocationDescriptor.stringRepresentation»
-							«descriptor.fullType» «descriptor.stringRepresentation» = «lastLine»
+							«descriptor.fullType» «descriptor.stringRepresentation» = «lastLine»;
 	    					''')
 	    	descriptor.stringRepresentation
 	    } else if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){

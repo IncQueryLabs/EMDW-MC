@@ -29,7 +29,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
 		this.factory = factory
 		mapper = new UmlToXtumlMapper(engine)
-		builder = new CppOperationCallBuilder(engine)
+		builder = new CppOperationCallBuilder(factory.factory.factory, engine)
 	}
 	
 	

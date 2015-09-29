@@ -6,6 +6,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.emf.common.util.ECollections
 import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 
 class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder implements IOoplOperationCallBuilder {
 	
@@ -13,10 +14,12 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 	private Operation operation
 	private String collectionType
 	private String operationName
+	private CppValueDescriptorFactory cvdfactory
 	
 	
-	new(AdvancedIncQueryEngine engine) {
+	new(CppValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
 		super(engine)
+		this.cvdfactory = factory
 	}
 	
 	
@@ -69,7 +72,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 	
 	private def getParameters(String eoperationName) {
 		// TODO: generate unique prefix
-		val variablePrefix = "__dummy_prefix_"
+		val variablePrefix = cvdfactory.nextPrefix
 		val valueType = this.variable.templateTypes.head ?: ""
 		
 		val remainingPramas = switch(eoperationName) {

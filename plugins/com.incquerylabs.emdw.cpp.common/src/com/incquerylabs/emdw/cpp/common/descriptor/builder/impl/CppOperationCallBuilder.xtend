@@ -33,9 +33,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 			val sequenceImplementation = mapper.findSequenceCollectionImplementation(collectionType)
 			val eOperationName = operationName.eoperationName
 			val op = sequenceImplementation.getEoperation(eOperationName)
-			val paramList = <String>newArrayList(variable.stringRepresentation)
-			paramList += parameterList
-			paramList += ""
+			val paramList = eOperationName.parameters
 			val paramsEList = ECollections.asEList(paramList)
 			val operationCode = sequenceImplementation.eInvoke(op, paramsEList)
 			val returnValue = converter.convertToType(mapper.findBasicType("bool"))
@@ -54,7 +52,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		]
 	}
 	
-	private def getEoperationName(String operationName){
+	private def getEoperationName(String operationName) {
 		switch(operationName) {
 			case "isEmpty" : "generateIsEmpty"
 			case "size": "generateSize" 
@@ -67,6 +65,27 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 			case "addAll": "generateAddAll"
 			case "get": "generateElementAtIndex"
 		}
+	}
+	
+	private def getParameters(String eoperationName) {
+		// TODO: generate unique prefix
+		val variablePrefix = "__dummy_prefix_"
+		val valueType = this.variable.templateTypes.head ?: ""
+		
+		val remainingPramas = switch(eoperationName) {
+			case "generateIsEmpty" : #[]
+			case "generateSize" : #[]
+			case "generateAdd" : #[valueType]
+			case "generateInsertElementAtIndex" : #[valueType]
+			case "generateAddAll" : #[]
+			case "generateElementAtIndex" : #[valueType]
+			default : #[]
+		}
+		val paramList = <String>newArrayList(variablePrefix, variable.stringRepresentation)
+		paramList += getParameterList()
+		paramList += remainingPramas
+		
+		paramList
 	}
 	
 	override setVariable(ValueDescriptor variable) {

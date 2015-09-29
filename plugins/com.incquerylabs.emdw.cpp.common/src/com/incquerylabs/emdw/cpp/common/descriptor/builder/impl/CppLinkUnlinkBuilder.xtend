@@ -92,11 +92,15 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		var String operationD
 		if(isUnlink) {
 			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
+					// TODO: generate unique prefix
+					"",
 					cvd, 
 					targetDescriptor as SingleVariableDescriptor
 			)
 		} else {
 			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
+					// TODO: generate unique prefix
+					"",
 					cvd, 
 					targetDescriptor as SingleVariableDescriptor
 			)

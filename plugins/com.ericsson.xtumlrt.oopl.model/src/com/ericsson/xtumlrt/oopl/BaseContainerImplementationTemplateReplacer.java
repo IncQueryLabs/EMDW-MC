@@ -30,6 +30,7 @@ public class BaseContainerImplementationTemplateReplacer {
         map.put("$collection$", collection);
         map.put("$prefix$", prefix);
         map.put("$value$", value);
+        map.put("$valueType$", valueType);
         return generateTemplate(template, map.build());
     }
     

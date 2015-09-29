@@ -74,6 +74,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
 			it.stringRepresentation = "nullptr"
+			it.pointerRepresentation = "nullptr"
 		]
 		return ((new CppAssociationWriteBuilder(engine)) => [
 				var newTargetDescriptor = targetDescriptor

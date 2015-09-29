@@ -465,6 +465,28 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				p.doIntegerMultiple(std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 });''',
 				"sendPong"
 			],
+			#[  "Collection operation call named",
+			    '''
+			    Pong p = new Pong();
+			    p.doIntegerMultiple(parameter => Set<Integer>{1, 2, 3});
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				p.doIntegerMultiple(std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 });''',
+				"sendPong"
+			],
+			#[  "Collection operation call named2",
+			    '''
+			    Pong p = new Pong();
+			    Set<Integer> s = Set<Integer>{1, 2, 3};
+			    p.doIntegerMultiple(parameter => s);
+			    ''',
+			    '''
+				model::Comp::Pong p = new model::Comp::Pong();
+				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
+				p.doIntegerMultiple(s);''',
+				"sendPong"
+			],
 			#[  "Collection operation call, property access",
 			    '''
 			    Pong p = new Pong();

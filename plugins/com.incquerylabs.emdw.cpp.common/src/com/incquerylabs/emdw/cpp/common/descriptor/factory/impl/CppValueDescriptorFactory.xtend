@@ -100,6 +100,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
+		index++
 		return preparedDescriptor
 	}
 	
@@ -107,6 +108,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
+		index++
 		return preparedDescriptor
 	}
 	
@@ -114,6 +116,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, collectionType.containerQualifiedName.escapeName.qualifiedName)
+		index++
 		return preparedDescriptor
 	}
 	
@@ -121,6 +124,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, collectionType.containerQualifiedName.escapeName.qualifiedName)
+		index++
 		return preparedDescriptor
 	}
 	
@@ -128,6 +132,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
+		index++
 		return preparedDescriptor
 	}
 	
@@ -135,6 +140,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
+		index++
 		return preparedDescriptor
 	}
 	

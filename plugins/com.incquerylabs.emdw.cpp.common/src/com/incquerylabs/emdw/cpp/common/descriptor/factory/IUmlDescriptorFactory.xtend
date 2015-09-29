@@ -11,14 +11,14 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlInstancesBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLinkUnlinkBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlParameterDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyWriteBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSendSignalBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSigdataDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
-import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlParameterDescriptorBuilder
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
@@ -59,5 +59,5 @@ interface IUmlDescriptorFactory {
 	
 	def IUmlSendSignalBuilder createSendSignalBuilder()
 	
-	def VariableDescriptor getCachedVariableDescriptor(String name)
+	def ValueDescriptor getCachedVariableDescriptor(String name)
 }

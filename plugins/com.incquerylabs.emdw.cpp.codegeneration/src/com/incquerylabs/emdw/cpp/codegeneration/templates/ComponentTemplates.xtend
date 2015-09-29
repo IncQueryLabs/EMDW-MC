@@ -142,6 +142,11 @@ class ComponentTemplates extends CPPTemplate {
 		
 		«cppComponent.mainBodyFile.inclusions»
 		
+		«cppComponent.cppQualifiedName»::«cppComponent.cppName»* «cppComponent.cppQualifiedName»::«cppComponent.cppName»::get_instance() {
+			static «cppComponent.cppQualifiedName»::«cppComponent.cppName»* instance = new «cppComponent.cppQualifiedName»::«cppComponent.cppName»();
+			return instance;
+		}
+		
 		'''
 	}
 	
@@ -151,7 +156,7 @@ class ComponentTemplates extends CPPTemplate {
 «««		TODO: Generate component code from cppmodel 
 		public:
 			«cppComponent.cppName»(){}
-			
+			static «cppComponent.cppName»* get_instance();
 		private:
 			«cppComponent.cppName»(const «cppComponent.cppName»&);
 			«cppComponent.cppName»& operator=(const «cppComponent.cppName»&);

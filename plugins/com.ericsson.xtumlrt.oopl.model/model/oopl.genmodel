@@ -96,235 +96,254 @@
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLUserDefinedType/baseType"/>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//BaseContainerImplementation">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/anyTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/addTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/addAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/clearTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/cloneTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containsTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containsAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/countOfTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/elementAtIndexTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/insertElementAtIndexTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/isEmptyTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/removeTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/removeAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/retainAllTemplate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/sizeTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/anyTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/addTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/addAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/clearTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/cloneTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containsTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containsAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/countOfTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/elementAtIndexTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/insertElementAtIndexTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/isEmptyTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/removeTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/removeAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/replaceElementAtIndexTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/retainAllTemplate"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/sizeTemplate"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containerQualifiedName"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containerHeaderIncludes"/>
+      <genFeatures createChild="false" propertyMultiLine="true" ecoreFeature="ecore:EAttribute oopl.ecore#//BaseContainerImplementation/containerHeaderIncludes"/>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateAdd">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd/value"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd/result"/>
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd/valueType"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateAddAll">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll/values"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateClear">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClear/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClear/collection"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateClone">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateContains">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains/value"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateContainsAll">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll/values"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll/valuesType"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateIsEmpty">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty/collection"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRemove">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove/value"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRemoveAll">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll/values"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll/valuesType"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll/valueType"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRetainAll">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll/values"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll/valueType"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateSize">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize/collection"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateAdd.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/itemToAdd"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAdd.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateAddAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateAddAll.1/itemsToAdd"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateClear.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClear.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClear.1/context"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateClone.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateClone.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateContains.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/itemToContain"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContains.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/itemsToContain"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateContainsAll.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateIsEmpty.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRemove.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemove.1/itemToRemove"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRemoveAll.1/itemsToRemove"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateRetainAll.1/itemsToRetainAll"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//BaseContainerImplementation/generateSize.1">
+        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//BaseContainerImplementation/generateSize.1/result"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassRefAssocCollectionImplementation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefAssocCollectionImplementation/kind"/>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf/value"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateAny.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/itemToCount"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefAssocCollectionImplementation/generateCountOf.1/result"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/kind"/>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex/valueType"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex/index"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex/result"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex/valueType"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/collection"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/index"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/value"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/collection"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/index"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/value"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/index"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateElementAtIndex.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/itemToInsert"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/index"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateInsertElementAtIndex.1/itemToInsert"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/itemToReplace"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/index"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLClassRefSimpleCollectionImplementation/generateReplaceElementAtIndex.1/itemToReplace"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLSequenceImplementation">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLSequenceImplementation/uniqueness"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLSequenceImplementation/orderedness"/>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateAny">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateCountOf">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf/collection"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf/value"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex/collection"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex/valueType"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex/index"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex/result"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex/valueType"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex/collection"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex/index"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex/value"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/collection"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/index"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/value"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/valueType"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex/index"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateAny.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateAny.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/itemToCount"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateCountOf.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/context"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/index"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateElementAtIndex.1/result"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/itemToInsert"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/index"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateInsertElementAtIndex.1/itemToInsert"/>
       </genOperations>
       <genOperations ecoreOperation="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1">
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/prefix"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/context"/>
-        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/itemToReplace"/>
         <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/index"/>
+        <genParameters ecoreParameter="oopl.ecore#//OOPLSequenceImplementation/generateReplaceElementAtIndex.1/itemToReplace"/>
       </genOperations>
     </genClasses>
     <genClasses ecoreClass="oopl.ecore#//OOPLType"/>

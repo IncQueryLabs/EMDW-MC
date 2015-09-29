@@ -30,8 +30,8 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = ::xumlrt::select_any(this->R3_called);
-				this->R3_called = NULL;
-				__ralf__0__cd->R3_call = NULL;'''
+				this->R3_called = nullptr;
+				__ralf__0__cd->R3_call = nullptr;'''
 			],
 			#[  "Link expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",

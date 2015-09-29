@@ -11,9 +11,8 @@ import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.papyrusrt.xtumlrt.common.PrimitiveType
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
-import org.eclipse.uml2.uml.Type
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 
 class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -22,7 +21,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	private XtumlToOoplMapper mapper
 	private UmlToXtumlMapper umlMapper
 	private TypeConverter converter
-	private UmlValueDescriptorFactory umlFactory
+	private CppValueDescriptorFactory cppFactory
 	
 	private String sourceToTargetString
 	private String targetToSourceString
@@ -33,18 +32,18 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	private ValueDescriptor targetDescriptor
 	
 	
-	new(UmlValueDescriptorFactory umlFactory, AdvancedIncQueryEngine engine, UmlToXtumlMapper umlMapper) {
+	new(CppValueDescriptorFactory cppFactory, AdvancedIncQueryEngine engine, UmlToXtumlMapper umlMapper) {
 		this.engine = engine
 		this.mapper = new XtumlToOoplMapper(engine)
 		this.umlMapper = umlMapper
 		this.converter = new TypeConverter
-		this.umlFactory = umlFactory
+		this.cppFactory = cppFactory
 	}
 	
 	override build() {
 		if(xtAssociation.upperBound == 1) {
 			var sourceToTargetWriteBuilder = createAssociationWriteDescriptor(sourceDescriptor, targetDescriptor, xtAssociation)
-			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»;'''
+			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»'''
 		} else {
 			sourceToTargetString = collectionModificationCode(xtAssociation, sourceDescriptor, targetDescriptor)
 		}
@@ -62,7 +61,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		val voidTypeString = converter.convertToType(mapper.findBasicType("void"))
 		return factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
-										«sourceToTargetString»«IF xtAssociation.opposite!=null»
+										«sourceToTargetString»«IF xtAssociation.opposite!=null»;
 										«targetToSourceString»«ENDIF»'''
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
@@ -74,7 +73,8 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		val nullDescriptor = factory.createSingleVariableDescriptor => [
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
-			it.stringRepresentation = "NULL"
+			it.stringRepresentation = "nullptr"
+			it.pointerRepresentation = "nullptr"
 		]
 		return ((new CppAssociationWriteBuilder(engine)) => [
 				var newTargetDescriptor = targetDescriptor
@@ -88,22 +88,21 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	}
 	
 	def collectionModificationCode(XTAssociation xtAssociation, ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor) {
-		val resultDescriptor = umlFactory.prepareSingleVariableDescriptorForNewLocalVariable(umlMapper.findUmlPrimitiveType(mapper.findBasicType("bool").commonType as PrimitiveType) as Type)
-		
 		val rel = mapper.convertAssociation(xtAssociation)
 		val cvd = createCollectionDescriptorForAssociation(xtAssociation)
 		val initCVD = '''«cvd.fullType» «cvd.stringRepresentation» = «createAssociationReadDescriptor(sourceDescriptor, xtAssociation).stringRepresentation»'''
 		var String operationD
 		if(isUnlink) {
 			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
+					cppFactory.nextPrefix,
 					cvd, 
 					targetDescriptor as SingleVariableDescriptor
 			)
 		} else {
 			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
+					cppFactory.nextPrefix,
 					cvd, 
-					targetDescriptor as SingleVariableDescriptor, 
-					resultDescriptor
+					targetDescriptor as SingleVariableDescriptor
 			)
 		}
 		return	'''
@@ -121,7 +120,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	def CollectionVariableDescriptor createCollectionDescriptorForAssociation(XTAssociation xtAssociation) {
 		val rel = mapper.convertAssociation(xtAssociation)
 		val collection = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection)
-		return umlFactory.factory.factory.prepareCollectionVariableDescriptorForNewLocalVariable(collection.implementation, collection.ooplClass)
+		return cppFactory.prepareCollectionVariableDescriptorForNewLocalVariable(collection.implementation, collection.ooplClass)
 	}
 	
 	override isUnlink(boolean isUnlink) {

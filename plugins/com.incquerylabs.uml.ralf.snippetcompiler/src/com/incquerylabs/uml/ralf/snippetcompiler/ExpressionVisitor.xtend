@@ -357,40 +357,71 @@ class ExpressionVisitor {
 	
 	private def visitFeatureInvocationExpression(FeatureInvocationExpression ex, StringBuilder parent){
 		var ValueDescriptor invocationDescriptor
-			val contextString = ex.context.visit(parent)
-			
-			val variableType = typeSystem.type(ex).value.umlType
-			
-			val descriptor = createNewVariableDescriptor(ex, variableType)
-			switch (ex.feature) {
-		        Operation: {
-		        	val op = ex.feature as Operation
-					val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
-					
-					val contextDescriptor = ex.context.getCachedDescriptor(contextString)					
-					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-						variable = contextDescriptor
-						operation = op
-						parameters = descriptors
-					]).build
-		        }
-		        Property: {
-		        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)				
-		        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
-						variable = contextDescriptor
-						property = ex.feature as Property
-					]).build
-		        }
-		        default: throw new UnsupportedOperationException("Invalid feature invocation")
-		    }
-		    
-		    if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
-		    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
-		    	''')
-		    	descriptor.stringRepresentation
-		    }else{
-		    	invocationDescriptor.stringRepresentation
-		    }
+		val contextString = ex.context.visit(parent)
+		
+		val variableType = typeSystem.type(ex).value.umlType
+		
+		val descriptor = createNewVariableDescriptor(ex, variableType)
+		switch (ex.feature) {
+	        Operation: {
+	        	val op = ex.feature as Operation
+				val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
+				
+				val contextDescriptor = ex.context.getCachedDescriptor(contextString)					
+				invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
+					variable = contextDescriptor
+					operation = op
+					parameters = descriptors
+				]).build
+	        }
+	        Property: {
+	        	val contextDescriptor = ex.context.getCachedDescriptor(contextString)				
+	        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
+					variable = contextDescriptor
+					property = ex.feature as Property
+				]).build
+	        }
+	        default: throw new UnsupportedOperationException("Invalid feature invocation")
+	    }
+	    
+	    if((typeSystem.type(ex.context).value instanceof CollectionTypeReference)
+	    	&& variableType != null
+	    	&& invocationDescriptor.hasMultilineRepresentation
+	    ) {
+	    	val lastLine = invocationDescriptor.cutRepresentationLastLine
+			parent.append(	'''
+							«invocationDescriptor.stringRepresentation»
+							«descriptor.fullType» «descriptor.stringRepresentation» = «lastLine»;
+	    					''')
+	    	descriptor.stringRepresentation
+	    } else if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
+	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
+	    	''')
+	    	descriptor.stringRepresentation
+	    }else{
+	    	invocationDescriptor.stringRepresentation
+	    }
+	}
+	
+	def String cutRepresentationLastLine(ValueDescriptor descriptor) {
+		var penultimateLineLastCharIndex = descriptor.stringRepresentation.lastIndexOf('\n')
+		val original = descriptor.stringRepresentation.toCharArray
+		descriptor.stringRepresentation = ""
+		var String lastLine = ""
+		for(var i = 0 ; i < original.length; i++) {
+			if(i < penultimateLineLastCharIndex) {
+				descriptor.stringRepresentation = descriptor.stringRepresentation + original.get(i)
+			} else if(i > penultimateLineLastCharIndex) {
+				if(!original.get(i).equals(';')) {
+					lastLine += original.get(i)
+				}
+			}
+		}
+		return lastLine
+	}
+	
+	def boolean hasMultilineRepresentation(ValueDescriptor descriptor) {
+		return descriptor.stringRepresentation.contains('\n')
 	}
 	
 	def dispatch String visit(AssignmentExpression ex, StringBuilder parent){
@@ -424,16 +455,15 @@ class ExpressionVisitor {
 		    val rhsString = ex.rightHandSide.visit(parent)
 		    
 		    val lhsRep = ex.leftHandSide.getProperRepresentation(lhsString)
-		    val rhsRep = ex.rightHandSide.getProperRepresentation(rhsString)
 		    
 		    if(ex.isFlatteningNeeded){
 		    	val descriptor = createNewVariableDescriptor(ex, variableType)
-				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsRep» «ex.operator» «rhsRep»);
+				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsRep» «ex.operator» «rhsString»);
 				''')
 			
 				descriptor.stringRepresentation
 			}else{
-				'''«lhsRep» «ex.operator» «rhsRep»'''	
+				'''«lhsRep» «ex.operator» «rhsString»'''	
 			}
 		}
 	}
@@ -746,6 +776,9 @@ class ExpressionVisitor {
 					default: return true
 				}
 			}
+			AssignmentExpression: {
+				return !(ex instanceof FeatureInvocationExpression)
+			}
 			default: {
 				return true
 			}
@@ -947,10 +980,16 @@ class ExpressionVisitor {
 	}
 	
 	private def isCollection(Type variableType){
-		if(variableType != null && variableType.equals(context.getCollectionType(CollectionType.SET))){
-			true
+		if(variableType == null){
+			return false
+		}
+		if( variableType.equals(context.getCollectionType(CollectionType.SET)) ||
+			variableType.equals(context.getCollectionType(CollectionType.BAG)) ||
+			variableType.equals(context.getCollectionType(CollectionType.SEQUENCE))
+		){
+			return true
 		}else{
-			false
+			return false
 		}
 		
 	}
@@ -999,12 +1038,12 @@ class ExpressionVisitor {
 		var ValueDescriptor tempDescriptor
 		switch(ex){
 			SignalDataExpression: {
-				(descriptorFactory.createSigdataDescriptorBuilder => [
+				tempDescriptor = (descriptorFactory.createSigdataDescriptorBuilder => [
 					type = typeSystem.type(ex).value.umlType
 				]).build
 			}
 			ThisExpression: {
-				ex.descriptor
+				tempDescriptor = ex.descriptor
 			}
 			LiteralExpression: {
 				tempDescriptor = (descriptorFactory.createLiteralDescriptorBuilder => [
@@ -1016,5 +1055,9 @@ class ExpressionVisitor {
 				tempDescriptor = descriptorFactory.getCachedVariableDescriptor(string)
 			}
 		}
+		if(tempDescriptor==null) {
+			throw new IllegalArgumentException('''There is no cached descriptor for «string» (expression type: «ex.class.name»)!''')
+		}
+		return tempDescriptor
 	}
 }

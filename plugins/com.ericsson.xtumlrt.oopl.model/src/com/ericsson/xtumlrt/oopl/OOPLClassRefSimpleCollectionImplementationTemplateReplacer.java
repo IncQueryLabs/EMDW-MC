@@ -13,30 +13,32 @@ public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends 
      * 
      **************************************************/
     
-    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String collection, String valueType, String index, String result) {
+    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String prefix, String collection, String valueType, String index) {
         String template = impl.getElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
+        map.put("$prefix$", prefix);
         map.put("$valueType$", valueType);
         map.put("$index$", index);
-        map.put("$result$", result);
         return generateTemplate(template, map.build());
     }
     
-    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String collection, String value, String valueType, String index) {
+    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String prefix, String collection, String value, String valueType, String index) {
         String template = impl.getInsertElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
+        map.put("$prefix$", prefix);
         map.put("$value$", value);
         map.put("$valueType$", valueType);
         map.put("$index$", index);
         return generateTemplate(template, map.build());
     }
     
-    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String collection, String value, String valueType, String index) {
+    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String prefix, String collection, String value, String valueType, String index) {
         String template = impl.getReplaceElementAtIndexTemplate();
         Builder<String, String> map = ImmutableMap.builder();
         map.put("$collection$", collection);
+        map.put("$prefix$", prefix);
         map.put("$value$", value);
         map.put("$valueType$", valueType);
         map.put("$index$", index);
@@ -45,15 +47,15 @@ public class OOPLClassRefSimpleCollectionImplementationTemplateReplacer extends 
     
     // TODO
     
-    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionVariableDescriptor context, Integer index, SingleVariableDescriptor result) {
-        return generateElementAtIndex(impl, context.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString(), result.getStringRepresentation());
+    public static String generateElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String prefix, CollectionVariableDescriptor context, Integer index) {
+        return generateElementAtIndex(impl, context.getStringRepresentation(), prefix, context.getTemplateTypes().get(0), index.toString());
     }
     
-    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToInsert, Integer index) {
-        return generateInsertElementAtIndex(impl, context.getStringRepresentation(), itemToInsert.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString());
+    public static String generateInsertElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String prefix, CollectionVariableDescriptor context, SingleVariableDescriptor itemToInsert, Integer index) {
+        return generateInsertElementAtIndex(impl, context.getStringRepresentation(), prefix, itemToInsert.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString());
     }
     
-    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, CollectionVariableDescriptor context, SingleVariableDescriptor itemToReplace, Integer index) {
-        return generateReplaceElementAtIndex(impl, context.getStringRepresentation(), itemToReplace.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString());
+    public static String generateReplaceElementAtIndex(OOPLClassRefSimpleCollectionImplementation impl, String prefix, CollectionVariableDescriptor context, SingleVariableDescriptor itemToReplace, Integer index) {
+        return generateReplaceElementAtIndex(impl, context.getStringRepresentation(), prefix, itemToReplace.getStringRepresentation(), context.getTemplateTypes().get(0), index.toString());
     }
 }

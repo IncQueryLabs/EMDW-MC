@@ -35,7 +35,7 @@ class CppAssociationWriteBuilder implements IOoplAssociationWriteBuilder {
 			val svd = factory.createPropertyWriteDescriptor => [
 				it.baseType = converter.convertToBaseType(type)
 				it.fullType = converter.convertToType(type)
-				it.stringRepresentation = '''«variable.stringRepresentation»->«cppAssociation.cppName» = «newValue.stringRepresentation»'''
+				it.stringRepresentation = '''«variable.stringRepresentation»->«cppAssociation.cppName» = «newValue.pointerRepresentation»'''
 			]
 			if(type instanceof OOPLClassReferenceCollection) {
 				svd.templateTypes.add(converter.convertToType(type.ooplClass))

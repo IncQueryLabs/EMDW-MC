@@ -50,6 +50,19 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::xumlrt::select_any(::model::Comp::Pong::_instances);'''
 			],
+			#[  "Add element to collection test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Boolean b = Pong::instances().add(this);
+				''',
+				'''
+				::std::set< ::model::Comp::Pong* > __ralf__1____std__set = ::xumlrt::select_many(::model::Comp::Pong::_instances);
+				::std::pair< ::std::set< ::model::Comp::Pong*>::iterator, bool> result = __ralf__1____std__set.insert(this);
+				bool __ralf__2__bool = result.second;
+				bool __ralf__0__b = __ralf__2__bool;'''
+			],
 			#[  "Association access test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
 				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 
@@ -73,8 +86,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 					::std::set< ::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* > __ralf__0____std__set = ::xumlrt::select_many(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer::_instances);
-					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__0____timer : __ralf__0____std__set) {
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__1__0__timer = __ralf__0____timer;
+					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__1____timer : __ralf__0____std__set) {
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__2__0__timer = __ralf__1____timer;
 					}'''
 			]
 		)

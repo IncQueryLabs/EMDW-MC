@@ -16,8 +16,8 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				Set<Integer> p = Set<Integer>{1, 2, 3};
 				''',
 				'''
-				::std::set< long > __ralf__0____std__set = { 1, 2, 3 };
-				::std::set< long > __ralf__0__p = __ralf__0____std__set;'''
+				::std::set< long > __ralf__1____std__set = { 1, 2, 3 };
+				::std::set< long > __ralf__0__p = __ralf__1____std__set;'''
 			],
 			#[
 				"Set creation with default variable values test",
@@ -30,8 +30,8 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				long __ralf__0__i = 0;
-				::std::set< long > __ralf__1____std__set = { __ralf__0__i };
-				::std::set< long > __ralf__1__p = __ralf__1____std__set;'''
+				::std::set< long > __ralf__2____std__set = { __ralf__0__i };
+				::std::set< long > __ralf__1__p = __ralf__2____std__set;'''
 			],
 			#[
 				"Set creation with default literal and variable values test",
@@ -44,8 +44,8 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				long __ralf__0__i = 0;
-				::std::set< long > __ralf__1____std__set = { 1, 2, 3, __ralf__0__i };
-				::std::set< long > __ralf__1__p = __ralf__1____std__set;'''
+				::std::set< long > __ralf__2____std__set = { 1, 2, 3, __ralf__0__i };
+				::std::set< long > __ralf__1__p = __ralf__2____std__set;'''
 			],
 			#[  "Unlink expression collection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -57,9 +57,9 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
-				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__2____std__list = __ralf__0__service->R6_call;
-				__ralf__2____std__list.remove(this);
-				this->R6_service = NULL;'''
+				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__1____std__list = __ralf__0__service->R6_call;
+				__ralf__1____std__list.remove(this);
+				this->R6_service = nullptr;'''
 			],
 			#[  "Link expression collection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -72,9 +72,9 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
 				this->R6_service = __ralf__0__service;
-				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__2____std__list = __ralf__0__service->R6_call;
-				__ralf__2____std__list.push_back(this);
-				bool __ralf__1__bool = true;'''
+				::std::list< ::PhoneX::PhoneX::Implementation::Call* > __ralf__1____std__list = __ralf__0__service->R6_call;
+				__ralf__1____std__list.push_back(this);
+				true;'''
 			]
 		)
 	}

@@ -41,25 +41,31 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 		return ocd
 	}
 	
+	def String getParameterString() {
+		'''«FOR param : parameterList SEPARATOR ", "»«param»«ENDFOR»'''
+	}
+	
 	def getParameterList() {
-		val parameterStrings = newArrayList
-		val cppFormalParameters = cppOperation.subElements.filter(CPPFormalParameter)
 		val parameterDescriptors = if(params != null) params else #[]
 		
-		
-		Preconditions.checkState(parameterDescriptors.size == cppFormalParameters.size, 
-		'''Invalid number of parameters provided when calling operation «cppOperation.cppName»:
-				received parameters «FOR p : parameterDescriptors SEPARATOR ','»«p.stringRepresentation» : «p.fullType»«ENDFOR»
-				expected parameters «FOR p : cppFormalParameters SEPARATOR ','»«p.cppName» : «p.type.convertToType»«ENDFOR»''')
-		
-		for(int i : 0..<parameterDescriptors.size) {
-			if(cppFormalParameters.get(i).isReferenceType) {
-				parameterStrings += params.get(i).pointerRepresentation
-			} else {
-				parameterStrings += params.get(i).valueRepresentation
+		if(cppOperation != null){
+			val parameterStrings = newArrayList
+			val cppFormalParameters = cppOperation.subElements.filter(CPPFormalParameter)
+			Preconditions.checkState(parameterDescriptors.size == cppFormalParameters.size, 
+			'''Invalid number of parameters provided when calling operation «cppOperation.cppName»:
+					received parameters «FOR p : parameterDescriptors SEPARATOR ','»«p.stringRepresentation» : «p.fullType»«ENDFOR»
+					expected parameters «FOR p : cppFormalParameters SEPARATOR ','»«p.cppName» : «p.type.convertToType»«ENDFOR»''')
+			for(int i : 0..<parameterDescriptors.size) {
+				if(cppFormalParameters.get(i).isReferenceType) {
+					parameterStrings += params.get(i).pointerRepresentation
+				} else {
+					parameterStrings += params.get(i).valueRepresentation
+				}
 			}
+			
+			parameterStrings
+		} else {
+			parameterDescriptors.map[stringRepresentation]
 		}
-		
-		'''«FOR param : parameterStrings SEPARATOR ", "»«param»«ENDFOR»'''
 	}
 }

@@ -40,7 +40,7 @@ class EventTemplates extends CPPTemplate {
 	}
 	
 	def eventEnumeratorName(CPPClass cppClass, CPPEvent cppEvent) {
-		'''«cppEvent.cppName»'''
+		'''«cppEvent.cppName»_event'''
 	}
 	
 	def eventEnumeratorQualifiedName(CPPClass cppClass, CPPEvent cppEvent) {

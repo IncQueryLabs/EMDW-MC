@@ -10,6 +10,10 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPEvent
+import com.ericsson.xtumlrt.oopl.SequenceOrderednessKind
+import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
+import com.ericsson.xtumlrt.oopl.AssociativeCollectionKind
+import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 
 class XtumlToOoplMapper {
@@ -58,11 +62,38 @@ class XtumlToOoplMapper {
 	}
 	
 	def findSequenceCollectionImplementation(String collection) {
-		return engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[si | collection.equals(si.containerQualifiedName)]
+		switch collection {
+			case "set" : engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[
+				orderedness == SequenceOrderednessKind.UNORDERED &&
+				uniqueness == SequenceUniquenessKind.UNIQUE
+			]
+			case "bag" : engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[
+				orderedness == SequenceOrderednessKind.UNORDERED &&
+				uniqueness == SequenceUniquenessKind.NON_UNIQUE
+			]
+			case "sequence" : engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[
+				orderedness == SequenceOrderednessKind.ORDERED &&
+				uniqueness == SequenceUniquenessKind.NON_UNIQUE
+			]
+		}
 	}
 	
 	def findClassRefCollectionImplementation(String collection) {
-		return engine.ooplSequenceImplementations.allValuesOfimplementation.findFirst[crsci | collection.equals(crsci.containerQualifiedName)]
+		switch collection {
+			case "set" : engine.ooplClassReferenceAssocCollectionImplementations.allValuesOfimplementation.findFirst[
+				// TODO: This should be unordered set, but currently default implementation is only available for the ordered version
+				// in c++ ::std::set is the ordered version
+				kind == AssociativeCollectionKind.ORDERED_SET
+			]
+			case "bag" : engine.ooplClassReferenceAssocCollectionImplementations.allValuesOfimplementation.findFirst[
+				// TODO: This should be unordered multiset, but currently default implementation is only available for the ordered version
+				// in c++ ::std::multiset is the ordered version
+				kind == AssociativeCollectionKind.ORDERED_MULTISET
+			]
+			case "sequence" : engine.ooplClassReferenceSimpleCollectionImplementations.allValuesOfimplementation.findFirst[
+				kind == SimpleCollectionKind.SIMPLY_LINKED_LIST
+			]
+		}
 	}
 	
 	def dispatch findCollectionImplementation(String collection, OOPLBasicType basicType) {

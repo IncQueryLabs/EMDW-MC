@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.common
 
+import com.ericsson.xtumlrt.oopl.OOPLClassRefAssocCollectionImplementation
 import com.ericsson.xtumlrt.oopl.OOPLClassRefSimpleCollectionImplementation
 import com.ericsson.xtumlrt.oopl.OOPLDataType
 import com.ericsson.xtumlrt.oopl.OOPLSequenceImplementation
@@ -133,6 +134,10 @@ class TypeConverter {
 		return collection.containerQualifiedName
 	}
 	
+	def dispatch String convertToBaseType(OOPLClassRefAssocCollectionImplementation collection) {
+		return collection.containerQualifiedName
+	}
+	
 	def dispatch String convertToBaseType(OOPLSequenceImplementation collection) {
 		return collection.containerQualifiedName
 	}
@@ -153,13 +158,14 @@ class TypeConverter {
 		}
 	}
 	
-	def isReferenceType(EObject type) {
+	def boolean isReferenceType(EObject type) {
 		switch type {
 			CPPEvent : true
 			CPPClass : true
 			CPPClassReference : true
 			CPPFormalParameter case type.passingMode == CPPParameterPassingKind.BY_REFERENCE : true
 			CPPFormalParameter case type.passingMode == CPPParameterPassingKind.BY_CONSTANT_REFERENCE : true
+			CPPReturnValue : type.type.isReferenceType
 			default : false
 		}
 	}

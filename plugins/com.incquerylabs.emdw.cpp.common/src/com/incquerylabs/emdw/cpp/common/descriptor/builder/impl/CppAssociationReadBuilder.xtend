@@ -30,10 +30,14 @@ class CppAssociationReadBuilder implements IOoplAssociationReadBuilder {
 		if(cppAssociation instanceof CPPQualifiedNamedElement) {
 			val refStorage = cppAssociation.referenceStorage.head
 			val type = refStorage.type
+			val String stringRepresentation = '''«variable.stringRepresentation»->«cppAssociation.cppName»'''
+			val variableRepresentations = converter.createStringRepresentations(stringRepresentation, type)
 			val svd = factory.createPropertyReadDescriptor => [
 				it.baseType = converter.convertToBaseType(type)
 				it.fullType = converter.convertToType(type)
-				it.stringRepresentation = '''«variable.stringRepresentation»->«cppAssociation.cppName»'''
+				it.stringRepresentation = stringRepresentation
+				it.pointerRepresentation = variableRepresentations.pointerRepresentation
+				it.valueRepresentation = variableRepresentations.valueRepresentation
 			]
 			if(type instanceof OOPLClassReferenceCollection) {
 				svd.templateTypes.add(converter.convertToType(type.ooplClass))

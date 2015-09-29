@@ -32,7 +32,7 @@ class CppConstructorCallBuilder extends AbstractCppOperationCallDescriptorBuilde
 				val cppClass = mapper.convertType(re as Type) as CPPClass
 				it.baseType = cppClass.convertToType
 				it.fullType = it.baseType
-				it.stringRepresentation = '''new «cppClass.convertToQualifiedName»(«IF xtOperation != null»«parameterList»«ENDIF»)'''
+				it.stringRepresentation = '''new «cppClass.convertToQualifiedName»(«IF xtOperation != null»«parameterString»«ENDIF»)'''
 			}
 		]
 	}

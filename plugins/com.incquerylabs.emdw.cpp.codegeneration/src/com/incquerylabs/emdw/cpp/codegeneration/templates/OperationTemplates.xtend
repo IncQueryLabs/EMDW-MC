@@ -116,7 +116,7 @@ class OperationTemplates extends CPPTemplate{
 	def String generateRemoveTemplate(CPPClassReferenceStorage storage, String value) {
 		var type = storage.type
 		if(type instanceof CPPClassRefSimpleCollection) {
-			return type.implementation.generateRemove("_instances_remove_", storage.cppName, value)
+			return '''«type.implementation.generateRemove("_instances_remove_", storage.cppName, value)»;'''
 		}
 	}
 	

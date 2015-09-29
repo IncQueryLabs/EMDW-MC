@@ -6,6 +6,8 @@ import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
+import com.ericsson.xtumlrt.oopl.OOPLClassReferenceCollection
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppParameterBuilder implements IOoplParameterBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -27,17 +29,27 @@ class CppParameterBuilder implements IOoplParameterBuilder {
 	
 	override build() {
 		val cppFormalParameter = mapper.convertParameter(parameter)
+		val type = cppFormalParameter.type
 		val name = cppFormalParameter.cppName
 		
 		val variableRepresentations = name.createStringRepresentations(cppFormalParameter)
 		
-		factory.createParameterDescriptor => [
+		val parameterDescriptor = factory.createParameterDescriptor => [
 			it.stringRepresentation = name
-			it.baseType = cppFormalParameter.type.convertToType 
-			it.fullType = it.baseType
+			it.baseType = type.convertToBaseType
+			it.fullType = type.convertToType
 			it.valueRepresentation = variableRepresentations.valueRepresentation
 			it.pointerRepresentation = variableRepresentations.pointerRepresentation
 		]
+		
+		if(type instanceof OOPLClassReferenceCollection) {
+			parameterDescriptor.templateTypes.add(type.ooplClass.convertToType)
+		}
+		else if(type instanceof CPPSequence) {
+			parameterDescriptor.templateTypes.add(type.elementType.convertToType)
+		}
+		
+		parameterDescriptor
 	}
 	
 }

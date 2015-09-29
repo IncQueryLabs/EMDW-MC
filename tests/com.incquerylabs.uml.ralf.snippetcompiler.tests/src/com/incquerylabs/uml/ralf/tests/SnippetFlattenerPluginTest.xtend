@@ -45,8 +45,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				model::Comp::Pong p = new model::Comp::Pong();
 				PrimitiveTypes::Integer x;
-				PrimitiveTypes::Integer temp0 = p->integerProperty;
-				value{x} = value{temp0};''',
+				value{x} = p->integerProperty;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property access 2",
@@ -207,7 +206,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				PrimitiveTypes::Integer a;
 				PrimitiveTypes::Integer temp0 = model::Comp::Pong::staticIntegerOperation();
-				value{a} = value{temp0};''',
+				value{a} = temp0;''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Operation call Static_Variable",
@@ -321,7 +320,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				switch(x=1){}''',
 				'''
 				PrimitiveTypes::Integer x = 0;
-				PrimitiveTypes::Integer temp0 = (value{x} = value{1});
+				PrimitiveTypes::Integer temp0 = (value{x} = 1);
 				switch (temp0) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
@@ -370,7 +369,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    this.doIntegerVoid(i = 1);''',
 			    '''
 				PrimitiveTypes::Integer i;
-				PrimitiveTypes::Integer temp0 = (value{i} = value{1});
+				PrimitiveTypes::Integer temp0 = (value{i} = 1);
 				this.doIntegerVoid(temp0);''',
 				"model::Comp::Pong::TestOperation"
 			],

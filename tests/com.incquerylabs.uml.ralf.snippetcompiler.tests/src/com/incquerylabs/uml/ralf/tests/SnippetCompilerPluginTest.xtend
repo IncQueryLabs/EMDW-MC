@@ -70,7 +70,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				'''
 				model::Comp::Pong p = nullptr;
 				model::Comp::Pong temp0 = new model::Comp::Pong();
-				pointer{p} = pointer{temp0};
+				pointer{p} = temp0;
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
@@ -87,7 +87,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer i = 1;
-				value{i} = value{2};
+				value{i} = 2;
 				model::Comp::Pong p = new model::Comp::Pong();
 				p->integerProperty = 1;''',
 				"model::Comp::Pong::doIntegerVoid"
@@ -115,7 +115,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				value{x} = value{inParameter};''',
+				value{x} = inParameter;''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Out parameter assignment",
@@ -125,7 +125,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				PrimitiveTypes::Integer x = 1;
-				value{outParameter} = value{x};''',
+				value{outParameter} = x;''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Numeric Unary Expression test",
@@ -214,7 +214,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				++value{x};
 				PrimitiveTypes::Integer y = x;
 				PrimitiveTypes::Integer temp3 = value{x} - value{15};
-				value{y} = value{temp3};
+				value{y} = temp3;
 				PrimitiveTypes::Boolean temp4 = value{x} > value{3};
 				PrimitiveTypes::Integer temp5 = -value{5};
 				PrimitiveTypes::Boolean temp6 = value{y} < value{temp5};
@@ -439,8 +439,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
 				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
-				std::collections::Set<PrimitiveTypes::Integer> temp0 = p->integerMultiple;
-				value{s} = value{temp0};''',
+				value{s} = p->integerMultiple;''',
 				"sendPong"
 			],
 			#[  "Collection property write",
@@ -519,7 +518,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong p;
 				model::Comp::Pong2 p2 = new model::Comp::Pong2();
 				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
-				pointer{p} = pointer{temp0};''',
+				pointer{p} = temp0;''',
 				"sendPong"
 			],
 			#[  "Cast expression operation call",

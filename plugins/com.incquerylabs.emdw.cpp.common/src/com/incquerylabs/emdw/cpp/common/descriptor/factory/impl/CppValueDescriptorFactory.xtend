@@ -168,8 +168,9 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	public def String getNextPrefix() {
+		val prefix = '''«SEPARATOR»«LOCAL_VARIABLE_PREFIX»«SEPARATOR»«index.qualifiedIndex(parent)»«SEPARATOR»'''
 		index++
-		return '''«SEPARATOR»«LOCAL_VARIABLE_PREFIX»«SEPARATOR»«index.qualifiedIndex(parent)»«SEPARATOR»'''
+		return prefix
 	}
 	
 	private def String qualifiedName(String name) {

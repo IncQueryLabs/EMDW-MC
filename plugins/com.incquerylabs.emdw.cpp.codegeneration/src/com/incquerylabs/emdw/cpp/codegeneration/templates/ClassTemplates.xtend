@@ -97,10 +97,6 @@ class ClassTemplates extends CPPTemplate {
 		
 		«associationsInClassHeader(cppClass)»
 		
-		«val cppComponent = codeGenQueries.getCppClassInComponentSubPackages(engine).getAllValuesOfcppComponent(cppClass).head»
-		// Component reference
-		«cppComponent.cppQualifiedName»::«cppComponent.cppName»* _comp;
-		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 		«IF hasEvents»
 			
@@ -523,6 +519,7 @@ class ClassTemplates extends CPPTemplate {
 	
 	def statefulClassMethodDefinitions(CPPClass cppClass) {
 		val cppClassFQN = cppClass.cppQualifiedName
+		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
 		'''
 		void «cppClassFQN»::generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) {
 			if(e->_isInternal) {
@@ -531,7 +528,7 @@ class ClassTemplates extends CPPTemplate {
 				_externalEvents.push(e);
 			}
 			if(_internalEvents.size() + _externalEvents.size() == 1) {
-				_comp->schedule(this);
+				«component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
 			}
 		}
 		
@@ -545,7 +542,7 @@ class ClassTemplates extends CPPTemplate {
 				_externalEvents.pop();
 			}
 			if(!_internalEvents.empty() or !_externalEvents.empty()) {
-				_comp->schedule(this);
+				«component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
 			}
 			process_event(evt);
 		}

@@ -819,7 +819,7 @@ class ExpressionVisitor {
 
 				operationParameters.forEach[operationParameter |
 					parameters.expressions.forEach[ namedExpression |
-						if(namedExpression.name.equals(operationParameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(operationParameter.getType)){
+						if(namedExpression.parameterEqualsExpression(operationParameter)){
 							val string = namedExpression.expression.visit(parent)
 							val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 								name = string
@@ -848,7 +848,7 @@ class ExpressionVisitor {
 			for(NamedExpression namedExpression : parameters.expressions){
 				var expressionFound = false
 				for(Parameter parameter : operation.ownedParameters){
-					if(namedExpression.name.equals(parameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(parameter.getType)){
+					if(namedExpression.parameterEqualsExpression(parameter)){
 						expressionFound = true
 					}
 				}
@@ -875,7 +875,7 @@ class ExpressionVisitor {
 			for(Expression expression : parameters.expressions){
 				var expressionFound = false
 				for(Parameter parameter : operation.ownedParameters){
-					if(typeSystem.type(expression).value.umlType.equals(parameter.getType)){
+					if(expression.parameterEqualsExpression(parameter)){
 						expressionFound = true
 					}
 				}
@@ -909,7 +909,7 @@ class ExpressionVisitor {
 
 			operationParameters.forEach[operationParameter |
 				parameters.expressions.forEach[ namedExpression |
-					if(namedExpression.name.equals(operationParameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(operationParameter.getType)){
+					if(namedExpression.parameterEqualsExpression(operationParameter)){
 						val name = namedExpression.expression.visit(parent)
 						descriptors.add(namedExpression.expression.getCachedDescriptor(name))
 					}
@@ -920,6 +920,36 @@ class ExpressionVisitor {
 			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
 		return descriptors
+	}
+	
+	private def parameterEqualsExpression(NamedExpression namedExpression, Parameter operationParameter){
+		val expType = typeSystem.type(namedExpression.expression).value
+		val paramType = typeSystem.type(operationParameter).value
+		if(paramType instanceof CollectionTypeReference){
+			return (expType instanceof CollectionTypeReference 
+				&& paramType.type.equals((expType as CollectionTypeReference).type)
+				&& paramType.umlType.equals((expType as CollectionTypeReference).umlType)
+				&& namedExpression.name.equals(operationParameter.name)
+			)
+		}else{
+			return(namedExpression.name.equals(operationParameter.name) 
+				&& expType.umlType.equals(paramType.umlType)
+			)
+		}
+	}
+	
+	private def parameterEqualsExpression(Expression expression, Parameter operationParameter){
+		val expType = typeSystem.type(expression).value
+		val paramType = typeSystem.type(operationParameter).value
+		if(paramType instanceof CollectionTypeReference){
+			return (expType instanceof CollectionTypeReference 
+				&& paramType.type.equals((expType as CollectionTypeReference).type)
+				&& paramType.umlType.equals((expType as CollectionTypeReference).umlType)
+			)
+		}else{
+			return expType.umlType.equals(paramType.umlType
+			)
+		}
 	}
 	
 	private dispatch def prepareTuple(StaticFeatureInvocationExpression ex, Operation op, StringBuilder parent){
@@ -936,7 +966,7 @@ class ExpressionVisitor {
 
 			operationParameters.forEach[operationParameter |
 				parameters.expressions.forEach[ namedExpression |
-					if(namedExpression.name.equals(operationParameter.name) && typeSystem.type(namedExpression.expression).value.umlType.equals(operationParameter.getType)){
+					if(namedExpression.parameterEqualsExpression(operationParameter)){
 						val name = namedExpression.expression.visit(parent)
 						descriptors.add(namedExpression.expression.getCachedDescriptor(name))
 					}

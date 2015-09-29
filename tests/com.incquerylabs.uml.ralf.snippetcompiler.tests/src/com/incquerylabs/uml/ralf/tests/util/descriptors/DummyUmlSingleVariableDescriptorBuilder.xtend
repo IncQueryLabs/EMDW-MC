@@ -37,7 +37,9 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 	override build() {
 		checkArgument(type!=null, "Type cannot be null")
 		if(isExistingVariable) {
-			return prepareSingleValueDescriptorForExistingVariable(type, name)
+			val descriptor = prepareSingleValueDescriptorForExistingVariable(type, name)
+			descrFactory.cache.add(descriptor)
+			return descriptor
 		} else if(name!=null) {
 			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type, name)
 			descrFactory.cache.add(descriptor)

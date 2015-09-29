@@ -29,8 +29,8 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	
 	public static var codes = <CharSequence>newArrayList
 	public static String wikiTable = '''
-									UML fully qualified name and rALF code | isOK | Exception / C++ code
-									------------------------ | ---- | --------------------
+									Status |UML fully qualified name and rALF code | Exception / C++ code
+									------ | ------------------------------------- | --------------------
 									'''
 	public static val sums = new HashMap<ConversionType, Integer>()
 	
@@ -96,7 +96,8 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 					wikiTable = 
 					'''
 					«wikiTable»
-					**«element.qualifiedName»**  <br /><br /> <i>«ralfCode.markdownBody»<i /> | :white_check_mark: | <i>«cppBody.markdownBody»<i />
+«««					:white_check_mark: | **«element.qualifiedName»**  <br /><br /> <i>«ralfCode.markdownBody»<i /> | <i>«cppBody.markdownBody»<i />
+					:white_check_mark: | **«element.qualifiedName»** | 
 					'''
 				} catch (Exception ex) {
 					exceptions += ex
@@ -108,7 +109,7 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 					wikiTable = 
 					'''
 					«wikiTable»
-					**«element.qualifiedName»** <br /><br /> <i>«ralfCode.markdownBody»<i /> | :x: | «message» 
+					:x: | **«element.qualifiedName»** <br /><br /> <i>«ralfCode.markdownBody»<i /> | «message»
 					'''
 				}
 			]
@@ -186,9 +187,9 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	
 	def String getQualifiedName(CPPQualifiedNamedElement qne) {
 		switch qne {
-			CPPOperation : '''Operation: «(engine.umlOperation2CppOperation.getAllValuesOfumlOperation(qne).head as Operation).qualifiedName.form»'''
-			CPPState : '''State: «(engine.umlState2CppState.getAllValuesOfumlState(qne).head as State).qualifiedName.form»'''
-			CPPTransition : '''Transition: «(engine.umlTransition2CppTransition.getAllValuesOfumlTransition(qne).head as Transition).qualifiedName.form»'''
+			CPPOperation : '''Operation: <br/>«(engine.umlOperation2CppOperation.getAllValuesOfumlOperation(qne).head as Operation).qualifiedName.form»'''
+			CPPState : '''State: <br/>«(engine.umlState2CppState.getAllValuesOfumlState(qne).head as State).qualifiedName.form»'''
+			CPPTransition : '''Transition: <br/>«(engine.umlTransition2CppTransition.getAllValuesOfumlTransition(qne).head as Transition).qualifiedName.form»'''
 		}
 	}
 	

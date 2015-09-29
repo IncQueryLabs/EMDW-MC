@@ -22,7 +22,7 @@ class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
 	
 	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
-		builder = new CppLinkUnlinkBuilder(factory, engine, mapper)
+		builder = new CppLinkUnlinkBuilder(factory.factory.factory, engine, mapper)
 	}
 	
 	override build() {

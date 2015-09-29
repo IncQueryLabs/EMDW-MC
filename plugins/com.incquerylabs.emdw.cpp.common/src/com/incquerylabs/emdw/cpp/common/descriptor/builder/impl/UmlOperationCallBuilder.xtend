@@ -8,6 +8,7 @@ import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.DataType
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 
 class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	private UmlToXtumlMapper mapper
@@ -21,10 +22,12 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	private ValueDescriptor variable
 	private Operation operation
 	private List<ValueDescriptor> params
+	private UmlValueDescriptorFactory factory
 	
 	
 	
-	new(AdvancedIncQueryEngine engine) {
+	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
+		this.factory = factory
 		mapper = new UmlToXtumlMapper(engine)
 		builder = new CppOperationCallBuilder(engine)
 	}
@@ -44,7 +47,9 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 		}
 		
 		val xtOperation = mapper.convertOperation(operation)
-		return builder.setOperation(xtOperation).build
+		val ocd = builder.setOperation(xtOperation).build
+		factory.putOperationCallIntoCache(ocd.stringRepresentation, ocd)
+		return ocd
 	}
 	
 	override setVariable(ValueDescriptor variable) {

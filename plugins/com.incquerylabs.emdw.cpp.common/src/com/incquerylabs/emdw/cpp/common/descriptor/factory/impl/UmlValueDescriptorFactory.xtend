@@ -35,6 +35,7 @@ import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -45,6 +46,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private Table<Type, String, LiteralDescriptor> literalCache
 	private Map<String, CollectionVariableDescriptor> collectionVariableCache
 	private Map<String, PropertyReadDescriptor> propertyReadCache
+	private Map<String, OperationCallDescriptor> operationCallCache
 	private Map<String, ParameterDescriptor> parameterCache
 	
 	/**
@@ -71,6 +73,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		this.collectionVariableCache = newHashMap()
 		this.parameterCache = newHashMap()
 		this.propertyReadCache = newHashMap()
+		this.operationCallCache = newHashMap()
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
@@ -299,7 +302,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createOperationCallBuilder() {
-		new UmlOperationCallBuilder(engine)
+		new UmlOperationCallBuilder(this, engine)
 	}
 	
 	override createForeachBuilder() {
@@ -347,6 +350,9 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 			return cached;
 		}
 		if((cached = getPropertyReadFromCache(name)) != null) {
+			return cached;
+		}
+		if((cached = getOperationCallFromCache(name)) != null) {
 			return cached;
 		}
 		return getParameterFromCache(name)
@@ -441,6 +447,29 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		propertyReadCache.put(variableName, descriptor)
 		if(variableName!=descriptor.stringRepresentation) {
 			propertyReadCache.put(descriptor.stringRepresentation, descriptor)
+		}
+	}
+	
+	def boolean isOperationCallInCache(String variableName) {
+		val inCache = operationCallCache.containsKey(variableName)
+		if(!inCache && parent!=null) {
+			return parent.isOperationCallInCache(variableName)
+		}
+		return inCache
+	}
+	
+	def OperationCallDescriptor getOperationCallFromCache(String variableName) {
+		val cached = operationCallCache.get(variableName)
+		if(cached!=null || parent==null) {
+			return cached
+		}
+		return parent.getOperationCallFromCache(variableName)
+	}
+	
+	def putOperationCallIntoCache(String variableName, OperationCallDescriptor descriptor) {
+		operationCallCache.put(variableName, descriptor)
+		if(variableName!=descriptor.stringRepresentation) {
+			operationCallCache.put(descriptor.stringRepresentation, descriptor)
 		}
 	}
 	

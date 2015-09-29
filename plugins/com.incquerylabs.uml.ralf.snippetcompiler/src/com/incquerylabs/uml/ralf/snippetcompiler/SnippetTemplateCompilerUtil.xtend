@@ -9,6 +9,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionVariable
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
@@ -28,7 +29,6 @@ import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionVariable
 
 class SnippetTemplateCompilerUtil {
 	
@@ -52,6 +52,7 @@ class SnippetTemplateCompilerUtil {
 		]).build	
 	}
 	
+		
 	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex) {
 	    switch (ex.feature) {
 	        Operation: getDescriptor(ex, ex.feature as Operation)
@@ -113,8 +114,7 @@ class SnippetTemplateCompilerUtil {
 			type = typeSystem.type(ex).value.umlType
 		]).build
 		
-	}
-	
+	}	
 	
 	def dispatch ValueDescriptor getDescriptor(LocalNameDeclarationStatement st){
 		if(st.variable instanceof CollectionVariable){

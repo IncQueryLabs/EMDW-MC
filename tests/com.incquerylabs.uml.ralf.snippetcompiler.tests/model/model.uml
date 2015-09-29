@@ -144,6 +144,16 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_y50psGBrEeW8A6d80jea4Q" value="*"/>
         </ownedParameter>
       </ownedOperation>
+      <ownedOperation xmi:id="_QKHxAGW8EeWkr6d989jieA" name="Pong" isStatic="true">
+        <ownedParameter xmi:id="_QKHxAWW8EeWkr6d989jieA" name="parameter">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedParameter>
+        <ownedParameter xmi:id="_QKHxAmW8EeWkr6d989jieA" name="parameter2">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_QKHxA2W8EeWkr6d989jieA" name="default"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:id="_oxo5UGW8EeWkr6d989jieA" name="Pong" isStatic="true"/>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s">
         <ownedAttribute xmi:id="_0fRLEEpSEeW2H4EMK1eo4g" name="integerAttribute">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>

@@ -2,12 +2,12 @@ package com.incquerylabs.uml.ralf.tests.util.descriptors
 
 import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
-import com.incquerylabs.emdw.valuedescriptor.VariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
 
 class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	public int number = 0;	
-	public List<VariableDescriptor> cache;	
+	public List<ValueDescriptor> cache;	
 			
 	new(){
 		cache = Lists.newArrayList	
@@ -41,7 +41,8 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 	}
 	
 	override createPropertyReadBuilder() {
-		new DummyPropertyAccessBuilder
+		val builder = new DummyPropertyAccessBuilder
+		builder.descrFactory = this
 	}
 	
 	override createLiteralDescriptorBuilder() {

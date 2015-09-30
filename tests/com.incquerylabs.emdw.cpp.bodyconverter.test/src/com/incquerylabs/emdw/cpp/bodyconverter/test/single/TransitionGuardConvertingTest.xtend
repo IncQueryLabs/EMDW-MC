@@ -15,8 +15,7 @@ class TransitionGuardConvertingTest extends AbstractSingleConversionTest{
 				this.'count' < 42;
 				''',
 				'''
-				long __ralf__0__long = this->count;
-				__ralf__0__long < 42;'''
+				this->count < 42;'''
 			]
 		)
 	}

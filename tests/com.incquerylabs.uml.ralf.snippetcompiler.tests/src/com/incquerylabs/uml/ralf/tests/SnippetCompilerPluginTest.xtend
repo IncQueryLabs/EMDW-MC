@@ -493,8 +493,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    ''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				std::collections::Set<PrimitiveTypes::Integer> temp0 = p->integerMultiple;
-				p.doIntegerMultiple(temp0);''',
+				p.doIntegerMultiple(p->integerMultiple);''',
 				"sendPong"
 			],
 			#[  "Collection operation call, navigation",
@@ -561,8 +560,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    Pong::instances().filter(p : p.integerProperty == 1);''',
 			    '''
 				::xumlrt::select_many_where< model::Comp::Pong >(model::Comp::Pong::_instances(), [&](model::Comp::Pong p) {
-							PrimitiveTypes::Integer temp1 = p->integerProperty;
-							PrimitiveTypes::Boolean temp2 = value{temp1} == value{1};
+							PrimitiveTypes::Boolean temp2 = value{p->integerProperty} == value{1};
 							return temp2;
 						});''',
 				"model::Comp::Pong::TestOperation"

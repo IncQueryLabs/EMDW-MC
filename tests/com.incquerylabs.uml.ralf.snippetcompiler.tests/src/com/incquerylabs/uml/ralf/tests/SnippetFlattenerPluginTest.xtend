@@ -300,8 +300,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				switch(this.integerProperty){}''',
 				'''
-				PrimitiveTypes::Integer temp0 = this->integerProperty;
-				switch (temp0) {
+				switch (this->integerProperty) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			],

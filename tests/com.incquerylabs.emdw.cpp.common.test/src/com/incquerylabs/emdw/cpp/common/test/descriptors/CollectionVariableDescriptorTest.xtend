@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses
 import static org.junit.Assert.*
 
 @SuiteClasses(#[
+	CollectionVariableDescriptorForExistingVariableTest,
 	CollectionVariableDescriptorForNewVariableWithPredifinedNameTest,
 	CollectionVariableDescriptorForNewVariableWithoutNameTest
 ])

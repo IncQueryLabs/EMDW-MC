@@ -107,15 +107,15 @@ class TransformationUtil {
 	}
 
 	def executeAllTransformation() {
-		xtTrafo.execute
-		cppTrafo.execute
-		compTrafo.execute
+		executeXtTransformation
+		executeCppTransformation
+		executeCppComponentTransformation
 	}
 
 	def executeAllTransformationWithoutCodeCompile() {
-		xtTrafo.execute
-		cppTrafo.execute
-		compTrafo.transformComponents
+		executeXtTransformation
+		executeCppTransformation
+		executeCppComponentTransformationWithoutCodeCompile
 	}
 
 	def cleanupTransformation() {

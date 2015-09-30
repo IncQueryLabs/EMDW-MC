@@ -8,6 +8,8 @@ interface IOoplStaticOperationCallBuilder extends IValueDescriptorBuilder<Operat
 	
 	def IOoplStaticOperationCallBuilder setOperation(Operation operation)
 	
+	def IOoplStaticOperationCallBuilder setOperationName(String operationName)
+	
 	def IOoplStaticOperationCallBuilder setParameters(ValueDescriptor... params)
 	
 }

@@ -7,7 +7,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "Single Conversion Test: Send new signal from class operation",
+			#[  "Send new signal from class operation",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
@@ -20,16 +20,6 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 
 				__ralf__0__Ping->generate_event(__ralf__1__ping_s);'''
 			],
-			#[  "Instances expression test",
-				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
-				"model::Comp::Pong::sendPing", 
-				ConversionType.Operation,
-				'''
-				Pong::instances();
-				''',
-				'''
-				::xumlrt::select_many(::model::Comp::Pong::_instances);'''
-			],
 			#[  "Cast expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::sendPing", 
@@ -39,6 +29,16 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::model::Comp::Ping* __ralf__0__ping = dynamic_cast<::model::Comp::Ping*>(this);'''
+			],
+			#[  "Instances expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Pong::instances();
+				''',
+				'''
+				::xumlrt::select_many(::model::Comp::Pong::_instances);'''
 			],
 			#[  "Instances selection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

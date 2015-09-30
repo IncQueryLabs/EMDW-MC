@@ -7,7 +7,7 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "Single Conversion Test: Send new signal from state exit action",
+			#[  "Send new signal from state exit action",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Ping::Ping_SM::Region1::s1",
 				ConversionType.StateExit,
@@ -20,7 +20,19 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				
 				__ralf__0__Pong->generate_event(__ralf__1__ping_s);'''
 			],
-			#[  "Single Conversion Test: Create and initialize new signal",
+			#[  "Re-send sigdata from state exit action",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Ping::Ping_SM::Region1::s1",
+				ConversionType.StateExit,
+				'''
+				send sigdata to this->pong.one();
+				''',
+				'''
+				::model::Comp::Pong* __ralf__0__Pong = ::xumlrt::select_any(this->R1_pong);
+				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = casted_const_event->clone();
+				__ralf__0__Pong->generate_event(__ralf__1__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
+			],
+			#[  "Create and initialize new signal",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/ClientServer/clientserver.uml",
 				"ClientServer::Component::Client::Behavior::MainRegion::Ready",
 				ConversionType.StateExit,
@@ -29,8 +41,7 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::ClientServer::Component::Server::RequestAddition_event* __ralf__0__request = new ::ClientServer::Component::Server::RequestAddition_event(false);
-				long __ralf__1__long = casted_const_event->id;
-				long __ralf__2__long = __ralf__1__long + 1;
+				long __ralf__2__long = casted_const_event->id + 1;
 				__ralf__0__request->id = __ralf__2__long;
 				__ralf__0__request->a = 3;
 				__ralf__0__request->b = 9;'''

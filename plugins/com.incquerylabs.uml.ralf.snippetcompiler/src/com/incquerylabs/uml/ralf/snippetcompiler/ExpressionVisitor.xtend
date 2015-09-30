@@ -245,7 +245,7 @@ class ExpressionVisitor {
 	}
 	
 	private def getAttribute(Signal cl, String name, Type type) {
-		val candidates = cl.ownedAttributes.filter[attr| attr.name.equals(name) && attr.getType.equals(type)]
+		val candidates = cl.members.filter(Property).filter[attr| attr.name.equals(name) && attr.getType.equals(type)]
 		if(candidates.size != 0){
 			return candidates.head
 		}else{

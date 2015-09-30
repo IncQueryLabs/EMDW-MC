@@ -26,11 +26,19 @@ class UmlStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder {
 	override build() {
 		val xtOperation = mapper.convertOperation(operation)
 		if(operation.qualifiedName.contains("std::out::println")) {
-			return factory.createOperationCallDescriptor => [
-						it.baseType = "void"
-						it.fullType = "void"
-						it.stringRepresentation = '''::std::cout«FOR param : params BEFORE " << " SEPARATOR " << "»«param.stringRepresentation»«ENDFOR» << ::std::endl'''
-					]
+			return (builder => [
+					it.operationName = "println"
+					it.parameters = params
+				]).build
+		}
+		if(operation.qualifiedName.contains("std::boolean::toString") ||
+			operation.qualifiedName.contains("std::real::toString") ||
+			operation.qualifiedName.contains("std::int::toString")
+		) {
+			return (builder => [
+					it.operationName = "toString"
+					it.parameters = params
+				]).build
 		}
 		return (builder => [
 					it.operation = xtOperation

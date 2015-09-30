@@ -81,7 +81,7 @@
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="select_any"/>
-    </subElements>    
+    </subElements>
     <subElements
         xsi:type="cpp:CPPClass"
         headerFile="/1/@files.13">
@@ -145,6 +145,13 @@
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="set_operations"/>
     </subElements>
+    <subElements
+        xsi:type="cpp:CPPClass"
+        headerFile="/1/@files.22">
+      <ooplNameProvider
+          xsi:type="oopl:OOPLDerivedNameProvider"
+          name="to_string"/>
+    </subElements>
   </cpp:CPPPackage>
   <cpp:CPPDirectory
       makeRulesFile="/1/@files.4">
@@ -154,6 +161,7 @@
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPMakeFile"/>
     <files xsi:type="cpp:CPPBodyFile"/>
+    <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>

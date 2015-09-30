@@ -167,6 +167,9 @@ class ClassRules {
 		val cppBody = cppClass.bodyFile
 		val selectionLibraryExternalHeader = getExternalHeader('''"xumlrt_runtime/select.hh"''')
 		cppBody.addInclude(selectionLibraryExternalHeader, "selection library")
+		
+		val toStringExternalHeader = getExternalHeader('''"xumlrt_runtime/to_string.hh"''')
+		cppBody.addInclude(toStringExternalHeader, "to_string")
 	}
 
 	def transformSubElements(CPPClass cppClass){

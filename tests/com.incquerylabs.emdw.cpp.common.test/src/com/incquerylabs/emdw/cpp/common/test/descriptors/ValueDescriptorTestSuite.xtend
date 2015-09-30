@@ -6,9 +6,8 @@ import org.junit.runners.Suite.SuiteClasses
 
 @SuiteClasses(#[
 	LiteralDescriptorTestSuite,
-	SingleVariableDescriptorForNewVariableTestSuite,
-	SingleVariableDescriptorForExistingVariableTestSuite,
-	CollectionVariableDescriptorForNewVariableTestSuite,
+	SingleVariableDescriptorTestSuite,
+	CollectionVariableDescriptorTestSuite,
 	PropertyReadDescriptorTestSuite,
 	PropertyWriteDescriptorTestSuite,
 	OperationCallDescriptorTestSuite,

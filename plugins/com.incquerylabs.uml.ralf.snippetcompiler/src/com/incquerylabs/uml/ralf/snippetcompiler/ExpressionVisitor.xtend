@@ -63,6 +63,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend2.lib.StringConcatenation
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionVariable
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -176,7 +177,21 @@ class ExpressionVisitor {
 				
 				if(ex.eContainer instanceof LocalNameDeclarationStatement){
 					val statement = ex.eContainer as LocalNameDeclarationStatement
-					variableDescriptor = statement.descriptor
+					if(statement.variable instanceof CollectionVariable){
+						val collection = statement.variable as CollectionVariable
+						variableDescriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
+							name = collection.name
+							collectionType = context.getCollectionType(collection.collectionType)
+							elementType = collection.type.type
+							isExistingVariable = true
+						]).build
+					}else{
+						variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
+							name = statement.variable.name
+							type = typeSystem.type(statement.variable).value.umlType
+							isExistingVariable = true
+						]).build
+					}
 					
 					initiateAttributes(ex, type, parent, variableDescriptor)
 					return descriptor.stringRepresentation

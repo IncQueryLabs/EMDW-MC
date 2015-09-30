@@ -6,14 +6,15 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.viatra.emf.runtime.rules.BatchTransformationRuleGroup
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 
 class ActionCodeRules {
+	private static val RETHROW_EXCEPTIONS = false
 	static extension val XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
 	extension val Logger logger = Logger.getLogger(class)
@@ -50,6 +51,9 @@ class ActionCodeRules {
 				} catch (Exception e) {
 					body.source = ""
 					error('''ERROR in Operation «operation.cppName»'s code''', e)
+					if(RETHROW_EXCEPTIONS){
+						throw e;
+					}
 				}
 			}
 		} else if(body instanceof XTAction) {
@@ -58,6 +62,9 @@ class ActionCodeRules {
 				debug('''Converted Operation «operation.cppName»'s code''')
 			} catch (Exception e) {
 				error('''ERROR in Operation «operation.cppName»'s code''', e)
+				if(RETHROW_EXCEPTIONS){
+					throw e;
+				}
 			}
 		}
 		
@@ -75,6 +82,9 @@ class ActionCodeRules {
 				} catch (Exception e) {
 					entryAction.source = ""
 					error('''ERROR in State «state.cppName»'s entry code''', e)
+					if(RETHROW_EXCEPTIONS){
+						throw e;
+					}
 				}
 			}
 		} else if(entryAction instanceof XTAction) {
@@ -83,6 +93,9 @@ class ActionCodeRules {
 				debug('''Converted State «state.cppName»'s entry code''')
 			} catch (Exception e) {
 				error('''ERROR in State «state.cppName»'s entry code''', e)
+				if(RETHROW_EXCEPTIONS){
+					throw e;
+				}
 			}
 		}
 		
@@ -100,6 +113,9 @@ class ActionCodeRules {
 				} catch (Exception e) {
 					stateExit.source = ""
 					error('''ERROR in State «state.cppName»'s exit code''', e)
+					if(RETHROW_EXCEPTIONS){
+						throw e;
+					}
 				}
 			}
 		} else if(stateExit instanceof XTAction) {
@@ -108,6 +124,9 @@ class ActionCodeRules {
 				debug('''Converted State «state.cppName»'s exit code''')
 			} catch (Exception e) {
 				error('''ERROR in State «state.cppName»'s exit code''', e)
+				if(RETHROW_EXCEPTIONS){
+					throw e;
+				}
 			}
 		}
 		
@@ -125,6 +144,9 @@ class ActionCodeRules {
 				} catch (Exception e) {
 					transitionAction.source = ""
 					error('''ERROR in Transition «transition.cppName»'s code''', e)
+					if(RETHROW_EXCEPTIONS){
+						throw e;
+					}
 				}
 			}
 		} else if(transitionAction instanceof XTAction) {
@@ -133,6 +155,9 @@ class ActionCodeRules {
 				debug('''Converted Transition «transition.cppName»'s code''')
 			} catch (Exception e) {
 				error('''ERROR in Transition «transition.cppName»'s code''', e)
+				if(RETHROW_EXCEPTIONS){
+					throw e;
+				}
 			}
 			
 		}
@@ -151,6 +176,9 @@ class ActionCodeRules {
 				} catch (Exception e) {
 					transitionGuard.source = ""
 					error('''ERROR in Transition «transition.cppName»'s guard code''', e)
+					if(RETHROW_EXCEPTIONS){
+						throw e;
+					}
 				}
 			}
 		} else if(transitionGuard instanceof XTAction) {
@@ -159,6 +187,9 @@ class ActionCodeRules {
 				debug('''Converted Transition «transition.cppName»'s guard code''')
 			} catch (Exception e) {
 				error('''ERROR in Transition «transition.cppName»'s guard code''', e)
+				if(RETHROW_EXCEPTIONS){
+					throw e;
+				}
 			}
 		}
 		

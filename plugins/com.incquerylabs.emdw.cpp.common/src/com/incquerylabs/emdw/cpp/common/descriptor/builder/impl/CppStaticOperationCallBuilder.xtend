@@ -39,7 +39,7 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 					ocd = createOperationCallDescriptor => [
 						it.baseType = stringType.cppQualifiedName
 						it.fullType = stringType.cppQualifiedName
-						it.stringRepresentation = '''xumlrt::toString(«params.get(0).stringRepresentation»)'''
+						it.stringRepresentation = '''::xumlrt::to_string(«params.get(0).stringRepresentation»)'''
 						it.pointerRepresentation = it.stringRepresentation.createStringRepresentations(stringType).pointerRepresentation
 						it.valueRepresentation = it.stringRepresentation.createStringRepresentations(stringType).valueRepresentation
 					]

@@ -61,8 +61,6 @@ class RuleProvider {
 		fireAllCurrent(cppClassRule, [it.container == cppComponent])
 		fireAllCurrent(cppExternalBridgeRule, [it.container == cppComponent])
 		fireAllCurrent(cppPackageRule, [it.container == cppComponent])
-		
-		logGeneratedFiles()
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
@@ -117,18 +115,6 @@ class RuleProvider {
 		generatedCPPSourceFiles.put(cppExternalBridge.bodyFile, body)
 		trace('''Generated code for «cppExternalBridge.cppName» CPPExternalBridge''')
 	].build
-	
-	def logGeneratedFiles(){
-		generatedFiles.forEach[fileName, fileContent|
-			debug(
-			'''
-				«fileName»
-				
-				«fileContent»
-			'''
-			)
-		]
-	}
 	
 	public def addRules(BatchTransformation transformation) {
 		

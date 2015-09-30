@@ -394,7 +394,7 @@ class ExpressionVisitor {
 							«descriptor.fullType» «descriptor.stringRepresentation» = «lastLine»;
 	    					''')
 	    	descriptor.stringRepresentation
-	    } else if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded){
+	    } else if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded && !(ex.feature instanceof Property)){
 	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
 	    	''')
 	    	descriptor.stringRepresentation

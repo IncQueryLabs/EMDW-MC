@@ -50,10 +50,7 @@ class ActionCodeRules {
 					debug('''Converted Operation «operation.cppName»'s code''')
 				} catch (Exception e) {
 					body.source = ""
-					error('''ERROR in Operation «operation.cppName»'s code''', e)
-					if(RETHROW_EXCEPTIONS){
-						throw e;
-					}
+					e.rethrowOrLogException('''ERROR in Operation «operation.cppName»'s code''')
 				}
 			}
 		} else if(body instanceof XTAction) {
@@ -61,10 +58,7 @@ class ActionCodeRules {
 				operation.convertOperation
 				debug('''Converted Operation «operation.cppName»'s code''')
 			} catch (Exception e) {
-				error('''ERROR in Operation «operation.cppName»'s code''', e)
-				if(RETHROW_EXCEPTIONS){
-					throw e;
-				}
+				e.rethrowOrLogException('''ERROR in Operation «operation.cppName»'s code''')
 			}
 		}
 		
@@ -81,10 +75,7 @@ class ActionCodeRules {
 					debug('''Converted State «state.cppName»'s entry code''')
 				} catch (Exception e) {
 					entryAction.source = ""
-					error('''ERROR in State «state.cppName»'s entry code''', e)
-					if(RETHROW_EXCEPTIONS){
-						throw e;
-					}
+					e.rethrowOrLogException('''ERROR in State «state.cppName»'s entry code''')
 				}
 			}
 		} else if(entryAction instanceof XTAction) {
@@ -92,10 +83,7 @@ class ActionCodeRules {
 				state.convertStateEntry
 				debug('''Converted State «state.cppName»'s entry code''')
 			} catch (Exception e) {
-				error('''ERROR in State «state.cppName»'s entry code''', e)
-				if(RETHROW_EXCEPTIONS){
-					throw e;
-				}
+				e.rethrowOrLogException('''ERROR in State «state.cppName»'s entry code''')
 			}
 		}
 		
@@ -112,10 +100,7 @@ class ActionCodeRules {
 					debug('''Converted State «state.cppName»'s exit code''')
 				} catch (Exception e) {
 					stateExit.source = ""
-					error('''ERROR in State «state.cppName»'s exit code''', e)
-					if(RETHROW_EXCEPTIONS){
-						throw e;
-					}
+					e.rethrowOrLogException('''ERROR in State «state.cppName»'s exit code''')
 				}
 			}
 		} else if(stateExit instanceof XTAction) {
@@ -123,10 +108,7 @@ class ActionCodeRules {
 				state.convertStateExit
 				debug('''Converted State «state.cppName»'s exit code''')
 			} catch (Exception e) {
-				error('''ERROR in State «state.cppName»'s exit code''', e)
-				if(RETHROW_EXCEPTIONS){
-					throw e;
-				}
+				e.rethrowOrLogException('''ERROR in State «state.cppName»'s exit code''')
 			}
 		}
 		
@@ -143,10 +125,7 @@ class ActionCodeRules {
 					debug('''Converted Transition «transition.cppName»'s code''')
 				} catch (Exception e) {
 					transitionAction.source = ""
-					error('''ERROR in Transition «transition.cppName»'s code''', e)
-					if(RETHROW_EXCEPTIONS){
-						throw e;
-					}
+					e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s code''')
 				}
 			}
 		} else if(transitionAction instanceof XTAction) {
@@ -154,10 +133,7 @@ class ActionCodeRules {
 				transition.convertTransition
 				debug('''Converted Transition «transition.cppName»'s code''')
 			} catch (Exception e) {
-				error('''ERROR in Transition «transition.cppName»'s code''', e)
-				if(RETHROW_EXCEPTIONS){
-					throw e;
-				}
+				e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s code''')
 			}
 			
 		}
@@ -175,10 +151,7 @@ class ActionCodeRules {
 					debug('''Converted Transition «transition.cppName»'s guard code''')
 				} catch (Exception e) {
 					transitionGuard.source = ""
-					error('''ERROR in Transition «transition.cppName»'s guard code''', e)
-					if(RETHROW_EXCEPTIONS){
-						throw e;
-					}
+					e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s guard code''')
 				}
 			}
 		} else if(transitionGuard instanceof XTAction) {
@@ -186,13 +159,17 @@ class ActionCodeRules {
 				transition.convertTransitionGuard
 				debug('''Converted Transition «transition.cppName»'s guard code''')
 			} catch (Exception e) {
-				error('''ERROR in Transition «transition.cppName»'s guard code''', e)
-				if(RETHROW_EXCEPTIONS){
-					throw e;
-				}
+				e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s guard code''')
 			}
 		}
 		
 	].build
 	
+	private def rethrowOrLogException(Exception e, String errorMessage) {
+		if(RETHROW_EXCEPTIONS){
+			throw e;
+		} else {
+			error(errorMessage, e)
+		}
+	}
 }

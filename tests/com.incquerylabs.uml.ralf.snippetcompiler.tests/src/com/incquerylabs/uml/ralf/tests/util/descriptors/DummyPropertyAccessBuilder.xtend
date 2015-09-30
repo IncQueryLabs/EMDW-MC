@@ -8,15 +8,25 @@ import org.eclipse.uml2.uml.Property
 class DummyPropertyAccessBuilder implements IUmlPropertyReadBuilder{
 	ValueDescriptor variable
 	Property property
+	private DummyUmlValueDescriptorFactory descrFactory
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	override build() {
-		createPropertyReadDescriptor => [		
+		val desc = createPropertyReadDescriptor => [
 			baseType = property.type.qualifiedName
 			fullType = property.type.qualifiedName
 			stringRepresentation = variable.stringRepresentation+'''->'''+property.name
+			valueRepresentation = '''value{«stringRepresentation»}'''
+			pointerRepresentation = '''pointer{«stringRepresentation»}'''
 		]
+		descrFactory.cache.add(desc)
+		return desc
+	}
+	
+	def setDescrFactory(DummyUmlValueDescriptorFactory descrFactory) {
+		this.descrFactory = descrFactory
+		this
 	}
 	
 	override setVariable(ValueDescriptor variable) {

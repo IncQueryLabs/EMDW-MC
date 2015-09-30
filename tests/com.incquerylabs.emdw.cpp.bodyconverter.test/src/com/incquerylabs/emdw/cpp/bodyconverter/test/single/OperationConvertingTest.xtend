@@ -27,8 +27,29 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				Ping ping = (Ping)this;
 				''',
+				''''''	// FIXME: Should not the validation throw an exception that a Pong cannot be casted to Ping?
+			],
+			#[  "Operation call expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
 				'''
-				::model::Comp::Ping* __ralf__0__ping = dynamic_cast<::model::Comp::Ping*>(this);'''
+				this.returnInteger();
+				''',
+				'''
+				this->returnInteger();'''
+			],
+			#[  "Collection attribute access with collection operation call test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				this.integerMultiProperty.add(1);
+				''',
+				'''
+				::std::pair< ::std::set< long>::iterator, bool> result = this->integerMultiProperty.insert(1);
+				bool __ralf__1__bool = result.second;
+				__ralf__1__bool;'''
 			],
 			#[  "Instances expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -49,19 +70,6 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::xumlrt::select_any(::model::Comp::Pong::_instances);'''
-			],
-			#[  "Add element to collection test",
-				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
-				"model::Comp::Pong::sendPing", 
-				ConversionType.Operation,
-				'''
-				Boolean b = Pong::instances().add(this);
-				''',
-				'''
-				::std::set< ::model::Comp::Pong* > __ralf__1____std__set = ::xumlrt::select_many(::model::Comp::Pong::_instances);
-				::std::pair< ::std::set< ::model::Comp::Pong*>::iterator, bool> result = __ralf__1____std__set.insert(this);
-				bool __ralf__2__bool = result.second;
-				bool __ralf__0__b = __ralf__2__bool;'''
 			],
 			#[  "Association access test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",

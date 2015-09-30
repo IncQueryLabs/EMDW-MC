@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_98atsDaYEeWEjvG0O-UKgA" name="ClientServer">
+  <packagedElement xmi:type="uml:Component" xmi:id="__0N80DaYEeWEjvG0O-UKgA" name="Component" isActive="true">
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_AptaYDaZEeWEjvG0O-UKgA" name="Server" classifierBehavior="_E7c8YDaZEeWEjvG0O-UKgA" isActive="true">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_4VIGUDaeEeWQybI4hYY8OQ" name="result">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+      </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_8yGn8DaeEeWQybI4hYY8OQ" name="lastRequestId">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+      </ownedAttribute>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_E7c8YDaZEeWEjvG0O-UKgA" name="Behavior">
+        <region xmi:type="uml:Region" xmi:id="_NL6PUDacEeWQybI4hYY8OQ" name="MainRegion">
+          <transition xmi:type="uml:Transition" xmi:id="_oOv4oDaeEeWQybI4hYY8OQ" name="Initialize" source="_mVJ5wDaeEeWQybI4hYY8OQ" target="_nCeSwDaeEeWQybI4hYY8OQ"/>
+          <transition xmi:type="uml:Transition" xmi:id="_FqAcwDafEeWQybI4hYY8OQ" name="Add" source="_nCeSwDaeEeWQybI4hYY8OQ" target="_AmsT4DafEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_TOi0QDapEeWQybI4hYY8OQ" name="CalculateAddition">
+              <language>rALF</language>
+              <body>std::out::println( &quot;Recieved request for addition with id &quot; + std::int::toString(sigdata.id));&#xD;
+this.lastRequestId = sigdata.id;&#xD;
+Real additionResult = (Real)(sigdata.a + sigdata.b);&#xD;
+this.result = additionResult;&#xD;
+std::out::println(&quot;The computed result for the addition is &quot; + std::real::toString(additionResult));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_pE4Z8DafEeWQybI4hYY8OQ" name="TriggerOnAdditionRequest" event="_onaa0DafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_QovbMDafEeWQybI4hYY8OQ" name="Multiplicate" source="_nCeSwDaeEeWQybI4hYY8OQ" target="_AmsT4DafEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_nC9Z8DapEeWQybI4hYY8OQ" name="CalculateMultiplication">
+              <language>rALF</language>
+              <body>std::out::println( &quot;Recieved request for multiplication with id &quot; + std::int::toString(sigdata.id));&#xD;
+this.lastRequestId = sigdata.id;&#xD;
+Real multiplicationResult = sigdata.r1 + sigdata.r2;&#xD;
+this.result = multiplicationResult;&#xD;
+std::out::println(&quot;The computed result for the multiplication is &quot; + std::real::toString(multiplicationResult));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_yW1GcDafEeWQybI4hYY8OQ" name="TriggerOnMultiplicationRequest" event="_yK1R0DafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_TFvpIDafEeWQybI4hYY8OQ" name="Finish" source="_AmsT4DafEeWQybI4hYY8OQ" target="_nCeSwDaeEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_yOsGADa-EeWQybI4hYY8OQ" name="PrintAckRecieved">
+              <language>rALF</language>
+              <body>std::out::println( &quot;Recieved ACK for the response with id: &quot; + std::int::toString(sigdata.id));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_8KNFADafEeWQybI4hYY8OQ" name="TriggerOnAck" event="_7x9kIDafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_CF6OcDagEeWQybI4hYY8OQ" name="ResendResponse" source="_AmsT4DafEeWQybI4hYY8OQ" target="_AmsT4DafEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_UEQSQDa_EeWQybI4hYY8OQ" name="AddRequestBeforeAckAction">
+              <language>rALF</language>
+              <body>std::out::println( &quot;Recieved request before ACK with id &quot; + std::int::toString(sigdata.id));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_WA_c0DagEeWQybI4hYY8OQ" name="TriggerOnAdditionRequest" event="_onaa0DafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_-y6JoDbAEeWQybI4hYY8OQ" source="_AmsT4DafEeWQybI4hYY8OQ" target="_AmsT4DafEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_PmgCoDbBEeWQybI4hYY8OQ" name="MultiplicationRequestBeforeAckAction">
+              <language>rALF</language>
+              <body>std::out::println( &quot;Recieved request before ACK with id &quot; + std::int::toString(sigdata.id));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_HS50wDbBEeWQybI4hYY8OQ" name="TriggerOnMultiplicationRequest" event="_yK1R0DafEeWQybI4hYY8OQ"/>
+          </transition>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_mVJ5wDaeEeWQybI4hYY8OQ" name="Init"/>
+          <subvertex xmi:type="uml:State" xmi:id="_nCeSwDaeEeWQybI4hYY8OQ" name="Ready">
+            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_6iGtsDa-EeWQybI4hYY8OQ" name="PrintReadyMessage">
+              <language>rALF</language>
+              <body>std::out::println( &quot;***************** server is ready *****************&quot;);&#xD;
+std::out::println( &quot;Waiting for requests&quot;);</body>
+            </entry>
+          </subvertex>
+          <subvertex xmi:type="uml:State" xmi:id="_AmsT4DafEeWQybI4hYY8OQ" name="WaitForAck">
+            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_wMyhsDaoEeWQybI4hYY8OQ" name="SendResult">
+              <language>rALF</language>
+              <body>if(sigdata.id == this.lastRequestId) {&#xD;
+  std::out::println(&quot;Sending response for request with id: &quot; + std::int::toString(sigdata.id));&#xD;
+  send new ClientServer::Component::Server::Response(id=>sigdata.id, result=>this.result) to this->client.one();&#xD;
+} else {&#xD;
+  std::out::println(&quot;Ignoring new request before ACK&quot;);&#xD;
+}</body>
+            </entry>
+          </subvertex>
+        </region>
+      </ownedBehavior>
+      <nestedClassifier xmi:type="uml:Signal" xmi:id="_iDAaADacEeWQybI4hYY8OQ" name="Request">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_-2hosDacEeWQybI4hYY8OQ" name="id">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Signal" xmi:id="_mJ1sgDacEeWQybI4hYY8OQ" name="RequestAddition">
+        <generalization xmi:type="uml:Generalization" xmi:id="_sJMxcDadEeWQybI4hYY8OQ" general="_iDAaADacEeWQybI4hYY8OQ"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_kUqeIDadEeWQybI4hYY8OQ" name="a">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_letPYDadEeWQybI4hYY8OQ" name="b">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Signal" xmi:id="_sc3w0DacEeWQybI4hYY8OQ" name="RequestMultiplication">
+        <generalization xmi:type="uml:Generalization" xmi:id="_uE96kDadEeWQybI4hYY8OQ" general="_iDAaADacEeWQybI4hYY8OQ"/>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_o7CzYDadEeWQybI4hYY8OQ" name="r1">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_qTDvMDadEeWQybI4hYY8OQ" name="r2">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+        </ownedAttribute>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Signal" xmi:id="_Gi3CQDadEeWQybI4hYY8OQ" name="Response">
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_KTJdADadEeWQybI4hYY8OQ" name="id">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        </ownedAttribute>
+        <ownedAttribute xmi:type="uml:Property" xmi:id="_Z-mCMDadEeWQybI4hYY8OQ" name="result">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+        </ownedAttribute>
+      </nestedClassifier>
+      <nestedClassifier xmi:type="uml:Association" xmi:id="_GTJB4Da2EeWQybI4hYY8OQ" name="R1" memberEnd="_GTMFMDa2EeWQybI4hYY8OQ _GTNTUDa2EeWQybI4hYY8OQ">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_GTLeIDa2EeWQybI4hYY8OQ" source="org.eclipse.papyrus">
+          <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_GTLeITa2EeWQybI4hYY8OQ" key="nature" value="UML_Nature"/>
+        </eAnnotations>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_GTMFMDa2EeWQybI4hYY8OQ" name="client" type="_YjJNUDacEeWQybI4hYY8OQ" association="_GTJB4Da2EeWQybI4hYY8OQ"/>
+        <ownedEnd xmi:type="uml:Property" xmi:id="_GTNTUDa2EeWQybI4hYY8OQ" name="server" type="_AptaYDaZEeWEjvG0O-UKgA" association="_GTJB4Da2EeWQybI4hYY8OQ"/>
+      </nestedClassifier>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_QvhDgDadEeWQybI4hYY8OQ" name="RequestAdditionReception" signal="_mJ1sgDacEeWQybI4hYY8OQ"/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_c1uAUDadEeWQybI4hYY8OQ" name="RequestMultiplicationReception" signal="_sc3w0DacEeWQybI4hYY8OQ"/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_S7koYDa-EeWQybI4hYY8OQ" name="AckReception" signal="_Gi3CQDadEeWQybI4hYY8OQ"/>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Class" xmi:id="_YjJNUDacEeWQybI4hYY8OQ" name="Client" classifierBehavior="_NCW1QDadEeWQybI4hYY8OQ" isActive="true">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_BS1qgFABEeWSb7YLZPPQgg" name="type" type="_C6tcsFAAEeWSb7YLZPPQgg"/>
+      <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_NCW1QDadEeWQybI4hYY8OQ" name="Behavior">
+        <region xmi:type="uml:Region" xmi:id="_IdIhIDaeEeWQybI4hYY8OQ" name="MainRegion">
+          <transition xmi:type="uml:Transition" xmi:id="_VqFqoDaeEeWQybI4hYY8OQ" name="TransitionInitReady" source="_UB-dUDaeEeWQybI4hYY8OQ" target="_OLWoMDaeEeWQybI4hYY8OQ"/>
+          <transition xmi:type="uml:Transition" xmi:id="_G5UnMDatEeWQybI4hYY8OQ" name="SendAdditionRequest" source="_OLWoMDaeEeWQybI4hYY8OQ" target="_D62LQDaqEeWQybI4hYY8OQ">
+            <trigger xmi:type="uml:Trigger" xmi:id="_MxAyUDa4EeWQybI4hYY8OQ" name="TriggerOnStart" event="_7x9kIDafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_UKJkEDatEeWQybI4hYY8OQ" name="SendMultiplicationRequest" source="_D62LQDaqEeWQybI4hYY8OQ" target="_MUGN0DatEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_LRcLEDa6EeWQybI4hYY8OQ" name="SendMultiplicationRequest">
+              <language>rALF</language>
+              <body>send new ClientServer::Component::Server::RequestMultiplication(id=>sigdata.id, r1=>0.0, r2=>0.0) to this->server.one();&#xD;
+std::out::println(&quot;Requesting multiplication result with id: &quot; + std::int::toString(sigdata.id));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_nUajEDa5EeWQybI4hYY8OQ" name="TriggerOnAdditionResponse" event="_7x9kIDafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_AFaBYDbDEeWQybI4hYY8OQ" name="ResendMultiplicationRequest" source="_MUGN0DatEeWQybI4hYY8OQ" target="_5PQB4DbCEeWQybI4hYY8OQ">
+            <effect xmi:type="uml:OpaqueBehavior" xmi:id="_fAmHMDbDEeWQybI4hYY8OQ" name="ResendMultiplicationRequest">
+              <language>rALF</language>
+              <body>send new ClientServer::Component::Server::RequestMultiplication(id=>sigdata.id, r1=>0.0, r2=>0.0) to this->server.one();&#xD;
+std::out::println(&quot;Requesting multiplication result with id: &quot; + std::int::toString(sigdata.id));</body>
+            </effect>
+            <trigger xmi:type="uml:Trigger" xmi:id="_PGmIoDbDEeWQybI4hYY8OQ" name="TriggerOnMultiplicationResponse" event="_7x9kIDafEeWQybI4hYY8OQ"/>
+          </transition>
+          <transition xmi:type="uml:Transition" xmi:id="_iMliEDbDEeWQybI4hYY8OQ" name="ReturnToReadyState" source="_5PQB4DbCEeWQybI4hYY8OQ" target="_OLWoMDaeEeWQybI4hYY8OQ">
+            <trigger xmi:type="uml:Trigger" xmi:id="_J1wrsDbEEeWQybI4hYY8OQ" name="TriggerOnMultiplicationSecondResponse" event="_7x9kIDafEeWQybI4hYY8OQ"/>
+          </transition>
+          <subvertex xmi:type="uml:State" xmi:id="_OLWoMDaeEeWQybI4hYY8OQ" name="Ready">
+            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_-4OxsDbEEeWQybI4hYY8OQ" name="PrintReadyMessage">
+              <language>rALF</language>
+              <body>std::out::println( &quot;***************** client is ready *****************&quot;);</body>
+            </entry>
+            <exit xmi:type="uml:OpaqueBehavior" xmi:id="_i_BBYDa_EeWQybI4hYY8OQ" name="SendAdditionRequest">
+              <language>rALF</language>
+              <body>ClientServer::Component::Server::RequestAddition request = new ClientServer::Component::Server::RequestAddition(id=>sigdata.id+1, a=>3, b=>9);&#xD;
+std::out::println(&quot;Requesting addition of &quot; + std::int::toString(request.a) + &quot; and &quot; + std::int::toString(request.b) + &quot; with id: &quot; + std::int::toString(request.id));&#xD;
+send request to this->server.one();</body>
+            </exit>
+          </subvertex>
+          <subvertex xmi:type="uml:Pseudostate" xmi:id="_UB-dUDaeEeWQybI4hYY8OQ" name="Init"/>
+          <subvertex xmi:type="uml:State" xmi:id="_D62LQDaqEeWQybI4hYY8OQ" name="WaitForAdditionResult">
+            <exit xmi:type="uml:OpaqueBehavior" xmi:id="_JxJOQDbAEeWQybI4hYY8OQ" name="SendAdditionAck">
+              <language>rALF</language>
+              <body>std::out::println(&quot;Recieved addition result: &quot; + std::real::toString(sigdata.result) + &quot; with id: &quot; + std::int::toString(sigdata.id));&#xD;
+ClientServer::Component::Server::Response ack = new ClientServer::Component::Server::Response(id=>sigdata.id, result=>0.0);&#xD;
+std::out::println(&quot;Sending ACK with id: &quot; + std::int::toString(ack.id));&#xD;
+send ack to this->server.one();</body>
+            </exit>
+          </subvertex>
+          <subvertex xmi:type="uml:State" xmi:id="_MUGN0DatEeWQybI4hYY8OQ" name="WaitForMultiplicationResult">
+            <entry xmi:type="uml:OpaqueBehavior" xmi:id="_XkKnUDbCEeWQybI4hYY8OQ" name="SendAnotherFaultyRequestBeforeAck">
+              <language>rALF</language>
+              <body>ClientServer::Component::Server::RequestMultiplication request = new ClientServer::Component::Server::RequestMultiplication(id=>666, r1=>66.0, r2=>6.0);&#xD;
+std::out::println(&quot;Requesting multiplication of &quot; + std::real::toString(request.r1) + &quot; and &quot; + std::real::toString(request.r2) + &quot; with id: &quot; + std::int::toString(request.id));&#xD;
+send request to this->server.one();</body>
+            </entry>
+          </subvertex>
+          <subvertex xmi:type="uml:State" xmi:id="_5PQB4DbCEeWQybI4hYY8OQ" name="WaitForMultiplicationResentResult">
+            <exit xmi:type="uml:OpaqueBehavior" xmi:id="_wWUc4DbDEeWQybI4hYY8OQ" name="SendMultiplicationAck">
+              <language>rALF</language>
+              <body>std::out::println(&quot;Recieved multiplication result: &quot; + std::real::toString(sigdata.result) + &quot; with id: &quot; + std::int::toString(sigdata.id));&#xD;
+ClientServer::Component::Server::Response ack = new ClientServer::Component::Server::Response(id=>sigdata.id, result=>0.0);&#xD;
+std::out::println(&quot;Sending ACK with id: &quot; + std::int::toString(ack.id));&#xD;
+send ack to this->server.one();</body>
+            </exit>
+          </subvertex>
+        </region>
+      </ownedBehavior>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_5_OtIDadEeWQybI4hYY8OQ" name="ResponseReception" signal="_Gi3CQDadEeWQybI4hYY8OQ"/>
+    </nestedClassifier>
+    <packagedElement xmi:type="uml:Enumeration" xmi:id="_C6tcsFAAEeWSb7YLZPPQgg" name="ClientType">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_DaGHYFAAEeWSb7YLZPPQgg" name="User"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_Dm3YEFAAEeWSb7YLZPPQgg" name="Admin"/>
+    </packagedElement>
+  </packagedElement>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_onaa0DafEeWQybI4hYY8OQ" name="AdditionSignalEvent" signal="_mJ1sgDacEeWQybI4hYY8OQ"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_yK1R0DafEeWQybI4hYY8OQ" name="MultiplicationSignalEvent" signal="_sc3w0DacEeWQybI4hYY8OQ"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_7x9kIDafEeWQybI4hYY8OQ" name="ResponseSignalEvent" signal="_Gi3CQDadEeWQybI4hYY8OQ"/>
+  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_V5P2EDagEeWQybI4hYY8OQ" name="RequestSignalEvent" signal="_iDAaADacEeWQybI4hYY8OQ"/>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_tpKHUGd8EeWYS6WrQ4T1Vw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_tpLVcGd8EeWYS6WrQ4T1Vw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>

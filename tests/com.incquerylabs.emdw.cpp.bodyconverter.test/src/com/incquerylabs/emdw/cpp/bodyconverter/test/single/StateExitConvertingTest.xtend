@@ -29,8 +29,7 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::ClientServer::Component::Server::RequestAddition_event* __ralf__0__request = new ::ClientServer::Component::Server::RequestAddition_event(false);
-				long __ralf__1__long = casted_const_event->id;
-				long __ralf__2__long = __ralf__1__long + 1;
+				long __ralf__2__long = casted_const_event->id + 1;
 				__ralf__0__request->id = __ralf__2__long;
 				__ralf__0__request->a = 3;
 				__ralf__0__request->b = 9;'''

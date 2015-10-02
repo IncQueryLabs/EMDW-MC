@@ -128,6 +128,8 @@ class SnippetTemplateCompilerUtil {
 			(descriptorFactory.createSingleVariableDescriptorBuilder => [
 				name = st.variable.name
 				type = typeSystem.type(st.variable).value.umlType
+				// if the statement has no expression, then initialization is also needed
+				initialize = (st.expression == null)
 			]).build
 		}
 	}

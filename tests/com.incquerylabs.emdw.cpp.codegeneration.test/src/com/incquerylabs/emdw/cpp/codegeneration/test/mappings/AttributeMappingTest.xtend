@@ -47,7 +47,7 @@ class AttributeMappingTest extends TransformationTest<State, CPPClass> {
 	override protected assertResult(CPPModel result, CPPClass cppObject) {
 		val files = cppCodeGeneration.generatedCPPSourceFiles
 		val classHeader = files.get(cppObject.headerFile).toString
-		assertTrue(classHeader.contains("bool myBool;"))
+		assertTrue(classHeader.contains("bool myBool = false;"))
 		assertTrue(classHeader.contains("set< bool > myBools;"))
 		
 	}

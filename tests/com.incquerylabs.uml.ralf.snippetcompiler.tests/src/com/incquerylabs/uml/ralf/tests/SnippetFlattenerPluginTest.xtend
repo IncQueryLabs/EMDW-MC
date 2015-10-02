@@ -44,7 +44,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				x = p.integerProperty ;''',
 				'''
 				model::Comp::Pong p = new model::Comp::Pong();
-				PrimitiveTypes::Integer x;
+				PrimitiveTypes::Integer x = default;
 				value{x} = p->integerProperty;''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -204,7 +204,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Integer a;
 				a = Pong::staticIntegerOperation();''',
 				'''
-				PrimitiveTypes::Integer a;
+				PrimitiveTypes::Integer a = default;
 				PrimitiveTypes::Integer temp0 = model::Comp::Pong::staticIntegerOperation();
 				value{a} = temp0;''',
 				"model::Comp::Pong::TestOperation"
@@ -214,7 +214,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Integer a;
 				Pong::StaticTestOperation(1, a);''',
 				'''
-				PrimitiveTypes::Integer a;
+				PrimitiveTypes::Integer a = default;
 				model::Comp::Pong::StaticTestOperation(1, a);''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -223,7 +223,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				Integer a;
 				Pong::StaticTestOperation(outParameter => 1, inParameter => a);''',
 				'''
-				PrimitiveTypes::Integer a;
+				PrimitiveTypes::Integer a = default;
 				model::Comp::Pong::StaticTestOperation(a, 1);''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -367,7 +367,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    Integer i;
 			    this.doIntegerVoid(i = 1);''',
 			    '''
-				PrimitiveTypes::Integer i;
+				PrimitiveTypes::Integer i = default;
 				PrimitiveTypes::Integer temp0 = (value{i} = 1);
 				this.doIntegerVoid(temp0);''',
 				"model::Comp::Pong::TestOperation"
@@ -377,7 +377,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    Integer i;
 			    this.doIntegerVoid(this.integerProperty = 1);''',
 			    '''
-				PrimitiveTypes::Integer i;
+				PrimitiveTypes::Integer i = default;
 				PrimitiveTypes::Integer temp0 = (this->integerProperty = 1);
 				this.doIntegerVoid(temp0);''',
 				"model::Comp::Pong::TestOperation"

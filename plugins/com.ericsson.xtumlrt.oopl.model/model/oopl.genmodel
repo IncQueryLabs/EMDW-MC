@@ -70,7 +70,9 @@
     <genClasses ecoreClass="oopl.ecore#//OOPLExistingNameProvider">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLExistingNameProvider/commonNamedElement"/>
     </genClasses>
-    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLBasicType"/>
+    <genClasses image="false" ecoreClass="oopl.ecore#//OOPLBasicType">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oopl.ecore#//OOPLBasicType/defaultValue"/>
+    </genClasses>
     <genClasses image="false" ecoreClass="oopl.ecore#//OOPLEnumType">
       <genFeatures property="Readonly" notify="false" createChild="false" ecoreFeature="ecore:EReference oopl.ecore#//OOPLEnumType/enumerators"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference oopl.ecore#//OOPLEnumType/defaultValue"/>

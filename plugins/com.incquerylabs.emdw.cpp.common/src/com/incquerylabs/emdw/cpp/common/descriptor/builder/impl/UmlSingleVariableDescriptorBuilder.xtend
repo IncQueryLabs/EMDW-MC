@@ -9,6 +9,7 @@ import static com.google.common.base.Preconditions.*
 class UmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptorBuilder {
 	private String name
 	private Type type
+	boolean initialize
 	private boolean isExistingVariable
 	private UmlValueDescriptorFactory factory
 	
@@ -21,9 +22,9 @@ class UmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptor
 		if(isExistingVariable) {
 			return factory.prepareSingleVariableDescriptorForExistingVariable(type, name)
 		} else if(name!=null) {
-			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type, name)
+			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type, name, initialize)
 		} else {
-			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type)
+			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type, initialize)
 		}
 	}
 	
@@ -39,6 +40,11 @@ class UmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptor
 	
 	override IUmlSingleVariableDescriptorBuilder setIsExistingVariable(boolean isExistingVariable) {
 		this.isExistingVariable = isExistingVariable
+		return this
+	}
+	
+	override setInitialize(boolean initialize) {
+		this.initialize = initialize
 		return this
 	}
 	

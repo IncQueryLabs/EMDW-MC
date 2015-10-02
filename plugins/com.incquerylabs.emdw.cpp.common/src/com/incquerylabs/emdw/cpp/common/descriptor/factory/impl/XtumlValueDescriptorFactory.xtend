@@ -51,10 +51,10 @@ class XtumlValueDescriptorFactory {
 	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name based on <code>localVariableName</code>
 	 */
-	def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName) {
+	def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName, boolean initialize) {
 		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
-		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType, localVariableName)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType, localVariableName, initialize)
 	}
 	
 	/**
@@ -76,10 +76,10 @@ class XtumlValueDescriptorFactory {
 	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name
 	 */
-	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
+	def prepareSingleVariableDescriptorForNewLocalVariable(Type type, boolean initialize) {
 		checkArgument(type!=null, "Type cannot be null")
 		val ooplType = mapper.convertType(type)
-		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType)
+		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType, initialize)
 	}
 	
 	/**
@@ -88,7 +88,7 @@ class XtumlValueDescriptorFactory {
 	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name
 	 */
-	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(XTEvent type) {
+	def prepareSingleVariableDescriptorForNewLocalVariable(XTEvent type) {
 		checkArgument(type!=null, "Type cannot be null")
 		val ooplEvent = mapper.convertEvent(type)
 		return factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplEvent)

@@ -28,9 +28,9 @@ abstract class OoplValueDescriptorFactory {
 	 * @return The SingleVariableDescriptor with the <code>type</code>
 	 *         and with unique name based on <code>localVariableName</code>
 	 */
-	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName)
+	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName, boolean initialize)
 	
-	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type)
+	def SingleVariableDescriptor prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, boolean initialize)
 	
 	def SingleVariableDescriptor prepareSingleVariableDescriptorForExistingVariable(OOPLType type, String localVariableName)
 	

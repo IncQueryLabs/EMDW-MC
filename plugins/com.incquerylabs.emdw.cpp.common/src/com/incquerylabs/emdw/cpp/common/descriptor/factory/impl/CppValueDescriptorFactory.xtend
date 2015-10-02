@@ -41,39 +41,39 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	
 	
 	
-	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName) {
+	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName, boolean initialize) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName.qualifiedName, initialize)
 		return preparedDescriptor
 	}
 	
 	def prepareSingleVariableDescriptorForNewLocalVariable(CPPEvent cppEvent, String localVariableName) {
 		checkArgument(cppEvent!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, localVariableName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, localVariableName.qualifiedName, false)
 		return preparedDescriptor
 	}
 	
-	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type) {
+	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, boolean initialize) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(type, (type as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, (type as CPPQualifiedNamedElement).cppName.escapeName.qualifiedName, initialize)
 		return preparedDescriptor
 	}
 	
 	def prepareSingleVariableDescriptorForNewLocalVariable(CPPEvent cppEvent) {
 		checkArgument(cppEvent!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, cppEvent.cppName.escapeName.qualifiedName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, cppEvent.cppName.escapeName.qualifiedName, false)
 		return preparedDescriptor
 	}
 	
 	override prepareSingleVariableDescriptorForExistingVariable(OOPLType type, String localVariableName) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName, false)
 		return preparedDescriptor
 	}
 	
 	def prepareSingleVariableDescriptorForExistingVariable(CPPEvent cppEvent, String localVariableName) {
 		checkArgument(cppEvent!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, localVariableName)
+		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, localVariableName, false)
 		return preparedDescriptor
 	}
 	
@@ -124,6 +124,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
+		// TODO find out if this is needed
 		index++
 		return preparedDescriptor
 	}
@@ -132,16 +133,23 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
+		// TODO find out if this is needed
 		index++
 		return preparedDescriptor
 	}
 	
-	private def prepareSingleVariableDescriptor(EObject type, String localVariableName) {
+	private def prepareSingleVariableDescriptor(EObject type, String localVariableName, boolean initialize) {
+		
+		val stringRepresentation = if(initialize) {
+			'''«localVariableName» = «typeConverter.getInitialValue(type)»'''
+		} else {
+			localVariableName
+		}
 		
 		val variableRepresentations = localVariableName.createStringRepresentations(type)
 		
 		val preparedDescriptor = createSingleVariableDescriptor => [
-				it.stringRepresentation = localVariableName
+				it.stringRepresentation = stringRepresentation
 				it.valueRepresentation = variableRepresentations.valueRepresentation
 				it.pointerRepresentation = variableRepresentations.pointerRepresentation
 				it.baseType = type.convertToType

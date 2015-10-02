@@ -102,9 +102,22 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * @return The SingleVariableDescriptor with the resolved <code>type</code> based on implementation
 	 *         and with unique name based on <code>localVariableName</code>
 	 */
-	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type, String localVariableName, boolean initialize) {
 		val xtumlType = mapper.convertType(type)
-		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType, localVariableName).cache(localVariableName)
+		if(initialize) {
+			val initializedValueDescriptor = factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType, localVariableName, initialize);
+			// FIXME this should be changed to properly find the generated unique variable name
+			var SingleVariableDescriptor uninitializedValueDescriptor
+			if(initializedValueDescriptor.stringRepresentation.startsWith(initializedValueDescriptor.pointerRepresentation)){
+				uninitializedValueDescriptor = factory.prepareSingleVariableDescriptorForExistingVariable(xtumlType, initializedValueDescriptor.pointerRepresentation);
+			} else {
+				uninitializedValueDescriptor = factory.prepareSingleVariableDescriptorForExistingVariable(xtumlType, initializedValueDescriptor.valueRepresentation);
+			}
+			uninitializedValueDescriptor.cache(localVariableName)
+			return initializedValueDescriptor
+		} else {
+			return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType, localVariableName, initialize).cache(localVariableName)
+		}
 	}
 	
 	/**
@@ -121,7 +134,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * @return The SingleVariableDescriptor with the resolved <code>signal</code> based on implementation
 	 *         and with unique name based on <code>localVariableName</code>
 	 */
-	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Signal signal, String localVariableName) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Signal signal, String localVariableName, boolean initialize) {
 		val xtumlSignal = mapper.convertSignal(signal)
 		return factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlSignal, localVariableName).cache(localVariableName)
 	}
@@ -130,9 +143,9 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * @return The SingleVariableDescriptor with the resolved type based on implementation and 
 	 *         with unique name
 	 */
-	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Type type, boolean initialize) {
 		val xtumlType = mapper.convertType(type)
-		val descriptor = factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType)
+		val descriptor = factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlType, initialize)
 		return descriptor.cache(descriptor.stringRepresentation)
 	}
 	
@@ -140,7 +153,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	 * @return The SingleVariableDescriptor with the resolved signal based on implementation and 
 	 *         with unique name
 	 */
-	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Signal signal) {
+	dispatch def prepareSingleVariableDescriptorForNewLocalVariable(Signal signal, boolean initialize) {
 		val xtumlEvent = mapper.convertSignal(signal)
 		val descriptor = factory.prepareSingleVariableDescriptorForNewLocalVariable(xtumlEvent)
 		return descriptor.cache(descriptor.stringRepresentation)

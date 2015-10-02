@@ -25,5 +25,10 @@ interface IUmlSingleVariableDescriptorBuilder  extends IValueDescriptorBuilder<S
 	 * The returned SingleVariableDescriptor's stringRepresentation will not necessarily the
 	 * same as the defined name.
 	 */
-	def IUmlSingleVariableDescriptorBuilder setIsExistingVariable(boolean isExistingVariable) 
+	def IUmlSingleVariableDescriptorBuilder setIsExistingVariable(boolean isExistingVariable)
+	
+	/**
+	 * Determines if the created variable requires default initialization. 
+	 */
+	def IUmlSingleVariableDescriptorBuilder setInitialize(boolean initialize)
 }

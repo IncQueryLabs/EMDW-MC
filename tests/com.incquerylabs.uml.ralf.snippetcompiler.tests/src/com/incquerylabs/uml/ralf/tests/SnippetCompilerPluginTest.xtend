@@ -514,7 +514,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    p = ((Pong) p2);
 			    ''',
 			    '''
-				model::Comp::Pong p = nullptr;
+				model::Comp::Pong p = default;
 				model::Comp::Pong2 p2 = new model::Comp::Pong2();
 				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
 				pointer{p} = temp0;''',
@@ -527,7 +527,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    p.doPongVoid(((Pong) p2));
 			    ''',
 			    '''
-				model::Comp::Pong p = nullptr;
+				model::Comp::Pong p = default;
 				model::Comp::Pong2 p2 = new model::Comp::Pong2();
 				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
 				p.doPongVoid(temp0);''',

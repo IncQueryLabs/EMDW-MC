@@ -9,6 +9,7 @@ import static com.google.common.base.Preconditions.*
 class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptorBuilder{
 	private String name
 	private Type type
+	private boolean initialize
 	private boolean isExistingVariable
 	private DummyUmlValueDescriptorFactory descrFactory
 	
@@ -41,19 +42,23 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 			descrFactory.cache.add(descriptor)
 			return descriptor
 		} else if(name!=null) {
-			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type, name)
+			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type, name, initialize)
 			descrFactory.cache.add(descriptor)
 			return descriptor
 		} else {
-			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type)
+			val descriptor = prepareSingleValueDescriptorForNewLocalVariable(type, initialize)
 			descrFactory.cache.add(descriptor)
 			return descriptor
 		}
 	}
 	
-	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName) {
+	def prepareSingleValueDescriptorForNewLocalVariable(Type type, String localVariableName, boolean initialize) {
 		val descr = factory.createSingleVariableDescriptor()
-		descr.stringRepresentation = localVariableName
+		if(initialize) {
+			descr.stringRepresentation = '''«localVariableName» = default'''
+		} else {
+			descr.stringRepresentation = localVariableName
+		}
 		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
 		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		if(type != null){
@@ -63,9 +68,13 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 		descr
 	}
 	
-	def prepareSingleValueDescriptorForNewLocalVariable(Type type) {
+	def prepareSingleValueDescriptorForNewLocalVariable(Type type, boolean initialize) {
 		val descr = factory.createSingleVariableDescriptor()
-		descr.stringRepresentation = "temp"+descrFactory.number
+		if(initialize) {
+			descr.stringRepresentation = '''temp«descrFactory.number» = default'''
+		} else {
+			descr.stringRepresentation = '''temp«descrFactory.number»'''
+		}
 		descr.valueRepresentation = '''value{«descr.stringRepresentation»}'''
 		descr.pointerRepresentation = '''pointer{«descr.stringRepresentation»}'''
 		descrFactory.number++
@@ -86,5 +95,11 @@ class DummyUmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescr
 			descr.fullType = type.qualifiedName
 		}
 		descr
-	}	
+	}
+	
+	override setInitialize(boolean initialize) {
+		this.initialize = initialize
+		return this
+	}
+	
 }

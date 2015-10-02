@@ -7,7 +7,7 @@
     xmlns:oopl="http://www.ericsson.com/xtumlrt/oopl">
   <cpp:CPPPackage>
     <subElements
-        xsi:type="cpp:CPPBasicType">
+        xsi:type="cpp:CPPBasicType" defaultValue="false">
       <commonType
           xsi:type="common:PrimitiveType"
           href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
@@ -16,7 +16,7 @@
           name="bool"/>
     </subElements>
     <subElements
-        xsi:type="cpp:CPPBasicType">
+        xsi:type="cpp:CPPBasicType" defaultValue="0l">
       <commonType
           xsi:type="common:PrimitiveType"
           href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
@@ -25,7 +25,7 @@
           name="long"/>
     </subElements>
     <subElements
-        xsi:type="cpp:CPPBasicType">
+        xsi:type="cpp:CPPBasicType" defaultValue="0.0">
       <commonType
           xsi:type="common:PrimitiveType"
           href="../../../plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>

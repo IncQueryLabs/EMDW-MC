@@ -12,23 +12,29 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
 				'''
+				Boolean b;
+				b = true;
 				send new ping_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Ping* __ralf__0__Ping = ::xumlrt::select_any(this->R1_ping);
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
+				bool __ralf__0__b = false;
+				__ralf__0__b = true;
+				::model::Comp::Ping* __ralf__1__Ping = ::xumlrt::select_any(this->R1_ping);
+				::model::Comp::Pong::ping_s_event* __ralf__2__ping_s = new ::model::Comp::Pong::ping_s_event(false);
 
-				__ralf__0__Ping->generate_event(__ralf__1__ping_s);'''
+				__ralf__1__Ping->generate_event(__ralf__2__ping_s);'''
 			],
 			#[  "Instances expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
 				'''
-				Pong::instances();
+				Pong p;
+				p = Pong::instances().one();
 				''',
 				'''
-				::xumlrt::select_many(::model::Comp::Pong::_instances);'''
+				::model::Comp::Pong* __ralf__0__p = nullptr;
+				__ralf__0__p = ::xumlrt::select_any(::model::Comp::Pong::_instances);'''
 			],
 			#[  "Cast expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

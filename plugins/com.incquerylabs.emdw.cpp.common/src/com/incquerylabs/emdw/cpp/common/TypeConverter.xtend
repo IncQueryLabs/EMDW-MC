@@ -20,6 +20,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPStructType
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.xtend.lib.annotations.Data
+import com.ericsson.xtumlrt.oopl.OOPLBasicType
 
 class TypeConverter {
 	
@@ -170,6 +171,13 @@ class TypeConverter {
 		}
 	}
 	
+	def boolean isPrimitiveType(EObject type) {
+		switch type {
+			OOPLBasicType: type.commonType.name != "String" 
+			default: false
+		}
+	}
+	
 	def String toConst(CharSequence type){
 		'''const «type»'''
 	}
@@ -218,5 +226,14 @@ class TypeConverter {
 	static class ValueAndPointerRepresentationPair {
 		val String pointerRepresentation
 		val String valueRepresentation
-	} 
+	}
+	
+	def getInitialValue(EObject type) {
+		if(type.isPrimitiveType) {
+			(type as OOPLBasicType).defaultValue
+		} else if(type.isReferenceType) {
+			'''nullptr'''
+		}
+	}
+	
 }

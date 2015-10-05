@@ -50,7 +50,7 @@ class StatementVisitor {
 		trace('''Started visiting: «st.class.simpleName»''')
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
-		val expressionsnippet = st.expression.visit(builder)
+		val expressionsnippet = st.expression.visit(builder).stringRepresentation
 		builder.append('''«expressionsnippet»;''')
 		trace('''Finished visiting: «st.class.simpleName»: «builder.toString»''')
 		builder.toString
@@ -85,7 +85,7 @@ class StatementVisitor {
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		if(st.expression != null){
-			val expressionsnippet = st.expression.visit(builder)	
+			val expressionsnippet = st.expression.visit(builder).stringRepresentation	
 			builder.append('''return «expressionsnippet»;''')
 		}else{
 			builder.append('''return;''')
@@ -102,7 +102,7 @@ class StatementVisitor {
 		var String expressionsnippet
 		
 		if(st.expression != null){
-			expressionsnippet = st.expression.visit(builder)
+			expressionsnippet = st.expression.visit(builder).stringRepresentation
 		} else{
 			expressionsnippet = ""
 		}
@@ -134,26 +134,12 @@ class StatementVisitor {
 	
 	def dispatch String visit(SendSignalStatement st){
 		trace('''Started visiting: Send Signal Statement''')
-		val targetType = typeSystem.type(st.target).value.umlType
-		val signalType = typeSystem.type(st.signal).value.umlType
 		
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
-		val targetString = st.target.visit(builder) 		
-		val signalString = st.signal.visit(builder) 
-		
-		val targetDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = targetType
-			name = targetString
-			isExistingVariable = true
-		]).build
-		
-		val signalDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-			type = signalType
-			name = signalString
-			isExistingVariable = true
-		]).build
-		
+		val targetDescriptor = st.target.visit(builder) 		
+		val signalDescriptor = st.signal.visit(builder) 
+				
 		val descriptor = (descriptorFactory.createSendSignalBuilder => [
 			variable = targetDescriptor
 			signal = signalDescriptor
@@ -169,7 +155,7 @@ class StatementVisitor {
 		trace('''Started visiting: «st.class.simpleName»''')
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
-		val expressionString = st.expression.visit(builder)
+		val expressionString = st.expression.visit(builder).stringRepresentation
 		
 		val clausesString = 
 		'''
@@ -301,9 +287,8 @@ class StatementVisitor {
 		builder.append(st.serializeToTraceComment)
 		val variableType = st.variableDefinition.getType.type
 		val variableName = st.variableDefinition.name
-		val collectionString = st.expression.visit(builder)
+		val collectionDescriptor = st.expression.visit(builder)
 		
-		val collectionDescriptor = descriptorFactory.getCachedVariableDescriptor(collectionString)
 		val descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 			type = variableType
 			name = variableName
@@ -323,9 +308,9 @@ class StatementVisitor {
 	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){
 		trace('''Started visiting: «nfc.class.simpleName»''')
 		builder.append(nfc.serializeToTraceComment)
-		val conditionString = nfc.condition.visit(builder)
+		val conditionDescriptor = nfc.condition.visit(builder)
 		
-		val ret = '''(«conditionString») «nfc.body.visit»'''
+		val ret = '''(«conditionDescriptor.stringRepresentation») «nfc.body.visit»'''
 		trace('''Finished visiting: «nfc.class.simpleName»''')
 		ret
 	} 
@@ -335,7 +320,7 @@ class StatementVisitor {
 		val casesBuilder = new StringBuilder
 		
 		st.^case.forEach[ expr |
-    		casesBuilder.append(expr.visit(builder))
+    		casesBuilder.append(expr.visit(builder).stringRepresentation)
     	]
     	trace('''Finished visiting: «st.class.simpleName»''')
     	'''case «casesBuilder.toString» : «st.block.visit»'''	
@@ -355,7 +340,7 @@ class StatementVisitor {
 			
 			conditionSnippet = descriptor.stringRepresentation
 		}else{
-			conditionSnippet = ex.visit(builder)
+			conditionSnippet = ex.visit(builder).stringRepresentation
 		}
 	}
 	
@@ -364,7 +349,7 @@ class StatementVisitor {
 		if(ex instanceof LiteralExpression){
 			conditionSnippet = getDescriptor(ex).stringRepresentation
 		}else{
-			conditionSnippet = ex.visit(builder)
+			conditionSnippet = ex.visit(builder).stringRepresentation
 		}
 	}
 	

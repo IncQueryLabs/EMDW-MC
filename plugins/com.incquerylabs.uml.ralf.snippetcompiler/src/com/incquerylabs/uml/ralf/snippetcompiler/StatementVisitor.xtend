@@ -94,7 +94,7 @@ class StatementVisitor {
 		if(st.expression instanceof InstanceCreationExpression && (st.expression as InstanceCreationExpression).instance instanceof Signal){
 			'''«descriptor.fullType» «descriptor.stringRepresentation» = «expressionsnippet»;'''+StringConcatenation.DEFAULT_LINE_DELIMITER+builder.toString
 		}else{
-			builder.append('''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ELSEIF typeSystem.type(st.variable).value.umlType instanceof org.eclipse.uml2.uml.Class» = nullptr«ENDIF»«expressionsnippet»;''')
+			builder.append('''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ENDIF»«expressionsnippet»;''')
 			builder.toString
 		}		
 	}

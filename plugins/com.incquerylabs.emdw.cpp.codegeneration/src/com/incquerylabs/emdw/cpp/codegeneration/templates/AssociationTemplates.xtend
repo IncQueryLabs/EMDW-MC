@@ -21,7 +21,7 @@ class AssociationTemplates extends CPPTemplate {
 		val cppReferenceStorageType = generateCPPReferenceStorageType(cppClassReferenceStorage)
 		val cppReferenceStorageName = cppClassReferenceStorage.cppName  
 		'''
-		«cppReferenceStorageType» «cppReferenceStorageName»;
+		«cppReferenceStorageType» «cppReferenceStorageName»«IF typeConverter.isReferenceType(cppClassReferenceStorage.type)» = nullptr«ENDIF»;
 		'''
 	}
 	

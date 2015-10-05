@@ -2,33 +2,33 @@
 <uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ZvNCEBmjEeWkDIIs2OLK7g" name="model">
   <packagedElement xmi:type="uml:Component" xmi:id="_U_BbIBmkEeWkDIIs2OLK7g" name="Comp">
     <nestedClassifier xmi:type="uml:Class" xmi:id="_LbgdgBmkEeWkDIIs2OLK7g" name="Pong" classifierBehavior="_a8SY4BmmEeWkDIIs2OLK7g">
-      <ownedAttribute xmi:id="_wo97UDzSEeWAt_pdRhgfAA" name="integerProperty">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_wo97UDzSEeWAt_pdRhgfAA" name="integerProperty">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_2bZIwFLSEeWGoI0n4OjYuA" name="count">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_2bZIwFLSEeWGoI0n4OjYuA" name="count">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
-      <ownedAttribute xmi:id="_OVFkcGedEeWP8uDj1wiGWw" name="integerMultiProperty">
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_OVFkcGedEeWP8uDj1wiGWw" name="integerMultiProperty">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Svf6QGedEeWP8uDj1wiGWw" value="*"/>
       </ownedAttribute>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a8SY4BmmEeWkDIIs2OLK7g" name="Pong_SM">
-        <region xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
-          <transition xmi:id="_hewAUBmmEeWkDIIs2OLK7g" name="i" source="_faJEQBmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g"/>
-          <transition xmi:id="_jASEgBmmEeWkDIIs2OLK7g" name="e1" source="_cUor4BmmEeWkDIIs2OLK7g" target="_d8s14BmmEeWkDIIs2OLK7g">
-            <trigger xmi:id="_w4mfMBmmEeWkDIIs2OLK7g" name="ping_t" event="_iBpxsBmpEeW8avfFxjlgXw"/>
+        <region xmi:type="uml:Region" xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
+          <transition xmi:type="uml:Transition" xmi:id="_hewAUBmmEeWkDIIs2OLK7g" name="i" source="_faJEQBmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g"/>
+          <transition xmi:type="uml:Transition" xmi:id="_jASEgBmmEeWkDIIs2OLK7g" name="e1" source="_cUor4BmmEeWkDIIs2OLK7g" target="_d8s14BmmEeWkDIIs2OLK7g">
+            <trigger xmi:type="uml:Trigger" xmi:id="_w4mfMBmmEeWkDIIs2OLK7g" name="ping_t" event="_iBpxsBmpEeW8avfFxjlgXw"/>
           </transition>
-          <transition xmi:id="_kKvFcBmmEeWkDIIs2OLK7g" name="e2" source="_d8s14BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
+          <transition xmi:type="uml:Transition" xmi:id="_kKvFcBmmEeWkDIIs2OLK7g" name="e2" source="_d8s14BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
             <effect xmi:type="uml:OpaqueBehavior" xmi:id="_MmBIkBpDEeWJmP2mki6rxQ" name="sendPong">
               <language>C++</language>
               <language>rALF</language>
               <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
               <body>send new Ping::pong_s() to this->ping;</body>
             </effect>
-            <trigger xmi:id="_f6aKYBpDEeWgOeVNG9guWg" name="ping_t" event="_iBpxsBmpEeW8avfFxjlgXw"/>
+            <trigger xmi:type="uml:Trigger" xmi:id="_f6aKYBpDEeWgOeVNG9guWg" name="ping_t" event="_iBpxsBmpEeW8avfFxjlgXw"/>
           </transition>
-          <transition xmi:id="_SX6McEvMEeWnFNKQM2H9lw" name="e3" guard="_fJ8UgEvMEeWnFNKQM2H9lw" source="_cUor4BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
-            <ownedRule xmi:id="_fJ8UgEvMEeWnFNKQM2H9lw" name="integer_guard">
+          <transition xmi:type="uml:Transition" xmi:id="_SX6McEvMEeWnFNKQM2H9lw" name="e3" guard="_fJ8UgEvMEeWnFNKQM2H9lw" source="_cUor4BmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g">
+            <ownedRule xmi:type="uml:Constraint" xmi:id="_fJ8UgEvMEeWnFNKQM2H9lw" name="integer_guard">
               <specification xmi:type="uml:OpaqueExpression" xmi:id="_76-28EvMEeWGH8aruvqQ-w" name="integerProperty_opaqueExpression">
                 <language>rALF</language>
                 <body>this.'count' &lt; 42;</body>
@@ -47,76 +47,77 @@
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
         </region>
       </ownedBehavior>
-      <ownedOperation xmi:id="_uzx64DEXEeW_U4Ge-CTh1A" name="doIntegerVoid">
-        <ownedParameter xmi:id="_uzx64TEXEeW_U4Ge-CTh1A" name="parameter">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_uzx64DEXEeW_U4Ge-CTh1A" name="doIntegerVoid">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_uzx64TEXEeW_U4Ge-CTh1A" name="parameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_0Dh9QDEXEeW_U4Ge-CTh1A" name="doRealVoid">
-        <ownedParameter xmi:id="_0Dh9QTEXEeW_U4Ge-CTh1A" name="parameter">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_0Dh9QDEXEeW_U4Ge-CTh1A" name="doRealVoid">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_0Dh9QTEXEeW_U4Ge-CTh1A" name="parameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="__1XzoDEXEeW_U4Ge-CTh1A" name="doStringVoid">
-        <ownedParameter xmi:id="__1XzoTEXEeW_U4Ge-CTh1A" name="parameter">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="__1XzoDEXEeW_U4Ge-CTh1A" name="doStringVoid">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="__1XzoTEXEeW_U4Ge-CTh1A" name="parameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_E_hkUDEYEeW_U4Ge-CTh1A" name="doBooleanVoid">
-        <ownedParameter xmi:id="_E_hkUTEYEeW_U4Ge-CTh1A" name="parameter">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_E_hkUDEYEeW_U4Ge-CTh1A" name="doBooleanVoid">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_E_hkUTEYEeW_U4Ge-CTh1A" name="parameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_RL8d4DEYEeW_U4Ge-CTh1A" name="doPongVoid">
-        <ownedParameter xmi:id="_RL8d4TEYEeW_U4Ge-CTh1A" name="parameter" type="_LbgdgBmkEeWkDIIs2OLK7g"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_RL8d4DEYEeW_U4Ge-CTh1A" name="doPongVoid">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_RL8d4TEYEeW_U4Ge-CTh1A" name="parameter" type="_LbgdgBmkEeWkDIIs2OLK7g"/>
       </ownedOperation>
-      <ownedOperation xmi:id="_iv75EDEYEeW_U4Ge-CTh1A" name="returnInteger">
-        <ownedParameter xmi:id="_iv75ETEYEeW_U4Ge-CTh1A" name="return" direction="return">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_iv75EDEYEeW_U4Ge-CTh1A" name="returnInteger">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_iv75ETEYEeW_U4Ge-CTh1A" name="return" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_m5beADEYEeW_U4Ge-CTh1A" name="returnPong">
-        <ownedParameter xmi:id="_m5beATEYEeW_U4Ge-CTh1A" name="return" type="_LbgdgBmkEeWkDIIs2OLK7g" direction="return"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_m5beADEYEeW_U4Ge-CTh1A" name="returnPong">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_m5beATEYEeW_U4Ge-CTh1A" name="return" type="_LbgdgBmkEeWkDIIs2OLK7g" direction="return"/>
       </ownedOperation>
-      <ownedOperation xmi:id="_qinLMDEYEeW_U4Ge-CTh1A" name="returnPingSignal">
-        <ownedParameter xmi:id="_qinLMTEYEeW_U4Ge-CTh1A" name="return" type="_6nat4BmmEeWkDIIs2OLK7g" direction="return"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_qinLMDEYEeW_U4Ge-CTh1A" name="returnPingSignal">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_qinLMTEYEeW_U4Ge-CTh1A" name="return" type="_6nat4BmmEeWkDIIs2OLK7g" direction="return"/>
       </ownedOperation>
-      <ownedOperation xmi:id="_yLiO8DEZEeW_U4Ge-CTh1A" name="doMultipleReturnString">
-        <ownedParameter xmi:id="_yLiO8TEZEeW_U4Ge-CTh1A" name="param1">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_yLiO8DEZEeW_U4Ge-CTh1A" name="doMultipleReturnString">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_yLiO8TEZEeW_U4Ge-CTh1A" name="param1">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_yLiO8jEZEeW_U4Ge-CTh1A" name="param2" type="_LbgdgBmkEeWkDIIs2OLK7g"/>
-        <ownedParameter xmi:id="_yLiO8zEZEeW_U4Ge-CTh1A" name="return" direction="return">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_yLiO8jEZEeW_U4Ge-CTh1A" name="param2" type="_LbgdgBmkEeWkDIIs2OLK7g"/>
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_yLiO8zEZEeW_U4Ge-CTh1A" name="return" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_AzTwoDEaEeW_U4Ge-CTh1A" name="doDefaultValue">
-        <ownedParameter xmi:id="_AzTwoTEaEeW_U4Ge-CTh1A" name="optionalParam">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_AzTwoDEaEeW_U4Ge-CTh1A" name="doDefaultValue">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_AzTwoTEaEeW_U4Ge-CTh1A" name="optionalParam">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           <defaultValue xmi:type="uml:LiteralInteger" xmi:id="_AzTwojEaEeW_U4Ge-CTh1A" name="default" value="1"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_vE8jQDeBEeWL0_G-UoY53A" name="TestOperation" method="_Tfv7cDE3EeW_U4Ge-CTh1A">
-        <ownedParameter xmi:id="_xQ3oQDeBEeWL0_G-UoY53A" name="inParameter">
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_vE8jQDeBEeWL0_G-UoY53A" name="TestOperation" method="_Tfv7cDE3EeW_U4Ge-CTh1A">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_xQ3oQDeBEeWL0_G-UoY53A" name="inParameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_xQ3oQTeBEeWL0_G-UoY53A" name="outParameter" direction="out">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_xQ3oQTeBEeWL0_G-UoY53A" name="outParameter" direction="out">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_xQ3oQjeBEeWL0_G-UoY53A" name="result" direction="return">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_xQ3oQjeBEeWL0_G-UoY53A" name="result" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
-      <ownedOperation xmi:id="_HNhU8EWoEeWcLrJDHOFUIQ" name="sendPing" method="_sVl38EWhEeWcLrJDHOFUIQ"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_HNhU8EWoEeWcLrJDHOFUIQ" name="sendPing" method="_sVl38EWhEeWcLrJDHOFUIQ"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_AyKwUGsyEeWYkv5PNs0h2A" name="staticOperation" isStatic="true"/>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s"/>
       <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_Tfv7cDE3EeW_U4Ge-CTh1A" name="TestBehavior" specification="_vE8jQDeBEeWL0_G-UoY53A">
-        <ownedParameter xmi:id="_93Gp8DE0EeW_U4Ge-CTh1A" name="inParameter">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_93Gp8DE0EeW_U4Ge-CTh1A" name="inParameter">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_QZoxADE1EeW_U4Ge-CTh1A" name="outParameter" direction="out">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_QZoxADE1EeW_U4Ge-CTh1A" name="outParameter" direction="out">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
-        <ownedParameter xmi:id="_eRB-oDE1EeW_U4Ge-CTh1A" name="result" direction="return">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_eRB-oDE1EeW_U4Ge-CTh1A" name="result" direction="return">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </nestedClassifier>
@@ -124,17 +125,18 @@
         <language>rALF</language>
         <body>send new ping_s() to this->ping;</body>
       </nestedClassifier>
-      <ownedReception xmi:id="_l3-fkBpEEeWgOeVNG9guWg" name="Reception1" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
+      <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_QJwlYGsyEeWYkv5PNs0h2A" name="staticOperationBehavior" language="" body=""/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_l3-fkBpEEeWgOeVNG9guWg" name="Reception1" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
     </nestedClassifier>
     <nestedClassifier xmi:type="uml:Class" xmi:id="_I9qiEBmkEeWkDIIs2OLK7g" name="Ping" classifierBehavior="_kQ9UIBmkEeWkDIIs2OLK7g">
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_kQ9UIBmkEeWkDIIs2OLK7g" name="Ping_SM">
-        <region xmi:id="_kfjJwBmkEeWkDIIs2OLK7g" name="Region1">
-          <transition xmi:id="_su_QYBmkEeWkDIIs2OLK7g" name="i" source="_rax2gBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g"/>
-          <transition xmi:id="_76OrgBmkEeWkDIIs2OLK7g" name="e1" source="_oUtdcBmkEeWkDIIs2OLK7g" target="_oolbsBmkEeWkDIIs2OLK7g">
-            <trigger xmi:id="_lJ01kBpDEeWgOeVNG9guWg" name="pong_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
+        <region xmi:type="uml:Region" xmi:id="_kfjJwBmkEeWkDIIs2OLK7g" name="Region1">
+          <transition xmi:type="uml:Transition" xmi:id="_su_QYBmkEeWkDIIs2OLK7g" name="i" source="_rax2gBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g"/>
+          <transition xmi:type="uml:Transition" xmi:id="_76OrgBmkEeWkDIIs2OLK7g" name="e1" source="_oUtdcBmkEeWkDIIs2OLK7g" target="_oolbsBmkEeWkDIIs2OLK7g">
+            <trigger xmi:type="uml:Trigger" xmi:id="_lJ01kBpDEeWgOeVNG9guWg" name="pong_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
           </transition>
-          <transition xmi:id="_84_Z0BmkEeWkDIIs2OLK7g" name="e2" source="_oolbsBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g">
-            <trigger xmi:id="_KxVNMBmmEeWkDIIs2OLK7g" name="pong_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
+          <transition xmi:type="uml:Transition" xmi:id="_84_Z0BmkEeWkDIIs2OLK7g" name="e2" source="_oolbsBmkEeWkDIIs2OLK7g" target="_oUtdcBmkEeWkDIIs2OLK7g">
+            <trigger xmi:type="uml:Trigger" xmi:id="_KxVNMBmmEeWkDIIs2OLK7g" name="pong_t" event="_mfmjsBmpEeW8avfFxjlgXw"/>
           </transition>
           <subvertex xmi:type="uml:State" xmi:id="_oUtdcBmkEeWkDIIs2OLK7g" name="s1">
             <exit xmi:type="uml:OpaqueBehavior" xmi:id="_16j3gEvKEeWnFNKQM2H9lw" name="sendPing">
@@ -152,28 +154,28 @@
         </region>
       </ownedBehavior>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_7HLzEBmmEeWkDIIs2OLK7g" name="pong_s"/>
-      <ownedReception xmi:id="_oCpAUBpEEeWgOeVNG9guWg" name="Reception1" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
+      <ownedReception xmi:type="uml:Reception" xmi:id="_oCpAUBpEEeWgOeVNG9guWg" name="Reception1" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
     </nestedClassifier>
     <nestedClassifier xmi:type="uml:Association" xmi:id="_MxR9oBmkEeWkDIIs2OLK7g" name="R1" memberEnd="_MxR9oRmkEeWkDIIs2OLK7g _MxQvgBmkEeWkDIIs2OLK7g">
-      <ownedEnd xmi:id="_MxR9oRmkEeWkDIIs2OLK7g" name="ping" type="_I9qiEBmkEeWkDIIs2OLK7g" association="_MxR9oBmkEeWkDIIs2OLK7g">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_MxR9oRmkEeWkDIIs2OLK7g" name="ping" type="_I9qiEBmkEeWkDIIs2OLK7g" association="_MxR9oBmkEeWkDIIs2OLK7g">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MxR9ohmkEeWkDIIs2OLK7g" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxR9oxmkEeWkDIIs2OLK7g" value="1"/>
       </ownedEnd>
-      <ownedEnd xmi:id="_MxQvgBmkEeWkDIIs2OLK7g" name="pong" type="_LbgdgBmkEeWkDIIs2OLK7g" association="_MxR9oBmkEeWkDIIs2OLK7g">
+      <ownedEnd xmi:type="uml:Property" xmi:id="_MxQvgBmkEeWkDIIs2OLK7g" name="pong" type="_LbgdgBmkEeWkDIIs2OLK7g" association="_MxR9oBmkEeWkDIIs2OLK7g">
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MxQvgRmkEeWkDIIs2OLK7g" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxQvghmkEeWkDIIs2OLK7g" value="1"/>
       </ownedEnd>
     </nestedClassifier>
     <packagedElement xmi:type="uml:Class" xmi:id="_5kpZ0EAoEeW6Nbb8DxSQBg" name="Pong2">
-      <generalization xmi:id="__5FMUEAoEeW6Nbb8DxSQBg" general="_LbgdgBmkEeWkDIIs2OLK7g"/>
+      <generalization xmi:type="uml:Generalization" xmi:id="__5FMUEAoEeW6Nbb8DxSQBg" general="_LbgdgBmkEeWkDIIs2OLK7g"/>
     </packagedElement>
   </packagedElement>
   <packagedElement xmi:type="uml:SignalEvent" xmi:id="_iBpxsBmpEeW8avfFxjlgXw" name="ping_se" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
   <packagedElement xmi:type="uml:SignalEvent" xmi:id="_mfmjsBmpEeW8avfFxjlgXw" name="pong_se" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
-  <profileApplication xmi:id="_ocG7YBmjEeWkDIIs2OLK7g">
-    <eAnnotations xmi:id="_ocQsYBmjEeWkDIIs2OLK7g" source="http://www.eclipse.org/uml2/2.0.0/UML">
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_ocG7YBmjEeWkDIIs2OLK7g">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ocQsYBmjEeWkDIIs2OLK7g" source="http://www.eclipse.org/uml2/2.0.0/UML">
       <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_sYse0YZLEeKyw49uR6nx3g"/>
     </eAnnotations>
-    <appliedProfile href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
   </profileApplication>
 </uml:Model>

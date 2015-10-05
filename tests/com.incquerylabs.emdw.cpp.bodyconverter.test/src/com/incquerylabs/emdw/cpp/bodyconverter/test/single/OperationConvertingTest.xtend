@@ -39,6 +39,59 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				this->returnInteger();'''
 			],
+			#[  "Operation call expression with parameter test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				this.doIntegerVoid(42);
+				''',
+				'''
+				this->doIntegerVoid(42);'''
+			],
+			#[  "Operation call expression with named parameter test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Integer out;
+				this.TestOperation(outParameter=>out, inParameter=>42);
+				''',
+				'''
+				long __ralf__0__out;
+				this->TestOperation(42, (&__ralf__0__out));'''
+			],
+			#[  "Static operation call expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Pong::staticOperation();
+				''',
+				'''
+				::model::Comp::Pong::staticOperation();'''
+			],
+			#[  "Static operation call (toString) expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				Boolean b;
+				b.toString();
+				''',
+				'''
+				::model::Comp::Pong::staticOperation();'''
+			],
+			#[  "Static operation call (println) expression test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
+				ConversionType.Operation,
+				'''
+				std::out::println("Hello world!");
+				''',
+				'''
+				::st::cout << "Hello world!" << ::std::endl;'''
+			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::sendPing", 

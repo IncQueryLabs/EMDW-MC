@@ -19,3 +19,11 @@ Require-Bundle: com.google.guava,
  org.apache.log4j,
  com.incquerylabs.emdw.testing.common;bundle-version="1.0.0"
 Import-Package: org.apache.log4j;version="1.2.15"
+Export-Package: com.incquerylabs.emdw.cpp.codegeneration.test,
+ com.incquerylabs.emdw.cpp.codegeneration.test.complex,
+ com.incquerylabs.emdw.cpp.codegeneration.test.fsa,
+ com.incquerylabs.emdw.cpp.codegeneration.test.mains,
+ com.incquerylabs.emdw.cpp.codegeneration.test.makefiles,
+ com.incquerylabs.emdw.cpp.codegeneration.test.mappings,
+ com.incquerylabs.emdw.cpp.codegeneration.test.modeltofilemappings,
+ com.incquerylabs.emdw.cpp.codegeneration.test.persistedmodel

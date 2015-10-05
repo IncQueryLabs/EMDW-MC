@@ -17,3 +17,8 @@ Require-Bundle: com.google.guava,
  org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="1.0.0",
  com.incquerylabs.emdw.testing.common;bundle-version="1.0.0"
 Import-Package: org.apache.log4j;version="1.2.15"
+Export-Package: com.incquerylabs.emdw.cpp.transformation.test,
+ com.incquerylabs.emdw.cpp.transformation.test.dynamicbehavior,
+ com.incquerylabs.emdw.cpp.transformation.test.generator,
+ com.incquerylabs.emdw.cpp.transformation.test.mappings,
+ com.incquerylabs.emdw.cpp.transformation.test.monitor

@@ -13,8 +13,10 @@ import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.Signal
 
 @SuiteClasses(#[
+	ConstructorCallDescriptorForEventTest,
 	ConstructorCallDescriptorWithoutParameterAndVoidReturnTypeTest,
 	ConstructorCallDescriptorWithoutParameterAndBoolReturnTypeTest,
 	ConstructorCallDescriptorWithoutParameterAndBoolListReturnTypeTest,
@@ -23,6 +25,39 @@ import static org.junit.Assert.*
 ])
 @RunWith(Suite)
 class ConstructorCallDescriptorTestSuite {}
+
+class ConstructorCallDescriptorForEventTest extends ValueDescriptorBaseTest<Signal, OperationCallDescriptor> {
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val SIGNAL_NAME = "TestSignal"
+	
+	private static final val CPP_SIGNAL_FQN = '''::«MODEL_NAME»::«COMPONENT_NAME»::«CLASS_NAME»::«SIGNAL_NAME»_event'''
+	private static final val EXPECTED_TYPE = '''«CPP_SIGNAL_FQN»*'''
+	private static final val EXPECTED_REPRESENTATION = '''new «CPP_SIGNAL_FQN»(false)'''
+	private Class umlClass
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		umlClass = comp.createClass(CLASS_NAME)
+		val sig = umlClass.createClassSignal => [
+			it.name = SIGNAL_NAME
+		]
+		umlModel.createSignalEvent(sig)
+		return sig
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Signal object) {
+		val descriptor = (factory.createConstructorCallBuilder => [
+			it.type = object
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Signal object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
 
 abstract class AbstractConstructorCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	protected static final val COMPONENT_NAME = "TestComponent"

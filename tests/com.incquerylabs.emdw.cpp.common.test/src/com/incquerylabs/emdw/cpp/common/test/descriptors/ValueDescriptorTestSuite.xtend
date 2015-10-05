@@ -22,7 +22,8 @@ import org.junit.runners.Suite.SuiteClasses
 	ForeachDescriptorTestSuite,
 	InstancesDescriptorTestSuite,
 	CopyConstructorCallDescriptorTestSuite,
-	ConstructorCallDescriptorTestSuite
+	ConstructorCallDescriptorTestSuite,
+	HierarchicalVariableDescriptorTestSuite
 ])
 @RunWith(Suite)
 class ValueDescriptorTestSuite {}

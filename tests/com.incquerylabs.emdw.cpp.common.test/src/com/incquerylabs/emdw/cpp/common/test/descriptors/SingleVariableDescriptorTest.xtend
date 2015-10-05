@@ -11,10 +11,13 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 import org.eclipse.uml2.uml.Signal
+import org.eclipse.uml2.uml.PrimitiveType
 
 @SuiteClasses(#[
 	SingleVariableDescriptorForExistingVariableTest,
 	SingleVariableDescriptorForNewVariableWithPredifinedNameTest,
+	SingleVariableDescriptorForNewClassVariableWithPredifinedNameAndInitializationTest,
+	SingleVariableDescriptorForNewPrimitiveTypeVariableWithPredifinedNameAndInitializationTest,
 	SingleVariableDescriptorForNewVariableWithoutNameTest,
 	SingleVariableDescriptorForExistingSignalVariableTest,
 	SingleVariableDescriptorForNewSignalVariableWithPredifinedNameTest,
@@ -102,6 +105,94 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Cache
 	
 	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
 		assertEquals(originalDescriptor, cachedDescriptor)
+	}
+	
+}
+
+class SingleVariableDescriptorForNewClassVariableWithPredifinedNameAndInitializationTest extends CachedValueDescriptorBaseTest<Class, SingleVariableDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val VARIABLE_NAME = "classVariable"
+	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
+	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME» = nullptr'''
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		val cl = comp.createClass(CLASS_NAME)
+		return cl
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
+			type = element
+			name = VARIABLE_NAME
+			initialize = true
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Class object, SingleVariableDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.baseType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+	
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, Class element) {
+		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
+			type = element
+			isExistingVariable = true
+			name = VARIABLE_NAME
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+		assertNotEquals(originalDescriptor, cachedDescriptor)
+		assertEquals(originalDescriptor.baseType, cachedDescriptor.baseType)
+		assertEquals(originalDescriptor.pointerRepresentation, cachedDescriptor.stringRepresentation)
+	}
+	
+}
+
+class SingleVariableDescriptorForNewPrimitiveTypeVariableWithPredifinedNameAndInitializationTest extends CachedValueDescriptorBaseTest<PrimitiveType, SingleVariableDescriptor> {
+	
+	private static final val VARIABLE_NAME = "primitiveTypeVariable"
+	private static final val PRIMITIVE_TYPE = "Boolean"
+	private static final val EXPECTED_TYPE = '''bool'''
+	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME» = false'''
+	
+	override protected createUmlObject(Model umlModel) {
+		val pT = findPrimitiveType(umlModel, PRIMITIVE_TYPE)
+		return pT
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
+			type = element
+			name = VARIABLE_NAME
+			initialize = true
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(PrimitiveType object, SingleVariableDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.baseType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+	
+	override protected getCachedValueDescriptor(IUmlDescriptorFactory factory, PrimitiveType element) {
+		val descriptor = (factory.createSingleVariableDescriptorBuilder => [
+			type = element
+			isExistingVariable = true
+			name = VARIABLE_NAME
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(SingleVariableDescriptor originalDescriptor, SingleVariableDescriptor cachedDescriptor) {
+		assertNotEquals(originalDescriptor, cachedDescriptor)
+		assertEquals(originalDescriptor.baseType, cachedDescriptor.baseType)
+		assertEquals(originalDescriptor.valueRepresentation, cachedDescriptor.stringRepresentation)
 	}
 	
 }

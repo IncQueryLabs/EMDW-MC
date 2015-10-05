@@ -15,10 +15,12 @@ import org.eclipse.uml2.uml.Component
 
 @SuiteClasses(#[
 	LinkDescriptorForOne2OneAssociationTest,
+	LinkDescriptorForOne2NothingAssociationTest,
 	LinkDescriptorForOne2ManyAssociationTest,
 	LinkDescriptorForMany2OneAssociationTest,
 	LinkDescriptorForMany2ManyAssociationTest,
 	UnlinkDescriptorForOne2OneAssociationTest,
+	UnlinkDescriptorForOne2NothingAssociationTest,
 	UnlinkDescriptorForOne2ManyAssociationTest,
 	UnlinkDescriptorForMany2OneAssociationTest,
 	UnlinkDescriptorForMany2ManyAssociationTest
@@ -107,6 +109,26 @@ class LinkDescriptorForOne2OneAssociationTest extends AbstractLinkUnlinkDescript
 	
 }
 
+class LinkDescriptorForOne2NothingAssociationTest extends AbstractLinkUnlinkDescriptorTest {
+	
+	override setExpectedRepresentation() {
+		EXPECTED_REPRESENTATION =
+			'''
+			«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME» = «SOURCE_VARIABLE_NAME»'''
+	}
+	
+	override protected prepareAssociation(Component comp) {
+		val sourceProperty = comp.createAssociation(cl1, cl2, ASSOCIATION_NAME, SOURCE_PROPERTY_NAME, TARGET_PROPERTY_NAME)
+		sourceProperty.getAssociation().getOwnedEnds().get(1).isNavigable = false
+		return sourceProperty
+	}
+	
+	override isUnlinkTest() {
+		false
+	}
+	
+}
+
 class LinkDescriptorForOne2ManyAssociationTest extends AbstractLinkUnlinkDescriptorTest {
 	
 	override setExpectedRepresentation() {
@@ -183,6 +205,26 @@ class UnlinkDescriptorForOne2OneAssociationTest extends AbstractLinkUnlinkDescri
 	
 	override protected prepareAssociation(Component comp) {
 		comp.createAssociation(cl1, cl2, ASSOCIATION_NAME, SOURCE_PROPERTY_NAME, TARGET_PROPERTY_NAME)
+	}
+	
+	override isUnlinkTest() {
+		true
+	}
+	
+}
+
+class UnlinkDescriptorForOne2NothingAssociationTest extends AbstractLinkUnlinkDescriptorTest {
+	
+	override setExpectedRepresentation() {
+		EXPECTED_REPRESENTATION =
+			'''
+			«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME» = nullptr'''
+	}
+	
+	override protected prepareAssociation(Component comp) {
+		val sourceProperty = comp.createAssociation(cl1, cl2, ASSOCIATION_NAME, SOURCE_PROPERTY_NAME, TARGET_PROPERTY_NAME)
+		sourceProperty.getAssociation().getOwnedEnds().get(1).isNavigable = false
+		return sourceProperty
 	}
 	
 	override isUnlinkTest() {

@@ -32,7 +32,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = casted_const_event->clone();
 				__ralf__0__Pong->generate_event(__ralf__1__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
 			],
-			#[  "Unlink expression test",
+			#[  "Unlink expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
@@ -45,7 +45,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				this->R3_called = nullptr;
 				__ralf__0__cd->R3_call = nullptr;'''
 			],
-			#[  "Link expression test",
+			#[  "Link expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
@@ -58,7 +58,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				this->R3_called = __ralf__0__cd;
 				__ralf__0__cd->R3_call = this;'''
 			],
-			#[  "Delete expression test",
+			#[  "Delete expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,

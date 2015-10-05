@@ -47,7 +47,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 			val paramList = eOperationName.parameters
 			val paramsEList = ECollections.asEList(paramList)
 			val operationCode = sequenceImplementation.eInvoke(op, paramsEList)
-			val returnValue = converter.convertToType(mapper.findBasicType("bool"))
+			val returnValue = sequenceImplementation.getReturnType(operationName)
 			val ocd = factory.createOperationCallDescriptor => [
 				it.baseType = returnValue
 				it.fullType = it.baseType
@@ -75,6 +75,20 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 				}
 			case "addAll": "generateAddAll"
 			case "get": "generateElementAtIndex"
+		}
+	}
+	
+	def String getReturnType(BaseContainerImplementation implementation, String operationName) {
+		switch(operationName) {
+			case "add": {
+				// TODO: sometimes it should be void
+				return converter.convertToType(mapper.findBasicType("bool"))
+				
+			}
+			case "addAll": return converter.convertToType(mapper.findBasicType("bool"))
+			case "get": return variable.templateTypes.get(0)
+			case "isEmpty": return converter.convertToType(mapper.findBasicType("bool"))
+			case "size": return converter.convertToType(mapper.findBasicType("long"))
 		}
 	}
 	

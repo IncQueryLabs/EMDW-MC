@@ -10,6 +10,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
 import com.incquerylabs.uml.ralf.types.CollectionTypeReference
+import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
@@ -32,6 +33,7 @@ class NavigationVisitor {
 	extension ExpressionVisitor expressionVisitor
 	extension ReducedAlfSystem typeSystem
 	extension SnippetTemplateCompilerUtil util
+	extension Logger logger = Logger.getLogger(class)
 
 	// TODO: Temporary solution
 	private int recursionDepth;
@@ -52,6 +54,7 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
+		trace('''Started visiting: «ex.class.simpleName»''')
 		recursionDepth++
 
 		val childExpr = delegate(ex.context, parent)
@@ -96,8 +99,9 @@ class NavigationVisitor {
 					wrappedEx.finalize(ex, parent)
 				else 
 					wrappedEx
-		}				
-
+		}	
+					
+		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
 		return expr
 	}
 
@@ -113,6 +117,7 @@ class NavigationVisitor {
 	 * 
 	 */
 	def String visitFilter(FilterExpression ex, StringBuilder parent) {
+		trace('''Started visiting: «ex.class.simpleName»''')
 		recursionDepth++
 
 		val parameterType = typeSystem.type(ex.declaration).value.umlType
@@ -130,6 +135,7 @@ class NavigationVisitor {
 		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
 
+		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
 		return expr
 	}
 
@@ -144,6 +150,7 @@ class NavigationVisitor {
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 */
 	def String visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
+		trace('''Started visiting: «ex.class.simpleName»''')
 		recursionDepth++
 
 		val childExpression = delegate(ex.context, parent)
@@ -156,11 +163,13 @@ class NavigationVisitor {
 		
 		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
-
+		
+		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
 		return expr
 	}
 	
 	def String visitClassExtent(ClassExtentExpression ex, StringBuilder parent) {
+		trace('''Started visiting: «ex.class.simpleName»''')
 		recursionDepth++
 
 		val classDescriptor = ex.descriptor
@@ -174,7 +183,8 @@ class NavigationVisitor {
 			else
 				return '''«SELECT_MANY_FQN»(«expr»)'''
 		}
-
+		
+		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
 		return expr
 	}
 

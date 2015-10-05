@@ -327,7 +327,7 @@ pattern cppSourceFileGenerationName(
 }
 
 private pattern directoryMakeRulesFile(makeFile : CPPMakeFile) {
-	CPPDirectory.makeRulesFile(directory, makeFile);
+	CPPDirectory.makeRulesFile(_directory, makeFile);
 }
 
 pattern cppSourceFileExtension(
@@ -338,7 +338,12 @@ pattern cppSourceFileExtension(
 	ext == ".hh";
 } or {
 	CPPBodyFile(source);
+	neg find externalBridgeBodyFileWithoutExternalNamespace(_bridge, source);
 	ext == ".cc";
+} or {
+	CPPBodyFile(source);
+	find externalBridgeBodyFileWithoutExternalNamespace(_bridge, source);
+	ext == ".cc.skel";
 }
 
 @QueryBasedFeature(feature = "generationDirectory")
@@ -426,4 +431,19 @@ pattern cppReturnValueUnnamedSequenceType(
 	cppSequence : CPPSequence
 ) {
 	CPPReturnValue.unnamedSequenceType(cppReturnValue, cppSequence);
+}
+
+pattern externalBridgeBodyFileWithoutExternalNamespace(
+	cppExternalBridge : CPPExternalBridge,
+	cppBodyFile : CPPBodyFile
+) {
+	CPPExternalBridge.bodyFile(cppExternalBridge, cppBodyFile);
+	neg find externalBridgeWithExternalNamespace(cppExternalBridge);
+}
+
+pattern externalBridgeWithExternalNamespace(
+	cppExternalBridge : CPPExternalBridge
+) {
+	CPPExternalBridge.cppExternalNamespace(cppExternalBridge, cppExternalNamespace);
+	cppExternalNamespace != "";
 }

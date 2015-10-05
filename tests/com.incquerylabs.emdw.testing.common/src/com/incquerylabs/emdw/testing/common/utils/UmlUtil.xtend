@@ -323,6 +323,14 @@ class UmlUtil extends ModelUtil {
 		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
 		return primitiveTypes.findFirst[it.name == name]
 	}
+	
+	def Operation findOperation(EObject eobject, String qualifiedName) {
+		val umlCollectionTypesResource = eobject.eResource.resourceSet.resources.findFirst [
+			it.URI.toString.contains(PATH_RALF_COLLECTIONS)
+		]
+		val collectionType = umlCollectionTypesResource.allContents.filter(Operation).toList
+		return collectionType.findFirst[it.qualifiedName == qualifiedName]
+	}
 
 	def DataType findCollectionType(EObject eobject, String qualifiedName) {
 		val umlCollectionTypesResource = eobject.eResource.resourceSet.resources.findFirst [

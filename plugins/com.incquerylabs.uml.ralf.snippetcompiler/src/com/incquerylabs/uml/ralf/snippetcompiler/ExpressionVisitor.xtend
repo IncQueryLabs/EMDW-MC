@@ -736,6 +736,7 @@ class ExpressionVisitor {
 					logger.logVisitingFinished(ex, descriptor.valueRepresentation)
 					val copiedDescriptor = EcoreUtil.copy(descriptor)
 					copiedDescriptor.stringRepresentation = descriptor.valueRepresentation
+					return copiedDescriptor
 				}
 				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				return descriptor

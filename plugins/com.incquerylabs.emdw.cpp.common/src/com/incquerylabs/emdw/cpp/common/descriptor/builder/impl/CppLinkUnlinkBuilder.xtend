@@ -89,8 +89,18 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	
 	def collectionModificationCode(XTAssociation xtAssociation, ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor) {
 		val rel = mapper.convertAssociation(xtAssociation)
-		val cvd = createCollectionDescriptorForAssociation(xtAssociation)
-		val initCVD = '''«cvd.fullType» «cvd.stringRepresentation» = «createAssociationReadDescriptor(sourceDescriptor, xtAssociation).stringRepresentation»'''
+//		val cvd = createCollectionDescriptorForAssociation(xtAssociation)
+		val assocReadDescriptor = createAssociationReadDescriptor(sourceDescriptor, xtAssociation)
+		// TODO refactor to adapt method
+		val cvd = createCollectionVariableDescriptor => [
+			it.baseType = assocReadDescriptor.baseType
+			it.fullType = assocReadDescriptor.fullType
+			it.templateTypes += assocReadDescriptor.templateTypes
+			it.stringRepresentation = assocReadDescriptor.stringRepresentation
+			it.pointerRepresentation = assocReadDescriptor.pointerRepresentation
+			it.valueRepresentation = assocReadDescriptor.valueRepresentation
+		]
+//		val initCVD = '''«cvd.fullType» «cvd.stringRepresentation» = «assocReadDescriptor.stringRepresentation»'''
 		var String operationD
 		if(isUnlink) {
 			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
@@ -106,7 +116,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 			)
 		}
 		return	'''
-				«initCVD»;
+«««				«initCVD»;
 				«operationD»'''
 	}
 	

@@ -76,7 +76,7 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
 			// The extension service should be added through an extension point
 			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
-			extensionServices.forEach[initialize(xUmlRtResource)]
+			extensionServices.forEach[initialize(engine, xUmlRtResource)]
 			
 			if(mappings.size == 1) {
 				val primitiveTypeMapping = createPrimitiveTypeMapping(engine, resourceSet, modelSet)

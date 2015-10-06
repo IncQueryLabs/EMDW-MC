@@ -124,8 +124,6 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
-		// TODO find out if this is needed
-		index++
 		return preparedDescriptor
 	}
 	
@@ -133,8 +131,6 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
 		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
-		// TODO find out if this is needed
-		index++
 		return preparedDescriptor
 	}
 	

@@ -19,4 +19,5 @@ Require-Bundle: com.google.guava,
 Export-Package: com.incquerylabs.uml.ralf.api,
  com.incquerylabs.uml.ralf.api.impl,
  com.incquerylabs.uml.ralf.snippetcompiler
+Import-Package: org.apache.log4j;version="1.2.15"
 

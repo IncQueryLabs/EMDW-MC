@@ -70,6 +70,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
 	extension SnippetTemplateCompilerUtil util
+	extension LoggerUtil loggerutil = new LoggerUtil
 	extension ReducedAlfSystem typeSystem
 	public extension Logger logger = Logger.getLogger(class)
 	
@@ -80,7 +81,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch ValueDescriptor visit(CollectionLiteralExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		if(ex instanceof ElementCollectionExpression){
 			val elementType = ex.typeDeclaration.type
 			val collectionType = typeSystem.type(ex).value.umlType
@@ -109,7 +110,7 @@ class ExpressionVisitor {
 				it.stringBuilder = parent
 			]).build
 			
-			trace('''Finished visiting: Collection Literal Expression: «valueDescriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, valueDescriptor.stringRepresentation)
 			valueDescriptor
 			
 		}else{
@@ -118,20 +119,20 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch ValueDescriptor visit(InstanceDeletionExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val valueDescriptor = ex.reference.visit(parent)
 		
 		val descriptor = (descriptorFactory.createDeleteBuilder => [
 			variable = valueDescriptor
 		]).build
 		
-		trace('''Finished visiting: Instance Deletion Expression: «descriptor.stringRepresentation»''')	
+		logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 		descriptor
 	}
 	
 		
 	def dispatch ValueDescriptor visit(CastExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operandDescriptor = ex.operand.visit(parent)
 		val variableType = typeSystem.type(ex).value.umlType
 		
@@ -147,29 +148,28 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «castDescriptor.stringRepresentation»;
 			''')
 			
-			trace('''Finished visiting: Cast Expression: «descriptor.stringRepresentation»''')		
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)		
 			descriptor
 		}else{
 			val castDescriptor = (descriptorFactory.createCastDescriptorBuilder => [
 				castingType = variableType
 				it.descriptor = operandDescriptor
 			]).build
-			
-			trace('''Finished visiting: Cast Expression: «castDescriptor.stringRepresentation»''')	
+			logger.logVisitingFinished(ex, castDescriptor.stringRepresentation)
 			castDescriptor	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(NullExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val nullDescriptor = createExistingVariableDescriptor(ex,'''nullptr''', context.thisType)
 		
-		trace('''Finished visiting: «ex.class.simpleName»: «nullDescriptor.stringRepresentation»''')
+		logger.logVisitingFinished(ex, nullDescriptor.stringRepresentation)
 		return nullDescriptor	
 	}
 	
 	def dispatch ValueDescriptor visit(InstanceCreationExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')	
+		logger.logVisitingStarted(ex)	
 		val variableType = typeSystem.type(ex).value.umlType
 		
 		
@@ -205,7 +205,7 @@ class ExpressionVisitor {
 					}
 					
 					initiateAttributes(ex, type, parent, variableDescriptor)
-					trace('''Finished visiting: Instance Creation Expression: «descriptor.stringRepresentation»''')	
+					logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 					return descriptor
 					
 				}else{
@@ -216,7 +216,7 @@ class ExpressionVisitor {
 	
 					initiateAttributes(ex, type, parent, variableDescriptor)
 					parent.append(StringConcatenation.DEFAULT_LINE_DELIMITER)
-					trace('''Finished visiting: Instance Creation Expression: «variableDescriptor.stringRepresentation»''')
+					logger.logVisitingFinished(ex, variableDescriptor.stringRepresentation)
 					return variableDescriptor
 				}
 				
@@ -228,10 +228,10 @@ class ExpressionVisitor {
 					
 					parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «descriptor.stringRepresentation»;
 					''')
-					trace('''Finished visiting: Instance Creation Expression: «variableDescriptor.stringRepresentation»''')
+					logger.logVisitingFinished(ex, variableDescriptor.stringRepresentation)
 					return variableDescriptor
 				}else{
-					trace('''Finished visiting: Instance Creation Expression: «descriptor.stringRepresentation»''')
+					logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 					return descriptor	
 				}
 			}
@@ -277,9 +277,9 @@ class ExpressionVisitor {
 	}
 
 	def dispatch ValueDescriptor visit(ThisExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val expr = getDescriptor(ex)
-		trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+		logger.logVisitingFinished(ex, expr.stringRepresentation)
 		return expr	
 	}
 	
@@ -292,7 +292,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch ValueDescriptor visit(SignalDataExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val container = ex.eContainer
 		val datatype = typeSystem.type(ex).value.umlType
 		if(container instanceof SendSignalStatement){
@@ -309,21 +309,20 @@ class ExpressionVisitor {
 			
 			parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «cloneDescriptor.stringRepresentation»;
 			''')
-			
-			trace('''Finished visiting: Instance Creation Expression: «variableDescriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, variableDescriptor.stringRepresentation)
 			variableDescriptor
 			
 		}else{
 			val sigdataDescriptor = (descriptorFactory.createSigdataDescriptorBuilder => [
 				type = datatype
 			]).build
-			trace('''Finished visiting: Instance Creation Expression: «sigdataDescriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, sigdataDescriptor.stringRepresentation)
 			sigdataDescriptor			
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(StaticFeatureInvocationExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val variableType = typeSystem.type(ex).value.umlType
 		val op = ex.operation.reference as Operation
 		
@@ -343,25 +342,27 @@ class ExpressionVisitor {
 	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
 	    	''')
 	    	
+	    	logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 	    	descriptor
 	    }else{
+	    	logger.logVisitingFinished(ex, invocationDescriptor.stringRepresentation)
 	    	invocationDescriptor
 	    }
 	}
 	
 	def dispatch ValueDescriptor visit(SuperInvocationExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		
 		val superInvocationDescriptor = createExistingVariableDescriptor(ex,'''***** SUPER invocations not supported yet *****''', typeSystem.type(ex).value.umlType)
 		
-		trace('''Finished visiting: «ex.class.simpleName»: «superInvocationDescriptor.stringRepresentation»''')
+		logger.logVisitingFinished(ex, superInvocationDescriptor.stringRepresentation)
 		superInvocationDescriptor
 	}
 	
 	def dispatch ValueDescriptor visit(LinkOperationExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val linkOperationDescriptor = ex.descriptor
-		trace('''Finished visiting: «ex.class.simpleName»: «linkOperationDescriptor.stringRepresentation»''')
+		logger.logVisitingFinished(ex, linkOperationDescriptor.stringRepresentation)
 		return linkOperationDescriptor
 	}
 	
@@ -374,7 +375,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch ValueDescriptor visit(FeatureInvocationExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		if(ex.feature instanceof Property){
 			if(ex.context instanceof AssociationAccessExpression){
 				return ex.visitAttribute(parent)
@@ -429,15 +430,15 @@ class ExpressionVisitor {
 							«invocationDescriptor.stringRepresentation»
 							«descriptor.fullType» «descriptor.stringRepresentation» = «lastLine»;
 	    					''')
-	    	trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+	    	logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 	    	descriptor
 	    } else if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression) && ex.isFlatteningNeeded && !(ex.feature instanceof Property)){
 	    	parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «invocationDescriptor.stringRepresentation»;
 	    	''')
-	    	trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+	    	logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 	    	descriptor
 	    }else{
-	    	trace('''Finished visiting: «ex.class.simpleName»: «invocationDescriptor.stringRepresentation»''')
+	    	logger.logVisitingFinished(ex, invocationDescriptor.stringRepresentation)
 	    	invocationDescriptor
 	    }
 	}
@@ -464,7 +465,7 @@ class ExpressionVisitor {
 	}
 	
 	def dispatch ValueDescriptor visit(AssignmentExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 	   	val variableType = typeSystem.type(ex).value.umlType
 	   	if(ex.leftHandSide instanceof FeatureInvocationExpression && (ex.leftHandSide as FeatureInvocationExpression).feature instanceof Property) {
 			val propAccess = ex.leftHandSide as FeatureInvocationExpression
@@ -481,10 +482,10 @@ class ExpressionVisitor {
 				val descriptor = createNewVariableDescriptor(ex, variableType)
 				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («assignmentDescriptor.stringRepresentation»);
 				''')
-				trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				descriptor
 			}else{
-				trace('''Finished visiting: «ex.class.simpleName»: «assignmentDescriptor.stringRepresentation»''')
+				logger.logVisitingFinished(ex, assignmentDescriptor.stringRepresentation)
 				assignmentDescriptor	
 			}
 		} else {
@@ -497,18 +498,18 @@ class ExpressionVisitor {
 		    	val descriptor = createNewVariableDescriptor(ex, variableType)
 				parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («lhsString» «ex.operator» «rhsString»);
 				''')
-				trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				descriptor
 			}else{
 				val expr = createExistingVariableDescriptor(ex, '''«lhsString» «ex.operator» «rhsString»''', variableType)
-				trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+				logger.logVisitingFinished(ex, expr.stringRepresentation)
 				return expr	
 			}
 		}
 	}
 
 	def dispatch ValueDescriptor visit(ArithmeticExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Descriptor = ex.operand1.visit(parent)
 		val operand2Descriptor = ex.operand2.visit(parent)
 		
@@ -519,17 +520,17 @@ class ExpressionVisitor {
 			
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»;
 			''')
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(ShiftExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Descriptor = ex.operand1.visit(parent)
 		val operand2Descriptor = ex.operand2.visit(parent)
 		
@@ -540,17 +541,17 @@ class ExpressionVisitor {
 			
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»;
 			''')
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(RelationalExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Descriptor = ex.operand1.visit(parent)
 		val operand2Descriptor = ex.operand2.visit(parent)
 		
@@ -561,17 +562,17 @@ class ExpressionVisitor {
 			
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»;
 			''')
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(EqualityExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Descriptor = ex.operand1.visit(parent)
 		val operand2Descriptor = ex.operand2.visit(parent)
 		
@@ -583,17 +584,17 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»;
 			''')
 			
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(LogicalExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Descriptor = ex.operand1.visit(parent)
 		val operand2Descriptor = ex.operand2.visit(parent)
 		
@@ -605,17 +606,17 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»;
 			''')
 			
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(ConditionalLogicalExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Descriptor = ex.operand1.visit(parent)
 		val operand2Descriptor = ex.operand2.visit(parent)
 		
@@ -626,17 +627,17 @@ class ExpressionVisitor {
 			
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»;
 			''')
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 
 	def dispatch ValueDescriptor visit(PrefixExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operandVariable = ex.operand.expression.visit(parent)
 		
 		val String operandString = if(ex.operand.expression instanceof FeatureInvocationExpression) {
@@ -654,17 +655,17 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandString»;
 			''')
 			
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.operator.literal»«operandString»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(PostfixExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operandVariable = ex.operand.expression.visit(parent)
 		
 		val String operandString = if(ex.operand.expression instanceof FeatureInvocationExpression) {
@@ -681,18 +682,18 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operandString»«ex.operator.literal»;
 			''')
 			
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«operandString»«ex.operator.literal»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 
 	
 	def dispatch ValueDescriptor visit(ConditionalTestExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operand1Variable = ex.operand1.visit(parent)
 		val operand2Variable = ex.operand2.visit(parent)
 		val operand3Variable = ex.operand3.visit(parent)
@@ -709,22 +710,22 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = («operand1String») ? («operand2String») : («operand3String»);
 			''')
 		
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''(«operand1String») ? («operand2String») : («operand3String»)''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 
 	def dispatch ValueDescriptor visit(NameExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		if(ex.reference instanceof Variable){
 			val variable = ex.reference as Variable
 			if(variable != null){
 				val descriptor = getDescriptor(ex)
-				trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				return descriptor
 			}
 		}else if(ex.reference instanceof Parameter){
@@ -732,11 +733,11 @@ class ExpressionVisitor {
 			if(parameter != null){
 				val descriptor = getDescriptor(ex)
 				if(ex.isValueRepresentationRequired){ //if this is true, the descriptor should never describe a class or signal
-					trace('''Finished visiting: «ex.class.simpleName»: «descriptor.valueRepresentation»''')
+					logger.logVisitingFinished(ex, descriptor.valueRepresentation)
 					val copiedDescriptor = EcoreUtil.copy(descriptor)
 					copiedDescriptor.stringRepresentation = descriptor.valueRepresentation
 				}
-				trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				return descriptor
 			}
 		}else{
@@ -746,7 +747,7 @@ class ExpressionVisitor {
 	
 	
 	def dispatch ValueDescriptor visit(NumericUnaryExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operandVariable = ex.operand.visit(parent)
 		val variableType = typeSystem.type(ex).value.umlType
 				
@@ -756,17 +757,17 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator.literal»«operandVariable.valueRepresentation»;
 			''')
 		
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.operator»«operandVariable.stringRepresentation»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr		
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(BitStringUnaryExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operandVariable = ex.operand.visit(parent)
 		val variableType = typeSystem.type(ex).value.umlType
 		
@@ -778,17 +779,17 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandString»;
 			''')
 		
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.operator»«operandVariable.stringRepresentation»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(BooleanUnaryExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val operandVariable = ex.operand.visit(parent)
 		val variableType = typeSystem.type(ex).value.umlType
 		
@@ -798,40 +799,40 @@ class ExpressionVisitor {
 			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.operator»«operandVariable.stringRepresentation»;
 			''')
 			
-			trace('''Finished visiting: «ex.class.simpleName»: «descriptor.stringRepresentation»''')
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
 			val expr = createExistingVariableDescriptor(ex, '''«ex.operator»«operandVariable.stringRepresentation»''', variableType)
-			trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr
 		}
 	}
 	
 	def dispatch ValueDescriptor visit(NaturalLiteralExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val expr = getDescriptor(ex)
-		trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+		logger.logVisitingFinished(ex, expr.stringRepresentation)
 		return expr
     }
     
 	def dispatch ValueDescriptor visit(RealLiteralExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val expr = getDescriptor(ex)
-		trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+		logger.logVisitingFinished(ex, expr.stringRepresentation)
 		return expr
     }
 	
 	def dispatch ValueDescriptor visit(BooleanLiteralExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val expr = getDescriptor(ex)
-		trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+		logger.logVisitingFinished(ex, expr.stringRepresentation)
 		return expr
 	}
 	   
 	def dispatch ValueDescriptor visit(StringLiteralExpression ex, StringBuilder parent){
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		val expr = getDescriptor(ex)
-		trace('''Finished visiting: «ex.class.simpleName»: «expr.stringRepresentation»''')
+		logger.logVisitingFinished(ex, expr.stringRepresentation)
 		return expr
 	}
 	

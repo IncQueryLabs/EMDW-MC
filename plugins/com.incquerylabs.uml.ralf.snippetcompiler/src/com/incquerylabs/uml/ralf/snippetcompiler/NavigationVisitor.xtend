@@ -29,6 +29,7 @@ class NavigationVisitor {
 	extension ExpressionVisitor expressionVisitor
 	extension ReducedAlfSystem typeSystem
 	extension SnippetTemplateCompilerUtil util
+	extension LoggerUtil loggerutil = new LoggerUtil
 	extension Logger logger = Logger.getLogger(class)
 
 	// TODO: Temporary solution
@@ -50,7 +51,7 @@ class NavigationVisitor {
 	 * 
 	 */
 	def ValueDescriptor visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val childExpr = delegate(ex.context, parent)
@@ -94,7 +95,7 @@ class NavigationVisitor {
 					createExistingVariableDescriptor(ex, wrappedEx, typeSystem.type(ex).value.umlType)
 		}	
 					
-		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
+		logger.logVisitingFinished(ex, expr)
 		return createExistingVariableDescriptor(ex, expr, typeSystem.type(ex).value.umlType)
 	}
 
@@ -110,7 +111,7 @@ class NavigationVisitor {
 	 * 
 	 */
 	def ValueDescriptor visitFilter(FilterExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val parameterType = typeSystem.type(ex.declaration).value.umlType
@@ -128,7 +129,7 @@ class NavigationVisitor {
 		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
 
-		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
+		logger.logVisitingFinished(ex, expr)
 		return createExistingVariableDescriptor(ex, expr, typeSystem.type(ex).value.umlType)
 	}
 
@@ -143,7 +144,7 @@ class NavigationVisitor {
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 */
 	def ValueDescriptor visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val childExpression = delegate(ex.context, parent)
@@ -157,12 +158,12 @@ class NavigationVisitor {
 		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
 		
-		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
+		logger.logVisitingFinished(ex, expr)
 		return createExistingVariableDescriptor(ex, expr, typeSystem.type(ex).value.umlType)
 	}
 	
 	def ValueDescriptor visitClassExtent(ClassExtentExpression ex, StringBuilder parent) {
-		trace('''Started visiting: «ex.class.simpleName»''')
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val classDescriptor = ex.descriptor
@@ -177,7 +178,7 @@ class NavigationVisitor {
 				return createExistingVariableDescriptor(ex, '''«SELECT_MANY_FQN»(«expr»)''', typeSystem.type(ex).value.umlType)
 		}
 		
-		trace('''Finished visiting: «ex.class.simpleName»: «expr»''')
+		logger.logVisitingFinished(ex, expr)
 		return classDescriptor
 	}
 

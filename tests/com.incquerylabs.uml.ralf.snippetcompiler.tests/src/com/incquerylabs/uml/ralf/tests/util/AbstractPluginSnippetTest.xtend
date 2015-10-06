@@ -3,10 +3,7 @@ package com.incquerylabs.uml.ralf.tests.util
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfParser
-import com.incquerylabs.uml.ralf.snippetcompiler.ExpressionVisitor
-import com.incquerylabs.uml.ralf.snippetcompiler.NavigationVisitor
 import com.incquerylabs.uml.ralf.snippetcompiler.ReducedAlfSnippetTemplateCompiler
-import com.incquerylabs.uml.ralf.snippetcompiler.StatementVisitor
 import com.incquerylabs.uml.ralf.tests.util.context.TestModelUMLContextProvider
 import com.incquerylabs.uml.ralf.tests.util.descriptors.DummyUmlValueDescriptorFactory
 import org.apache.log4j.Level
@@ -65,9 +62,6 @@ abstract class AbstractPluginSnippetTest {
     
     @BeforeClass
 	def static void init(){      
-		Logger.getLogger(StatementVisitor.package.name).level = Level.TRACE
-		Logger.getLogger(ExpressionVisitor.package.name).level = Level.TRACE
-		Logger.getLogger(NavigationVisitor.package.name).level = Level.TRACE  
 		Logger.getLogger(ReducedAlfSnippetTemplateCompiler.package.name).level = Level.TRACE 
         parser = new ReducedAlfParser
 	    context =  new TestModelUMLContextProvider("/com.incquerylabs.uml.ralf.snippetcompiler.tests/model/model.uml");

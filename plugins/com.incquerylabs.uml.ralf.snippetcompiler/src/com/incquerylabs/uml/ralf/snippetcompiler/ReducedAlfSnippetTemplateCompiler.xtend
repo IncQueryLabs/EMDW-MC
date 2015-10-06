@@ -17,6 +17,7 @@ class ReducedAlfSnippetTemplateCompiler {
 
 	public extension SnippetTemplateFactory factory = SnippetTemplateFactory.eINSTANCE
 	public extension ExpressionVisitor expressionVisitor
+	extension LoggerUtil loggerutil = new LoggerUtil
 	extension Logger logger = Logger.getLogger(class)
 	public StatementVisitor statementVisitor
 	public IUmlDescriptorFactory umlFactory
@@ -26,12 +27,12 @@ class ReducedAlfSnippetTemplateCompiler {
 	}
 
 	def Snippet createSnippet(ParsingResults results, IUMLContextProvider umlcontext) {
-		trace('''Started rALF action code snippet creation''')
+		logger.logVisitingStarted(results.model)
 		val util = new SnippetTemplateCompilerUtil(umlFactory, umlcontext, results.typeSystem)
 		expressionVisitor = new ExpressionVisitor(util, results.typeSystem)
 		statementVisitor = new StatementVisitor(this, util, expressionVisitor, results.typeSystem)
 		val retval = createStringSnippet => [value = results.model.visit]
-		trace('''Finished rALF action code snippet creation''')
+		logger.logVisitingFinished(results.model)
 		return retval
 	}
 

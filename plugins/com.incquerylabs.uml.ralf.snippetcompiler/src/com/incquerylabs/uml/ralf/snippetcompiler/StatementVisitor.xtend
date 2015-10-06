@@ -27,6 +27,7 @@ import org.eclipse.xtend2.lib.StringConcatenation
 class StatementVisitor {
 	extension SnippetTraceCommentUtil traceCommentUtil = new SnippetTraceCommentUtil
 	extension Logger logger = Logger.getLogger(class)
+	extension LoggerUtil loggerutil = new LoggerUtil
 	extension ReducedAlfSnippetTemplateCompiler compiler
 	extension SnippetTemplateCompilerUtil util
 	extension ExpressionVisitor expressionVisitor
@@ -40,27 +41,27 @@ class StatementVisitor {
 	}
 	
 	def dispatch String visit(EmptyStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val expr = ''';'''
-		trace('''Finished visiting: «st.class.simpleName»: «expr»''')
+		logger.logVisitingFinished(st,expr)
 		return expr	
 	}
 	
 	def dispatch String visit(ExpressionStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		val expressionsnippet = st.expression.visit(builder).stringRepresentation
 		builder.append('''«expressionsnippet»;''')
-		trace('''Finished visiting: «st.class.simpleName»: «builder.toString»''')
+		logger.logVisitingFinished(st,builder.toString)
 		builder.toString
 	} 
 	
 	def dispatch String visit(Block block){
-		trace('''Started visiting: «block.class.simpleName»''')
+		logger.logVisitingStarted(block)
 		val parent = util.descriptorFactory
 		util.descriptorFactory = parent.createChild
-		trace('''Use child Descriptor Factory''')
+		logger.logUseChildDescrFactory
 		
 		val snippet = new StringBuilder
 		snippet.append('''{'''+ StringConcatenation.DEFAULT_LINE_DELIMITER)
@@ -68,20 +69,20 @@ class StatementVisitor {
 		snippet.append('''}''') 
 		
 		util.descriptorFactory = parent
-		trace('''Use parent Descriptor Factory''')
-		trace('''Started visiting: «block.class.simpleName»''')
+		logger.logUseParentDescrFactory
+		logger.logVisitingFinished(block)
 		snippet.toString
 	} 
 	
 	def dispatch String visit(BreakStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val expr ='''break;'''
-		trace('''Finished visiting: «st.class.simpleName»: «expr»''')
+		logger.logVisitingFinished(st,expr)
 		return expr
 	} 
 	
 	def dispatch String visit(ReturnStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		if(st.expression != null){
@@ -90,12 +91,12 @@ class StatementVisitor {
 		}else{
 			builder.append('''return;''')
 		}
-		trace('''Finished visiting: «st.class.simpleName»: «builder.toString»''')
+		logger.logVisitingFinished(st, builder.toString)
 		builder.toString
 	} 
 	
 	def dispatch String visit(LocalNameDeclarationStatement st){	
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		val descriptor = getDescriptor(st)
@@ -111,29 +112,29 @@ class StatementVisitor {
 		if(st.expression instanceof InstanceCreationExpression && (st.expression as InstanceCreationExpression).instance instanceof Signal){
 			val retVal = '''«descriptor.fullType» «descriptor.stringRepresentation» = «expressionsnippet»;'''+StringConcatenation.DEFAULT_LINE_DELIMITER+builder.toString
 			
-			trace('''Finished visiting: «st.class.simpleName»: «retVal»''')
+			logger.logVisitingFinished(st,retVal)
 			retVal
 		}else{
 			builder.append('''«descriptor.fullType» «descriptor.stringRepresentation»«IF st.expression != null» = «ENDIF»«expressionsnippet»;''')
-			trace('''Finished visiting: «st.class.simpleName»: «builder.toString»''')
+			logger.logVisitingFinished(st,builder.toString)
 			builder.toString
 		}
 				
 	}
 	
 	def dispatch String visit(IfStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		
 		val ifString = '''
 		«FOR clause : st.clauses»«IF st.clauses.indexOf(clause) == 0»«clause.serializeToTraceComment("if %s")»if «clause.visitClause(builder)»«ELSE»«IF clause instanceof BlockStatement» else «clause.visit»«ELSE»«clause.serializeToTraceComment("else if %s")» else if «clause.visitClause(builder)»«ENDIF»«ENDIF»«ENDFOR»'''
 		builder.append(ifString)
-		trace('''Finished visiting: «st.class.simpleName»''')
+		logger.logVisitingFinished(st)
 		builder.toString
 	}
 	
 	def dispatch String visit(SendSignalStatement st){
-		trace('''Started visiting: Send Signal Statement''')
+		logger.logVisitingStarted(st)
 		
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
@@ -145,14 +146,13 @@ class StatementVisitor {
 			signal = signalDescriptor
 		]).build
 		
-		//builder.append('''«targetString»->generate_event(«signalString»);''')
 		builder.append('''«descriptor.stringRepresentation»;''')
-		trace('''Finished visiting: «st.class.simpleName»: «builder.toString»''')
+		logger.logVisitingFinished(st,builder.toString)
 		builder.toString
 	}
 	
 	def dispatch String visit(SwitchStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		val expressionString = st.expression.visit(builder).stringRepresentation
@@ -167,12 +167,12 @@ class StatementVisitor {
 		switch («expressionString») {
 		«clausesString»«IF st.defaultClause != null»default : «st.defaultClause.visit»
 		«ENDIF»}''')
-		trace('''Finished visiting: «st.class.simpleName»''')
+		logger.logVisitingFinished(st)
 		builder.toString
 	} 
 	
 	def dispatch String visit(WhileStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		val conditionString = createLoopVariable(st.condition, builder)
@@ -181,7 +181,7 @@ class StatementVisitor {
 		
 		builder.append('''while («conditionString») ''')
 		util.descriptorFactory = parent.createChild
-		trace('''Use child Descriptor Factory''')
+		logger.logUseChildDescrFactory
 		builder.append('''{'''+StringConcatenation.DEFAULT_LINE_DELIMITER)
 		if(block instanceof Block){
 			block.statement.forEach[ statement |
@@ -199,13 +199,13 @@ class StatementVisitor {
 		}
 		builder.append('''}''')
 		util.descriptorFactory = parent
-		trace('''Use parent Descriptor Factory''')
-		trace('''Finished visiting: «st.class.simpleName»''')
+		logger.logUseParentDescrFactory
+		logger.logVisitingFinished(st)
 		builder.toString				
 	} 
 	
 	def dispatch String visit(DoStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		val conditionString = createLoopVariable(st.condition, builder)
 		val block = st.body 
@@ -214,7 +214,7 @@ class StatementVisitor {
 		builder.append(st.serializeToTraceComment)
 		builder.append('''do ''')
 		util.descriptorFactory = parent.createChild
-		trace('''Use child Descriptor Factory''')
+		logger.logUseChildDescrFactory
 		builder.append('''{
 			''')
 		if(block instanceof Block){
@@ -233,21 +233,21 @@ class StatementVisitor {
 		}
 		builder.append('''}''')
 		util.descriptorFactory = parent
-		trace('''Use parent Descriptor Factory''')
+		logger.logUseParentDescrFactory
 		builder.append('''while («conditionString»);''')
-		trace('''Finished visiting: «st.class.simpleName»''')
+		logger.logVisitingFinished(st)
 		builder.toString
 	} 
 	
 	def dispatch String visit(ForStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		
 		val block = st.body 
 		val parent = util.descriptorFactory
 		
 		util.descriptorFactory = parent.createChild
-		trace('''Use child Descriptor Factory''')
+		logger.logUseChildDescrFactory
 		builder.append(st.serializeToTraceComment)
 		builder.append('''
 		{
@@ -276,13 +276,13 @@ class StatementVisitor {
 		builder.append('''}''')
 		
 		util.descriptorFactory = parent
-		trace('''Use parent Descriptor Factory''')
-		trace('''Finished visiting: «st.class.simpleName»''')
+		logger.logUseParentDescrFactory
+		logger.logVisitingFinished(st)
 		builder.toString
 	}
 	
 	def dispatch String visit(ForEachStatement st){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		val variableType = st.variableDefinition.getType.type
@@ -301,28 +301,28 @@ class StatementVisitor {
 		
 		builder.append('''
 		«foreachDescriptor.stringRepresentation» «st.body.visit»''')
-		trace('''Finished visiting: «st.class.simpleName»''')
+		logger.logVisitingFinished(st)
 		builder.toString
 	}
 	
 	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){
-		trace('''Started visiting: «nfc.class.simpleName»''')
+		logger.logVisitingStarted(nfc)
 		builder.append(nfc.serializeToTraceComment)
 		val conditionDescriptor = nfc.condition.visit(builder)
 		
 		val ret = '''(«conditionDescriptor.stringRepresentation») «nfc.body.visit»'''
-		trace('''Finished visiting: «nfc.class.simpleName»''')
+		logger.logVisitingFinished(nfc)
 		ret
 	} 
 	
 	private def dispatch String visitClause(SwitchClause st, StringBuilder builder){
-		trace('''Started visiting: «st.class.simpleName»''')
+		logger.logVisitingStarted(st)
 		val casesBuilder = new StringBuilder
 		
 		st.^case.forEach[ expr |
     		casesBuilder.append(expr.visit(builder).stringRepresentation)
     	]
-    	trace('''Finished visiting: «st.class.simpleName»''')
+    	logger.logVisitingFinished(st)
     	'''case «casesBuilder.toString» : «st.block.visit»'''	
 	}
 	

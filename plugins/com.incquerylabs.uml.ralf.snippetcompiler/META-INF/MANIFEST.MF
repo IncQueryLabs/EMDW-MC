@@ -15,9 +15,9 @@ Require-Bundle: com.google.guava,
  com.incquerylabs.emdw.snippet.model;bundle-version="1.0.0",
  com.incquerylabs.emdw.cpp.common;bundle-version="1.0.0",
  com.incquerylabs.emdw.valuedescriptor.model;bundle-version="1.0.0",
- it.xsemantics.runtime;bundle-version="1.8.0",
- org.apache.log4j
+ it.xsemantics.runtime;bundle-version="1.8.0"
 Export-Package: com.incquerylabs.uml.ralf.api,
  com.incquerylabs.uml.ralf.api.impl,
  com.incquerylabs.uml.ralf.snippetcompiler
+Import-Package: org.apache.log4j;version="1.2.15"
 

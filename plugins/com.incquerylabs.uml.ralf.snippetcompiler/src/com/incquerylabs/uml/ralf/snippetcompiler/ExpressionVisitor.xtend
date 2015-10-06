@@ -578,16 +578,19 @@ class ExpressionVisitor {
 		
 		val variableType = typeSystem.type(ex).value.umlType
 		
+		val operand1Representation = ex.operand1.getProperRepresentation(operand1Descriptor)
+		val operand2Representation = ex.operand2.getProperRepresentation(operand2Descriptor)
+		
 		if(ex.isFlatteningNeeded){
 			val descriptor = createNewVariableDescriptor(ex, variableType)
 			
-			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»;
+			parent.append('''«descriptor.fullType» «descriptor.stringRepresentation» = «operand1Representation» «ex.operator» «operand2Representation»;
 			''')
 			
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''«operand1Representation» «ex.operator» «operand2Representation»''', variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}

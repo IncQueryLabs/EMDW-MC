@@ -34,8 +34,10 @@ class MakefileTemplates {
 	.SUFFIXES:
 	.SUFFIXES: .cc .hh .o
 	
+	EXTERNALDIRS := $(subst ;, ,$(EMDW_EXTERNAL_SOURCE_DIR))
+	
 	SOURCES := $(wildcard *.cc)
-	SOURCES += $(wildcard $(addsuffix /*.cc,$(EMDW_EXTERNAL_SOURCE_DIR)))
+	SOURCES += $(wildcard $(addsuffix /*.cc,$(EXTERNALDIRS)))
 	OBJECTS := $(SOURCES:%.cc=%.o)
 	BINARY := «modelname».out
 	

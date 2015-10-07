@@ -20,6 +20,8 @@ interface IFileManager {
 	/*
 	 * File management methods
 	 */
+	def boolean fileExists(String directoryPath, String filename)
+	 
 	def boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache)
 	
 	def boolean createFile(String filename, CharSequence content, boolean force, boolean useCache)

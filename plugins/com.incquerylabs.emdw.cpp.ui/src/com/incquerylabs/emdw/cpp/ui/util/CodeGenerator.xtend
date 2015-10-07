@@ -212,7 +212,10 @@ class CodeGenerator {
 		}
 		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
 		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
-		fileManager.createFile("Makefile", makefileContent, true, false)
+		// only create MakeFile if it doesn't exist yet
+		if(!fileManager.fileExists("", "MakeFile")){
+			fileManager.createFile("Makefile", makefileContent, true, false)
+		}
 	}
 	
 	def performRulesMkGeneration(MakefileGeneration makefileGeneration, CPPModel cppModel) {
@@ -227,7 +230,10 @@ class CodeGenerator {
 		mainGeneration.initialize
 		
 		val mainContent = mainGeneration.execute(components)
-		fileManager.createFile("main.cc", mainContent, true, false)
+		// only create main file if it doesn't exist yet
+		if(!fileManager.fileExists("", "main.cc")){
+			fileManager.createFile("main.cc", mainContent, true, false)
+		}
 	}
 	
 	def getOrCreateCPPModel(Model xtmodel, IncQueryEngine engine, ResourceSet rs) {

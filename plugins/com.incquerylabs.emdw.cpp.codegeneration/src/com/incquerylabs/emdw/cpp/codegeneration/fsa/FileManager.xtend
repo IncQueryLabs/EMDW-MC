@@ -235,8 +235,6 @@ abstract class FileManager implements IFileManager {
 	
 	abstract def String readFileContentAsString(String directoryPath, String filename)
 	
-	abstract def boolean fileExists(String directoryPath, String filename)
-	
 	/*
 	 * Directory management methods
 	 */

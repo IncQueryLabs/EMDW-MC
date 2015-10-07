@@ -1,19 +1,16 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionType
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
-import com.incquerylabs.uml.ralf.types.CollectionTypeReference
+import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
-import org.eclipse.uml2.uml.Type
 
 class NavigationVisitor {
 
@@ -32,6 +29,8 @@ class NavigationVisitor {
 	extension ExpressionVisitor expressionVisitor
 	extension ReducedAlfSystem typeSystem
 	extension SnippetTemplateCompilerUtil util
+	extension LoggerUtil loggerutil = new LoggerUtil
+	extension Logger logger = Logger.getLogger(class)
 
 	// TODO: Temporary solution
 	private int recursionDepth;
@@ -51,16 +50,14 @@ class NavigationVisitor {
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement		
 	 * 
 	 */
-	def String visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
+	def ValueDescriptor visitAssociation(AssociationAccessExpression ex, StringBuilder parent) {
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val childExpr = delegate(ex.context, parent)
 		val propertyAccessDescriptor = (descriptorFactory.createPropertyReadBuilder => [
 			property = ex.association
-			// XXX: hack
-			variable = ValuedescriptorFactory.eINSTANCE.createSingleVariableDescriptor => [
-				stringRepresentation = childExpr
-			]
+			variable = childExpr
 		]).build
 		val ctx = ex.context
 
@@ -95,10 +92,11 @@ class NavigationVisitor {
 			return if(ex.isFlatteningNeeded)			
 					wrappedEx.finalize(ex, parent)
 				else 
-					wrappedEx
-		}				
-
-		return expr
+					createExistingVariableDescriptor(ex, wrappedEx, typeSystem.type(ex).value.umlType)
+		}	
+					
+		logger.logVisitingFinished(ex, expr)
+		return createExistingVariableDescriptor(ex, expr, typeSystem.type(ex).value.umlType)
 	}
 
 	/**
@@ -112,14 +110,15 @@ class NavigationVisitor {
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 * 
 	 */
-	def String visitFilter(FilterExpression ex, StringBuilder parent) {
+	def ValueDescriptor visitFilter(FilterExpression ex, StringBuilder parent) {
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val parameterType = typeSystem.type(ex.declaration).value.umlType
 		val typeDescriptor = ex.createNewVariableDescriptor(parameterType)
 
 		var lambda = ex.composeLambda(typeDescriptor)
-		var childExpr = ex.context.delegate(parent)
+		var childExpr = ex.context.delegate(parent).stringRepresentation
 
 		val operation = if(ex.eContainer.isOne) SELECT_ANY_WHERE_FQN else SELECT_MANY_WHERE_FQN
 
@@ -130,7 +129,8 @@ class NavigationVisitor {
 		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
 
-		return expr
+		logger.logVisitingFinished(ex, expr)
+		return createExistingVariableDescriptor(ex, expr, typeSystem.type(ex).value.umlType)
 	}
 
 	/**
@@ -143,24 +143,27 @@ class NavigationVisitor {
 	 * 	- FeatureInvocationExpression ex: feature invocation expression that contains the navigation chain
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 */
-	def String visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
+	def ValueDescriptor visitOne(FeatureInvocationExpression ex, StringBuilder parent) {
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val childExpression = delegate(ex.context, parent)
 		val expr = if (!(ex.context instanceof FilterExpression))
-			'''«SELECT_ANY_FQN»(«childExpression»)'''
+			'''«SELECT_ANY_FQN»(«childExpression.stringRepresentation»)'''
 		else
-			childExpression
+			childExpression.stringRepresentation
 			
 		recursionDepth--
 		
 		if (recursionDepth == 0 && ex.isFlatteningNeeded)
 			return expr.finalize(ex, parent)
-
-		return expr
+		
+		logger.logVisitingFinished(ex, expr)
+		return createExistingVariableDescriptor(ex, expr, typeSystem.type(ex).value.umlType)
 	}
 	
-	def String visitClassExtent(ClassExtentExpression ex, StringBuilder parent) {
+	def ValueDescriptor visitClassExtent(ClassExtentExpression ex, StringBuilder parent) {
+		logger.logVisitingStarted(ex)
 		recursionDepth++
 
 		val classDescriptor = ex.descriptor
@@ -172,10 +175,11 @@ class NavigationVisitor {
 			if (ex.isFlatteningNeeded)
 				return '''«SELECT_MANY_FQN»(«expr»)'''.finalize(ex, parent)
 			else
-				return '''«SELECT_MANY_FQN»(«expr»)'''
+				return createExistingVariableDescriptor(ex, '''«SELECT_MANY_FQN»(«expr»)''', typeSystem.type(ex).value.umlType)
 		}
-
-		return expr
+		
+		logger.logVisitingFinished(ex, expr)
+		return classDescriptor
 	}
 
 	/**
@@ -186,7 +190,7 @@ class NavigationVisitor {
 	 * 	- FeatureInvocationExpression ex: feature invocation expression that contains the navigation chain
 	 *  - StringBuilder parent: StringBuilder that can be used to add snippet fragments to the containing statement	
 	 */
-	def String visitAttribute(FeatureInvocationExpression ex, StringBuilder parent) {
+	def ValueDescriptor visitAttribute(FeatureInvocationExpression ex, StringBuilder parent) {
 		throw new UnsupportedOperationException("Navigation chain visiting is unimplemented")
 	}
 
@@ -198,7 +202,7 @@ class NavigationVisitor {
 		
 		val captureType = "&"
 		val parameterList = '''«typeDescriptor.fullType» «declaration.name»'''
-		val lambdaBody = expression.delegate(lambdaPreprocess)
+		val lambdaBody = expression.delegate(lambdaPreprocess).stringRepresentation
 				
 		recursionDepth = tmpRecursionDepth
 		
@@ -208,15 +212,15 @@ class NavigationVisitor {
 		}''' 
 	}
 
-	private def dispatch String delegate(FilterExpression it, StringBuilder parent) {
+	private def dispatch ValueDescriptor delegate(FilterExpression it, StringBuilder parent) {
 		visitFilter(parent)
 	}
 	
-	private def dispatch String delegate(AssociationAccessExpression it, StringBuilder parent) {
+	private def dispatch ValueDescriptor delegate(AssociationAccessExpression it, StringBuilder parent) {
 		visitAssociation(parent)
 	}
 
-	private def dispatch String delegate(Expression it, StringBuilder parent) {
+	private def dispatch ValueDescriptor delegate(Expression it, StringBuilder parent) {
 		visit(parent)
 	}
 
@@ -255,32 +259,6 @@ class NavigationVisitor {
 
 		parent.append('''«variableDescriptor.fullType» «variableDescriptor.stringRepresentation» = «builtExpression»;
 		''')
-		return variableDescriptor.stringRepresentation
+		return variableDescriptor
 	}
-
-	// TODO: This is copied from expression visitor
-	private def isCollection(Type type) {
-		type.equals(context.getCollectionType(CollectionType.SET))
-	}
-
-	// TODO: This is copied from expression visitor	
-	private def createNewVariableDescriptor(Expression ex, Type variableType) {
-		if (variableType == null) {
-			return null
-		}
-		var ValueDescriptor descriptor
-		if (variableType.isCollection) {
-			descriptor = (descriptorFactory.createCollectionVariableDescriptorBuilder => [
-				elementType = (typeSystem.type(ex).value as CollectionTypeReference).valueType.umlType
-				collectionType = variableType
-				name = null
-			]).build
-		} else {
-			descriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
-				type = variableType
-				name = null
-			]).build
-		}
-	}
-
 }

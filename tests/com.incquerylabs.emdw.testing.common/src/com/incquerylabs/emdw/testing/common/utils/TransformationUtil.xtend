@@ -60,7 +60,7 @@ class TransformationUtil {
 		
 		val xUmlRtResource = rs.resources.findFirst[it.URI.toString.contains(".xtuml")]
 		val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
-		extensionServices.forEach[initialize(xUmlRtResource)]
+		extensionServices.forEach[initialize(engine, xUmlRtResource)]
 		xtTrafo.extensionServices = extensionServices
 		xtTrafo.externalTypeMap = primitiveTypeMapping
 		xtTrafo.initialize(engine)

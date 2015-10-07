@@ -34,9 +34,10 @@ class MakefileTemplates {
 	.SUFFIXES:
 	.SUFFIXES: .cc .hh .o
 	
+	EXTERNALDIRS := $(subst ;, ,$(EMDW_EXTERNAL_SOURCE_DIR))
+	
 	SOURCES := $(wildcard *.cc)
-	# Add external code location here
-	# SOURCES += $(wildcard [PATH TO EXTERNAL CODE]/*.cc)
+	SOURCES += $(wildcard $(addsuffix /*.cc,$(EXTERNALDIRS)))
 	OBJECTS := $(SOURCES:%.cc=%.o)
 	BINARY := «modelname».out
 	

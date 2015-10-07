@@ -8,8 +8,10 @@ import com.incquerylabs.emdw.umlintegration.test.UmlIntegrationMappingTestSuite
 import com.incquerylabs.emdw.cpp.codegeneration.test.CodegenerationTestSuite
 import com.incquerylabs.emdw.cpp.common.test.CommonTestSuite
 import com.incquerylabs.emdw.cpp.bodyconverter.test.BodyConverterTestSuite
+import com.incquerylabs.uml.ralf.RalfTestsTestSuite
 
 @SuiteClasses(#[
+	RalfTestsTestSuite,
 	SnippetCompilerTestSuite,
 	UmlIntegrationMappingTestSuite,
 	com.incquerylabs.emdw.cpp.transformation.test.TransformationTestSuite,

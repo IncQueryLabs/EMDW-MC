@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 import org.eclipse.uml2.uml.Component
+import org.junit.Ignore
 
 @SuiteClasses(#[
 	LinkDescriptorForOne2OneAssociationTest,
@@ -109,6 +110,7 @@ class LinkDescriptorForOne2OneAssociationTest extends AbstractLinkUnlinkDescript
 	
 }
 
+@Ignore("One directional association is not supported yet!")
 class LinkDescriptorForOne2NothingAssociationTest extends AbstractLinkUnlinkDescriptorTest {
 	
 	override setExpectedRepresentation() {
@@ -134,8 +136,7 @@ class LinkDescriptorForOne2ManyAssociationTest extends AbstractLinkUnlinkDescrip
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 			'''
-			::std::list< «CLASS1_FQN»* > __ralf__0____std__list = «SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME»;
-			__ralf__0____std__list.push_back(«TARGET_VARIABLE_NAME»);
+			«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».push_back(«TARGET_VARIABLE_NAME»);
 			true;
 			«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME» = «SOURCE_VARIABLE_NAME»'''
 	}
@@ -156,8 +157,7 @@ class LinkDescriptorForMany2OneAssociationTest extends AbstractLinkUnlinkDescrip
 		EXPECTED_REPRESENTATION =
 		'''
 		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME» = «TARGET_VARIABLE_NAME»;
-		::std::list< «CLASS2_FQN»* > __ralf__0____std__list = «TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME»;
-		__ralf__0____std__list.push_back(«SOURCE_VARIABLE_NAME»);
+		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».push_back(«SOURCE_VARIABLE_NAME»);
 		true'''
 	}
 	
@@ -176,11 +176,9 @@ class LinkDescriptorForMany2ManyAssociationTest extends AbstractLinkUnlinkDescri
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 		'''
-		::std::list< «CLASS1_FQN»* > __ralf__0____std__list = «SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME»;
-		__ralf__0____std__list.push_back(«TARGET_VARIABLE_NAME»);
+		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».push_back(«TARGET_VARIABLE_NAME»);
 		true;
-		::std::list< «CLASS2_FQN»* > __ralf__2____std__list = «TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME»;
-		__ralf__2____std__list.push_back(«SOURCE_VARIABLE_NAME»);
+		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».push_back(«SOURCE_VARIABLE_NAME»);
 		true'''
 	}
 	
@@ -213,6 +211,7 @@ class UnlinkDescriptorForOne2OneAssociationTest extends AbstractLinkUnlinkDescri
 	
 }
 
+@Ignore("One directional association is not supported yet!")
 class UnlinkDescriptorForOne2NothingAssociationTest extends AbstractLinkUnlinkDescriptorTest {
 	
 	override setExpectedRepresentation() {
@@ -238,8 +237,7 @@ class UnlinkDescriptorForOne2ManyAssociationTest extends AbstractLinkUnlinkDescr
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 			'''
-			::std::list< «CLASS1_FQN»* > __ralf__0____std__list = «SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME»;
-			__ralf__0____std__list.remove(«TARGET_VARIABLE_NAME»);
+			«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».remove(«TARGET_VARIABLE_NAME»);
 			«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME» = nullptr'''
 	}
 	
@@ -259,8 +257,7 @@ class UnlinkDescriptorForMany2OneAssociationTest extends AbstractLinkUnlinkDescr
 		EXPECTED_REPRESENTATION =
 		'''
 		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME» = nullptr;
-		::std::list< «CLASS2_FQN»* > __ralf__0____std__list = «TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME»;
-		__ralf__0____std__list.remove(«SOURCE_VARIABLE_NAME»)'''
+		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».remove(«SOURCE_VARIABLE_NAME»)'''
 	}
 	
 	override protected prepareAssociation(Component comp) {
@@ -278,10 +275,8 @@ class UnlinkDescriptorForMany2ManyAssociationTest extends AbstractLinkUnlinkDesc
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 		'''
-		::std::list< «CLASS1_FQN»* > __ralf__0____std__list = «SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME»;
-		__ralf__0____std__list.remove(«TARGET_VARIABLE_NAME»);
-		::std::list< «CLASS2_FQN»* > __ralf__2____std__list = «TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME»;
-		__ralf__2____std__list.remove(«SOURCE_VARIABLE_NAME»)'''
+		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».remove(«TARGET_VARIABLE_NAME»);
+		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».remove(«SOURCE_VARIABLE_NAME»)'''
 	}
 	
 	override protected prepareAssociation(Component comp) {

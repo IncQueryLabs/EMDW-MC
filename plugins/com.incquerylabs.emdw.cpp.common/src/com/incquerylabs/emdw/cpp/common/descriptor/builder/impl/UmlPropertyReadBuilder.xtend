@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAssociationReadBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeReadBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
@@ -14,14 +13,12 @@ class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 	private UmlToXtumlMapper mapper
 	private IOoplAttributeReadBuilder attributeBuilder
 	private IOoplAssociationReadBuilder associationBuilder
-	private UmlValueDescriptorFactory factory
 	
 	private ValueDescriptor variable
 	private Property property
 	
 	
-	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
-		this.factory = factory
+	new(AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)
 		attributeBuilder = new CppAttributeReadBuilder(engine)
 		associationBuilder = new CppAssociationReadBuilder(engine)
@@ -43,7 +40,6 @@ class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 						it.association = xtUmlAssociation
 					]).build
 		}
-		factory.putPropertyReadIntoCache(descriptor.stringRepresentation, descriptor)
 		return descriptor
 		
 	}

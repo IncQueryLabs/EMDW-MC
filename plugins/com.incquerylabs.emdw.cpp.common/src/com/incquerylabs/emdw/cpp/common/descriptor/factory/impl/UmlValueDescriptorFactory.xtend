@@ -25,17 +25,13 @@ import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
-import com.incquerylabs.emdw.valuedescriptor.ParameterDescriptor
-import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.Map
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -45,9 +41,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	private Map<String, SingleVariableDescriptor> singleVariableCache
 	private Table<Type, String, LiteralDescriptor> literalCache
 	private Map<String, CollectionVariableDescriptor> collectionVariableCache
-	private Map<String, PropertyReadDescriptor> propertyReadCache
-	private Map<String, OperationCallDescriptor> operationCallCache
-	private Map<String, ParameterDescriptor> parameterCache
 	
 	/**
 	 * @param engine Cannot be null
@@ -71,9 +64,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		checkArgument(engine!=null)
 		this.singleVariableCache = newHashMap()
 		this.collectionVariableCache = newHashMap()
-		this.parameterCache = newHashMap()
-		this.propertyReadCache = newHashMap()
-		this.operationCallCache = newHashMap()
 		this.parent = parent
 		this.engine = engine
 		if(parent!=null) {
@@ -291,7 +281,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createParameterDescriptorBuilder() {
-		return new UmlParameterDescriptorBuilder(engine, this)
+		return new UmlParameterDescriptorBuilder(engine)
 	}
 	
 	override createCollectionVariableDescriptorBuilder() {
@@ -307,7 +297,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createPropertyReadBuilder() {
-		new UmlPropertyReadBuilder(this, engine)
+		new UmlPropertyReadBuilder(engine)
 	}
 	
 	override createPropertyWriteBuilder() {
@@ -354,22 +344,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		new UmlSigdataDescriptorBuilder(this)
 	}
 	
-	override getCachedVariableDescriptor(String name) {
-		var ValueDescriptor cached
-		if((cached = getSingleVariableFromCache(name)) != null) {
-			return cached;
-		}
-		if((cached = getCollectionVariableFromCache(name)) != null) {
-			return cached;
-		}
-		if((cached = getPropertyReadFromCache(name)) != null) {
-			return cached;
-		}
-		if((cached = getOperationCallFromCache(name)) != null) {
-			return cached;
-		}
-		return getParameterFromCache(name)
-	}
 	
 	
 	override isSingleVariableInCache(String variableName) {
@@ -438,72 +412,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		if(variableName!=descriptor.stringRepresentation) {
 			collectionVariableCache.put(descriptor.stringRepresentation, descriptor)
 		}
-	}
-	
-	def boolean isPropertyReadInCache(String variableName) {
-		val inCache = propertyReadCache.containsKey(variableName)
-		if(!inCache && parent!=null) {
-			return parent.isPropertyReadInCache(variableName)
-		}
-		return inCache
-	}
-	
-	def PropertyReadDescriptor getPropertyReadFromCache(String variableName) {
-		val cached = propertyReadCache.get(variableName)
-		if(cached!=null || parent==null) {
-			return cached
-		}
-		return parent.getPropertyReadFromCache(variableName)
-	}
-	
-	def putPropertyReadIntoCache(String variableName, PropertyReadDescriptor descriptor) {
-		propertyReadCache.put(variableName, descriptor)
-		if(variableName!=descriptor.stringRepresentation) {
-			propertyReadCache.put(descriptor.stringRepresentation, descriptor)
-		}
-	}
-	
-	def boolean isOperationCallInCache(String variableName) {
-		val inCache = operationCallCache.containsKey(variableName)
-		if(!inCache && parent!=null) {
-			return parent.isOperationCallInCache(variableName)
-		}
-		return inCache
-	}
-	
-	def OperationCallDescriptor getOperationCallFromCache(String variableName) {
-		val cached = operationCallCache.get(variableName)
-		if(cached!=null || parent==null) {
-			return cached
-		}
-		return parent.getOperationCallFromCache(variableName)
-	}
-	
-	def putOperationCallIntoCache(String variableName, OperationCallDescriptor descriptor) {
-		operationCallCache.put(variableName, descriptor)
-		if(variableName!=descriptor.stringRepresentation) {
-			operationCallCache.put(descriptor.stringRepresentation, descriptor)
-		}
-	}
-	
-	override isParameterInCache(String parameterName) {
-		val inCache = parameterCache.containsKey(parameterName)
-		if(!inCache && parent != null) {
-			return parent.isParameterInCache(parameterName)
-		}
-		return inCache
-	}
-	
-	override getParameterFromCache(String parameterName) {
-		val cached = parameterCache.get(parameterName)
-		if(cached == null && parent != null) {
-			return parent.getParameterFromCache(parameterName)
-		}
-		return cached
-	}
-	
-	override putParameterIntoCache(ParameterDescriptor descriptor) {
-		parameterCache.put(descriptor.stringRepresentation, descriptor)
 	}
 	
 }

@@ -87,10 +87,6 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		
 	}
 	
-	override getCachedVariableDescriptor(String name) {
-		(cache.filter[vd | vd.stringRepresentation.equals(name)]).head
-	}
-	
 	override createCastDescriptorBuilder() {
 		new DummyCastDescriptorBuilder
 	}

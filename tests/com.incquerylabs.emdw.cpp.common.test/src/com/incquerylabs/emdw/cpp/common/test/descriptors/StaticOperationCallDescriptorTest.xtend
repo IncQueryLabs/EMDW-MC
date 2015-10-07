@@ -13,8 +13,11 @@ import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.PrimitiveType
 
 @SuiteClasses(#[
+	BuiltInPrintlnTest,
+	BuiltInToStringTest,
 	StaticOperationCallDescriptorWithoutParameterAndVoidReturnTypeTest,
 	StaticOperationCallDescriptorWithoutParameterAndBoolReturnTypeTest,
 	StaticOperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest,
@@ -23,6 +26,72 @@ import static org.junit.Assert.*
 ])
 @RunWith(Suite)
 class StaticOperationCallDescriptorTestSuite {}
+
+class BuiltInPrintlnTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val OPERATION_FQN = "std::out::println"
+	private static final val STRING_TYPE = "String"
+	private static final val STRING_LITERAL = "Hello world!"
+	private static final val EXPECTED_TYPE = '''void'''
+	private static final val EXPECTED_REPRESENTATION = '''::std::cout << «STRING_LITERAL» << ::std::endl'''
+	private PrimitiveType stringType
+	
+	override protected createUmlObject(Model umlModel) {
+		val op = umlModel.findOperation(OPERATION_FQN)
+		stringType = umlModel.findPrimitiveType(STRING_TYPE)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val param = (factory.createLiteralDescriptorBuilder=> [
+			it.literal = STRING_LITERAL
+			it.type = stringType
+		]).build
+		val descriptor = (factory.createStaticOperationCallBuilder => [
+			it.operation = object
+			it.parameters = param
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class BuiltInToStringTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val OPERATION_FQN = "std::boolean::toString"
+	private static final val BOOLEAN_TYPE = "Boolean"
+	private static final val BOOLEAN_LITERAL = "true"
+	private static final val EXPECTED_TYPE = '''::std::string'''
+	private static final val EXPECTED_REPRESENTATION = '''::xumlrt::to_string(«BOOLEAN_LITERAL»)'''
+	private PrimitiveType boolType
+	
+	override protected createUmlObject(Model umlModel) {
+		val op = umlModel.findOperation(OPERATION_FQN)
+		boolType = umlModel.findPrimitiveType(BOOLEAN_TYPE)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val param = (factory.createLiteralDescriptorBuilder=> [
+			it.literal = BOOLEAN_LITERAL
+			it.type = boolType
+		]).build
+		val descriptor = (factory.createStaticOperationCallBuilder => [
+			it.operation = object
+			it.parameters = param
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
 
 abstract class AbstractStaticOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	protected static final val COMPONENT_NAME = "TestComponent"
@@ -56,10 +125,8 @@ class StaticOperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation
 		)
 	}
 }
@@ -88,10 +155,8 @@ class StaticOperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation
 		)
 	}
 }
@@ -120,10 +185,8 @@ class StaticOperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest ext
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation
 		)
 	}
 }
@@ -163,10 +226,8 @@ class StaticOperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTes
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation
 		)
 	}
 }
@@ -213,10 +274,8 @@ class StaticOperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeT
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation
 		)
 	}
 }

@@ -22,12 +22,10 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	private ValueDescriptor variable
 	private Operation operation
 	private List<ValueDescriptor> params
-	private UmlValueDescriptorFactory factory
 	
 	
 	
 	new(UmlValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
-		this.factory = factory
 		mapper = new UmlToXtumlMapper(engine)
 		builder = new CppOperationCallBuilder(factory.factory.factory, engine)
 	}
@@ -48,7 +46,6 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 		
 		val xtOperation = mapper.convertOperation(operation)
 		val ocd = builder.setOperation(xtOperation).build
-		factory.putOperationCallIntoCache(ocd.stringRepresentation, ocd)
 		return ocd
 	}
 	

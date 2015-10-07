@@ -7,7 +7,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "Single Conversion Test: Send new signal from state entry action",
+			#[  "Send new signal from state entry action",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Ping::Ping_SM::Region1::s2",
 				ConversionType.StateEntry,
@@ -20,7 +20,19 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 
 				__ralf__0__Pong->generate_event(__ralf__1__ping_s);'''
 			],
-			#[  "Unlink expression test",
+			#[  "Re-send sigdata from state entry action",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Ping::Ping_SM::Region1::s2",
+				ConversionType.StateEntry,
+				'''
+				send sigdata to this->pong.one();
+				''',
+				'''
+				::model::Comp::Pong* __ralf__0__Pong = ::xumlrt::select_any(this->R1_pong);
+				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = casted_const_event->clone();
+				__ralf__0__Pong->generate_event(__ralf__1__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
+			],
+			#[  "Unlink expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
@@ -33,7 +45,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				this->R3_called = nullptr;
 				__ralf__0__cd->R3_call = nullptr;'''
 			],
-			#[  "Link expression test",
+			#[  "Link expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
@@ -46,7 +58,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				this->R3_called = __ralf__0__cd;
 				__ralf__0__cd->R3_call = this;'''
 			],
-			#[  "Delete expression test",
+			#[  "Delete expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,

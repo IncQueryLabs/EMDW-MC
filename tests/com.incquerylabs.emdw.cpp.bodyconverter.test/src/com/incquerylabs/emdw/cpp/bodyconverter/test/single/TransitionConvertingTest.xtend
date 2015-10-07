@@ -7,7 +7,7 @@ class TransitionConvertingTest extends AbstractSingleConversionTest{
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "Single Conversion Test: Send new signal from transition effect",
+			#[  "Send new signal from transition effect",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::Pong_SM::Region1::e2",
 				ConversionType.Transition,

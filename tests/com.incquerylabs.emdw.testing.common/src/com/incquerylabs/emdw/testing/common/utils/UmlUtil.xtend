@@ -222,19 +222,25 @@ class UmlUtil extends ModelUtil {
 		association
 	}
 
-	def createAssociation(Component comp, Class source, Class target, String assocName, String sourceEndName,
-		String targetEndName) {
+	def createAssociation(Component comp, Class source, Class target, String assocName, String sourceEndName, String targetEndName) {
+		comp.createAssociation(source, target, assocName, sourceEndName, 1, 1, targetEndName, 1, 1)
+	}
+	
+	def createAssociation(Component comp, Class source, Class target, String assocName, 
+		String sourceEndName, int sourceEndLower, int sourceEndUpper, 
+		String targetEndName, int targetEndLower, int targetEndUpper
+	) {
 		val endAtSource = umlFactory.createProperty => [
 			it.type = target
 			it.name = sourceEndName
-			it.lower = 1
-			it.upper = 1
+			it.lower = sourceEndLower
+			it.upper = sourceEndUpper
 		]
 		val endAtTarget = umlFactory.createProperty => [
 			it.type = source
 			it.name = targetEndName
-			it.lower = 1
-			it.upper = 1
+			it.lower = targetEndLower
+			it.upper = targetEndUpper
 		]
 		val association = umlFactory.createAssociation => [
 			it.ownedEnds.addAll(
@@ -245,6 +251,10 @@ class UmlUtil extends ModelUtil {
 		]
 		comp.nestedClassifiers += association
 		endAtSource
+	}
+	
+	def getOwnerAssociationOtherEnd(Property prop) {
+		prop.association.ownedEnds.findFirst[it!=prop]
 	}
 
 	def createGeneralization(Class subClass, Class superClass) {
@@ -312,6 +322,14 @@ class UmlUtil extends ModelUtil {
 		]
 		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
 		return primitiveTypes.findFirst[it.name == name]
+	}
+	
+	def Operation findOperation(EObject eobject, String qualifiedName) {
+		val umlCollectionTypesResource = eobject.eResource.resourceSet.resources.findFirst [
+			it.URI.toString.contains(PATH_RALF_COLLECTIONS)
+		]
+		val collectionType = umlCollectionTypesResource.allContents.filter(Operation).toList
+		return collectionType.findFirst[it.qualifiedName == qualifiedName]
 	}
 
 	def DataType findCollectionType(EObject eobject, String qualifiedName) {

@@ -8,6 +8,10 @@
       <ownedAttribute xmi:type="uml:Property" xmi:id="_2bZIwFLSEeWGoI0n4OjYuA" name="count">
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
       </ownedAttribute>
+      <ownedAttribute xmi:type="uml:Property" xmi:id="_OVFkcGedEeWP8uDj1wiGWw" name="integerMultiProperty">
+        <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+        <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Svf6QGedEeWP8uDj1wiGWw" value="*"/>
+      </ownedAttribute>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a8SY4BmmEeWkDIIs2OLK7g" name="Pong_SM">
         <region xmi:type="uml:Region" xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
           <transition xmi:type="uml:Transition" xmi:id="_hewAUBmmEeWkDIIs2OLK7g" name="i" source="_faJEQBmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g"/>
@@ -104,6 +108,7 @@
         </ownedParameter>
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_HNhU8EWoEeWcLrJDHOFUIQ" name="sendPing" method="_sVl38EWhEeWcLrJDHOFUIQ"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_AyKwUGsyEeWYkv5PNs0h2A" name="staticOperation" isStatic="true"/>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s"/>
       <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_Tfv7cDE3EeW_U4Ge-CTh1A" name="TestBehavior" specification="_vE8jQDeBEeWL0_G-UoY53A">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_93Gp8DE0EeW_U4Ge-CTh1A" name="inParameter">
@@ -120,6 +125,7 @@
         <language>rALF</language>
         <body>send new ping_s() to this->ping;</body>
       </nestedClassifier>
+      <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_QJwlYGsyEeWYkv5PNs0h2A" name="staticOperationBehavior" language="" body=""/>
       <ownedReception xmi:type="uml:Reception" xmi:id="_l3-fkBpEEeWgOeVNG9guWg" name="Reception1" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
     </nestedClassifier>
     <nestedClassifier xmi:type="uml:Class" xmi:id="_I9qiEBmkEeWkDIIs2OLK7g" name="Ping" classifierBehavior="_kQ9UIBmkEeWkDIIs2OLK7g">

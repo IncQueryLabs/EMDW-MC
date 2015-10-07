@@ -13,13 +13,20 @@ import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
+import org.eclipse.uml2.uml.PrimitiveType
 
 @SuiteClasses(#[
 	OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest,
 	OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest,
 	OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest,
 	OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest,
-	OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest
+	OperationCallDescriptorWithMultipleSimpleParameterAndVoidReturnTypeTest,
+	HiddenOperationCallDescriptorTest,
+	CollectionAddOperationCallDescriptorTest,
+	CollectionAddAllOperationCallDescriptorTest,
+	CollectionGetOperationCallDescriptorTest,
+	CollectionIsEmptyOperationCallDescriptorTest,
+	CollectionSizeOperationCallDescriptorTest
 ])
 @RunWith(Suite)
 class OperationCallDescriptorTestSuite {}
@@ -58,11 +65,8 @@ class OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest extends Value
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
-		)
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
 	}
 }
 
@@ -100,11 +104,8 @@ class OperationCallDescriptorWithoutParameterAndBoolReturnTypeTest extends Value
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
-		)
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
 	}
 }
 
@@ -142,11 +143,8 @@ class OperationCallDescriptorWithoutParameterAndBoolListReturnTypeTest extends V
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
-		)
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
 	}
 }
 
@@ -195,15 +193,12 @@ class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest exte
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
-		)
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
 	}
 }
 
-class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+class OperationCallDescriptorWithMultipleSimpleParameterAndVoidReturnTypeTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
 	
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
@@ -255,10 +250,296 @@ class OperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest ex
 	}
 	
 	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
-		assertTrue('''Descriptor's value type should be «EXPECTED_TYPE» instead of «descriptor.fullType».''', 
-					descriptor.fullType==EXPECTED_TYPE)
-		assertTrue('''Descriptor's string representation should be «EXPECTED_REPRESENTATION» instead of «descriptor.stringRepresentation».''',
-					descriptor.stringRepresentation==EXPECTED_REPRESENTATION
-		)
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class HiddenOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val SUPER_NAME = "SuperClass"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val OPERATION_NAME = "withoutParam"
+	private static final val OPERATION_TYPE = "Void"
+	private static final val PARAMETER_NAME = "param"
+	private static final val PARAMETER_TYPE = "Boolean"
+	private static final val VARIABLE_NAME = "classVariable"
+	private static final val EXPECTED_TYPE = '''void'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»->::test::«COMPONENT_NAME»::«SUPER_NAME»::«OPERATION_NAME»()'''
+	private Class umlClass
+	private Type parameterType
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		val superClass = comp.createClass(SUPER_NAME)
+		val pT = findPrimitiveType(umlModel, OPERATION_TYPE)
+		val returnParam = pT.createParameter("returnParam", ParameterDirectionKind.RETURN_LITERAL, 1, 1)
+		val op = superClass.createOperation(OPERATION_NAME, returnParam)
+		umlClass = comp.createClass(CLASS_NAME)
+		umlClass.createGeneralization(superClass)
+		val subReturnParam = pT.createParameter("returnParam", ParameterDirectionKind.RETURN_LITERAL, 1, 1)
+		parameterType = findPrimitiveType(umlModel, PARAMETER_TYPE)
+		val parameter = parameterType.createParameter(PARAMETER_NAME, ParameterDirectionKind.IN_LITERAL, 1, 1)
+		umlClass.createOperation(OPERATION_NAME, subReturnParam, parameter)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val classDescriptor = (factory.createSingleVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = VARIABLE_NAME
+			it.type = umlClass
+		]).build
+		val descriptor = (factory.createOperationCallBuilder => [
+			it.operation = object
+			it.variable = classDescriptor
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class CollectionAddOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val COLLECTION_TYPE = "std::collections::Set"
+	private static final val OPERATION_NAME = '''add'''
+	private static final val OPERATION_FQN = '''«COLLECTION_TYPE»::«OPERATION_NAME»'''
+	private static final val VARIABLE_NAME = "collectionVariable"
+	private static final val PARAMETER1_NAME = "param1"
+	private static final val EXPECTED_TYPE = '''bool'''
+	private static final val EXPECTED_REPRESENTATION = 
+		'''
+		::std::pair< ::std::set< ::test::«COMPONENT_NAME»::«CLASS_NAME»*>::iterator, bool> result = «VARIABLE_NAME».insert(«PARAMETER1_NAME»);
+		result.second'''
+	private Class umlClass
+	private Type collectionType
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		umlClass = comp.createClass(CLASS_NAME)
+		collectionType = umlModel.findCollectionType(COLLECTION_TYPE)
+		val op = umlModel.findOperation(OPERATION_FQN)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val collectionDescriptor = (factory.createCollectionVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = VARIABLE_NAME
+			it.elementType = umlClass
+			it.collectionType = collectionType
+		]).build
+		val param1Descriptor = (factory.createSingleVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = PARAMETER1_NAME
+			it.type = umlClass
+		]).build
+		val descriptor = (factory.createOperationCallBuilder => [
+			it.operation = object
+			it.variable = collectionDescriptor
+			it.parameters = param1Descriptor
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class CollectionAddAllOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val COLLECTION_TYPE = "std::collections::Set"
+	private static final val OPERATION_NAME = '''addAll'''
+	private static final val OPERATION_FQN = '''«COLLECTION_TYPE»::«OPERATION_NAME»'''
+	private static final val VARIABLE_NAME = "collectionVariable"
+	private static final val PARAMETER_NAME = "param1"
+	private static final val EXPECTED_TYPE = '''bool'''
+	private static final val EXPECTED_REPRESENTATION = 
+		'''
+		«VARIABLE_NAME».insert(«PARAMETER_NAME».begin(), «PARAMETER_NAME».end())'''
+	private Class umlClass
+	private Type collectionType
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		umlClass = comp.createClass(CLASS_NAME)
+		collectionType = umlModel.findCollectionType(COLLECTION_TYPE)
+		val op = umlModel.findOperation(OPERATION_FQN)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val collectionDescriptor = (factory.createCollectionVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = VARIABLE_NAME
+			it.elementType = umlClass
+			it.collectionType = collectionType
+		]).build
+		val param1Descriptor = (factory.createCollectionVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = PARAMETER_NAME
+			it.elementType = umlClass
+			it.collectionType = collectionType
+		]).build
+		val descriptor = (factory.createOperationCallBuilder => [
+			it.operation = object
+			it.variable = collectionDescriptor
+			it.parameters = param1Descriptor
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class CollectionGetOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val INTEGER_TYPE = "Integer"
+	private static final val INTEGER_LITERAL = "0"
+	private static final val COLLECTION_TYPE = "std::collections::Sequence"
+	private static final val OPERATION_NAME = '''get'''
+	private static final val OPERATION_FQN = '''«COLLECTION_TYPE»::«OPERATION_NAME»'''
+	private static final val VARIABLE_NAME = "collectionVariable"
+	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
+	private static final val EXPECTED_REPRESENTATION = 
+		'''
+		collectionVariable[0]'''
+	private Class umlClass
+	private Type collectionType
+	private PrimitiveType intType
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		umlClass = comp.createClass(CLASS_NAME)
+		collectionType = umlModel.findCollectionType(COLLECTION_TYPE)
+		intType = umlModel.findPrimitiveType(INTEGER_TYPE)
+		val op = umlModel.findOperation(OPERATION_FQN)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val collectionDescriptor = (factory.createCollectionVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = VARIABLE_NAME
+			it.elementType = umlClass
+			it.collectionType = collectionType
+		]).build
+		val paramDescriptor = (factory.createLiteralDescriptorBuilder => [
+			it.type = intType
+			it.literal = INTEGER_LITERAL
+		]).build
+		val descriptor = (factory.createOperationCallBuilder => [
+			it.operation = object
+			it.variable = collectionDescriptor
+			it.parameters = paramDescriptor
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class CollectionIsEmptyOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val COLLECTION_TYPE = "std::collections::Set"
+	private static final val OPERATION_NAME = '''isEmpty'''
+	private static final val OPERATION_FQN = '''std::collections::Collection::«OPERATION_NAME»'''
+	private static final val VARIABLE_NAME = "collectionVariable"
+	private static final val EXPECTED_TYPE = '''bool'''
+	private static final val EXPECTED_REPRESENTATION = 
+		'''
+		«VARIABLE_NAME».empty()'''
+	private Class umlClass
+	private Type collectionType
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		umlClass = comp.createClass(CLASS_NAME)
+		collectionType = umlModel.findCollectionType(COLLECTION_TYPE)
+		val op = umlModel.findOperation(OPERATION_FQN)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val collectionDescriptor = (factory.createCollectionVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = VARIABLE_NAME
+			it.elementType = umlClass
+			it.collectionType = collectionType
+		]).build
+		val descriptor = (factory.createOperationCallBuilder => [
+			it.operation = object
+			it.variable = collectionDescriptor
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
+	}
+}
+
+class CollectionSizeOperationCallDescriptorTest extends ValueDescriptorBaseTest<Operation, OperationCallDescriptor> {
+	
+	private static final val COMPONENT_NAME = "TestComponent"
+	private static final val CLASS_NAME = "TestClass"
+	private static final val COLLECTION_TYPE = "std::collections::Set"
+	private static final val OPERATION_NAME = '''size'''
+	private static final val OPERATION_FQN = '''std::collections::Collection::«OPERATION_NAME»'''
+	private static final val VARIABLE_NAME = "collectionVariable"
+	private static final val EXPECTED_TYPE = '''long'''
+	private static final val EXPECTED_REPRESENTATION = 
+		'''
+		«VARIABLE_NAME».size()'''
+	private Class umlClass
+	private Type collectionType
+	
+	override protected createUmlObject(Model umlModel) {
+		val comp = umlModel.createComponent(COMPONENT_NAME)
+		umlClass = comp.createClass(CLASS_NAME)
+		collectionType = umlModel.findCollectionType(COLLECTION_TYPE)
+		val op = umlModel.findOperation(OPERATION_FQN)
+		return op
+	}
+	
+	override protected prepareValueDescriptor(IUmlDescriptorFactory factory, Operation object) {
+		val collectionDescriptor = (factory.createCollectionVariableDescriptorBuilder => [
+			it.isExistingVariable = true
+			it.name = VARIABLE_NAME
+			it.elementType = umlClass
+			it.collectionType = collectionType
+		]).build
+		val descriptor = (factory.createOperationCallBuilder => [
+			it.operation = object
+			it.variable = collectionDescriptor
+		]).build
+		return descriptor
+	}
+	
+	override protected assertResult(Operation object, OperationCallDescriptor descriptor) {
+		assertEquals(EXPECTED_TYPE, descriptor.fullType)
+		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
 	}
 }

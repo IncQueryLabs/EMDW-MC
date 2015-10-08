@@ -213,7 +213,7 @@ class CodeGenerator {
 		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
 		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
 		// only create MakeFile if it doesn't exist yet
-		if(!fileManager.fileExists("", "MakeFile")){
+		if(!fileManager.fileExists("", "Makefile")){
 			fileManager.createFile("Makefile", makefileContent, true, false)
 		}
 	}

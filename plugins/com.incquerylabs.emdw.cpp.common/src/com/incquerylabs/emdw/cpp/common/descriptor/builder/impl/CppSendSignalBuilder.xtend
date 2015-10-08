@@ -9,12 +9,13 @@ class CppSendSignalBuilder implements IOoplSendSignalBuilder {
 	
 	ValueDescriptor variable
 	ValueDescriptor signal
+	boolean isContextStatic
 	
 	override build() {
 		return factory.createOperationCallDescriptor => [
 					it.baseType = "void"
 					it.fullType = "void"
-					it.stringRepresentation = '''«variable.stringRepresentation»->generate_event(«signal.stringRepresentation»)'''
+					it.stringRepresentation = '''«variable.stringRepresentation»->generate_event(«signal.stringRepresentation», «IF isContextStatic»nullptr«ELSE»this«ENDIF»)'''
 				]
 	}
 	
@@ -26,6 +27,11 @@ class CppSendSignalBuilder implements IOoplSendSignalBuilder {
 	override setSignal(ValueDescriptor signal) {
 		this.signal = signal
 		return this
+	}
+	
+	override setIsContextStatic(boolean isContextStatic) {
+		this.isContextStatic = isContextStatic
+		this
 	}
 	
 }

@@ -139,11 +139,15 @@ class StatementVisitor {
 		val builder = new StringBuilder
 		builder.append(st.serializeToTraceComment)
 		val targetDescriptor = st.target.visit(builder) 		
-		val signalDescriptor = st.signal.visit(builder) 
+		val signalDescriptor = st.signal.visit(builder)
+		
+		val operationContext = util.context.definedOperation
+		val isContextStatic = operationContext?.isStatic
 				
 		val descriptor = (descriptorFactory.createSendSignalBuilder => [
-			variable = targetDescriptor
-			signal = signalDescriptor
+			it.variable = targetDescriptor
+			it.signal = signalDescriptor
+			it.isContextStatic = isContextStatic
 		]).build
 		
 		builder.append('''«descriptor.stringRepresentation»;''')

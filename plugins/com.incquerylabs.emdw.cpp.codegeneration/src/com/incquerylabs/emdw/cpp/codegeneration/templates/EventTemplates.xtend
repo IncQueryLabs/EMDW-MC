@@ -54,7 +54,7 @@ class EventTemplates extends CPPTemplate {
 			class «event.generatedEventClassName» : «event.superEventsTemplate» {
 				public:
 					// Constructor
-					«event.generatedEventClassName»(bool isInternal);
+					«event.generatedEventClassName»();
 					// Virtual clone
 					virtual «event.generatedEventClassQualifiedName»* clone() const;
 					// Attributes
@@ -119,14 +119,14 @@ class EventTemplates extends CPPTemplate {
 		
 		if(superEvents.isNullOrEmpty){
 			'''
-				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
-				«ClassTemplates.EVENT_FQN»(«eventEnumeratorQualifiedName(cppClass, event)», isInternal){
+				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»() : 
+				«ClassTemplates.EVENT_FQN»(«eventEnumeratorQualifiedName(cppClass, event)»){
 				}
 			'''
 		} else {
 			'''
-				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»(bool isInternal) : 
-				«superEvents.head.generatedEventClassQualifiedName»(isInternal){
+				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»() : 
+				«superEvents.head.generatedEventClassQualifiedName»(){
 					this->«ClassTemplates.EVENT_FQN»::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
 				}
 			'''

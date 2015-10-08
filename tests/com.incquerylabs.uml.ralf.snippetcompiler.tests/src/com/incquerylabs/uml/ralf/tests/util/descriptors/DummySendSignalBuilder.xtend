@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 class DummySendSignalBuilder implements IUmlSendSignalBuilder{
 	ValueDescriptor variable
 	ValueDescriptor signal
+	boolean isContextStatic
 	
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -14,7 +15,7 @@ class DummySendSignalBuilder implements IUmlSendSignalBuilder{
 	override build() {
 		val descriptor = createOperationCallDescriptor => [
 			baseType = variable.baseType
-			stringRepresentation = '''«variable.stringRepresentation»->generate_event(«signal.stringRepresentation»)'''
+			stringRepresentation = '''«variable.stringRepresentation»->generate_event(«signal.stringRepresentation», «IF isContextStatic»nullptr«ELSE»this«ENDIF»)'''
 		]
 		descriptor
 	}
@@ -26,6 +27,11 @@ class DummySendSignalBuilder implements IUmlSendSignalBuilder{
 	
 	override setSignal(ValueDescriptor signal) {
 		this.signal = signal
+		this
+	}
+	
+	override setIsContextStatic(boolean isContextStatic) {
+		this.isContextStatic = isContextStatic
 		this
 	}
 	

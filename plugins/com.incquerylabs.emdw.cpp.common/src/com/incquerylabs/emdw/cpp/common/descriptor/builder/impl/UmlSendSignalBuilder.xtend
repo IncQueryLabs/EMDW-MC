@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplSendSignalBuilde
 class UmlSendSignalBuilder implements IUmlSendSignalBuilder {
 	ValueDescriptor variable
 	ValueDescriptor signal
+	boolean isContextStatic
 	IOoplSendSignalBuilder builder
 	
 	new() {
@@ -17,6 +18,7 @@ class UmlSendSignalBuilder implements IUmlSendSignalBuilder {
 		return (builder => [
 					it.variable = variable
 					it.signal = signal
+					it.isContextStatic = isContextStatic
 				]).build
 	}
 	
@@ -28,6 +30,11 @@ class UmlSendSignalBuilder implements IUmlSendSignalBuilder {
 	override setSignal(ValueDescriptor signal) {
 		this.signal = signal
 		return this
+	}
+	
+	override setIsContextStatic(boolean isContextStatic) {
+		this.isContextStatic = isContextStatic
+		this
 	}
 	
 }

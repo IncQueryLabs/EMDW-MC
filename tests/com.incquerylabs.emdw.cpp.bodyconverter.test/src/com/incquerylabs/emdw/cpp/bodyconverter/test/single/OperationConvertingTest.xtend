@@ -16,9 +16,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::model::Comp::Ping* __ralf__0__Ping = ::xumlrt::select_any(this->R1_ping);
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
+				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
 				
-				__ralf__0__Ping->generate_event(__ralf__1__ping_s);'''
+				__ralf__0__Ping->generate_event(__ralf__1__ping_s, this);'''
 			],
 			#[  "Create new signal in class operation",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -28,7 +28,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				ping_s sig = new ping_s();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__sig = new ::model::Comp::Pong::ping_s_event(false);
+				::model::Comp::Pong::ping_s_event* __ralf__0__sig = new ::model::Comp::Pong::ping_s_event();
 				'''
 			],
 			#[  "Create signals' collection in class operation",
@@ -39,7 +39,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Set<ping_s> sigs = Set<ping_s>{new ping_s()};
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event(false);
+				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
 				
 				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__2____std__set = { __ralf__1__ping_s };
 				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__0__sigs = __ralf__2____std__set;'''
@@ -180,6 +180,19 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::xumlrt::to_string(3.14);'''
+			],
+			#[  "Static operation call send new signal test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
+				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 
+				ConversionType.Operation,
+				'''
+				send new CallLeg::remove() to CallLeg::instances().one();
+				''',
+				'''
+				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg* __ralf__0__CallLeg = ::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances);
+				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __ralf__1__remove = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
+
+				__ralf__0__CallLeg->generate_event(__ralf__1__remove, nullptr);'''
 			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

@@ -27,7 +27,7 @@ class CppConstructorCallBuilder extends AbstractCppOperationCallDescriptorBuilde
 				val cppEvent = mapper.convertEvent(re)
 				it.baseType = cppEvent.convertToType
 				it.fullType = it.baseType
-				it.stringRepresentation = '''new «cppEvent.convertToQualifiedName»(false)'''
+				it.stringRepresentation = '''new «cppEvent.convertToQualifiedName»()'''
 			} else {
 				val cppClass = mapper.convertType(re as Type) as CPPClass
 				it.baseType = cppClass.convertToType

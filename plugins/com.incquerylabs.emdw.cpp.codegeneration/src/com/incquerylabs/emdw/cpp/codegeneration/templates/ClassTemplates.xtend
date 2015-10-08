@@ -285,7 +285,7 @@ class ClassTemplates extends CPPTemplate {
 
 		«cppClassName»_state current_state;
 
-		virtual void generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e);
+		virtual void generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e, void* sender);
 		virtual void process();
 		
 		void process_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* event);
@@ -521,8 +521,8 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
 		'''
-		void «cppClassFQN»::generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) {
-			if(e->_isInternal) {
+		void «cppClassFQN»::generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e, void* sender) {
+			if(sender == this) {
 				_internalEvents.push(e);
 			} else {
 				_externalEvents.push(e);

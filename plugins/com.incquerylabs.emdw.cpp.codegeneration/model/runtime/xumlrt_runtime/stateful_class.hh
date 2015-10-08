@@ -15,7 +15,7 @@ namespace xumlrt {
   public:
     virtual ~stateful_class() {}
   
-    virtual void generate_event(const event* e) = 0;
+    virtual void generate_event(const event* e, void* sender) = 0;
     virtual void process() = 0;
   
   private:

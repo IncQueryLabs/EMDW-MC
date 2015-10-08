@@ -26,6 +26,7 @@ import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.junit.runners.Parameterized
+import org.eclipse.uml2.common.util.CacheAdapter
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -34,8 +35,19 @@ abstract class AbstractConversionTest {
     @After
     def void cleanupTest() {
 		clearTrafos()
+		umlModel.eResource.resourceSet.resources.clear
+		umlModel = null
+		cppModel = null
+		engine = null
+		context = null
+		bodyConverter = null
+    	trafoUtil = null
+    	val cache = CacheAdapter.instance
+		val proxymap = cache.proxyMap
+		proxymap.values.forEach[it.clear]
+		cache.clear
     }
-
+    
 	protected UMLFactory umlFactory = UMLFactory.eINSTANCE
 	protected CommonFactory commonFactory = CommonFactory.eINSTANCE
 	protected TraceFactory traceFactory = TraceFactory.eINSTANCE

@@ -20,6 +20,8 @@ import org.junit.runners.Parameterized
 import org.junit.runners.Parameterized.Parameter
 
 import static org.junit.Assert.*
+import org.junit.After
+import org.eclipse.uml2.common.util.CacheAdapter
 
 @RunWith(Parameterized)
 abstract class AbstractSingleConversionTest extends AbstractConversionTest {
@@ -44,6 +46,11 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
     @Parameter(5)
     public String expectedOutput
 
+	@After
+    def void cleanupSingleConversionTest() {
+		scopedUmlObject = null
+		scopedCppObject = null
+    }
 
     @Test 
     def void test_singleConversion() {

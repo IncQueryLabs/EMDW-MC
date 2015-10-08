@@ -19,6 +19,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static org.junit.Assert.*
+import org.eclipse.uml2.common.util.CacheAdapter
 
 /**
  * Base class for testing transformation rules.
@@ -90,6 +91,10 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	@After
 	def cleanup() {
 		cleanupTransformation;
+		val cache = CacheAdapter.instance
+		val proxymap = cache.proxyMap
+		proxymap.values.forEach[it.clear]
+		cache.clear
 	}
 
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {

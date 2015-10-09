@@ -25,8 +25,9 @@ class SendSignalTest extends ValueDescriptorBaseTest<Signal, OperationCallDescri
 	private static final val SIGNAL_NAME = "TestSignal"
 	private static final val TARGET_VARIABLE_NAME = "target"
 	private static final val SIGNAL_VARIABLE_NAME = "sig"
+	private static final val IS_CONTEXT_STATIC = false;
 	private static final val EXPECTED_TYPE = '''void'''
-	private static final val EXPECTED_REPRESENTATION = '''«TARGET_VARIABLE_NAME»->generate_event(«SIGNAL_VARIABLE_NAME»)'''
+	private static final val EXPECTED_REPRESENTATION = '''«TARGET_VARIABLE_NAME»->generate_event(«SIGNAL_VARIABLE_NAME», «IF IS_CONTEXT_STATIC»nullptr«ELSE»this«ENDIF»)'''
 	private Class cl
 	
 	override protected createUmlObject(Model umlModel) {
@@ -53,6 +54,7 @@ class SendSignalTest extends ValueDescriptorBaseTest<Signal, OperationCallDescri
 		val descriptor = (factory.createSendSignalBuilder => [
 			it.signal = signalDescriptor
 			it.variable = targetDescriptor
+			it.isContextStatic = IS_CONTEXT_STATIC
 		]).build
 		return descriptor
 	}

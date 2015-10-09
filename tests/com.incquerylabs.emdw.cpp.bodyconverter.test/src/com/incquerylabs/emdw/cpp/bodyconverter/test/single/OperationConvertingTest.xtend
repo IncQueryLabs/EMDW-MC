@@ -18,7 +18,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				::model::Comp::Ping* __ralf__0__Ping = ::xumlrt::select_any(this->R1_ping);
 				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
 				
-				__ralf__0__Ping->generate_event(__ralf__1__ping_s, this);'''
+				__ralf__0__Ping->generate_external_event(__ralf__1__ping_s);'''
 			],
 			#[  "Create new signal in class operation",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -192,7 +192,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg* __ralf__0__CallLeg = ::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances);
 				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __ralf__1__remove = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
 
-				__ralf__0__CallLeg->generate_event(__ralf__1__remove, nullptr);'''
+				__ralf__0__CallLeg->generate_external_event(__ralf__1__remove);'''
 			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

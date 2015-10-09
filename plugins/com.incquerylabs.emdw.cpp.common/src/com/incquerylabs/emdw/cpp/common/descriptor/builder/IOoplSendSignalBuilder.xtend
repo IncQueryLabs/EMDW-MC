@@ -6,5 +6,5 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 interface IOoplSendSignalBuilder extends IValueDescriptorBuilder<OperationCallDescriptor> {
 	def IOoplSendSignalBuilder setVariable(ValueDescriptor variable)
 	def IOoplSendSignalBuilder setSignal(ValueDescriptor signal)
-	def IOoplSendSignalBuilder setIsContextStatic(boolean isContextStatic)
+	def IOoplSendSignalBuilder setIsInternal(boolean isContextStatic)
 }

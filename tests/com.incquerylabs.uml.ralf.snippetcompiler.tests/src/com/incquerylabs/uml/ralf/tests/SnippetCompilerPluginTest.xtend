@@ -46,7 +46,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
 				model::Comp::Ping temp0 = ::xumlrt::select_any(p->ping);
-				temp0->generate_event(s, this);''',
+				temp0->generate_external_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test this",
@@ -57,7 +57,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
 				temp1->integerAttribute = 2;
 				temp1->pongAttribute = this;
-				temp0->generate_event(temp1, this);''',
+				temp0->generate_external_event(temp1);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test null",
@@ -75,7 +75,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
 				model::Comp::Ping temp1 = ::xumlrt::select_any(p->ping);
-				temp1->generate_event(s, this);''',
+				temp1->generate_external_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property assignment",
@@ -417,7 +417,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong p = new model::Comp::Pong();
 				model::Comp::Ping temp0 = ::xumlrt::select_any(p->ping);
 				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
-				temp0->generate_event(temp1, this);''',
+				temp0->generate_external_event(temp1);''',
 				"sendPong"
 			],
 			#[  "Collection variable declaration",

@@ -18,7 +18,7 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				::model::Comp::Pong* __ralf__0__Pong = ::xumlrt::select_any(this->R1_pong);
 				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
 				
-				__ralf__0__Pong->generate_event(__ralf__1__ping_s, this);'''
+				__ralf__0__Pong->generate_external_event(__ralf__1__ping_s);'''
 			],
 			#[  "Re-send sigdata from state exit action",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -30,7 +30,7 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::model::Comp::Pong* __ralf__0__Pong = ::xumlrt::select_any(this->R1_pong);
 				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = casted_const_event->clone();
-				__ralf__0__Pong->generate_event(__ralf__1__pong_s, this);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
+				__ralf__0__Pong->generate_external_event(__ralf__1__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
 			],
 			#[  "Create and initialize new signal",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/ClientServer/clientserver.uml",

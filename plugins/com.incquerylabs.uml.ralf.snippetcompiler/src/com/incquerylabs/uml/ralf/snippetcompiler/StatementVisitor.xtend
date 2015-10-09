@@ -23,6 +23,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import org.apache.log4j.Logger
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.xtend2.lib.StringConcatenation
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 
 class StatementVisitor {
 	extension SnippetTraceCommentUtil traceCommentUtil = new SnippetTraceCommentUtil
@@ -141,13 +142,12 @@ class StatementVisitor {
 		val targetDescriptor = st.target.visit(builder) 		
 		val signalDescriptor = st.signal.visit(builder)
 		
-		val operationContext = util.context.definedOperation
-		val isContextStatic = operationContext?.isStatic
-				
+		val isInternal = st.target instanceof ThisExpression
+						
 		val descriptor = (descriptorFactory.createSendSignalBuilder => [
 			it.variable = targetDescriptor
 			it.signal = signalDescriptor
-			it.isContextStatic = isContextStatic
+			it.isInternal = isInternal
 		]).build
 		
 		builder.append('''«descriptor.stringRepresentation»;''')

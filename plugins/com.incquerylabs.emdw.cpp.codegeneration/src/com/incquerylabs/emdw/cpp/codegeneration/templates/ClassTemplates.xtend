@@ -285,8 +285,9 @@ class ClassTemplates extends CPPTemplate {
 
 		«cppClassName»_state current_state;
 
-		virtual void generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e, void* sender);
-		virtual void process();
+		virtual void generate_internal_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) override;
+		virtual void generate_external_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) override;
+		virtual void process() override;
 		
 		void process_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* event);
 		'''
@@ -418,6 +419,10 @@ class ClassTemplates extends CPPTemplate {
 	def destructorDefinitionsInClassBody(CPPClass cppClass) {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
+		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
+		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
+		val parentHasEvents = codeGenQueries.getCppClassAllParentEvent(engine).hasMatch(cppClass, null)
+		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~" + cppClass.cppName].sortBy[cppName]
 		val defaultDestructorSignature = '''«cppFQN»::~«cppClassName»()'''
 		
@@ -427,6 +432,10 @@ class ClassTemplates extends CPPTemplate {
 			«defaultDestructorSignature» {
 				«tracingMessage('''[«cppClassName»] destructor call: «defaultDestructorSignature»''')»
 				«operationTemplates.instancesRemoveTemplates(cppClass)»
+				«IF (hasStateMachine || hasEvents)»
+					if(!_internalEvents.empty() || !_externalEvents.empty())
+						«component.cppQualifiedName»::«component.cppName»::get_instance()->unschedule(_scheduler_queue_position);
+				«ENDIF»
 			}
 		«ENDIF»
 		«FOR destructor : destructors»
@@ -521,14 +530,17 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassFQN = cppClass.cppQualifiedName
 		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
 		'''
-		void «cppClassFQN»::generate_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e, void* sender) {
-			if(sender == this) {
-				_internalEvents.push(e);
-			} else {
-				_externalEvents.push(e);
-			}
+		void «cppClassFQN»::generate_internal_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) {
+			_internalEvents.push(e);
 			if(_internalEvents.size() + _externalEvents.size() == 1) {
-				«component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
+				_scheduler_queue_position = «component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
+			}
+		}
+		
+		void «cppClassFQN»::generate_external_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* e) {
+			_externalEvents.push(e);
+			if(_internalEvents.size() + _externalEvents.size() == 1) {
+				_scheduler_queue_position = «component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
 			}
 		}
 		
@@ -541,10 +553,12 @@ class ClassTemplates extends CPPTemplate {
 				evt = _externalEvents.front();
 				_externalEvents.pop();
 			}
-			if(!_internalEvents.empty() or !_externalEvents.empty()) {
-				«component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
+			if(!_internalEvents.empty() || !_externalEvents.empty()) {
+				_scheduler_queue_position = «component.cppQualifiedName»::«component.cppName»::get_instance()->schedule(this);
 			}
+			
 			process_event(evt);
+			
 		}
 		'''
 	}

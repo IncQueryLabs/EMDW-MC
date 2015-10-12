@@ -25,8 +25,9 @@ class SendSignalTest extends ValueDescriptorBaseTest<Signal, OperationCallDescri
 	private static final val SIGNAL_NAME = "TestSignal"
 	private static final val TARGET_VARIABLE_NAME = "target"
 	private static final val SIGNAL_VARIABLE_NAME = "sig"
+	private static final val IS_SENT_TO_SELF = false;
 	private static final val EXPECTED_TYPE = '''void'''
-	private static final val EXPECTED_REPRESENTATION = '''«TARGET_VARIABLE_NAME»->generate_event(«SIGNAL_VARIABLE_NAME»)'''
+	private static final val EXPECTED_REPRESENTATION = '''«TARGET_VARIABLE_NAME»->generate_«IF IS_SENT_TO_SELF»internal«ELSE»external«ENDIF»_event(«SIGNAL_VARIABLE_NAME»)'''
 	private Class cl
 	
 	override protected createUmlObject(Model umlModel) {
@@ -53,6 +54,7 @@ class SendSignalTest extends ValueDescriptorBaseTest<Signal, OperationCallDescri
 		val descriptor = (factory.createSendSignalBuilder => [
 			it.signal = signalDescriptor
 			it.variable = targetDescriptor
+			it.isInternal = com.incquerylabs.emdw.cpp.common.test.descriptors.SendSignalTest.IS_SENT_TO_SELF
 		]).build
 		return descriptor
 	}

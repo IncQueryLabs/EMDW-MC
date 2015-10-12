@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplSendSignalBuilde
 class UmlSendSignalBuilder implements IUmlSendSignalBuilder {
 	ValueDescriptor variable
 	ValueDescriptor signal
+	boolean isInternal
 	IOoplSendSignalBuilder builder
 	
 	new() {
@@ -17,6 +18,7 @@ class UmlSendSignalBuilder implements IUmlSendSignalBuilder {
 		return (builder => [
 					it.variable = variable
 					it.signal = signal
+					it.isInternal = isInternal
 				]).build
 	}
 	
@@ -28,6 +30,11 @@ class UmlSendSignalBuilder implements IUmlSendSignalBuilder {
 	override setSignal(ValueDescriptor signal) {
 		this.signal = signal
 		return this
+	}
+	
+	override setIsInternal(boolean isInternal) {
+		this.isInternal = isInternal
+		this
 	}
 	
 }

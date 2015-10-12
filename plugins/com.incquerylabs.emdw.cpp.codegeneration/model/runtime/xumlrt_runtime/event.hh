@@ -4,8 +4,8 @@
 namespace xumlrt {
   class event {
   public:
-  	event(int id, bool isInternal) :
-      _id(id), _isInternal(isInternal) {
+  	event(int id) :
+      _id(id) {
     }
   
     virtual ~event() {}
@@ -14,7 +14,6 @@ namespace xumlrt {
     }
   
     int _id;
-    bool _isInternal;
   private:
     event& operator=(const event&);
   };

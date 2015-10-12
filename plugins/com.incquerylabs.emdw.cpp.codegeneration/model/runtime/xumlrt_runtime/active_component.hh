@@ -20,7 +20,9 @@ namespace xumlrt {
   public:
     virtual ~active_component() {}
   
-    void schedule(stateful_class* stateful_class);
+    std::list<stateful_class*>::iterator schedule(stateful_class* stateful_class);
+    void unschedule(std::list<stateful_class*>::iterator position);
+
     void process();
   
   private:

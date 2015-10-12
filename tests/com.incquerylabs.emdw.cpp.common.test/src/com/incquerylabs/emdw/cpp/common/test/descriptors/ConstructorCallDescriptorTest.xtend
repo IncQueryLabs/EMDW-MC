@@ -33,7 +33,7 @@ class ConstructorCallDescriptorForEventTest extends ValueDescriptorBaseTest<Sign
 	
 	private static final val CPP_SIGNAL_FQN = '''::«MODEL_NAME»::«COMPONENT_NAME»::«CLASS_NAME»::«SIGNAL_NAME»_event'''
 	private static final val EXPECTED_TYPE = '''«CPP_SIGNAL_FQN»*'''
-	private static final val EXPECTED_REPRESENTATION = '''new «CPP_SIGNAL_FQN»(false)'''
+	private static final val EXPECTED_REPRESENTATION = '''new «CPP_SIGNAL_FQN»()'''
 	private Class umlClass
 	
 	override protected createUmlObject(Model umlModel) {

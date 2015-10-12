@@ -8,8 +8,13 @@
 #include "active_component.hh"
 #include "stateful_class.hh"
 
-void ::xumlrt::active_component::schedule(stateful_class* stateful_class) {
+std::list< ::xumlrt::stateful_class*>::iterator (::xumlrt::active_component::schedule)(stateful_class* stateful_class) {
     _stateful_classes.push_back(stateful_class);
+    return --_stateful_classes.end();
+}
+
+void ::xumlrt::active_component::unschedule(std::list<stateful_class*>::iterator position) {
+	_stateful_classes.erase(position);
 }
 
 void ::xumlrt::active_component::process() {

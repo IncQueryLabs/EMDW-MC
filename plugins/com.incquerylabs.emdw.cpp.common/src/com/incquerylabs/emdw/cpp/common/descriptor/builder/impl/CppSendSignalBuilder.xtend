@@ -9,12 +9,13 @@ class CppSendSignalBuilder implements IOoplSendSignalBuilder {
 	
 	ValueDescriptor variable
 	ValueDescriptor signal
+	boolean isInternal
 	
 	override build() {
 		return factory.createOperationCallDescriptor => [
 					it.baseType = "void"
 					it.fullType = "void"
-					it.stringRepresentation = '''«variable.stringRepresentation»->generate_event(«signal.stringRepresentation»)'''
+					it.stringRepresentation = '''«variable.stringRepresentation»->generate_«IF isInternal»internal«ELSE»external«ENDIF»_event(«signal.stringRepresentation»)'''
 				]
 	}
 	
@@ -28,4 +29,8 @@ class CppSendSignalBuilder implements IOoplSendSignalBuilder {
 		return this
 	}
 	
+	override setIsInternal(boolean isInternal) {
+		this.isInternal = isInternal
+		this
+	}
 }

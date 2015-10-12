@@ -19,7 +19,6 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static org.junit.Assert.*
-import org.eclipse.uml2.common.util.CacheAdapter
 
 /**
  * Base class for testing transformation rules.
@@ -45,7 +44,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def single() {
 		val testId = "single"
 		startTest(testId)
-		val mapping = createRootMapping(testId, new ResourceSetImpl)
+		val mapping = createBasicRootMapping(testId, new ResourceSetImpl)
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation(mapping.eResource.resourceSet, null)
 		executeXtTransformation
@@ -57,7 +56,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def incremental() {
 		val testId = "incremental"
 		startTest(testId)
-		val mapping = createRootMapping(testId, new ResourceSetImpl)
+		val mapping = createBasicRootMapping(testId, new ResourceSetImpl)
 		initializeXtTransformation(mapping.eResource.resourceSet, null)
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
@@ -70,7 +69,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def remove() {
 		val testId = "remove"
 		startTest(testId)
-		val mapping = createRootMapping(testId, new ResourceSetImpl)
+		val mapping = createBasicRootMapping(testId, new ResourceSetImpl)
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation(mapping.eResource.resourceSet, null)
 		executeXtTransformation
@@ -91,10 +90,6 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	@After
 	def cleanup() {
 		cleanupTransformation;
-		val cache = CacheAdapter.instance
-		val proxymap = cache.proxyMap
-		proxymap.values.forEach[it.clear]
-		cache.clear
 	}
 
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {

@@ -26,7 +26,10 @@ import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.junit.runners.Parameterized
-import org.eclipse.uml2.common.util.CacheAdapter
+import org.eclipse.incquery.runtime.emf.EMFBaseIndexWrapper
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
+import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
+import org.apache.log4j.Level
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -35,17 +38,6 @@ abstract class AbstractConversionTest {
     @After
     def void cleanupTest() {
 		clearTrafos()
-		umlModel.eResource.resourceSet.resources.clear
-		umlModel = null
-		cppModel = null
-		engine = null
-		context = null
-		bodyConverter = null
-    	trafoUtil = null
-    	val cache = CacheAdapter.instance
-		val proxymap = cache.proxyMap
-		proxymap.values.forEach[it.clear]
-		cache.clear
     }
     
 	protected UMLFactory umlFactory = UMLFactory.eINSTANCE
@@ -71,13 +63,16 @@ abstract class AbstractConversionTest {
     protected def initTrafos(String umlModelPath) {
     	val resourceSet = new ResourceSetImpl
     	
+    	logLevel = Level.DEBUG
+    	
 	    engine = initializeEngine(resourceSet)
 	    context =  new BasicUMLContextProvider(engine)
-		val managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
-		QueryBasedFeatures.instance.prepare(managedEngine)
-        createRootMapping(umlModelPath, resourceSet)
-    	val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet)
-    	initializeAllTransformation(resourceSet, primitiveTypeMapping)
+        val rootMapping = createRootMapping(umlModelPath, resourceSet, engine)
+        val xumlrtRS = rootMapping.eResource.resourceSet
+		val managedEngine = IncQueryEngine.on(new EMFScope(xumlrtRS))
+		GenericPatternGroup.of(OoplQueryBasedFeatures.instance, QueryBasedFeatures.instance).prepare(managedEngine)
+    	val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet, xumlrtRS)
+    	initializeAllTransformation(xumlrtRS, primitiveTypeMapping)
     }
     
 	def void executeTrafos() {
@@ -88,12 +83,17 @@ abstract class AbstractConversionTest {
 		cleanupTransformation
 	}
 	
-	def createRootMapping(String umlModelPath, ResourceSet resourceSet) {
+	def createRootMapping(String umlModelPath, ResourceSet resourceSet, AdvancedIncQueryEngine engine) {
 		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI(umlModelPath, true)) => [ load(#{}) ]
         umlModel =  umlResource.allContents.filter(typeof(Model)).findFirst[true]
-		val xtumlrtResource = resourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyXtumlrtUri.xtuml"))
-		val traceResource = resourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyTraceUri.trace"))
-		val cppResource = resourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyCppUri.cppmodel"))
+        
+        // we need to expand the indexing to the additional resource set
+		val emfBaseIndex = engine.baseIndex as EMFBaseIndexWrapper
+        val additionalResourceSet = new ResourceSetImpl
+		emfBaseIndex.navigationHelper.addRoot(additionalResourceSet)
+		val xtumlrtResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyXtumlrtUri.xtuml"))
+		val traceResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyTraceUri.trace"))
+		val cppResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyCppUri.cppmodel"))
 		
 		umlResource.contents += umlModel
 		
@@ -123,14 +123,14 @@ abstract class AbstractConversionTest {
 		mapping
 	}
     
-    def createPrimitiveTypeMapping(ResourceSet rs){
+    def createPrimitiveTypeMapping(ResourceSet umlRS, ResourceSet xumlrtRS){
 		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
-		val commonTypesResource = rs.getResource(URI.createPlatformPluginURI("/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common", true), true) => [ load(#{}) ]
+		val commonTypesResource = xumlrtRS.getResource(URI.createPlatformPluginURI("/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common", true), true) => [ load(#{}) ]
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		
-		val umlTypesResource = rs.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true) => [ load(#{}) ]
+		val umlTypesResource = umlRS.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true) => [ load(#{}) ]
 		val model = umlTypesResource.contents.filter(Model).head
 		val umlTypes = model.packagedElements.filter(PrimitiveType)
 		
@@ -139,8 +139,8 @@ abstract class AbstractConversionTest {
 			primitiveTypeMapping.put(umlType, type)
 		]
 		
-		rs.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true), true) => [ load(#{}) ]
-		rs.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true), true) => [ load(#{}) ]
+		xumlrtRS.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true), true) => [ load(#{}) ]
+		xumlrtRS.getResource(URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true), true) => [ load(#{}) ]
 		primitiveTypeMapping
 	}
 	

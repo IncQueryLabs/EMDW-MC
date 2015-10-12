@@ -143,9 +143,8 @@ class RuleProvider {
 	 */
 	public def setPriorities(FixedPriorityConflictResolver resolver) {
 		val logger = Logger.getLogger(RuleProvider)
-		logger.level = Level.DEBUG
 		rulemap.keySet.forEach [ rule |
-			logger.debug('''«rulemap.get(rule).class.simpleName» - «getPriority(rule)»''')
+			logger.trace('''«rulemap.get(rule).class.simpleName» - «getPriority(rule)»''')
 			resolver.setPriority(rule.ruleSpecification, getPriority(rule))
 		]
 	}

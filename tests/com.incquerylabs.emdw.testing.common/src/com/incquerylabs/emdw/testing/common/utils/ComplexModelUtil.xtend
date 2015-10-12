@@ -18,7 +18,7 @@ class ComplexModelUtil extends ModelUtil {
 
 	static extension CppUtil cppUtil = new CppUtil
 	
-	def createRootMapping(String umlModelName, ResourceSet rs) {
+	def createBasicRootMapping(String umlModelName, ResourceSet rs) {
 		var resourceSet = rs
 		if (resourceSet == null) {
 			resourceSet = new ResourceSetImpl
@@ -26,9 +26,7 @@ class ComplexModelUtil extends ModelUtil {
 		val umlResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_UML»'''))
 		val xtumlrtResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_XTUML»'''))
 		val traceResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_TRACE»'''))
-		val cppResource = resourceSet.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_CPP»'''))
 		resourceSet.getResource(URI.createURI(PATH_RALF_COLLECTIONS), true)
-		resourceSet.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
 
 		val umlModel = umlFactory.createModel => [
 			name = umlModelName
@@ -45,7 +43,16 @@ class ComplexModelUtil extends ModelUtil {
 			xtumlrtRoot = xtumlrtModel
 		]
 		traceResource.contents += mapping
-		prepareCPPModel(cppResource, xtumlrtModel)
+
+		mapping
+	}
+	
+	def createRootMapping(String umlModelName, ResourceSet rs) {
+		val mapping = createBasicRootMapping(umlModelName, rs)
+		
+		val cppResource = rs.createResource(URI.createURI('''model/«umlModelName»/«URI_DUMMY_CPP»'''))
+		rs.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
+		prepareCPPModel(cppResource, mapping.xtumlrtRoot)
 
 		mapping
 	}

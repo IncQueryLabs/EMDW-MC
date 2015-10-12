@@ -2,9 +2,12 @@ package com.incquerylabs.emdw.umlintegration.papyrus
 
 import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
+import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.HashMap
+import java.util.Set
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.apache.log4j.RollingFileAppender
@@ -25,9 +28,6 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
-import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
-import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
-import java.util.Set
 
 class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 

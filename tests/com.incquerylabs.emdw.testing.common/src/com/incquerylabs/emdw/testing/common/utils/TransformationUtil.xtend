@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
 import java.util.Map
 import java.util.Set
+import org.apache.log4j.Level
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.base.api.BaseIndexOptions
@@ -14,6 +15,8 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.incquery.runtime.exception.IncQueryException
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Type
+import org.apache.log4j.Logger
+import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 
 class TransformationUtil {
 
@@ -34,7 +37,7 @@ class TransformationUtil {
 			return PATHMAP_SCHEME.equals(uri.scheme()) && !uri.authority().equals(UML_LIBRARIES_AUTHORITY);
 		]);
 		val scope = new EMFScope(set, options);
-		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(scope);
+		engine = AdvancedIncQueryEngine.createUnmanagedEngine(scope);
 		return engine;
 	}
 
@@ -80,6 +83,12 @@ class TransformationUtil {
 		}
 		compTrafo = new XtumlComponentCPPTransformation
 		compTrafo.initialize(engine)
+	}
+	
+	def setLogLevel(Level loglevel){
+		Logger.getLogger(TransformationQrt.package.name).level = loglevel
+		Logger.getLogger(XtumlCPPTransformationQrt.package.name).level = loglevel
+		Logger.getLogger(CPPCodeGeneration.package.name).level = loglevel
 	}
 
 	def executeXtTransformation() {

@@ -1,0 +1,433 @@
+package com.incquerylabs.emdw.toolchain
+
+import com.ericsson.xtumlrt.oopl.OoplFactory
+import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalLibrary
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
+import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.google.common.collect.ImmutableMap
+import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
+import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
+import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
+import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
+import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
+import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
+import com.incquerylabs.emdw.umlintegration.util.RuleProvider
+import java.util.Map
+import java.util.Set
+import org.apache.log4j.Level
+import org.apache.log4j.Logger
+import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.incquery.runtime.api.IncQueryEngine
+import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.uml2.uml.Type
+import org.eclipse.xtend.lib.annotations.Accessors
+
+import static com.google.common.base.Preconditions.*
+
+class ToolchainManager {
+	@Accessors ResourceSet resourceSet
+	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
+	@Accessors Set<UmlIntegrationExtension> extensionServices
+	
+	@Accessors TransformationQrt xtTrafo
+	@Accessors XtumlCPPTransformationQrt cppQrtTrafo
+	@Accessors XtumlComponentCPPTransformation cppCompTrafo
+	@Accessors CPPCodeGeneration cppCodeGeneration
+	@Accessors FileAndDirectoryGeneration filegen
+	@Accessors MakefileGeneration makefileGeneration
+	
+	@Accessors AdvancedIncQueryEngine engine
+	@Accessors XtumlModelChangeMonitor xtumlChangeMonitor
+	@Accessors IFileManager fileManager
+	
+	boolean isDisposed = false
+	boolean isXumlrtTrafoInitialized = false
+	boolean isCppQrtTrafoInitialized = false
+	boolean isCppCompTrafoInitialized = false
+	boolean areCppPrerequisitesInitialized = false
+	boolean isCppCodegenerationInitialized = false
+	boolean isMakefileGenerationInitialized = false
+	
+	extension XtumlQueries xtumlQueries = XtumlQueries.instance
+	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	
+	IncQueryEngine managedEngine
+	
+	
+	def initializeXtTransformation(Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping) {
+		if(!isXumlrtTrafoInitialized) {
+			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
+			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
+			extensionServices.forEach[initialize(engine, xUmlRtResource)]
+			xtTrafo.extensionServices = extensionServices
+			xtTrafo.externalTypeMap = primitiveTypeMapping
+			xtTrafo.initialize(engine)
+			
+			isXumlrtTrafoInitialized = true
+		}
+	}
+	
+	def initializeCppQrtTransformation() {
+		initializeCppTransformationPrerequisites
+		if(!isCppQrtTrafoInitialized) {
+			cppQrtTrafo.initialize(engine)
+			isCppQrtTrafoInitialized = true
+		}
+	}
+	
+	def initializeCppComponentTransformation() {
+		initializeCppTransformationPrerequisites
+		if(! isCppCompTrafoInitialized){
+			cppCompTrafo.initialize(engine)
+			isCppCompTrafoInitialized = true
+		}
+	}
+	
+	def initializeCppTransformationPrerequisites() {
+		if(!areCppPrerequisitesInitialized) {
+			managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
+			OoplQueryBasedFeatures.instance.prepare(managedEngine)
+			QueryBasedFeatures.instance.prepare(managedEngine)
+			resourceSet.loadCPPBasicTypes
+			resourceSet.loadDefaultContainerImplementations
+			
+			areCppPrerequisitesInitialized = true
+		}
+	}
+	
+	def initializeCppCodegeneration() {
+		if(!isCppCodegenerationInitialized){
+			cppCodeGeneration.initialize(engine)
+			isCppCodegenerationInitialized = true
+		}
+	}
+	
+	def initializeMakefileGeneration() {
+		if(!isMakefileGenerationInitialized) {
+			makefileGeneration.initialize()
+			isMakefileGenerationInitialized = true
+		}
+	}
+	
+	// Execute full toolchain once
+	def executeToolchain() {
+		executeXtTransformation()
+		executeCppQrtTransformation()
+		executeDeltaCodeAndFileGeneration()
+		
+		startChangeMonitor()
+	}
+	
+	
+	def executeAllTransformation() {
+		executeXtTransformation()
+		executeCppQrtTransformation()
+		executeCppStructureTransformation()
+		executeCppActionCodeCompile()
+	}
+
+	def executeAllTransformationWithoutCodeCompile() {
+		executeXtTransformation()
+		executeCppQrtTransformation()
+		executeCppStructureTransformation()
+	}
+	
+	// Incremental transformations
+	def executeXtTransformation() {
+		xtTrafo.execute
+	}
+	
+	def executeCppQrtTransformation() {
+		getOrCreateCPPModel
+		cppQrtTrafo.execute
+	}
+	
+	// CPP transform for ALL components
+	def executeCppComponentTransformation() {
+		executeCppStructureTransformation
+		executeCppActionCodeCompile
+	}
+	
+	def executeCppStructureTransformation() {
+		getOrCreateCPPModel
+		cppCompTrafo.transformComponents
+	}
+	
+	def executeCppActionCodeCompile() {
+		cppCompTrafo.transformComponents
+	}
+	
+	// CPP transform for single component
+	def executeCppComponentTransformation(XTComponent component) {
+		component.executeCppStructureTransformation
+		component.executeCppActionCodeCompile
+	}
+	
+	def executeCppStructureTransformation(XTComponent component) {
+		val cppModel = getOrCreateCPPModel
+		val cppResource = cppModel.eResource
+		createMissingExternalLibrary(cppResource)
+		
+		cppCompTrafo.transformComponent(component)
+	}
+	
+	def executeCppActionCodeCompile(XTComponent component) {
+		cppCompTrafo.compileActionCodes(component)
+	}
+	
+	// CPP code generation for single component
+	def executeCppCodeGeneration(CPPComponent cppComponent) {
+		cppCodeGeneration.execute(cppComponent)
+		return cppCodeGeneration.generatedCPPSourceFiles
+	}
+	
+	// File generation
+	def executeFileGeneration(CPPModel cppModel, CPPDirectory runtimeDirectory, Map<CPPSourceFile, CharSequence> cppSourceFileContents){
+		checkNotNull(fileManager)
+		filegen.initialize(engine, fileManager, ImmutableMap.copyOf(cppSourceFileContents))
+		// Model based file generation
+		filegen.execute(cppModel.headerDir)
+		if(cppModel.bodyDir != cppModel.headerDir){
+			filegen.execute(cppModel.bodyDir)
+		}
+		// Runtime, Makefile and main.cc generation
+		filegen.execute(runtimeDirectory)
+	}
+	
+	
+	def startChangeMonitor() {
+		if (xtumlChangeMonitor != null && !xtumlChangeMonitor.started) {
+			xtumlChangeMonitor.startMonitoring
+		}
+	}
+	
+	def createChangeMonitorCheckpoint() {
+		xtumlChangeMonitor?.createCheckpoint
+	}
+	
+	def getDirtyXtComponents() {
+		if(xtumlChangeMonitor == null || !xtumlChangeMonitor.started) {
+			val allXtComponents = engine.xtComponents.allValuesOfxtComponent
+			return allXtComponents
+		} else {
+			val dirtyXtComponents = xtumlChangeMonitor.dirtyXTComponents
+			return dirtyXtComponents
+		}
+	}
+	
+	def executeDeltaCodeAndFileGeneration() {
+		createChangeMonitorCheckpoint()
+		
+		// get dirty components
+		val componentsToTransform = dirtyXtComponents
+		
+		// CPP Component Transformation
+		componentsToTransform.forEach[it.executeCppComponentTransformation]
+		
+		// ******* FILE CONTENT GENERATION *******
+		val CPPModel cppModel = getOrCreateCPPModel
+		val runtimeCppDir = getRuntimeCppDir()
+		
+		val cppSourceFileContents = executeFileContentGeneration(componentsToTransform, cppModel, runtimeCppDir)
+		
+		// ******* FILE SYNCHRONISATION *******
+		executeFileGeneration(cppModel, runtimeCppDir, cppSourceFileContents)
+		// Manual filegeneration for main makefile and main.cc
+		performMakefileGeneration(cppModel, runtimeCppDir)
+		val allCppComponents = engine.cppComponents.getAllValuesOfcppComponent
+		performMainGeneration(allCppComponents)
+	}
+	
+	def executeFileContentGeneration(Iterable<XTComponent> componentsToTransform, CPPModel cppModel, CPPDirectory runtimeCppDir) {
+		val cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
+		// CPP code generation for components
+		componentsToTransform.forEach[ xtComponent |
+			val cppComponent = engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
+			val cppSourceFileContentsForComponent = executeCppCodeGeneration(cppComponent)
+			cppSourceFileContents.putAll(cppSourceFileContentsForComponent)
+		]
+		
+		// Runtime code generation
+		cppSourceFileContents.putAll(mapRuntime(runtimeCppDir))
+		// Makefile code generation
+		performRulesMkGeneration(makefileGeneration, cppModel)
+		cppSourceFileContents.putAll(makefileGeneration.generatedCPPMakeFiles)
+		
+		cppSourceFileContents
+	}
+	
+	def getOrCreateCPPModel() {
+		val xtmodel = engine.xtModel.allValuesOfxtModel.head
+		val modelMatcher = engine.getXtModelToCppModel
+		var CPPModel cppModel = null
+		if (modelMatcher.hasMatch(xtmodel, null)) {
+			cppModel = modelMatcher.getOneArbitraryMatch(xtmodel, null).cppModel
+			if (cppModel.ooplNameProvider == null) {
+				cppModel.ooplNameProvider = createOOPLExistingNameProvider => [
+					commonNamedElement = xtmodel
+				]
+			}
+		} else {
+			val makeRulesFile = createCPPMakeFile
+			val rootDirectory = createCPPDirectory => [
+				it.makeRulesFile = makeRulesFile
+				it.files += makeRulesFile
+			]
+			cppModel = createCPPModel => [
+				commonModel = xtmodel
+				ooplNameProvider = createOOPLExistingNameProvider => [
+					commonNamedElement = xtmodel
+				]
+				headerDir = rootDirectory
+				bodyDir = rootDirectory
+			]
+			
+			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension
+			val uri = uriWithoutExtension.appendFileExtension("cppmodel")
+			val cppResource = resourceSet.createResource(uri)
+			cppResource.contents += cppModel
+			cppResource.contents += rootDirectory
+		}
+		return cppModel
+	}
+	
+	def performMainGeneration(CPPComponent... components) {
+		checkNotNull(fileManager)
+		val mainGeneration = new MainGeneration
+		mainGeneration.initialize
+		
+		val mainContent = mainGeneration.execute(components)
+		fileManager.createFile("main.cc", mainContent, true, false)
+	}
+	
+	def performMakefileGeneration(CPPModel cppModel, CPPDirectory... otherDirsForMakefile){
+		checkNotNull(fileManager)
+		val listOfDirs = <String>newArrayList
+		listOfDirs.add(cppModel.headerDir.name)
+		if(cppModel.headerDir!=cppModel.bodyDir) {
+			listOfDirs.add(cppModel.bodyDir.name)
+		}
+		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
+		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
+		fileManager.createFile("Makefile", makefileContent, true, false)
+	}
+	
+	def performRulesMkGeneration(MakefileGeneration makefileGeneration, CPPModel cppModel) {
+		makefileGeneration.executeRulesMk(cppModel.headerDir)
+		if(cppModel.headerDir!=cppModel.bodyDir) {
+			makefileGeneration.executeRulesMk(cppModel.bodyDir)
+		}
+	}
+	
+	def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
+		if(mapperCppDir!=null) {
+			// Map static file sources
+			val mapperFileManager = new BundleFileManager("com.incquerylabs.emdw.cpp.codegeneration")
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, "model/runtime/"+mapperCppDir.name+"/")
+			mapper.execute
+			return mapper.mappedSourceFiles
+		}
+	}
+	
+	def CPPDirectory getRuntimeCppDir() {
+		val resource = loadCPPRuntimeModelResource(resourceSet)
+		if(resource != null) {
+			val runtimeCppDirectory = resource.contents.filter(CPPDirectory).head
+			return runtimeCppDirectory
+		}
+		return null
+	}
+	
+	def createMissingExternalLibrary(Resource cppResource){
+		if(cppResource.contents.filter(CPPExternalLibrary).isNullOrEmpty){
+			cppResource.contents += createCPPExternalLibrary
+		}
+	}
+	
+	def loadCPPBasicTypes(ResourceSet rs) {
+		rs.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),
+			true)
+	}
+	
+	def loadDefaultContainerImplementations(ResourceSet rs) {
+		rs.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			true)
+	}
+	
+	def loadCPPRuntimeModelResource(ResourceSet rs) {
+		rs.getResource(
+			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel", true), 
+			true
+		)
+	}
+
+	def void dispose() {
+		if(!isDisposed){
+			isDisposed = true
+			
+			engine?.dispose
+			engine = null
+			resourceSet = null
+			primitiveTypeMapping = null
+			extensionServices = null
+			
+			xtTrafo?.dispose
+			xtTrafo = null
+			
+			xtumlChangeMonitor?.dispose
+			xtumlChangeMonitor = null
+			
+			cppQrtTrafo?.dispose
+			cppQrtTrafo = null
+			
+			cppCompTrafo?.dispose
+			cppCompTrafo = null
+			
+			cppCodeGeneration?.dispose
+			cppCodeGeneration = null
+			
+			makefileGeneration = null
+			
+			filegen?.dispose
+			filegen = null
+			
+			fileManager = null
+		}
+	}
+	
+	def disposeEngine(){
+		if (engine != null) {
+			engine.dispose
+		}
+	}
+	
+	def setLoggerLevels(){
+		val commonLoggingLevel = Level.TRACE
+//		logger.level = commonLoggingLevel
+		Logger.getLogger(RuleProvider).level = commonLoggingLevel
+		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
+		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
+		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
+		Logger.getLogger(MainGeneration.package.name).level = commonLoggingLevel
+	}
+}

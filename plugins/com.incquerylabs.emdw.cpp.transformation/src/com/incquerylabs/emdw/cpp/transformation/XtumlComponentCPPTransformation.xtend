@@ -128,24 +128,29 @@ class XtumlComponentCPPTransformation {
 
 	def execute(XTComponent xtComponent) {
 			checkArgument(xtComponent != null, "XTUML Component cannot be null!")
-			info('''Executing transformation on «xtComponent.name»''')
-			val watch = Stopwatch.createStarted
 			xtComponent.transformComponent
 			xtComponent.compileActionCodes
-			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
 	def transformComponent(XTComponent xtComponent) {
+			checkArgument(xtComponent != null, "XTUML Component cannot be null!")
+			info('''Executing cpp structure transformation on «xtComponent.name»''')
+			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(componentRules.cleanComponentsRule, [it.xtComponent == xtComponent])
 			statements.fireAllCurrent(componentRules.componentRule, [it.xtComponent == xtComponent])
+			info('''Execution of cpp structure transformation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
 	def compileActionCodes(XTComponent xtComponent) {
+			checkArgument(xtComponent != null, "XTUML Component cannot be null!")
+			info('''Executing rALF code compilation on «xtComponent.name»''')
+			val watch = Stopwatch.createStarted
 			statements.fireAllCurrent(actionCodeRules.operationActionCodeRule, [it.xtComponent == xtComponent])
 			statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule, [it.xtComponent == xtComponent])
 			statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule, [it.xtComponent == xtComponent])
 			statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule, [it.xtComponent == xtComponent])
 			statements.fireAllCurrent(actionCodeRules.guardActionCodeRule, [it.xtComponent == xtComponent])
+			info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
 	def dispose() {

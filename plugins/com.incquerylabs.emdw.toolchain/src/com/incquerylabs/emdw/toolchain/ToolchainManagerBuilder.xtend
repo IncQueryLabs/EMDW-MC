@@ -24,6 +24,7 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
+import org.apache.log4j.Level
 
 class ToolchainManagerBuilder {
 	static val BiMap<AdvancedIncQueryEngine, ToolchainManager> toolchainManagers = HashBiMap.create()
@@ -51,14 +52,15 @@ class ToolchainManagerBuilder {
 		var ToolchainManager toolchainManager = null
 		if (toolchainManagers.containsKey(engine)){
 			toolchainManager = toolchainManagers.get(engine)
+			toolchainManager.initializeManager
 		} else {
 			checkNotNull(resourceSet, "Resource set cannot be null!")
 			toolchainManager = new ToolchainManager
+			toolchainManager.initializeManager
+			toolchainManager.logLevel = Level.INFO
 			val lifeCycleListener = new ToolchainManagerLifecycleListener(this, toolchainManager)
-			engine.addLifecycleListener(lifeCycleListener)
+			toolchainManager.engine.addLifecycleListener(lifeCycleListener)
 		}
-		toolchainManager.initializeManager
-		toolchainManager.setLoggerLevels
 		
 		toolchainManager
 	}
@@ -85,7 +87,7 @@ class ToolchainManagerBuilder {
 			it.resourceSet			= this.resourceSet			?: it.resourceSet
 			it.primitiveTypeMapping = this.primitiveTypeMapping ?: it.primitiveTypeMapping
 			
-			it.engine				= this.engine				?: it.engine				?: createDefaultEngine()
+			it.engine				= this.engine				?: it.engine				?: createDefaultEngine(it.resourceSet)
 			it.xtumlChangeMonitor	= this.xtumlChangeMonitor	?: it.xtumlChangeMonitor	?: new XtumlModelChangeMonitor(it.engine)
 			
 			it.xtTrafo				= this.xtTrafo				?: it.xtTrafo				?: new TransformationQrt
@@ -101,7 +103,7 @@ class ToolchainManagerBuilder {
 		manager
 	}
 	
-	private def createDefaultEngine() throws IncQueryException {
+	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {
 		val options = new BaseIndexOptions().withResourceFilterConfiguration([
 			val uri = getURI();
 			if (uri.toString().contains("RALF")) {

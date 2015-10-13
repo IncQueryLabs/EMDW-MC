@@ -31,5 +31,6 @@ Require-Bundle: org.eclipse.core.resources,
  com.incquerylabs.emdw.umlintegration.trace;bundle-version="1.0.0",
  com.incquerylabs.emdw.testing.common;bundle-version="1.0.0",
  org.apache.log4j;bundle-version="1.2.15",
- com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0"
+ com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0",
+ com.incquerylabs.emdw.toolchain;bundle-version="1.0.0"
 

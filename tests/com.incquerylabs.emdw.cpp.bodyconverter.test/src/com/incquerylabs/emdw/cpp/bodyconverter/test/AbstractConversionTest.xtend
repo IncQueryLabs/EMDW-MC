@@ -3,18 +3,18 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
-import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
-import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
+import com.incquerylabs.emdw.toolchain.ToolchainManager
+import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
+import org.apache.log4j.Level
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.incquery.runtime.api.IncQueryEngine
-import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.incquery.runtime.emf.EMFBaseIndexWrapper
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
@@ -26,20 +26,16 @@ import org.junit.FixMethodOrder
 import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
 import org.junit.runners.Parameterized
-import org.eclipse.incquery.runtime.emf.EMFBaseIndexWrapper
-import org.eclipse.incquery.runtime.api.GenericPatternGroup
-import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
-import org.apache.log4j.Level
 
 @RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 abstract class AbstractConversionTest {
 	
-    @After
-    def void cleanupTest() {
+	@After
+	def void cleanupTest() {
 		clearTrafos()
-    }
-    
+	}
+
 	protected UMLFactory umlFactory = UMLFactory.eINSTANCE
 	protected CommonFactory commonFactory = CommonFactory.eINSTANCE
 	protected TraceFactory traceFactory = TraceFactory.eINSTANCE
@@ -48,39 +44,52 @@ abstract class AbstractConversionTest {
 		
 	protected Model umlModel
 	protected CPPModel cppModel
-	protected AdvancedIncQueryEngine engine
 	protected BasicUMLContextProvider context
 	
 	protected BodyConverter bodyConverter
 	protected extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
-    private extension TransformationUtil trafoUtil = new TransformationUtil
-    
-    
-    public enum ConversionType {
-    	Operation, StateEntry, StateExit, Transition, TransitionGuard
-    }
+	private ToolchainManager toolchainManager
 	
-    protected def initTrafos(String umlModelPath) {
-    	val resourceSet = new ResourceSetImpl
-    	
-    	logLevel = Level.DEBUG
-    	
-	    engine = initializeEngine(resourceSet)
-	    context =  new BasicUMLContextProvider(engine)
-        val rootMapping = createRootMapping(umlModelPath, resourceSet, engine)
-        val xumlrtRS = rootMapping.eResource.resourceSet
-		val managedEngine = IncQueryEngine.on(new EMFScope(xumlrtRS))
-		GenericPatternGroup.of(OoplQueryBasedFeatures.instance, QueryBasedFeatures.instance).prepare(managedEngine)
-    	val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet, xumlrtRS)
-    	initializeAllTransformation(xumlrtRS, primitiveTypeMapping)
-    }
-    
+	
+	public enum ConversionType {
+		Operation, StateEntry, StateExit, Transition, TransitionGuard
+	}
+	
+	protected def initTrafos(String umlModelPath) {
+		val resourceSet = new ResourceSetImpl
+		
+		val managerBuilder = new ToolchainManagerBuilder
+		
+		val engine = managerBuilder.createDefaultEngine(resourceSet)
+		val rootMapping = createRootMapping(umlModelPath, resourceSet, engine)
+		val xumlrtRS = rootMapping.eResource.resourceSet
+		val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet, xumlrtRS)
+		
+		managerBuilder => [
+			it.engine = engine
+			it.resourceSet = xumlrtRS
+			it.primitiveTypeMapping = primitiveTypeMapping
+		]
+		
+		toolchainManager = managerBuilder.buildOrGetManager
+		toolchainManager.logLevel = Level.TRACE
+		
+		context =  new BasicUMLContextProvider(toolchainManager.engine)
+		
+		toolchainManager.initializeXtTransformation
+		toolchainManager.initializeCppQrtTransformation
+		toolchainManager.initializeCppComponentTransformation
+	}
+	
 	def void executeTrafos() {
-		executeAllTransformationWithoutCodeCompile
+		toolchainManager.executeXtTransformation
+		toolchainManager.executeCppQrtTransformation
+		toolchainManager.executeCppStructureTransformation
 	}
 	
 	def void clearTrafos() {
-		cleanupTransformation
+		toolchainManager.dispose
+		toolchainManager.disposeEngine
 	}
 	
 	def createRootMapping(String umlModelPath, ResourceSet resourceSet, AdvancedIncQueryEngine engine) {
@@ -89,7 +98,7 @@ abstract class AbstractConversionTest {
         
         // we need to expand the indexing to the additional resource set
 		val emfBaseIndex = engine.baseIndex as EMFBaseIndexWrapper
-        val additionalResourceSet = new ResourceSetImpl
+		val additionalResourceSet = new ResourceSetImpl
 		emfBaseIndex.navigationHelper.addRoot(additionalResourceSet)
 		val xtumlrtResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyXtumlrtUri.xtuml"))
 		val traceResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyTraceUri.trace"))
@@ -122,8 +131,8 @@ abstract class AbstractConversionTest {
 		
 		mapping
 	}
-    
-    def createPrimitiveTypeMapping(ResourceSet umlRS, ResourceSet xumlrtRS){
+	
+	def createPrimitiveTypeMapping(ResourceSet umlRS, ResourceSet xumlrtRS){
 		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
 		val commonTypesResource = xumlrtRS.getResource(URI.createPlatformPluginURI("/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common", true), true) => [ load(#{}) ]
@@ -146,5 +155,9 @@ abstract class AbstractConversionTest {
 	
 	def purgeRalfComments(String string){
 		string.replaceAll("(?s)// RALF:.+?\n", "")
+	}
+	
+	def getEngine() {
+		toolchainManager.engine
 	}
 }

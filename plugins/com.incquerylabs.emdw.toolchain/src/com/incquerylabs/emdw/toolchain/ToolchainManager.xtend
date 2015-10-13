@@ -40,6 +40,7 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
 
 class ToolchainManager {
 	@Accessors ResourceSet resourceSet
@@ -72,7 +73,7 @@ class ToolchainManager {
 	IncQueryEngine managedEngine
 	
 	
-	def initializeXtTransformation(Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping) {
+	def initializeXtTransformation() {
 		if(!isXumlrtTrafoInitialized) {
 			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
 			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
@@ -101,11 +102,13 @@ class ToolchainManager {
 		}
 	}
 	
-	def initializeCppTransformationPrerequisites() {
+	protected def initializeCppTransformationPrerequisites() {
 		if(!areCppPrerequisitesInitialized) {
 			managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
-			OoplQueryBasedFeatures.instance.prepare(managedEngine)
-			QueryBasedFeatures.instance.prepare(managedEngine)
+			GenericPatternGroup.of(
+				OoplQueryBasedFeatures.instance,
+				QueryBasedFeatures.instance
+			).prepare(managedEngine)
 			resourceSet.loadCPPBasicTypes
 			resourceSet.loadDefaultContainerImplementations
 			
@@ -128,27 +131,27 @@ class ToolchainManager {
 	}
 	
 	// Execute full toolchain once
-	def executeToolchain() {
-		executeXtTransformation()
-		executeCppQrtTransformation()
-		executeDeltaCodeAndFileGeneration()
-		
-		startChangeMonitor()
-	}
+//	def executeToolchain() {
+//		executeXtTransformation()
+//		executeCppQrtTransformation()
+//		executeDeltaCodeAndFileGeneration()
+//		
+//		startChangeMonitor()
+//	}
 	
 	
-	def executeAllTransformation() {
-		executeXtTransformation()
-		executeCppQrtTransformation()
-		executeCppStructureTransformation()
-		executeCppActionCodeCompile()
-	}
+//	def executeAllTransformation() {
+//		executeXtTransformation()
+//		executeCppQrtTransformation()
+//		executeCppStructureTransformation()
+//		executeCppActionCodeCompile()
+//	}
 
-	def executeAllTransformationWithoutCodeCompile() {
-		executeXtTransformation()
-		executeCppQrtTransformation()
-		executeCppStructureTransformation()
-	}
+//	def executeAllTransformationWithoutCodeCompile() {
+//		executeXtTransformation()
+//		executeCppQrtTransformation()
+//		executeCppStructureTransformation()
+//	}
 	
 	// Incremental transformations
 	def executeXtTransformation() {
@@ -161,11 +164,6 @@ class ToolchainManager {
 	}
 	
 	// CPP transform for ALL components
-	def executeCppComponentTransformation() {
-		executeCppStructureTransformation
-		executeCppActionCodeCompile
-	}
-	
 	def executeCppStructureTransformation() {
 		getOrCreateCPPModel
 		cppCompTrafo.transformComponents
@@ -176,11 +174,6 @@ class ToolchainManager {
 	}
 	
 	// CPP transform for single component
-	def executeCppComponentTransformation(XTComponent component) {
-		component.executeCppStructureTransformation
-		component.executeCppActionCodeCompile
-	}
-	
 	def executeCppStructureTransformation(XTComponent component) {
 		val cppModel = getOrCreateCPPModel
 		val cppResource = cppModel.eResource
@@ -240,7 +233,10 @@ class ToolchainManager {
 		val componentsToTransform = dirtyXtComponents
 		
 		// CPP Component Transformation
-		componentsToTransform.forEach[it.executeCppComponentTransformation]
+		componentsToTransform.forEach[
+			it.executeCppStructureTransformation
+			it.executeCppActionCodeCompile
+		]
 		
 		// ******* FILE CONTENT GENERATION *******
 		val CPPModel cppModel = getOrCreateCPPModel
@@ -385,8 +381,6 @@ class ToolchainManager {
 		if(!isDisposed){
 			isDisposed = true
 			
-			engine?.dispose
-			engine = null
 			resourceSet = null
 			primitiveTypeMapping = null
 			extensionServices = null
@@ -421,8 +415,7 @@ class ToolchainManager {
 		}
 	}
 	
-	def setLoggerLevels(){
-		val commonLoggingLevel = Level.TRACE
+	def setLogLevel(Level commonLoggingLevel){
 //		logger.level = commonLoggingLevel
 		Logger.getLogger(RuleProvider).level = commonLoggingLevel
 		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel

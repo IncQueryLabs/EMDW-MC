@@ -142,12 +142,15 @@ class ToolchainManager {
 	
 	// CPP transform for ALL components
 	def executeCppStructureTransformation() {
-		getOrCreateCPPModel
+		val cppModel = getOrCreateCPPModel
+		val cppResource = cppModel.eResource
+		createMissingExternalLibrary(cppResource)
+		
 		cppCompTrafo.transformComponents
 	}
 	
 	def executeCppActionCodeCompile() {
-		cppCompTrafo.transformComponents
+		cppCompTrafo.compileActionCodes
 	}
 	
 	// CPP transform for single component

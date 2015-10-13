@@ -1,9 +1,10 @@
 package com.incquerylabs.emdw.umlintegration.test
 
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
-import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
 import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
+import com.incquerylabs.emdw.toolchain.ToolchainManager
+import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.apache.log4j.Level
@@ -25,7 +26,7 @@ import static org.junit.Assert.*
  */
 abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> {
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension TransformationUtil util
+	protected extension ToolchainManager toolchainManager
 	protected extension UmlUtil umlUtil = new UmlUtil
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension ComplexModelUtil complexUtil = new ComplexModelUtil
@@ -37,16 +38,19 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 
 	@Before
 	def void init() {
-		util = new TransformationUtil
+		val managerBuilder = new ToolchainManagerBuilder => [
+			resourceSet = new ResourceSetImpl
+		]
+		toolchainManager = managerBuilder.buildOrGetManager
 	}
 
 	@Test
 	def single() {
 		val testId = "single"
 		startTest(testId)
-		val mapping = createBasicRootMapping(testId, new ResourceSetImpl)
+		val mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
 		val umlObject = createUmlObject(mapping.umlRoot)
-		initializeXtTransformation(mapping.eResource.resourceSet, null)
+		initializeXtTransformation
 		executeXtTransformation
 		mapping.assertMapping(umlObject)
 		endTest(testId)
@@ -56,8 +60,8 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def incremental() {
 		val testId = "incremental"
 		startTest(testId)
-		val mapping = createBasicRootMapping(testId, new ResourceSetImpl)
-		initializeXtTransformation(mapping.eResource.resourceSet, null)
+		val mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		initializeXtTransformation
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
 		executeXtTransformation
@@ -69,9 +73,9 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def remove() {
 		val testId = "remove"
 		startTest(testId)
-		val mapping = createBasicRootMapping(testId, new ResourceSetImpl)
+		val mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
 		val umlObject = createUmlObject(mapping.umlRoot)
-		initializeXtTransformation(mapping.eResource.resourceSet, null)
+		initializeXtTransformation
 		executeXtTransformation
 		mapping.assertMapping(umlObject)
 		val xtumlrtObject = mapping.xtumlrtRoot.xtumlrtObjects.head
@@ -89,7 +93,8 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 
 	@After
 	def cleanup() {
-		cleanupTransformation;
+		toolchainManager.dispose
+		toolchainManager.disposeEngine
 	}
 
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {

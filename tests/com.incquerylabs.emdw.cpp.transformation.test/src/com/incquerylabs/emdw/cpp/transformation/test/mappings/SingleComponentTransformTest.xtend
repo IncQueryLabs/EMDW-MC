@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 
 abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	
@@ -16,9 +17,14 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		loadDefaultContainerImplementations(cppResource)
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
+		
+		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+			it.resourceSet = cppModel.eResource.resourceSet
+		]
+		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		// transform to CPP
-		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformationWithoutCodeCompile(xtComponent)
+		initializeCppComponentTransformation
+		executeCppStructureTransformation(xtComponent)
 		// Check result
 		assertResult(xtModel, cppModel, xtComponent, cppComponent)
 		endTest(testId)
@@ -35,14 +41,19 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		loadDefaultContainerImplementations(cppResource)
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
+		
+		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+			it.resourceSet = cppModel.eResource.resourceSet
+		]
+		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		// transform to CPP
-		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformationWithoutCodeCompile(xtComponent)
+		initializeCppComponentTransformation
+		executeCppStructureTransformation(xtComponent)
 		// Check if added properly
 		assertResult(xtModel, cppModel, xtComponent, cppComponent)
 		//remove added xtuml element
 		clearXtUmlElement(xtComponent)
-		executeCppComponentTransformationWithoutCodeCompile(xtComponent)
+		executeCppStructureTransformation(xtComponent)
 		//check if removed properly
 		assertClear(xtModel, cppModel, xtComponent, cppComponent)
 		endTest(testId)

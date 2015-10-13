@@ -130,29 +130,6 @@ class ToolchainManager {
 		}
 	}
 	
-	// Execute full toolchain once
-//	def executeToolchain() {
-//		executeXtTransformation()
-//		executeCppQrtTransformation()
-//		executeDeltaCodeAndFileGeneration()
-//		
-//		startChangeMonitor()
-//	}
-	
-	
-//	def executeAllTransformation() {
-//		executeXtTransformation()
-//		executeCppQrtTransformation()
-//		executeCppStructureTransformation()
-//		executeCppActionCodeCompile()
-//	}
-
-//	def executeAllTransformationWithoutCodeCompile() {
-//		executeXtTransformation()
-//		executeCppQrtTransformation()
-//		executeCppStructureTransformation()
-//	}
-	
 	// Incremental transformations
 	def executeXtTransformation() {
 		xtTrafo.execute

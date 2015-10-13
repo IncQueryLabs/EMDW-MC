@@ -7,7 +7,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 	@Parameters(name = "{0}")
 	def static Collection<Object[]> testData() {
 		newArrayList(
-			#[  "Unlink expression collection test",
+			#[  "Unlink expression collection test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
@@ -20,7 +20,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				__ralf__0__service->R6_call.remove(this);
 				this->R6_service = nullptr;'''
 			],
-			#[  "Link expression collection test",
+			#[  "Link expression collection test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,

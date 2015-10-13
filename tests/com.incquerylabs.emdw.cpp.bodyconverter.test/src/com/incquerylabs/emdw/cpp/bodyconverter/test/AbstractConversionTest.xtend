@@ -38,6 +38,15 @@ abstract class AbstractConversionTest {
     @After
     def void cleanupTest() {
 		clearTrafos()
+		
+		val umlRSresources = umlModel.eResource.resourceSet.resources
+		umlRSresources.forEach[it.unload]
+		umlRSresources.clear
+		val xumlrtRSresources = cppModel.eResource.resourceSet.resources
+		xumlrtRSresources.forEach[it.unload]
+		xumlrtRSresources.clear;
+		
+		(0..4).forEach[System.gc]
     }
     
 	protected UMLFactory umlFactory = UMLFactory.eINSTANCE

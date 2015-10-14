@@ -15,7 +15,7 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		val testId = "deletion"
 		startTest(testId)
 		// Create xtuml model
-		val xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
+		xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
 		val xtObject = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)

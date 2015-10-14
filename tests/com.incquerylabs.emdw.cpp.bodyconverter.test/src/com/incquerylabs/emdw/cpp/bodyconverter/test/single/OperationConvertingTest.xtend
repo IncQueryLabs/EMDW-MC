@@ -181,7 +181,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::xumlrt::to_string(3.14);'''
 			],
-			#[  "Static operation call send new signal test",
+			#[  "Static operation call send new signal test (EATF)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
 				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 
 				ConversionType.Operation,

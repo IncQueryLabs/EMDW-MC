@@ -30,6 +30,8 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	protected extension UmlUtil umlUtil = new UmlUtil
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension ComplexModelUtil complexUtil = new ComplexModelUtil
+	
+	RootMapping mapping
 
 	@BeforeClass
 	def static setupRootLogger() {
@@ -48,7 +50,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def single() {
 		val testId = "single"
 		startTest(testId)
-		val mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation
@@ -60,7 +62,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def incremental() {
 		val testId = "incremental"
 		startTest(testId)
-		val mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
 		initializeXtTransformation
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
@@ -73,7 +75,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def remove() {
 		val testId = "remove"
 		startTest(testId)
-		val mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation
@@ -95,6 +97,13 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def cleanup() {
 		toolchainManager.dispose
 		toolchainManager.disposeEngine
+		
+		val umlRSresources = mapping.eResource.resourceSet.resources
+		umlRSresources.forEach[it.unload]
+		umlRSresources.clear
+		mapping = null
+		
+		return
 	}
 
 	protected def assertMapping(RootMapping mapping, UmlObject umlObject) {

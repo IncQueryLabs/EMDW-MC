@@ -28,6 +28,8 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension CppUtil cppUtil = new CppUtil
 	
+	protected Model xtModel
+	
 	@BeforeClass
 	def static setupRootLogger() {
 		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = Level.TRACE
@@ -42,7 +44,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val testId = "single"
 		startTest(testId)
 		// Create xtuml model
-		val xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
+		xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
 		val xtObject = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
@@ -66,6 +68,13 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 	def cleanup() {
 		toolchainManager.dispose
 		toolchainManager.disposeEngine
+		
+		val resources = xtModel.eResource.resourceSet.resources
+		resources.forEach[it.unload]
+		resources.clear;
+		xtModel = null
+		
+		return
 	}
 
 	// Additional alternatives can be added here

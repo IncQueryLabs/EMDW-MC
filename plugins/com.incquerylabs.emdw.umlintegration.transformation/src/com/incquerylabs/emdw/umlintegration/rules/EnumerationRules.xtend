@@ -52,7 +52,7 @@ class EnumerationMapping extends AbstractObjectMapping<EnumerationMatch, org.ecl
 		val xtumlrtLiteral = firstLiteral.findXtumlrtObject(EnumerationLiteral)
 		if(xtEnumeration.defaultValue != xtumlrtLiteral) {
 			xtEnumeration.defaultValue = xtumlrtLiteral
-			logger.trace('''Set enumeration «xtEnumeration.name» default value to «xtumlrtLiteral.name»''')
+			logger.trace('''Set enumeration «xtEnumeration.name» default value to «xtumlrtLiteral?.name»''')
 		}
 	}
 	

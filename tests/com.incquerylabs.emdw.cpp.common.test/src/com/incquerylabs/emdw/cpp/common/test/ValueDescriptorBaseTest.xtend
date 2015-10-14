@@ -7,6 +7,7 @@ import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 import com.incquerylabs.emdw.toolchain.ToolchainManager
 import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
@@ -26,27 +27,39 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 	protected extension UmlUtil umlUtil = new UmlUtil
 	
 	protected static final val MODEL_NAME = "test"
-    
-    @BeforeClass
+	
+	protected RootMapping mapping
+	
+	@BeforeClass
 	def static setupRootLogger() {
 		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
 	}
 	
 	@Before
-	public def void init() {
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
-			it.resourceSet = new ResourceSetImpl
-			it.primitiveTypeMapping = createPrimitiveTypeMapping(it.resourceSet)
-		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
-	}
+	public def void init() { }
 	
 	@Test
 	def simple() {
 		val testId = "simple"
 		startTest(testId)
-
-		val mapping = createRootMapping(MODEL_NAME, toolchainManager.resourceSet)
+		
+		val toolchainManagerBuilder = new ToolchainManagerBuilder
+		val rs = new ResourceSetImpl
+		
+		val engine = toolchainManagerBuilder.createDefaultEngine(rs)
+		
+		val umlModel = MODEL_NAME.prepareUMLResource(rs)
+		mapping = umlModel.createRootMapping(engine)
+		mapping.xtumlrtRoot.prepareCPPResource
+		val xumlrtRS = mapping.eResource.resourceSet
+		
+		toolchainManagerBuilder => [
+			it.engine = engine
+			it.resourceSet = xumlrtRS
+			it.primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
+		]
+		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeTransformations
 		executeTransformationsWithoutCodeCompile
@@ -61,6 +74,12 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 	def cleanup() {
 		toolchainManager.dispose
 		toolchainManager.disposeEngine
+		
+		mapping.umlRoot.eResource.resourceSet.cleanUpResourceSet
+		mapping.eResource.resourceSet.cleanUpResourceSet
+		mapping = null
+		
+		return
 	}
 	
 	def initializeTransformations() {
@@ -74,14 +93,14 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		executeCppQrtTransformation
 		executeCppStructureTransformation
 	}
-    
-    def startTest(String testId){
-    	info('''START TEST: «testId»''')
-    }
-    
-    def endTest(String testId){
-    	info('''END TEST: «testId»''')
-    }
+	
+	def startTest(String testId){
+		info('''START TEST: «testId»''')
+	}
+	
+	def endTest(String testId){
+		info('''END TEST: «testId»''')
+	}
 	
 	protected def UmlObject createUmlObject(Model umlModel)
 	

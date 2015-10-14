@@ -16,7 +16,7 @@ abstract class AbstractPerformanceTest {
 	
 	def void run(String configFilePath, String jsonResultFolder) {
 		val util = new PropertiesUtil(configFilePath)
-		val _case = new BenchmarkCase(util.multiplicationComponentinside, util.multiplicationComponents, 2)
+		val _case = new BenchmarkCase(util.multiplicationComponentinside, util.multiplicationComponents, util.modificationTimes)
 		val scenario = _case.performanceScenario
 		
 		val token = new MCDataToken => [

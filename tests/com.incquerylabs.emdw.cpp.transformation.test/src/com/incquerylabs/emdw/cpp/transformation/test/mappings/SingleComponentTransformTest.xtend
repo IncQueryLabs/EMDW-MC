@@ -9,7 +9,7 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val testId = "single"
 		startTest(testId)
 		// Create xtuml model
-		val xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
+		xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
 		val xtComponent = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)
@@ -28,7 +28,7 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val testId = "deletion"
 		startTest(testId)
 		// Create xtuml model
-		val xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
+		xtModel = createEmptyXtumlModel(this.class.simpleName + "_" + testId)
 		val xtComponent = prepareXtUmlModel(xtModel)
 		// init cpp model
 		val cppResource = createCPPResource(xtModel)

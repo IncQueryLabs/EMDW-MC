@@ -1,14 +1,19 @@
 package com.incquerylabs.emdw.cpp.common.test
 
+import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
+import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
+import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.uml2.uml.Element
@@ -17,8 +22,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
-import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 
 abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescriptor extends ValueDescriptor> {
 	
@@ -28,6 +31,8 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 	protected extension UmlUtil umlUtil = new UmlUtil
 	
 	protected static final val MODEL_NAME = "test"
+	
+	protected RootMapping mapping
     
     @BeforeClass
 	def static setupRootLogger() {
@@ -44,13 +49,15 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		val testId = "simple"
 		startTest(testId)
 		val rs = new ResourceSetImpl
-		val managedEngine = IncQueryEngine.on(new EMFScope(rs))
-		QueryBasedFeatures.instance.prepare(managedEngine)
 		
-		val mapping = createRootMapping(MODEL_NAME,rs)
-		val primitiveTypeMapping = createPrimitiveTypeMapping(rs)
+		val engine = initializeEngine(rs)
+		val umlModel = MODEL_NAME.prepareUMLResource(rs)
+		mapping = umlModel.createRootMapping(rs, engine)
+		mapping.xtumlrtRoot.prepareCPPResource
+		val xumlrtRS = mapping.eResource.resourceSet
+		val primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
 		val umlObject = createUmlObject(mapping.umlRoot)
-		initializeAllTransformation(rs, primitiveTypeMapping)
+		initializeAllTransformation(xumlrtRS, primitiveTypeMapping)
 		executeAllTransformationWithoutCodeCompile
 		val factory = new UmlValueDescriptorFactory(transformationEngine)
 		val valueDescriptor = factory.prepareValueDescriptor(umlObject)
@@ -62,6 +69,12 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 	@After
 	def cleanup() {
 		cleanupTransformation;
+		
+		mapping.umlRoot.eResource.resourceSet.cleanUpResourceSet
+		mapping.eResource.resourceSet.cleanUpResourceSet
+		mapping = null
+		
+		return
 	}
     
     def startTest(String testId){

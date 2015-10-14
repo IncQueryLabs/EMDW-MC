@@ -70,7 +70,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
 				delete __ralf__0__service;'''
 			],
-			#[  "Pointer equality expression test",
+			#[  "Pointer equality expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
 				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,

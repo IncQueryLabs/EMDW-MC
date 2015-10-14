@@ -10,7 +10,8 @@ import com.incquerylabs.emdw.cpp.performance.test.config.ModificationType
 class PropertiesUtil {
 	
 	protected static Logger logger = Logger.getLogger("emdw.PropertyUtil")
-	public static String configPath
+	private final String configPath
+	public final Properties properties
 	
 	public static val INPUT_MODEL_PATH_PROP_KEY = "input.model.path"
 	public static val MULTIPLICATION_COMPONENTINSIDE_PROP_KEY = "multiplication.componentinside"
@@ -22,7 +23,12 @@ class PropertiesUtil {
 	public static val BENCHMARK_RESULT_LOGLEVEL = "emdw.mondosam.loglevel"
 	public static val STATS_CSV_LOGLEVEL = "emdw.stats.loglevel"
 	
-	public def static getProperties() {
+	new(String configPath) {
+		this.configPath = configPath
+		properties = loadProperties
+	}
+	
+	public def loadProperties() {
 		val properties = new Properties()
 		var InputStream inputStream = null
 		try {
@@ -47,48 +53,48 @@ class PropertiesUtil {
 		properties
 	}
 	
-	def static getPropertyValue(String propertyKey, String defaultValue) {
+	def getPropertyValue(String propertyKey, String defaultValue) {
 		if(properties != null){
 			properties.getProperty(propertyKey, defaultValue)
 		}
 	}
 	
 	
-	def static getIncQueryLogLevel(){
+	def getIncQueryLogLevel(){
 		getLogLevel(INCQUERY_LOGLEVEL_PROP_KEY, "WARN")
 	}
 	
-	def static getBenchmarkLogLevel(){
+	def getBenchmarkLogLevel(){
 		getLogLevel(BENCHMARK_RESULT_LOGLEVEL, "WARN")
 	}
 	
-	def static getStatsLogLevel(){
+	def getStatsLogLevel(){
 		getLogLevel(STATS_CSV_LOGLEVEL, "WARN")
 	}
 	
-	def static getInputModelPath() {
+	def getInputModelPath() {
 		return getPropertyValue(INPUT_MODEL_PATH_PROP_KEY, "")
 	}
 	
-	def static getMultiplicationComponentinside() {
+	def getMultiplicationComponentinside() {
 		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTINSIDE_PROP_KEY, "1")
 		return Integer.valueOf(multiplication)
 	}
-	def static getMultiplicationComponents() {
+	def getMultiplicationComponents() {
 		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTS_PROP_KEY, "1")
 		return Integer.valueOf(multiplication)
 	}
-	def static getModificationType() {
+	def getModificationType() {
 		val modificationType = getPropertyValue(MODIFICATION_TYPE_PROP_KEY, "NONE")
 		return ModificationType.valueOf(modificationType)
 	}
 	
-	def static getModificationTimes() {
+	def getModificationTimes() {
 		val modificationTimes = getPropertyValue(MODIFICATION_TIMES_PROP_KEY, "0")
 		return Integer.valueOf(modificationTimes)
 	}
 	
-	def static getLogLevel(String key, String defaultLevel) {
+	def getLogLevel(String key, String defaultLevel) {
 		val level = getPropertyValue(key, defaultLevel)
 		Level.toLevel(level, Level.WARN)
 	}

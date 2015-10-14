@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMDW Headless Performance Testing Application
+Bundle-SymbolicName: com.incquerylabs.emdw.cpp.performance.test.app;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: IncQuery Labs Ltd.
+Require-Bundle: org.eclipse.core.runtime,
+ com.google.guava,
+ org.eclipse.xtend.lib,
+ com.incquerylabs.emdw.cpp.performance.test;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: org.apache.log4j;version="1.2.15"
+

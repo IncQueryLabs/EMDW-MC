@@ -76,8 +76,8 @@ class ComplexModelUtil extends ModelUtil {
         val additionalResourceSet = new ResourceSetImpl
 		emfBaseIndex.navigationHelper.addRoot(additionalResourceSet)
 		
-		val xtumlrtResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyXtumlrtUri.xtuml"))
-		val traceResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyTraceUri.trace"))
+		val xtumlrtResource = additionalResourceSet.createResource(URI.createURI('''model/«umlModel.name»/«URI_DUMMY_XTUML»'''))
+		val traceResource = additionalResourceSet.createResource(URI.createURI('''model/«umlModel.name»/«URI_DUMMY_TRACE»'''))
 		
 		val xtumlrtModel = commonFactory.createModel => [
 			it.name = umlModel.name

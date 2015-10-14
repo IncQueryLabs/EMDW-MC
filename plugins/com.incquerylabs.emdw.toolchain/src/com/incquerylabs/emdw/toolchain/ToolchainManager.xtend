@@ -43,6 +43,12 @@ import static com.google.common.base.Preconditions.*
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 
 class ToolchainManager {
+	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
+	static val RUNTIME_TARGET_DIRECTORY = "model/runtime"
+	static val CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
+	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
+	static val RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
+	
 	@Accessors ResourceSet resourceSet
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
 	@Accessors Set<UmlIntegrationExtension> extensionServices
@@ -316,8 +322,8 @@ class ToolchainManager {
 	def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			val mapperFileManager = new BundleFileManager("com.incquerylabs.emdw.cpp.codegeneration")
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, "model/runtime/"+mapperCppDir.name+"/")
+			val mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, '''«RUNTIME_TARGET_DIRECTORY»/«mapperCppDir.name»/''')
 			mapper.execute
 			return mapper.mappedSourceFiles
 		}
@@ -340,19 +346,19 @@ class ToolchainManager {
 	
 	def loadCPPBasicTypes(ResourceSet rs) {
 		rs.getResource(
-			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel", true),
+			URI.createPlatformPluginURI(CPP_BASIC_TYPES_PATH, true),
 			true)
 	}
 	
 	def loadDefaultContainerImplementations(ResourceSet rs) {
 		rs.getResource(
-			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true),
 			true)
 	}
 	
 	def loadCPPRuntimeModelResource(ResourceSet rs) {
 		rs.getResource(
-			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel", true), 
+			URI.createPlatformPluginURI(RUNTIME_MODEL_PATH, true), 
 			true
 		)
 	}

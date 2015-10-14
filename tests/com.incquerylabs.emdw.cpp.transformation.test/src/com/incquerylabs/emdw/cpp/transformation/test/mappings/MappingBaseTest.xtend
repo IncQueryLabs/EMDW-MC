@@ -5,6 +5,7 @@ import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.Test
+import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 
 abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
 	
@@ -21,14 +22,20 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		loadDefaultContainerImplementations(cppResource)
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
+		
+		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+			it.resourceSet = cppModel.eResource.resourceSet
+		]
+		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		// transform to CPP
-		initializeCppComponentTransformation(cppModel.eResource.resourceSet)
-		executeCppComponentTransformationWithoutCodeCompile
+		initializeCppComponentTransformation
+		executeCppStructureTransformation
+		
 		// Check if added properly
 		assertResult(xtModel, cppModel, xtObject, cppObject)
 		//remove added xtuml element
 		clearXtUmlElement(xtObject)
-		executeCppComponentTransformationWithoutCodeCompile
+		executeCppStructureTransformation
 		//check if removed properly
 		assertClear(xtModel, cppModel, xtObject, cppObject)
 		endTest(testId)

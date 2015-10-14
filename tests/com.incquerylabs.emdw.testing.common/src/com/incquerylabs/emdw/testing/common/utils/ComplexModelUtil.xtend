@@ -69,15 +69,15 @@ class ComplexModelUtil extends ModelUtil {
 		mapping
 	}
 	
-	def createRootMapping(org.eclipse.uml2.uml.Model umlModel, ResourceSet resourceSet, AdvancedIncQueryEngine engine) {
+	def createRootMapping(org.eclipse.uml2.uml.Model umlModel, AdvancedIncQueryEngine engine) {
         
         // we need to expand the indexing to the additional resource set
 		val emfBaseIndex = engine.baseIndex as EMFBaseIndexWrapper
         val additionalResourceSet = new ResourceSetImpl
 		emfBaseIndex.navigationHelper.addRoot(additionalResourceSet)
 		
-		val xtumlrtResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyXtumlrtUri.xtuml"))
-		val traceResource = additionalResourceSet.createResource(URI.createURI("model/"+umlModel.name+"/dummyTraceUri.trace"))
+		val xtumlrtResource = additionalResourceSet.createResource(URI.createURI('''model/«umlModel.name»/«URI_DUMMY_XTUML»'''))
+		val traceResource = additionalResourceSet.createResource(URI.createURI('''model/«umlModel.name»/«URI_DUMMY_TRACE»'''))
 		
 		val xtumlrtModel = commonFactory.createModel => [
 			it.name = umlModel.name
@@ -116,10 +116,10 @@ class ComplexModelUtil extends ModelUtil {
 	}
 	
 	def createPrimitiveTypeMapping(ResourceSet umlRS, ResourceSet xumlrtRS){
-		val primitiveTypeMapping = <org.eclipse.uml2.uml.Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
+		val primitiveTypeMapping = <org.eclipse.uml2.uml.Type, Type>newHashMap
 		
 		val commonTypesResource = xumlrtRS.getResource(URI.createPlatformPluginURI(PATH_COMMON_TYPES, true), true) => [ load(#{}) ]
-		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
+		val commonTypesModel = commonTypesResource.contents.head as Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		
 		val umlTypesResource = umlRS.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true) => [ load(#{}) ]

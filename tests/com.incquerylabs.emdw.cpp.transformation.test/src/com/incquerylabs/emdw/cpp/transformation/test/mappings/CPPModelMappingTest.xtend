@@ -23,9 +23,9 @@ class CPPModelMappingTest extends EventDrivenTransformationTest<Model, CPPModel>
 	}
 	
 	override protected checkCppObjectCreated(Model xtObject, IncQueryEngine engine) {
-		val cppModelMatch = engine.cppModel.allMatches.head
-		assertNotNull(cppModelMatch)
-		assertEquals(xtObject, cppModelMatch.cppModel.commonModel)
+		val cppModelMatches = engine.cppModel.allMatches
+		assertNotNull(cppModelMatches.head)
+		assertTrue(cppModelMatches.exists[xtObject == it.cppModel.commonModel])
 	}
 	
 	override protected checkCppObjectRemoved(CPPModel cppModel, Model xtObject) {

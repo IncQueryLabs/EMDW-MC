@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test
 
-import com.incquerylabs.emdw.umlintegration.TransformationQrt
+import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.rules.ActionChainMapping
 import com.incquerylabs.emdw.umlintegration.rules.CapsulePartMapping
@@ -38,7 +38,6 @@ import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
 import org.junit.BeforeClass
@@ -48,7 +47,6 @@ import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-import com.incquerylabs.emdw.testing.common.utils.TransformationUtil
 
 @SuiteClasses(#[
 	IntegrationTest
@@ -63,7 +61,6 @@ class IntegrationTest {
 	
 	@Test
 	def gpsWatch() {
-		val util = new TransformationUtil
 		val resourceSet = new ResourceSetImpl
 		
 		
@@ -72,7 +69,7 @@ class IntegrationTest {
 		]
 		
 		val xtumlrtModel = commonFactory.createModel
-		resourceSet.createResource(URI.createURI("dummyXtumlrtUri")) => [
+		resourceSet.createResource(URI.createURI("dummyXtumlrtUri.xtuml")) => [
 			contents += xtumlrtModel
 		]
 		
@@ -80,16 +77,18 @@ class IntegrationTest {
 			umlRoot = umlResource.contents.filter(Model).head
 			xtumlrtRoot = xtumlrtModel
 		]
-		resourceSet.createResource(URI.createURI("dummyTraceUri")) => [
+		resourceSet.createResource(URI.createURI("dummyTraceUri.trace")) => [
 			contents += mapping
 		]
-
-		val transformation = new TransformationQrt
-		val engine = util.initializeEngine(resourceSet)
-		transformation.initialize(engine)
-		transformation.execute
 		
-		val rules = getRules(engine)
+		val toolchainManagerBuilder = new ToolchainManagerBuilder =>[
+			it.resourceSet = resourceSet
+		]
+		val toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchainManager.initializeXtTransformation
+		toolchainManager.executeXtTransformation
+		
+		val rules = getRules(toolchainManager.engine)
 		val umlObjects = rules.map[allUmlObjects].flatten
 		umlObjects.forEach[umlObject |
 			val trace = mapping.traces.findFirst[umlElements.toSet == #{umlObject}]

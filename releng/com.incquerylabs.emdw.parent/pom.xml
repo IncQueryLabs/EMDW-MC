@@ -22,6 +22,9 @@
 		<!-- Testing common -->
 		<module>../../tests/com.incquerylabs.emdw.testing.common</module>
 
+		<!-- Toolchain manager -->
+		<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
+
 		<!-- UML integration -->
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
 		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>

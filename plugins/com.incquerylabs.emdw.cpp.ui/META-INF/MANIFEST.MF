@@ -25,7 +25,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.papyrus.infra.emf;bundle-version="1.1.0",
  org.eclipse.papyrusrt.xtumlrt.common.model;bundle-version="1.0.0",
  org.eclipse.papyrusrt.xtumlrt.xtuml.model;bundle-version="1.0.0",
- com.incquerylabs.uml.papyrus;bundle-version="1.0.0"
+ com.incquerylabs.uml.papyrus;bundle-version="1.0.0",
+ com.incquerylabs.emdw.toolchain;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: IncQuery Labs Ltd.
 Import-Package: org.apache.log4j;version="1.2.15"

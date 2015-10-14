@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.ui
 
-import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrtManager
-import com.incquerylabs.emdw.cpp.ui.util.CodeGenerator
+import com.incquerylabs.emdw.toolchain.ToolchainManager
+import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
 import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.List
@@ -24,10 +24,9 @@ import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 
 class UmlHandler extends AbstractHandler {
-	val qrtTransformationManager = new XtumlCPPTransformationQrtManager
-	
 	override execute(ExecutionEvent event) throws ExecutionException {
 		try{
 			var selection = HandlerUtil.getCurrentSelection(event);
@@ -42,8 +41,7 @@ class UmlHandler extends AbstractHandler {
 				val registry = ServiceUtilsForResourceSet.getInstance().getServiceRegistry(modelSet)
 				val service = registry.getService(IncQueryEngineService)
 				val engine = AdvancedIncQueryEngine.from(service.getOrCreateEngine(modelSet))
-				qrtTransformationManager.getOrCreateQrtTransformation(engine)
-				val codeGenerator = new CodeGenerator(engine)
+				
 				val emfModel = modelSet.getModelChecked(xtResourceUri.toString)
 				emfModel.saveModel()
 				if(emfModel instanceof EMFResourcePapyrusModel){
@@ -59,8 +57,22 @@ class UmlHandler extends AbstractHandler {
 						)
 					} else {
 						try{
+							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
+							val managerBuilder = new ToolchainManagerBuilder => [
+								it.engine = engine
+								it.resourceSet = xtumlResource.resourceSet
+								it.xtumlChangeMonitor = getChangeMonitor(modelSet)
+								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
+							]
+							val ToolchainManager toolchainManager = managerBuilder.buildOrGetManager()
+							toolchainManager.initializeCppQrtTransformation()
+							toolchainManager.initializeCppComponentTransformation()
+							toolchainManager.initializeCppCodegeneration()
+							toolchainManager.initializeMakefileGeneration()
 							
-							codeGenerator.generateCodeFromXtComponents(xtumlResource.resourceSet, xtComponents, event, getChangeMonitor(modelSet))
+							toolchainManager.executeCppQrtTransformation
+							toolchainManager.executeDeltaCodeAndFileGeneration
+							toolchainManager.startChangeMonitor()
 							MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
 								 "xUML-RT Code Generation finished successfully",
 								'''

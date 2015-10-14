@@ -48,6 +48,8 @@ class RunWithModificationScenario extends AbstractBenchmarkScenario {
 				]
 			]
 		)
+		
+		rootPhase = seq
 	}
 	
 	override getName() {

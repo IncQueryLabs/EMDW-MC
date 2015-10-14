@@ -10,7 +10,7 @@ abstract class AbstractBenchmarkScenario extends BenchmarkScenario {
 	new(BenchmarkCase bencmarkCase) {
 		this.benchmarkCase = bencmarkCase
 		this.size = bencmarkCase.componentsScale * bencmarkCase.componentInsideScale
-		this.caseName = bencmarkCase.class.simpleName
+		this.caseName = '''Scale«bencmarkCase.componentsScale»x«bencmarkCase.componentInsideScale»'''
 		this.runIndex = 1
 	}
 	

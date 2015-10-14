@@ -20,6 +20,7 @@ class SimpleRunScenario extends AbstractBenchmarkScenario {
 	
 	override build() {
 		val seq = new SequencePhase
+		
 		seq.addPhases(
 			new Init_LoadAndScaleModelPhase(Init_LoadAndScaleModelPhaseName),
 			new Init_XumlrtPhase(Init_XumlrtPhaseName),
@@ -31,6 +32,8 @@ class SimpleRunScenario extends AbstractBenchmarkScenario {
 			new RuntimeMappingPhase(RuntimeMappingPhaseName),
 			new FileSyncPhase(FileSyncPhaseName)
 		)
+		
+		rootPhase = seq
 	}
 	
 	override getName() {

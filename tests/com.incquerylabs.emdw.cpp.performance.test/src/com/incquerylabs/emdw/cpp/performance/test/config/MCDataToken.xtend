@@ -7,13 +7,16 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class MCDataToken implements DataToken {
-	AdvancedIncQueryEngine engine
-	
 	String scenarioName
+	
+	AdvancedIncQueryEngine engine
 	
 	String umlModelPath
 	Model umlModel
-	
+	int componentInsideScale
+	int componentsScale
+	boolean shouldCompileBody
+	int modificationTimes
 	ModificationType modificationType
 	
 	

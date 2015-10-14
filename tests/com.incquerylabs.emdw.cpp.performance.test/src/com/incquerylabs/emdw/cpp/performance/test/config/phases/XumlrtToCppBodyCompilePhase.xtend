@@ -22,7 +22,9 @@ class XumlrtToCppBodyCompilePhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		// TODO: Implement phase
+		if(mcToken.shouldCompileBody) {
+			// TODO: Implement phase
+		}
 		// WORK END
 		
 		timer.stopMeasure

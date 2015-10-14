@@ -18,6 +18,7 @@ class PropertiesUtil {
 	public static val MULTIPLICATION_COMPONENTS_PROP_KEY = "multiplication.components"
 	public static val MODIFICATION_TYPE_PROP_KEY = "modification.type"
 	public static val MODIFICATION_TIMES_PROP_KEY = "modification.times"
+	public static val COMPILEBODY_PROP_KEY = "compilebody"
 	
 	public static val INCQUERY_LOGLEVEL_PROP_KEY = "org.eclipse.incquery.loglevel"
 	public static val BENCHMARK_RESULT_LOGLEVEL = "emdw.mondosam.loglevel"
@@ -92,6 +93,11 @@ class PropertiesUtil {
 	def getModificationTimes() {
 		val modificationTimes = getPropertyValue(MODIFICATION_TIMES_PROP_KEY, "0")
 		return Integer.valueOf(modificationTimes)
+	}
+	
+	def shouldCompileBody() {
+		val compileBodyEnabled = getPropertyValue(COMPILEBODY_PROP_KEY, "true")
+		return Boolean.valueOf(compileBodyEnabled)
 	}
 	
 	def getLogLevel(String key, String defaultLevel) {

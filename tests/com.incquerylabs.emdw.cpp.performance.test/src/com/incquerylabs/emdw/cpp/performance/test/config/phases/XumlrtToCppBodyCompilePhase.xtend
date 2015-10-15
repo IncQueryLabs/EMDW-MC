@@ -23,7 +23,8 @@ class XumlrtToCppBodyCompilePhase extends AtomicPhase {
 		
 		// WORK START
 		if(mcToken.shouldCompileBody) {
-			// TODO: Implement phase
+			mcToken.toolchainManager.initializeCppComponentTransformation
+			mcToken.toolchainManager.executeCppActionCodeCompile
 		}
 		// WORK END
 		

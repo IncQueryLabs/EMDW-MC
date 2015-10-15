@@ -24,7 +24,6 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
-import com.incquerylabs.emdw.umlintegration.util.RuleProvider
 import java.util.Map
 import java.util.Set
 import org.apache.log4j.Level
@@ -33,6 +32,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
@@ -40,7 +40,6 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.incquery.runtime.api.GenericPatternGroup
 
 class ToolchainManager {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -403,7 +402,7 @@ class ToolchainManager {
 	
 	def setLogLevel(Level commonLoggingLevel){
 //		logger.level = commonLoggingLevel
-		Logger.getLogger(RuleProvider).level = commonLoggingLevel
+		Logger.getLogger(TransformationQrt.package.name).level = commonLoggingLevel
 		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
 		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
 		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel

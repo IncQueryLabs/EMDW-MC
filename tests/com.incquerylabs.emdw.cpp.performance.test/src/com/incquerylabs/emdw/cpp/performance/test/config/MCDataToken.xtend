@@ -1,7 +1,9 @@
 package com.incquerylabs.emdw.cpp.performance.test.config
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.incquerylabs.emdw.toolchain.ToolchainManager
 import eu.mondo.sam.core.DataToken
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import java.util.Map
 import org.eclipse.uml2.uml.Model
 import org.eclipse.xtend.lib.annotations.Accessors
 
@@ -9,7 +11,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class MCDataToken implements DataToken {
 	String scenarioName
 	
-	AdvancedIncQueryEngine engine
+	ToolchainManager toolchainManager
 	
 	String umlModelPath
 	Model umlModel
@@ -18,6 +20,8 @@ class MCDataToken implements DataToken {
 	boolean shouldCompileBody
 	int modificationTimes
 	ModificationType modificationType
+	
+	Map<CPPSourceFile, CharSequence> cppSourceFileContents
 	
 	
 	override init() {

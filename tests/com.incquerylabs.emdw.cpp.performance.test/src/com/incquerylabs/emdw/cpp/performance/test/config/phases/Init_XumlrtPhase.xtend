@@ -22,7 +22,7 @@ class Init_XumlrtPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		// TODO: Implement init phase
+		mcToken.toolchainManager.initializeXtTransformation
 		// WORK END
 		
 		timer.stopMeasure

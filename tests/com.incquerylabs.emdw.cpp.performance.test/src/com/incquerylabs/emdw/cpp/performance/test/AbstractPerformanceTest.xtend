@@ -11,7 +11,7 @@ import java.io.File
 abstract class AbstractPerformanceTest {
 	
 	protected static final String JSON_RESULT_FOLDER = "./results/json/"
-	protected static final String CONFIG_FILE_PATH = "dummyConfig"
+	protected static final String CONFIG_FILE_PATH = "C:/Users/dani/work/emdw-mc/performancetest.properties"
 	
 	
 	def void run(String configFilePath, String jsonResultFolder) {
@@ -30,14 +30,14 @@ abstract class AbstractPerformanceTest {
 			it.modificationType = util.modificationType
 		]
 		
-		val engine = new BenchmarkEngine
+		val benchmarkEngine = new BenchmarkEngine
 		var resultsFolder = new File(jsonResultFolder)
 		if(!resultsFolder.exists){
 			resultsFolder.mkdirs
 		}
 		JsonSerializer::setResultPath(jsonResultFolder)
 		
-		engine.runBenchmark(scenario, token)
+		benchmarkEngine.runBenchmark(scenario, token)
 		
 	}
 	

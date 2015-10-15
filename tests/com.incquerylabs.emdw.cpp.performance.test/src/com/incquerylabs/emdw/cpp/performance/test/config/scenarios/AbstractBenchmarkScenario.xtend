@@ -30,7 +30,7 @@ abstract class AbstractBenchmarkScenario extends BenchmarkScenario {
 	
 	protected final String Init_LoadAndScaleModelPhaseName = "UMLModelInitialization"
 	protected final String Init_XumlrtPhaseName = "XumlrtModelInitialization"
-	protected final String XumlrtToCppQrtPhaseName = "???"	// TODO: What should this phase do?
+	protected final String XumlrtToCppQrtPhaseName = "XumlrtToCppQRTTransformation"
 	protected final String ChangeMonitorInitializationPhaseName = "ChangeMonitorInitialization"
 	protected final String XumlrtToCppComponentStructurePhaseName = "XumlrtToCppComponentStructureTransformation"
 	protected final String XumlrtToCppBodyCompilePhaseName = "XumlrtToCppBodyCompilation"

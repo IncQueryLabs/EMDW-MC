@@ -6,6 +6,7 @@ import java.util.Properties
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import com.incquerylabs.emdw.cpp.performance.test.config.ModificationType
+import java.io.FileInputStream
 
 class PropertiesUtil {
 	
@@ -34,7 +35,7 @@ class PropertiesUtil {
 		var InputStream inputStream = null
 		try {
 			//load a properties file
-			inputStream = PropertiesUtil.classLoader.getResourceAsStream(configPath)
+			inputStream = new FileInputStream(configPath)
 			if(inputStream != null){
 				properties.load(inputStream);
 			} else {

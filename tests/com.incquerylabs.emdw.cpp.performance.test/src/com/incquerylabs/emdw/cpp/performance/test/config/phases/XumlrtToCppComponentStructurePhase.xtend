@@ -22,7 +22,8 @@ class XumlrtToCppComponentStructurePhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		// TODO: Implement phase
+		mcToken.toolchainManager.initializeCppComponentTransformation
+		mcToken.toolchainManager.executeCppStructureTransformation
 		// WORK END
 		
 		timer.stopMeasure

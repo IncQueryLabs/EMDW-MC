@@ -414,6 +414,7 @@
         eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="containerHeaderIncludes"
         lowerBound="1" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="implementationClass" eType="#//OOPLClass"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="OOPLClassRefAssocCollectionImplementation"
       eSuperTypes="#//BaseContainerImplementation">

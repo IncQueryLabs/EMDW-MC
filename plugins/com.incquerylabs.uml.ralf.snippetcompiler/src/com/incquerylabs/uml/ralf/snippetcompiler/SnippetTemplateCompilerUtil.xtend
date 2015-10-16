@@ -1,6 +1,5 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
-import com.google.common.collect.Lists
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
@@ -10,9 +9,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ClassExtentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CollectionVariable
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LinkOperationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.LocalNameDeclarationStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.NameExpression
@@ -23,9 +19,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ThisExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Variable
 import com.incquerylabs.uml.ralf.scoping.IUMLContextProvider
-import java.util.List
 import org.eclipse.uml2.uml.Association
-import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
@@ -53,40 +47,40 @@ class SnippetTemplateCompilerUtil {
 	}
 	
 		
-	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex) {
-	    switch (ex.feature) {
-	        Operation: getDescriptor(ex, ex.feature as Operation)
-	        Property: getDescriptor(ex, ex.feature as Property)
-	        default: throw new UnsupportedOperationException("Invalid feature invocation")
-	    } 
-	}
+//	def dispatch ValueDescriptor getDescriptor(FeatureInvocationExpression ex) {
+//	    switch (ex.feature) {
+//	        Operation: getDescriptor(ex, ex.feature as Operation)
+//	        Property: getDescriptor(ex, ex.feature as Property)
+//	        default: throw new UnsupportedOperationException("Invalid feature invocation")
+//	    } 
+//	}
 	    
-	private def ValueDescriptor getDescriptor(FeatureInvocationExpression ex, Operation op){
-		val parameters = ex.parameters
-		val List<ValueDescriptor> descriptors = Lists.newArrayList
-		
-		
-		if(parameters instanceof ExpressionList){
-			for(Expression expression : parameters.expressions){
-				descriptors.add(getDescriptor(expression))
-			}
-		}	
-		
-		val descriptor = (descriptorFactory.createOperationCallBuilder => [
-			variable = getDescriptor(ex.context)
-			operation = op
-			parameters = descriptors
-		]).build
-		descriptor
-			
-	}
+//	private def ValueDescriptor getDescriptor(FeatureInvocationExpression ex, Operation op){
+//		val parameters = ex.parameters
+//		val List<ValueDescriptor> descriptors = Lists.newArrayList
+//		
+//		
+//		if(parameters instanceof ExpressionList){
+//			for(Expression expression : parameters.expressions){
+//				descriptors.add(getDescriptor(expression))
+//			}
+//		}	
+//		
+//		val descriptor = (descriptorFactory.createOperationCallBuilder => [
+//			variable = getDescriptor(ex.context)
+//			operation = op
+//			parameters = descriptors
+//		]).build
+//		descriptor
+//			
+//	}
 	
-	private def ValueDescriptor getDescriptor(FeatureInvocationExpression ex, Property prop){
-		(descriptorFactory.createPropertyReadBuilder => [
-			variable = getDescriptor(ex.context)
-			property = prop
-		]).build
-	}
+//	private def ValueDescriptor getDescriptor(FeatureInvocationExpression ex, Property prop){
+//		(descriptorFactory.createPropertyReadBuilder => [
+//			variable = getDescriptor(ex.context)
+//			property = prop
+//		]).build
+//	}
 	
 	def dispatch ValueDescriptor getDescriptor(AssociationAccessExpression ex){
 		(descriptorFactory.createPropertyReadBuilder => [

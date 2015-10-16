@@ -71,4 +71,8 @@ class UmlToXtumlMapper {
 		return engine.primitiveType2EcorePrimitiveType.getAllValuesOfumlPT(type).head
 	}
 	
+	def findXtPrimitiveType(String name) {
+		return engine.xtPrimitiveTypeByName.getAllValuesOfxtumlPT(name).head
+	}
+	
 }

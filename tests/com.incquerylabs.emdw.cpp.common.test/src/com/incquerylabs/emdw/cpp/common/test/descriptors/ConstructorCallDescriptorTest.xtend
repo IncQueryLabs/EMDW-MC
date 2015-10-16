@@ -14,6 +14,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 import org.eclipse.uml2.uml.Signal
+import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 
 @SuiteClasses(#[
 	ConstructorCallDescriptorForEventTest,
@@ -189,7 +190,7 @@ class ConstructorCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest ex
 		]).build
 		val descriptor = (factory.createConstructorCallBuilder => [
 			it.type = object.owner as Type
-			it.parameters = new Pair(parameterType, paramDescriptor)
+			it.parameters = new UmlTypedValueDescriptor(parameterType, paramDescriptor)
 			it.operation = object
 		]).build
 		return descriptor
@@ -239,7 +240,7 @@ class ConstructorCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeTest 
 		]).build
 		val descriptor = (factory.createConstructorCallBuilder => [
 			it.type = object.owner as Type
-			it.setParameters(new Pair(parameterType, param1Descriptor), new Pair(parameterType, param2Descriptor))
+			it.setParameters(new UmlTypedValueDescriptor(parameterType, param1Descriptor), new UmlTypedValueDescriptor(parameterType, param2Descriptor))
 			it.operation = object
 		]).build
 		return descriptor

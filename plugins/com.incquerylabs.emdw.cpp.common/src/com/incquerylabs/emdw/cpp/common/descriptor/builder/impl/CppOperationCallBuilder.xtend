@@ -4,6 +4,7 @@ import com.ericsson.xtumlrt.oopl.BaseContainerImplementation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.emf.common.util.ECollections
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -97,7 +98,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		val variablePrefix = cvdfactory.nextPrefix
 		val valueType = this.variable.templateTypes.head ?: ""
 		
-		val remainingPramas = switch(eoperationName) {
+		val remainingParams = switch(eoperationName) {
 			case "generateIsEmpty" : #[]
 			case "generateSize" : #[]
 			case "generateAdd" : #[valueType]
@@ -108,7 +109,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		}
 		val paramList = <String>newArrayList(variablePrefix, variable.stringRepresentation)
 		paramList += getParameterList()
-		paramList += remainingPramas
+		paramList += remainingParams
 		
 		paramList
 	}
@@ -123,7 +124,7 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 		return this
 	}
 	
-	override setParameters(ValueDescriptor... params) {
+	override setParameters(XtTypedValueDescriptor<? extends ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}

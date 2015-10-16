@@ -111,4 +111,8 @@ class XtumlToOoplMapper {
 	def isHiddenByChild(Operation operation) {
 		return !engine.childrenWhichHasSameNameOperation.getAllValuesOftype(operation).empty
 	}
+	
+	def findCollectionImplementation(String collectionName) {
+		return engine.ooplCollectionImplementationByName.getAllValuesOfimplementationClass(collectionName).head
+	}
 }

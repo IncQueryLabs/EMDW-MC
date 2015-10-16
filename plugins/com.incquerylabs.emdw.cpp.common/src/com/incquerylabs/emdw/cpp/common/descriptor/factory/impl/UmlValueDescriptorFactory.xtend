@@ -32,6 +32,7 @@ import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCollectionOperationCallBuilder
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	private UmlValueDescriptorFactory parent
@@ -320,6 +321,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		new UmlStaticOperationCallBuilder(engine)
 	}
 	
+	override createCollectionOperationCallBuilder() {
+		new UmlCollectionOperationCallBuilder(engine)
+	}
+	
 	override createInstancesBuilder() {
 		new UmlInstancesBuilder(engine)
 	}
@@ -369,8 +374,6 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		}
 	}
 	
-	
-	
 	override isLiteralInCache(Type type, String literal) {
 		val inCache = literalCache.contains(type, literal)
 		if(!inCache && parent!=null) {
@@ -413,5 +416,4 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 			collectionVariableCache.put(descriptor.stringRepresentation, descriptor)
 		}
 	}
-	
 }

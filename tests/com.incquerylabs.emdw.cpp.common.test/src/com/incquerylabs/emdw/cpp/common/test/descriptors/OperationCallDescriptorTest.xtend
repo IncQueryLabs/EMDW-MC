@@ -2,18 +2,19 @@ package com.incquerylabs.emdw.cpp.common.test.descriptors
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.test.ValueDescriptorBaseTest
+import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.ParameterDirectionKind
+import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
-import org.eclipse.uml2.uml.PrimitiveType
 
 @SuiteClasses(#[
 	OperationCallDescriptorWithoutParameterAndVoidReturnTypeTest,
@@ -187,7 +188,7 @@ class OperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTest exte
 		val descriptor = (factory.createOperationCallBuilder => [
 			it.operation = object
 			it.variable = classDescriptor
-			it.parameters = paramDescriptor
+			it.parameters = new UmlTypedValueDescriptor(parameterType, paramDescriptor)
 		]).build
 		return descriptor
 	}
@@ -244,7 +245,7 @@ class OperationCallDescriptorWithMultipleSimpleParameterAndVoidReturnTypeTest ex
 		val descriptor = (factory.createOperationCallBuilder => [
 			it.operation = object
 			it.variable = classDescriptor
-			it.parameters = newArrayList(param1Descriptor, param2Descriptor)
+			it.parameters = newArrayList(param1Descriptor, param2Descriptor).map[new UmlTypedValueDescriptor(parameterType, it)]
 		]).build
 		return descriptor
 	}
@@ -344,7 +345,7 @@ class CollectionAddOperationCallDescriptorTest extends ValueDescriptorBaseTest<O
 		val descriptor = (factory.createOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
-			it.parameters = param1Descriptor
+			it.parameters = new UmlTypedValueDescriptor(umlClass, param1Descriptor)
 		]).build
 		return descriptor
 	}
@@ -395,7 +396,7 @@ class CollectionAddAllOperationCallDescriptorTest extends ValueDescriptorBaseTes
 		val descriptor = (factory.createOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
-			it.parameters = param1Descriptor
+			it.parameters = new UmlTypedValueDescriptor(collectionType, param1Descriptor) 
 		]).build
 		return descriptor
 	}
@@ -447,7 +448,7 @@ class CollectionGetOperationCallDescriptorTest extends ValueDescriptorBaseTest<O
 		val descriptor = (factory.createOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
-			it.parameters = paramDescriptor
+			it.parameters = new UmlTypedValueDescriptor(intType, paramDescriptor)
 		]).build
 		return descriptor
 	}

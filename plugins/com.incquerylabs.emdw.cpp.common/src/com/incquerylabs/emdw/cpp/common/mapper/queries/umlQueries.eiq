@@ -60,3 +60,10 @@ pattern primitiveType2EcorePrimitiveType(
 	Trace.umlElements(trace, umlPT);
 	Trace.xtumlrtElements(trace, xtumlPT);
 }
+
+pattern xtPrimitiveTypeByName(
+	xtumlPT : PrimitiveType,
+	ptName
+) {
+	PrimitiveType.name(xtumlPT, ptName);
+}

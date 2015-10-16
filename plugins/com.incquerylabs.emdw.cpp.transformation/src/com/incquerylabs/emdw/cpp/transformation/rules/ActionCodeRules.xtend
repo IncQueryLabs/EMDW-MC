@@ -21,11 +21,13 @@ class ActionCodeRules {
 	extension val BatchTransformationRuleFactory factory = new BatchTransformationRuleFactory
 	extension val BatchTransformationStatements statements
 	extension val BodyConverter converter
+	val BasicUMLContextProvider context
 	
 	new(BatchTransformationStatements statements, AdvancedIncQueryEngine engine) {
 		this.statements = statements
 		this.converter = new BodyConverter
-		initialize(engine, new BasicUMLContextProvider(engine))
+		this.context = new BasicUMLContextProvider(engine)
+		initialize(engine, context)
 	}
 	
 	def addRules(BatchTransformation transformation){
@@ -47,7 +49,7 @@ class ActionCodeRules {
 			if(body.source==null) {
 				try{
 					body.source = operation.convertOperation
-					debug('''Converted Operation «operation.cppName»'s code''')
+					logResult('''Converted Operation «operation.cppName»'s code''')
 				} catch (Exception e) {
 					body.source = ""
 					e.rethrowOrLogException('''ERROR in Operation «operation.cppName»'s code''')
@@ -56,7 +58,7 @@ class ActionCodeRules {
 		} else if(body instanceof XTAction) {
 			try{
 				operation.convertOperation
-				debug('''Converted Operation «operation.cppName»'s code''')
+				logResult('''Converted Operation «operation.cppName»'s code''')
 			} catch (Exception e) {
 				e.rethrowOrLogException('''ERROR in Operation «operation.cppName»'s code''')
 			}
@@ -72,7 +74,7 @@ class ActionCodeRules {
 			if(entryAction.source == null) {
 				try{
 					entryAction.source = state.convertStateEntry
-					debug('''Converted State «state.cppName»'s entry code''')
+					logResult('''Converted State «state.cppName»'s entry code''')
 				} catch (Exception e) {
 					entryAction.source = ""
 					e.rethrowOrLogException('''ERROR in State «state.cppName»'s entry code''')
@@ -81,7 +83,7 @@ class ActionCodeRules {
 		} else if(entryAction instanceof XTAction) {
 			try{
 				state.convertStateEntry
-				debug('''Converted State «state.cppName»'s entry code''')
+				logResult('''Converted State «state.cppName»'s entry code''')
 			} catch (Exception e) {
 				e.rethrowOrLogException('''ERROR in State «state.cppName»'s entry code''')
 			}
@@ -97,7 +99,7 @@ class ActionCodeRules {
 			if(stateExit.source == null) {
 				try{
 					stateExit.source = state.convertStateExit
-					debug('''Converted State «state.cppName»'s exit code''')
+					logResult('''Converted State «state.cppName»'s exit code''')
 				} catch (Exception e) {
 					stateExit.source = ""
 					e.rethrowOrLogException('''ERROR in State «state.cppName»'s exit code''')
@@ -106,7 +108,7 @@ class ActionCodeRules {
 		} else if(stateExit instanceof XTAction) {
 			try{
 				state.convertStateExit
-				debug('''Converted State «state.cppName»'s exit code''')
+				logResult('''Converted State «state.cppName»'s exit code''')
 			} catch (Exception e) {
 				e.rethrowOrLogException('''ERROR in State «state.cppName»'s exit code''')
 			}
@@ -122,7 +124,7 @@ class ActionCodeRules {
 			if(transitionAction.source == null) {
 				try{
 					transitionAction.source = transition.convertTransition
-					debug('''Converted Transition «transition.cppName»'s code''')
+					logResult('''Converted Transition «transition.cppName»'s code''')
 				} catch (Exception e) {
 					transitionAction.source = ""
 					e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s code''')
@@ -131,7 +133,7 @@ class ActionCodeRules {
 		} else if(transitionAction instanceof XTAction) {
 			try{
 				transition.convertTransition
-				debug('''Converted Transition «transition.cppName»'s code''')
+				logResult('''Converted Transition «transition.cppName»'s code''')
 			} catch (Exception e) {
 				e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s code''')
 			}
@@ -148,7 +150,7 @@ class ActionCodeRules {
 			if(transitionGuard.source == null) {
 				try{
 					transitionGuard.source = transition.convertTransitionGuard
-					debug('''Converted Transition «transition.cppName»'s guard code''')
+					logResult('''Converted Transition «transition.cppName»'s guard code''')
 				} catch (Exception e) {
 					transitionGuard.source = ""
 					e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s guard code''')
@@ -157,7 +159,7 @@ class ActionCodeRules {
 		} else if(transitionGuard instanceof XTAction) {
 			try{
 				transition.convertTransitionGuard
-				debug('''Converted Transition «transition.cppName»'s guard code''')
+				logResult('''Converted Transition «transition.cppName»'s guard code''')
 			} catch (Exception e) {
 				e.rethrowOrLogException('''ERROR in Transition «transition.cppName»'s guard code''')
 			}
@@ -171,5 +173,9 @@ class ActionCodeRules {
 		} else {
 			error(errorMessage, e)
 		}
+	}
+	
+	private def logResult(String message){
+		debug('''«message»''')
 	}
 }

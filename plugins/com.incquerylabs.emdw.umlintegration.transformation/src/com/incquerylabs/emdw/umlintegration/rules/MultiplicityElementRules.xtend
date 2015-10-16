@@ -1,6 +1,7 @@
 package com.incquerylabs.emdw.umlintegration.rules
 
 import com.incquerylabs.emdw.umlintegration.queries.MultiplicityElementMatch
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 import java.util.Set
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.MultiplicityElement
@@ -56,7 +57,7 @@ class MultiplicityElementMapping extends AbstractMapping<MultiplicityElementMatc
 	override def appeared(MultiplicityElementMatch match) {
 		val umlObject = match.umlObject
 		updateXtumlrtObject(match)
-		logger.debug('''Transformed «umlObject»''')
+		logger.debug('''Transformed «TransformationUtil.getDebugRepresentation(umlObject)»''')
 	}
 	
 	override def updated(MultiplicityElementMatch match) {
@@ -64,7 +65,7 @@ class MultiplicityElementMapping extends AbstractMapping<MultiplicityElementMatc
 		val trace = findTraceMatch(umlObject)
 		val xtumlrtObject = xtumlrtClass.cast(trace.xtumlrtElement)
 		updateXtumlrtObject(match)
-		logger.debug('''Updated xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Updated xtumlrt object «TransformationUtil.getDebugRepresentation(xtumlrtObject)»''')
 	}
 	
 	override def disappeared(MultiplicityElementMatch match) {

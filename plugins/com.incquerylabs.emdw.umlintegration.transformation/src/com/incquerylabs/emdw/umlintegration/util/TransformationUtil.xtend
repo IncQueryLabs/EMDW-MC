@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAction
 import org.eclipse.uml2.uml.BodyOwner
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
+import org.eclipse.uml2.uml.NamedElement
 
 class TransformationUtil {
 
@@ -94,6 +95,16 @@ class TransformationUtil {
 					it.source = bodyOwner.bodies.get(index)
 				]
 			}
+		}
+	}
+	
+	static def String getDebugRepresentation(EObject eObject) {
+		switch(eObject){
+			NamedElement: eObject.name
+			org.eclipse.papyrusrt.xtumlrt.common.NamedElement: eObject.name
+			com.incquerylabs.emdw.umlintegration.trace.Trace: 
+				'''[«FOR umlElement : eObject.umlElements SEPARATOR ", "»«umlElement.debugRepresentation»«ENDFOR» <-> «FOR xumlrtElement : eObject.xtumlrtElements SEPARATOR ", "»«xumlrtElement.debugRepresentation»«ENDFOR»]'''
+			default: eObject.toString 				
 		}
 	}
 }

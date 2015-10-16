@@ -142,12 +142,12 @@ abstract class FileManager implements IFileManager {
 	override boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) {
 	 	checkDirectoryPathAndFileName(directoryPath, filename)
 	 	if (!isDirectoryExists(directoryPath)) {
-			info(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
+			debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
 			return false
 		}
 		
 		if (!force && fileNotChanged(directoryPath, filename, content)) {
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, filename))
 			return true
 		}
 		
@@ -158,7 +158,7 @@ abstract class FileManager implements IFileManager {
 	 	checkFileName(filename)
 		
 	 	if (!force && isExistingFileWithContent(filename, content)) {
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, "", filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, "", filename))
 			return true
 		}
 		
@@ -169,10 +169,10 @@ abstract class FileManager implements IFileManager {
 		if(fileExists(directoryPath, filename)) {
 			performFileDeletion(directoryPath, filename)
 			performFileCreation(directoryPath, filename, content)
-			info(MessageFormat.format(FileManager.messages.FILE_UPDATED, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_UPDATED, directoryPath, filename))
 		} else {
 			performFileCreation(directoryPath, filename, content)
-			info(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, filename))
 		}
 		
 		if(useCache) cacheFile(directoryPath, filename, content)
@@ -183,14 +183,14 @@ abstract class FileManager implements IFileManager {
 	override boolean deleteFile(String directoryPath, String filename) {
 		checkDirectoryPathAndFileName(directoryPath, filename)
 		if (!isDirectoryExists(directoryPath)) {
-			info(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
+			debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
 			return false
 		}
 		if(fileExists(directoryPath, filename)) {
 			performFileDeletion(directoryPath, filename)
-			info(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, filename))
 		} else
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
 		
 		return true
 	}
@@ -205,7 +205,7 @@ abstract class FileManager implements IFileManager {
 		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
 			return readFileContentAsString(directoryPath, filename)
 		else
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
 		return null
 	}
 	
@@ -215,7 +215,7 @@ abstract class FileManager implements IFileManager {
 		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
 			return readFileContent(directoryPath, filename)
 		else
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
 		return null
 	}
 	private def byte[] getFileContent(String filename) {
@@ -223,7 +223,7 @@ abstract class FileManager implements IFileManager {
 		if(fileExists("", filename))
 			return readFileContent("", filename)
 		else
-			info(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, ".", filename))
+			debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, ".", filename))
 		return null
 	}
 	
@@ -240,10 +240,10 @@ abstract class FileManager implements IFileManager {
 	 */
 	override boolean createDirectory(String path) {
 		if(isDirectoryExists(path)) {
-			info(MessageFormat.format(FileManager.messages.DIRECTORY_ALREADY_EXIST, path))
+			debug(MessageFormat.format(FileManager.messages.DIRECTORY_ALREADY_EXIST, path))
 		} else {
 			performDirectoryCreation(path)
-			info(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, path))
+			debug(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, path))
 		}
 		return true
 	}
@@ -251,10 +251,10 @@ abstract class FileManager implements IFileManager {
 	override boolean deleteDirectory(String path) {
 		checkStringArgument(path, "Directory path")
 		if(!isDirectoryExists(path)) {
-			info(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, path))
+			debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, path))
 		} else {
 			performDirectoryDeletion(path)
-			info(MessageFormat.format(FileManager.messages.DIRECTORY_DELETED, path))
+			debug(MessageFormat.format(FileManager.messages.DIRECTORY_DELETED, path))
 		}
 		return true
 	}

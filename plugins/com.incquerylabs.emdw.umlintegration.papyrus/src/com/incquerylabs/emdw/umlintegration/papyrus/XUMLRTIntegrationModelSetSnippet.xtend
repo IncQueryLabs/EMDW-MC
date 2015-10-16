@@ -8,10 +8,7 @@ import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.HashMap
 import java.util.Set
-import org.apache.log4j.Level
 import org.apache.log4j.Logger
-import org.apache.log4j.RollingFileAppender
-import org.apache.log4j.SimpleLayout
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
@@ -36,14 +33,6 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 	
 	new(){
 		logger = Logger.getLogger(TransformationQrt.package.name)
-		if(logger.level != Level.TRACE){
-			logger.level = Level.TRACE
-			val layout = new SimpleLayout()
-			val rollingAppender = new RollingFileAppender(layout, "emdw-papyrus-integration.log")
-			rollingAppender.setMaxFileSize("1MB")
-			rollingAppender.setMaxBackupIndex(10)
-			logger.addAppender(rollingAppender)
-		}
 	}
 
     private def getEngineManager(ModelSet modelSet) {

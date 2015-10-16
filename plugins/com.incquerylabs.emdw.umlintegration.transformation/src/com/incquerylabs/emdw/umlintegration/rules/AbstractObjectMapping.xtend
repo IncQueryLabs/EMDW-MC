@@ -11,6 +11,7 @@ import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.NamedElement
 import com.google.common.annotations.VisibleForTesting
+import com.incquerylabs.emdw.umlintegration.util.TransformationUtil
 
 /**
  * Transforms an UML object to an xtumlrt object.
@@ -33,7 +34,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
 		addTrace(umlObject, xtumlrtObject)
-		logger.debug('''Transformed «umlObject» to «xtumlrtObject»''')
+		logger.debug('''Transformed «TransformationUtil.getDebugRepresentation(umlObject)» to «TransformationUtil.getDebugRepresentation(xtumlrtObject)»''')
 	}
 	
 	override def updated(Match match) {
@@ -42,7 +43,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		updateName(umlObject, xtumlrtObject)
 		xtumlrtObject.updateXtumlrtObject(match)
-		logger.debug('''Updated xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Updated xtumlrt object «TransformationUtil.getDebugRepresentation(xtumlrtObject)»''')
 	}
 
 	override def disappeared(Match match) {
@@ -51,7 +52,7 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 		val xtumlrtObject = xtumlrtClass.cast(traceMatch.xtumlrtElement)
 		EcoreUtil.remove(xtumlrtObject)
 		removeTrace(traceMatch.trace, xtumlrtObject)
-		logger.debug('''Removed xtumlrt object «xtumlrtObject»''')
+		logger.debug('''Removed xtumlrt object «TransformationUtil.getDebugRepresentation(xtumlrtObject)»''')
 	}
 	
 	private def updateName(UmlObject umlObject, XtumlrtObject xtumlrtObject) {
@@ -71,10 +72,10 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 				umlElements += umlObject
 				xtumlrtElements += xtumlrtObject
 			]
-			logger.trace('''Created new trace for «xtumlrtObject»''')
+			logger.trace('''Created new trace for «TransformationUtil.getDebugRepresentation(xtumlrtObject)»''')
 		} else {
 			traces.head.xtumlrtElements += xtumlrtObject
-			logger.trace('''Added «xtumlrtObject» to existing trace''')
+			logger.trace('''Added «TransformationUtil.getDebugRepresentation(xtumlrtObject)» to existing trace''')
 		}
 	}
 
@@ -82,9 +83,9 @@ abstract class AbstractObjectMapping<Match extends IPatternMatch, UmlObject exte
 		trace.xtumlrtElements.remove(xtumlrtObject)
 		if (trace.xtumlrtElements.empty) {
 		  	rootMapping.traces -= trace
-			logger.trace('''Removed trace for «xtumlrtObject»''')
+			logger.trace('''Removed trace for «TransformationUtil.getDebugRepresentation(xtumlrtObject)»''')
 		} else {
-		  	logger.trace('''Removed «xtumlrtObject» from trace''')
+		  	logger.trace('''Removed «TransformationUtil.getDebugRepresentation(xtumlrtObject)» from trace''')
 		}
 	}
 

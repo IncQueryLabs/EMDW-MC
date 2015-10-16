@@ -27,6 +27,7 @@ import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+import org.apache.log4j.Level
 
 class UmlHandler extends AbstractHandler {
 	
@@ -68,6 +69,7 @@ class UmlHandler extends AbstractHandler {
 								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 							]
 							val ToolchainManager toolchainManager = managerBuilder.buildOrGetManager()
+							toolchainManager.logLevel = Level.DEBUG
 							toolchainManager.initializeCppQrtTransformation()
 							toolchainManager.initializeCppComponentTransformation()
 							toolchainManager.initializeCppCodegeneration()

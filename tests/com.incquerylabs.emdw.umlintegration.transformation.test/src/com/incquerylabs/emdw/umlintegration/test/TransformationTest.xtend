@@ -38,19 +38,16 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		Logger.getLogger(AbstractMapping.package.name).level = Level.DEBUG
 	}
 
-	@Before
-	def void init() {
-		val managerBuilder = new ToolchainManagerBuilder => [
-			resourceSet = new ResourceSetImpl
-		]
-		toolchainManager = managerBuilder.buildOrGetManager
-	}
-
 	@Test
 	def single() {
 		val testId = "single"
 		startTest(testId)
-		mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		val resourceSet = new ResourceSetImpl
+		mapping = createBasicRootMapping(testId, resourceSet)
+		val managerBuilder = new ToolchainManagerBuilder => [
+			it.xumlrtModel = mapping.xtumlrtRoot
+		]
+		toolchainManager = managerBuilder.buildOrGetManager
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation
@@ -62,7 +59,12 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def incremental() {
 		val testId = "incremental"
 		startTest(testId)
-		mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		val resourceSet = new ResourceSetImpl
+		mapping = createBasicRootMapping(testId, resourceSet)
+		val managerBuilder = new ToolchainManagerBuilder => [
+			it.xumlrtModel = mapping.xtumlrtRoot
+		]
+		toolchainManager = managerBuilder.buildOrGetManager
 		initializeXtTransformation
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
@@ -75,7 +77,12 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 	def remove() {
 		val testId = "remove"
 		startTest(testId)
-		mapping = createBasicRootMapping(testId, toolchainManager.resourceSet)
+		val resourceSet = new ResourceSetImpl
+		mapping = createBasicRootMapping(testId, resourceSet)
+		val managerBuilder = new ToolchainManagerBuilder => [
+			it.xumlrtModel = mapping.xtumlrtRoot
+		]
+		toolchainManager = managerBuilder.buildOrGetManager
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation

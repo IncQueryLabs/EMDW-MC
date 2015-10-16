@@ -44,7 +44,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		
 		val resourceSet = cppModel.eResource.resourceSet
 		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
-			it.resourceSet = resourceSet
+			it.xumlrtModel = xtModel
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		
@@ -70,7 +70,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		
 		val resourceSet = cppModel.eResource.resourceSet
 		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
-			it.resourceSet = resourceSet
+			it.xumlrtModel = xtModel
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		

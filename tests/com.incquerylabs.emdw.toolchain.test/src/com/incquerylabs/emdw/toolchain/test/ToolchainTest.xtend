@@ -54,10 +54,10 @@ class ToolchainTest {
 		generationProjectName = generationProjectPrefix + umlModel.name
 		
 		
-		resourceSet.createRootMapping(umlResource)
+		val mapping = resourceSet.createRootMapping(umlResource)
 		val primitiveTypeMapping = resourceSet.createPrimitiveTypeMapping
 		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
-			it.resourceSet = resourceSet
+			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 			

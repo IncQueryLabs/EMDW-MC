@@ -53,7 +53,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val cppObject = prepareCppModel(cppModel)
 		
 		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
-			it.resourceSet = cppModel.eResource.resourceSet
+			it.xumlrtModel = xtModel
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		// transform to CPP

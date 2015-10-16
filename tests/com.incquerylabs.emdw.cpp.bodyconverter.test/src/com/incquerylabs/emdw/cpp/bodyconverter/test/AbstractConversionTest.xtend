@@ -72,7 +72,7 @@ abstract class AbstractConversionTest {
 		
 		managerBuilder => [
 			it.engine = engine
-			it.resourceSet = xumlrtRS
+			it.xumlrtModel = rootMapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 		]
 		

@@ -60,7 +60,7 @@ class UmlHandler extends AbstractHandler {
 							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
 							val managerBuilder = new ToolchainManagerBuilder => [
 								it.engine = engine
-								it.resourceSet = xtumlResource.resourceSet
+								it.xumlrtModel = xtModel
 								it.xtumlChangeMonitor = getChangeMonitor(modelSet)
 								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 							]

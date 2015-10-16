@@ -41,6 +41,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
+import org.eclipse.papyrusrt.xtumlrt.common.Model
 
 class ToolchainManager {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -49,7 +50,7 @@ class ToolchainManager {
 	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	static val RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
 	
-	@Accessors ResourceSet resourceSet
+	@Accessors Model xumlrtModel
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
 	@Accessors Set<UmlIntegrationExtension> extensionServices
 	
@@ -78,10 +79,11 @@ class ToolchainManager {
 	
 	IncQueryEngine managedEngine
 	
+	// TODO initialize queries once
 	
 	def initializeXtTransformation() {
 		if(!isXumlrtTrafoInitialized) {
-			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
+			val xUmlRtResource = xumlrtModel.eResource
 			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
 			extensionServices.forEach[initialize(engine, xUmlRtResource)]
 			xtTrafo.extensionServices = extensionServices
@@ -110,6 +112,7 @@ class ToolchainManager {
 	
 	protected def initializeCppTransformationPrerequisites() {
 		if(!areCppPrerequisitesInitialized) {
+			val resourceSet = xumlrtModel.eResource.resourceSet
 			managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 			GenericPatternGroup.of(
 				OoplQueryBasedFeatures.instance,
@@ -257,14 +260,13 @@ class ToolchainManager {
 	}
 	
 	def getOrCreateCPPModel() {
-		val xtmodel = engine.xtModel.allValuesOfxtModel.head
 		val modelMatcher = engine.getXtModelToCppModel
 		var CPPModel cppModel = null
-		if (modelMatcher.hasMatch(xtmodel, null)) {
-			cppModel = modelMatcher.getOneArbitraryMatch(xtmodel, null).cppModel
+		if (modelMatcher.hasMatch(xumlrtModel, null)) {
+			cppModel = modelMatcher.getOneArbitraryMatch(xumlrtModel, null).cppModel
 			if (cppModel.ooplNameProvider == null) {
 				cppModel.ooplNameProvider = createOOPLExistingNameProvider => [
-					commonNamedElement = xtmodel
+					commonNamedElement = xumlrtModel
 				]
 			}
 		} else {
@@ -274,16 +276,17 @@ class ToolchainManager {
 				it.files += makeRulesFile
 			]
 			cppModel = createCPPModel => [
-				commonModel = xtmodel
+				commonModel = xumlrtModel
 				ooplNameProvider = createOOPLExistingNameProvider => [
-					commonNamedElement = xtmodel
+					commonNamedElement = xumlrtModel
 				]
 				headerDir = rootDirectory
 				bodyDir = rootDirectory
 			]
 			
-			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension
+			val uriWithoutExtension = xumlrtModel.eResource.getURI.trimFileExtension
 			val uri = uriWithoutExtension.appendFileExtension("cppmodel")
+			val resourceSet = xumlrtModel.eResource.resourceSet
 			val cppResource = resourceSet.createResource(uri)
 			cppResource.contents += cppModel
 			cppResource.contents += rootDirectory
@@ -330,6 +333,7 @@ class ToolchainManager {
 	}
 	
 	def CPPDirectory getRuntimeCppDir() {
+		val resourceSet = xumlrtModel.eResource.resourceSet
 		val resource = loadCPPRuntimeModelResource(resourceSet)
 		if(resource != null) {
 			val runtimeCppDirectory = resource.contents.filter(CPPDirectory).head
@@ -367,7 +371,7 @@ class ToolchainManager {
 		if(!isDisposed){
 			isDisposed = true
 			
-			resourceSet = null
+			xumlrtModel = null
 			primitiveTypeMapping = null
 			extensionServices = null
 			
@@ -403,10 +407,8 @@ class ToolchainManager {
 	
 	def setLogLevel(Level commonLoggingLevel){
 //		logger.level = commonLoggingLevel
-		Logger.getLogger(RuleProvider).level = commonLoggingLevel
-		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
+		Logger.getLogger(TransformationQrt.package.name).level = commonLoggingLevel
 		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
 		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
-		Logger.getLogger(MainGeneration.package.name).level = commonLoggingLevel
 	}
 }

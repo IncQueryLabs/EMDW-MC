@@ -25,8 +25,6 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 	}
 	
 	override execute(DataToken token, PhaseResult phaseResult) {
-		println('''Phase | Time | Memory''')
-		print('''«phaseName»''')
 		val mcToken = token as MCDataToken
 		val timer = new TimeMetric("Time")
 		val memory = new MemoryMetric("Memory")
@@ -38,10 +36,13 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		val umlUri = URI.createFileURI(mcToken.umlModelPath)
 		val umlResource = umlResourceSet.createResource(umlUri) => [ load(#{}) ]
 		val umlModel = umlResource.contents.filter(Model).head
+		mcToken.umlModel = umlModel
 		
 		extension val modelMultiplicator = new ModelMultiplicator
 		umlModel.copyPackagedElements(mcToken.componentsScale, Package)
 		umlModel.copyPackagedElements(mcToken.componentsScale, Component)
+		val components = umlModel.packagedElements.filter(Component)
+		components.forEach[copyPackagedElements(mcToken.componentInsideScale, Package)]
 		
 		val toolchainManagerBuilder = new ToolchainManagerBuilder
 		val engine = toolchainManagerBuilder.createDefaultEngine(umlResourceSet)
@@ -52,7 +53,7 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		
 		toolchainManagerBuilder => [
 			it.engine = engine
-			it.resourceSet = xumlResourceSet
+			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 		]
 		val toolchainManager = toolchainManagerBuilder.buildOrGetManager
@@ -65,6 +66,8 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		
 		phaseResult.addMetrics(timer)
 		phaseResult.addMetrics(memory)
+		println('''Phase | Time | Memory''')
+		print('''«phaseName»''')
 		print(''' | «timer.value»''')
 		println(''' | «memory.value»''')
 	}

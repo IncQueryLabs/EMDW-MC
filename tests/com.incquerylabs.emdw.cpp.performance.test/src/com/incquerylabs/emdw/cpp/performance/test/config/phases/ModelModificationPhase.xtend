@@ -6,8 +6,12 @@ import eu.mondo.sam.core.metrics.MemoryMetric
 import eu.mondo.sam.core.metrics.TimeMetric
 import eu.mondo.sam.core.phases.AtomicPhase
 import eu.mondo.sam.core.results.PhaseResult
+import org.eclipse.uml2.uml.Class
+import org.eclipse.uml2.uml.UMLFactory
+import org.eclipse.uml2.uml.Type
 
 class ModelModificationPhase extends AtomicPhase {
+	extension val UMLFactory factory = UMLFactory.eINSTANCE
 	
 	new(String phaseName) {
 		super(phaseName)
@@ -22,7 +26,14 @@ class ModelModificationPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		// TODO: Implement phase
+		val umlModel = mcToken.umlModel
+		val usedTypes = umlModel.eResource.allContents.filter(Type)
+		
+		val umlClass = umlModel.eResource.allContents.filter(Class).head
+		umlClass.ownedAttributes += createProperty => [
+			name = "addedProperty"
+			type = usedTypes.head
+		]
 		// WORK END
 		
 		timer.stopMeasure

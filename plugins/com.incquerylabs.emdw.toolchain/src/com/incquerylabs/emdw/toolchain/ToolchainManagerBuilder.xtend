@@ -101,6 +101,8 @@ class ToolchainManagerBuilder {
 			it.makefileGeneration	= this.makefileGeneration	?: it.makefileGeneration	?: new MakefileGeneration
 			it.extensionServices	= this.extensionServices	?: it.extensionServices		?: <UmlIntegrationExtension>newHashSet(new CPPRuleExtensionService)
 		]
+		manager.prepareToolchainQueries
+		
 		manager
 	}
 	

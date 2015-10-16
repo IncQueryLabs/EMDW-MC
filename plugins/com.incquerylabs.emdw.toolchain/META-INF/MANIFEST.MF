@@ -17,6 +17,9 @@ Require-Bundle: org.eclipse.xtext.xbase.lib,
  com.incquerylabs.emdw.umlintegration.transformation;bundle-version="1.0.0",
  com.incquerylabs.emdw.cpp.transformation;bundle-version="1.0.0",
  com.incquerylabs.emdw.cpp.codegeneration;bundle-version="1.0.0",
- org.apache.log4j
+ org.apache.log4j,
+ com.incquerylabs.emdw.xtuml.incquery;bundle-version="1.0.0",
+ com.incquerylabs.emdw.cpp.common;bundle-version="1.0.0",
+ com.incquerylabs.emdw.cpp.bodyconverter;bundle-version="1.0.0"
 Export-Package: com.incquerylabs.emdw.toolchain
 

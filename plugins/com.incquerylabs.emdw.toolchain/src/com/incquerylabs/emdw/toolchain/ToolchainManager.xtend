@@ -17,6 +17,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
+import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
@@ -24,6 +25,12 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
+
+import com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries
+import com.incquerylabs.emdw.umlintegration.queries.StateMachine
+import com.incquerylabs.emdw.umlintegration.queries.Structure
+import com.incquerylabs.emdw.umlintegration.queries.Trace
+import com.incquerylabs.emdw.xtuml.incquery.XtumlValidationQueries
 import java.util.Map
 import java.util.Set
 import org.apache.log4j.Level
@@ -35,11 +42,18 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
+
+import com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 
 class ToolchainManager {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -48,7 +62,25 @@ class ToolchainManager {
 	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	static val RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
 	
-	@Accessors ResourceSet resourceSet
+	static val TOOLCHAIN_QUERIES = GenericPatternGroup.of(
+			StateMachine.instance,
+			Structure.instance,
+			Trace.instance,
+			CppExtensionQueries.instance,
+			XtumlValidationQueries.instance,
+			UmlQueries.instance,
+			com.incquerylabs.emdw.cpp.common.mapper.queries.XtumlQueries.instance,
+			XtumlQueries.instance,
+			MonitorQueries.instance,
+			CppQueries.instance,
+			CppCodeGenerationQueries.instance,
+			CppFileAndDirectoryQueries.instance,
+			UmlCppMappingQueries.instance,
+			OoplQueryBasedFeatures.instance,
+			QueryBasedFeatures.instance
+		)
+	
+	@Accessors Model xumlrtModel
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
 	@Accessors Set<UmlIntegrationExtension> extensionServices
 	
@@ -77,10 +109,13 @@ class ToolchainManager {
 	
 	IncQueryEngine managedEngine
 	
+	def prepareToolchainQueries() {
+		TOOLCHAIN_QUERIES.prepare(engine)
+	}
 	
 	def initializeXtTransformation() {
 		if(!isXumlrtTrafoInitialized) {
-			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
+			val xUmlRtResource = xumlrtModel.eResource
 			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
 			extensionServices.forEach[initialize(engine, xUmlRtResource)]
 			xtTrafo.extensionServices = extensionServices
@@ -109,6 +144,7 @@ class ToolchainManager {
 	
 	protected def initializeCppTransformationPrerequisites() {
 		if(!areCppPrerequisitesInitialized) {
+			val resourceSet = xumlrtModel.eResource.resourceSet
 			managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 			GenericPatternGroup.of(
 				OoplQueryBasedFeatures.instance,
@@ -256,14 +292,13 @@ class ToolchainManager {
 	}
 	
 	def getOrCreateCPPModel() {
-		val xtmodel = engine.xtModel.allValuesOfxtModel.head
 		val modelMatcher = engine.getXtModelToCppModel
 		var CPPModel cppModel = null
-		if (modelMatcher.hasMatch(xtmodel, null)) {
-			cppModel = modelMatcher.getOneArbitraryMatch(xtmodel, null).cppModel
+		if (modelMatcher.hasMatch(xumlrtModel, null)) {
+			cppModel = modelMatcher.getOneArbitraryMatch(xumlrtModel, null).cppModel
 			if (cppModel.ooplNameProvider == null) {
 				cppModel.ooplNameProvider = createOOPLExistingNameProvider => [
-					commonNamedElement = xtmodel
+					commonNamedElement = xumlrtModel
 				]
 			}
 		} else {
@@ -273,16 +308,17 @@ class ToolchainManager {
 				it.files += makeRulesFile
 			]
 			cppModel = createCPPModel => [
-				commonModel = xtmodel
+				commonModel = xumlrtModel
 				ooplNameProvider = createOOPLExistingNameProvider => [
-					commonNamedElement = xtmodel
+					commonNamedElement = xumlrtModel
 				]
 				headerDir = rootDirectory
 				bodyDir = rootDirectory
 			]
 			
-			val uriWithoutExtension = xtmodel.eResource.getURI.trimFileExtension
+			val uriWithoutExtension = xumlrtModel.eResource.getURI.trimFileExtension
 			val uri = uriWithoutExtension.appendFileExtension("cppmodel")
+			val resourceSet = xumlrtModel.eResource.resourceSet
 			val cppResource = resourceSet.createResource(uri)
 			cppResource.contents += cppModel
 			cppResource.contents += rootDirectory
@@ -329,6 +365,7 @@ class ToolchainManager {
 	}
 	
 	def CPPDirectory getRuntimeCppDir() {
+		val resourceSet = xumlrtModel.eResource.resourceSet
 		val resource = loadCPPRuntimeModelResource(resourceSet)
 		if(resource != null) {
 			val runtimeCppDirectory = resource.contents.filter(CPPDirectory).head
@@ -366,7 +403,7 @@ class ToolchainManager {
 		if(!isDisposed){
 			isDisposed = true
 			
-			resourceSet = null
+			xumlrtModel = null
 			primitiveTypeMapping = null
 			extensionServices = null
 			
@@ -406,6 +443,5 @@ class ToolchainManager {
 		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
 		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
 		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
-		Logger.getLogger(MainGeneration.package.name).level = commonLoggingLevel
 	}
 }

@@ -55,7 +55,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		
 		toolchainManagerBuilder => [
 			it.engine = engine
-			it.resourceSet = xumlrtRS
+			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager

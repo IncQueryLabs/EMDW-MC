@@ -1,10 +1,13 @@
 package com.incquerylabs.emdw.cpp.ui
 
+import com.google.common.base.Stopwatch
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.toolchain.ToolchainManager
 import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
 import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.List
+import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.core.commands.AbstractHandler
 import org.eclipse.core.commands.ExecutionEvent
@@ -24,9 +27,9 @@ import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 
 class UmlHandler extends AbstractHandler {
+	
 	override execute(ExecutionEvent event) throws ExecutionException {
 		try{
 			var selection = HandlerUtil.getCurrentSelection(event);
@@ -60,7 +63,7 @@ class UmlHandler extends AbstractHandler {
 							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
 							val managerBuilder = new ToolchainManagerBuilder => [
 								it.engine = engine
-								it.resourceSet = xtumlResource.resourceSet
+								it.xumlrtModel = xtModel
 								it.xtumlChangeMonitor = getChangeMonitor(modelSet)
 								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 							]

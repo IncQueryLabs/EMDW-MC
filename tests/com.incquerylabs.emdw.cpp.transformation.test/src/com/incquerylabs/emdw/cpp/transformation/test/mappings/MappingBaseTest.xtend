@@ -24,7 +24,7 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		val cppObject = prepareCppModel(cppModel)
 		
 		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
-			it.resourceSet = cppModel.eResource.resourceSet
+			it.xumlrtModel = xtModel
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		// transform to CPP

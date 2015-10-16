@@ -25,6 +25,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
 import org.apache.log4j.Level
+import org.eclipse.papyrusrt.xtumlrt.common.Model
 
 class ToolchainManagerBuilder {
 	static val BiMap<AdvancedIncQueryEngine, ToolchainManager> toolchainManagers = HashBiMap.create()
@@ -32,7 +33,7 @@ class ToolchainManagerBuilder {
 	static val PATHMAP_SCHEME = "pathmap";
 	static val UML_LIBRARIES_AUTHORITY = "UML_LIBRARIES";
 	
-	@Accessors ResourceSet resourceSet
+	@Accessors Model xumlrtModel
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
 	@Accessors Set<UmlIntegrationExtension> extensionServices
 	
@@ -54,7 +55,7 @@ class ToolchainManagerBuilder {
 			toolchainManager = toolchainManagers.get(engine)
 			toolchainManager.initializeManager
 		} else {
-			checkNotNull(resourceSet, "Resource set cannot be null!")
+			checkNotNull(xumlrtModel, "xUML-RT Model cannot be null!")
 			toolchainManager = new ToolchainManager
 			toolchainManager.initializeManager
 			toolchainManager.logLevel = Level.INFO
@@ -81,13 +82,13 @@ class ToolchainManagerBuilder {
 		// Set fields to the provided objects
 		// Use the previously set object if null is provided
 		// Create default objects if it was set to null
-		val targetFolderPath = resourceSet?.resources?.filter[it.URI.toString.contains(".xtuml")].head?.URI?.toFileString
+		val targetFolderPath = xumlrtModel?.eResource?.URI?.toFileString
 		
 		manager => [
-			it.resourceSet			= this.resourceSet			?: it.resourceSet
+			it.xumlrtModel			= this.xumlrtModel			?: it.xumlrtModel
 			it.primitiveTypeMapping = this.primitiveTypeMapping ?: it.primitiveTypeMapping
 			
-			it.engine				= this.engine				?: it.engine				?: createDefaultEngine(it.resourceSet)
+			it.engine				= this.engine				?: it.engine				?: createDefaultEngine(it.xumlrtModel.eResource.resourceSet)
 			it.xtumlChangeMonitor	= this.xtumlChangeMonitor	?: it.xtumlChangeMonitor	?: new XtumlModelChangeMonitor(it.engine)
 			
 			it.xtTrafo				= this.xtTrafo				?: it.xtTrafo				?: new TransformationQrt
@@ -100,6 +101,8 @@ class ToolchainManagerBuilder {
 			it.makefileGeneration	= this.makefileGeneration	?: it.makefileGeneration	?: new MakefileGeneration
 			it.extensionServices	= this.extensionServices	?: it.extensionServices		?: <UmlIntegrationExtension>newHashSet(new CPPRuleExtensionService)
 		]
+		manager.prepareToolchainQueries
+		
 		manager
 	}
 	

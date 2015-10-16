@@ -26,7 +26,7 @@ abstract class CachedValueDescriptorBaseTest<UmlObject extends Element, IValueDe
 		
 		toolchainManagerBuilder => [
 			it.engine = engine
-			it.resourceSet = xumlrtRS
+			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager

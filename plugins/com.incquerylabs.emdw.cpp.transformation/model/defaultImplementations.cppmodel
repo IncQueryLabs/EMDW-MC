@@ -7,180 +7,120 @@
   <oopl:OOPLSequenceImplementation
       elementAtIndexTemplate=""
       containerQualifiedName="::std::multiset"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.0/@subElements.0/@subElements.0"/>
+      implementationClass="/9/@subElements.0/@subElements.0/@subElements.0"/>
   <oopl:OOPLSequenceImplementation
       containsTemplate=""
       insertElementAtIndexTemplate=""
       containerQualifiedName="::std::set"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.1/@subElements.0/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.1/@subElements.0"
       uniqueness="UNIQUE"/>
   <oopl:OOPLSequenceImplementation
       countOfTemplate=""
       isEmptyTemplate=""
       containerQualifiedName="::std::vector"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.2/@subElements.0/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.2/@subElements.0"
       orderedness="ORDERED"/>
   <oopl:OOPLSequenceImplementation
       clearTemplate=""
       isEmptyTemplate=""
       sizeTemplate=""
       containerQualifiedName="::std::vector"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.2/@subElements.0/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.2/@subElements.0"
       uniqueness="UNIQUE"
       orderedness="ORDERED"/>
   <oopl:OOPLClassRefAssocCollectionImplementation
       isEmptyTemplate=""
       containerQualifiedName="::std::set"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.1/@subElements.0/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.1/@subElements.0"
       kind="ORDERED_SET"/>
   <oopl:OOPLClassRefAssocCollectionImplementation
       containerQualifiedName="::std::multiset"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.0/@subElements.0/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.0/@subElements.0"
       kind="UNORDERED_MULTISET"/>
   <oopl:OOPLClassRefSimpleCollectionImplementation
       containsAllTemplate=""
       insertElementAtIndexTemplate=""
       containerQualifiedName="::std::list"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.3/@subElements.0"/>
+      implementationClass="/9/@subElements.0/@subElements.3/@subElements.0"/>
   <oopl:OOPLClassRefSimpleCollectionImplementation
       insertElementAtIndexTemplate=""
       containerQualifiedName="::std::list"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.3/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.3/@subElements.0"
       kind="DOUBLY_LINKED_LIST"/>
   <oopl:OOPLClassRefSimpleCollectionImplementation
       containerQualifiedName="::std::deque"
-      implementationClass="/9/@subElements.0/@subElements.0/@subElements.4/@subElements.0"
+      implementationClass="/9/@subElements.0/@subElements.4/@subElements.0"
       kind="DOUBLE_ENDED_QUEUE"/>
-  <cpp:CPPPackage
-      headerDir="/10">
+  <cpp:CPPPackage>
     <ooplNameProvider
         xsi:type="oopl:OOPLDerivedNameProvider"
-        name="xumlrt_runtime"/>
+        name="xumlrt"/>
     <subElements
-        xsi:type="cpp:CPPPackage"
-        headerDir="/10">
+        xsi:type="cpp:CPPPackage">
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
-          name="xumlrt_runtime"/>
+          name="collections"/>
       <subElements
-          xsi:type="cpp:CPPPackage"
-          headerDir="/10/@subDirectories.0">
+          xsi:type="cpp:CPPPackage">
         <ooplNameProvider
             xsi:type="oopl:OOPLDerivedNameProvider"
-            name="collections"/>
+            name="bag"/>
         <subElements
-            xsi:type="cpp:CPPPackage"
-            headerDir="/10/@subDirectories.0/@subDirectories.0">
+            xsi:type="cpp:CPPClass">
           <ooplNameProvider
               xsi:type="oopl:OOPLDerivedNameProvider"
-              name="bag"/>
-          <subElements
-              xsi:type="cpp:CPPPackage">
-            <ooplNameProvider
-                xsi:type="oopl:OOPLDerivedNameProvider"
-                name="basic_multiset"/>
-            <subElements
-                xsi:type="cpp:CPPClass"
-                headerFile="/10/@subDirectories.0/@subDirectories.0/@files.0">
-              <ooplNameProvider
-                  xsi:type="oopl:OOPLDerivedNameProvider"
-                  name="multiset"/>
-            </subElements>
-          </subElements>
+              name="basic_multiset"/>
         </subElements>
+      </subElements>
+      <subElements
+          xsi:type="cpp:CPPPackage">
+        <ooplNameProvider
+            xsi:type="oopl:OOPLDerivedNameProvider"
+            name="set"/>
         <subElements
-            xsi:type="cpp:CPPPackage"
-            headerDir="/10/@subDirectories.0/@subDirectories.1">
+            xsi:type="cpp:CPPClass">
           <ooplNameProvider
               xsi:type="oopl:OOPLDerivedNameProvider"
-              name="set"/>
-          <subElements
-              xsi:type="cpp:CPPPackage">
-            <ooplNameProvider
-                xsi:type="oopl:OOPLDerivedNameProvider"
-                name="basic_set"/>
-            <subElements
-                xsi:type="cpp:CPPClass"
-                headerFile="/10/@subDirectories.0/@subDirectories.1/@files.0">
-              <ooplNameProvider
-                  xsi:type="oopl:OOPLDerivedNameProvider"
-                  name="set"/>
-            </subElements>
-          </subElements>
+              name="basic_set"/>
         </subElements>
+      </subElements>
+      <subElements
+          xsi:type="cpp:CPPPackage">
+        <ooplNameProvider
+            xsi:type="oopl:OOPLDerivedNameProvider"
+            name="sequence"/>
         <subElements
-            xsi:type="cpp:CPPPackage"
-            headerDir="/10/@subDirectories.0/@subDirectories.2">
+            xsi:type="cpp:CPPClass">
           <ooplNameProvider
               xsi:type="oopl:OOPLDerivedNameProvider"
-              name="sequence"/>
-          <subElements
-              xsi:type="cpp:CPPPackage">
-            <ooplNameProvider
-                xsi:type="oopl:OOPLDerivedNameProvider"
-                name="basic_vector"/>
-            <subElements
-                xsi:type="cpp:CPPClass"
-                headerFile="/10/@subDirectories.0/@subDirectories.2/@files.0">
-              <ooplNameProvider
-                  xsi:type="oopl:OOPLDerivedNameProvider"
-                  name="vector"/>
-            </subElements>
-          </subElements>
+              name="basic_vector"/>
         </subElements>
+      </subElements>
+      <subElements
+          xsi:type="cpp:CPPPackage">
+        <ooplNameProvider
+            xsi:type="oopl:OOPLDerivedNameProvider"
+            name="list"/>
         <subElements
-            xsi:type="cpp:CPPPackage"
-            headerDir="/10/@subDirectories.0/@subDirectories.3">
+            xsi:type="cpp:CPPClass">
           <ooplNameProvider
               xsi:type="oopl:OOPLDerivedNameProvider"
-              name="list"/>
-          <subElements
-              xsi:type="cpp:CPPClass"
-              headerFile="/10/@subDirectories.0/@subDirectories.2/@files.0">
-            <ooplNameProvider
-                xsi:type="oopl:OOPLDerivedNameProvider"
-                name="list"/>
-          </subElements>
+              name="basic_list"/>
         </subElements>
+      </subElements>
+      <subElements
+          xsi:type="cpp:CPPPackage">
+        <ooplNameProvider
+            xsi:type="oopl:OOPLDerivedNameProvider"
+            name="deque"/>
         <subElements
-            xsi:type="cpp:CPPPackage"
-            headerDir="/10/@subDirectories.0/@subDirectories.4">
+            xsi:type="cpp:CPPClass">
           <ooplNameProvider
               xsi:type="oopl:OOPLDerivedNameProvider"
-              name="deque"/>
-          <subElements
-              xsi:type="cpp:CPPClass"
-              headerFile="/10/@subDirectories.0/@subDirectories.4/@files.0">
-            <ooplNameProvider
-                xsi:type="oopl:OOPLDerivedNameProvider"
-                name="deque"/>
-          </subElements>
+              name="basic_deque"/>
         </subElements>
       </subElements>
     </subElements>
   </cpp:CPPPackage>
-  <cpp:CPPDirectory>
-    <subDirectories>
-      <subDirectories>
-        <files
-            xsi:type="cpp:CPPHeaderFile"/>
-      </subDirectories>
-      <subDirectories>
-        <files
-            xsi:type="cpp:CPPHeaderFile"/>
-      </subDirectories>
-      <subDirectories>
-        <files
-            xsi:type="cpp:CPPHeaderFile"/>
-      </subDirectories>
-      <subDirectories>
-        <files
-            xsi:type="cpp:CPPHeaderFile"/>
-      </subDirectories>
-      <subDirectories>
-        <files
-            xsi:type="cpp:CPPHeaderFile"/>
-      </subDirectories>
-    </subDirectories>
-  </cpp:CPPDirectory>
+  <cpp:CPPDirectory/>
 </xmi:XMI>

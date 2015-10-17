@@ -908,7 +908,7 @@ class ExpressionVisitor {
 					descriptors.add(new UmlTypedValueDescriptor(typeSystem.type(expr).value.umlType, descriptor))				
 				]
 			}else{
-				return new OperationTypedValueDescriptorPair(Optional::of(op), descriptors)
+				return new OperationTypedValueDescriptorPair(Optional::absent, descriptors)
 			}
 		}else if(ex.parameters instanceof NamedTuple){
 			val parameters = ex.parameters as NamedTuple
@@ -931,13 +931,13 @@ class ExpressionVisitor {
 					]
 				]
 			}else{
-				return new OperationTypedValueDescriptorPair(Optional::of(op), descriptors)
+				return new OperationTypedValueDescriptorPair(Optional::absent, descriptors)
 			}
 			
 		}else{
 			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
-		return new OperationTypedValueDescriptorPair(Optional::of(op), descriptors)
+		return new OperationTypedValueDescriptorPair(Optional::fromNullable(op), descriptors)
 	}
 	
 	private dispatch def getOperation(NamedTuple parameters, Class c){

@@ -18,11 +18,14 @@ class MCDataToken implements DataToken {
 	int componentInsideScale
 	int componentsScale
 	boolean shouldCompileBody
-	int modificationTimes
-	ModificationType modificationType
+	int modificationScope
+	Map<ModificationType, Integer> modifications
 	
 	Map<CPPSourceFile, CharSequence> cppSourceFileContents
 	
+	def getPurifiedModificationMap() {
+		return modifications.filter[type, times|times>0]
+	}
 	
 	override init() {
 		//throw new UnsupportedOperationException("TODO: auto-generated method stub")

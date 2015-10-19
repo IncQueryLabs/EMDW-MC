@@ -14,16 +14,28 @@ class PropertiesUtil {
 	private final String configPath
 	public final Properties properties
 	
-	public static val INPUT_MODEL_PATH_PROP_KEY = "input.model.path"
-	public static val MULTIPLICATION_COMPONENTINSIDE_PROP_KEY = "multiplication.componentinside"
-	public static val MULTIPLICATION_COMPONENTS_PROP_KEY = "multiplication.components"
-	public static val MODIFICATION_TYPE_PROP_KEY = "modification.type"
-	public static val MODIFICATION_TIMES_PROP_KEY = "modification.times"
-	public static val COMPILEBODY_PROP_KEY = "compilebody"
+	public static final val INPUT_MODEL_PATH_PROP_KEY = "input.model.path"
+	public static final val MULTIPLICATION_COMPONENTINSIDE_PROP_KEY = "multiplication.componentinside"
+	public static final val MULTIPLICATION_COMPONENTS_PROP_KEY = "multiplication.components"
+	public static final val MODIFICATION_SCOPE_PROP_KEY = "modification.scope"
+	public static final val MODIFICATION_LL_B_ATIONCODE_PROP_KEY = "modification.lowlevel.behavioral.actioncode"
+	public static final val MODIFICATION_LL_S_ATTR_ADD_PROP_KEY = "modification.lowlevel.structural.attribute.add"
+	public static final val MODIFICATION_LL_S_ATTR_REMOVE_PROP_KEY = "modification.lowlevel.structural.attribute.remove"
+	public static final val MODIFICATION_LL_S_TRANS_ADD_PROP_KEY = "modification.lowlevel.structural.transition.add"
+	public static final val MODIFICATION_LL_S_TRANS_REMOVE_PROP_KEY = "modification.lowlevel.structural.transition.remove"
+	public static final val MODIFICATION_HL_COMP_ADD_PROP_KEY = "modification.highlevel.component.add"
+	public static final val MODIFICATION_HL_COMP_REMOVE_PROP_KEY = "modification.highlevel.component.remove"
+	public static final val MODIFICATION_HL_PACK_ADD_PROP_KEY = "modification.highlevel.package.add"
+	public static final val MODIFICATION_HL_PACK_MOVE_PROP_KEY = "modification.highlevel.package.move"
+	public static final val MODIFICATION_HL_PACK_REMOVE_PROP_KEY = "modification.highlevel.package.remove"
+	public static final val MODIFICATION_HL_PACK_RENAME_PROP_KEY = "modification.highlevel.package.rename"
+	public static final val COMPILEBODY_PROP_KEY = "compilebody"
 	
-	public static val INCQUERY_LOGLEVEL_PROP_KEY = "org.eclipse.incquery.loglevel"
-	public static val BENCHMARK_RESULT_LOGLEVEL = "emdw.mondosam.loglevel"
-	public static val STATS_CSV_LOGLEVEL = "emdw.stats.loglevel"
+	public static final val INCQUERY_LOGLEVEL_PROP_KEY = "org.eclipse.incquery.loglevel"
+	public static final val BENCHMARK_RESULT_LOGLEVEL = "emdw.mondosam.loglevel"
+	public static final val STATS_CSV_LOGLEVEL = "emdw.stats.loglevel"
+	
+	public static final val DEFAULT_MODIFICATION_TIMES = "0"
 	
 	new(String configPath) {
 		this.configPath = configPath
@@ -82,18 +94,96 @@ class PropertiesUtil {
 		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTINSIDE_PROP_KEY, "1")
 		return Integer.valueOf(multiplication)
 	}
+	
 	def getMultiplicationComponents() {
 		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTS_PROP_KEY, "1")
 		return Integer.valueOf(multiplication)
 	}
-	def getModificationType() {
-		val modificationType = getPropertyValue(MODIFICATION_TYPE_PROP_KEY, "NONE")
-		return ModificationType.valueOf(modificationType)
+	
+	def getModificationTimeOfActionCode() {
+		val modificationTimes = getPropertyValue(MODIFICATION_LL_B_ATIONCODE_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
 	}
 	
-	def getModificationTimes() {
-		val modificationTimes = getPropertyValue(MODIFICATION_TIMES_PROP_KEY, "0")
+	def getModificationTimeOfAttributeAddition() {
+		val modificationTimes = getPropertyValue(MODIFICATION_LL_S_ATTR_ADD_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
 		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfAttributeRemoval() {
+		val modificationTimes = getPropertyValue(MODIFICATION_LL_S_ATTR_REMOVE_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfTransitionAddition() {
+		val modificationTimes = getPropertyValue(MODIFICATION_LL_S_TRANS_ADD_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfTransitionRemoval() {
+		val modificationTimes = getPropertyValue(MODIFICATION_LL_S_TRANS_REMOVE_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfComponentAddition() {
+		val modificationTimes = getPropertyValue(MODIFICATION_HL_COMP_ADD_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfComponentRemoval() {
+		val modificationTimes = getPropertyValue(MODIFICATION_HL_COMP_REMOVE_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfPackageAddition() {
+		val modificationTimes = getPropertyValue(MODIFICATION_HL_PACK_ADD_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfPackageMovement() {
+		val modificationTimes = getPropertyValue(MODIFICATION_HL_PACK_MOVE_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfPackageRemoval() {
+		val modificationTimes = getPropertyValue(MODIFICATION_HL_PACK_REMOVE_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationTimeOfPackageRenaming() {
+		val modificationTimes = getPropertyValue(MODIFICATION_HL_PACK_RENAME_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
+		return Integer.valueOf(modificationTimes)
+	}
+	
+	def getModificationsMap() {
+		val map = #{
+			ModificationType.SMALL_BEHAVIOR__ACTION_CODE -> modificationTimeOfActionCode,
+			ModificationType.SMALL_STRUCTURE__ATTRIBUTE__ADD -> modificationTimeOfAttributeAddition,
+			ModificationType.SMALL_STRUCTURE__ATTRIBUTE__REMOVE -> modificationTimeOfAttributeRemoval,
+			ModificationType.SMALL_STRUCTURE__TRANSITION__ADD -> modificationTimeOfTransitionAddition,
+			ModificationType.SMALL_STRUCTURE__TRANSITION__REMOVE -> modificationTimeOfTransitionRemoval,
+			ModificationType.HIGH_LEVEL__COMPONENT__ADD -> modificationTimeOfComponentAddition,
+			ModificationType.HIGH_LEVEL__COMPONENT__REMOVE -> modificationTimeOfComponentRemoval,
+			ModificationType.HIGH_LEVEL__PACKAGE__ADD -> modificationTimeOfPackageAddition,
+			ModificationType.HIGH_LEVEL__PACKAGE__MOVE -> modificationTimeOfPackageMovement,
+			ModificationType.HIGH_LEVEL__PACKAGE__REMOVE -> modificationTimeOfPackageRemoval,
+			ModificationType.HIGH_LEVEL__PACKAGE__RENAME -> modificationTimeOfPackageRenaming
+		}
+		return map
+	}
+	
+	def getSumOfModificationTimes() {
+		var sum = 0
+		val map = modificationsMap
+		for(v : map.values) {
+			sum += v
+		}
+		return sum
+	}
+	
+	def getModificationScope() {
+		val modificationScope = getPropertyValue(MODIFICATION_SCOPE_PROP_KEY, "1")
+		return Integer.valueOf(modificationScope)
 	}
 	
 	def shouldCompileBody() {

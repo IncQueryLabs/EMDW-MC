@@ -18,6 +18,7 @@ class MCDataToken implements DataToken {
 	int componentInsideScale
 	int componentsScale
 	boolean shouldCompileBody
+	int modificationTimes
 	int modificationScope
 	Map<ModificationType, Integer> modifications
 	

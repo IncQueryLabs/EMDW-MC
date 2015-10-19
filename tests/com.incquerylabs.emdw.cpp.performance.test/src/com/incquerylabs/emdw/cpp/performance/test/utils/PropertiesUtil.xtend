@@ -17,6 +17,7 @@ class PropertiesUtil {
 	public static final val INPUT_MODEL_PATH_PROP_KEY = "input.model.path"
 	public static final val MULTIPLICATION_COMPONENTINSIDE_PROP_KEY = "multiplication.componentinside"
 	public static final val MULTIPLICATION_COMPONENTS_PROP_KEY = "multiplication.components"
+	public static final val MODIFICATION_TIMES_PROP_KEY = "modification.times"
 	public static final val MODIFICATION_SCOPE_PROP_KEY = "modification.scope"
 	public static final val MODIFICATION_LL_B_ATIONCODE_PROP_KEY = "modification.lowlevel.behavioral.actioncode"
 	public static final val MODIFICATION_LL_S_ATTR_ADD_PROP_KEY = "modification.lowlevel.structural.attribute.add"
@@ -105,6 +106,10 @@ class PropertiesUtil {
 		return Integer.valueOf(modificationTimes)
 	}
 	
+	def getModificationTimes() {
+		val modificationTimes = getPropertyValue(MODIFICATION_TIMES_PROP_KEY, "0")
+		return Integer.valueOf(modificationTimes)
+	}
 	def getModificationTimeOfAttributeAddition() {
 		val modificationTimes = getPropertyValue(MODIFICATION_LL_S_ATTR_ADD_PROP_KEY, DEFAULT_MODIFICATION_TIMES)
 		return Integer.valueOf(modificationTimes)
@@ -170,15 +175,6 @@ class PropertiesUtil {
 			ModificationType.HIGH_LEVEL__PACKAGE__RENAME -> modificationTimeOfPackageRenaming
 		}
 		return map
-	}
-	
-	def getSumOfModificationTimes() {
-		var sum = 0
-		val map = modificationsMap
-		for(v : map.values) {
-			sum += v
-		}
-		return sum
 	}
 	
 	def getModificationScope() {

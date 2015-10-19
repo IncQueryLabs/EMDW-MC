@@ -16,7 +16,7 @@ class FileSyncPhase extends AtomicPhase {
 	}
 	
 	override execute(DataToken token, PhaseResult phaseResult) {
-		print('''«phaseName»''')
+		println(phaseName)
 		val mcToken = token as MCDataToken
 		val timer = new TimeMetric("Time")
 		val memory = new MemoryMetric("Memory")
@@ -38,8 +38,7 @@ class FileSyncPhase extends AtomicPhase {
 		
 		phaseResult.addMetrics(timer)
 		phaseResult.addMetrics(memory)
-		print(''' | «timer.value»''')
-		println(''' | «memory.value»''')
+		mcToken.addMetrics(phaseName, timer.value, memory.value)
 	}
 	
 }

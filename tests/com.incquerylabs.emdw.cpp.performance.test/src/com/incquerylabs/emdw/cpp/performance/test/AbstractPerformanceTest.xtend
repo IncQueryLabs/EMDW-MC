@@ -40,7 +40,7 @@ abstract class AbstractPerformanceTest {
 		JsonSerializer::setResultPath(jsonResultFolder)
 		
 		benchmarkEngine.runBenchmark(scenario, token)
-		
+		token.printMetrics
 	}
 	
 	def AbstractBenchmarkScenario getPerformanceScenario(BenchmarkCase _case)

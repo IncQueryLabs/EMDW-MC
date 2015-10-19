@@ -98,12 +98,12 @@ class PropertiesUtil {
 	}
 	
 	def getMultiplicationComponentinside() {
-		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTINSIDE_PROP_KEY, "1")
+		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTINSIDE_PROP_KEY, "0")
 		return Integer.valueOf(multiplication)
 	}
 	
 	def getMultiplicationComponents() {
-		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTS_PROP_KEY, "1")
+		val multiplication = getPropertyValue(MULTIPLICATION_COMPONENTS_PROP_KEY, "0")
 		return Integer.valueOf(multiplication)
 	}
 	

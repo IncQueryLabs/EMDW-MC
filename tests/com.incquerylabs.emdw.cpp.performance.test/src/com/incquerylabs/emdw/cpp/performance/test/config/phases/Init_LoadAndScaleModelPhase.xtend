@@ -9,12 +9,15 @@ import eu.mondo.sam.core.metrics.MemoryMetric
 import eu.mondo.sam.core.metrics.TimeMetric
 import eu.mondo.sam.core.phases.AtomicPhase
 import eu.mondo.sam.core.results.PhaseResult
+import java.util.Set
 import org.apache.log4j.Level
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
+import org.eclipse.uml2.uml.PackageableElement
+import org.eclipse.uml2.uml.Classifier
 
 class Init_LoadAndScaleModelPhase extends AtomicPhase {
 	
@@ -38,12 +41,19 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		val umlResource = umlResourceSet.createResource(umlUri) => [ load(#{}) ]
 		val umlModel = umlResource.contents.filter(Model).head
 		mcToken.umlModel = umlModel
+		mcToken.addLogLine('''Original model size: «umlModel.eAllContents.size»''')
+		umlModel.eAllContents.toList.sortBy[it.toString].forEach[mcToken.addLogLine(''' * «it»''')]
 		
 		extension val modelMultiplicator = new ModelMultiplicator
-		umlModel.copyPackagedElements(mcToken.componentsScale, Package)
-		umlModel.copyPackagedElements(mcToken.componentsScale, Component)
-		val components = umlModel.packagedElements.filter(Component)
-		components.forEach[copyPackagedElements(mcToken.componentInsideScale, Package)]
+		// Find top-level components
+		val components = umlModel.findTopLevelComponents
+		// Multiplicate components inside
+		components.forEach[ copyPackagedElements(mcToken.componentInsideScale, PackageableElement) ]
+//		components.forEach[ copyNestedElements(mcToken.componentInsideScale, Classifier) ]
+		// Multiplicate components
+		components.ownersSet.forEach[ it.copyPackagedElements(mcToken.componentsScale, Component) ]
+		mcToken.addLogLine('''Multiplicated model size: «umlModel.eAllContents.size»''')
+		umlModel.eAllContents.toList.sortBy[it.toString].forEach[mcToken.addLogLine(''' * «it»''')]
 		
 		val toolchainManagerBuilder = new ToolchainManagerBuilder
 		val engine = toolchainManagerBuilder.createDefaultEngine(umlResourceSet)
@@ -68,6 +78,23 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		phaseResult.addMetrics(timer)
 		phaseResult.addMetrics(memory)
 		mcToken.addMetrics(phaseName, timer.value, memory.value)
+	}
+	
+	def Set<Package> getOwnersSet(Set<Component> components) {
+		val ownersSet = <Package>newHashSet()
+		components.forEach[
+			if(it.namespace instanceof Package) {
+				ownersSet += it.namespace as Package
+			}
+		]
+		return ownersSet
+	}
+	
+	def Set<Component> findTopLevelComponents(Package pack) {
+		val innerPackages = pack.packagedElements.filter(Package)
+		val allComponents = pack.packagedElements.filter(Component).toSet
+		innerPackages.forEach[allComponents += it.findTopLevelComponents]
+		return allComponents
 	}
 	
 }

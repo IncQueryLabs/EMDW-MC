@@ -31,6 +31,7 @@ abstract class AbstractPerformanceTest {
 			it.modificationScope = util.modificationScope
 			it.modifications = util.modificationsMap
 		]
+		token.addLogLine('''Properties file path: «configFilePath»''')
 		
 		val benchmarkEngine = new BenchmarkEngine
 		var resultsFolder = new File(jsonResultFolder)
@@ -40,6 +41,7 @@ abstract class AbstractPerformanceTest {
 		JsonSerializer::setResultPath(jsonResultFolder)
 		
 		benchmarkEngine.runBenchmark(scenario, token)
+		token.printLog
 		token.printMetrics
 	}
 	

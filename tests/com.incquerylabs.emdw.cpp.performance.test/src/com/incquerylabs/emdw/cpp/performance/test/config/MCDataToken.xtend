@@ -22,9 +22,10 @@ class MCDataToken implements DataToken {
 	int modificationTimes
 	int modificationScope
 	Map<ModificationType, Integer> modifications
+	StringBuilder log = new StringBuilder
 	val metrics = <String>newArrayList() => [
-		it.add("Phase | Time | Memory\n")
-		it.add("------|------|-------\n")
+		it.add("Phase | Time | Memory")
+		it.add("------|------|-------")
 	]
 	
 	Map<CPPSourceFile, CharSequence> cppSourceFileContents
@@ -33,8 +34,16 @@ class MCDataToken implements DataToken {
 		return modifications.filter[type, times|times>0]
 	}
 	
+	def void addLogLine(String logInfo) {
+		log.append(logInfo+"\n")
+	}
+	
 	def void addMetrics(String phaseName, String timerValue, String memoryValue) {
-		metrics.add('''«phaseName» | «timerValue» | «memoryValue»«"\n"»''')
+		metrics.add('''«phaseName» | «timerValue» | «memoryValue»''')
+	}
+	
+	def void printLog() {
+		println(log.toString)
 	}
 	
 	def void printMetrics() {

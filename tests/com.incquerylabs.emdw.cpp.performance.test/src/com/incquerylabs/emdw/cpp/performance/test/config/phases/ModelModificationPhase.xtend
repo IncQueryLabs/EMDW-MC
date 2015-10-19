@@ -1,17 +1,18 @@
 package com.incquerylabs.emdw.cpp.performance.test.config.phases
 
+import com.incquerylabs.emdw.cpp.performance.test.ModelModifier
 import com.incquerylabs.emdw.cpp.performance.test.config.MCDataToken
 import eu.mondo.sam.core.DataToken
 import eu.mondo.sam.core.metrics.MemoryMetric
 import eu.mondo.sam.core.metrics.TimeMetric
 import eu.mondo.sam.core.phases.AtomicPhase
 import eu.mondo.sam.core.results.PhaseResult
-import org.eclipse.uml2.uml.Class
-import org.eclipse.uml2.uml.UMLFactory
-import org.eclipse.uml2.uml.Type
+import java.util.Collections
+import java.util.Random
+import org.eclipse.uml2.uml.Component
 
 class ModelModificationPhase extends AtomicPhase {
-	extension val UMLFactory factory = UMLFactory.eINSTANCE
+	extension ModelModifier modelModifier
 	
 	new(String phaseName) {
 		super(phaseName)
@@ -25,14 +26,23 @@ class ModelModificationPhase extends AtomicPhase {
 		
 		timer.startMeasure
 		
+		// Random seed should be provided in properties file
+		val random = new Random(mcToken.randomSeed)
+		this.modelModifier = new ModelModifier(random)
 		// WORK START
 		val umlModel = mcToken.umlModel
-		val usedTypes = umlModel.eResource.allContents.filter(Type)
+		val components = umlModel.allOwnedElements.filter(Component).sortBy[qualifiedName]
+		Collections.shuffle(components, random)
+		val componentsToModify = components.take(mcToken.modificationScope)
 		
-		val umlClass = umlModel.eResource.allContents.filter(Class).head
-		umlClass.ownedAttributes += createProperty => [
-			name = "addedProperty"
-			type = usedTypes.head
+		
+		// Add random attributes
+		val modifications = mcToken.modifications
+		modifications.forEach[modificationType, modificationCount|
+			for(i : 0 ..< modificationCount){
+				componentsToModify.forEach[it.performSmallModification(modificationType)]
+				umlModel.performHighLevelModification(modificationType)
+			}
 		]
 		// WORK END
 		
@@ -44,5 +54,4 @@ class ModelModificationPhase extends AtomicPhase {
 		print(''' | «timer.value»''')
 		println(''' | «memory.value»''')
 	}
-	
 }

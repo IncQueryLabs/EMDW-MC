@@ -15,6 +15,7 @@ class PropertiesUtil {
 	public final Properties properties
 	
 	public static final val INPUT_MODEL_PATH_PROP_KEY = "input.model.path"
+	public static final val RANDOM_SEED_PROP_KEY = "random.seed"
 	public static final val MULTIPLICATION_COMPONENTINSIDE_PROP_KEY = "multiplication.componentinside"
 	public static final val MULTIPLICATION_COMPONENTS_PROP_KEY = "multiplication.components"
 	public static final val MODIFICATION_TIMES_PROP_KEY = "modification.times"
@@ -89,6 +90,11 @@ class PropertiesUtil {
 	
 	def getInputModelPath() {
 		return getPropertyValue(INPUT_MODEL_PATH_PROP_KEY, "")
+	}
+	
+	def getRandomSeed() {
+		val seed = getPropertyValue(RANDOM_SEED_PROP_KEY, "0")
+		return Long.valueOf(seed)
 	}
 	
 	def getMultiplicationComponentinside() {

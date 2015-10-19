@@ -15,6 +15,7 @@ class MCDataToken implements DataToken {
 	
 	String umlModelPath
 	Model umlModel
+	long randomSeed
 	int componentInsideScale
 	int componentsScale
 	boolean shouldCompileBody

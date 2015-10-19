@@ -23,6 +23,7 @@ abstract class AbstractPerformanceTest {
 			it.scenarioName = scenario.name
 			
 			it.umlModelPath = util.inputModelPath
+			it.randomSeed = util.randomSeed
 			it.componentInsideScale = util.multiplicationComponentinside
 			it.componentsScale = util.multiplicationComponents
 			it.shouldCompileBody = util.shouldCompileBody

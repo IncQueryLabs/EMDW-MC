@@ -11,5 +11,17 @@
          </run>
       </application>
    </extension>
+   <extension
+         id="performance_test_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.incquerylabs.emdw.cpp.performance.test.app.application"
+            name="EMDW Headless Performance Testing Application">
+         <property
+               name="appName"
+               value="EMDW Headless Performance Testing Application">
+         </property>
+      </product>
+   </extension>
 
 </plugin>

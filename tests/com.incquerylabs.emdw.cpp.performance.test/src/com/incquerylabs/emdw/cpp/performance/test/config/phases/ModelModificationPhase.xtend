@@ -28,7 +28,7 @@ class ModelModificationPhase extends AtomicPhase {
 		
 		// Random seed should be provided in properties file
 		val random = new Random(mcToken.randomSeed)
-		this.modelModifier = new ModelModifier(random)
+		this.modelModifier = new ModelModifier(random, mcToken.toolchainManager.primitiveTypeMapping)
 		// WORK START
 		val umlModel = mcToken.umlModel
 		val components = umlModel.allOwnedElements.filter(Component).sortBy[qualifiedName]

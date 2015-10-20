@@ -17,7 +17,6 @@ import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PackageableElement
-import org.eclipse.uml2.uml.Classifier
 
 class Init_LoadAndScaleModelPhase extends AtomicPhase {
 	

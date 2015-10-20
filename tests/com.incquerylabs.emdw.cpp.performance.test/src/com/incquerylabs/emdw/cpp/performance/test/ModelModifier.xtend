@@ -2,27 +2,30 @@ package com.incquerylabs.emdw.cpp.performance.test
 
 import com.incquerylabs.emdw.cpp.performance.test.config.ModificationType
 import java.util.Collections
+import java.util.List
+import java.util.Map
 import java.util.Random
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Component
+import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.Package
+import org.eclipse.uml2.uml.State
+import org.eclipse.uml2.uml.StateMachine
+import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.UMLFactory
-import org.eclipse.uml2.uml.Package
-import org.eclipse.uml2.uml.StateMachine
-import org.eclipse.uml2.uml.State
-import org.eclipse.uml2.uml.Transition
-import java.util.List
-import org.eclipse.uml2.uml.Model
 
-import static extension org.eclipse.emf.ecore.util.EcoreUtil.*
+import static org.eclipse.emf.ecore.util.EcoreUtil.*
 
 class ModelModifier {
 	extension val UMLFactory factory = UMLFactory.eINSTANCE
 	
 	val Random random
+	val Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
 	
-	new(Random random) {
+	new(Random random, Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping) {
 		this.random = random
+		this.primitiveTypeMapping = primitiveTypeMapping
 	}
 	
 	def performSmallModification(Component component, ModificationType modificationType) {
@@ -55,11 +58,14 @@ class ModelModifier {
 	}
 	
 	def addRandomAttribute(Class umlClass) {
-		val usedTypes = umlClass.eResource.allContents.filter(Type).toList.sortBy[qualifiedName].shuffle
+		// TODO: use any uml DataType instead of primitive types
+		val umlTypes = primitiveTypeMapping.keySet.filter[it != null].sortBy[qualifiedName].shuffle
+		val upperBound = random.nextBoolean.boundValue
 		
 		umlClass.ownedAttributes += createProperty => [
 			name = "addedProperty"
-			type = usedTypes.head
+			type = umlTypes.head
+			upper = upperBound
 		]
 	}
 	
@@ -67,7 +73,9 @@ class ModelModifier {
 		val umlClasses = containingComponent.allOwnedElements.filter(Class)
 		val attributes = umlClasses.map[it.ownedAttributes].flatten.sortBy[qualifiedName].shuffle
 		val attribute = attributes.head
-		attribute.destroy
+		if(attribute != null) {
+			attribute.destroy
+		}
 	}
 	
 	def addRandomTransition(Component containingComponent) {
@@ -86,30 +94,41 @@ class ModelModifier {
 	def removeRandomTransition(Component containingComponent) {
 		val transitions = containingComponent.allOwnedElements.filter(Transition).sortBy[qualifiedName].shuffle
 		val transition = transitions.head
-		transition.destroy
+		if(transition != null) {
+			transition.destroy
+		}
 	}
 	
 	def removeRandomComponent(Model model) {
 		val components = model.allOwnedElements.filter(Component).sortBy[qualifiedName].shuffle
 		val component = components.head
-		component.destroy
+		if(component != null) {
+			component.destroy
+		}
 	}
 	
 	def removeRandomPackage(Model model) {
 		val packages = model.allOwnedElements.filter(Package).sortBy[qualifiedName].shuffle
 		val package = packages.head
-		package.destroy
+		if(package != null) {
+			package.destroy
+		}
 	}
 	
 	def renameRandomPackage(Model model) {
 		val packages = model.allOwnedElements.filter(Package).sortBy[qualifiedName].shuffle
 		val package = packages.head
-		package.name = '''«package.name»_renamed'''
+		if(package != null) {
+			package.name = '''«package.name»_renamed'''
+		}
 	}
 	
 	def copyRandomComponent(Model model) {
 		val components = model.allOwnedElements.filter(Component).sortBy[qualifiedName].shuffle
 		val component = components.head
+		if(component == null){
+			return
+		}
 		val container = component.eContainer
 		val copiedComponent = copy(component) => [name = '''«name»_copy''']
 		if(container instanceof Component){
@@ -123,6 +142,9 @@ class ModelModifier {
 	def copyRandomPackage(Model model) {
 		val packages = model.allOwnedElements.filter(Package).sortBy[qualifiedName].shuffle
 		val package = packages.head
+		if(package == null){
+			return
+		}
 		val container = package.eContainer
 		val copiedPackage = copy(package) => [name = '''«name»_copy''']
 		if(container instanceof Component){
@@ -131,6 +153,13 @@ class ModelModifier {
 		else if(container instanceof Package){
 			container.packagedElements += copiedPackage
 		}
+	}
+	
+	private def getBoundValue(boolean isBounded) {
+		if(isBounded) {
+			return 1
+		}
+		return -1
 	}
 	
 	private def <T> List<T> shuffle(List<T> list) {

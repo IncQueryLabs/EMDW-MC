@@ -7,16 +7,19 @@ import com.incquerylabs.emdw.cpp.performance.test.utils.PropertiesUtil
 import eu.mondo.sam.core.BenchmarkEngine
 import eu.mondo.sam.core.results.JsonSerializer
 import java.io.File
+import org.eclipse.core.runtime.Path
 
 abstract class AbstractPerformanceTest {
 	
 	protected static final String JSON_RESULT_FOLDER = "./results/json/"
-	protected static final String CONFIG_FILE_PATH = "C:/Users/dani/work/emdw-mc/performancetest.properties"
+	protected static final String CONFIG_FILE_PATH = "./performancetest.properties"
 	
 	
 	def void run(String configFilePath, String jsonResultFolder) {
 		val util = new PropertiesUtil(configFilePath)
-		val _case = new BenchmarkCase(util.multiplicationComponentinside, util.multiplicationComponents, util.modificationTimes)
+		val modelPath = new Path(util.inputModelPath)
+		val modelName = modelPath.removeFileExtension.lastSegment
+		val _case = new BenchmarkCase(modelName, util.multiplicationComponentinside, util.multiplicationComponents, util.modificationTimes)
 		val scenario = _case.performanceScenario
 		
 		val token = new MCDataToken => [

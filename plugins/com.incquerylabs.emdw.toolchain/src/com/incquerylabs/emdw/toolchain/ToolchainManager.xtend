@@ -25,6 +25,7 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
+
 import com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries
 import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
@@ -47,6 +48,7 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
+
 import com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
@@ -438,6 +440,7 @@ class ToolchainManager {
 	def setLogLevel(Level commonLoggingLevel){
 //		logger.level = commonLoggingLevel
 		Logger.getLogger(TransformationQrt.package.name).level = commonLoggingLevel
+		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
 		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
 		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
 	}

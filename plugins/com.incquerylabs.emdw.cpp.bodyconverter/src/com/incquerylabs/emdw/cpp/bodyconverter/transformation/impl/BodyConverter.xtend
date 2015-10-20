@@ -177,12 +177,26 @@ class BodyConverter implements IBodyConverter {
 	private def createSnippet(BodyOwner bodyOwner) throws IndexOutOfBoundsException {
 		var ParsingResults result
 		if(bodyOwner instanceof OpaqueBehavior) {
-			result = parser.parse(bodyOwner, engine)
+			result = parser.parse(bodyOwner.ralfBody,context)
 		} else if(bodyOwner instanceof OpaqueExpression) {
-			result = parser.parse(bodyOwner, engine)
+			result = parser.parse(bodyOwner.ralfBody, context)
 		}
        	//Create the snippet template based on the parsed abstract syntax tree
        	val compiler = new ReducedAlfSnippetTemplateCompiler(new UmlValueDescriptorFactory(engine))
        	return generator.createSnippet(result, context, compiler)
+	}
+	
+	private def String getRalfBody(BodyOwner behavior) {
+		var indexOfRALFBody = -1;
+		for (var i = 0; i < behavior.getLanguages().size() && indexOfRALFBody == -1; i++) {
+			if (behavior.getLanguages().get(i).equals(ReducedAlfParser.LANGUAGE_NAME)) {
+				indexOfRALFBody = i;
+			}
+		}
+		val bodies = behavior.getBodies();
+		if (indexOfRALFBody >= 0) {
+			return bodies.get(indexOfRALFBody);
+		}
+		return null
 	}
 }

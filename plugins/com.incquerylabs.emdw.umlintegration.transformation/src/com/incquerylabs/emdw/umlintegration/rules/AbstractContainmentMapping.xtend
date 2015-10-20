@@ -18,12 +18,12 @@ abstract class AbstractContainmentMapping<Match extends IPatternMatch, Parent ex
 		val parent = match.findParent
 		val child = match.findChild
 		if(parent == null){
-			logger.debug('''Containment edge for «child» without parent not added''')
+			logger.debug('''Containment edge for «child.name» without parent not added''')
 			// save parentless objects to trace model to avoid exceptions on resource saving
 			rootMapping.eResource.contents.add(child)
 		} else {
 			parent.insertChild(child, match)
-			logger.debug('''Added containment edge «parent» -> «child»''')
+			logger.debug('''Added containment edge «parent.name» -> «child.name»''')
 		}
 	}
 	

@@ -18,7 +18,7 @@ abstract class AbstractRecursiveReferenceMapping<Match extends IPatternMatch, Xt
 		val source = match.findSource
 		val target = match.findTarget
 		source.addTarget(target)
-		logger.debug('''Added edge «source» -> «target»''')
+		logger.debug('''Added edge «source.name» -> «target.name»''')
 	}
 	
 	override updated(Match match) {
@@ -28,7 +28,7 @@ abstract class AbstractRecursiveReferenceMapping<Match extends IPatternMatch, Xt
 		val source = match.findSource
 		val target = match.findTarget
 		source.removeTarget(target)
-		logger.debug('''Removed edge «source» -> «target»''')
+		logger.debug('''Removed edge «source.name» -> «target.name»''')
 	}
 
 	/**

@@ -140,6 +140,8 @@ class ComplexModelUtil extends ModelUtil {
 		val resources = resourceSet.resources
 		resources.forEach[it.unload]
 		resources.clear;
+		resourceSet.packageRegistry?.clear
+		resourceSet.eAdapters?.clear
 	}
 	
 	@Deprecated

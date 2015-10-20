@@ -183,7 +183,10 @@ class BodyConverter implements IBodyConverter {
 		}
        	//Create the snippet template based on the parsed abstract syntax tree
        	val compiler = new ReducedAlfSnippetTemplateCompiler(new UmlValueDescriptorFactory(engine))
-       	return generator.createSnippet(result, context, compiler)
+       	val snippet = generator.createSnippet(result, context, compiler)
+       	// FIXME this should be resoult.dispose instead
+       	result.model.eResource.unload
+       	return snippet
 	}
 	
 	private def String getRalfBody(BodyOwner behavior) {

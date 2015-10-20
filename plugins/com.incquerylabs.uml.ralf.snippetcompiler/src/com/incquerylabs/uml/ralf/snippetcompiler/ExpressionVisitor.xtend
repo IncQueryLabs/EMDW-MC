@@ -162,7 +162,7 @@ class ExpressionVisitor {
 	
 	def dispatch ValueDescriptor visit(NullExpression ex, StringBuilder parent){
 		logger.logVisitingStarted(ex)
-		val nullDescriptor = createExistingVariableDescriptor(ex,'''nullptr''', context.thisType)
+		val nullDescriptor = createExistingVariableDescriptor(ex,'''nullptr''', context.getThisType(ex))
 		
 		logger.logVisitingFinished(ex, nullDescriptor.stringRepresentation)
 		return nullDescriptor	

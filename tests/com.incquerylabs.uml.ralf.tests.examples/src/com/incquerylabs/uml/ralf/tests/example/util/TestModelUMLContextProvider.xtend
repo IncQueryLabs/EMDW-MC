@@ -10,6 +10,7 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.emf.ecore.EObject
 
 /**
  * This context provider loads an UML model from a .uml file, returns the known classes, 
@@ -49,7 +50,7 @@ class TestModelUMLContextProvider extends UMLContextProvider {
         IncQueryEngine.on(new EMFScope(resourceSet));
     }
     
-    override getDefinedOperation() {
+    override getDefinedOperation(EObject _context) {
         definedOperation
     }
     

@@ -98,7 +98,7 @@ class ToolchainManager {
 		EXECUTE_DELTA
 	}
 	
-	val Map<Phase, Long> measuredTimes = newHashMap()
+	val Map<Phase, Long> measuredTimes = newTreeMap()[a,b|a.compareTo(b)]
 	
 	@Accessors Model xumlrtModel
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
@@ -535,6 +535,7 @@ class ToolchainManager {
 	}
 	
 	def logMeasuredTimes() {
+		info('''********** Phase durations **********''')
 		measuredTimes.forEach[phase, time |
 			logPhase(phase, time)
 		]

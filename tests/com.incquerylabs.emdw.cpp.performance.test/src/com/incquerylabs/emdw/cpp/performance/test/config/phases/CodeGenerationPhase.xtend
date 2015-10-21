@@ -26,8 +26,7 @@ class CodeGenerationPhase extends AtomicPhase {
 		
 		// WORK START
 		mcToken.toolchainManager.initializeCppCodegeneration
-		val changeMonitor = mcToken.toolchainManager.xtumlChangeMonitor
-		val dirtyComponents = changeMonitor.dirtyXTComponents
+		val dirtyComponents = mcToken.toolchainManager.dirtyXtComponents
 		
 		val cppComponents = dirtyComponents.map[ xtComponent |
 			mcToken.toolchainManager.engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head

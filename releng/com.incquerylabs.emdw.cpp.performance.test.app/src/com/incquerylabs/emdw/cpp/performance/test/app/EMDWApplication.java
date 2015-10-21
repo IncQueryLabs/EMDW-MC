@@ -42,6 +42,10 @@ public class EMDWApplication implements IApplication {
             performanceTest.run(relativePathRoot, configFilePath, targetFolderPath, runIndex);
         }
         System.out.println("EMDW Performance Test App finished");
+//        boolean exit = false;
+//        while(!exit) {
+//            Thread.sleep(10000);
+//        }
         return IApplication.EXIT_OK;
     }
 

@@ -15,7 +15,7 @@ abstract class AbstractPerformanceTest {
 	protected static final String CONFIG_FILE_PATH = "./performancetest.properties"
 	
 	
-	def void run(String configFilePath, String jsonResultFolder, int runIndex) {
+	def void run(String relativePathRoot, String configFilePath, String targetFolder, int runIndex) {
 		val util = new PropertiesUtil(configFilePath)
 		val modelPath = new Path(util.inputModelPath)
 		val modelName = modelPath.removeFileExtension.lastSegment
@@ -26,7 +26,7 @@ abstract class AbstractPerformanceTest {
 		val token = new MCDataToken => [
 			it.scenarioName = scenario.name
 			
-			it.umlModelPath = util.inputModelPath
+			it.umlModelPath = relativePathRoot+util.inputModelPath
 			it.randomSeed = util.randomSeed
 			it.componentInsideScale = util.multiplicationComponentinside
 			it.componentsScale = util.multiplicationComponents
@@ -38,16 +38,19 @@ abstract class AbstractPerformanceTest {
 		token.addLogLine('''Properties file path: «configFilePath»''')
 		
 		val benchmarkEngine = new BenchmarkEngine
-		var resultsFolder = new File(jsonResultFolder)
+		var resultsFolder = new File(targetFolder.jsonResultFolder)
 		if(!resultsFolder.exists){
 			resultsFolder.mkdirs
 		}
-		JsonSerializer::setResultPath(jsonResultFolder)
+		JsonSerializer::setResultPath(targetFolder.jsonResultFolder)
 		
 		benchmarkEngine.runBenchmark(scenario, token)
 		token.printLog
 		token.printMetrics
 	}
+	
+		def String getJsonResultFolder(String targetFolder) '''«targetFolder»«JSON_RESULT_FOLDER»'''
+	
 	
 	def AbstractBenchmarkScenario getPerformanceScenario(BenchmarkCase _case)
 }

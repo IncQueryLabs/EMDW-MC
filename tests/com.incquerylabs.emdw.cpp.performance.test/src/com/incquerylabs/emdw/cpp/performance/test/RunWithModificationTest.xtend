@@ -8,7 +8,7 @@ class RunWithModificationTest extends AbstractPerformanceTest {
 	
 	@Test
 	def void test() {
-		run(CONFIG_FILE_PATH, JSON_RESULT_FOLDER, 1)
+		run("", CONFIG_FILE_PATH, JSON_RESULT_FOLDER, 1)
 	}
 	
 	override getPerformanceScenario(BenchmarkCase _case) {

@@ -39,7 +39,12 @@ public class EMDWApplication implements IApplication {
             String relativePathRoot = getRelativePathRoot(args);
             DynamicPerformanceTest performanceTest = new DynamicPerformanceTest();
             initLogger(targetFolderPath, configFilePath, runIndex);
-            performanceTest.run(relativePathRoot, configFilePath, targetFolderPath, runIndex);
+            
+            performanceTest.setRelativePathRoot(relativePathRoot);
+            performanceTest.setConfigFilePath(configFilePath);
+            performanceTest.setTargetFolder(targetFolderPath);
+            performanceTest.setRunIndex(runIndex);
+            performanceTest.run();
         }
         System.out.println("EMDW Performance Test App finished");
 //        boolean exit = false;

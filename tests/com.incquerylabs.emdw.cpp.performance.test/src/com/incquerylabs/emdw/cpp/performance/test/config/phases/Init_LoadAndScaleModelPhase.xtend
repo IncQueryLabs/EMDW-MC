@@ -17,6 +17,8 @@ import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PackageableElement
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 
 class Init_LoadAndScaleModelPhase extends AtomicPhase {
 	
@@ -41,7 +43,7 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		val umlModel = umlResource.contents.filter(Model).head
 		mcToken.umlModel = umlModel
 		mcToken.addLogLine('''Original model size: «umlModel.eAllContents.size»''')
-		umlModel.eAllContents.toList.sortBy[it.toString].forEach[mcToken.addLogLine(''' * «it»''')]
+		//umlModel.eAllContents.toList.sortBy[it.toString].forEach[mcToken.addLogLine(''' * «it»''')]
 		
 		extension val modelMultiplicator = new ModelMultiplicator
 		// Find top-level components
@@ -52,7 +54,7 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		// Multiplicate components
 		components.ownersSet.forEach[ it.copyPackagedElements(mcToken.componentsScale, Component) ]
 		mcToken.addLogLine('''Multiplicated model size: «umlModel.eAllContents.size»''')
-		umlModel.eAllContents.toList.sortBy[it.toString].forEach[mcToken.addLogLine(''' * «it»''')]
+		//umlModel.eAllContents.toList.sortBy[it.toString].forEach[mcToken.addLogLine(''' * «it»''')]
 		
 		val toolchainManagerBuilder = new ToolchainManagerBuilder
 		val engine = toolchainManagerBuilder.createDefaultEngine(umlResourceSet)
@@ -65,6 +67,8 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 			it.engine = engine
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
+			//it.fileManager = new JavaIOBasedFileManager("../results/output")
+			it.fileManager = new EclipseWorkspaceFileManager("test","src")
 		]
 		val toolchainManager = toolchainManagerBuilder.buildOrGetManager
 		toolchainManager.logLevel = Level.TRACE

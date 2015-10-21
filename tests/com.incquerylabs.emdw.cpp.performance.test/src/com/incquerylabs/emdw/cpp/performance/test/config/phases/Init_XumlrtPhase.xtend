@@ -14,7 +14,7 @@ class Init_XumlrtPhase extends AtomicPhase {
 	}
 	
 	override execute(DataToken token, PhaseResult phaseResult) {
-		print(phaseName)
+		println(phaseName)
 		val mcToken = token as MCDataToken
 		val timer = new TimeMetric("Time")
 		val memory = new MemoryMetric("Memory")

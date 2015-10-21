@@ -28,13 +28,13 @@ class RunWithModificationScenario extends AbstractBenchmarkScenario {
 			new Init_LoadAndScaleModelPhase(Init_LoadAndScaleModelPhaseName),
 			new Init_XumlrtPhase(Init_XumlrtPhaseName),
 			new XumlrtToCppQrtPhase(XumlrtToCppQrtPhaseName),
-			new ChangeMonitorInitializationPhase(ChangeMonitorInitializationPhaseName),
 			new XumlrtToCppComponentStructurePhase(XumlrtToCppComponentStructurePhaseName),
 			new XumlrtToCppBodyCompilePhase(XumlrtToCppBodyCompilePhaseName),
 			new CodeGenerationPhase(CodeGenerationPhaseName),
 			new MakefileGenerationPhase(MakefileGenerationPhaseName),
 			new RuntimeMappingPhase(RuntimeMappingPhaseName),
 			new FileSyncPhase(FileSyncPhaseName),
+			new ChangeMonitorInitializationPhase(ChangeMonitorInitializationPhaseName),
 			new IterationPhase(benchmarkCase.modificationTimes) => [
 				it.phase = new SequencePhase => [
 					it.addPhases(

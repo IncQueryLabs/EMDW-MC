@@ -9,7 +9,7 @@ abstract class AbstractBenchmarkScenario extends BenchmarkScenario {
 	
 	new(BenchmarkCase bencmarkCase) {
 		this.benchmarkCase = bencmarkCase
-		this.size = bencmarkCase.componentsScale * bencmarkCase.componentInsideScale
+		this.size = (bencmarkCase.componentsScale + 1) * (bencmarkCase.componentInsideScale + 1)
 		this.caseName = '''«bencmarkCase.modelName»-«bencmarkCase.componentsScale»x«bencmarkCase.componentInsideScale»'''
 		this.tool = '''EMDW-MC'''
 		this.runIndex = 1

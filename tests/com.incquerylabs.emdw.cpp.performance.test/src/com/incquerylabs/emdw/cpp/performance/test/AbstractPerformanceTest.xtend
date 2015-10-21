@@ -15,12 +15,13 @@ abstract class AbstractPerformanceTest {
 	protected static final String CONFIG_FILE_PATH = "./performancetest.properties"
 	
 	
-	def void run(String configFilePath, String jsonResultFolder) {
+	def void run(String configFilePath, String jsonResultFolder, int runIndex) {
 		val util = new PropertiesUtil(configFilePath)
 		val modelPath = new Path(util.inputModelPath)
 		val modelName = modelPath.removeFileExtension.lastSegment
 		val _case = new BenchmarkCase(modelName, util.multiplicationComponentinside, util.multiplicationComponents, util.modificationTimes)
 		val scenario = _case.performanceScenario
+		scenario.runIndex = runIndex
 		
 		val token = new MCDataToken => [
 			it.scenarioName = scenario.name

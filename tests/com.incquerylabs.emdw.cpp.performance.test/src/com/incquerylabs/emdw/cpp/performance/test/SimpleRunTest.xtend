@@ -8,9 +8,9 @@ class SimpleRunTest extends AbstractPerformanceTest {
 	
 	@Test
 	def void test() {
-		relativePathRoot = "./results/"
+		relativePathRoot = ""
 		configFilePath = CONFIG_FILE_PATH
-		targetFolder = JSON_RESULT_FOLDER
+		targetFolder = "./results/"+JSON_RESULT_FOLDER
 		runIndex = 1
 		run
 	}

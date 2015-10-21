@@ -9,7 +9,9 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableMap
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
@@ -17,15 +19,18 @@ import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
+import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
 import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
+import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
+import com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
-
 import com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries
 import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
@@ -33,6 +38,7 @@ import com.incquerylabs.emdw.umlintegration.queries.Trace
 import com.incquerylabs.emdw.xtuml.incquery.XtumlValidationQueries
 import java.util.Map
 import java.util.Set
+import java.util.concurrent.TimeUnit
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.common.util.URI
@@ -48,12 +54,6 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
-
-import com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries
-import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
-import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 
 class ToolchainManager {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -80,6 +80,26 @@ class ToolchainManager {
 			QueryBasedFeatures.instance
 		)
 	
+	enum Phase {
+		INIT_XUMLRT_QRT,
+		INIT_CPP_PREREQUISITES,
+		INIT_CPP_QRT,
+		INIT_CPP_COMP,
+		INIT_CPP_CODEGEN,
+		INIT_FILEGEN,
+		INIT_MAKEFILE_GEN,
+		EXECUTE_XUMLRT_QRT,
+		EXECUTE_CPP_QRT,
+		EXECUTE_CPP_COMP,
+		EXECUTE_RALF_COMPILE,
+		EXECUTE_CPP_CODEGEN,
+		EXECUTE_CONTENT_GEN,
+		EXECUTE_FILEGEN,
+		EXECUTE_DELTA
+	}
+	
+	val Map<Phase, Long> measuredTimes = newHashMap()
+	
 	@Accessors Model xumlrtModel
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
 	@Accessors Set<UmlIntegrationExtension> extensionServices
@@ -103,9 +123,10 @@ class ToolchainManager {
 	boolean isCppCodegenerationInitialized = false
 	boolean isMakefileGenerationInitialized = false
 	
-	extension XtumlQueries xtumlQueries = XtumlQueries.instance
-	extension CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
-	extension OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val XtumlQueries xtumlQueries = XtumlQueries.instance
+	extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	extension val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	extension val Logger logger = Logger.getLogger(this.class.package.name)
 	
 	IncQueryEngine managedEngine
 	
@@ -115,6 +136,7 @@ class ToolchainManager {
 	
 	def initializeXtTransformation() {
 		if(!isXumlrtTrafoInitialized) {
+			val watch = Stopwatch.createStarted
 			val xUmlRtResource = xumlrtModel.eResource
 			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
 			extensionServices.forEach[initialize(engine, xUmlRtResource)]
@@ -123,27 +145,35 @@ class ToolchainManager {
 			xtTrafo.initialize(engine)
 			
 			isXumlrtTrafoInitialized = true
+			watch.logTime(Phase.INIT_XUMLRT_QRT)
 		}
 	}
 	
 	def initializeCppQrtTransformation() {
 		initializeCppTransformationPrerequisites
 		if(!isCppQrtTrafoInitialized) {
+			val watch = Stopwatch.createStarted
 			cppQrtTrafo.initialize(engine)
 			isCppQrtTrafoInitialized = true
+			
+			watch.logTime(Phase.INIT_CPP_QRT)
 		}
 	}
 	
 	def initializeCppComponentTransformation() {
 		initializeCppTransformationPrerequisites
 		if(! isCppCompTrafoInitialized){
+			val watch = Stopwatch.createStarted
 			cppCompTrafo.initialize(engine)
 			isCppCompTrafoInitialized = true
+			
+			watch.logTime(Phase.INIT_CPP_COMP)
 		}
 	}
 	
 	protected def initializeCppTransformationPrerequisites() {
 		if(!areCppPrerequisitesInitialized) {
+			val watch = Stopwatch.createStarted
 			val resourceSet = xumlrtModel.eResource.resourceSet
 			managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 			GenericPatternGroup.of(
@@ -154,69 +184,102 @@ class ToolchainManager {
 			resourceSet.loadDefaultContainerImplementations
 			
 			areCppPrerequisitesInitialized = true
+			
+			watch.logTime(Phase.INIT_CPP_PREREQUISITES)
 		}
 	}
 	
 	def initializeCppCodegeneration() {
 		if(!isCppCodegenerationInitialized){
+			val watch = Stopwatch.createStarted
 			cppCodeGeneration.initialize(engine)
 			isCppCodegenerationInitialized = true
+			
+			watch.logTime(Phase.INIT_CPP_CODEGEN)
 		}
 	}
 	
 	def initializeMakefileGeneration() {
 		if(!isMakefileGenerationInitialized) {
+			val watch = Stopwatch.createStarted
 			makefileGeneration.initialize()
 			isMakefileGenerationInitialized = true
+			
+			watch.logTime(Phase.INIT_MAKEFILE_GEN)
 		}
 	}
 	
 	// Incremental transformations
 	def executeXtTransformation() {
+		val watch = Stopwatch.createStarted
 		xtTrafo.execute
+		
+		watch.logTime(Phase.EXECUTE_XUMLRT_QRT)
 	}
 	
 	def executeCppQrtTransformation() {
+		val watch = Stopwatch.createStarted
 		getOrCreateCPPModel
 		cppQrtTrafo.execute
+		
+		watch.logTime(Phase.EXECUTE_CPP_QRT)
 	}
 	
 	// CPP transform for ALL components
 	def executeCppStructureTransformation() {
+		val watch = Stopwatch.createStarted
 		val cppModel = getOrCreateCPPModel
 		val cppResource = cppModel.eResource
 		createMissingExternalLibrary(cppResource)
 		
 		cppCompTrafo.transformComponents
+		
+		watch.logTime(Phase.EXECUTE_CPP_COMP)
 	}
 	
 	def executeCppActionCodeCompile() {
+		val watch = Stopwatch.createStarted
 		cppCompTrafo.compileActionCodes
+		
+		watch.logTime(Phase.EXECUTE_RALF_COMPILE)
 	}
 	
 	// CPP transform for single component
 	def executeCppStructureTransformation(XTComponent component) {
+		val watch = Stopwatch.createStarted
 		val cppModel = getOrCreateCPPModel
 		val cppResource = cppModel.eResource
 		createMissingExternalLibrary(cppResource)
 		
 		cppCompTrafo.transformComponent(component)
+		
+		watch.logPartTime(Phase.EXECUTE_CPP_COMP)
 	}
 	
 	def executeCppActionCodeCompile(XTComponent component) {
+		val watch = Stopwatch.createStarted
 		cppCompTrafo.compileActionCodes(component)
+		
+		watch.logPartTime(Phase.EXECUTE_RALF_COMPILE)
 	}
 	
 	// CPP code generation for single component
 	def executeCppCodeGeneration(CPPComponent cppComponent) {
+		val watch = Stopwatch.createStarted
 		cppCodeGeneration.execute(cppComponent)
+		
+		watch.logPartTime(Phase.EXECUTE_CPP_CODEGEN)
 		return cppCodeGeneration.generatedCPPSourceFiles
 	}
 	
 	// File generation
 	def executeFileGeneration(CPPModel cppModel, CPPDirectory runtimeDirectory, Map<CPPSourceFile, CharSequence> cppSourceFileContents){
+		val watch = Stopwatch.createStarted
 		checkNotNull(fileManager)
 		filegen.initialize(engine, fileManager, ImmutableMap.copyOf(cppSourceFileContents))
+		
+		watch.logTime(Phase.INIT_FILEGEN)
+		watch.reset.start
 		// Model based file generation
 		filegen.execute(cppModel.headerDir)
 		if(cppModel.bodyDir != cppModel.headerDir){
@@ -224,6 +287,7 @@ class ToolchainManager {
 		}
 		// Runtime, Makefile and main.cc generation
 		filegen.execute(runtimeDirectory)
+		watch.logTime(Phase.EXECUTE_FILEGEN)
 	}
 	
 	
@@ -248,6 +312,7 @@ class ToolchainManager {
 	}
 	
 	def executeDeltaCodeAndFileGeneration() {
+		val watch = Stopwatch.createStarted
 		createChangeMonitorCheckpoint()
 		
 		// get dirty components
@@ -271,9 +336,12 @@ class ToolchainManager {
 		performMakefileGeneration(cppModel, runtimeCppDir)
 		val allCppComponents = engine.cppComponents.getAllValuesOfcppComponent
 		performMainGeneration(allCppComponents)
+		
+		watch.logTime(Phase.EXECUTE_DELTA)
 	}
 	
 	def executeFileContentGeneration(Iterable<XTComponent> componentsToTransform, CPPModel cppModel, CPPDirectory runtimeCppDir) {
+		val watch = Stopwatch.createStarted
 		val cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
 		// CPP code generation for components
 		componentsToTransform.forEach[ xtComponent |
@@ -288,6 +356,7 @@ class ToolchainManager {
 		performRulesMkGeneration(makefileGeneration, cppModel)
 		cppSourceFileContents.putAll(makefileGeneration.generatedCPPMakeFiles)
 		
+		watch.logTime(Phase.EXECUTE_CONTENT_GEN)
 		cppSourceFileContents
 	}
 	
@@ -444,10 +513,65 @@ class ToolchainManager {
 	}
 	
 	def setLogLevel(Level commonLoggingLevel){
-//		logger.level = commonLoggingLevel
+		logger.level = commonLoggingLevel
 		Logger.getLogger(TransformationQrt.package.name).level = commonLoggingLevel
 		Logger.getLogger(MakefileGeneration.package.name).level = commonLoggingLevel
 		Logger.getLogger(XtumlComponentCPPTransformation.package.name).level = commonLoggingLevel
 		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
+	}
+	
+	def logTime(Stopwatch watch, Phase phase) {
+		watch.stop
+		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
+		measuredTimes.put(phase, elapsedTime)
+		logPhase(phase, elapsedTime)
+	}
+	
+	def logPartTime(Stopwatch watch, Phase phase) {
+		watch.stop
+		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
+		measuredTimes.addTime(phase, elapsedTime)
+		logPhase(phase, elapsedTime)
+	}
+	
+	def logMeasuredTimes() {
+		measuredTimes.forEach[phase, time |
+			logPhase(phase, time)
+		]
+	}
+	
+	def logPhase(Phase phase, long time){
+		switch phase {
+			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms''')
+			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms''')
+			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms''')
+			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms''')
+			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms''')
+			case INIT_FILEGEN: info('''File generation initialization: «time» ms''')
+			case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms''')
+			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms''')
+			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms''')
+			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms''')
+			case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms''')
+			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms''')
+			case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms''')
+			case EXECUTE_FILEGEN: info('''File generation: «time» ms''')
+			case EXECUTE_DELTA: info('''Delta transformation: «time» ms''')
+			default : info('''Unknown phase: «time» ms''')
+		}
+	}
+	
+	def addTime(Map<Phase, Long> measurements, Phase phase, long amount) {
+		if(measurements.containsKey(phase)){
+			val newTime = measurements.get(phase) + amount
+			measurements.put(phase, newTime)
+		}
+		else {
+			measurements.put(phase, amount)
+		}
+	}
+	
+	def clearMeasuredTimes() {
+		measuredTimes.clear
 	}
 }

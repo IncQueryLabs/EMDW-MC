@@ -63,11 +63,13 @@ class ToolchainTest {
 			
 		]
 		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchainManager.clearMeasuredTimes
 		toolchainManager.logLevel = Level.TRACE
 		
 		
 		initializeTransformations()
 		executeTransformations()
+		toolchainManager.logMeasuredTimes
 		
 		saveResources()
 	}

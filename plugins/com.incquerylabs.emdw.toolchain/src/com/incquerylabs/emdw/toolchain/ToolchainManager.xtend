@@ -145,10 +145,7 @@ class ToolchainManager {
 			xtTrafo.initialize(engine)
 			
 			isXumlrtTrafoInitialized = true
-			
-			val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-			measuredTimes.put(Phase.INIT_XUMLRT_QRT, elapsedTime)
-			info('''Initialization of uml to xuml-rt transformation finished in «elapsedTime» ms.''')
+			watch.logTime(Phase.INIT_XUMLRT_QRT)
 		}
 	}
 	
@@ -159,9 +156,7 @@ class ToolchainManager {
 			cppQrtTrafo.initialize(engine)
 			isCppQrtTrafoInitialized = true
 			
-			val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-			measuredTimes.put(Phase.INIT_CPP_QRT, elapsedTime)
-			info('''Initialization of xuml-rt to cppmodel QRT transformation finished in «elapsedTime» ms.''')
+			watch.logTime(Phase.INIT_CPP_QRT)
 		}
 	}
 	
@@ -172,9 +167,7 @@ class ToolchainManager {
 			cppCompTrafo.initialize(engine)
 			isCppCompTrafoInitialized = true
 			
-			val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-			measuredTimes.put(Phase.INIT_CPP_COMP, elapsedTime)
-			info('''Initialization of xuml-rt to cppmodel component transformation finished in «elapsedTime» ms.''')
+			watch.logTime(Phase.INIT_CPP_COMP)
 		}
 	}
 	
@@ -192,9 +185,7 @@ class ToolchainManager {
 			
 			areCppPrerequisitesInitialized = true
 			
-			val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-			measuredTimes.put(Phase.INIT_CPP_PREREQUISITES, elapsedTime)
-			info('''Initialization of cpp transformation prerequisites finished in «elapsedTime» ms.''')
+			watch.logTime(Phase.INIT_CPP_PREREQUISITES)
 		}
 	}
 	
@@ -204,9 +195,7 @@ class ToolchainManager {
 			cppCodeGeneration.initialize(engine)
 			isCppCodegenerationInitialized = true
 			
-			val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-			measuredTimes.put(Phase.INIT_CPP_CODEGEN, elapsedTime)
-			info('''Initialization of cpp code generation finished in «elapsedTime» ms.''')
+			watch.logTime(Phase.INIT_CPP_CODEGEN)
 		}
 	}
 	
@@ -216,9 +205,7 @@ class ToolchainManager {
 			makefileGeneration.initialize()
 			isMakefileGenerationInitialized = true
 			
-			val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-			measuredTimes.put(Phase.INIT_MAKEFILE_GEN, elapsedTime)
-			info('''Initialization of makefile generation finished in «elapsedTime» ms.''')
+			watch.logTime(Phase.INIT_MAKEFILE_GEN)
 		}
 	}
 	
@@ -227,9 +214,7 @@ class ToolchainManager {
 		val watch = Stopwatch.createStarted
 		xtTrafo.execute
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_XUMLRT_QRT, elapsedTime)
-		info('''Manually triggered uml to xuml-rt transformation finished in «elapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_XUMLRT_QRT)
 	}
 	
 	def executeCppQrtTransformation() {
@@ -237,9 +222,7 @@ class ToolchainManager {
 		getOrCreateCPPModel
 		cppQrtTrafo.execute
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_CPP_QRT, elapsedTime)
-		info('''Manually triggered xuml-rt to cppmodel QRT transformation finished in «elapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_CPP_QRT)
 	}
 	
 	// CPP transform for ALL components
@@ -251,18 +234,14 @@ class ToolchainManager {
 		
 		cppCompTrafo.transformComponents
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_CPP_COMP, elapsedTime)
-		info('''Execution of xuml-rt to cppmodel component structure transformation finished in «elapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_CPP_COMP)
 	}
 	
 	def executeCppActionCodeCompile() {
 		val watch = Stopwatch.createStarted
 		cppCompTrafo.compileActionCodes
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_RALF_COMPILE, elapsedTime)
-		info('''Execution of action code compile finished in «elapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_RALF_COMPILE)
 	}
 	
 	// CPP transform for single component
@@ -274,18 +253,14 @@ class ToolchainManager {
 		
 		cppCompTrafo.transformComponent(component)
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.addTime(Phase.EXECUTE_CPP_COMP, elapsedTime)
-		info('''Execution of xuml-rt to cppmodel single component structure transformation finished in «elapsedTime» ms.''')
+		watch.logPartTime(Phase.EXECUTE_CPP_COMP)
 	}
 	
 	def executeCppActionCodeCompile(XTComponent component) {
 		val watch = Stopwatch.createStarted
 		cppCompTrafo.compileActionCodes(component)
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.addTime(Phase.EXECUTE_RALF_COMPILE, elapsedTime)
-		info('''Execution of action code  compile for single component finished in «elapsedTime» ms.''')
+		watch.logPartTime(Phase.EXECUTE_RALF_COMPILE)
 	}
 	
 	// CPP code generation for single component
@@ -293,9 +268,7 @@ class ToolchainManager {
 		val watch = Stopwatch.createStarted
 		cppCodeGeneration.execute(cppComponent)
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.addTime(Phase.EXECUTE_CPP_CODEGEN, elapsedTime)
-		info('''Execution of cpp code generation for single component finished in «elapsedTime» ms.''')
+		watch.logPartTime(Phase.EXECUTE_CPP_CODEGEN)
 		return cppCodeGeneration.generatedCPPSourceFiles
 	}
 	
@@ -305,9 +278,7 @@ class ToolchainManager {
 		checkNotNull(fileManager)
 		filegen.initialize(engine, fileManager, ImmutableMap.copyOf(cppSourceFileContents))
 		
-		val initElapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.INIT_FILEGEN, initElapsedTime)
-		info('''Initialization of file generation finished in «initElapsedTime» ms.''')
+		watch.logTime(Phase.INIT_FILEGEN)
 		watch.reset.start
 		// Model based file generation
 		filegen.execute(cppModel.headerDir)
@@ -316,9 +287,7 @@ class ToolchainManager {
 		}
 		// Runtime, Makefile and main.cc generation
 		filegen.execute(runtimeDirectory)
-		val executeElapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_FILEGEN, executeElapsedTime)
-		info('''Execution of file generation finished in «executeElapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_FILEGEN)
 	}
 	
 	
@@ -368,9 +337,7 @@ class ToolchainManager {
 		val allCppComponents = engine.cppComponents.getAllValuesOfcppComponent
 		performMainGeneration(allCppComponents)
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_DELTA, elapsedTime)
-		info('''Execution of delta transformation finished in «elapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_DELTA)
 	}
 	
 	def executeFileContentGeneration(Iterable<XTComponent> componentsToTransform, CPPModel cppModel, CPPDirectory runtimeCppDir) {
@@ -389,9 +356,7 @@ class ToolchainManager {
 		performRulesMkGeneration(makefileGeneration, cppModel)
 		cppSourceFileContents.putAll(makefileGeneration.generatedCPPMakeFiles)
 		
-		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
-		measuredTimes.put(Phase.EXECUTE_CONTENT_GEN, elapsedTime)
-		info('''Execution of all file content generation finished in «elapsedTime» ms.''')
+		watch.logTime(Phase.EXECUTE_CONTENT_GEN)
 		cppSourceFileContents
 	}
 	
@@ -555,27 +520,45 @@ class ToolchainManager {
 		Logger.getLogger(CPPCodeGeneration.package.name).level = commonLoggingLevel
 	}
 	
+	def logTime(Stopwatch watch, Phase phase) {
+		watch.stop
+		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
+		measuredTimes.put(phase, elapsedTime)
+		logPhase(phase, elapsedTime)
+	}
+	
+	def logPartTime(Stopwatch watch, Phase phase) {
+		watch.stop
+		val elapsedTime = watch.elapsed(TimeUnit.MILLISECONDS)
+		measuredTimes.addTime(phase, elapsedTime)
+		logPhase(phase, elapsedTime)
+	}
+	
 	def logMeasuredTimes() {
-		measuredTimes.forEach[phase, time|
-			switch phase {
-				case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms''')
-				case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms''')
-				case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms''')
-				case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms''')
-				case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms''')
-				case INIT_FILEGEN: info('''File generation initialization: «time» ms''')
-				case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms''')
-				case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms''')
-				case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms''')
-				case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms''')
-				case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms''')
-				case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms''')
-				case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms''')
-				case EXECUTE_FILEGEN: info('''File generation: «time» ms''')
-				case EXECUTE_DELTA: info('''Delta transformation: «time» ms''')
-				default : info('''Unknown phase: «time» ms''')
-			}
+		measuredTimes.forEach[phase, time |
+			logPhase(phase, time)
 		]
+	}
+	
+	def logPhase(Phase phase, long time){
+		switch phase {
+			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms''')
+			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms''')
+			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms''')
+			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms''')
+			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms''')
+			case INIT_FILEGEN: info('''File generation initialization: «time» ms''')
+			case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms''')
+			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms''')
+			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms''')
+			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms''')
+			case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms''')
+			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms''')
+			case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms''')
+			case EXECUTE_FILEGEN: info('''File generation: «time» ms''')
+			case EXECUTE_DELTA: info('''Delta transformation: «time» ms''')
+			default : info('''Unknown phase: «time» ms''')
+		}
 	}
 	
 	def addTime(Map<Phase, Long> measurements, Phase phase, long amount) {

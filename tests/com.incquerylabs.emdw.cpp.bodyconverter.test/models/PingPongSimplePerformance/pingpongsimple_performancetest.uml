@@ -67,8 +67,8 @@
           <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxQvghmkEeWkDIIs2OLK7g" value="1"/>
         </ownedEnd>
       </packagedElement>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_iBpxsBmpEeW8avfFxjlgXw" name="ping_se" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_mfmjsBmpEeW8avfFxjlgXw" name="pong_se" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
     </packagedElement>
   </packagedElement>
-  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_iBpxsBmpEeW8avfFxjlgXw" name="ping_se" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
-  <packagedElement xmi:type="uml:SignalEvent" xmi:id="_mfmjsBmpEeW8avfFxjlgXw" name="pong_se" signal="_7HLzEBmmEeWkDIIs2OLK7g"/>
 </uml:Model>

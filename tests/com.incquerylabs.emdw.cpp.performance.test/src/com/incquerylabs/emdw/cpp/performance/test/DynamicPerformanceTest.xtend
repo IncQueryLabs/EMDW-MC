@@ -9,7 +9,11 @@ class DynamicPerformanceTest extends AbstractPerformanceTest {
 	
 	@Test
 	def void test() {
-		run("./results/", CONFIG_FILE_PATH, JSON_RESULT_FOLDER, 1)
+		relativePathRoot = "./results/"
+		configFilePath = CONFIG_FILE_PATH
+		targetFolder = JSON_RESULT_FOLDER
+		runIndex = 1
+		run
 	}
 	
 	override getPerformanceScenario(BenchmarkCase _case) {

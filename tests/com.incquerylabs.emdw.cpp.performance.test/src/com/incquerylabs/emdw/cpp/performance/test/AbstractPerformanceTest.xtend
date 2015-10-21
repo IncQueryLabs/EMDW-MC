@@ -8,14 +8,21 @@ import eu.mondo.sam.core.BenchmarkEngine
 import eu.mondo.sam.core.results.JsonSerializer
 import java.io.File
 import org.eclipse.core.runtime.Path
+import org.eclipse.xtend.lib.annotations.Accessors
 
+@Accessors
 abstract class AbstractPerformanceTest {
 	
 	protected static final String JSON_RESULT_FOLDER = "./json/"
 	protected static final String CONFIG_FILE_PATH = "./performancetest.properties"
 	
+	protected String relativePathRoot
+	protected String configFilePath
+	protected String targetFolder
+	protected int runIndex
 	
-	def void run(String relativePathRoot, String configFilePath, String targetFolder, int runIndex) {
+	
+	def void run() {
 		val util = new PropertiesUtil(configFilePath)
 		val modelPath = new Path(util.inputModelPath)
 		val modelName = modelPath.removeFileExtension.lastSegment
@@ -49,8 +56,7 @@ abstract class AbstractPerformanceTest {
 		token.printMetrics
 	}
 	
-		def String getJsonResultFolder(String targetFolder) '''«targetFolder»«JSON_RESULT_FOLDER»'''
-	
+	def String getJsonResultFolder(String targetFolder) '''«targetFolder»«JSON_RESULT_FOLDER»'''
 	
 	def AbstractBenchmarkScenario getPerformanceScenario(BenchmarkCase _case)
 }

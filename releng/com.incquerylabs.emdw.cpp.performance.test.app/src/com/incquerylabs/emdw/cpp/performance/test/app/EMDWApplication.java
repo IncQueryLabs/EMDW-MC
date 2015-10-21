@@ -14,6 +14,12 @@ import org.eclipse.equinox.app.IApplicationContext;
 import com.incquerylabs.emdw.cpp.performance.test.DynamicPerformanceTest;
 
 public class EMDWApplication implements IApplication {
+    public static final String ARGS_HELP = "We need these arguments:\n" +
+                                           " * first arg: properties file path\n" +
+                                           " * second arg: run index (integer)\n" +
+                                           " * third arg: target folder for result json and log\n" +
+                                           " * fourth arg (optional): relative path root for the uml model";
+    
     public static final String DEFAULT_RESULT_FOLDER = "./results/json/";
     
     /* (non-Javadoc)
@@ -24,27 +30,47 @@ public class EMDWApplication implements IApplication {
         System.out.println("EMDW Performance Test App started");
         System.out.println("Arguments:");
         args.forEach( arg -> System.out.println(" * "+arg));
-        if(args==null || args.size()==0) {
-            System.out.println("Properties file path need to be passed!");
-//          throw new IllegalArgumentException("Properties file path need to be passed!");
-        } else if(args.size()==1) {
-            DynamicPerformanceTest performanceTest = new DynamicPerformanceTest();
-            initLogger(args.get(0), 1);
-            performanceTest.run(args.get(0), DEFAULT_RESULT_FOLDER, 1);
-        } else if(args.size()==2) {
-            DynamicPerformanceTest performanceTest = new DynamicPerformanceTest();
-            initLogger(args.get(0), 1);
-            performanceTest.run(args.get(0), DEFAULT_RESULT_FOLDER, Integer.parseInt(args.get(1)));
-        } else if(args.size()==3) {
-            DynamicPerformanceTest performanceTest = new DynamicPerformanceTest();
-            initLogger(args.get(0), Integer.parseInt(args.get(1)));
-            performanceTest.run(args.get(0), args.get(2), Integer.parseInt(args.get(1)));
+        if(args==null || args.size()>4 || args.size()<3) {
+            System.out.println(ARGS_HELP);
         } else {
-            System.out.println("Too much arguments!");
-//          throw new IllegalArgumentException("Too much arguments!");
+            String configFilePath = getConfigFilePath(args);
+            int runIndex = getRunIndex(args);
+            String targetFolderPath = getTargetFolderPath(args);
+            String relativePathRoot = getRelativePathRoot(args);
+            DynamicPerformanceTest performanceTest = new DynamicPerformanceTest();
+            initLogger(targetFolderPath, configFilePath, runIndex);
+            performanceTest.run(relativePathRoot, configFilePath, targetFolderPath, runIndex);
         }
         System.out.println("EMDW Performance Test App finished");
         return IApplication.EXIT_OK;
+    }
+
+    private String getConfigFilePath(List<String> args) {
+        return args.get(0);
+    }
+
+    private int getRunIndex(List<String> args) {
+        return Integer.parseInt(args.get(1));
+    }
+
+    private String getTargetFolderPath(List<String> args) {
+        return checkFolderEnding(args.get(2));
+    }
+
+    private String getRelativePathRoot(List<String> args) {
+        if(args.size()==4) {
+            return checkFolderEnding(args.get(3));
+        } else {
+            return "";
+        }
+    }
+
+    private String checkFolderEnding(String folderPath) {
+        if(folderPath.endsWith("/")) {
+            return folderPath;
+        } else {
+            return folderPath+"/";
+        }
     }
 
     /* (non-Javadoc)
@@ -54,15 +80,13 @@ public class EMDWApplication implements IApplication {
         // nothing to do
     }
     
-    static String COMMON_LAYOUT = "%c{1} - %m%n";
+    static String COMMON_LAYOUT = "%30.30c - %m%n";
 	static String FILE_LOG_LAYOUT_PREFIX = "[%d{MMM/dd HH:mm:ss}] ";
 	
-    
-
-	private void initLogger(String configFile, int runIndex) {	
+	private void initLogger(String targetFolder, String configFile, int runIndex) {	
 		Logger.getLogger("org.eclipse.incquery").setLevel(Level.INFO);
 		
-		String logFilePath = "./results/log/log_"+configFile.replace("/", "_")+"_startedAt_"+System.currentTimeMillis()+".log";
+		String logFilePath = targetFolder + "./log/log_" + configFile.replace("/", "_").replace(':', '_') + "_startedAt_" + System.currentTimeMillis() + ".log";
 		FileAppender fileAppender;
 		try {
 			fileAppender = new FileAppender(new PatternLayout(FILE_LOG_LAYOUT_PREFIX+COMMON_LAYOUT),logFilePath,true);

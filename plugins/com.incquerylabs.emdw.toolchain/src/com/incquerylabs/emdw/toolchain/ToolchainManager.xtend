@@ -11,6 +11,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableMap
+import com.google.common.collect.Maps
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
@@ -98,7 +99,7 @@ class ToolchainManager {
 		EXECUTE_DELTA
 	}
 	
-	val Map<Phase, Long> measuredTimes = newHashMap()
+	val Map<Phase, Long> measuredTimes = Maps.newEnumMap(Phase)
 	
 	@Accessors Model xumlrtModel
 	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
@@ -535,6 +536,7 @@ class ToolchainManager {
 	}
 	
 	def logMeasuredTimes() {
+		info('''********** Phase durations **********''')
 		measuredTimes.forEach[phase, time |
 			logPhase(phase, time)
 		]

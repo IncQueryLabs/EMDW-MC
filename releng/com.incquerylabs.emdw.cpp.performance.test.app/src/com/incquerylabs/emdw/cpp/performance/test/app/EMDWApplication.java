@@ -86,7 +86,7 @@ public class EMDWApplication implements IApplication {
 	private void initLogger(String targetFolder, String configFile, int runIndex) {	
 		Logger.getLogger("org.eclipse.incquery").setLevel(Level.INFO);
 		
-		String logFilePath = targetFolder + "./results/log/log_" + configFile.replace("/", "_").replace(':', '_') + "_startedAt_" + System.currentTimeMillis() + ".log";
+		String logFilePath = targetFolder + "./log/log_" + configFile.replace("/", "_").replace(':', '_') + "_startedAt_" + System.currentTimeMillis() + ".log";
 		FileAppender fileAppender;
 		try {
 			fileAppender = new FileAppender(new PatternLayout(FILE_LOG_LAYOUT_PREFIX+COMMON_LAYOUT),logFilePath,true);

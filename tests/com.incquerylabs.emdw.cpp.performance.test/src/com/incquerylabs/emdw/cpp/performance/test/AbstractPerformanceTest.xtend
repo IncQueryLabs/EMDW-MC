@@ -11,7 +11,7 @@ import org.eclipse.core.runtime.Path
 
 abstract class AbstractPerformanceTest {
 	
-	protected static final String JSON_RESULT_FOLDER = "./results/json/"
+	protected static final String JSON_RESULT_FOLDER = "./json/"
 	protected static final String CONFIG_FILE_PATH = "./performancetest.properties"
 	
 	

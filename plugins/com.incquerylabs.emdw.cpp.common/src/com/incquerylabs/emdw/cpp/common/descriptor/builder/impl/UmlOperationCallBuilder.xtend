@@ -35,7 +35,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	
 	
 	override build() {
-		val xtParams = params.map[new XtTypedValueDescriptor(mapper.convertType(type), descriptor)]
+		val xtParams = params?.map[new XtTypedValueDescriptor(mapper.convertType(type), descriptor)]
 		builder => [
 			it.variable = variable
 			it.parameters = xtParams

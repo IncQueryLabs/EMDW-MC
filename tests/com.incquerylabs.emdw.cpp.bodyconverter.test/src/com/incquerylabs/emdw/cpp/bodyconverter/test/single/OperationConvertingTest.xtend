@@ -202,7 +202,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				this.integerMultiProperty.add(1);
 				''',
 				'''
-				::xumlrt_runtime::xumlrt_runtime::collections::set::basic_set::set::add(this->integerMultiProperty, 1);'''
+				::xumlrt::collections::set::basic_set::add(this->integerMultiProperty, 1);'''
 			],
 			#[  "Instances expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

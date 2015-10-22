@@ -136,8 +136,7 @@ class LinkDescriptorForOne2ManyAssociationTest extends AbstractLinkUnlinkDescrip
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 			'''
-			«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».push_back(«TARGET_VARIABLE_NAME»);
-			true;
+			::xumlrt::collections::list::basic_list::add(«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME», «TARGET_VARIABLE_NAME»);
 			«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME» = «SOURCE_VARIABLE_NAME»'''
 	}
 	
@@ -157,8 +156,7 @@ class LinkDescriptorForMany2OneAssociationTest extends AbstractLinkUnlinkDescrip
 		EXPECTED_REPRESENTATION =
 		'''
 		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME» = «TARGET_VARIABLE_NAME»;
-		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».push_back(«SOURCE_VARIABLE_NAME»);
-		true'''
+		::xumlrt::collections::list::basic_list::add(«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME», «SOURCE_VARIABLE_NAME»)'''
 	}
 	
 	override protected prepareAssociation(Component comp) {
@@ -176,10 +174,8 @@ class LinkDescriptorForMany2ManyAssociationTest extends AbstractLinkUnlinkDescri
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 		'''
-		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».push_back(«TARGET_VARIABLE_NAME»);
-		true;
-		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».push_back(«SOURCE_VARIABLE_NAME»);
-		true'''
+		::xumlrt::collections::list::basic_list::add(«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME», «TARGET_VARIABLE_NAME»);
+		::xumlrt::collections::list::basic_list::add(«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME», «SOURCE_VARIABLE_NAME»)'''
 	}
 	
 	override protected prepareAssociation(Component comp) {
@@ -237,7 +233,7 @@ class UnlinkDescriptorForOne2ManyAssociationTest extends AbstractLinkUnlinkDescr
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 			'''
-			«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».remove(«TARGET_VARIABLE_NAME»);
+			::xumlrt::collections::list::basic_list::remove(«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME», «TARGET_VARIABLE_NAME»);
 			«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME» = nullptr'''
 	}
 	
@@ -257,7 +253,7 @@ class UnlinkDescriptorForMany2OneAssociationTest extends AbstractLinkUnlinkDescr
 		EXPECTED_REPRESENTATION =
 		'''
 		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME» = nullptr;
-		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».remove(«SOURCE_VARIABLE_NAME»)'''
+		::xumlrt::collections::list::basic_list::remove(«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME», «SOURCE_VARIABLE_NAME»)'''
 	}
 	
 	override protected prepareAssociation(Component comp) {
@@ -275,8 +271,8 @@ class UnlinkDescriptorForMany2ManyAssociationTest extends AbstractLinkUnlinkDesc
 	override setExpectedRepresentation() {
 		EXPECTED_REPRESENTATION =
 		'''
-		«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME».remove(«TARGET_VARIABLE_NAME»);
-		«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME».remove(«SOURCE_VARIABLE_NAME»)'''
+		::xumlrt::collections::list::basic_list::remove(«SOURCE_VARIABLE_NAME»->«ASSOCIATION_NAME»_«TARGET_PROPERTY_NAME», «TARGET_VARIABLE_NAME»);
+		::xumlrt::collections::list::basic_list::remove(«TARGET_VARIABLE_NAME»->«ASSOCIATION_NAME»_«SOURCE_PROPERTY_NAME», «SOURCE_VARIABLE_NAME»)'''
 	}
 	
 	override protected prepareAssociation(Component comp) {

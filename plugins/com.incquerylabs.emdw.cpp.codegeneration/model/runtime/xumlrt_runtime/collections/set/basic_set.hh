@@ -10,16 +10,16 @@ namespace set {
 namespace basic_set {
 
 template <class E>
-bool isEmpty(const std::set<E>& collection);
+inline bool isEmpty(const std::set<E>& collection);
 
 template <class E>
-unsigned size(const std::set<E>& collection);
+inline unsigned size(const std::set<E>& collection);
 
 template <class ContainedElement, class ActualElement>
-bool add(std::set<ContainedElement>& collection, ActualElement element);
+inline bool add(std::set<ContainedElement>& collection, ActualElement element);
 
 template <class E, class Collection>
-bool addAll(std::set<E>& collection, Collection elements);
+inline bool addAll(std::set<E>& collection, Collection elements);
 
 }
 }

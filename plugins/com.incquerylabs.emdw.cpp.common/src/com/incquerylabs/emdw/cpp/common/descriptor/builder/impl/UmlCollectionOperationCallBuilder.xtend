@@ -19,7 +19,7 @@ class UmlCollectionOperationCallBuilder implements IUmlCollectionOperationCallBu
 
 	ValueDescriptor variable
 	Operation operation
-	List<UmlTypedValueDescriptor<? extends ValueDescriptor>> params
+	List<UmlTypedValueDescriptor<? extends ValueDescriptor>> params  = #[]
 	Type elementType
 
 	IOoplCollectionOperationCallBuilder builder

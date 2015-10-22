@@ -10,22 +10,22 @@ namespace list {
 namespace basic_list {
 
 template <class E>
-bool isEmpty(const std::list<E>& collection);
+inline bool isEmpty(const std::list<E>& collection);
 
 template <class E>
-unsigned size(const std::list<E>& collection);
+inline unsigned size(const std::list<E>& collection);
 
 template <class ContainedElement, class ActualElement>
-void add(std::list<ContainedElement>& collection, ActualElement element);
+inline void add(std::list<ContainedElement>& collection, ActualElement element);
 
 template <class ContainedElement, class ActualElement>
-void add(std::list<ContainedElement>& collection, unsigned idx, ActualElement element);
+inline void add(std::list<ContainedElement>& collection, unsigned idx, ActualElement element);
 
 template <class ContainedElement, class ActualElement>
-void remove(std::list<ContainedElement>& collection, ActualElement element);
+inline void remove(std::list<ContainedElement>& collection, ActualElement element);
 
 template <class E>
-E get(const std::list<E>& collection, unsigned idx);
+inline E get(const std::list<E>& collection, unsigned idx);
 
 }
 }

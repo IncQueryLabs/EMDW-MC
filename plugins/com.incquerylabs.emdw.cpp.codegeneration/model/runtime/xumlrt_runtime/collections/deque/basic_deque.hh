@@ -10,19 +10,19 @@ namespace deque {
 namespace basic_deque {
 
 template <class E>
-bool isEmpty(const std::deque<E>& collection);
+inline bool isEmpty(const std::deque<E>& collection);
 
 template <class E>
-unsigned size(const std::deque<E>& collection);
+inline unsigned size(const std::deque<E>& collection);
 
 template <class ContainedElement, class ActualElement>
-void add(std::deque<ContainedElement>& collection, ActualElement element);
+inline void add(std::deque<ContainedElement>& collection, ActualElement element);
 
 template <class ContainedElement, class ActualElement>
-void add(std::deque<ContainedElement>& collection, unsigned idx, ActualElement element);
+inline void add(std::deque<ContainedElement>& collection, unsigned idx, ActualElement element);
 
 template <class E>
-E get(const std::deque<E>& collection, unsigned idx);
+inline E get(const std::deque<E>& collection, unsigned idx);
 
 }
 }

@@ -10,19 +10,19 @@ namespace sequence {
 namespace basic_vector {
 
 template <class E>
-bool isEmpty(const std::vector<E>& collection);
+inline bool isEmpty(const std::vector<E>& collection);
 
 template <class E>
-unsigned size(const std::vector<E>& collection);
+inline unsigned size(const std::vector<E>& collection);
 
 template <class ContainedElement, class ActualElement>
-void add(std::vector<ContainedElement>& collection, ActualElement element);
+inline void add(std::vector<ContainedElement>& collection, ActualElement element);
 
 template <class ContainedElement, class ActualElement>
-void add(std::vector<ContainedElement>& collection, unsigned idx, ActualElement element);
+inline void add(std::vector<ContainedElement>& collection, unsigned idx, ActualElement element);
 
 template <class E>
-E get(const std::vector<E>& collection, unsigned idx);
+inline E get(const std::vector<E>& collection, unsigned idx);
 
 }
 }

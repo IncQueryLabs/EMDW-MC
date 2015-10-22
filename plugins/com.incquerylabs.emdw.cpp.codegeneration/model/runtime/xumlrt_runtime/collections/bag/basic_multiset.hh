@@ -10,16 +10,16 @@ namespace multiset {
 namespace basic_multiset {
 
 template <class E>
-bool isEmpty(const std::multiset<E>& collection);
+inline bool isEmpty(const std::multiset<E>& collection);
 
 template <class E>
-unsigned size(const std::multiset<E>& collection);
+inline unsigned size(const std::multiset<E>& collection);
 
 template <class ContainedElement, class ActualElement>
-void add(std::multiset<ContainedElement>& collection, ActualElement element);
+inline void add(std::multiset<ContainedElement>& collection, ActualElement element);
 
 template <class E, class Collection>
-bool addAll(std::multiset<E>& collection, Collection elements);
+inline bool addAll(std::multiset<E>& collection, Collection elements);
 
 }
 }

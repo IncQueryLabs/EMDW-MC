@@ -317,8 +317,7 @@ class CollectionAddOperationCallDescriptorTest extends ValueDescriptorBaseTest<O
 	private static final val EXPECTED_TYPE = '''bool'''
 	private static final val EXPECTED_REPRESENTATION = 
 		'''
-		::std::pair< ::std::set< ::test::«COMPONENT_NAME»::«CLASS_NAME»*>::iterator, bool> result = «VARIABLE_NAME».insert(«PARAMETER1_NAME»);
-		result.second'''
+		::xumlrt::collections::set::basic_set::add(«VARIABLE_NAME», «PARAMETER1_NAME»)'''
 	private Class umlClass
 	private Type collectionType
 	
@@ -342,10 +341,11 @@ class CollectionAddOperationCallDescriptorTest extends ValueDescriptorBaseTest<O
 			it.name = PARAMETER1_NAME
 			it.type = umlClass
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createCollectionOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
 			it.parameters = new UmlTypedValueDescriptor(umlClass, param1Descriptor)
+			it.collectionElementType = umlClass
 		]).build
 		return descriptor
 	}
@@ -368,7 +368,7 @@ class CollectionAddAllOperationCallDescriptorTest extends ValueDescriptorBaseTes
 	private static final val EXPECTED_TYPE = '''bool'''
 	private static final val EXPECTED_REPRESENTATION = 
 		'''
-		«VARIABLE_NAME».insert(«PARAMETER_NAME».begin(), «PARAMETER_NAME».end())'''
+		::xumlrt::collections::set::basic_set::addAll(«VARIABLE_NAME», «PARAMETER_NAME»)'''
 	private Class umlClass
 	private Type collectionType
 	
@@ -393,10 +393,11 @@ class CollectionAddAllOperationCallDescriptorTest extends ValueDescriptorBaseTes
 			it.elementType = umlClass
 			it.collectionType = collectionType
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createCollectionOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
-			it.parameters = new UmlTypedValueDescriptor(collectionType, param1Descriptor) 
+			it.parameters = new UmlTypedValueDescriptor(collectionType, param1Descriptor)
+			it.collectionElementType = umlClass 
 		]).build
 		return descriptor
 	}
@@ -420,7 +421,7 @@ class CollectionGetOperationCallDescriptorTest extends ValueDescriptorBaseTest<O
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
 	private static final val EXPECTED_REPRESENTATION = 
 		'''
-		collectionVariable[0]'''
+		::xumlrt::collections::list::basic_list::get(collectionVariable, 0)'''
 	private Class umlClass
 	private Type collectionType
 	private PrimitiveType intType
@@ -445,10 +446,11 @@ class CollectionGetOperationCallDescriptorTest extends ValueDescriptorBaseTest<O
 			it.type = intType
 			it.literal = INTEGER_LITERAL
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createCollectionOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
 			it.parameters = new UmlTypedValueDescriptor(intType, paramDescriptor)
+			it.collectionElementType = umlClass
 		]).build
 		return descriptor
 	}
@@ -470,7 +472,7 @@ class CollectionIsEmptyOperationCallDescriptorTest extends ValueDescriptorBaseTe
 	private static final val EXPECTED_TYPE = '''bool'''
 	private static final val EXPECTED_REPRESENTATION = 
 		'''
-		«VARIABLE_NAME».empty()'''
+		::xumlrt::collections::set::basic_set::isEmpty(«VARIABLE_NAME»)'''
 	private Class umlClass
 	private Type collectionType
 	
@@ -489,9 +491,10 @@ class CollectionIsEmptyOperationCallDescriptorTest extends ValueDescriptorBaseTe
 			it.elementType = umlClass
 			it.collectionType = collectionType
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createCollectionOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
+			it.collectionElementType = umlClass
 		]).build
 		return descriptor
 	}
@@ -513,7 +516,7 @@ class CollectionSizeOperationCallDescriptorTest extends ValueDescriptorBaseTest<
 	private static final val EXPECTED_TYPE = '''long'''
 	private static final val EXPECTED_REPRESENTATION = 
 		'''
-		«VARIABLE_NAME».size()'''
+		::xumlrt::collections::set::basic_set::size(«VARIABLE_NAME»)'''
 	private Class umlClass
 	private Type collectionType
 	
@@ -532,9 +535,10 @@ class CollectionSizeOperationCallDescriptorTest extends ValueDescriptorBaseTest<
 			it.elementType = umlClass
 			it.collectionType = collectionType
 		]).build
-		val descriptor = (factory.createOperationCallBuilder => [
+		val descriptor = (factory.createCollectionOperationCallBuilder => [
 			it.operation = object
 			it.variable = collectionDescriptor
+			it.collectionElementType = umlClass
 		]).build
 		return descriptor
 	}

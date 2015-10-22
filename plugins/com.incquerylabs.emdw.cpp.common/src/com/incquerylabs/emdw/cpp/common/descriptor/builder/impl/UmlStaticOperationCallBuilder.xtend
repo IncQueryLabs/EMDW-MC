@@ -18,7 +18,7 @@ class UmlStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder {
 	private IOoplStaticOperationCallBuilder builder
 	
 	private Operation operation
-	private List<UmlTypedValueDescriptor<? extends ValueDescriptor>> params
+	private List<UmlTypedValueDescriptor<? extends ValueDescriptor>> params = #[]
 	
 	new(AdvancedIncQueryEngine engine) {
 		mapper = new UmlToXtumlMapper(engine)

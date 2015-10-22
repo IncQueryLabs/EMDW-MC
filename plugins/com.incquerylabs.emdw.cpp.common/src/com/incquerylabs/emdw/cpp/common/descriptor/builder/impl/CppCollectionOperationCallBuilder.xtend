@@ -45,7 +45,7 @@ class CppCollectionOperationCallBuilder implements IOoplCollectionOperationCallB
 			it.fullType = converter.convertToType(ooplReturnType)
 			it.stringRepresentation = stringRepresentation
 			it.valueRepresentation = representations.valueRepresentation
-			it.valueRepresentation = representations.pointerRepresentation
+			it.pointerRepresentation = representations.pointerRepresentation
 		]	
 	}
 	

@@ -11,7 +11,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssignmentExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.AssociationAccessExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BitStringUnaryExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BooleanUnaryExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.CastExpression
@@ -26,10 +25,8 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.ElementCollectionExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.EqualityExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.Expression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionList
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ExpressionStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.FilterExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.ForStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.IfClause
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceCreationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.InstanceDeletionExpression
@@ -50,7 +47,6 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.RelationalExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SendSignalStatement
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ShiftExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SignalDataExpression
-import com.incquerylabs.uml.ralf.reducedAlfLanguage.Statements
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StaticFeatureInvocationExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.StringLiteralExpression
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.SuperInvocationExpression
@@ -578,7 +574,7 @@ class ExpressionVisitor {
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»'''.wrapInParenthesis, variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
@@ -603,9 +599,9 @@ class ExpressionVisitor {
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''«operand1Representation» «ex.operator» «operand2Representation»''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''«operand1Representation» «ex.operator» «operand2Representation»'''.wrapInParenthesis, variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
-			return expr	
+			return expr
 		}
 	}
 	
@@ -625,7 +621,7 @@ class ExpressionVisitor {
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»'''.wrapInParenthesis, variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
@@ -646,7 +642,7 @@ class ExpressionVisitor {
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''«ex.getProperRepresentation(operand1Descriptor)» «ex.operator» «ex.getProperRepresentation(operand2Descriptor)»'''.wrapInParenthesis, variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
@@ -729,7 +725,7 @@ class ExpressionVisitor {
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''(«operand1String») ? («operand2String») : («operand3String»)''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''(«operand1String») ? («operand2String») : («operand3String»)'''.wrapInParenthesis, variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}
@@ -854,35 +850,37 @@ class ExpressionVisitor {
 	}
 	
 	def boolean isFlatteningNeeded(Expression ex){
-		switch(ex.eContainer){
-			ExpressionStatement: {
-				switch(ex.eContainer.eContainer){
-					Statements: return false
-					BlockStatement : return false
-					ForStatement: {
-						if((ex.eContainer.eContainer as ForStatement).update.equals(ex.eContainer)){
-							return false	
-						}else{
-							return true
-						}
-					}
-					default: return true
-				}
-			}
-			LocalNameDeclarationStatement: {
-				switch(ex.eContainer.eContainer){
-					Statements: return false
-					BlockStatement : return false
-					default: return true
-				}
-			}
-			AssignmentExpression: {
-				return !(ex instanceof FeatureInvocationExpression)
-			}
-			default: {
-				return true
-			}
-		}
+		// TODO this should be configurable
+//		switch(ex.eContainer){
+//			ExpressionStatement: {
+//				switch(ex.eContainer.eContainer){
+//					Statements: return false
+//					BlockStatement : return false
+//					ForStatement: {
+//						if((ex.eContainer.eContainer as ForStatement).update.equals(ex.eContainer)){
+//							return false	
+//						}else{
+//							return true
+//						}
+//					}
+//					default: return true
+//				}
+//			}
+//			LocalNameDeclarationStatement: {
+//				switch(ex.eContainer.eContainer){
+//					Statements: return false
+//					BlockStatement : return false
+//					default: return true
+//				}
+//			}
+//			AssignmentExpression: {
+//				return !(ex instanceof FeatureInvocationExpression)
+//			}
+//			default: {
+//				return true
+//			}
+//		}
+		false
 	}
 		
 	private dispatch def OperationTypedValueDescriptorPair<? extends ValueDescriptor> prepareInstanceCreationTuple(InstanceCreationExpression ex, Signal signal, StringBuilder parent){
@@ -1159,5 +1157,9 @@ class ExpressionVisitor {
 		} else { 
 			return descr.valueRepresentation	
 		}
+	}
+	
+	def String wrapInParenthesis(CharSequence value) {
+		'''(«value»)'''
 	}
 }

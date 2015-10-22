@@ -4,6 +4,7 @@ import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
 import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
 import "http://www.ericsson.com/xtumlrt/oopl/cpp"
 import "http://www.ericsson.com/xtumlrt/oopl"
+import "http://www.eclipse.org/emf/2002/Ecore"
 
 pattern ooplType2Type(
 	commonType : Type,
@@ -96,4 +97,12 @@ pattern ooplSequenceImplementations(
 	implementation : OOPLSequenceImplementation
 ) {
 	OOPLSequenceImplementation(implementation);
+}
+
+pattern ooplCollectionImplementationByName(
+	name,
+	implementationClass : OOPLClass
+) {
+	BaseContainerImplementation.containerQualifiedName(containerImpl, name);
+	BaseContainerImplementation.implementationClass(containerImpl, implementationClass);
 }

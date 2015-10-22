@@ -1,7 +1,10 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
+import com.google.common.base.Optional
 import com.google.common.base.Preconditions
 import com.google.common.collect.Lists
+import com.incquerylabs.emdw.cpp.common.util.OperationTypedValueDescriptorPair
+import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.uml.ralf.ReducedAlfSystem
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.ArithmeticExpression
@@ -57,6 +60,7 @@ import com.incquerylabs.uml.ralf.reducedAlfLanguage.WhileStatement
 import com.incquerylabs.uml.ralf.types.CollectionTypeReference
 import java.util.List
 import org.apache.log4j.Logger
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.Parameter
@@ -65,7 +69,6 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend2.lib.StringConcatenation
-import org.eclipse.emf.ecore.util.EcoreUtil
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -178,8 +181,8 @@ class ExpressionVisitor {
 		
 		val descriptor = (descriptorFactory.createConstructorCallBuilder => [
 			type = variableType
-			it.operation = operationParameters.key
-			it.parameters = operationParameters.value
+			it.operation = operationParameters.operation.orNull
+			it.parameters = operationParameters.typedValueDescriptors
 		]).build
 		
 		switch(type){
@@ -326,7 +329,7 @@ class ExpressionVisitor {
 		val variableType = typeSystem.type(ex).value.umlType
 		val op = ex.operation.reference as Operation
 		
-		val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
+		val descriptors = ex.prepareTuple(op, parent)
 			
 		var ValueDescriptor descriptor 
 		if(variableType != null && !(ex.eContainer.eContainer instanceof PrefixExpression) && !(ex.eContainer.eContainer instanceof PostfixExpression)&& ex.isFlatteningNeeded){
@@ -399,18 +402,28 @@ class ExpressionVisitor {
 		val contextDescriptor = ex.context.visit(parent)
 		
 		val variableType = typeSystem.type(ex).value.umlType
+		val contextType = typeSystem.type(ex.context).value
 		
 		val descriptor = createNewVariableDescriptor(ex, variableType)
 		switch (ex.feature) {
 	        Operation: {
 	        	val op = ex.feature as Operation
-				val List<ValueDescriptor> descriptors = ex.prepareTuple(op, parent)
+				val descriptors = ex.prepareTuple(op, parent)
 								
-				invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
-					variable = contextDescriptor
-					operation = op
-					parameters = descriptors
-				]).build
+				if ((contextType instanceof CollectionTypeReference)) {
+					invocationDescriptor = (descriptorFactory.createCollectionOperationCallBuilder => [
+						variable = contextDescriptor
+						operation = op
+						parameters = descriptors
+						collectionElementType = contextType.umlValueType
+					]).build
+				} else {
+					invocationDescriptor = (descriptorFactory.createOperationCallBuilder => [
+						variable = contextDescriptor
+						operation = op
+						parameters = descriptors
+					]).build
+				}
 	        }
 	        Property: {				
 	        	invocationDescriptor = (descriptorFactory.createPropertyReadBuilder => [
@@ -421,7 +434,7 @@ class ExpressionVisitor {
 	        default: throw new UnsupportedOperationException("Invalid feature invocation")
 	    }
 	    
-	    if((typeSystem.type(ex.context).value instanceof CollectionTypeReference)
+	    if((contextType instanceof CollectionTypeReference)
 	    	&& variableType != null
 	    	&& invocationDescriptor.hasMultilineRepresentation
 	    ) {
@@ -872,11 +885,11 @@ class ExpressionVisitor {
 		}
 	}
 		
-	private dispatch def Pair<Operation, ? extends List<Pair<Type, ? extends ValueDescriptor>>> prepareInstanceCreationTuple(InstanceCreationExpression ex, Signal signal, StringBuilder parent){
-		return null -> newArrayList
+	private dispatch def OperationTypedValueDescriptorPair<? extends ValueDescriptor> prepareInstanceCreationTuple(InstanceCreationExpression ex, Signal signal, StringBuilder parent){
+		return new OperationTypedValueDescriptorPair(Optional::absent, #[])
 	}
 	
-	private dispatch def Pair<Operation, ? extends List<Pair<Type, ? extends ValueDescriptor>>> prepareInstanceCreationTuple(InstanceCreationExpression ex, Class c, StringBuilder parent){
+	private dispatch def OperationTypedValueDescriptorPair<? extends ValueDescriptor> prepareInstanceCreationTuple(InstanceCreationExpression ex, Class c, StringBuilder parent){
 		val descriptors = newArrayList	
 		
 		var Operation op = null
@@ -892,10 +905,10 @@ class ExpressionVisitor {
 						type = typeSystem.type(expr).value.umlType
 						isExistingVariable = true
 					]).build
-					descriptors.add(typeSystem.type(expr).value.umlType -> descriptor)				
+					descriptors.add(new UmlTypedValueDescriptor(typeSystem.type(expr).value.umlType, descriptor))				
 				]
 			}else{
-				return op -> descriptors
+				return new OperationTypedValueDescriptorPair(Optional::absent, descriptors)
 			}
 		}else if(ex.parameters instanceof NamedTuple){
 			val parameters = ex.parameters as NamedTuple
@@ -913,18 +926,18 @@ class ExpressionVisitor {
 								type = typeSystem.type(namedExpression.expression).value.umlType
 								isExistingVariable = true
 							]).build
-							descriptors.add(new Pair<Type, ValueDescriptor>(typeSystem.type(namedExpression.expression).value.umlType, descriptor))
+							descriptors.add(new UmlTypedValueDescriptor(typeSystem.type(namedExpression.expression).value.umlType, descriptor))
 						}
 					]
 				]
 			}else{
-				return op -> descriptors
+				return new OperationTypedValueDescriptorPair(Optional::absent, descriptors)
 			}
 			
 		}else{
 			throw new UnsupportedOperationException("Only expression list and namedTuple based tuples are supported")
 		}	
-		return op -> descriptors
+		return new OperationTypedValueDescriptorPair(Optional::fromNullable(op), descriptors)
 	}
 	
 	private dispatch def getOperation(NamedTuple parameters, Class c){
@@ -982,12 +995,13 @@ class ExpressionVisitor {
 	}
 	
 	private dispatch def prepareTuple(FeatureInvocationExpression ex, Operation op, StringBuilder parent){
-		val List<ValueDescriptor> descriptors = Lists.newArrayList
+		val descriptors = Lists.newArrayList
 		if(ex.parameters instanceof ExpressionList){
 			val parameters = ex.parameters as ExpressionList
 			parameters.expressions.forEach[ expr |
 				val descr = expr.visit(parent)
-				descriptors.add(descr)
+				val type = typeSystem.type(expr).value.umlType
+				descriptors.add(new UmlTypedValueDescriptor(type, descr))
 				
 			]
 		}else if(ex.parameters instanceof NamedTuple){
@@ -998,7 +1012,8 @@ class ExpressionVisitor {
 				parameters.expressions.forEach[ namedExpression |
 					if(namedExpression.parameterEqualsExpression(operationParameter)){
 						val descr = namedExpression.expression.visit(parent)
-						descriptors.add(descr)
+						val type = typeSystem.type(namedExpression.expression).value.umlType
+						descriptors.add(new UmlTypedValueDescriptor(type, descr))
 					}
 				]
 			]
@@ -1040,12 +1055,13 @@ class ExpressionVisitor {
 	}
 	
 	private dispatch def prepareTuple(StaticFeatureInvocationExpression ex, Operation op, StringBuilder parent){
-		val List<ValueDescriptor> descriptors = Lists.newArrayList
+		val descriptors = Lists.newArrayList
 		if(ex.parameters instanceof ExpressionList){
 			val parameters = ex.parameters as ExpressionList
 			parameters.expressions.forEach[ expr |
 				val descr = expr.visit(parent)
-				descriptors.add(descr)	
+				val type = typeSystem.type(expr).value.umlType
+				descriptors.add(new UmlTypedValueDescriptor(type, descr))	
 			]
 		}else if(ex.parameters instanceof NamedTuple){
 			val parameters = ex.parameters as NamedTuple
@@ -1055,7 +1071,8 @@ class ExpressionVisitor {
 				parameters.expressions.forEach[ namedExpression |
 					if(namedExpression.parameterEqualsExpression(operationParameter)){
 						val descr = namedExpression.expression.visit(parent)
-						descriptors.add(descr)
+						val type = typeSystem.type(namedExpression.expression).value.umlType
+						descriptors.add(new UmlTypedValueDescriptor(type, descr))
 					}
 				]
 			]

@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.google.common.base.Preconditions
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplStaticOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -28,7 +29,7 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 					ocd = createOperationCallDescriptor => [
 						it.baseType = "void"
 						it.fullType = it.baseType
-						it.stringRepresentation = '''::std::cout«FOR param : params BEFORE " << " SEPARATOR " << "»«param.stringRepresentation»«ENDFOR» << ::std::endl'''
+						it.stringRepresentation = '''::std::cout«FOR param : params.map[descriptor] BEFORE " << " SEPARATOR " << "»«param.stringRepresentation»«ENDFOR» << ::std::endl'''
 						it.pointerRepresentation = "// No pointer representation for println"
 						it.valueRepresentation = it.stringRepresentation
 					]
@@ -39,7 +40,7 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 					ocd = createOperationCallDescriptor => [
 						it.baseType = stringType.cppQualifiedName
 						it.fullType = stringType.cppQualifiedName
-						it.stringRepresentation = '''::xumlrt::to_string(«params.get(0).stringRepresentation»)'''
+						it.stringRepresentation = '''::xumlrt::to_string(«params.map[descriptor].head.stringRepresentation»)'''
 						it.pointerRepresentation = it.stringRepresentation.createStringRepresentations(stringType).pointerRepresentation
 						it.valueRepresentation = it.stringRepresentation.createStringRepresentations(stringType).valueRepresentation
 					]
@@ -62,7 +63,7 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 		return this
 	}
 	
-	override setParameters(ValueDescriptor... params) {
+	override setParameters(XtTypedValueDescriptor<? extends ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}

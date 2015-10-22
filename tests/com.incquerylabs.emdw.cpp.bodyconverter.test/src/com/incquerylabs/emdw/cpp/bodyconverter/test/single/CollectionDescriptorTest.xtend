@@ -17,7 +17,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
-				__ralf__0__service->R6_call.remove(this);
+				::xumlrt::collections::list::basic_list::remove(__ralf__0__service->R6_call, this);
 				this->R6_service = nullptr;'''
 			],
 			#[  "Link expression collection test (PhoneX)",
@@ -31,8 +31,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
 				this->R6_service = __ralf__0__service;
-				__ralf__0__service->R6_call.push_back(this);
-				true;'''
+				::xumlrt::collections::list::basic_list::add(__ralf__0__service->R6_call, this);'''
 			],
 /******************************
  * SET<PRIMITIVE TYPE>
@@ -110,7 +109,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::set< long > __ralf__0__si;
-				bool __ralf__1__b = __ralf__0__si.empty();'''
+				bool __ralf__1__b = ::xumlrt::collections::set::basic_set::isEmpty(__ralf__0__si);'''
 			],
 			#[  "SET<PRIMITIVE TYPE> - size operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -122,7 +121,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::set< long > __ralf__0__si;
-				long __ralf__1__i = __ralf__0__si.size();'''
+				long __ralf__1__i = ::xumlrt::collections::set::basic_set::size(__ralf__0__si);'''
 			],
 			#[  "SET<PRIMITIVE TYPE> - add operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -134,9 +133,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::set< long > __ralf__0__si;
-				::std::pair< ::std::set< long>::iterator, bool> result = __ralf__0__si.insert(1);
-				bool __ralf__2__bool = result.second;
-				bool __ralf__1__b = __ralf__2__bool;'''
+				bool __ralf__1__b = ::xumlrt::collections::set::basic_set::add(__ralf__0__si, 1);'''
 			],
 			#[  "SET<PRIMITIVE TYPE> - addAll operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -150,7 +147,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				'''
 				::std::set< long > __ralf__0__si1;
 				::std::set< long > __ralf__1__si2;
-				bool __ralf__2__b = __ralf__0__si1.insert(__ralf__1__si2.begin(), __ralf__1__si2.end());'''
+				bool __ralf__2__b = ::xumlrt::collections::set::basic_set::addAll(__ralf__0__si1, __ralf__1__si2);'''
 			],
 /******************************
  * SET<REFERENCE TYPE>
@@ -202,7 +199,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::set< ::model::Comp::Pong* > __ralf__0__sp;
-				bool __ralf__1__isEmpty = __ralf__0__sp.empty();'''
+				bool __ralf__1__isEmpty = ::xumlrt::collections::set::basic_set::isEmpty(__ralf__0__sp);'''
 			],
 			#[  "SET<REFERENCE TYPE> - size operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -214,7 +211,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::set< ::model::Comp::Pong* > __ralf__0__sp;
-				long __ralf__1__i = __ralf__0__sp.size();'''
+				long __ralf__1__i = ::xumlrt::collections::set::basic_set::size(__ralf__0__sp);'''
 			],
 			#[  "SET<REFERENCE TYPE> - add operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -226,9 +223,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::set< ::model::Comp::Pong* > __ralf__0__sp;
-				::std::pair< ::std::set< ::model::Comp::Pong*>::iterator, bool> result = __ralf__0__sp.insert(this);
-				bool __ralf__2__bool = result.second;
-				bool __ralf__1__b = __ralf__2__bool;'''
+				bool __ralf__1__b = ::xumlrt::collections::set::basic_set::add(__ralf__0__sp, this);'''
 			],
 			#[  "SET<REFERENCE TYPE> - addAll operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -242,7 +237,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				'''
 				::std::set< ::model::Comp::Pong* > __ralf__0__sp1;
 				::std::set< ::model::Comp::Pong* > __ralf__1__sp2;
-				bool __ralf__2__b = __ralf__0__sp1.insert(__ralf__1__sp2.begin(), __ralf__1__sp2.end());'''
+				bool __ralf__2__b = ::xumlrt::collections::set::basic_set::addAll(__ralf__0__sp1, __ralf__1__sp2);'''
 			],
 /******************************
  * SEQUENCE<PRIMITIVE TYPE>
@@ -320,7 +315,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::vector< long > __ralf__0__si;
-				bool __ralf__1__b = __ralf__0__si.empty();'''
+				bool __ralf__1__b = ::xumlrt::collections::sequence::basic_vector::isEmpty(__ralf__0__si, 1);'''
 			],
 			#[  "SEQUENCE<PRIMITIVE TYPE> - size operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -332,7 +327,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::vector< long > __ralf__0__si;
-				long __ralf__1__i = __ralf__0__si.size();'''
+				long __ralf__1__i = ::xumlrt::collections::sequence::basic_vector::size(__ralf__0__si, 1);'''
 			],
 			#[  "SEQUENCE<PRIMITIVE TYPE> - get operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -344,7 +339,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::vector< long > __ralf__0__si;
-				long __ralf__1__i = __ralf__0__si[0];'''
+				long __ralf__1__i = ::xumlrt::collections::sequence::basic_vector::get(__ralf__0__si, 0);'''
 			],
 			#[  "SEQUENCE<PRIMITIVE TYPE> - add operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -356,8 +351,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::vector< long > __ralf__0__si;
-				__ralf__0__si.push_back(1);
-				true;'''
+				::xumlrt::collections::sequence::basic_vector::add(__ralf__0__si, 1);'''
 			],
 			#[  "SEQUENCE<PRIMITIVE TYPE> - add at index operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -369,10 +363,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::vector< long > __ralf__0__si;
-				::std::vector< long>::iterator __ralf__1__it = __ralf__0__si.begin();
-				::std::advance(__ralf__1__it, 0);
-				__ralf__0__si.insert(__ralf__1__it, 1);
-				true;'''
+				::xumlrt::collections::sequence::basic_vector::add(__ralf__0__si, 0, 1);'''
 			],
 /******************************
  * SEQUENCE<REFERENCE TYPE>
@@ -424,7 +415,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::list< ::model::Comp::Pong* > __ralf__0__sp;
-				long __ralf__1__i = __ralf__0__sp.size();'''
+				long __ralf__1__i = ::xumlrt::collections::list::basic_list::size(__ralf__0__sp);'''
 			],
 			#[  "SEQUENCE<REFERENCE TYPE> - isEmpty operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -436,7 +427,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::list< ::model::Comp::Pong* > __ralf__0__sp;
-				bool __ralf__1__b = __ralf__0__sp.empty();'''
+				bool __ralf__1__b = ::xumlrt::collections::list::basic_list::isEmpty(__ralf__0__sp);'''
 			],
 			#[  "SEQUENCE<REFERENCE TYPE> - get operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -448,7 +439,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::list< ::model::Comp::Pong* > __ralf__0__sp;
-				::model::Comp::Pong* __ralf__1__p = __ralf__0__sp[0];'''
+				::model::Comp::Pong* __ralf__1__p = ::xumlrt::collections::list::basic_list::get(__ralf__0__sp, 0);'''
 			],
 			#[  "SEQUENCE<REFERENCE TYPE> - add operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -460,8 +451,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::std::list< ::model::Comp::Pong* > __ralf__0__sp;
-				__ralf__0__sp.push_back(this);
-				true;'''
+				::xumlrt::collections::list::basic_list::add(__ralf__0__sp, this);'''
 			],
 			#[  "SEQUENCE<REFERENCE TYPE> - add at index operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -475,10 +465,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				'''
 				::model::Comp::Pong* __ralf__0__p = this;
 				::std::list< ::model::Comp::Pong* > __ralf__1__sp;
-				::std::vector< ::model::Comp::Pong*>::iterator __ralf__2__it = __ralf__1__sp.begin();
-				::std::advance(__ralf__2__it, 0);
-				__ralf__1__sp.insert(__ralf__2__it, __ralf__0__p);
-				true;'''
+				::xumlrt::collections::list::basic_list::add(__ralf__1__sp, 0, __ralf__0__p);'''
 			]
 		)
 	}

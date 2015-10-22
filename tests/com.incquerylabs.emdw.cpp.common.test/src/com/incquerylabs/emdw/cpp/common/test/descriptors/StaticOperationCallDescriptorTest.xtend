@@ -14,6 +14,7 @@ import org.junit.runners.Suite.SuiteClasses
 
 import static org.junit.Assert.*
 import org.eclipse.uml2.uml.PrimitiveType
+import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 
 @SuiteClasses(#[
 	BuiltInPrintlnTest,
@@ -49,7 +50,7 @@ class BuiltInPrintlnTest extends ValueDescriptorBaseTest<Operation, OperationCal
 		]).build
 		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.parameters = param
+			it.parameters = new UmlTypedValueDescriptor(stringType, param)
 		]).build
 		return descriptor
 	}
@@ -82,7 +83,7 @@ class BuiltInToStringTest extends ValueDescriptorBaseTest<Operation, OperationCa
 		]).build
 		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.parameters = param
+			it.parameters = new UmlTypedValueDescriptor(boolType, param)
 		]).build
 		return descriptor
 	}
@@ -220,7 +221,7 @@ class StaticOperationCallDescriptorWithSingleSimpleParameterAndVoidReturnTypeTes
 		]).build
 		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.parameters = paramDescriptor
+			it.parameters = new UmlTypedValueDescriptor(parameterType, paramDescriptor)
 		]).build
 		return descriptor
 	}
@@ -268,7 +269,7 @@ class StaticOperationCallDescriptorWithMultpileSimpleParameterAndVoidReturnTypeT
 		]).build
 		val descriptor = (factory.createStaticOperationCallBuilder => [
 			it.operation = object
-			it.parameters = newArrayList(param1Descriptor, param2Descriptor)
+			it.parameters = newArrayList(param1Descriptor, param2Descriptor).map[new UmlTypedValueDescriptor(parameterType, it)]
 		]).build
 		return descriptor
 	}

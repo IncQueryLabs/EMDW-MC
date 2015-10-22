@@ -11,6 +11,8 @@ sp				:= $(sp).x
 dirstack_$(sp)	:= $(d)
 d				:= $(dir)
 
+dir := 	$(d)/collections
+include $(dir)/Rules.mk
 
 SOURCES_$(d)	:= $(wildcard $(d)/*.cc)
 OBJECTS_$(d)	:= $(SOURCES_$(d):%.cc=%.o)

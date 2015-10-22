@@ -10,6 +10,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileMan
 import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.GenerationUtil
 import java.io.ByteArrayInputStream
+import java.nio.file.Paths
 import java.util.Map
 import org.apache.log4j.Logger
 import org.eclipse.core.resources.IFolder
@@ -99,7 +100,7 @@ class ModelToFileMapperTest {
 		val cppDir = prepareCppModel(cppRuntime)
 		
 		val IFileManager fileManager = new EclipseWorkspaceFileManager(targetFolder.project.name, "/")
-		val mapper = new Model2FileMapper(fileManager, cppDir, targetFolder.name)
+		val mapper = new Model2FileMapper(fileManager, cppDir, Paths::get(targetFolder.name))
 		mapper.execute
 		
 		assertResult(cppDir, mapper.mappedSourceFiles)

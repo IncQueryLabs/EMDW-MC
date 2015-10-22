@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplConstructorCallBuilder
+import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
@@ -42,7 +43,7 @@ class CppConstructorCallBuilder extends AbstractCppOperationCallDescriptorBuilde
 		return this
 	}
 	
-	override setParameters(ValueDescriptor... params) {
+	override setParameters(XtTypedValueDescriptor<? extends ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}

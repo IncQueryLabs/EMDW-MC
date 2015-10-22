@@ -21,7 +21,9 @@
       eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="OperationCallDescriptor" eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="SingleVariableDescriptor" eSuperTypes="#//VariableDescriptor"/>
-  <eClassifiers xsi:type="ecore:EClass" name="CollectionVariableDescriptor" eSuperTypes="#//VariableDescriptor"/>
+  <eClassifiers xsi:type="ecore:EClass" name="CollectionVariableDescriptor" eSuperTypes="#//VariableDescriptor">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="collectionNamespace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyAccessDescriptor" abstract="true"
       eSuperTypes="#//ValueDescriptor"/>
   <eClassifiers xsi:type="ecore:EClass" name="PropertyReadDescriptor" eSuperTypes="#//PropertyAccessDescriptor"/>

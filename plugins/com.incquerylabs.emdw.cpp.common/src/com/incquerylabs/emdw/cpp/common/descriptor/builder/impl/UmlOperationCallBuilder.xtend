@@ -2,13 +2,15 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
+import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
+import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.DataType
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import org.eclipse.uml2.uml.Operation
 
 class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	private UmlToXtumlMapper mapper
@@ -21,7 +23,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	
 	private ValueDescriptor variable
 	private Operation operation
-	private List<ValueDescriptor> params
+	private List<UmlTypedValueDescriptor<? extends ValueDescriptor>> params
 	
 	
 	
@@ -33,9 +35,10 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	
 	
 	override build() {
+		val xtParams = params?.map[new XtTypedValueDescriptor(mapper.convertType(type), descriptor)]
 		builder => [
 			it.variable = variable
-			it.parameters = params
+			it.parameters = xtParams
 		]
 		val dataType = operation.eContainer
 		if(dataType instanceof DataType) {
@@ -59,7 +62,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 		return this
 	}
 	
-	override setParameters(ValueDescriptor... params) {
+	override setParameters(UmlTypedValueDescriptor<? extends ValueDescriptor>... params) {
 		this.params = params
 		return this
 	}

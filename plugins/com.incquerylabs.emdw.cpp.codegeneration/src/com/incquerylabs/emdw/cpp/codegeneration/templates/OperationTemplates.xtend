@@ -76,23 +76,11 @@ class OperationTemplates extends CPPTemplate{
 	
 	def String generateAddTemplate(CPPClassReferenceStorage storage, String value) {
 		var type = storage.type
-		val addTemplate = if(type instanceof CPPClassRefSimpleCollection) {
-			type.implementation.generateAdd("_instances_add_", storage.cppName, value, storage.type.convertToType)
+		if(type instanceof CPPClassRefSimpleCollection) {
+			'''«(type.implementation.implementationClass as CPPClass).cppQualifiedName»::add(«storage.cppName», «value»);''' 
 		}
-		val addTemplateWithoutResult = '''«addTemplate.removeLastLine»;'''
-		addTemplateWithoutResult
 	}
-	
-	def String removeLastLine(String string) {
-		val lines = string.split('\n')
-		var result = lines.take(lines.length-1)
-		'''
-		«FOR line : result»
-			«line»
-		«ENDFOR»
-		'''
-	}
-	
+		
 	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {
 		val containerElement = destructor.eContainer as CPPNamedElement
 		val destructorSignature = operationSignature(destructor, true, false, false, false)
@@ -116,7 +104,7 @@ class OperationTemplates extends CPPTemplate{
 	def String generateRemoveTemplate(CPPClassReferenceStorage storage, String value) {
 		var type = storage.type
 		if(type instanceof CPPClassRefSimpleCollection) {
-			return '''«type.implementation.generateRemove("_instances_remove_", storage.cppName, value)»;'''
+			'''«(type.implementation.implementationClass as CPPClass).cppQualifiedName»::remove(«storage.cppName», «value»);'''
 		}
 	}
 	

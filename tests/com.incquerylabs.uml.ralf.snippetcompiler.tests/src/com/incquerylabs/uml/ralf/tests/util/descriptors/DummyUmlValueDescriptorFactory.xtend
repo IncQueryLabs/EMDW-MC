@@ -53,6 +53,10 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummyConstructorCallBuilder
 	}
 	
+	override createCollectionOperationCallBuilder() {
+		new DummyCollectionOperationCallBuilder
+	}
+	
 	override createStaticOperationCallBuilder() {
 		new DummyStaticOperationCallBuilder
 	}

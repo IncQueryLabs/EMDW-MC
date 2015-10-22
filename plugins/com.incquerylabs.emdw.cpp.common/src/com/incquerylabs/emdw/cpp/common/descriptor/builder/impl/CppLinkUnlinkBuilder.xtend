@@ -1,18 +1,17 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClassRefSimpleCollection
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplLinkUnlinkBuilder
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 
 class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -102,22 +101,17 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		]
 //		val initCVD = '''«cvd.fullType» «cvd.stringRepresentation» = «assocReadDescriptor.stringRepresentation»'''
 		var String operationD
-		if(isUnlink) {
-			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateRemove(
-					cppFactory.nextPrefix,
-					cvd, 
-					targetDescriptor as SingleVariableDescriptor
-			)
-		} else {
-			operationD = (rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.generateAdd(
-					cppFactory.nextPrefix,
-					cvd, 
-					targetDescriptor as SingleVariableDescriptor
-			)
-		}
+		val operation = if(isUnlink) "remove" else "add"
+		val operationNamespace = ((rel.referenceStorage.head.type as CPPClassRefSimpleCollection).implementation.implementationClass as CPPClass).cppQualifiedName
+		val params = #[cvd.valueRepresentation, targetDescriptor.pointerRepresentation]
+		operationD = generateOperation(operationNamespace, operation, params)
 		return	'''
 «««				«initCVD»;
 				«operationD»'''
+	}
+	
+	def String generateOperation(String operationNamespace, String operation, String... params) {
+		'''«operationNamespace»::«operation»(«FOR param : params SEPARATOR ", "»«param»«ENDFOR»)'''
 	}
 	
 	def createAssociationReadDescriptor(ValueDescriptor sourceDescriptor, XTAssociation xtAssociation) {

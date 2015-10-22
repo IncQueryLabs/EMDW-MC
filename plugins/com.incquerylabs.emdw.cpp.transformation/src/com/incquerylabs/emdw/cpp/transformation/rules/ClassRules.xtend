@@ -167,8 +167,8 @@ class ClassRules {
 		val cppBody = cppClass.bodyFile
 		val selectionLibraryExternalHeader = getExternalHeader('''"xumlrt_runtime/select.hh"''')
 		cppBody.addInclude(selectionLibraryExternalHeader, "selection library")
-		val collectionLibraryExternalHeader = getExternalHeader('''"xumlrt_runtime/collections/collections.hh"''')
-		cppBody.addInclude(collectionLibraryExternalHeader, "collections library")
+		val listLibraryHeader = getExternalHeader('''"xumlrt_runtime/collections/list/basic_list.hh"''')
+		cppBody.addInclude(listLibraryHeader, "")
 		
 		val toStringExternalHeader = getExternalHeader('''"xumlrt_runtime/to_string.hh"''')
 		cppBody.addInclude(toStringExternalHeader, "to_string")

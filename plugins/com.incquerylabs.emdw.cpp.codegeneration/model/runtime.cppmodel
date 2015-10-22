@@ -228,13 +228,6 @@
               name="basic_deque"/>
         </subElements>
       </subElements>
-      <subElements
-          xsi:type="cpp:CPPClass"
-          headerFile="/1/@subDirectories.0/@files.1">
-        <ooplNameProvider
-            xsi:type="oopl:OOPLDerivedNameProvider"
-            name="collections"/>
-      </subElements>
     </subElements>
   </cpp:CPPPackage>
   <cpp:CPPDirectory
@@ -278,8 +271,6 @@
       </subDirectories>
       <files
           xsi:type="cpp:CPPMakeFile"/>
-      <files
-          xsi:type="cpp:CPPHeaderFile"/>
     </subDirectories>
     <files xsi:type="cpp:CPPBodyFile"/>
     <files xsi:type="cpp:CPPHeaderFile"/>

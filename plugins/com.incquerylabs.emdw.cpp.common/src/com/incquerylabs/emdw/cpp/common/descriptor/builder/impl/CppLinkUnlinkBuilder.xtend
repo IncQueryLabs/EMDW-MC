@@ -8,7 +8,6 @@ import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescript
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
-import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine

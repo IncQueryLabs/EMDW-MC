@@ -11,6 +11,7 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Operation
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.uml2.uml.OpaqueBehavior
+import org.eclipse.emf.ecore.EObject
 
 @Singleton
 class TestModelUMLContextProvider extends UMLContextProvider {
@@ -49,7 +50,7 @@ class TestModelUMLContextProvider extends UMLContextProvider {
         IncQueryEngine.on(new EMFScope(resourceSet));
 	}
 
-    override getDefinedOperation() {
+    override getDefinedOperation(EObject _context) {
         definedOperation
     }
 	

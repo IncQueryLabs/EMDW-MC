@@ -113,11 +113,35 @@
     <description>EMDW-MC</description>
   </setupTask>
   <setupTask
+      xsi:type="git:GitCloneTask"
+      id="git.clone.emdw-tests"
+      remoteURI="IncQueryLabs/EMDW-Tests"
+      checkoutBranch="master">
+    <annotation
+        source="http://www.eclipse.org/oomph/setup/InducedChoices">
+      <detail
+          key="inherit">
+        <value>github.remoteURIs</value>
+      </detail>
+      <detail
+          key="label">
+        <value>EMDW-Tests Git Repository</value>
+      </detail>
+      <detail
+          key="target">
+        <value>remoteURI</value>
+      </detail>
+    </annotation>
+    <description>EMDW-Tests</description>
+  </setupTask>
+  <setupTask
       xsi:type="projects:ProjectsImportTask">
     <sourceLocator
         rootFolder="${git.clone.emdw-common.location}"/>
     <sourceLocator
         rootFolder="${git.clone.emdw-mc.location}"/>
+    <sourceLocator
+        rootFolder="${git.clone.emdw-tests.location}"/>
   </setupTask>
   <setupTask
       xsi:type="setup.targlets:TargletTask">
@@ -439,6 +463,33 @@
       </query>
     </setupTask>
     <setupTask
+        xsi:type="mylyn:MylynQueriesTask"
+        connectorKind="github"
+        repositoryURL="https://github.com/IncQueryLabs/EMDW-Tests"
+        userID="${github.user.id}"
+        password="${github.user.password}">
+      <query
+          summary="EMDW Tests">
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+    </setupTask>
+    <setupTask
+        xsi:type="mylyn:MylynQueriesTask"
+        connectorKind="githubPullRequests"
+        repositoryURL="https://github.com/IncQueryLabs/EMDW-Tests/pulls"
+        userID="${github.user.id}"
+        password="${github.user.password}">
+      <query
+          summary="EMDW-Tests pull requests"
+          url="">
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+    </setupTask>
+    <setupTask
         xsi:type="mylyn:MylynBuildsTask"
         excludedTriggers="STARTUP"
         serverURL="https://build.inf.mit.bme.hu/jenkins"
@@ -489,6 +540,69 @@
             key="/instance/org.eclipse.mylyn.team.ui/org.eclipse.mylyn.team.commit.template"
             value="#$${task.key}: $${task.description} "/>
       </setupTask>
+    </setupTask>
+    <stream
+        name="master"/>
+  </project>
+  <project name="mondo-sam"
+      label="MONDO-SAM">
+    <setupTask
+        xsi:type="git:GitCloneTask"
+        id="git.clone.mondosam"
+        remoteURI="FTSRG/mondo-sam">
+      <annotation
+          source="http://www.eclipse.org/oomph/setup/InducedChoices">
+        <detail
+            key="inherit">
+          <value>github.remoteURIs</value>
+        </detail>
+        <detail
+            key="label">
+          <value>MONDO-SAM Github repository</value>
+        </detail>
+        <detail
+            key="target">
+          <value>remoteURI</value>
+        </detail>
+      </annotation>
+      <description>${scope.project.label}</description>
+    </setupTask>
+    <setupTask
+        xsi:type="projects:ProjectsImportTask">
+      <sourceLocator
+          rootFolder="${git.clone.mondosam.location}"
+          locateNestedProjects="true"/>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.targlets:TargletTask">
+      <targlet
+          name="MONDO-SAM">
+        <requirement
+            name="org.codehaus.jackson.core"
+            versionRange="1.6.0"/>
+        <requirement
+            name="org.codehaus.jackson.mapper"
+            versionRange="1.6.0"/>
+        <repositoryList>
+          <repository
+              url="http://download.eclipse.org/tools/orbit/downloads/drops/R20140525021250/repository/"/>
+        </repositoryList>
+      </targlet>
+    </setupTask>
+    <setupTask
+        xsi:type="setup.workingsets:WorkingSetTask">
+      <workingSet
+          name="MONDO-SAM">
+        <predicate
+            xsi:type="predicates:OrPredicate">
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="eu.mondo.sam.*"/>
+          <operand
+              xsi:type="predicates:NamePredicate"
+              pattern="eu.mondo.sam"/>
+        </predicate>
+      </workingSet>
     </setupTask>
     <stream
         name="master"/>

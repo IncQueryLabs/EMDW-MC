@@ -41,7 +41,7 @@ class SnippetTemplateCompilerUtil {
 	def dispatch ValueDescriptor getDescriptor(ThisExpression ex){
 		return (descriptorFactory.createSingleVariableDescriptorBuilder => [
 			name = "this"
-			type = context.thisType
+			type = context.getThisType(ex)
 			isExistingVariable = true
 		]).build	
 	}

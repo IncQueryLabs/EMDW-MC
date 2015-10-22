@@ -3,6 +3,7 @@ package com.incquerylabs.emdw.cpp.codegeneration
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -26,7 +27,7 @@ class Model2FileMapper {
 	
 	private def void mapFiles(CPPDirectory qne, Path directoryPath) {
 		for(file : qne.files) {
-			val content = fileManager.getFileContentAsString('''«directoryPath»\''', file.generationName)
+			val content = fileManager.getFileContentAsString('''«directoryPath»«File::separator»''', file.generationName)
 			mappedSourceFiles.put(file, content)
 		}
 		for(dirOwner : qne.subDirectories) {

@@ -185,6 +185,7 @@ class ExpressionVisitor {
 			Signal: {
 				var ValueDescriptor variableDescriptor
 				
+				// TODO flattening should be determined from config and not locally
 				if(ex.eContainer instanceof LocalNameDeclarationStatement){
 					val statement = ex.eContainer as LocalNameDeclarationStatement
 					if(statement.variable instanceof CollectionVariable){
@@ -532,7 +533,7 @@ class ExpressionVisitor {
 			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 			descriptor
 		}else{
-			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»''', variableType)
+			val expr = createExistingVariableDescriptor(ex, '''«operand1Descriptor.valueRepresentation» «ex.operator» «operand2Descriptor.valueRepresentation»'''.wrapInParenthesis, variableType)
 			logger.logVisitingFinished(ex, expr.stringRepresentation)
 			return expr	
 		}

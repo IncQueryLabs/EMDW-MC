@@ -15,8 +15,8 @@ bool isEmpty(const std::set<E>& collection);
 template <class E>
 unsigned size(const std::set<E>& collection);
 
-template <class E>
-bool add(std::set<E>& collection, E element);
+template <class ContainedElement, class ActualElement>
+bool add(std::set<ContainedElement>& collection, ActualElement element);
 
 template <class E, class Collection>
 bool addAll(std::set<E>& collection, Collection elements);
@@ -37,8 +37,8 @@ unsigned xumlrt::collections::set::basic_set::size(const std::set<E> &collection
 	return collection.size();
 }
 
-template <class E>
-bool xumlrt::collections::set::basic_set::add(std::set<E>& collection, E element) {
+template <class ContainedElement, class ActualElement>
+bool xumlrt::collections::set::basic_set::add(std::set<ContainedElement>& collection, ActualElement element) {
 	auto result = collection.insert(element);
 	return result.second;
 }

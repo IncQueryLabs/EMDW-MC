@@ -1,17 +1,19 @@
 package com.incquerylabs.emdw.cpp.codegeneration
 
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import java.nio.file.Path
+import java.nio.file.Paths
 
 class Model2FileMapper {
 	IFileManager fileManager
 	CPPDirectory root
-	String directoryPath
+	Path directoryPath
 	
 	public val mappedSourceFiles = <CPPSourceFile, CharSequence>newHashMap()
 	
-	new(IFileManager fileManager, CPPDirectory root, String directoryPath) {
+	new(IFileManager fileManager, CPPDirectory root, Path directoryPath) {
 		this.fileManager = fileManager
 		this.root = root
 		this.directoryPath = directoryPath
@@ -22,13 +24,13 @@ class Model2FileMapper {
 		mappedSourceFiles
 	}
 	
-	private def void mapFiles(CPPDirectory qne, String directoryPath) {
+	private def void mapFiles(CPPDirectory qne, Path directoryPath) {
 		for(file : qne.files) {
-			val content = fileManager.getFileContentAsString(directoryPath, file.generationName)
+			val content = fileManager.getFileContentAsString('''«directoryPath»\''', file.generationName)
 			mappedSourceFiles.put(file, content)
 		}
 		for(dirOwner : qne.subDirectories) {
-			dirOwner.mapFiles(directoryPath+"/"+dirOwner.name)
+			dirOwner.mapFiles(Paths::get(directoryPath.toString, dirOwner.name))
 		}
 	}
 }

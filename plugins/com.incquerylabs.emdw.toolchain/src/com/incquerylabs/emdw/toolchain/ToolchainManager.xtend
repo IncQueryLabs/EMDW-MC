@@ -52,6 +52,7 @@ import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
+import java.nio.file.Paths
 
 class ToolchainManager {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -356,7 +357,7 @@ class ToolchainManager {
 		if(mapperCppDir!=null) {
 			// Map static file sources
 			val mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, '''«RUNTIME_TARGET_DIRECTORY»/«mapperCppDir.name»/''')
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(RUNTIME_TARGET_DIRECTORY, mapperCppDir.name))
 			mapper.execute
 			return mapper.mappedSourceFiles
 		}

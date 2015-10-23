@@ -15,9 +15,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new ping_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* ping_s__ralf__0__ = new ::model::Comp::Pong::ping_s_event();
 
-				::xumlrt::select_any(this->R1_ping)->generate_external_event(__ralf__0__ping_s);'''
+				::xumlrt::select_any(this->R1_ping)->generate_external_event(ping_s__ralf__0__);'''
 			],
 			#[  "Create new signal in class operation",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -27,7 +27,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				ping_s sig = new ping_s();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__sig = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* sig = new ::model::Comp::Pong::ping_s_event();
 				'''
 			],
 			#[  "Create signals' collection in class operation",
@@ -38,9 +38,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Set<ping_s> sigs = Set<ping_s>{new ping_s()};
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* ping_s__ralf__0__ = new ::model::Comp::Pong::ping_s_event();
 
-				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__0__sigs = { __ralf__1__ping_s };'''
+				::std::set< ::model::Comp::Pong::ping_s_event* > sigs = { ping_s__ralf__0__ };'''
 			],
 			#[  "If expression (equation) test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -54,10 +54,10 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				}
 				''',
 				'''
-				long __ralf__0__i = 42;
-				long __ralf__1__j = 42;
-				if ((__ralf__0__i == 42)) {
-				long __ralf__2__0__k = 42;
+				long i = 42;
+				long j = 42;
+				if ((i == 42)) {
+				long k = 42;
 				}'''
 			],
 			#[  "If expression (boolean value) test",
@@ -71,9 +71,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				}
 				''',
 				'''
-				::std::set< long > __ralf__0__i;
+				::std::set< long > i;
 				if (true) {
-				::std::set< long > __ralf__1__0__j = __ralf__0__i;
+				::std::set< long > j = i;
 				}'''
 			],
 			#[  "Cast expression test",
@@ -84,7 +84,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Ping ping = (Ping)this;
 				''',
 				'''
-				::model::Comp::Ping* __ralf__0__ping = dynamic_cast<::model::Comp::Ping*>(this);'''	// FIXME: Should not the validation throw an exception that a Pong cannot be casted to Ping?
+				::model::Comp::Ping* ping = dynamic_cast<::model::Comp::Ping*>(this);'''	// FIXME: Should not the validation throw an exception that a Pong cannot be casted to Ping?
 			],
 			#[  "Operation call expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -114,7 +114,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Integer value = parameter;
 				''',
 				'''
-				long __ralf__0__value = parameter;'''
+				long value = parameter;'''
 			],
 			#[  "Operation call expression with named parameter test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -125,8 +125,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				this.TestOperation(outParameter=>out, inParameter=>42);
 				''',
 				'''
-				long __ralf__0__out = 0l;
-				this->TestOperation(42, (&__ralf__0__out));'''
+				long out = 0l;
+				this->TestOperation(42, (&out));'''
 			],
 			#[  "Static operation call expression test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -186,9 +186,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new CallLeg::remove() to CallLeg::instances().one();
 				''',
 				'''
-				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __ralf__0__remove = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
+				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* remove__ralf__0__ = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
 
-				::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances)->generate_external_event(__ralf__0__remove);'''
+				::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances)->generate_external_event(remove__ralf__0__);'''
 			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -209,8 +209,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				p = Pong::instances().one();
 				''',
 				'''
-				::model::Comp::Pong* __ralf__0__p = nullptr;
-				__ralf__0__p = ::xumlrt::select_any(::model::Comp::Pong::_instances);'''
+				::model::Comp::Pong* p = nullptr;
+				p = ::xumlrt::select_any(::model::Comp::Pong::_instances);'''
 			],
 			#[  "Instances selection test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -241,8 +241,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 					PublicSafetyAccessPointLeg psapLeg = packetSwitchLeg->'manages incoming side of'->'is terminated in'.one();
 				''',
 				'''
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* __ralf__0__packetSwitchLeg = ::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg::_instances);
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* __ralf__1__psapLeg = ::xumlrt::select_any(__ralf__0__packetSwitchLeg->R101_manages_incoming_side_of->R102_is_terminated_in);'''
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* packetSwitchLeg = ::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg::_instances);
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* psapLeg = ::xumlrt::select_any(packetSwitchLeg->R101_manages_incoming_side_of->R102_is_terminated_in);'''
 			],
 			#[  "Foreach test (EATF)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
@@ -254,8 +254,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 					}
 				''',
 				'''
-					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__0____timer : ::xumlrt::select_many(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer::_instances)) {
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__1__0__timer = __ralf__0____timer;
+					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __timer : ::xumlrt::select_many(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer::_instances)) {
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* timer = __timer;
 					}'''
 			]
 		)

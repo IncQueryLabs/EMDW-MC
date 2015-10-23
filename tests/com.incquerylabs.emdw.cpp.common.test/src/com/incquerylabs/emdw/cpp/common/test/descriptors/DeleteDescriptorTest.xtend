@@ -23,7 +23,7 @@ class DeleteDescriptorTest extends ValueDescriptorBaseTest<Class, OperationCallD
 	private static final val VARIABLE_NAME = "deletable"
 	
 	private static final val EXPECTED_TYPE = '''void'''
-	private static final val EXPECTED_REPRESENTATION = '''delete __ralf__0__«VARIABLE_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''delete «VARIABLE_NAME»'''
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)

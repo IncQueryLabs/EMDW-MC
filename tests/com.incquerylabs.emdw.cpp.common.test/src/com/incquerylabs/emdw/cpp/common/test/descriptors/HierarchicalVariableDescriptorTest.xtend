@@ -69,7 +69,7 @@ class HierarchicalSignleVariableDescriptorForNewVariableWithPredifinedNameTest e
 	private static final val CLASS_NAME = "TestClass"
 	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__0__«VARIABLE_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»'''
 	private IUmlDescriptorFactory subFactory
 	
 	override protected createUmlObject(Model umlModel) {
@@ -161,7 +161,7 @@ class HierarchicalCollectionVariableDescriptorForNewVariableWithPredifinedNameTe
 	private static final val VARIABLE_NAME = "classVariable"
 	private static final val COLLECTION_TYPE = "std::collections::Set"
 	private static final val EXPECTED_TYPE = '''::std::set< ::test::«COMPONENT_NAME»::«CLASS_NAME»* >'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__0__«VARIABLE_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»'''
 	private IUmlDescriptorFactory subFactory
 	
 	override protected createUmlObject(Model umlModel) {

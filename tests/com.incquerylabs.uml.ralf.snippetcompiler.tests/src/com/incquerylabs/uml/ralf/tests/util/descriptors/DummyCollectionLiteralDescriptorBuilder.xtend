@@ -10,7 +10,6 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 	private Type collectionType
 	private Type elementType
 	private List<ValueDescriptor> elements
-	StringBuilder builder
 	DummyUmlValueDescriptorFactory descFactory
 	
 	extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
@@ -38,11 +37,6 @@ class DummyCollectionLiteralDescriptorBuilder implements IUmlCollectionLiteralBu
 	
 	override setElements(ValueDescriptor... elems) {
 		this.elements = elems.toList
-		this
-	}
-	
-	override setStringBuilder(StringBuilder builder) {
-		this.builder = builder
 		this
 	}
 	

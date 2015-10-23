@@ -290,7 +290,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	}
 	
 	override createCollectionLiteralBuilder() {
-		return new UmlCollectionLiteralBuilder(this.engine, this)
+		return new UmlCollectionLiteralBuilder(engine)
 	}
 	
 	override createCastDescriptorBuilder() {

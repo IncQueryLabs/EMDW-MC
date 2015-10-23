@@ -39,9 +39,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
-				
-				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__2____std__set = { __ralf__1__ping_s };
-				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__0__sigs = __ralf__2____std__set;'''
+
+				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__0__sigs = { __ralf__1__ping_s };'''
 			],
 			#[  "If expression (equation) test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

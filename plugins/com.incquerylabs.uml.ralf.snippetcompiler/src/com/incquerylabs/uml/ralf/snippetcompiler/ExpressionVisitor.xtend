@@ -106,8 +106,9 @@ class ExpressionVisitor {
 				it.elementType = elementType
 				it.collectionType = collectionType
 				it.elements = elements
-				it.stringBuilder = parent
 			]).build
+			
+			// TODO: optional flattening
 			
 			logger.logVisitingFinished(ex, valueDescriptor.stringRepresentation)
 			valueDescriptor
@@ -185,7 +186,7 @@ class ExpressionVisitor {
 			Signal: {
 				var ValueDescriptor variableDescriptor
 				
-				// TODO flattening should be determined from config and not locally
+				// TODO flattening should be determined from config and not locally (while taking into account if there are attributes to initialize)
 				if(ex.eContainer instanceof LocalNameDeclarationStatement){
 					val statement = ex.eContainer as LocalNameDeclarationStatement
 					if(statement.variable instanceof CollectionVariable){

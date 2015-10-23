@@ -20,54 +20,66 @@
 		<module>../../plugins/com.incquerylabs.uml.xtuml.profile</module>
 		<module>../../plugins/com.incquerylabs.emdw.snippet.model</module>
 
-		<!-- Testing common -->
-		<module>../../tests/com.incquerylabs.emdw.testing.common</module>
-
-		<!-- Toolchain manager -->
-		<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
-
-		<!-- UML integration -->
-		<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
-		<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
-		<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
-
-		<!-- Papyrus integration -->
-		<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
-
-		<!-- Validation -->
-		<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery</module>
-		<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery.validation</module>
-		
-		<!-- XTUML-CPP transformation -->
-		<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
-		<module>../../tests/com.incquerylabs.emdw.cpp.transformation.test</module>
-
-		<!-- CPP code generation -->
-		<module>../../plugins/com.incquerylabs.emdw.cpp.common</module>
-		<module>../../tests/com.incquerylabs.emdw.cpp.common.test</module>
-		<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
-		<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
-		<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
-		<module>../../tests/com.incquerylabs.emdw.cpp.bodyconverter.test</module>
-		<module>../../plugins/com.incquerylabs.emdw.cpp.bodyconverter</module>
-		
-		<!-- rALF Language -->
-		<module>../../tests/com.incquerylabs.uml.ralf.tests</module>
-		<module>../../tests/com.incquerylabs.uml.ralf.tests.examples</module>
-		<module>../../plugins/com.incquerylabs.uml.ralf.snippetcompiler</module>
-		<module>../../tests/com.incquerylabs.uml.ralf.snippetcompiler.tests</module>
-		
-		<!-- Releng -->
-		<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
-		<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
-		<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
-		<module>../com.incquerylabs.emdw.umlintegration.feature</module>
-		<module>../com.incquerylabs.emdw.update</module>
-
 		<!-- Maven plugins -->
 		<module>../../maven/emdw-metamodels</module>
 
 	</modules>
+
+	<profiles>
+		<profile>
+			<id>complete</id>
+			<activation>
+				<property>
+					<name>!maven.metamodel.artifacts</name>
+				</property>
+			</activation>
+			<modules>
+				<!-- Testing common -->
+				<module>../../tests/com.incquerylabs.emdw.testing.common</module>
+		
+				<!-- Toolchain manager -->
+				<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
+		
+				<!-- UML integration -->
+				<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
+				<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
+				<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
+		
+				<!-- Papyrus integration -->
+				<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
+		
+				<!-- Validation -->
+				<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery</module>
+				<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery.validation</module>
+				
+				<!-- XTUML-CPP transformation -->
+				<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.transformation.test</module>
+		
+				<!-- CPP code generation -->
+				<module>../../plugins/com.incquerylabs.emdw.cpp.common</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.common.test</module>
+				<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
+				<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.bodyconverter.test</module>
+				<module>../../plugins/com.incquerylabs.emdw.cpp.bodyconverter</module>
+				
+				<!-- rALF Language -->
+				<module>../../tests/com.incquerylabs.uml.ralf.tests</module>
+				<module>../../tests/com.incquerylabs.uml.ralf.tests.examples</module>
+				<module>../../plugins/com.incquerylabs.uml.ralf.snippetcompiler</module>
+				<module>../../tests/com.incquerylabs.uml.ralf.snippetcompiler.tests</module>
+				
+				<!-- Releng -->
+				<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
+				<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
+				<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
+				<module>../com.incquerylabs.emdw.umlintegration.feature</module>
+				<module>../com.incquerylabs.emdw.update</module>
+			</modules>
+		</profile>
+	</profiles>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

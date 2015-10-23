@@ -81,6 +81,10 @@
 		<jacoco.targetdir>${project.basedir}/../../target</jacoco.targetdir>
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 		<incquery.version>1.0.0</incquery.version>
+		<!-- Sonar -->
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${jacoco.targetdir}/jacoco.exec</sonar.jacoco.reportPath>
 	</properties>
 
 	<repositories>

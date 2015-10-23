@@ -82,7 +82,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	/**
 	 * Create a new SingleVariableDescriptor which stringRepresentation won't be the same as 
 	 * <code>localVariableName</code> because we need to provide a unique name so it will add 
-	 * a unique prefix to the <code>localVariableName</code>. This method caches the returned 
+	 * a unique suffix to the <code>localVariableName</code>. This method caches the returned 
 	 * SingleVariableDescriptor to the <code>localVariableName</code> and you can get it through 
 	 * {@link UmlValueDescriptorFactory#prepareSingleVariableDescriptorForExistingVariable 
 	 * <em>prepareSingleVariableDescriptorForExistingVariable</em>} method.
@@ -114,7 +114,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 	/**
 	 * Create a new SingleVariableDescriptor which stringRepresentation won't be the same as 
 	 * <code>localVariableName</code> because we need to provide a unique name so it will add 
-	 * a unique prefix to the <code>localVariableName</code>. This method caches the returned 
+	 * a unique suffix to the <code>localVariableName</code>. This method caches the returned 
 	 * SingleVariableDescriptor to the <code>localVariableName</code> and you can get it through 
 	 * {@link UmlValueDescriptorFactory#prepareSingleVariableDescriptorForExistingVariable 
 	 * <em>prepareSingleVariableDescriptorForExistingVariable</em>} method.

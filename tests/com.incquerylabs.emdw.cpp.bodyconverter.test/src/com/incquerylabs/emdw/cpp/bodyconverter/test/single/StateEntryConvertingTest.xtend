@@ -15,9 +15,9 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				send new Pong::ping_s() to this->pong.one();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* __ping_s_ralf_0 = new ::model::Comp::Pong::ping_s_event();
 
-				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__ping_s);'''
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ping_s_ralf_0);'''
 			],
 			#[  "Re-send sigdata from state entry action",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -27,8 +27,8 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				send sigdata to this->pong.one();
 				''',
 				'''
-				::model::Comp::Ping::pong_s_event* __ralf__0__pong_s = casted_const_event->clone();
-				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__pong_s);'''
+				::model::Comp::Ping::pong_s_event* __pong_s_ralf_0 = casted_const_event->clone();
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__pong_s_ralf_0);'''
 			],
 			#[  "Unlink expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -39,9 +39,9 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				R3::unlink('call'=>this,'called'=>cd);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = ::xumlrt::select_any(this->R3_called);
+				::PhoneX::PhoneX::Implementation::Called* cd = ::xumlrt::select_any(this->R3_called);
 				this->R3_called = nullptr;
-				__ralf__0__cd->R3_call = nullptr;'''
+				cd->R3_call = nullptr;'''
 			],
 			#[  "Link expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -52,9 +52,9 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				R3::link('call'=>this,'called'=>cd);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Called* __ralf__0__cd = ::xumlrt::select_any(this->R3_called);
-				this->R3_called = __ralf__0__cd;
-				__ralf__0__cd->R3_call = this;'''
+				::PhoneX::PhoneX::Implementation::Called* cd = ::xumlrt::select_any(this->R3_called);
+				this->R3_called = cd;
+				cd->R3_call = this;'''
 			],
 			#[  "Delete expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -65,8 +65,8 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				delete service;
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
-				delete __ralf__0__service;'''
+				::PhoneX::PhoneX::Implementation::Service* service = ::xumlrt::select_any(this->R6_service);
+				delete service;'''
 			],
 			#[  "Pointer equality expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -81,13 +81,13 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				}
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
-				long __ralf__1__x = 1;
-				if ((__ralf__0__service == nullptr)) {
+				::PhoneX::PhoneX::Implementation::Service* service = ::xumlrt::select_any(this->R6_service);
+				long x = 1;
+				if ((service == nullptr)) {
 				
 				}
 				;
-				if ((__ralf__1__x == 0)) {
+				if ((x == 0)) {
 				
 				}'''
 			]

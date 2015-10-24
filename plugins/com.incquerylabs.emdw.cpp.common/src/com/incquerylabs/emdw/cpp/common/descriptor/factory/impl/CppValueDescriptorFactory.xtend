@@ -15,8 +15,8 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	extension TypeConverter typeConverter
 	private CppLiteralConverter converter
 	
-	private static final String LOCAL_VARIABLE_PREFIX = "ralf"
-	private static final String SEPARATOR = "__"
+	private static final String LOCAL_VARIABLE_SUFFIX = "ralf"
+	private static final String SEPARATOR = "_"
 	
 	
 	
@@ -43,13 +43,13 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	
 	override prepareSingleVariableDescriptorForNewLocalVariable(OOPLType type, String localVariableName, boolean initialize) {
 		checkArgument(type!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName.qualifiedName, initialize)
+		val preparedDescriptor = prepareSingleVariableDescriptor(type, localVariableName, initialize)
 		return preparedDescriptor
 	}
 	
 	def prepareSingleVariableDescriptorForNewLocalVariable(CPPEvent cppEvent, String localVariableName) {
 		checkArgument(cppEvent!=null, "OOPLType cannot be null")
-		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, localVariableName.qualifiedName, false)
+		val preparedDescriptor = prepareSingleVariableDescriptor(cppEvent, localVariableName, false)
 		return preparedDescriptor
 	}
 	
@@ -95,14 +95,14 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	override prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, OOPLType elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
 		return preparedDescriptor
 	}
 	
 	def prepareCollectionVariableDescriptorForNewLocalVariable(BaseContainerImplementation collectionType, CPPEvent elementType, String localVariableName) {
 		checkArgument(collectionType!=null, "OOPLType (collectionType) cannot be null")
 		checkArgument(elementType!=null, "OOPLType (elementType) cannot be null")
-		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName.qualifiedName)
+		val preparedDescriptor = prepareCollectionVariableDescriptor(collectionType, elementType, localVariableName)
 		return preparedDescriptor
 	}
 	
@@ -156,29 +156,30 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	
 	private def prepareCollectionVariableDescriptor(BaseContainerImplementation collectionType, EObject elementType, String localVariableName) {
 		val variableRepresentations = localVariableName.createStringRepresentations(collectionType)
-		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
+    		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
 				it.valueRepresentation = variableRepresentations.valueRepresentation
 				it.pointerRepresentation = variableRepresentations.pointerRepresentation
 				it.baseType = collectionType.convertToBaseType
 				it.templateTypes.add(elementType.convertToType)
 				it.fullType = getFullType(baseType, templateTypes)
-		]
+		] 
 		return preparedDescriptor
 	}
 	
 	private def String escapeName(String name) {
-		return name.replace(':', '_').replace('.', '_').replace(' ', '_').replace('%', '_')
+		// first replace all removes every leading : character
+		return name.replaceAll("^:+", "").replace(':', '_').replace('.', '_').replace(' ', '_').replace('%', '_')
 	}
 	
-	public def String getNextPrefix() {
-		val prefix = '''«SEPARATOR»«LOCAL_VARIABLE_PREFIX»«SEPARATOR»«index.qualifiedIndex(parent)»«SEPARATOR»'''
+	public def String getNextSuffix() {
+		val suffix = '''«SEPARATOR»«LOCAL_VARIABLE_SUFFIX»«SEPARATOR»«index.qualifiedIndex(parent)»'''
 		index++
-		return prefix
+		return suffix
 	}
 	
 	private def String qualifiedName(String name) {
-		return '''«getNextPrefix»«name»'''
+		return '''«SEPARATOR»«SEPARATOR»«name»«getNextSuffix»'''
 	}
 	
 	private def String qualifiedIndex(Integer index, OoplValueDescriptorFactory parent) {

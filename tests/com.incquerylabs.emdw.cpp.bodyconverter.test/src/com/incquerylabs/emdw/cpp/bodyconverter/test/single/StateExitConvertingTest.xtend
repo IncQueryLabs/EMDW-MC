@@ -15,9 +15,9 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				send new Pong::ping_s() to this->pong.one();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* __ping_s_ralf_0 = new ::model::Comp::Pong::ping_s_event();
 
-				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__ping_s);'''
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ping_s_ralf_0);'''
 			],
 			#[  "Re-send sigdata from state exit action",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -27,8 +27,8 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				send sigdata to this->pong.one();
 				''',
 				'''
-				::model::Comp::Ping::pong_s_event* __ralf__0__pong_s = casted_const_event->clone();
-				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
+				::model::Comp::Ping::pong_s_event* __pong_s_ralf_0 = casted_const_event->clone();
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__pong_s_ralf_0);'''
 			],
 			#[  "Create and initialize new signal",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/ClientServer/clientserver.uml",
@@ -38,10 +38,10 @@ class StateExitConvertingTest extends AbstractSingleConversionTest{
 				ClientServer::Component::Server::RequestAddition request = new ClientServer::Component::Server::RequestAddition(id=>sigdata.id+1, a=>3, b=>9);
 				''',
 				'''
-				::ClientServer::Component::Server::RequestAddition_event* __ralf__0__request = new ::ClientServer::Component::Server::RequestAddition_event();
-				__ralf__0__request->id = (casted_const_event->id + 1);
-				__ralf__0__request->a = 3;
-				__ralf__0__request->b = 9;'''
+				::ClientServer::Component::Server::RequestAddition_event* request = new ::ClientServer::Component::Server::RequestAddition_event();
+				request->id = (casted_const_event->id + 1);
+				request->a = 3;
+				request->b = 9;'''
 			]
 		)
 	}

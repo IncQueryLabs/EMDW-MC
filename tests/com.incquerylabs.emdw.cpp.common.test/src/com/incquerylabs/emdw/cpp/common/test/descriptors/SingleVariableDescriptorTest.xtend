@@ -73,7 +73,7 @@ class SingleVariableDescriptorForNewVariableWithPredifinedNameTest extends Cache
 	private static final val CLASS_NAME = "TestClass"
 	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»'''
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -115,7 +115,7 @@ class SingleVariableDescriptorForNewClassVariableWithPredifinedNameAndInitializa
 	private static final val CLASS_NAME = "TestClass"
 	private static final val VARIABLE_NAME = "classVariable"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME» = nullptr'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME» = nullptr'''
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -159,7 +159,7 @@ class SingleVariableDescriptorForNewPrimitiveTypeVariableWithPredifinedNameAndIn
 	private static final val VARIABLE_NAME = "primitiveTypeVariable"
 	private static final val PRIMITIVE_TYPE = "Boolean"
 	private static final val EXPECTED_TYPE = '''bool'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME» = false'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME» = false'''
 	
 	override protected createUmlObject(Model umlModel) {
 		val pT = findPrimitiveType(umlModel, PRIMITIVE_TYPE)
@@ -202,7 +202,7 @@ class SingleVariableDescriptorForNewVariableWithoutNameTest extends CachedValueD
 	private static final val COMPONENT_NAME = "TestComponent"
 	private static final val CLASS_NAME = "TestClass"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»*'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«CLASS_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''__«CLASS_NAME»_ralf_0'''
 	private String VARIABLE_NAME
 	
 	override protected createUmlObject(Model umlModel) {
@@ -293,7 +293,7 @@ class SingleVariableDescriptorForNewSignalVariableWithPredifinedNameTest extends
 	private static final val SIGNAL_NAME = "TestSignal"
 	private static final val VARIABLE_NAME = "signalVariable"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»::«SIGNAL_NAME»_event*'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«VARIABLE_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''«VARIABLE_NAME»'''
 	
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
@@ -339,7 +339,7 @@ class SingleVariableDescriptorForNewSignalVariableWithoutNameTest extends Cached
 	private static final val CLASS_NAME = "TestClass"
 	private static final val SIGNAL_NAME = "TestSignal"
 	private static final val EXPECTED_TYPE = '''::test::«COMPONENT_NAME»::«CLASS_NAME»::«SIGNAL_NAME»_event*'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0__«SIGNAL_NAME»'''
+	private static final val EXPECTED_REPRESENTATION = '''__«SIGNAL_NAME»_ralf_0'''
 	private String VARIABLE_NAME
 	
 	override protected createUmlObject(Model umlModel) {

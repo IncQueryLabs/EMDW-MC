@@ -15,7 +15,7 @@ class TransitionGuardConvertingTest extends AbstractSingleConversionTest{
 				this.'count' < 42;
 				''',
 				'''
-				this->count < 42;'''
+				(this->count < 42);'''
 			]
 		)
 	}

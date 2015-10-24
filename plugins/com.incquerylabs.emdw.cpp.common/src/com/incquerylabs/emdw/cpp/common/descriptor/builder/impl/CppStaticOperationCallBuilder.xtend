@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.google.common.base.Preconditions
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
@@ -21,7 +22,12 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 		var OperationCallDescriptor ocd
 		if(operation!=null) {
 			ocd = prepareOperationCallDescriptor(operation) => [
-				it.stringRepresentation = '''«cppOperation.cppQualifiedName»(«parameterString»)'''
+				// cppOperation is calculated in prepareOperationCallDescriptor, do not move it outside
+				val stringRepresentation = '''«cppOperation.cppQualifiedName»(«parameterString»)'''
+			 	val otherRepresentations = stringRepresentation.createStringRepresentations(cppOperation.subElements.filter(CPPReturnValue).head)
+				it.stringRepresentation = stringRepresentation
+				it.valueRepresentation = otherRepresentations.valueRepresentation
+				it.pointerRepresentation = otherRepresentations.pointerRepresentation
 			]
 		} else {
 			switch(operationName) {

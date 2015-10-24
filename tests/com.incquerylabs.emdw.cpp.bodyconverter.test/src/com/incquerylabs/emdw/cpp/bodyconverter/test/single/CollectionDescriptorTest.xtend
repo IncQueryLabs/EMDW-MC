@@ -58,8 +58,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				long __ralf__0__i = 0;
-				::std::set< long > __ralf__2____std__set = { __ralf__0__i };
-				::std::set< long > __ralf__1__si = __ralf__2____std__set;'''
+				::std::set< long > __ralf__1__si = { __ralf__0__i };'''
 			],
 			#[
 				"SET<PRIMITIVE TYPE> - creation with default literal values test",
@@ -70,8 +69,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				Set<Integer> si = Set<Integer>{1, 2, 3};
 				''',
 				'''
-				::std::set< long > __ralf__1____std__set = { 1, 2, 3 };
-				::std::set< long > __ralf__0__si = __ralf__1____std__set;'''
+				::std::set< long > __ralf__0__si = { 1, 2, 3 };'''
 			],
 			#[
 				"SET<PRIMITIVE TYPE> - creation with default literal and variable values test",
@@ -84,8 +82,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				long __ralf__0__i = 0;
-				::std::set< long > __ralf__2____std__set = { 1, 2, 3, __ralf__0__i };
-				::std::set< long > __ralf__1__si = __ralf__2____std__set;'''
+				::std::set< long > __ralf__1__si = { 1, 2, 3, __ralf__0__i };'''
 			],
 			#[  "SET<PRIMITIVE TYPE> - one operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -174,8 +171,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::model::Comp::Pong* __ralf__0__p = this;
-				::std::set< ::model::Comp::Pong* > __ralf__2____std__set = { __ralf__0__p };
-				::std::set< ::model::Comp::Pong* > __ralf__1__sp = __ralf__2____std__set;'''
+				::std::set< ::model::Comp::Pong* > __ralf__1__sp = { __ralf__0__p };'''
 			],
 			#[  "SET<REFERENCE TYPE> - one operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -262,8 +258,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				Sequence<Integer> p = Sequence<Integer>{1, 2, 3};
 				''',
 				'''
-				::std::vector< long > __ralf__1____std__vector = { 1, 2, 3 };
-				::std::vector< long > __ralf__0__p = __ralf__1____std__vector;'''
+				::std::vector< long > __ralf__0__p = { 1, 2, 3 };'''
 			],
 			#[
 				"SEQUENCE<PRIMITIVE TYPE> - creation with default variable values test",
@@ -276,8 +271,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				long __ralf__0__i = 0;
-				::std::vector< long > __ralf__2____std__vector = { __ralf__0__i };
-				::std::vector< long > __ralf__1__p = __ralf__2____std__vector;'''
+				::std::vector< long > __ralf__1__p = { __ralf__0__i };'''
 			],
 			#[
 				"SEQUENCE<PRIMITIVE TYPE> - creation with default literal and variable values test",
@@ -290,8 +284,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				long __ralf__0__i = 0;
-				::std::vector< long > __ralf__2____std__vector = { 1, 2, 3, __ralf__0__i };
-				::std::vector< long > __ralf__1__p = __ralf__2____std__vector;'''
+				::std::vector< long > __ralf__1__p = { 1, 2, 3, __ralf__0__i };'''
 			],
 			#[  "SEQUENCE<PRIMITIVE TYPE> - one operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -390,8 +383,7 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 				''',
 				'''
 				::model::Comp::Pong* __ralf__0__p = this;
-				::std::list< ::model::Comp::Pong* > __ralf__2____std__list = { __ralf__0__p };
-				::std::list< ::model::Comp::Pong* > __ralf__1__sp = __ralf__2____std__list;'''
+				::std::list< ::model::Comp::Pong* > __ralf__1__sp = { __ralf__0__p };'''
 			],
 			#[  "SEQUENCE<REFERENCE TYPE> - one operation test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

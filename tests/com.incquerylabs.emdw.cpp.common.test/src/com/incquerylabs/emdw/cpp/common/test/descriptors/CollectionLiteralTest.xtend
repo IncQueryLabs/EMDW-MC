@@ -24,11 +24,8 @@ class CollectionLiteralTest extends ValueDescriptorBaseTest<Class, CollectionVar
 	private static final val SINGLE_VARIABLE_NAME = "classVariable"
 	private static final val COLLECTION_TYPE = "std::collections::Set"
 	private static final val EXPECTED_TYPE = '''::std::set< ::test::«COMPONENT_NAME»::«CLASS_NAME»* >'''
-	private static final val EXPECTED_REPRESENTATION = '''__ralf__0____std__set'''
-	private static final val EXPECTED_BUILDER_CONTENT = '''::std::set< ::test::TestComponent::TestClass* > __ralf__0____std__set = { classVariable };
-														'''
-	private StringBuilder builder = new StringBuilder
-	
+	private static final val EXPECTED_REPRESENTATION = '''{ classVariable }'''
+
 	override protected createUmlObject(Model umlModel) {
 		val comp = umlModel.createComponent(COMPONENT_NAME)
 		val cl = comp.createClass(CLASS_NAME)
@@ -45,7 +42,6 @@ class CollectionLiteralTest extends ValueDescriptorBaseTest<Class, CollectionVar
 			it.collectionType = findCollectionType(element, COLLECTION_TYPE)
 			it.elementType = element
 			it.elements = svd
-			it.stringBuilder = builder
 		]).build
 		return cvd
 	}
@@ -53,7 +49,6 @@ class CollectionLiteralTest extends ValueDescriptorBaseTest<Class, CollectionVar
 	override protected assertResult(Class object, CollectionVariableDescriptor descriptor) {
 		assertEquals(EXPECTED_TYPE, descriptor.fullType)
 		assertEquals(EXPECTED_REPRESENTATION, descriptor.stringRepresentation)
-		assertEquals(EXPECTED_BUILDER_CONTENT, builder.toString)
 	}
 	
 }

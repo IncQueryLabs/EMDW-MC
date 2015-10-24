@@ -15,10 +15,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new ping_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Ping* __ralf__0__Ping = ::xumlrt::select_any(this->R1_ping);
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
-				
-				__ralf__0__Ping->generate_external_event(__ralf__1__ping_s);'''
+				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event();
+
+				::xumlrt::select_any(this->R1_ping)->generate_external_event(__ralf__0__ping_s);'''
 			],
 			#[  "Create new signal in class operation",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -40,9 +39,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
-				
-				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__2____std__set = { __ralf__1__ping_s };
-				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__0__sigs = __ralf__2____std__set;'''
+
+				::std::set< ::model::Comp::Pong::ping_s_event* > __ralf__0__sigs = { __ralf__1__ping_s };'''
 			],
 			#[  "If expression (equation) test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -58,9 +56,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				long __ralf__0__i = 42;
 				long __ralf__1__j = 42;
-				bool __ralf__2__bool = __ralf__0__i == 42;
-				if (__ralf__2__bool) {
-				long __ralf__3__0__k = 42;
+				if ((__ralf__0__i == 42)) {
+				long __ralf__2__0__k = 42;
 				}'''
 			],
 			#[  "If expression (boolean value) test",
@@ -189,10 +186,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new CallLeg::remove() to CallLeg::instances().one();
 				''',
 				'''
-				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg* __ralf__0__CallLeg = ::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances);
-				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __ralf__1__remove = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
+				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __ralf__0__remove = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
 
-				__ralf__0__CallLeg->generate_external_event(__ralf__1__remove);'''
+				::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances)->generate_external_event(__ralf__0__remove);'''
 			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -258,9 +254,8 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 					}
 				''',
 				'''
-					::std::set< ::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* > __ralf__0____std__set = ::xumlrt::select_many(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer::_instances);
-					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__1____timer : __ralf__0____std__set) {
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__2__0__timer = __ralf__1____timer;
+					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__0____timer : ::xumlrt::select_many(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer::_instances)) {
+					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __ralf__1__0__timer = __ralf__0____timer;
 					}'''
 			]
 		)

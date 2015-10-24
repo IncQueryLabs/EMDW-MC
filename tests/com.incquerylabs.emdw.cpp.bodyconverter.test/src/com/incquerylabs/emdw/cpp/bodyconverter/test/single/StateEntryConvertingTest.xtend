@@ -15,10 +15,9 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				send new Pong::ping_s() to this->pong.one();
 				''',
 				'''
-				::model::Comp::Pong* __ralf__0__Pong = ::xumlrt::select_any(this->R1_pong);
-				::model::Comp::Pong::ping_s_event* __ralf__1__ping_s = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* __ralf__0__ping_s = new ::model::Comp::Pong::ping_s_event();
 
-				__ralf__0__Pong->generate_external_event(__ralf__1__ping_s);'''
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__ping_s);'''
 			],
 			#[  "Re-send sigdata from state entry action",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -28,9 +27,8 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				send sigdata to this->pong.one();
 				''',
 				'''
-				::model::Comp::Pong* __ralf__0__Pong = ::xumlrt::select_any(this->R1_pong);
-				::model::Comp::Ping::pong_s_event* __ralf__1__pong_s = casted_const_event->clone();
-				__ralf__0__Pong->generate_external_event(__ralf__1__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
+				::model::Comp::Ping::pong_s_event* __ralf__0__pong_s = casted_const_event->clone();
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__pong_s);'''
 			],
 			#[  "Unlink expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
@@ -85,13 +83,11 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::PhoneX::PhoneX::Implementation::Service* __ralf__0__service = ::xumlrt::select_any(this->R6_service);
 				long __ralf__1__x = 1;
-				bool __ralf__2__bool = __ralf__0__service == nullptr;
-				if (__ralf__2__bool) {
+				if ((__ralf__0__service == nullptr)) {
 				
 				}
 				;
-				bool __ralf__3__bool = __ralf__1__x == 0;
-				if (__ralf__3__bool) {
+				if ((__ralf__1__x == 0)) {
 				
 				}'''
 			]

@@ -191,15 +191,19 @@ class StatementVisitor {
 			block.statement.forEach[ statement |
 				builder.append(statement.visit+StringConcatenation.DEFAULT_LINE_DELIMITER)
 	    	]
-	    	val blockConditionString = updateLoopVariable(st.condition, builder)
-	    	builder.append('''«conditionString» = «blockConditionString»;
-	    	''')
+	    	if(st.condition.isFlatteningNeeded) {
+	    		val blockConditionString = updateLoopVariable(st.condition, builder)
+	    		builder.append('''«conditionString» = «blockConditionString»;
+	    		''')
+	    	}
 			
 		}else{	
 			builder.append(st.body.visit)
-			val blockConditionString = updateLoopVariable(st.condition, builder)
-			builder.append('''«conditionString» = «blockConditionString»;
-			''')
+			if(st.condition.isFlatteningNeeded) {
+				val blockConditionString = updateLoopVariable(st.condition, builder)
+				builder.append('''«conditionString» = «blockConditionString»;
+				''')
+			}
 		}
 		builder.append('''}''')
 		util.descriptorFactory = parent

@@ -45,19 +45,17 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
-				model::Comp::Ping temp0 = ::xumlrt::select_any(p->ping);
-				temp0->generate_external_event(s);''',
+				::xumlrt::select_any(p->ping)->generate_external_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test this",
 			    '''send new ping_s(integerAttribute => 2, pongAttribute => this) to this->ping.one();''',
 				
 				'''
-				model::Comp::Ping temp0 = ::xumlrt::select_any(this->ping);
-				model::Comp::Pong::ping_s temp1 = new model::Comp::Pong::ping_s();
-				temp1->integerAttribute = 2;
-				temp1->pongAttribute = this;
-				temp0->generate_external_event(temp1);''',
+				model::Comp::Pong::ping_s temp0 = new model::Comp::Pong::ping_s();
+				temp0->integerAttribute = 2;
+				temp0->pongAttribute = this;
+				::xumlrt::select_any(this->ping)->generate_external_event(temp0);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Send Signal test null",
@@ -69,13 +67,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''
 				model::Comp::Pong p = nullptr;
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				pointer{p} = temp0;
+				pointer{p} = new model::Comp::Pong();
 				model::Comp::Pong::ping_s s = new model::Comp::Pong::ping_s();
 				s->integerAttribute = 2;
 				s->pongAttribute = this;
-				model::Comp::Ping temp1 = ::xumlrt::select_any(p->ping);
-				temp1->generate_external_event(s);''',
+				::xumlrt::select_any(p->ping)->generate_external_event(s);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property assignment",
@@ -144,16 +140,14 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''(1 + 1) * 2;''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{1};
-				value{temp0} * value{2};''',
+				(value{(value{1} + value{1})} * value{2});''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Arithmetic Expression test unnecessary parentheses",
 			    '''(1 * 1) + 2;''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} * value{1};
-				value{temp0} + value{2};''',
+				(value{(value{1} * value{1})} + value{2});''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Variable definition test",
@@ -183,15 +177,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{2};
-				PrimitiveTypes::Integer temp1 = value{temp0} * value{3};
-				PrimitiveTypes::Integer x = value{temp1} + value{4};
+				PrimitiveTypes::Integer x = (value{(value{(value{1} + value{2})} * value{3})} + value{4});
 				++value{x};
-				PrimitiveTypes::Boolean temp2 = value{x} > value{3};
-				PrimitiveTypes::Boolean temp3 = value{x} == value{1};
-				if (temp2) {
+				if ((value{x} > value{3})) {
 				value{x}--;
-				} else if (temp3) {
+				} else if ((value{x} == value{1})) {
 				value{x}++;
 				}''',
 				"model::Comp::Pong::TestOperation"
@@ -207,20 +197,11 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				}''',
 				
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{2};
-				PrimitiveTypes::Integer temp1 = value{temp0} * value{3};
-				PrimitiveTypes::Integer temp2 = -value{4};
-				PrimitiveTypes::Integer x = value{temp1} + value{temp2};
+				PrimitiveTypes::Integer x = (value{(value{(value{1} + value{2})} * value{3})} + value{-4});
 				++value{x};
 				PrimitiveTypes::Integer y = x;
-				PrimitiveTypes::Integer temp3 = value{x} - value{15};
-				value{y} = temp3;
-				PrimitiveTypes::Boolean temp4 = value{x} > value{3};
-				PrimitiveTypes::Integer temp5 = -value{5};
-				PrimitiveTypes::Boolean temp6 = value{y} < value{temp5};
-				PrimitiveTypes::Boolean temp7 = !temp6;
-				PrimitiveTypes::Boolean temp8 = value{temp4} && value{temp7};
-				if (temp8) {
+				value{y} = (value{x} - value{15});
+				if ((value{(value{x} > value{3})} && value{!(value{y} < value{-5})})) {
 				value{x}--;
 				}''',
 				"model::Comp::Pong::TestOperation"
@@ -274,7 +255,6 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Boolean temp0 = true;
 				while (temp0) {
 				value{x}++;
-				temp0 = true;
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -289,12 +269,10 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				PrimitiveTypes::Integer x = 1;
 				{
 				PrimitiveTypes::Integer i = 0;
-				PrimitiveTypes::Boolean temp0 = value{i} < value{5};
-				while (temp0) {
+				while ((value{i} < value{5})) {
 				value{x}++;
 				value{i}++;
-				PrimitiveTypes::Boolean temp1 = value{i} < value{5};
-				temp0 = temp1;
+				(value{i} < value{5}) = (value{i} < value{5});
 				}
 				}''',
 				"model::Comp::Pong::TestOperation"
@@ -415,9 +393,8 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				send sigdata to p->ping.one();''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				model::Comp::Ping temp0 = ::xumlrt::select_any(p->ping);
-				model::Comp::Pong::ping_s temp1 = model::Comp::Pong::ping_s.clone(sigdata);
-				temp0->generate_external_event(temp1);''',
+				model::Comp::Pong::ping_s temp0 = model::Comp::Pong::ping_s.clone(sigdata);
+				::xumlrt::select_any(p->ping)->generate_external_event(temp0);''',
 				"sendPong"
 			],
 			#[  "Collection variable declaration",
@@ -503,8 +480,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    ''',
 			    '''
 				model::Comp::Pong p = new model::Comp::Pong();
-				std::collections::Set<model::Comp::Pong> temp0 = ::xumlrt::select_many(model::Comp::Pong::_instances());
-				p.doPongMultiple(temp0);''',
+				p.doPongMultiple(::xumlrt::select_many(model::Comp::Pong::_instances()));''',
 				"sendPong"
 			],
 			#[  "Cast expression",
@@ -516,8 +492,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				model::Comp::Pong p = default;
 				model::Comp::Pong2 p2 = new model::Comp::Pong2();
-				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
-				pointer{p} = temp0;''',
+				pointer{p} = (model::Comp::Pong) p2;''',
 				"sendPong"
 			],
 			#[  "Cast expression operation call",
@@ -529,8 +504,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				model::Comp::Pong p = default;
 				model::Comp::Pong2 p2 = new model::Comp::Pong2();
-				model::Comp::Pong temp0 = (model::Comp::Pong) p2;
-				p.doPongVoid(temp0);''',
+				p.doPongVoid((model::Comp::Pong) p2);''',
 				"sendPong"
 			],
 			#[  "For Each test",
@@ -542,7 +516,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				std::collections::Set<PrimitiveTypes::Integer> s = std::collections::Set<PrimitiveTypes::Integer> {1, 2, 3 };
 				for(PrimitiveTypes::Integer i : s) {
-				value{i} + value{1};
+				(value{i} + value{1});
 				}''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -560,8 +534,7 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    Pong::instances().filter(p : p.integerProperty == 1);''',
 			    '''
 				::xumlrt::select_many_where< model::Comp::Pong >(model::Comp::Pong::_instances(), [&](model::Comp::Pong p) {
-							PrimitiveTypes::Boolean temp2 = value{p->integerProperty} == value{1};
-							return temp2;
+							return (value{p->integerProperty} == value{1});
 						});''',
 				"model::Comp::Pong::TestOperation"
 			],
@@ -580,15 +553,13 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 			    p->pong.one().integerProperty;''',
 			    '''
 				model::Comp::Ping p = new model::Comp::Ping();
-				model::Comp::Pong temp0 = ::xumlrt::select_any(p->pong);
-				temp0->integerProperty;''',
+				::xumlrt::select_any(p->pong)->integerProperty;''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Conditional test",
 			    '''(true || false) ? 1 : 2;''',
 			    '''
-				PrimitiveTypes::Boolean temp0 = value{true} || value{false};
-				(value{temp0}) ? (value{1}) : (value{2});''',
+				((value{(value{true} || value{false})}) ? (value{1}) : (value{2}));''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Name Expression Parameter value representation required test",

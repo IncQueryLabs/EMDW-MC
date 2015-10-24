@@ -12,29 +12,25 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			#[  "Multiple addition",
 			    '''Integer x = 1+2+3;''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{2};
-				PrimitiveTypes::Integer x = value{temp0} + value{3};''',
+				PrimitiveTypes::Integer x = (value{(value{1} + value{2})} + value{3});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Multiple addition real",
 			    '''Real x = 1.1 * 2.2 *3.3;''',
 				'''
-				PrimitiveTypes::Real temp0 = value{1.1} * value{2.2};
-				PrimitiveTypes::Real x = value{temp0} * value{3.3};''',
+				PrimitiveTypes::Real x = (value{(value{1.1} * value{2.2})} * value{3.3});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Multiple string concat",
 			    '''String x = "1.1" + "2.2" + "3.3";''',
 				'''
-				PrimitiveTypes::String temp0 = value{"1.1"} + value{"2.2"};
-				PrimitiveTypes::String x = value{temp0} + value{"3.3"};''',
+				PrimitiveTypes::String x = (value{(value{"1.1"} + value{"2.2"})} + value{"3.3"});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Mixed arithmetics",
 			    '''Real x = 1 * 1.1 / 3;''',
 				'''
-				PrimitiveTypes::Real temp0 = value{1} * value{1.1};
-				PrimitiveTypes::Real x = value{temp0} / value{3};''',
+				PrimitiveTypes::Real x = (value{(value{1} * value{1.1})} / value{3});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Property access",
@@ -90,15 +86,13 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			#[  "Operation call additive",
 			    '''this.doIntegerVoid(1+2);''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{2};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid((value{1} + value{2}));''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call additive_alternative_syn",
 			    '''this.doIntegerVoid(parameter => 1+2);''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{2};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid((value{1} + value{2}));''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call alternative_syn_reorder",
@@ -109,29 +103,25 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			#[  "Operation call multiplicative",
 			    '''this.doIntegerVoid(1*2);''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} * value{2};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid((value{1} * value{2}));''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call shift",
 			    '''this.doIntegerVoid(1 >> 2);''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} >> value{2};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(value{1} >> value{2});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call numeric unary",
 			    '''this.doIntegerVoid(-1);''',
 				'''
-				PrimitiveTypes::Integer temp0 = -value{1};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(-1);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call numeric unary_alternative_syn",
 			    '''this.doIntegerVoid(parameter => -1);''',
 				'''
-				PrimitiveTypes::Integer temp0 = -value{1};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(-1);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call postfix increment",
@@ -140,8 +130,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    this.doIntegerVoid(x++);''',
 				'''
 				PrimitiveTypes::Integer x = 1;
-				PrimitiveTypes::Integer temp0 = value{x}++;
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(value{x}++);''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call prefix increment",
@@ -150,8 +139,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    this.doIntegerVoid(++x);''',
 				'''
 				PrimitiveTypes::Integer x = 1;
-				PrimitiveTypes::Integer temp0 = ++value{x};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(++value{x});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call prefix increment_alternative_syn",
@@ -160,38 +148,33 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    this.doIntegerVoid(parameter => ++x);''',
 				'''
 				PrimitiveTypes::Integer x = 1;
-				PrimitiveTypes::Integer temp0 = ++value{x};
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(++value{x});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call operation call",
 			    '''
 			    this.doIntegerVoid(this.returnInteger());''',
 				'''
-				PrimitiveTypes::Integer temp0 = this.returnInteger();
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(this.returnInteger());''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call operation call_alternative_syn",
 			    '''
 			    this.doIntegerVoid(parameter => this.returnInteger());''',
 				'''
-				PrimitiveTypes::Integer temp0 = this.returnInteger();
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(this.returnInteger());''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call new",
 			    '''this.doPongVoid(new Pong());''',
 				'''
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				this.doPongVoid(temp0);''',
+				this.doPongVoid(new model::Comp::Pong());''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call new_alternative_syn",
 			    '''this.doPongVoid(parameter => new Pong());''',
 				'''
-				model::Comp::Pong temp0 = new model::Comp::Pong();
-				this.doPongVoid(temp0);''',
+				this.doPongVoid(new model::Comp::Pong());''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Operation call Static",
@@ -205,8 +188,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				a = Pong::staticIntegerOperation();''',
 				'''
 				PrimitiveTypes::Integer a = default;
-				PrimitiveTypes::Integer temp0 = model::Comp::Pong::staticIntegerOperation();
-				value{a} = temp0;''',
+				value{a} = model::Comp::Pong::staticIntegerOperation();''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Operation call Static_Variable",
@@ -265,8 +247,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				switch(1+1){
 				}''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} + value{1};
-				switch (temp0) {
+				switch ((value{1} + value{1})) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -274,8 +255,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				switch(1 >> 2){}''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} >> value{2};
-				switch (temp0) {
+				switch (value{1} >> value{2}) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -283,8 +263,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				switch(1 | 2){}''',
 				'''
-				PrimitiveTypes::Integer temp0 = value{1} | value{2};
-				switch (temp0) {
+				switch ((value{1} | value{2})) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -308,8 +287,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    '''
 				switch(this.returnInteger()){}''',
 				'''
-				PrimitiveTypes::Integer temp0 = this.returnInteger();
-				switch (temp0) {
+				switch (this.returnInteger()) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -319,8 +297,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				switch(x=1){}''',
 				'''
 				PrimitiveTypes::Integer x = 0;
-				PrimitiveTypes::Integer temp0 = (value{x} = 1);
-				switch (temp0) {
+				switch (value{x} = 1) {
 				}''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
@@ -330,8 +307,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 				(x + 1) * 2;''',
 				'''
 				PrimitiveTypes::Integer x = 1;
-				PrimitiveTypes::Integer temp0 = value{x} + value{1};
-				value{temp0} * value{2};''',
+				(value{(value{x} + value{1})} * value{2});''',
 				"model::Comp::Pong::doIntegerVoid"
 			],
 			#[  "Postfix expression on property this",
@@ -368,8 +344,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    this.doIntegerVoid(i = 1);''',
 			    '''
 				PrimitiveTypes::Integer i = default;
-				PrimitiveTypes::Integer temp0 = (value{i} = 1);
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(value{i} = 1);''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Flattened Assignment_property",
@@ -378,8 +353,7 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			    this.doIntegerVoid(this.integerProperty = 1);''',
 			    '''
 				PrimitiveTypes::Integer i = default;
-				PrimitiveTypes::Integer temp0 = (this->integerProperty = 1);
-				this.doIntegerVoid(temp0);''',
+				this.doIntegerVoid(this->integerProperty = 1);''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Not Flattened Shift",
@@ -389,31 +363,29 @@ class SnippetFlattenerPluginTest extends AbstractPluginSnippetTest{
 			],
 			#[  "Not Flattened Relational",
 			    '''1 > 2;''',
-			    '''value{1} > value{2};''',
+			    '''(value{1} > value{2});''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Not Flattened Equality",
 			    '''1 == 2;''',
-			    '''value{1} == value{2};''',
+			    '''(value{1} == value{2});''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Not Flattened Logical",
 			    '''true && false;''',
-			    '''value{true} && value{false};''',
+			    '''(value{true} && value{false});''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Not Flattened bitwise or",
 			    '''1 & 2;''',
-			    '''value{1} & value{2};''',
+			    '''(value{1} & value{2});''',
 				"model::Comp::Pong::TestOperation"
 			],
 			#[  "Flattened Conditional test",
 			    '''
 			    this.doIntegerVoid((true || false) ? 1 : 2);''',
 			    '''
-				PrimitiveTypes::Boolean temp0 = value{true} || value{false};
-				PrimitiveTypes::Integer temp1 = (value{temp0}) ? (value{1}) : (value{2});
-				this.doIntegerVoid(temp1);''',
+				this.doIntegerVoid(((value{(value{true} || value{false})}) ? (value{1}) : (value{2})));''',
 				"model::Comp::Pong::TestOperation"
 			]
 		)

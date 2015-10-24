@@ -28,7 +28,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				''',
 				'''
 				::model::Comp::Ping::pong_s_event* __ralf__0__pong_s = casted_const_event->clone();
-				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__pong_s);''' // FIXME: Is __ralf__1__pong_s' type a pointer?
+				::xumlrt::select_any(this->R1_pong)->generate_external_event(__ralf__0__pong_s);'''
 			],
 			#[  "Unlink expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",

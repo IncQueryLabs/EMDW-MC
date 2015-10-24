@@ -120,7 +120,7 @@ class CollectionVariableDescriptorForNewVariableWithoutNameTest extends CachedVa
 	private static final val CLASS_NAME = "TestClass"
 	private static final val COLLECTION_TYPE = "std::collections::Set"
 	private static final val EXPECTED_TYPE = '''::std::set< ::test::«COMPONENT_NAME»::«CLASS_NAME»* >'''
-	private static final val EXPECTED_REPRESENTATION = '''__std__set__ralf__0__'''
+	private static final val EXPECTED_REPRESENTATION = '''__std__set_ralf_0'''
 	private String VARIABLE_NAME
 	
 	override protected createUmlObject(Model umlModel) {
@@ -267,7 +267,7 @@ class CollectionVariableDescriptorForNewSignalVariableWithoutNameTest extends Ca
 	private static final val SIGNAL_NAME = "TestSignal"
 	private static final val COLLECTION_TYPE = "std::collections::Set"
 	private static final val EXPECTED_TYPE = '''::std::set< ::test::«COMPONENT_NAME»::«CLASS_NAME»::«SIGNAL_NAME»_event* >'''
-	private static final val EXPECTED_REPRESENTATION = '''__std__set__ralf__0__'''
+	private static final val EXPECTED_REPRESENTATION = '''__std__set_ralf_0'''
 	private String VARIABLE_NAME
 	
 	override protected createUmlObject(Model umlModel) {

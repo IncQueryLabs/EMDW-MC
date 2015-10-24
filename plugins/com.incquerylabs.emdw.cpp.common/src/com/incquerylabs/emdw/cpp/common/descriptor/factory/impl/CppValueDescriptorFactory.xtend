@@ -16,7 +16,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	private CppLiteralConverter converter
 	
 	private static final String LOCAL_VARIABLE_SUFFIX = "ralf"
-	private static final String SEPARATOR = "__"
+	private static final String SEPARATOR = "_"
 	
 	
 	
@@ -168,17 +168,18 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	private def String escapeName(String name) {
-		return name.replace(':', '_').replace('.', '_').replace(' ', '_').replace('%', '_')
+		// first replace all removes every leading : character
+		return name.replaceAll("^:+", "").replace(':', '_').replace('.', '_').replace(' ', '_').replace('%', '_')
 	}
 	
 	public def String getNextSuffix() {
-		val suffix = '''«SEPARATOR»«LOCAL_VARIABLE_SUFFIX»«SEPARATOR»«index.qualifiedIndex(parent)»«SEPARATOR»'''
+		val suffix = '''«SEPARATOR»«LOCAL_VARIABLE_SUFFIX»«SEPARATOR»«index.qualifiedIndex(parent)»'''
 		index++
 		return suffix
 	}
 	
 	private def String qualifiedName(String name) {
-		return '''«name»«getNextSuffix»'''
+		return '''«SEPARATOR»«SEPARATOR»«name»«getNextSuffix»'''
 	}
 	
 	private def String qualifiedIndex(Integer index, OoplValueDescriptorFactory parent) {

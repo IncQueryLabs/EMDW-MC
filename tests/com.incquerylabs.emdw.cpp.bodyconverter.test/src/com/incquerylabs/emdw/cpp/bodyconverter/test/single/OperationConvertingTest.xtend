@@ -15,9 +15,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new ping_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* ping_s__ralf__0__ = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* __ping_s_ralf_0 = new ::model::Comp::Pong::ping_s_event();
 
-				::xumlrt::select_any(this->R1_ping)->generate_external_event(ping_s__ralf__0__);'''
+				::xumlrt::select_any(this->R1_ping)->generate_external_event(__ping_s_ralf_0);'''
 			],
 			#[  "Create new signal in class operation",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -38,9 +38,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				Set<ping_s> sigs = Set<ping_s>{new ping_s()};
 				''',
 				'''
-				::model::Comp::Pong::ping_s_event* ping_s__ralf__0__ = new ::model::Comp::Pong::ping_s_event();
+				::model::Comp::Pong::ping_s_event* __ping_s_ralf_0 = new ::model::Comp::Pong::ping_s_event();
 
-				::std::set< ::model::Comp::Pong::ping_s_event* > sigs = { ping_s__ralf__0__ };'''
+				::std::set< ::model::Comp::Pong::ping_s_event* > sigs = { __ping_s_ralf_0 };'''
 			],
 			#[  "If expression (equation) test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -186,9 +186,9 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				send new CallLeg::remove() to CallLeg::instances().one();
 				''',
 				'''
-				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* remove__ralf__0__ = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
+				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __remove_ralf_0 = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
 
-				::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances)->generate_external_event(remove__ralf__0__);'''
+				::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances)->generate_external_event(__remove_ralf_0);'''
 			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

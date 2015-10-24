@@ -15,9 +15,9 @@ class TransitionConvertingTest extends AbstractSingleConversionTest{
 				send new Ping::pong_s() to this->ping.one();
 				''',
 				'''
-				::model::Comp::Ping::pong_s_event* pong_s__ralf__0__ = new ::model::Comp::Ping::pong_s_event();
+				::model::Comp::Ping::pong_s_event* __pong_s_ralf_0 = new ::model::Comp::Ping::pong_s_event();
 
-				::xumlrt::select_any(this->R1_ping)->generate_external_event(pong_s__ralf__0__);'''
+				::xumlrt::select_any(this->R1_ping)->generate_external_event(__pong_s_ralf_0);'''
 			],
 			#[  "Single Conversion Test: Create and send new signal",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

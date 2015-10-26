@@ -14,6 +14,7 @@ import org.eclipse.incquery.runtime.api.IncQueryMatcher
 import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.runtime.changemonitor.ChangeMonitor
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
 
 class XtumlModelChangeMonitor {
 	
@@ -28,9 +29,7 @@ class XtumlModelChangeMonitor {
 	private AdvancedIncQueryEngine engine
 	
 	new (AdvancedIncQueryEngine engine) {
-		this.engine = engine
-		queries.prepare(engine)
-		xtqueries.prepare(engine)
+		GenericPatternGroup.of(queries, xtqueries).prepare(engine)
 		this.monitor = new ChangeMonitor(engine)
 		this.dirtyXTComponents = <XTComponent>newHashSet()
 		this.scopedParameters = <IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>>, String>newHashMap()
@@ -117,7 +116,7 @@ class XtumlModelChangeMonitor {
 	}
 	
 	def Collection<? extends XTComponent> getAllContainedComponents(Package pack) {
-		return engine.getXtPackageXTComponents.getAllValuesOfxtComponent(pack)
+		return engine.getXtPackageAllXtComponents.getAllValuesOfxtComponent(pack)
 	}
 	
 	private def registerQuerySpecification(IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>> querySpec, int scopedParameter) {

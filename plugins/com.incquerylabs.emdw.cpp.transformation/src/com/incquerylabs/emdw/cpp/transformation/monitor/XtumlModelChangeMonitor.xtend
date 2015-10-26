@@ -11,6 +11,8 @@ import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryMatcher
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.runtime.changemonitor.ChangeMonitor
+import org.eclipse.papyrusrt.xtumlrt.common.Package
+import java.util.Collection
 
 class XtumlModelChangeMonitor {
 	
@@ -99,10 +101,21 @@ class XtumlModelChangeMonitor {
 	
 	private def checkComponentChanges(Multimap<IQuerySpecification<? extends IncQueryMatcher<IPatternMatch>>, IPatternMatch> changes) {
 		changes.values.forEach[ match |
-			val dirtyComponent = searchParentComponent(match.scopedElement)
-			if(dirtyComponent != null)
+			val scopedElement = match.scopedElement
+			val dirtyComponent = searchParentComponent(scopedElement)
+			if(dirtyComponent != null) {
 				dirtyXTComponents.add(dirtyComponent)
+			} else if(scopedElement instanceof Package) {
+				dirtyXTComponents.addAll(scopedElement.allContainedComponent)
+			}
 		]
+	}
+	
+	def Collection<? extends XTComponent> getAllContainedComponent(Package pack) {
+		val allContainedComponent = <XTComponent>newArrayList
+		pack.packages.forEach[allContainedComponent.addAll(it.allContainedComponent)]
+		pack.entities.filter(XTComponent).forEach[allContainedComponent.add(it)]
+		return allContainedComponent
 	}
 	
 	private def registerQuerySpecification(IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>> querySpec, int scopedParameter) {

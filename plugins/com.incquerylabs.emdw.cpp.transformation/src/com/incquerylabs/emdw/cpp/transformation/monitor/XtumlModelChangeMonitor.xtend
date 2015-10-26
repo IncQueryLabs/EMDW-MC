@@ -29,6 +29,7 @@ class XtumlModelChangeMonitor {
 	private AdvancedIncQueryEngine engine
 	
 	new (AdvancedIncQueryEngine engine) {
+		this.engine = engine
 		GenericPatternGroup.of(queries, xtqueries).prepare(engine)
 		this.monitor = new ChangeMonitor(engine)
 		this.dirtyXTComponents = <XTComponent>newHashSet()

@@ -2,6 +2,8 @@ package com.incquerylabs.emdw.cpp.transformation.monitor
 
 import com.google.common.collect.Multimap
 import com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries
+import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import java.util.Collection
 import java.util.HashMap
 import java.util.Set
 import org.eclipse.emf.ecore.EObject
@@ -9,21 +11,26 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
 import org.eclipse.incquery.runtime.api.IncQueryMatcher
+import org.eclipse.papyrusrt.xtumlrt.common.Package
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.runtime.changemonitor.ChangeMonitor
+import org.eclipse.incquery.runtime.api.GenericPatternGroup
 
 class XtumlModelChangeMonitor {
 	
 	private ChangeMonitor monitor;
 	private extension MonitorQueries queries = MonitorQueries.instance
+	private extension XtumlQueries xtqueries = XtumlQueries.instance
 	
 	private Set<XTComponent> dirtyXTComponents
 	private HashMap<IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>>, String> scopedParameters;
 	
 	private Boolean started = false;
+	private AdvancedIncQueryEngine engine
 	
 	new (AdvancedIncQueryEngine engine) {
-		prepare(engine)
+		this.engine = engine
+		GenericPatternGroup.of(queries, xtqueries).prepare(engine)
 		this.monitor = new ChangeMonitor(engine)
 		this.dirtyXTComponents = <XTComponent>newHashSet()
 		this.scopedParameters = <IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>>, String>newHashMap()
@@ -99,10 +106,18 @@ class XtumlModelChangeMonitor {
 	
 	private def checkComponentChanges(Multimap<IQuerySpecification<? extends IncQueryMatcher<IPatternMatch>>, IPatternMatch> changes) {
 		changes.values.forEach[ match |
-			val dirtyComponent = searchParentComponent(match.scopedElement)
-			if(dirtyComponent != null)
+			val scopedElement = match.scopedElement
+			val dirtyComponent = searchParentComponent(scopedElement)
+			if(dirtyComponent != null) {
 				dirtyXTComponents.add(dirtyComponent)
+			} else if(scopedElement instanceof Package) {
+				dirtyXTComponents.addAll(scopedElement.allContainedComponents)
+			}
 		]
+	}
+	
+	def Collection<? extends XTComponent> getAllContainedComponents(Package pack) {
+		return engine.getXtPackageAllXtComponents.getAllValuesOfxtComponent(pack)
 	}
 	
 	private def registerQuerySpecification(IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>> querySpec, int scopedParameter) {

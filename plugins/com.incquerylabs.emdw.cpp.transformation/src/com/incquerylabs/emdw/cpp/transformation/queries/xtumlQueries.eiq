@@ -90,6 +90,16 @@ pattern xtPackageXTComponents(
 	Package.entities(xtPackage, xtComponent);
 }
 
+pattern xtPackageAllXtComponents(
+	xtPackage : Package,
+	xtComponent : XTComponent
+) {
+	find xtPackageXTComponents(xtPackage, xtComponent);
+} or {
+	find xtPackageSubPackages+(xtPackage, xtSubPackage);
+	find xtPackageXTComponents(xtSubPackage, xtComponent);
+}
+
 pattern xtPackageXTClasses(
 	xtPackage : Package,
 	xtClass : XTClass

@@ -5,17 +5,19 @@ import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplCollectionLiteralBuilder
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import java.util.List
+import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.NamedElement
 import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTEvent
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import java.util.List
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 
 class CppCollectionLiteralBuilder implements IOoplCollectionLiteralBuilder{
-	
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	String xtCollectionType
@@ -31,16 +33,23 @@ class CppCollectionLiteralBuilder implements IOoplCollectionLiteralBuilder{
 	}
 	
 	override build() {
+		trace('''Started building''')
 		var CollectionVariableDescriptor cvd
 		switch (xtElementType) {
 			XTEvent : {
 				val elementType = mapper.convertEvent(xtElementType)
+				trace('''Resolved element type: «elementType.cppQualifiedName»''')
 				val cppCollectionType = mapper.findCollectionImplementation(xtCollectionType, elementType)
+				trace('''Resolved collection type: «cppCollectionType.convertToBaseType»''')
 				cvd = createCollectionVariableDescriptor(cppCollectionType, elementType)
 			}
 			Type : {
 				val elementType = mapper.convertType(xtElementType)
+				if(elementType instanceof CPPQualifiedNamedElement) {
+					trace('''Resolved element type: «elementType.cppQualifiedName»''')
+				}
 				val cppCollectionType = mapper.findCollectionImplementation(xtCollectionType, elementType)
+				trace('''Resolved collection type: «cppCollectionType.convertToBaseType»''')
 				cvd = createCollectionVariableDescriptor(cppCollectionType, elementType)
 			}
 		}
@@ -49,7 +58,7 @@ class CppCollectionLiteralBuilder implements IOoplCollectionLiteralBuilder{
 		val descriptorString = '''{ «FOR elem : elems.sortBy[it.stringRepresentation] SEPARATOR ", "»«elem.stringRepresentation»«ENDFOR» }'''
 		cvd.stringRepresentation = descriptorString
 		// pointer and value representation should never be used 
-				
+		trace('''Finished building''')
 		return cvd
 	}
 	

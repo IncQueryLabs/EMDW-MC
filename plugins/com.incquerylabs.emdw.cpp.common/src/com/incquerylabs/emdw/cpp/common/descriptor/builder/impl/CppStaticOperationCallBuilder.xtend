@@ -6,6 +6,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplStaticOperationC
 import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
@@ -16,9 +17,11 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 	
 	new(AdvancedIncQueryEngine engine) {
 		super(engine)
+		logger = Logger.getLogger(class)
 	}
 	
 	override build() {
+		trace('''Started building''')
 		var OperationCallDescriptor ocd
 		if(operation!=null) {
 			ocd = prepareOperationCallDescriptor(operation) => [
@@ -41,7 +44,7 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 					]
 				}
 				case "toString": {
-					Preconditions.checkArgument(params.size==1, '''The toString method has one parameter but «params?.size» was caught.''')
+					Preconditions.checkArgument(params.size==1, '''The toString method has one parameter but «params.size» was caught.''')
 					val stringType = mapper.findBasicType("string")
 					ocd = createOperationCallDescriptor => [
 						it.baseType = stringType.cppQualifiedName
@@ -52,10 +55,12 @@ class CppStaticOperationCallBuilder extends AbstractCppOperationCallDescriptorBu
 					]
 				}
 				default: {
+					trace('''Invalid operationName: «operationName»''')
 					throw new IllegalArgumentException('''Invalid operationName: «operationName»''')
 				}
 			}
 		}
+		trace('''Finished building''')
 		return ocd
 	}
 	

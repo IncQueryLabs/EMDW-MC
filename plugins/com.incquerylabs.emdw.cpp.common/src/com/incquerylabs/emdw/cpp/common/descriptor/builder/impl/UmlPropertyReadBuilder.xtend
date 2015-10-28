@@ -6,10 +6,13 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlPropertyReadBuild
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.PropertyReadDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Property
 
 class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private UmlToXtumlMapper mapper
 	private IOoplAttributeReadBuilder attributeBuilder
 	private IOoplAssociationReadBuilder associationBuilder
@@ -26,20 +29,24 @@ class UmlPropertyReadBuilder implements IUmlPropertyReadBuilder {
 	
 	
 	override build() {
+		trace('''Started building''')
 		var PropertyReadDescriptor descriptor
 		val xtUmlAttribute = mapper.convertPropertyToAttribute(property)
 		if(xtUmlAttribute!=null) {
+			trace('''Resolved attribute: «xtUmlAttribute.name»''')
 			descriptor = (attributeBuilder => [
 						it.variable = variable
 						it.attribute = xtUmlAttribute
 					]).build
 		} else {
 			val xtUmlAssociation = mapper.convertPropertyToAssociation(property)
+			trace('''Resolved association: «xtUmlAssociation.name»''')
 			descriptor = (associationBuilder => [
 						it.variable = variable
 						it.association = xtUmlAssociation
 					]).build
 		}
+		trace('''Finished building''')
 		return descriptor
 		
 	}

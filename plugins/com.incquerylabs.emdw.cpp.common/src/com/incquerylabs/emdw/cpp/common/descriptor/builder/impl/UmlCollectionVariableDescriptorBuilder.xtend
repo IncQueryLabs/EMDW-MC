@@ -2,11 +2,15 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 
 class UmlCollectionVariableDescriptorBuilder implements IUmlCollectionVariableDescriptorBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private String name
 	private Type collectionType
 	private Type elementType
@@ -20,13 +24,17 @@ class UmlCollectionVariableDescriptorBuilder implements IUmlCollectionVariableDe
 	override build() {
 		checkArgument(collectionType!=null, "Collection type cannot be null")
 		checkArgument(elementType!=null, "Element type cannot be null")
+		trace('''Started building''')
+		var CollectionVariableDescriptor cvd = null
 		if(isExistingVariable) {
-			return factory.prepareCollectionVariableDescriptorForExistingVariable(collectionType, elementType, name)
+			cvd = factory.prepareCollectionVariableDescriptorForExistingVariable(collectionType, elementType, name)
 		} else if(name!=null) {
-			return factory.prepareCollectionVariableDescriptorForNewLocalVariable(collectionType, elementType, name)
+			cvd = factory.prepareCollectionVariableDescriptorForNewLocalVariable(collectionType, elementType, name)
 		} else {
-			return factory.prepareCollectionVariableDescriptorForNewLocalVariable(collectionType, elementType)
+			cvd = factory.prepareCollectionVariableDescriptorForNewLocalVariable(collectionType, elementType)
 		}
+		trace('''Finished building''')
+		return cvd
 	}
 	
 	override IUmlCollectionVariableDescriptorBuilder setName(String name) {

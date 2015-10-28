@@ -2,11 +2,15 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 
 class UmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptorBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private String name
 	private Type type
 	boolean initialize
@@ -19,13 +23,17 @@ class UmlSingleVariableDescriptorBuilder implements IUmlSingleVariableDescriptor
 	
 	override build() {
 		checkArgument(type!=null, "Type cannot be null")
+		trace('''Started building''')
+		var SingleVariableDescriptor svd = null
 		if(isExistingVariable) {
-			return factory.prepareSingleVariableDescriptorForExistingVariable(type, name)
+			svd = factory.prepareSingleVariableDescriptorForExistingVariable(type, name)
 		} else if(name!=null) {
-			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type, name, initialize)
+			svd = factory.prepareSingleVariableDescriptorForNewLocalVariable(type, name, initialize)
 		} else {
-			return factory.prepareSingleVariableDescriptorForNewLocalVariable(type, initialize)
+			 svd = factory.prepareSingleVariableDescriptorForNewLocalVariable(type, initialize)
 		}
+		trace('''Finished building''')
+		return svd
 	}
 	
 	override IUmlSingleVariableDescriptorBuilder setName(String name) {

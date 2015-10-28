@@ -1,11 +1,14 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplForeachBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlForeachBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplForeachBuilder
 
 class UmlForeachBuilder implements IUmlForeachBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private IOoplForeachBuilder builder
 	
 	private ValueDescriptor collection
@@ -16,10 +19,13 @@ class UmlForeachBuilder implements IUmlForeachBuilder {
 	}
 	
 	override build() {
-		return (builder => [
+		trace('''Started building''')
+		val ocd = (builder => [
 					it.collectionDescriptor = collection
 					it.variableDescriptor = variable
 				]).build
+		trace('''Finished building''')
+		return ocd
 	}
 	
 	override setCollectionDescriptor(ValueDescriptor collection) {

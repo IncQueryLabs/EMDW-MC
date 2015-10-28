@@ -6,6 +6,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplOperationCallBui
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.CppValueDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 
@@ -20,14 +21,17 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 	
 	new(CppValueDescriptorFactory factory, AdvancedIncQueryEngine engine) {
 		super(engine)
+		logger = Logger.getLogger(class)
 		this.cvdfactory = factory
 	}
 	
 	
 	override build() {
 		Preconditions::checkNotNull(operation)
+		trace('''Started building''')
 		
 		val od = prepareOperationCallDescriptor(operation)
+		trace('''Resolved operation: «cppOperation.cppQualifiedName»''')
 		if(mapper.isHiddenByChild(operation)) {
 			od.stringRepresentation = '''«variable.stringRepresentation»->«cppOperation.cppQualifiedName»(«parameterString»)'''
 		} else {
@@ -39,7 +43,8 @@ class CppOperationCallBuilder extends AbstractCppOperationCallDescriptorBuilder 
 			
 		od.valueRepresentation = convertedRepresentations.valueRepresentation
 		od.pointerRepresentation = convertedRepresentations.pointerRepresentation
-			
+		
+		trace('''Finished building''')
 		return od
 	}
 	

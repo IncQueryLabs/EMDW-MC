@@ -4,12 +4,15 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplCopyConstructorC
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCopyConstructorCallBuilder
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 class UmlCopyConstructorCallBuilder implements IUmlCopyConstructorCallBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private UmlToXtumlMapper mapper
 	private IOoplCopyConstructorCallBuilder builder
 	
@@ -26,11 +29,15 @@ class UmlCopyConstructorCallBuilder implements IUmlCopyConstructorCallBuilder {
 	
 	override build() {
 		if(type instanceof Signal) {
+			trace('''Started building''')
 			val xtEvent = mapper.convertSignal(type) as XTClassEvent
-			return (builder => [
+			trace('''Resolved event: «xtEvent.name»''')
+			val ocd = (builder => [
 						it.event = xtEvent
 						it.parameter = param
 					]).build
+			trace('''Finished building''')
+			return ocd
 		}
 	}
 	

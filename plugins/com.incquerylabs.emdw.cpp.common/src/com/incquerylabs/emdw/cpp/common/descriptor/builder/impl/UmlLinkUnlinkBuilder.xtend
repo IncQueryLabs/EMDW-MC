@@ -1,15 +1,18 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplLinkUnlinkBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLinkUnlinkBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Association
 import org.eclipse.uml2.uml.Property
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplLinkUnlinkBuilder
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
 
 class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private UmlToXtumlMapper mapper
 	private IOoplLinkUnlinkBuilder builder
 	
@@ -26,7 +29,9 @@ class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		val sourceToTargetAssociation = mapper.convertPropertyToAssociation(targetProperty)
+		trace('''Resolved association: «sourceToTargetAssociation.name»''')
 		builder.isUnlink(isUnlink)
 		if(sourceToTargetAssociation != null) {
 			builder => [
@@ -35,14 +40,18 @@ class UmlLinkUnlinkBuilder implements IUmlLinkUnlinkBuilder {
 				it.sourceToTargetAssociation = sourceToTargetAssociation
 			]
 		} else {
+			trace('''No source to target association''')
 			val targetToSourceAssociation = mapper.convertPropertyToAssociation(sourceProperty)
+			trace('''Resolved association: «targetToSourceAssociation.name»''')
 			builder => [
 				it.sourceDescriptor = this.targetDescriptor
 				it.targetDescriptor = this.sourceDescriptor
 				it.sourceToTargetAssociation = targetToSourceAssociation
 			]
 		}
-		return builder.build
+		val vd = builder.build
+		trace('''Finished building''')
+		return vd
 	}
 	
 	override isUnlink(boolean isUnlink) {

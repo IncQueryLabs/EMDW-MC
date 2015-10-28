@@ -8,11 +8,14 @@ import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.DataType
 import org.eclipse.uml2.uml.Operation
 
 class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private UmlToXtumlMapper mapper
 	private IOoplOperationCallBuilder builder
 	private static final val collections = newArrayList(
@@ -35,6 +38,7 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 	
 	
 	override build() {
+		trace('''Started building''')
 		val xtParams = params?.map[new XtTypedValueDescriptor(mapper.convertType(type), descriptor)]
 		builder => [
 			it.variable = variable
@@ -43,12 +47,16 @@ class UmlOperationCallBuilder implements IUmlOperationCallBuilder {
 		val dataType = operation.eContainer
 		if(dataType instanceof DataType) {
 			if(collections.contains(dataType.qualifiedName)) {
-				return builder.setOperationName(operation.name).setCollectionType(mapper.decodeCollectionType(dataType)).build
+				val ocd = builder.setOperationName(operation.name).setCollectionType(mapper.decodeCollectionType(dataType)).build
+				trace('''Finished building''')
+				return ocd
 			}
 		}
 		
 		val xtOperation = mapper.convertOperation(operation)
+		trace('''Resolved operation: «xtOperation.name»''')
 		val ocd = builder.setOperation(xtOperation).build
+		trace('''Finished building''')
 		return ocd
 	}
 	

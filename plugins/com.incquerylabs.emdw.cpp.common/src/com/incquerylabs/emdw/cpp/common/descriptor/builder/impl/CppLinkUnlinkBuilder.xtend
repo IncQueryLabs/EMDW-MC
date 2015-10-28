@@ -10,10 +10,12 @@ import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 
 class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private AdvancedIncQueryEngine engine
@@ -40,6 +42,7 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		if(xtAssociation.upperBound == 1) {
 			var sourceToTargetWriteBuilder = createAssociationWriteDescriptor(sourceDescriptor, targetDescriptor, xtAssociation)
 			sourceToTargetString = '''«sourceToTargetWriteBuilder.stringRepresentation»'''
@@ -58,13 +61,15 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		}
 		
 		val voidTypeString = converter.convertToType(mapper.findBasicType("void"))
-		return factory.createOperationCallDescriptor => [
+		val ocd = factory.createOperationCallDescriptor => [
 			it.stringRepresentation =	'''
 										«sourceToTargetString»«IF xtAssociation.opposite!=null»;
 										«targetToSourceString»«ENDIF»'''
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
 		]
+		trace('''Finished building''')
+		return ocd
 	}
 	
 	def createAssociationWriteDescriptor(ValueDescriptor sourceDescriptor, ValueDescriptor targetDescriptor, XTAssociation xtAssociation) {

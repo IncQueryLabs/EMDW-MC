@@ -7,10 +7,12 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAssociationWrite
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 
 class CppAssociationWriteBuilder implements IOoplAssociationWriteBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
@@ -28,8 +30,10 @@ class CppAssociationWriteBuilder implements IOoplAssociationWriteBuilder {
 	
 	
 	override build() {
+		trace('''Started building''')
 		val cppAssociation = mapper.convertAssociation(association)
 		if(cppAssociation instanceof CPPQualifiedNamedElement) {
+			trace('''Resolved cpp association: «cppAssociation.cppQualifiedName»''')
 			val refStorage = cppAssociation.referenceStorage.head
 			val type = refStorage.type
 			val svd = factory.createPropertyWriteDescriptor => [
@@ -41,8 +45,10 @@ class CppAssociationWriteBuilder implements IOoplAssociationWriteBuilder {
 				svd.templateTypes.add(converter.convertToType(type.ooplClass))
 			}
 			refStorage.required = true
+			trace('''Finished building''')
 			return svd
 		}
+		trace('''No cpp association for «association.name»''')
 		throw new IllegalArgumentException('''«association» has no cpp pair.''')
 	}
 	

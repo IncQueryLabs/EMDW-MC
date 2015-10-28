@@ -5,11 +5,13 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionLiteral
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import java.util.List
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 
 class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
+	extension Logger logger = Logger.getLogger(class)
 
 	Type collectionType
 	Type elementType
@@ -24,6 +26,7 @@ class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		var String collectionString
 		switch collectionType.qualifiedName {
 			case "std::collections::Set": {
@@ -33,12 +36,14 @@ class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
 				collectionString = "::std::list"
 			}
 		}
+		trace('''Collection type: «collectionString»''')
 		
 		val xtCollectionType = mapper.decodeCollectionType(collectionType)
 		val xtElementType = switch (elementType) {
 			Signal : mapper.convertSignal(elementType)
 			Type : mapper.convertType(elementType)
 		}
+		trace('''Element type: «xtElementType.name»''')
 		
 		val cvd = (literalBuilder => [
 			it.xtCollectionType = xtCollectionType
@@ -46,6 +51,7 @@ class UmlCollectionLiteralBuilder implements IUmlCollectionLiteralBuilder {
 			it.elements = elems
 		]).build
 		
+		trace('''Finished building''')
 		return cvd
 	}
 	

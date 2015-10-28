@@ -12,9 +12,11 @@ import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
+import org.apache.log4j.Logger
 
 abstract class AbstractCppOperationCallDescriptorBuilder {
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
+	protected extension Logger logger
 	
 	protected XtumlToOoplMapper mapper
 	protected extension TypeConverter converter
@@ -32,6 +34,7 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 	
 	def prepareOperationCallDescriptor(Operation operation, boolean calculateTypes) {
 		cppOperation = mapper.convertOperation(operation)
+		trace('''Resolved operation: «cppOperation.cppQualifiedName»''')
 		val ocd = factory.createOperationCallDescriptor => [
 			if(calculateTypes) {
 				val returnValue = cppOperation.subElements.filter(CPPReturnValue).head

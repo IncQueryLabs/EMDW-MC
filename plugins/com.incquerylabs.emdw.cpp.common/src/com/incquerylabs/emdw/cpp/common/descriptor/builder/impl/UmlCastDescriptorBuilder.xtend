@@ -2,12 +2,14 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplCastDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCastDescriptorBuilder
-import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import org.eclipse.uml2.uml.Type
 import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
+import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import org.eclipse.uml2.uml.Type
 
 class UmlCastDescriptorBuilder implements IUmlCastDescriptorBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	private IOoplCastDescriptorBuilder builder
 	private UmlToXtumlMapper mapper
 	
@@ -30,11 +32,15 @@ class UmlCastDescriptorBuilder implements IUmlCastDescriptorBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		val xumlType = mapper.convertType(type)
-		return (builder => [
+		trace('''Resolved type: «type.qualifiedName»''')
+		val d = (builder => [
 					it.castingType = xumlType
 					it.descriptor = descriptor
 				]).build
+		trace('''Finished building''')
+		return d
 	}
 	
 	

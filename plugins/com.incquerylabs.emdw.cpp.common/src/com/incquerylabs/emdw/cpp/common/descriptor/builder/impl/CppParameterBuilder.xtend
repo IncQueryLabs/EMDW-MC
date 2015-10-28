@@ -1,15 +1,17 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.ericsson.xtumlrt.oopl.OOPLClassReferenceCollection
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplParameterBuilder
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
-import com.ericsson.xtumlrt.oopl.OOPLClassReferenceCollection
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPSequence
 
 class CppParameterBuilder implements IOoplParameterBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	extension TypeConverter typeConverter
@@ -28,7 +30,9 @@ class CppParameterBuilder implements IOoplParameterBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		val cppFormalParameter = mapper.convertParameter(parameter)
+		trace('''Resolved parameter: «cppFormalParameter.cppQualifiedName»''')
 		val type = cppFormalParameter.type
 		val name = cppFormalParameter.cppName
 		
@@ -49,6 +53,7 @@ class CppParameterBuilder implements IOoplParameterBuilder {
 			parameterDescriptor.templateTypes.add(type.elementType.convertToType)
 		}
 		
+		trace('''Finished building''')
 		parameterDescriptor
 	}
 	

@@ -58,7 +58,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(type!=null, "Type cannot be null")
 		trace('''Started new local SingleVariableDescriptor creation''')
 		val ooplType = mapper.convertType(type)
-		trace('''Resolved type: «ooplType»''')
+		
 		val svd = factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType, localVariableName, initialize)
 		trace('''Finished new local SingleVariableDescriptor creation''')
 		return svd
@@ -91,7 +91,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(type!=null, "Type cannot be null")
 		trace('''Started new local SingleVariableDescriptor creation''')
 		val ooplType = mapper.convertType(type)
-		trace('''Resolved type: «ooplType»''')
+		
 		val svd = factory.prepareSingleVariableDescriptorForNewLocalVariable(ooplType, initialize)
 		trace('''Finished new local SingleVariableDescriptor creation''')
 		return svd
@@ -124,7 +124,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(type!=null, "Type cannot be null")
 		trace('''Started existing local SingleVariableDescriptor creation''')
 		val ooplType = mapper.convertType(type)
-		trace('''Resolved type: «ooplType»''')
+		
 		val svd = factory.prepareSingleVariableDescriptorForExistingVariable(ooplType, localVariableName)
 		trace('''Finished existing local SingleVariableDescriptor creation''')
 		return svd
@@ -159,7 +159,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(type!=null, "Type cannot be null")
 		trace('''Started LiteralDescriptor creation''')
 		val ooplType = mapper.convertType(type)
-		trace('''Resolved type: «ooplType»''')
+		
 		val ld = factory.prepareSingleVariableDescriptorForLiteral(ooplType, literal)
 		trace('''Finished LiteralDescriptor creation''')
 		return ld
@@ -170,7 +170,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
 		trace('''Started new local CollectionVariableDescriptor creation''')
 		val ooplElementType = mapper.convertType(elementType)
-		trace('''Resolved element type: «ooplElementType»''')
+		
 		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		trace('''Resolved collection type: «ooplCollectionType.containerQualifiedName»''')
 		val cvd = factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType, localVariableName)
@@ -196,7 +196,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
 		trace('''Started new local CollectionVariableDescriptor creation''')
 		val ooplElementType = mapper.convertType(elementType)
-		trace('''Resolved element type: «ooplElementType»''')
+		
 		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		trace('''Resolved collection type: «ooplCollectionType.containerQualifiedName»''')
 		val cvd = factory.prepareCollectionVariableDescriptorForNewLocalVariable(ooplCollectionType, ooplElementType)
@@ -222,7 +222,7 @@ class XtumlValueDescriptorFactory {
 		checkArgument(elementType!=null, "Type (elementType) cannot be null")
 		trace('''Started existing local CollectionVariableDescriptor creation''')
 		val ooplElementType = mapper.convertType(elementType)
-		trace('''Resolved element type: «ooplElementType»''')
+		
 		val ooplCollectionType = mapper.findCollectionImplementation(collectionType, ooplElementType)
 		trace('''Resolved collection type: «ooplCollectionType.containerQualifiedName»''')
 		val cvd = factory.prepareCollectionVariableDescriptorForExistingVariable(ooplCollectionType, ooplElementType, localVariableName)

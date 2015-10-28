@@ -193,7 +193,7 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		} else {
 			svd = factory.prepareSingleVariableDescriptorForExistingVariable(xtumlType, localVariableName).cache(localVariableName)
 		}
-		trace('''Fnished existing local SingleVariableDescriptor creation''')
+		trace('''Finished existing local SingleVariableDescriptor creation''')
 		return svd
 	}
 	

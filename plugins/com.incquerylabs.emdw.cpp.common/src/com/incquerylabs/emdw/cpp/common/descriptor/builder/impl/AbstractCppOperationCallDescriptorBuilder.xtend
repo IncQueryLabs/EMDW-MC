@@ -34,7 +34,9 @@ abstract class AbstractCppOperationCallDescriptorBuilder {
 	
 	def prepareOperationCallDescriptor(Operation operation, boolean calculateTypes) {
 		cppOperation = mapper.convertOperation(operation)
-		trace('''Resolved operation: «cppOperation.cppQualifiedName»''')
+		if(cppOperation!=null) {
+			trace('''Resolved operation: «cppOperation.cppQualifiedName»''')
+		}
 		val ocd = factory.createOperationCallDescriptor => [
 			if(calculateTypes) {
 				val returnValue = cppOperation.subElements.filter(CPPReturnValue).head

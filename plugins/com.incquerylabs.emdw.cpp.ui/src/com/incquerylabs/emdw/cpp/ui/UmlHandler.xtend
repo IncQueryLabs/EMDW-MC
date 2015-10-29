@@ -45,7 +45,7 @@ class UmlHandler extends AbstractHandler {
 				val engine = AdvancedIncQueryEngine.from(service.getOrCreateEngine(modelSet))
 				
 				val emfModel = modelSet.getModelChecked(xtResourceUri.toString)
-				emfModel.saveModel()
+				emfModel.saveModel
 				if(emfModel instanceof EMFResourcePapyrusModel){
 					val xtumlResource = emfModel.resource
 					val xtModel = xtumlResource.contents.filter(org.eclipse.papyrusrt.xtumlrt.common.Model).head
@@ -78,6 +78,9 @@ class UmlHandler extends AbstractHandler {
 							toolchainManager.executeDeltaCodeAndFileGeneration
 							toolchainManager.startChangeMonitor()
 							toolchainManager.logMeasuredTimes
+							val cppModel = toolchainManager.getOrCreateCPPModel							
+							cppModel.eResource.save(#{})
+							
 							MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
 								 "xUML-RT Code Generation finished successfully",
 								'''

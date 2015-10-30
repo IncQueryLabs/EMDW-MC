@@ -56,6 +56,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
 import java.nio.file.Paths
+import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 
 class ToolchainManager {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -239,9 +240,9 @@ class ToolchainManager {
 		watch.logTime(Phase.EXECUTE_CPP_COMP)
 	}
 	
-	def executeCppActionCodeCompile() {
+	def executeCppActionCodeCompile(IEMDWProgressMonitor progressMonitor) {
 		val watch = Stopwatch.createStarted
-		cppCompTrafo.compileActionCodes
+		cppCompTrafo.compileActionCodes(progressMonitor)
 		
 		watch.logTime(Phase.EXECUTE_RALF_COMPILE)
 	}
@@ -258,9 +259,9 @@ class ToolchainManager {
 		watch.logPartTime(Phase.EXECUTE_CPP_COMP)
 	}
 	
-	def executeCppActionCodeCompile(XTComponent component) {
+	def executeCppActionCodeCompile(XTComponent component, IEMDWProgressMonitor progressMonitor) {
 		val watch = Stopwatch.createStarted
-		cppCompTrafo.compileActionCodes(component)
+		cppCompTrafo.compileActionCodes(component, progressMonitor)
 		
 		watch.logPartTime(Phase.EXECUTE_RALF_COMPILE)
 	}
@@ -313,7 +314,7 @@ class ToolchainManager {
 		}
 	}
 	
-	def executeDeltaCodeAndFileGeneration() {
+	def executeDeltaCodeAndFileGeneration(IEMDWProgressMonitor progressMonitor) {
 		val watch = Stopwatch.createStarted
 		createChangeMonitorCheckpoint()
 		
@@ -323,7 +324,7 @@ class ToolchainManager {
 		// CPP Component Transformation
 		componentsToTransform.forEach[
 			it.executeCppStructureTransformation
-			it.executeCppActionCodeCompile
+			it.executeCppActionCodeCompile(progressMonitor)
 		]
 		
 		// ******* FILE CONTENT GENERATION *******

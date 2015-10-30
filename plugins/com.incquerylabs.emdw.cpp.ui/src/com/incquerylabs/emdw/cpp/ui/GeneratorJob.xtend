@@ -16,6 +16,7 @@ import org.eclipse.xtend.lib.annotations.Data
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
 import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import com.incquerylabs.emdw.cpp.ui.util.EMDWProgressMonitor
 
 class GeneratorJob extends Job {
 
@@ -75,7 +76,7 @@ class GeneratorJob extends Job {
 			progressMonitor.worked(progress)
 		]
 		tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.executeDeltaCodeAndFileGeneration
+			toolchainManager.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
 			progressMonitor.worked(progress)
 		]
 		tasks += new GeneratorTask(CHANGE_MONITOR_INIT_WORK, "Starting change monitor.") [ toolchainManager, progressMonitor, progress |
@@ -91,7 +92,8 @@ class GeneratorJob extends Job {
 			progressMonitor.worked(progress)
 		]
 
-		val fullProgress = tasks.map[progress].fold(0)[$0 + $1] // calculate the sum of the progresses of the task		
+		// calculate the sum of the progresses of the tasks
+		val fullProgress = tasks.map[progress].fold(0)[$0 + $1]
 		val subMonitor = SubMonitor::convert(monitor, JOB_NAME, fullProgress + TOOLCHAIN_INIT_WORK)
 		
 		subMonitor.taskName = "Initializing toolchain."
@@ -131,6 +133,8 @@ class GeneratorTask {
 
 	val int progress
 	val String taskName
+	
+	// def void execute(ToolchainManager tm, SubMonitor sm, Integer i)
 	@Accessors(NONE) val (ToolchainManager, SubMonitor, Integer)=>void task
 
 	def run(ToolchainManager toolchainManager, SubMonitor monitor) {

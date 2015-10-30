@@ -3,31 +3,33 @@ package com.incquerylabs.emdw.cpp.transformation
 import com.google.common.base.Stopwatch
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.AttributeRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassReferenceRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ExternalBridgeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.FormalParameterRules
 import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.OperationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 import com.incquerylabs.emdw.cpp.transformation.rules.SequenceRules
+import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
-import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ExternalBridgeRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
+import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 
 class XtumlComponentCPPTransformation {
 
@@ -105,9 +107,9 @@ class XtumlComponentCPPTransformation {
 		}
 	}
 
-	def execute() {
+	def execute(IEMDWProgressMonitor progressMonitor) {
 			transformComponents
-			compileActionCodes
+			compileActionCodes(progressMonitor)
 	}
 	
 	def transformComponents() {
@@ -118,21 +120,47 @@ class XtumlComponentCPPTransformation {
 		info('''Execution of cpp structure transformation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
-	def compileActionCodes() {
+	def compileActionCodes(IEMDWProgressMonitor progressMonitor) {
 		info('''Executing rALF code compilation on all xtComponents''')
 		val watch = Stopwatch.createStarted
-		statements.fireAllCurrent(actionCodeRules.operationActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.guardActionCodeRule)
+		
+		for(i : 0..<actionCodeRules.operationActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.operationActionCodeRule)	
+		}
+		
+		for(i : 0..<actionCodeRules.stateEntryActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.stateEntryActionCodeRule)	
+		}
+		
+		for(i : 0..<actionCodeRules.stateExitActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.stateExitActionCodeRule)	
+		}
+		
+		for(i : 0..<actionCodeRules.transitionActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.transitionActionCodeRule)	
+		}
+		
+		for(i : 0..<actionCodeRules.guardActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.guardActionCodeRule)	
+		}
+		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 
-	def execute(XTComponent xtComponent) {
+	def execute(XTComponent xtComponent, IEMDWProgressMonitor progressMonitor) {
 		checkArgument(xtComponent != null, "XTUML Component cannot be null!")
 		xtComponent.transformComponent
-		xtComponent.compileActionCodes
+		xtComponent.compileActionCodes(progressMonitor)
 	}
 	
 	def transformComponent(XTComponent xtComponent) {
@@ -144,20 +172,58 @@ class XtumlComponentCPPTransformation {
 		info('''Execution of cpp structure transformation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
-	def compileActionCodes(XTComponent xtComponent) {
+	def compileActionCodes(XTComponent xtComponent, IEMDWProgressMonitor progressMonitor) {
 		checkArgument(xtComponent != null, "XTUML Component cannot be null!")
 		info('''Executing rALF code compilation on «xtComponent.name»''')
 		val watch = Stopwatch.createStarted
-		statements.fireAllCurrent(actionCodeRules.operationActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.guardActionCodeRule, [it.xtComponent == xtComponent])
+		
+		for(i : 0..<actionCodeRules.operationActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.operationActionCodeRule) [it.xtComponent == xtComponent]	
+		}
+		
+		for(i : 0..<actionCodeRules.stateEntryActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.stateEntryActionCodeRule) [it.xtComponent == xtComponent]
+		}
+		
+		for(i : 0..<actionCodeRules.stateExitActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.stateExitActionCodeRule)	[it.xtComponent == xtComponent]
+		}
+		
+		for(i : 0..<actionCodeRules.transitionActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.transitionActionCodeRule) [it.xtComponent == xtComponent]
+		}
+		
+		for(i : 0..<actionCodeRules.guardActionCodeRule.ruleActivationCount) {
+			if(progressMonitor.isCanceled)
+				return;
+			statements.fireOne(actionCodeRules.guardActionCodeRule) [it.xtComponent == xtComponent]	
+		}
+		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
 	def dispose() {
 		transform?.dispose
+	}
+	
+	def getAllRuleActivations() {
+		return actionCodeRules.operationActionCodeRule.ruleActivationCount +
+			actionCodeRules.stateEntryActionCodeRule.ruleActivationCount +
+			actionCodeRules.stateExitActionCodeRule.ruleActivationCount +
+			actionCodeRules.transitionActionCodeRule.ruleActivationCount +
+			actionCodeRules.guardActionCodeRule.ruleActivationCount
+	}
+	
+	private def getRuleActivationCount(BatchTransformationRule<?, ?> rule) {
+		return rule.precondition.getMatcher(engine).countMatches
 	}
 	
 }

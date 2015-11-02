@@ -61,6 +61,7 @@ class ToolchainManagerBuilder {
 			toolchainManager.logLevel = Level.INFO
 			val lifeCycleListener = new ToolchainManagerLifecycleListener(this, toolchainManager)
 			toolchainManager.engine.addLifecycleListener(lifeCycleListener)
+			toolchainManagers.put(engine, toolchainManager)
 		}
 		
 		toolchainManager

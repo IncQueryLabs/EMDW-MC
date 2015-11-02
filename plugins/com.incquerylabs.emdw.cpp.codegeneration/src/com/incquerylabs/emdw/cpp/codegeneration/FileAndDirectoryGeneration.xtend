@@ -49,6 +49,8 @@ class FileAndDirectoryGeneration {
 			info('''Prepared file and directory generation rules («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 
 			initialized = true
+		} else {
+			ruleProvider.updateSourceFileContents(contents)
 		}
 	}
 	

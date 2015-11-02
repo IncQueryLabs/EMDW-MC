@@ -96,6 +96,13 @@ class IntegrationTest {
 			assertNotNull(errorMessage, trace)
 			assertFalse(errorMessage, trace.xtumlrtElements.empty)
 		]
+		
+		toolchainManager.dispose
+		toolchainManager.disposeEngine
+		
+		val umlRSresources = mapping.eResource.resourceSet.resources
+		umlRSresources.forEach[it.unload]
+		umlRSresources.clear
 	}
 
 	def getRules(AdvancedIncQueryEngine engine) {

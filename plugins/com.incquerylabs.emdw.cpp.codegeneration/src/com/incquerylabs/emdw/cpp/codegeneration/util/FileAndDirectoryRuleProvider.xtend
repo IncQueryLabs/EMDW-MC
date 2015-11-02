@@ -33,6 +33,10 @@ class FileAndDirectoryRuleProvider {
 		this.sourceFileContents = contents
 	}
 
+	def public void updateSourceFileContents(ImmutableMap<CPPSourceFile, CharSequence> contents) {
+		sourceFileContents = contents
+	}
+
 	public val cppDirectoryRule = createRule.precondition(cppDirectory).action[match | 
 		val cppDirectory = match.cppDirectory
 		

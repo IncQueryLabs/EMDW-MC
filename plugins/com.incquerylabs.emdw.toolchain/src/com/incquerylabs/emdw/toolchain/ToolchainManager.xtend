@@ -339,6 +339,7 @@ class ToolchainManager {
 		val allCppComponents = engine.cppComponents.getAllValuesOfcppComponent
 		performMainGeneration(allCppComponents)
 		
+		xtumlChangeMonitor?.clear
 		watch.logTime(Phase.EXECUTE_DELTA)
 	}
 	

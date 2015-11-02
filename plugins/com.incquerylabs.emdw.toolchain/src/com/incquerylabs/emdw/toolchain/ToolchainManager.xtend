@@ -542,6 +542,7 @@ class ToolchainManager {
 		measuredTimes.forEach[phase, time |
 			logPhase(phase, time)
 		]
+		info('''*************************************''')
 	}
 	
 	def logPhase(Phase phase, long time){

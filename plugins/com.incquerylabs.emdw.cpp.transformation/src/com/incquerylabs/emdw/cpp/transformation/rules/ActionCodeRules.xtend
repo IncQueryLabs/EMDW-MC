@@ -64,7 +64,7 @@ class ActionCodeRules {
 			}
 		}
 		
-	].buildStateful
+	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val stateEntryActionCodeRule = createRule.precondition(cppStateWithEntryActionCodes).action[ match |
@@ -89,7 +89,7 @@ class ActionCodeRules {
 			}
 		}
 		
-	].buildStateful
+	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val stateExitActionCodeRule = createRule.precondition(cppStateWithExitActionCodes).action[ match |
@@ -114,7 +114,7 @@ class ActionCodeRules {
 			}
 		}
 		
-	].buildStateful
+	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val transitionActionCodeRule = createRule.precondition(cppTransitionWithActionCodes).action[ match |
@@ -140,7 +140,7 @@ class ActionCodeRules {
 			
 		}
 		
-	].buildStateful
+	].build
 	
 	@Accessors(PUBLIC_GETTER)
 	val guardActionCodeRule = createRule.precondition(cppTransitionWithGuardActionCodes).action[ match |
@@ -165,7 +165,7 @@ class ActionCodeRules {
 			}
 		}
 		
-	].buildStateful
+	].build
 	
 	private def rethrowOrLogException(Exception e, String errorMessage) {
 		if(RETHROW_EXCEPTIONS){

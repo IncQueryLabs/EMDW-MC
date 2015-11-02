@@ -1,6 +1,7 @@
 package com.incquerylabs.emdw.cpp.transformation
 
 import com.google.common.base.Stopwatch
+import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
@@ -18,10 +19,12 @@ import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 import com.incquerylabs.emdw.cpp.transformation.rules.SequenceRules
 import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
+import java.util.Collection
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
+import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRule
@@ -29,7 +32,6 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 
 class XtumlComponentCPPTransformation {
 
@@ -124,35 +126,17 @@ class XtumlComponentCPPTransformation {
 		info('''Executing rALF code compilation on all xtComponents''')
 		val watch = Stopwatch.createStarted
 		
-		for(i : 0..<actionCodeRules.operationActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.operationActionCodeRule)	
-		}
+		val operationActionCodeMatches = actionCodeRules.operationActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val stateEntryActionCodeMatches = actionCodeRules.stateEntryActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val stateExitActionCodeMatches = actionCodeRules.stateExitActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val transitionActionCodeMatches = actionCodeRules.transitionActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val guardActionCodeMatches = actionCodeRules.guardActionCodeRule.precondition.getMatcher(engine).getAllMatches
 		
-		for(i : 0..<actionCodeRules.stateEntryActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.stateEntryActionCodeRule)	
-		}
-		
-		for(i : 0..<actionCodeRules.stateExitActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.stateExitActionCodeRule)	
-		}
-		
-		for(i : 0..<actionCodeRules.transitionActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.transitionActionCodeRule)	
-		}
-		
-		for(i : 0..<actionCodeRules.guardActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.guardActionCodeRule)	
-		}
+		statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor)
 		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
@@ -177,35 +161,17 @@ class XtumlComponentCPPTransformation {
 		info('''Executing rALF code compilation on «xtComponent.name»''')
 		val watch = Stopwatch.createStarted
 		
-		for(i : 0..<actionCodeRules.operationActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.operationActionCodeRule) [it.xtComponent == xtComponent]	
-		}
+		val operationActionCodeMatches = actionCodeRules.operationActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val stateEntryActionCodeMatches = actionCodeRules.stateEntryActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val stateExitActionCodeMatches = actionCodeRules.stateExitActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val transitionActionCodeMatches = actionCodeRules.transitionActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val guardActionCodeMatches = actionCodeRules.guardActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
 		
-		for(i : 0..<actionCodeRules.stateEntryActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.stateEntryActionCodeRule) [it.xtComponent == xtComponent]
-		}
-		
-		for(i : 0..<actionCodeRules.stateExitActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.stateExitActionCodeRule)	[it.xtComponent == xtComponent]
-		}
-		
-		for(i : 0..<actionCodeRules.transitionActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.transitionActionCodeRule) [it.xtComponent == xtComponent]
-		}
-		
-		for(i : 0..<actionCodeRules.guardActionCodeRule.ruleActivationCount) {
-			if(progressMonitor.isCanceled)
-				return;
-			statements.fireOne(actionCodeRules.guardActionCodeRule) [it.xtComponent == xtComponent]	
-		}
+		statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor)
 		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
@@ -214,16 +180,17 @@ class XtumlComponentCPPTransformation {
 		transform?.dispose
 	}
 	
-	def getAllRuleActivations() {
-		return actionCodeRules.operationActionCodeRule.ruleActivationCount +
-			actionCodeRules.stateEntryActionCodeRule.ruleActivationCount +
-			actionCodeRules.stateExitActionCodeRule.ruleActivationCount +
-			actionCodeRules.transitionActionCodeRule.ruleActivationCount +
-			actionCodeRules.guardActionCodeRule.ruleActivationCount
+	private def <Match extends IPatternMatch> fireWhileNotCancelled(
+		BatchTransformationStatements statements,
+		BatchTransformationRule<Match, ?> rule,
+		Collection<Match> matches,
+		IEMDWProgressMonitor progressMonitor
+	) {
+		for(match : matches) {
+			if(progressMonitor.isCanceled) {
+				return;
+			}
+			statements.fireAllCurrent(rule)[it == match]
+		}
 	}
-	
-	private def getRuleActivationCount(BatchTransformationRule<?, ?> rule) {
-		return rule.precondition.getMatcher(engine).countMatches
-	}
-	
 }

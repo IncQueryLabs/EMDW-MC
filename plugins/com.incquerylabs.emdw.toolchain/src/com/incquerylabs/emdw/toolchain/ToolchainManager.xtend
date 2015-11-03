@@ -333,7 +333,9 @@ class ToolchainManager {
 		executeCodeAndFileGeneration(componentsToTransform, progressMonitor)
 		watch.start
 		
-		xtumlChangeMonitor?.clear
+		if(!progressMonitor.canceled){
+			xtumlChangeMonitor?.clear
+		}
 		watch.logTime(Phase.EXECUTE_DELTA)
 	}
 	

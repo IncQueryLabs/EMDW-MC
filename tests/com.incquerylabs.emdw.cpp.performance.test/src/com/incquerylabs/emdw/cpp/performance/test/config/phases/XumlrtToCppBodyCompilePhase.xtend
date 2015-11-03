@@ -26,7 +26,7 @@ class XumlrtToCppBodyCompilePhase extends AtomicPhase {
 			val dirtyComponents = mcToken.toolchainManager.dirtyXtComponents
 			mcToken.toolchainManager.initializeCppComponentTransformation
 			dirtyComponents.forEach[ xtComponent |
-				mcToken.toolchainManager.executeCppActionCodeCompile(xtComponent)
+				mcToken.toolchainManager.executeCppActionCodeCompile(xtComponent, null)
 			]
 		}
 		// WORK END

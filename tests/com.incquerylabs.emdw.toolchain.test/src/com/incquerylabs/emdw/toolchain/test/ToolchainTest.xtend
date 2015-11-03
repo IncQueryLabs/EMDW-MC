@@ -91,7 +91,7 @@ class ToolchainTest {
 	def executeTransformations() {
 		toolchainManager.executeXtTransformation
 		toolchainManager.executeCppQrtTransformation
-		toolchainManager.executeDeltaCodeAndFileGeneration
+		toolchainManager.executeDeltaCodeAndFileGeneration(null)
 	}
 	
 	def createRootMapping(ResourceSet resourceSet, Resource umlResource) {

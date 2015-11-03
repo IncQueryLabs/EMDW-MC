@@ -187,7 +187,7 @@ class XtumlComponentCPPTransformation {
 		IEMDWProgressMonitor progressMonitor
 	) {
 		for(match : matches) {
-			if(progressMonitor != null && progressMonitor.isCanceled) {
+			if(progressMonitor.isCanceled) {
 				return;
 			}
 			statements.fireAllCurrent(rule)[it == match]

@@ -6,6 +6,7 @@ import eu.mondo.sam.core.metrics.MemoryMetric
 import eu.mondo.sam.core.metrics.TimeMetric
 import eu.mondo.sam.core.phases.AtomicPhase
 import eu.mondo.sam.core.results.PhaseResult
+import com.incquerylabs.emdw.cpp.common.util.EMDWNullProgressMonitor
 
 class XumlrtToCppBodyCompilePhase extends AtomicPhase {
 	
@@ -26,7 +27,7 @@ class XumlrtToCppBodyCompilePhase extends AtomicPhase {
 			val dirtyComponents = mcToken.toolchainManager.dirtyXtComponents
 			mcToken.toolchainManager.initializeCppComponentTransformation
 			dirtyComponents.forEach[ xtComponent |
-				mcToken.toolchainManager.executeCppActionCodeCompile(xtComponent, null)
+				mcToken.toolchainManager.executeCppActionCodeCompile(xtComponent, new EMDWNullProgressMonitor)
 			]
 		}
 		// WORK END

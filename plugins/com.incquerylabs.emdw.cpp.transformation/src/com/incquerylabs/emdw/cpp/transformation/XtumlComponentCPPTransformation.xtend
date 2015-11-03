@@ -1,33 +1,37 @@
 package com.incquerylabs.emdw.cpp.transformation
 
 import com.google.common.base.Stopwatch
+import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.AssociationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.AttributeRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassReferenceRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ClassRules
 import com.incquerylabs.emdw.cpp.transformation.rules.ComponentRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ExternalBridgeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.FormalParameterRules
 import com.incquerylabs.emdw.cpp.transformation.rules.IncludeRules
 import com.incquerylabs.emdw.cpp.transformation.rules.OperationRules
 import com.incquerylabs.emdw.cpp.transformation.rules.PackageRules
+import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
 import com.incquerylabs.emdw.cpp.transformation.rules.SequenceRules
+import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
+import java.util.Collection
 import java.util.concurrent.TimeUnit
 import org.apache.log4j.Logger
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
+import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
+import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRule
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 
 import static com.google.common.base.Preconditions.*
-import com.incquerylabs.emdw.cpp.transformation.rules.ReturnValueRules
-import com.incquerylabs.emdw.cpp.transformation.rules.TypeDefinitionRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ClassEventRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ExternalBridgeRules
-import com.incquerylabs.emdw.cpp.transformation.rules.ActionCodeRules
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 
 class XtumlComponentCPPTransformation {
 
@@ -105,9 +109,9 @@ class XtumlComponentCPPTransformation {
 		}
 	}
 
-	def execute() {
+	def execute(IEMDWProgressMonitor progressMonitor) {
 			transformComponents
-			compileActionCodes
+			compileActionCodes(progressMonitor)
 	}
 	
 	def transformComponents() {
@@ -118,21 +122,29 @@ class XtumlComponentCPPTransformation {
 		info('''Execution of cpp structure transformation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
-	def compileActionCodes() {
+	def compileActionCodes(IEMDWProgressMonitor progressMonitor) {
 		info('''Executing rALF code compilation on all xtComponents''')
 		val watch = Stopwatch.createStarted
-		statements.fireAllCurrent(actionCodeRules.operationActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule)
-		statements.fireAllCurrent(actionCodeRules.guardActionCodeRule)
+		
+		val operationActionCodeMatches = actionCodeRules.operationActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val stateEntryActionCodeMatches = actionCodeRules.stateEntryActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val stateExitActionCodeMatches = actionCodeRules.stateExitActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val transitionActionCodeMatches = actionCodeRules.transitionActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		val guardActionCodeMatches = actionCodeRules.guardActionCodeRule.precondition.getMatcher(engine).getAllMatches
+		
+		statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor)
+		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 
-	def execute(XTComponent xtComponent) {
+	def execute(XTComponent xtComponent, IEMDWProgressMonitor progressMonitor) {
 		checkArgument(xtComponent != null, "XTUML Component cannot be null!")
 		xtComponent.transformComponent
-		xtComponent.compileActionCodes
+		xtComponent.compileActionCodes(progressMonitor)
 	}
 	
 	def transformComponent(XTComponent xtComponent) {
@@ -144,15 +156,23 @@ class XtumlComponentCPPTransformation {
 		info('''Execution of cpp structure transformation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
-	def compileActionCodes(XTComponent xtComponent) {
+	def compileActionCodes(XTComponent xtComponent, IEMDWProgressMonitor progressMonitor) {
 		checkArgument(xtComponent != null, "XTUML Component cannot be null!")
 		info('''Executing rALF code compilation on «xtComponent.name»''')
 		val watch = Stopwatch.createStarted
-		statements.fireAllCurrent(actionCodeRules.operationActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.stateEntryActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.stateExitActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.transitionActionCodeRule, [it.xtComponent == xtComponent])
-		statements.fireAllCurrent(actionCodeRules.guardActionCodeRule, [it.xtComponent == xtComponent])
+		
+		val operationActionCodeMatches = actionCodeRules.operationActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val stateEntryActionCodeMatches = actionCodeRules.stateEntryActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val stateExitActionCodeMatches = actionCodeRules.stateExitActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val transitionActionCodeMatches = actionCodeRules.transitionActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		val guardActionCodeMatches = actionCodeRules.guardActionCodeRule.precondition.getMatcher(engine).getAllMatches(null, xtComponent)
+		
+		statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor)
+		statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor)
+		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
@@ -160,4 +180,17 @@ class XtumlComponentCPPTransformation {
 		transform?.dispose
 	}
 	
+	private def <Match extends IPatternMatch> fireWhileNotCancelled(
+		BatchTransformationStatements statements,
+		BatchTransformationRule<Match, ?> rule,
+		Collection<Match> matches,
+		IEMDWProgressMonitor progressMonitor
+	) {
+		for(match : matches) {
+			if(progressMonitor.isCanceled) {
+				return;
+			}
+			statements.fireAllCurrent(rule)[it == match]
+		}
+	}
 }

@@ -24,6 +24,7 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.junit.After
 import org.junit.Test
+import com.incquerylabs.emdw.cpp.common.util.EMDWNullProgressMonitor
 
 class ToolchainTest {
 	val UML_RESOURCE_PATH = "com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml"
@@ -91,7 +92,7 @@ class ToolchainTest {
 	def executeTransformations() {
 		toolchainManager.executeXtTransformation
 		toolchainManager.executeCppQrtTransformation
-		toolchainManager.executeDeltaCodeAndFileGeneration
+		toolchainManager.executeDeltaCodeAndFileGeneration(new EMDWNullProgressMonitor)
 	}
 	
 	def createRootMapping(ResourceSet resourceSet, Resource umlResource) {

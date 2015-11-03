@@ -42,7 +42,7 @@ class ActionCodeRules {
 	}
 	
 	@Accessors(PUBLIC_GETTER)
-	val operationActionCodeRule = createRule.precondition(cppOperationWithActionCodes).action[ match |
+	val operationActionCodeRule = createRule.precondition(cppOperationWithActionCodes).action [ match |
 		val operation = match.cppOperation
 		val body = operation.commonOperation.body
 		if(body instanceof ActionCode) {

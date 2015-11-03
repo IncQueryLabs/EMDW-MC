@@ -1,6 +1,7 @@
 package com.incquerylabs.emdw.cpp.ui
 
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
+import com.incquerylabs.emdw.cpp.ui.util.EMDWProgressMonitor
 import com.incquerylabs.emdw.toolchain.ToolchainManager
 import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 import org.apache.log4j.Level
@@ -9,14 +10,13 @@ import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.SubMonitor
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.papyrusrt.xtumlrt.common.Model
+import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.Data
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
-import org.eclipse.xtend.lib.annotations.Accessors
-import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
-import com.incquerylabs.emdw.cpp.ui.util.EMDWProgressMonitor
 
 class GeneratorJob extends Job {
 
@@ -34,12 +34,13 @@ class GeneratorJob extends Job {
 	static val CPPMODEL_SAVE_WORK = 2
 	
 	
-
 	val ModelSet modelSet
 	val Resource xtumlResource
 	val Model xtModel
 	val AdvancedIncQueryEngine engine
-
+	
+	@Accessors boolean transformAllComponents
+	
 	new(ModelSet modelSet, Resource xtumlResource, Model xtModel, AdvancedIncQueryEngine engine) {
 		super(JOB_NAME)
 		this.modelSet = modelSet
@@ -50,7 +51,6 @@ class GeneratorJob extends Job {
 
 	override protected run(IProgressMonitor monitor) {
 		val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-
 
 		val tasks = newArrayList
 
@@ -75,10 +75,18 @@ class GeneratorJob extends Job {
 			toolchainManager.executeCppQrtTransformation
 			progressMonitor.worked(progress)
 		]
-		tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
-			progressMonitor.worked(progress)
-		]
+		
+		if(transformAllComponents){
+			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchainManager, progressMonitor, progress |
+				toolchainManager.executeCodeAndFileGenerationForAllComponents(EMDWProgressMonitor::convert(progressMonitor))
+				progressMonitor.worked(progress)
+			]
+		} else {
+			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchainManager, progressMonitor, progress |
+				toolchainManager.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
+				progressMonitor.worked(progress)
+			]
+		}
 		tasks += new GeneratorTask(CHANGE_MONITOR_INIT_WORK, "Starting change monitor.") [ toolchainManager, progressMonitor, progress |
 			toolchainManager.startChangeMonitor
 			progressMonitor.worked(progress)

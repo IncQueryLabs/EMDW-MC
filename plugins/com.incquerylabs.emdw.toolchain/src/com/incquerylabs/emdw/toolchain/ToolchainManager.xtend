@@ -314,6 +314,11 @@ class ToolchainManager {
 		}
 	}
 	
+	def executeCodeAndFileGenerationForAllComponents(IEMDWProgressMonitor progressMonitor) {
+		val allXtComponents = engine.xtComponents.allValuesOfxtComponent
+		executeCodeAndFileGeneration(allXtComponents, progressMonitor)
+	}
+	
 	def executeDeltaCodeAndFileGeneration(IEMDWProgressMonitor progressMonitor) {
 		val watch = Stopwatch.createStarted
 		createChangeMonitorCheckpoint()
@@ -321,6 +326,19 @@ class ToolchainManager {
 		// get dirty components
 		val componentsToTransform = dirtyXtComponents
 		
+		// The code and filegeneration is measured with the same phase identifier 
+		// as the delta generation, because this part of the measurement only
+		// consists of the change monitor handling
+		watch.stop
+		executeCodeAndFileGeneration(componentsToTransform, progressMonitor)
+		watch.start
+		
+		xtumlChangeMonitor?.clear
+		watch.logTime(Phase.EXECUTE_DELTA)
+	}
+	
+	def void executeCodeAndFileGeneration(Iterable<XTComponent> componentsToTransform, IEMDWProgressMonitor progressMonitor){
+		val watch = Stopwatch.createStarted
 		// CPP Component Transformation
 		componentsToTransform.forEach[
 			it.executeCppStructureTransformation
@@ -339,8 +357,6 @@ class ToolchainManager {
 		performMakefileGeneration(cppModel, runtimeCppDir)
 		val allCppComponents = engine.cppComponents.getAllValuesOfcppComponent
 		performMainGeneration(allCppComponents)
-		
-		xtumlChangeMonitor?.clear
 		watch.logTime(Phase.EXECUTE_DELTA)
 	}
 	

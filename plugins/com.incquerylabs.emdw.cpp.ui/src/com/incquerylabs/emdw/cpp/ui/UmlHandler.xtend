@@ -60,9 +60,21 @@ class UmlHandler extends AbstractHandler {
 						)
 					} else {
 						try{
+							val dialog = new MessageDialog(
+								shell, 
+								"xUML-RT Code Generation", 
+								null, 
+								'''Do you want to transform all components, or only the dirty components?''',
+								MessageDialog.QUESTION,
+								#["All components", "Dirty components"],
+								1 // "Dirty components" is the default
+							)
+							val dialogResult = dialog.open()
+							val transformAllComponents = (dialogResult == 0);
 							val generatorJob = new GeneratorJob(modelSet, xtumlResource, xtModel, engine) => [
 								priority = Job.BUILD // FIXME: is this the correct priority?
 								user = true
+								it.transformAllComponents = transformAllComponents
 							]	
 							
 							generatorJob.addJobChangeListener(new JobChangeAdapter() {

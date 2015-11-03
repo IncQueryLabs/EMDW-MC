@@ -22,7 +22,6 @@ class GeneratorJob extends Job {
 
 	static val JOB_NAME = "EMDW Code Generation"
 	
-	static val TOOLCHAIN_INIT_WORK = 10
 	static val CPP_QRT_INIT_WORK = 5
 	static val CPP_COMPONENT_INIT_WORK = 5
 	static val CPP_INIT_WORK = 5
@@ -39,7 +38,8 @@ class GeneratorJob extends Job {
 	val Model xtModel
 	val AdvancedIncQueryEngine engine
 	
-	@Accessors boolean transformAllComponents
+	@Accessors boolean transformAllComponents = false
+	@Accessors ToolchainManager toolchainManager
 	
 	new(ModelSet modelSet, Resource xtumlResource, Model xtModel, AdvancedIncQueryEngine engine) {
 		super(JOB_NAME)
@@ -47,11 +47,21 @@ class GeneratorJob extends Job {
 		this.xtumlResource = xtumlResource
 		this.xtModel = xtModel
 		this.engine = engine
+		
+		val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
+		val managerBuilder = new ToolchainManagerBuilder => [
+			it.engine = engine
+			it.xumlrtModel = xtModel
+			it.xtumlChangeMonitor = getChangeMonitor(modelSet)
+			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
+		]
+		this.toolchainManager = managerBuilder.buildOrGetManager() => [
+			clearMeasuredTimes
+			logLevel = Level.DEBUG
+		]
 	}
 
 	override protected run(IProgressMonitor monitor) {
-		val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-
 		val tasks = newArrayList
 
 		tasks += new GeneratorTask(CPP_QRT_INIT_WORK, "Initializing C++ QRT transformation.") [ toolchainManager, progressMonitor, progress |
@@ -102,21 +112,8 @@ class GeneratorJob extends Job {
 
 		// calculate the sum of the progresses of the tasks
 		val fullProgress = tasks.map[progress].fold(0)[$0 + $1]
-		val subMonitor = SubMonitor::convert(monitor, JOB_NAME, fullProgress + TOOLCHAIN_INIT_WORK)
+		val subMonitor = SubMonitor::convert(monitor, JOB_NAME, fullProgress)
 		
-		subMonitor.taskName = "Initializing toolchain."
-		val managerBuilder = new ToolchainManagerBuilder => [
-			it.engine = engine
-			it.xumlrtModel = xtModel
-			it.xtumlChangeMonitor = getChangeMonitor(modelSet)
-			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
-		]
-		val toolchainManager = managerBuilder.buildOrGetManager() => [
-			clearMeasuredTimes
-			logLevel = Level.DEBUG
-		]
-		subMonitor.worked(TOOLCHAIN_INIT_WORK)
-
 		try {
 			val taskIterator = tasks.iterator
 			while (taskIterator.hasNext) {

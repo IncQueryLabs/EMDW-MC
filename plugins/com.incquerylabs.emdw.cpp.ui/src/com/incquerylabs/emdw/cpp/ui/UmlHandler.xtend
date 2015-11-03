@@ -60,22 +60,43 @@ class UmlHandler extends AbstractHandler {
 						)
 					} else {
 						try{
-							val dialog = new MessageDialog(
-								shell, 
-								"xUML-RT Code Generation", 
-								null, 
-								'''Do you want to transform all components, or only the dirty components?''',
-								MessageDialog.QUESTION,
-								#["All components", "Dirty components"],
-								1 // "Dirty components" is the default
-							)
-							val dialogResult = dialog.open()
-							val transformAllComponents = (dialogResult == 0);
 							val generatorJob = new GeneratorJob(modelSet, xtumlResource, xtModel, engine) => [
 								priority = Job.BUILD // FIXME: is this the correct priority?
 								user = true
-								it.transformAllComponents = transformAllComponents
-							]	
+							]
+							
+							var Iterable<XTComponent> dirtyComponents
+							val toolcainManager = generatorJob.toolchainManager
+							if(toolcainManager!=null) {
+								toolcainManager.createChangeMonitorCheckpoint
+								dirtyComponents = toolcainManager.dirtyXtComponents
+								val dialog = new MessageDialog(
+									shell, 
+									"xUML-RT Code Generation", 
+									null, 
+									'''
+									Do you want to transform all components, or only the following dirty components?
+									
+									«IF dirtyComponents.isNullOrEmpty»
+									No dirty components
+									
+									«ENDIF»
+									«FOR component : dirtyComponents»
+										* «component.name»
+									«ENDFOR»
+									'''
+									,
+									MessageDialog.QUESTION,
+									#["All components", "Dirty components", "Cancel"],
+									1 // "Dirty components" is the default
+								)
+								val dialogResult = dialog.open()
+								if(dialogResult == 2){
+									return null
+								}
+								val transformAllComponents = (dialogResult == 0);
+								generatorJob.transformAllComponents = transformAllComponents
+							}
 							
 							generatorJob.addJobChangeListener(new JobChangeAdapter() {
 								

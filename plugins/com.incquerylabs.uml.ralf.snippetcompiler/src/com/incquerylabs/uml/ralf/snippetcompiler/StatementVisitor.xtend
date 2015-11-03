@@ -315,7 +315,6 @@ class StatementVisitor {
 	
 	private def dispatch String visitClause(IfClause nfc, StringBuilder builder){
 		logger.logVisitingStarted(nfc)
-		builder.append(nfc.serializeToTraceComment)
 		val conditionDescriptor = nfc.condition.visit(builder)
 		
 		val ret = '''(«conditionDescriptor.stringRepresentation») «nfc.body.visit»'''

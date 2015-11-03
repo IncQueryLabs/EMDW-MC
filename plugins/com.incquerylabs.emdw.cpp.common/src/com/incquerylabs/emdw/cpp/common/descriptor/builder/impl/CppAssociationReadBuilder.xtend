@@ -7,10 +7,12 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAssociationReadB
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTAssociation
 
 class CppAssociationReadBuilder implements IOoplAssociationReadBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
@@ -26,8 +28,10 @@ class CppAssociationReadBuilder implements IOoplAssociationReadBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		val cppAssociation = mapper.convertAssociation(association)
 		if(cppAssociation instanceof CPPQualifiedNamedElement) {
+			trace('''Resolved cpp association: «cppAssociation.cppQualifiedName»''')
 			val refStorage = cppAssociation.referenceStorage.head
 			val type = refStorage.type
 			val String stringRepresentation = '''«variable.stringRepresentation»->«cppAssociation.cppName»'''
@@ -43,9 +47,11 @@ class CppAssociationReadBuilder implements IOoplAssociationReadBuilder {
 				svd.templateTypes.add(converter.convertToType(type.ooplClass))
 			}
 			refStorage.required = true
+			trace('''Finished building''')
 			return svd
 		}
-		throw new IllegalArgumentException('''«association» has no cpp pair.''')
+		trace('''No cpp association for «association.name»''')
+		throw new IllegalArgumentException('''«association.name» has no cpp pair.''')
 		
 	}
 	

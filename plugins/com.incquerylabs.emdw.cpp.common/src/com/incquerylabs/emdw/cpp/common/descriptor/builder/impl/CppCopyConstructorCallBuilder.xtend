@@ -5,10 +5,12 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplCopyConstructorC
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTClassEvent
 
 class CppCopyConstructorCallBuilder implements IOoplCopyConstructorCallBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
@@ -24,11 +26,14 @@ class CppCopyConstructorCallBuilder implements IOoplCopyConstructorCallBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		var ocd = factory.createOperationCallDescriptor
 		val cppEvent = mapper.convertEvent(re)
+		trace('''Resolved event: «cppEvent.cppQualifiedName»''')
 		ocd.baseType = cppEvent.convertToType
 		ocd.stringRepresentation = '''«IF param!=null»«param.stringRepresentation»->clone()«ENDIF»'''
 		ocd.fullType = ocd.baseType
+		trace('''Finished building''')
 		return ocd
 	}
 	

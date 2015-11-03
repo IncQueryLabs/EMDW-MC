@@ -10,6 +10,7 @@ import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.emf.ecore.EObject
 
 import static com.google.common.base.Preconditions.*
+import org.apache.log4j.Logger
 
 class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	extension TypeConverter typeConverter
@@ -33,6 +34,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	new(OoplValueDescriptorFactory parent, int start_index) {
+		logger = Logger.getLogger(class)
 		index = start_index
 		this.parent = parent
 		converter = new CppLiteralConverter
@@ -80,6 +82,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	override prepareSingleVariableDescriptorForLiteral(OOPLType type, String literal) {
 		checkArgument(type!=null, "OOPLType cannot be null")
 		checkArgument(type instanceof CPPBasicType, "Literal only could be a CPPBasicType, not a(n) "+type.class.name)
+		trace('''Started LiteralDescriptor creation with type[«type.convertToType»] and literal[«literal»]''')
 		val basicType = type as CPPBasicType
 		val convertedLiteral = converter.convertLiteral(type, literal)
 		val preparedDescriptor = factory.createLiteralDescriptor => [
@@ -89,6 +92,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 				it.baseType = basicType.convertToType
 				it.fullType = it.baseType
 		]
+		trace('''Finished LiteralDescriptor creation''')
 		return preparedDescriptor
 	}
 	
@@ -135,7 +139,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 	}
 	
 	private def prepareSingleVariableDescriptor(EObject type, String localVariableName, boolean initialize) {
-		
+		trace('''Started SingleVariableDescriptor creation with name[«localVariableName»]''')
 		val stringRepresentation = if(initialize) {
 			'''«localVariableName» = «typeConverter.getInitialValue(type)»'''
 		} else {
@@ -151,10 +155,12 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 				it.baseType = type.convertToType
 				it.fullType = it.baseType
 		]
+		trace('''Finished SingleVariableDescriptor creation''')
 		return preparedDescriptor
 	}
 	
 	private def prepareCollectionVariableDescriptor(BaseContainerImplementation collectionType, EObject elementType, String localVariableName) {
+		trace('''Started CollectionVariableDescriptor creation with name[«localVariableName»]''')
 		val variableRepresentations = localVariableName.createStringRepresentations(collectionType)
     		val preparedDescriptor = factory.createCollectionVariableDescriptor => [
 				it.stringRepresentation = localVariableName
@@ -164,6 +170,7 @@ class CppValueDescriptorFactory extends OoplValueDescriptorFactory {
 				it.templateTypes.add(elementType.convertToType)
 				it.fullType = getFullType(baseType, templateTypes)
 		] 
+		trace('''Finished CollectionVariableDescriptor creation''')
 		return preparedDescriptor
 	}
 	

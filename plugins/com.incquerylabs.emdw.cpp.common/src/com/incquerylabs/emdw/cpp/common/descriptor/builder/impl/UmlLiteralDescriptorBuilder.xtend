@@ -2,11 +2,14 @@ package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlLiteralDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 
 class UmlLiteralDescriptorBuilder implements IUmlLiteralDescriptorBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	private UmlValueDescriptorFactory factory
 	
 	private Type type
@@ -32,7 +35,10 @@ class UmlLiteralDescriptorBuilder implements IUmlLiteralDescriptorBuilder {
 	
 	override build() {
 		checkArgument(type!=null, "Type cannot be null")
-		return factory.prepareSingleVariableDescriptorForLiteral(type, literal)
+		trace('''Started building''')
+		val svd = factory.prepareSingleVariableDescriptorForLiteral(type, literal)
+		trace('''Finished building''')
+		return svd
 	}
 	
 }

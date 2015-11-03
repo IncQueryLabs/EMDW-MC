@@ -6,10 +6,12 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplAttributeWriteBu
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Attribute
 
 class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
@@ -27,7 +29,9 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 	
 	
 	override build() {
+		trace('''Started building''')
 		val cppAttribute = mapper.convertAttribute(attribute)
+		trace('''Resolved attribute: «cppAttribute.cppQualifiedName»''')
 		val type = cppAttribute.type
 		val svd = factory.createPropertyWriteDescriptor => [
 			it.baseType = converter.convertToBaseType(type)
@@ -37,6 +41,7 @@ class CppAttributeWriteBuilder implements IOoplAttributeWriteBuilder {
 		if(type instanceof CPPSequence) {
 			svd.templateTypes.add(converter.convertToType(type.elementType))
 		}
+		trace('''Finished building''')
 		return svd
 	}
 	

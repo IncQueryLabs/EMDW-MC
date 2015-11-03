@@ -1,10 +1,13 @@
 package com.incquerylabs.emdw.cpp.common.descriptor.builder.impl
 
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplDeleteBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlDeleteBuilder
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplDeleteBuilder
+import org.apache.log4j.Logger
 
 class UmlDeleteBuilder implements IUmlDeleteBuilder {
+	extension Logger logger = Logger.getLogger(class)
+	
 	ValueDescriptor variable
 	IOoplDeleteBuilder builder
 	
@@ -13,9 +16,12 @@ class UmlDeleteBuilder implements IUmlDeleteBuilder {
 	}
 	
 	override build() {
-		return (builder => [
+		trace('''Started building''')
+		val ocd = (builder => [
 					it.variable = variable
 				]).build
+		trace('''Finished building''')
+		return ocd
 	}
 	
 	override setVariable(ValueDescriptor variable) {

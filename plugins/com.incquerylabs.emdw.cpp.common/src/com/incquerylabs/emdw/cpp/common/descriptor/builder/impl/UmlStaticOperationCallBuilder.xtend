@@ -6,13 +6,14 @@ import com.incquerylabs.emdw.cpp.common.mapper.UmlToXtumlMapper
 import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
-import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
 import java.util.List
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.uml2.uml.Operation
+import com.incquerylabs.emdw.valuedescriptor.OperationCallDescriptor
 
 class UmlStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder {
-	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
+	extension Logger logger = Logger.getLogger(class)
 	
 	private UmlToXtumlMapper mapper
 	private IOoplStaticOperationCallBuilder builder
@@ -26,27 +27,32 @@ class UmlStaticOperationCallBuilder implements IUmlStaticOperationCallBuilder {
 	}
 	
 	override build() {
-		val xtOperation = mapper.convertOperation(operation)
+		trace('''Started building''')
+		var OperationCallDescriptor ocd = null
 		val xtParams = params.map[new XtTypedValueDescriptor(mapper.convertType(type), descriptor)]
 		if(operation.qualifiedName.contains("std::out::println")) {
-			return (builder => [
+			ocd = (builder => [
 					it.operationName = "println"
 					it.parameters = xtParams
 				]).build
-		}
-		if(operation.qualifiedName.contains("std::boolean::toString") ||
+		} else if(operation.qualifiedName.contains("std::boolean::toString") ||
 			operation.qualifiedName.contains("std::real::toString") ||
 			operation.qualifiedName.contains("std::int::toString")
 		) {
-			return (builder => [
+			ocd = (builder => [
 					it.operationName = "toString"
 					it.parameters = xtParams
 				]).build
+		} else {
+			val xtOperation = mapper.convertOperation(operation)
+			trace('''Resolved operation: «xtOperation.name»''')
+			ocd = (builder => [
+						it.operation = xtOperation
+						it.parameters = xtParams
+					]).build
 		}
-		return (builder => [
-					it.operation = xtOperation
-					it.parameters = xtParams
-				]).build
+		trace('''Finished building''')
+		return ocd
 	}
 	
 	override setOperation(Operation operation) {

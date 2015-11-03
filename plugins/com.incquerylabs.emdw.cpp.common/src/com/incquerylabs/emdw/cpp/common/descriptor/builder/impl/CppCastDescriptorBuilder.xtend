@@ -5,10 +5,13 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplCastDescriptorBu
 import com.incquerylabs.emdw.cpp.common.mapper.XtumlToOoplMapper
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Type
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 
 class CppCastDescriptorBuilder implements IOoplCastDescriptorBuilder {
+	extension Logger logger = Logger.getLogger(class)
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	private XtumlToOoplMapper mapper
@@ -23,8 +26,12 @@ class CppCastDescriptorBuilder implements IOoplCastDescriptorBuilder {
 	}
 	
 	override build() {
+		trace('''Started building''')
 		val ooplType = mapper.convertType(castingType)
-		return factory.createSingleVariableDescriptor => [
+		if(ooplType instanceof CPPQualifiedNamedElement) {
+			trace('''Resolved type: «ooplType.cppQualifiedName»''')
+		}
+		val svd = factory.createSingleVariableDescriptor => [
 					it.baseType = converter.convertToType(ooplType)
 					it.fullType = it.baseType
 					if(converter.isReferenceType(ooplType)) {
@@ -33,6 +40,8 @@ class CppCastDescriptorBuilder implements IOoplCastDescriptorBuilder {
 						it.stringRepresentation = '''(«it.fullType»)«castableDescriptor.stringRepresentation»'''
 					}
 				]
+		trace('''Finished building''')
+		return svd
 	}
 	
 	override setDescriptor(ValueDescriptor castableDescriptor) {

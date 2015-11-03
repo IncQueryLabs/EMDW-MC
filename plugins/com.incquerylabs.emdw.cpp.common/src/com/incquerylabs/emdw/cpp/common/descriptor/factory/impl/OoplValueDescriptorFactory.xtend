@@ -6,8 +6,11 @@ import com.incquerylabs.emdw.valuedescriptor.CollectionVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.LiteralDescriptor
 import com.incquerylabs.emdw.valuedescriptor.SingleVariableDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 
 abstract class OoplValueDescriptorFactory {
+	protected extension Logger logger
+	
 	protected static extension ValuedescriptorFactory factory = ValuedescriptorFactory.eINSTANCE
 	
 	protected int index

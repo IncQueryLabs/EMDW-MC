@@ -5,6 +5,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IOoplConstructorCallB
 import com.incquerylabs.emdw.cpp.common.util.XtTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValuedescriptorFactory
+import org.apache.log4j.Logger
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Operation
 import org.eclipse.papyrusrt.xtumlrt.common.RedefinableElement
@@ -20,22 +21,28 @@ class CppConstructorCallBuilder extends AbstractCppOperationCallDescriptorBuilde
 	
 	new(AdvancedIncQueryEngine engine) {
 		super(engine)
+		logger = Logger.getLogger(class)
 	}
 	
 	override build() {
-		return prepareOperationCallDescriptor(xtOperation, false) => [
+		trace('''Started building''')
+		val ocd = prepareOperationCallDescriptor(xtOperation, false) => [
 			if(re instanceof XTClassEvent) {
 				val cppEvent = mapper.convertEvent(re)
+				trace('''Resolved event: «cppEvent.cppQualifiedName»''')
 				it.baseType = cppEvent.convertToType
 				it.fullType = it.baseType
 				it.stringRepresentation = '''new «cppEvent.convertToQualifiedName»()'''
 			} else {
 				val cppClass = mapper.convertType(re as Type) as CPPClass
+				trace('''Resolved class: «cppClass.cppQualifiedName»''')
 				it.baseType = cppClass.convertToType
 				it.fullType = it.baseType
 				it.stringRepresentation = '''new «cppClass.convertToQualifiedName»(«IF xtOperation != null»«parameterString»«ENDIF»)'''
 			}
 		]
+		trace('''Finished building''')
+		return ocd
 	}
 	
 	override setRedefinableElement(RedefinableElement re) {

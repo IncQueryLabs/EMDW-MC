@@ -7,6 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ 
     UMLAssociationValidatorTest.class, 
+    UMLEnumValidatorTest.class,
     UMLOpaqueOperationParameterValidatorTest.class,
     UMLOperationValidatorTest.class,
     UMLOperationPrimitiveValidatorTest.class,

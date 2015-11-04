@@ -1,13 +1,11 @@
 package com.incquerylabs.uml.ralf.snippetcompiler
 
 import com.incquerylabs.uml.ralf.reducedAlfLanguage.BlockStatement
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.xtend2.lib.StringConcatenation
 import org.eclipse.xtext.nodemodel.ICompositeNode
 import org.eclipse.xtext.nodemodel.INode
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
-import org.eclipse.xtend2.lib.StringConcatenation
 
 class SnippetTraceCommentUtil {
 	private static val NEW_LINE = StringConcatenation.DEFAULT_LINE_DELIMITER
@@ -42,10 +40,12 @@ class SnippetTraceCommentUtil {
 		if (string.nullOrEmpty) {
 			return "// RALF: Trace serialization error"
 		}
-		var ralfTraceInfo = string.replace("\r\n", "\n").replace("\n", NEW_LINE)
-		ralfTraceInfo = NEW_LINE + ralfTraceInfo.trim
-		ralfTraceInfo = ralfTraceInfo.replaceAll(Pattern::quote(NEW_LINE),Matcher::quoteReplacement('''«NEW_LINE»// RALF: '''))
-		return ralfTraceInfo.trim + NEW_LINE
+		var textWithStandardNewlines = string.replace("\r\n", "\n").replace("\n", NEW_LINE)
+		val lines = textWithStandardNewlines.trim.split(NEW_LINE)
+		val ralfTraceInfo = lines.join("", NEW_LINE, NEW_LINE) [ line |
+			"// RALF: ".concat(line.trim)
+		]
+		return ralfTraceInfo
 	}
 	
 	/**

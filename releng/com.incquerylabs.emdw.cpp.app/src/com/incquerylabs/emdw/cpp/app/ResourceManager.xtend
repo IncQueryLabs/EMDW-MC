@@ -9,23 +9,23 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil
 
 class ResourceManager {
 	public static final String COMMON_PRIMITIVE_TYPES_PATH = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
-	public static final String GENERATION_PROJECT_PREFIX = "com.ericsson.emdw.cpp.generated.code."
-	public static final String CODE_GENERATION_DIR_NAME = "src"
-	public static final String MODEL_GENERATION_DIRECTORY_NAME = "model"
+	private static final String MODEL_GENERATION_DIRECTORY_NAME = "model"
 	
-	private CommonFactory commonFactory = CommonFactory.eINSTANCE
-	private TraceFactory traceFactory = TraceFactory.eINSTANCE
-	private OoplFactory ooplFactory = OoplFactory.eINSTANCE
-	private CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
+	private val String targetFolderPath
+	
+	private val CommonFactory commonFactory = CommonFactory.eINSTANCE
+	private val TraceFactory traceFactory = TraceFactory.eINSTANCE
+	private val OoplFactory ooplFactory = OoplFactory.eINSTANCE
+	private val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	
 	private val ResourceSet resourceSet
 	private val Resource umlResource
@@ -34,18 +34,21 @@ class ResourceManager {
 	private var Resource cppmodelResource
 	private var CPPModel cppModel
 	
-	private val String targetFolderPath
-	
-	new(String umlPath, String targetFolderPath) {
-		resourceSet = new ResourceSetImpl
-		umlResource = resourceSet.createResource(URI.createFileURI(umlPath)) => [ load(#{}) ]
+	new(ResourceSet resourceSet, String umlPath, String targetFolderPath) {
+		this.resourceSet = resourceSet
+		val uri = URI.createFileURI(umlPath)
+		umlResource = this.resourceSet.createResource(uri) => [ 
+			load(#{})
+		]
+		
+		UMLResourcesUtil.init(resourceSet)
 		this.targetFolderPath = targetFolderPath
 	}
 	
-	def createPrimitiveTypeMapping() {
+	def createPrimitiveTypeMapping(String umlPrimitiveTypes) {
 		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
-		val commonTypesResource = resourceSet.getResource(URI.createPlatformPluginURI(COMMON_PRIMITIVE_TYPES_PATH, true), true) => [ load(#{}) ]
+		val commonTypesResource = resourceSet.getResource(URI.createURI(umlPrimitiveTypes), true) => [ load(#{}) ]
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		

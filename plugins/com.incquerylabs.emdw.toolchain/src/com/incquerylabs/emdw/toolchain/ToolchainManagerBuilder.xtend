@@ -27,8 +27,8 @@ import static com.google.common.base.Preconditions.*
 import org.apache.log4j.Level
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 
-class ToolchainManagerBuilder {
-	static val BiMap<AdvancedIncQueryEngine, ToolchainManager> toolchainManagers = HashBiMap.create()
+class ToolchainBuilder {
+	static val BiMap<AdvancedIncQueryEngine, Toolchain> toolchains = HashBiMap.create()
 	
 	static val PATHMAP_SCHEME = "pathmap";
 	static val UML_LIBRARIES_AUTHORITY = "UML_LIBRARIES";
@@ -49,37 +49,37 @@ class ToolchainManagerBuilder {
 	@Accessors XtumlModelChangeMonitor xtumlChangeMonitor
 	@Accessors FileManager fileManager
 	
-	def ToolchainManager buildOrGetManager(){
-		var ToolchainManager toolchainManager = null
-		if (toolchainManagers.containsKey(engine)){
-			toolchainManager = toolchainManagers.get(engine)
-			toolchainManager.initializeManager
+	def Toolchain buildOrGetManager(){
+		var Toolchain toolchain = null
+		if (toolchains.containsKey(engine)){
+			toolchain = toolchains.get(engine)
+			toolchain.initializeManager
 		} else {
 			checkNotNull(xumlrtModel, "xUML-RT Model cannot be null!")
-			toolchainManager = new ToolchainManager
-			toolchainManager.initializeManager
-			toolchainManager.logLevel = Level.INFO
-			val lifeCycleListener = new ToolchainManagerLifecycleListener(this, toolchainManager)
-			toolchainManager.engine.addLifecycleListener(lifeCycleListener)
-			toolchainManagers.put(engine, toolchainManager)
+			toolchain = new Toolchain
+			toolchain.initializeManager
+			toolchain.logLevel = Level.INFO
+			val lifeCycleListener = new ToolchainLifecycleListener(this, toolchain)
+			toolchain.engine.addLifecycleListener(lifeCycleListener)
+			toolchains.put(engine, toolchain)
 		}
 		
-		toolchainManager
+		toolchain
 	}
 	
-	def disposeToolchainManager(ToolchainManager toolchainManager){
-		toolchainManager.dispose
-		toolchainManagers.inverse.remove(toolchainManager)
+	def disposeToolchain(Toolchain toolchain){
+		toolchain.dispose
+		toolchains.inverse.remove(toolchain)
 	}
 	
-	static def disposeAllToolchainManagers() {
-		toolchainManagers.forEach[engine, toolchainManager|
-			toolchainManager.dispose
+	static def disposeAllToolchains() {
+		toolchains.forEach[engine, toolchain|
+			toolchain.dispose
 		]
-		toolchainManagers.clear
+		toolchains.clear
 	}
 	
-	private def initializeManager(ToolchainManager manager) {
+	private def initializeManager(Toolchain manager) {
 		// Set fields to the provided objects
 		// Use the previously set object if null is provided
 		// Create default objects if it was set to null

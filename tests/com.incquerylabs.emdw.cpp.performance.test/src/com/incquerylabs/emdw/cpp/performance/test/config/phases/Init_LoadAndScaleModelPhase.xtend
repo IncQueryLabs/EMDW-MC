@@ -3,7 +3,7 @@ package com.incquerylabs.emdw.cpp.performance.test.config.phases
 import com.incquerylabs.emdw.cpp.performance.test.config.MCDataToken
 import com.incquerylabs.emdw.modelmultiplicator.ModelMultiplicator
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import eu.mondo.sam.core.DataToken
 import eu.mondo.sam.core.metrics.MemoryMetric
 import eu.mondo.sam.core.metrics.TimeMetric
@@ -54,22 +54,22 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		components.ownersSet.forEach[ it.copyPackagedElements(mcToken.componentsScale, Component) ]
 		mcToken.addLogLine('''Multiplicated model size: «umlModel.eAllContents.size»''')
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder
-		val engine = toolchainManagerBuilder.createDefaultEngine(umlResourceSet)
+		val toolchainBuilder = new ToolchainBuilder
+		val engine = toolchainBuilder.createDefaultEngine(umlResourceSet)
 		val mapping = complexModelUtil.createRootMapping(umlModel, engine)
 		val xumlResourceSet = mapping.xtumlrtRoot.eResource.resourceSet
 		
 		val primitiveTypeMapping = createPrimitiveTypeMapping(umlResourceSet, xumlResourceSet)
 		
-		toolchainManagerBuilder => [
+		toolchainBuilder => [
 			it.engine = engine
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 			it.fileManager = new EclipseWorkspaceFileManager("test","src")
 		]
-		val toolchainManager = toolchainManagerBuilder.buildOrGetManager
-		toolchainManager.logLevel = Level.TRACE
-		mcToken.toolchainManager = toolchainManager
+		val toolchain = toolchainBuilder.buildOrGetManager
+		toolchain.logLevel = Level.TRACE
+		mcToken.toolchain = toolchain
 		// WORK END
 		
 		timer.stopMeasure

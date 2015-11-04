@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.cpp.performance.test.config
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
-import com.incquerylabs.emdw.toolchain.ToolchainManager
+import com.incquerylabs.emdw.toolchain.Toolchain
 import eu.mondo.sam.core.DataToken
 import java.util.Map
 import org.eclipse.uml2.uml.Model
@@ -11,7 +11,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 class MCDataToken implements DataToken {
 	String scenarioName
 	
-	ToolchainManager toolchainManager
+	Toolchain toolchain
 	
 	String umlModelPath
 	Model umlModel

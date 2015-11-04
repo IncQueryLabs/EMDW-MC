@@ -4,8 +4,8 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
-import com.incquerylabs.emdw.toolchain.ToolchainManager
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.apache.log4j.Level
 import org.eclipse.core.resources.IProject
@@ -40,7 +40,7 @@ class ToolchainTest {
 	protected OoplFactory ooplFactory = OoplFactory.eINSTANCE
 	protected CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 	
-	protected ToolchainManager toolchainManager
+	protected Toolchain toolchain
 	
 	var Resource xumlrtResource
 	var Resource traceResource
@@ -57,42 +57,42 @@ class ToolchainTest {
 		
 		val mapping = resourceSet.createRootMapping(umlResource)
 		val primitiveTypeMapping = resourceSet.createPrimitiveTypeMapping
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = new ToolchainBuilder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 			
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
-		toolchainManager.clearMeasuredTimes
-		toolchainManager.logLevel = Level.TRACE
+		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain.clearMeasuredTimes
+		toolchain.logLevel = Level.TRACE
 		
 		
 		initializeTransformations()
 		executeTransformations()
-		toolchainManager.logMeasuredTimes
+		toolchain.logMeasuredTimes
 		
 		saveResources()
 	}
 	
 	@After
 	def void cleanupTest() {
-		toolchainManager.disposeEngine
-		toolchainManager.dispose
+		toolchain.disposeEngine
+		toolchain.dispose
 	}
 	
 	def initializeTransformations() {
-		toolchainManager.initializeXtTransformation
-		toolchainManager.initializeCppQrtTransformation
-		toolchainManager.initializeCppComponentTransformation
-		toolchainManager.initializeCppCodegeneration
-		toolchainManager.initializeMakefileGeneration
+		toolchain.initializeXtTransformation
+		toolchain.initializeCppQrtTransformation
+		toolchain.initializeCppComponentTransformation
+		toolchain.initializeCppCodegeneration
+		toolchain.initializeMakefileGeneration
 	}
 	
 	def executeTransformations() {
-		toolchainManager.executeXtTransformation
-		toolchainManager.executeCppQrtTransformation
-		toolchainManager.executeDeltaCodeAndFileGeneration(new EMDWNullProgressMonitor)
+		toolchain.executeXtTransformation
+		toolchain.executeCppQrtTransformation
+		toolchain.executeDeltaCodeAndFileGeneration(new EMDWNullProgressMonitor)
 	}
 	
 	def createRootMapping(ResourceSet resourceSet, Resource umlResource) {

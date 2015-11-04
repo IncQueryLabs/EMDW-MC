@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test
 
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.rules.ActionChainMapping
 import com.incquerylabs.emdw.umlintegration.rules.CapsulePartMapping
@@ -81,14 +81,14 @@ class IntegrationTest {
 			contents += mapping
 		]
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder =>[
+		val toolchainBuilder = new ToolchainBuilder =>[
 			it.xumlrtModel = xtumlrtModel
 		]
-		val toolchainManager = toolchainManagerBuilder.buildOrGetManager
-		toolchainManager.initializeXtTransformation
-		toolchainManager.executeXtTransformation
+		val toolchain = toolchainBuilder.buildOrGetManager
+		toolchain.initializeXtTransformation
+		toolchain.executeXtTransformation
 		
-		val rules = getRules(toolchainManager.engine)
+		val rules = getRules(toolchain.engine)
 		val umlObjects = rules.map[allUmlObjects].flatten
 		umlObjects.forEach[umlObject |
 			val trace = mapping.traces.findFirst[umlElements.toSet == #{umlObject}]
@@ -97,8 +97,8 @@ class IntegrationTest {
 			assertFalse(errorMessage, trace.xtumlrtElements.empty)
 		]
 		
-		toolchainManager.dispose
-		toolchainManager.disposeEngine
+		toolchain.dispose
+		toolchain.disposeEngine
 		
 		val umlRSresources = mapping.eResource.resourceSet.resources
 		umlRSresources.forEach[it.unload]

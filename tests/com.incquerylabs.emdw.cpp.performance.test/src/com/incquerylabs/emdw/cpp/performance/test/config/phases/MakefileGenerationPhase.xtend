@@ -22,10 +22,10 @@ class MakefileGenerationPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		mcToken.toolchainManager.initializeMakefileGeneration
-		val cppModel = mcToken.toolchainManager.getOrCreateCPPModel
-		val makefileGeneration = mcToken.toolchainManager.makefileGeneration
-		mcToken.toolchainManager.performRulesMkGeneration(makefileGeneration, cppModel)
+		mcToken.toolchain.initializeMakefileGeneration
+		val cppModel = mcToken.toolchain.getOrCreateCPPModel
+		val makefileGeneration = mcToken.toolchain.makefileGeneration
+		mcToken.toolchain.performRulesMkGeneration(makefileGeneration, cppModel)
 		mcToken.cppSourceFileContents.putAll(makefileGeneration.generatedCPPMakeFiles)
 		// WORK END
 		

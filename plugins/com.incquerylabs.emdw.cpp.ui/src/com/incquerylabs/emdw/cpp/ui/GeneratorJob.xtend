@@ -2,8 +2,7 @@ package com.incquerylabs.emdw.cpp.ui
 
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.ui.util.EMDWProgressMonitor
-import com.incquerylabs.emdw.toolchain.ToolchainManager
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
 import org.apache.log4j.Level
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
@@ -17,6 +16,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.Data
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 
 class GeneratorJob extends Job {
 
@@ -39,7 +39,7 @@ class GeneratorJob extends Job {
 	val AdvancedIncQueryEngine engine
 	
 	@Accessors boolean transformAllComponents = false
-	@Accessors ToolchainManager toolchainManager
+	@Accessors Toolchain toolchain
 	
 	new(ModelSet modelSet, Resource xtumlResource, Model xtModel, AdvancedIncQueryEngine engine) {
 		super(JOB_NAME)
@@ -49,13 +49,13 @@ class GeneratorJob extends Job {
 		this.engine = engine
 		
 		val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-		val managerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = new ToolchainBuilder => [
 			it.engine = engine
 			it.xumlrtModel = xtModel
 			it.xtumlChangeMonitor = getChangeMonitor(modelSet)
 			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 		]
-		this.toolchainManager = managerBuilder.buildOrGetManager() => [
+		this.toolchain = toolchainBuilder.buildOrGetManager() => [
 			clearMeasuredTimes
 			logLevel = Level.DEBUG
 		]
@@ -64,49 +64,49 @@ class GeneratorJob extends Job {
 	override protected run(IProgressMonitor monitor) {
 		val tasks = newArrayList
 
-		tasks += new GeneratorTask(CPP_QRT_INIT_WORK, "Initializing C++ QRT transformation.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.initializeCppQrtTransformation
+		tasks += new GeneratorTask(CPP_QRT_INIT_WORK, "Initializing C++ QRT transformation.") [ toolchain, progressMonitor, progress |
+			toolchain.initializeCppQrtTransformation
 			progressMonitor.worked(progress)
 		]
-		tasks += new GeneratorTask(CPP_COMPONENT_INIT_WORK, "Initializing C++ component transformation.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.initializeCppComponentTransformation
+		tasks += new GeneratorTask(CPP_COMPONENT_INIT_WORK, "Initializing C++ component transformation.") [ toolchain, progressMonitor, progress |
+			toolchain.initializeCppComponentTransformation
 			progressMonitor.worked(progress)
 		]
-		tasks += new GeneratorTask(CPP_INIT_WORK, "Initializing C++ codegeneration.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.initializeCppCodegeneration
+		tasks += new GeneratorTask(CPP_INIT_WORK, "Initializing C++ codegeneration.") [ toolchain, progressMonitor, progress |
+			toolchain.initializeCppCodegeneration
 			progressMonitor.worked(progress)
 		]
-		tasks += new GeneratorTask(MAKEFILE_INIT_WORK, "Initializing makefile generation") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.initializeMakefileGeneration
+		tasks += new GeneratorTask(MAKEFILE_INIT_WORK, "Initializing makefile generation") [ toolchain, progressMonitor, progress |
+			toolchain.initializeMakefileGeneration
 			progressMonitor.worked(progress)
 		]
 
-		tasks += new GeneratorTask(CPP_QRT_TRANSFORM_WORK, "Executing C++ QRT transformation.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.executeCppQrtTransformation
+		tasks += new GeneratorTask(CPP_QRT_TRANSFORM_WORK, "Executing C++ QRT transformation.") [ toolchain, progressMonitor, progress |
+			toolchain.executeCppQrtTransformation
 			progressMonitor.worked(progress)
 		]
 		
 		if(transformAllComponents){
-			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchainManager, progressMonitor, progress |
-				toolchainManager.executeCodeAndFileGenerationForAllComponents(EMDWProgressMonitor::convert(progressMonitor))
+			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchain, progressMonitor, progress |
+				toolchain.executeCodeAndFileGenerationForAllComponents(EMDWProgressMonitor::convert(progressMonitor))
 				progressMonitor.worked(progress)
 			]
 		} else {
-			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchainManager, progressMonitor, progress |
-				toolchainManager.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
+			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchain, progressMonitor, progress |
+				toolchain.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
 				progressMonitor.worked(progress)
 			]
 		}
-		tasks += new GeneratorTask(CHANGE_MONITOR_INIT_WORK, "Starting change monitor.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.startChangeMonitor
+		tasks += new GeneratorTask(CHANGE_MONITOR_INIT_WORK, "Starting change monitor.") [ toolchain, progressMonitor, progress |
+			toolchain.startChangeMonitor
 			progressMonitor.worked(progress)
 		]
-		tasks += new GeneratorTask(CPPMODEL_SAVE_WORK, "Saving cppmodel.") [ toolchainManager, progressMonitor, progress |
-			val cppModel = toolchainManager.getOrCreateCPPModel
+		tasks += new GeneratorTask(CPPMODEL_SAVE_WORK, "Saving cppmodel.") [ toolchain, progressMonitor, progress |
+			val cppModel = toolchain.getOrCreateCPPModel
 			cppModel.eResource.save(null)
 		]
-		tasks += new GeneratorTask(LOG_WORK, "Logging times.") [ toolchainManager, progressMonitor, progress |
-			toolchainManager.logMeasuredTimes
+		tasks += new GeneratorTask(LOG_WORK, "Logging times.") [ toolchain, progressMonitor, progress |
+			toolchain.logMeasuredTimes
 			progressMonitor.worked(progress)
 		]
 
@@ -120,7 +120,7 @@ class GeneratorJob extends Job {
 				if (subMonitor.canceled)
 					return Status::CANCEL_STATUS
 				val nextTask = taskIterator.next
-				nextTask.run(toolchainManager, subMonitor.newChild(nextTask.progress))
+				nextTask.run(toolchain, subMonitor.newChild(nextTask.progress))
 			}
 		} catch (Exception e) {
 			// initialize error status since there is no static version of it
@@ -139,11 +139,11 @@ class GeneratorTask {
 	val int progress
 	val String taskName
 	
-	// def void execute(ToolchainManager tm, SubMonitor sm, Integer i)
-	@Accessors(NONE) val (ToolchainManager, SubMonitor, Integer)=>void task
+	// def void execute(Toolchain tm, SubMonitor sm, Integer i)
+	@Accessors(NONE) val (Toolchain, SubMonitor, Integer)=>void task
 
-	def run(ToolchainManager toolchainManager, SubMonitor monitor) {
+	def run(Toolchain toolchain, SubMonitor monitor) {
 		monitor.taskName = taskName
-		task.apply(toolchainManager, monitor, progress)
+		task.apply(toolchain, monitor, progress)
 	}
 }

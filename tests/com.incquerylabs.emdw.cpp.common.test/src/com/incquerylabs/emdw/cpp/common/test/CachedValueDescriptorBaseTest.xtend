@@ -6,7 +6,7 @@ import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Element
 import org.junit.Test
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 
 abstract class CachedValueDescriptorBaseTest<UmlObject extends Element, IValueDescriptor extends ValueDescriptor> extends ValueDescriptorBaseTest<UmlObject, IValueDescriptor> {
 	
@@ -14,27 +14,27 @@ abstract class CachedValueDescriptorBaseTest<UmlObject extends Element, IValueDe
 	def cache() {
 		val testId = "cache"
 		startTest(testId)
-		val toolchainManagerBuilder = new ToolchainManagerBuilder
+		val toolchainBuilder = new ToolchainBuilder
 		val rs = new ResourceSetImpl
 		
-		val engine = toolchainManagerBuilder.createDefaultEngine(rs)
+		val engine = toolchainBuilder.createDefaultEngine(rs)
 		
 		val umlModel = MODEL_NAME.prepareUMLResource(rs)
 		mapping = umlModel.createRootMapping(engine)
 		mapping.xtumlrtRoot.prepareCPPResource
 		val xumlrtRS = mapping.eResource.resourceSet
 		
-		toolchainManagerBuilder => [
+		toolchainBuilder => [
 			it.engine = engine
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.buildOrGetManager
 		
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeTransformations
 		executeTransformationsWithoutCodeCompile
-		val factory = new UmlValueDescriptorFactory(toolchainManager.engine)
+		val factory = new UmlValueDescriptorFactory(toolchain.engine)
 		val valueDescriptor = factory.prepareValueDescriptor(umlObject)
 		val cachedDescriptor = factory.getCachedValueDescriptor(umlObject)
 		assertResult(valueDescriptor, cachedDescriptor)

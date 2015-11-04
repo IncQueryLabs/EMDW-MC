@@ -58,7 +58,7 @@ import static com.google.common.base.Preconditions.*
 import java.nio.file.Paths
 import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 
-class ToolchainManager {
+class Toolchain {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	static val RUNTIME_TARGET_DIRECTORY = "model/runtime"
 	static val CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"

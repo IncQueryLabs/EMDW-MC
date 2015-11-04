@@ -66,10 +66,10 @@ class UmlHandler extends AbstractHandler {
 							]
 							
 							var Iterable<XTComponent> dirtyComponents
-							val toolcainManager = generatorJob.toolchainManager
-							if(toolcainManager!=null) {
-								toolcainManager.createChangeMonitorCheckpoint
-								dirtyComponents = toolcainManager.dirtyXtComponents
+							val toolcain = generatorJob.toolchain
+							if(toolcain!=null) {
+								toolcain.createChangeMonitorCheckpoint
+								dirtyComponents = toolcain.dirtyXtComponents
 								val dialog = new MessageDialog(
 									shell, 
 									"xUML-RT Code Generation", 
@@ -125,25 +125,25 @@ class UmlHandler extends AbstractHandler {
 							generatorJob.schedule
 							
 //							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-//							val managerBuilder = new ToolchainManagerBuilder => [
+//							val managerBuilder = new ToolchainBuilder => [
 //								it.engine = engine
 //								it.xumlrtModel = xtModel
 //								it.xtumlChangeMonitor = getChangeMonitor(modelSet)
 //								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 //							]
-//							val ToolchainManager toolchainManager = managerBuilder.buildOrGetManager()
-//							toolchainManager.clearMeasuredTimes
-//							toolchainManager.logLevel = Level.DEBUG
-//							toolchainManager.initializeCppQrtTransformation()
-//							toolchainManager.initializeCppComponentTransformation()
-//							toolchainManager.initializeCppCodegeneration()
-//							toolchainManager.initializeMakefileGeneration()
+//							val Toolchain toolchain = managerBuilder.buildOrGetManager()
+//							toolchain.clearMeasuredTimes
+//							toolchain.logLevel = Level.DEBUG
+//							toolchain.initializeCppQrtTransformation()
+//							toolchain.initializeCppComponentTransformation()
+//							toolchain.initializeCppCodegeneration()
+//							toolchain.initializeMakefileGeneration()
 //							
-//							toolchainManager.executeCppQrtTransformation
-//							toolchainManager.executeDeltaCodeAndFileGeneration
-//							toolchainManager.startChangeMonitor()
-//							toolchainManager.logMeasuredTimes
-//							val cppModel = toolchainManager.getOrCreateCPPModel							
+//							toolchain.executeCppQrtTransformation
+//							toolchain.executeDeltaCodeAndFileGeneration
+//							toolchain.startChangeMonitor()
+//							toolchain.logMeasuredTimes
+//							val cppModel = toolchain.getOrCreateCPPModel
 //							cppModel.eResource.save(#{})
 							
 //							MessageDialog.openInformation(HandlerUtil.getActiveShell(event),

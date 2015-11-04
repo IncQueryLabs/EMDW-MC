@@ -5,8 +5,8 @@ import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
-import com.incquerylabs.emdw.toolchain.ToolchainManager
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
@@ -24,7 +24,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 
 	protected extension Logger logger = Logger.getLogger(class)
 	protected extension XtumlQueries xtumlQueries = XtumlQueries.instance
-	protected extension ToolchainManager toolchainManager
+	protected extension Toolchain toolchain
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension CppUtil cppUtil = new CppUtil
 	
@@ -42,17 +42,16 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val cppResource = createCPPResource(xtModel)
 		val cppModel = prepareCppModel(cppResource, xtModel)
 		
-		val resourceSet = cppModel.eResource.resourceSet
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = new ToolchainBuilder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.buildOrGetManager
 		
 		initializeCppQrtTransformation
 		executeCppQrtTransformation
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObjectCreated(xtObject, toolchainManager.engine)
+		checkCppObjectCreated(xtObject, toolchain.engine)
 		
 		xtResource.contents.clear
 		
@@ -68,11 +67,10 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val cppResource = createCPPResource(xtModel)
 		val cppModel = prepareCppModel(cppResource, xtModel)
 		
-		val resourceSet = cppModel.eResource.resourceSet
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = new ToolchainBuilder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.buildOrGetManager
 		
 		initializeCppQrtTransformation
 		executeCppQrtTransformation
@@ -80,7 +78,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		xtModel.name = "updated_name"
 		
 		val xtObject = createXtumlObject(xtModel)
-		checkCppObjectCreated(xtObject, toolchainManager.engine)
+		checkCppObjectCreated(xtObject, toolchain.engine)
 		
 		xtObject?.removeXtumlObject;
 		checkCppObjectRemoved(cppModel, xtObject)
@@ -92,8 +90,8 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 	
 	@After
 	def cleanup() {
-		toolchainManager.dispose
-		toolchainManager.disposeEngine
+		toolchain.dispose
+		toolchain.disposeEngine
 	}
 	
 	/**

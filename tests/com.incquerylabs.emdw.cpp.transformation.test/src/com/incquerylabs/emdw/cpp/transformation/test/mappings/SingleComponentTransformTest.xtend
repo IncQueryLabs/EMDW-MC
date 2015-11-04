@@ -2,7 +2,7 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 
 abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent, CPPComponent> {
 	
@@ -18,10 +18,10 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = new ToolchainBuilder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.buildOrGetManager
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation(xtComponent)
@@ -42,10 +42,10 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppComponent = prepareCppModel(cppModel)
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = new ToolchainBuilder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.buildOrGetManager
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation(xtComponent)

@@ -4,7 +4,6 @@ import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.apache.log4j.Level
@@ -43,7 +42,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val resourceSet = new ResourceSetImpl
 		mapping = createBasicRootMapping(testId, resourceSet)
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
 		toolchain = toolchainBuilder.buildOrGetManager
@@ -60,7 +59,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val resourceSet = new ResourceSetImpl
 		mapping = createBasicRootMapping(testId, resourceSet)
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
 		toolchain = toolchainBuilder.buildOrGetManager
@@ -78,7 +77,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val resourceSet = new ResourceSetImpl
 		mapping = createBasicRootMapping(testId, resourceSet)
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
 		toolchain = toolchainBuilder.buildOrGetManager

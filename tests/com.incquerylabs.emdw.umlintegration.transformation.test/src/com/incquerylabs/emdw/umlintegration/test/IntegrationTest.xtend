@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.umlintegration.test
 
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.rules.ActionChainMapping
 import com.incquerylabs.emdw.umlintegration.rules.CapsulePartMapping
@@ -81,7 +81,7 @@ class IntegrationTest {
 			contents += mapping
 		]
 		
-		val toolchainBuilder = new ToolchainBuilder =>[
+		val toolchainBuilder = Toolchain.builder =>[
 			it.xumlrtModel = xtumlrtModel
 		]
 		val toolchain = toolchainBuilder.buildOrGetManager

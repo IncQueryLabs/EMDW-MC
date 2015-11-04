@@ -125,7 +125,7 @@ class UmlHandler extends AbstractHandler {
 							generatorJob.schedule
 							
 //							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-//							val managerBuilder = new ToolchainBuilder => [
+//							val managerBuilder = Toolchain.builder => [
 //								it.engine = engine
 //								it.xumlrtModel = xtModel
 //								it.xtumlChangeMonitor = getChangeMonitor(modelSet)

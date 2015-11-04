@@ -2,11 +2,11 @@ package com.incquerylabs.emdw.cpp.common.test
 
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.IUmlDescriptorFactory
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.uml2.uml.Element
 import org.junit.Test
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 
 abstract class CachedValueDescriptorBaseTest<UmlObject extends Element, IValueDescriptor extends ValueDescriptor> extends ValueDescriptorBaseTest<UmlObject, IValueDescriptor> {
 	
@@ -14,7 +14,7 @@ abstract class CachedValueDescriptorBaseTest<UmlObject extends Element, IValueDe
 	def cache() {
 		val testId = "cache"
 		startTest(testId)
-		val toolchainBuilder = new ToolchainBuilder
+		val toolchainBuilder = Toolchain.builder
 		val rs = new ResourceSetImpl
 		
 		val engine = toolchainBuilder.createDefaultEngine(rs)

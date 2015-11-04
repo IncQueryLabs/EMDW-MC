@@ -8,7 +8,6 @@ import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.apache.log4j.Level
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -61,7 +60,7 @@ abstract class AbstractConversionTest {
 	protected def initTrafos(String umlModelPath) {
 		val resourceSet = new ResourceSetImpl
 		
-		val toolchainBuilder = new ToolchainBuilder
+		val toolchainBuilder = Toolchain.builder
 		
 		val engine = toolchainBuilder.createDefaultEngine(resourceSet)
 		context =  new BasicUMLContextProvider(engine)

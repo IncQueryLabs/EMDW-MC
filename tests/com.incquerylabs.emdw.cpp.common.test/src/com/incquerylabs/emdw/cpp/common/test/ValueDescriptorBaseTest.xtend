@@ -5,7 +5,6 @@ import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescript
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
@@ -43,7 +42,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 		val testId = "simple"
 		startTest(testId)
 		
-		val toolchainBuilder = new ToolchainBuilder
+		val toolchainBuilder = Toolchain.builder
 		val rs = new ResourceSetImpl
 		
 		val engine = toolchainBuilder.createDefaultEngine(rs)

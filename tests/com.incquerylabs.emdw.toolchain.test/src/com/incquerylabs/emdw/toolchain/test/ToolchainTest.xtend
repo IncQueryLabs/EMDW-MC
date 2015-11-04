@@ -4,8 +4,8 @@ import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
+import com.incquerylabs.emdw.cpp.common.util.EMDWNullProgressMonitor
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.apache.log4j.Level
 import org.eclipse.core.resources.IProject
@@ -24,7 +24,6 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.junit.After
 import org.junit.Test
-import com.incquerylabs.emdw.cpp.common.util.EMDWNullProgressMonitor
 
 class ToolchainTest {
 	val UML_RESOURCE_PATH = "com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml"
@@ -57,7 +56,7 @@ class ToolchainTest {
 		
 		val mapping = resourceSet.createRootMapping(umlResource)
 		val primitiveTypeMapping = resourceSet.createPrimitiveTypeMapping
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)

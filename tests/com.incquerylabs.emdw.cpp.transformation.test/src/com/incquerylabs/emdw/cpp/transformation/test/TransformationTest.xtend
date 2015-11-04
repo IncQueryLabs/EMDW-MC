@@ -8,15 +8,14 @@ import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.After
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.Before
 
 /**
  * Base class for testing transformation rules.
@@ -52,7 +51,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
 		toolchain = toolchainBuilder.buildOrGetManager

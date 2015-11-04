@@ -65,6 +65,10 @@ class Toolchain {
 	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	static val RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
 	
+	public static def ToolchainBuilder getBuilder(){
+		return new ToolchainBuilder
+	}
+	
 	static val TOOLCHAIN_QUERIES = GenericPatternGroup.of(
 			StateMachine.instance,
 			Structure.instance,

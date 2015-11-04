@@ -16,7 +16,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.Data
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 
 class GeneratorJob extends Job {
 
@@ -49,7 +48,7 @@ class GeneratorJob extends Job {
 		this.engine = engine
 		
 		val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.engine = engine
 			it.xumlrtModel = xtModel
 			it.xtumlChangeMonitor = getChangeMonitor(modelSet)

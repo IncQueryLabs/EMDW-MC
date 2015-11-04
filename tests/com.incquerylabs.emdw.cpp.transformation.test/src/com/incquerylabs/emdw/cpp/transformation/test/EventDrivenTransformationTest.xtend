@@ -6,7 +6,6 @@ import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
@@ -42,7 +41,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val cppResource = createCPPResource(xtModel)
 		val cppModel = prepareCppModel(cppResource, xtModel)
 		
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
 		toolchain = toolchainBuilder.buildOrGetManager
@@ -67,7 +66,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val cppResource = createCPPResource(xtModel)
 		val cppModel = prepareCppModel(cppResource, xtModel)
 		
-		val toolchainBuilder = new ToolchainBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
 		toolchain = toolchainBuilder.buildOrGetManager

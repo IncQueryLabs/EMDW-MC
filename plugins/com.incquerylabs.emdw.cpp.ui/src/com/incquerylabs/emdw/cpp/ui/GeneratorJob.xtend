@@ -48,8 +48,8 @@ class GeneratorJob extends Job {
 		this.xtModel = xtModel
 		this.engine = engine
 		
-		this.toolchain = ToolchainManager.getToolchain(engine)
-		if(this.toolchain == null) {
+		toolchain = ToolchainManager.getToolchain(engine)
+		if(toolchain == null) {
 			val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
 			val toolchainBuilder = Toolchain.builder => [
 				it.engine = engine
@@ -58,11 +58,10 @@ class GeneratorJob extends Job {
 				it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 			]
 			
-			this.toolchain = toolchainBuilder.build() => [
-				clearMeasuredTimes
-				logLevel = Level.DEBUG
-			]
+			toolchain = toolchainBuilder.build()
 		}
+		toolchain.logLevel = Level.DEBUG
+		toolchain.clearMeasuredTimes
 	}
 
 	override protected run(IProgressMonitor monitor) {

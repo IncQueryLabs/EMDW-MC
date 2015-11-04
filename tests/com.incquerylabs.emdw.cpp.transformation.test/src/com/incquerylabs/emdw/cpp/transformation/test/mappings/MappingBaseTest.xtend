@@ -26,7 +26,7 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation

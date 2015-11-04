@@ -57,7 +57,7 @@ abstract class ValueDescriptorBaseTest<UmlObject extends Element, IValueDescript
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeTransformations

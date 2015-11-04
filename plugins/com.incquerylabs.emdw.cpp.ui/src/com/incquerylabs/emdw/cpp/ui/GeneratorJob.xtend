@@ -16,6 +16,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.Data
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
+import com.incquerylabs.emdw.toolchain.ToolchainManager
 
 class GeneratorJob extends Job {
 
@@ -47,17 +48,21 @@ class GeneratorJob extends Job {
 		this.xtModel = xtModel
 		this.engine = engine
 		
-		val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-		val toolchainBuilder = Toolchain.builder => [
-			it.engine = engine
-			it.xumlrtModel = xtModel
-			it.xtumlChangeMonitor = getChangeMonitor(modelSet)
-			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
-		]
-		this.toolchain = toolchainBuilder.buildOrGetManager() => [
-			clearMeasuredTimes
-			logLevel = Level.DEBUG
-		]
+		this.toolchain = ToolchainManager.getToolchain(engine)
+		if(this.toolchain == null) {
+			val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
+			val toolchainBuilder = Toolchain.builder => [
+				it.engine = engine
+				it.xumlrtModel = xtModel
+				it.xtumlChangeMonitor = getChangeMonitor(modelSet)
+				it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
+			]
+			
+			this.toolchain = toolchainBuilder.build() => [
+				clearMeasuredTimes
+				logLevel = Level.DEBUG
+			]
+		}
 	}
 
 	override protected run(IProgressMonitor monitor) {

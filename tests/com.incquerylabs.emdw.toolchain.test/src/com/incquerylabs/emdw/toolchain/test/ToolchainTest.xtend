@@ -62,7 +62,7 @@ class ToolchainTest {
 			it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
 			
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		toolchain.clearMeasuredTimes
 		toolchain.logLevel = Level.TRACE
 		

@@ -54,7 +54,7 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation

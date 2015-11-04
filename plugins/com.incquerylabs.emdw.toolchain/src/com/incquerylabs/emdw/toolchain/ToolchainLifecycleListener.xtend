@@ -6,21 +6,19 @@ import org.eclipse.incquery.runtime.api.IPatternMatch
 
 class ToolchainLifecycleListener implements IncQueryEngineLifecycleListener {
 	val Toolchain toolchain
-	val ToolchainBuilder toolchainBuilder
 
-	new(ToolchainBuilder builder, Toolchain toolchain) {
-		this.toolchainBuilder = builder
+	new(Toolchain toolchain) {
 		this.toolchain = toolchain
 	}
 	
 	override engineBecameTainted(String message, Throwable t) { }
 	
 	override engineDisposed() {
-		toolchainBuilder.disposeToolchain(toolchain)
+		ToolchainManager.disposeToolchain(toolchain)
 	}
 	
 	override engineWiped() {
-		toolchainBuilder.disposeToolchain(toolchain)
+		ToolchainManager.disposeToolchain(toolchain)
 	}
 	
 	override matcherInstantiated(IncQueryMatcher<? extends IPatternMatch> matcher) { }

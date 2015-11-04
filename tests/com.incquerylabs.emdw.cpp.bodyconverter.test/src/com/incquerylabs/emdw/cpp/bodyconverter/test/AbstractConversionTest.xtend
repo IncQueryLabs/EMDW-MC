@@ -75,7 +75,7 @@ abstract class AbstractConversionTest {
 			it.primitiveTypeMapping = primitiveTypeMapping
 		]
 		
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		toolchain.logLevel = Level.TRACE
 		
 		toolchain.initializeXtTransformation

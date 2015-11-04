@@ -2,7 +2,6 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.incquerylabs.emdw.toolchain.Toolchain
-import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 
 abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent, CPPComponent> {
@@ -22,7 +21,7 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation(xtComponent)
@@ -46,7 +45,7 @@ abstract class SingleComponentTransformTest extends MappingBaseTest<XTComponent,
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation(xtComponent)

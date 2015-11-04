@@ -1,110 +1,150 @@
 package com.incquerylabs.emdw.toolchain
 
-import com.google.common.collect.BiMap
-import com.google.common.collect.HashBiMap
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
-import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
 import java.util.Map
 import java.util.Set
+import org.apache.log4j.Level
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.base.api.BaseIndexOptions
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.incquery.runtime.exception.IncQueryException
+import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.uml2.uml.Type
-import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
-import org.apache.log4j.Level
-import org.eclipse.papyrusrt.xtumlrt.common.Model
 
 class ToolchainBuilder {
-	static val BiMap<AdvancedIncQueryEngine, Toolchain> toolchains = HashBiMap.create()
 	
 	static val PATHMAP_SCHEME = "pathmap";
 	static val UML_LIBRARIES_AUTHORITY = "UML_LIBRARIES";
 	
-	@Accessors Model xumlrtModel
-	@Accessors Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping
-	@Accessors Set<UmlIntegrationExtension> extensionServices
+	private var Toolchain toolchain = new Toolchain
 	
-	
-	@Accessors TransformationQrt xtTrafo
-	@Accessors XtumlCPPTransformationQrt cppQrtTrafo
-	@Accessors XtumlComponentCPPTransformation cppCompTrafo
-	@Accessors CPPCodeGeneration cppCodeGeneration
-	@Accessors FileAndDirectoryGeneration filegen
-	@Accessors MakefileGeneration makefileGeneration
-	
-	@Accessors AdvancedIncQueryEngine engine
-	@Accessors XtumlModelChangeMonitor xtumlChangeMonitor
-	@Accessors FileManager fileManager
-	
-	def Toolchain buildOrGetManager(){
-		var Toolchain toolchain = null
-		if (toolchains.containsKey(engine)){
-			toolchain = toolchains.get(engine)
-			toolchain.initializeManager
-		} else {
-			checkNotNull(xumlrtModel, "xUML-RT Model cannot be null!")
-			toolchain = new Toolchain
-			toolchain.initializeManager
-			toolchain.logLevel = Level.INFO
-			val lifeCycleListener = new ToolchainLifecycleListener(this, toolchain)
-			toolchain.engine.addLifecycleListener(lifeCycleListener)
-			toolchains.put(engine, toolchain)
+	def Toolchain build(){
+		checkNotNull(xumlrtModel, "xUML-RT Model cannot be null!")
+		if(engine == null) {
+			engine = createDefaultEngine(xumlrtModel.eResource.resourceSet)
 		}
 		
-		toolchain
-	}
-	
-	def disposeToolchain(Toolchain toolchain){
-		toolchain.dispose
-		toolchains.inverse.remove(toolchain)
-	}
-	
-	static def disposeAllToolchains() {
-		toolchains.forEach[engine, toolchain|
-			toolchain.dispose
-		]
-		toolchains.clear
-	}
-	
-	private def initializeManager(Toolchain manager) {
-		// Set fields to the provided objects
-		// Use the previously set object if null is provided
-		// Create default objects if it was set to null
-		val targetFolderPath = xumlrtModel?.eResource?.URI?.toFileString
+//		val targetFolderPath = xumlrtModel?.eResource?.URI?.toFileString
+//		if(fileManager == null){
+//			fileManager = new JavaIOBasedFileManager(targetFolderPath)
+//		}
 		
-		manager => [
-			it.xumlrtModel			= this.xumlrtModel			?: it.xumlrtModel
-			it.primitiveTypeMapping = this.primitiveTypeMapping ?: it.primitiveTypeMapping
-			
-			it.engine				= this.engine				?: it.engine				?: createDefaultEngine(it.xumlrtModel.eResource.resourceSet)
-			it.xtumlChangeMonitor	= this.xtumlChangeMonitor	?: it.xtumlChangeMonitor	?: new XtumlModelChangeMonitor(it.engine)
-			
-			it.xtTrafo				= this.xtTrafo				?: it.xtTrafo				?: new TransformationQrt
-			it.cppQrtTrafo			= this.cppQrtTrafo			?: it.cppQrtTrafo			?: new XtumlCPPTransformationQrt
-			it.cppCompTrafo			= this.cppCompTrafo			?: it.cppCompTrafo			?: new XtumlComponentCPPTransformation
-			it.cppCodeGeneration	= this.cppCodeGeneration	?: it.cppCodeGeneration		?: new CPPCodeGeneration
-			
-			it.fileManager			= this.fileManager			?: it.fileManager			?: new JavaIOBasedFileManager(targetFolderPath)
-			it.filegen				= this.filegen				?: it.filegen				?: new FileAndDirectoryGeneration
-			it.makefileGeneration	= this.makefileGeneration	?: it.makefileGeneration	?: new MakefileGeneration
-			it.extensionServices	= this.extensionServices	?: it.extensionServices		?: <UmlIntegrationExtension>newHashSet(new CPPRuleExtensionService)
-		]
-		manager.prepareToolchainQueries
+		toolchain.prepareToolchainQueries
+		toolchain.logLevel = Level.INFO
+		val lifeCycleListener = new ToolchainLifecycleListener(toolchain)
+		toolchain.engine.addLifecycleListener(lifeCycleListener)
+		ToolchainManager.addToolchain(engine, toolchain)
 		
-		manager
+		val resultToolchain = toolchain
+		toolchain = new Toolchain
+		return resultToolchain
+	}
+	
+	def getEngine() {
+		toolchain.engine
+	}
+	
+	def setEngine(AdvancedIncQueryEngine engine) {
+		toolchain.engine = engine
+	}
+	
+	def getXumlrtModel() {
+		toolchain.xumlrtModel
+	}
+	
+	def setXumlrtModel(Model xumlrtModel) {
+		toolchain.xumlrtModel = xumlrtModel
+	}
+	
+	def getXtTrafo() {
+		toolchain.xtTrafo
+	}
+	
+	def setXtTrafo(TransformationQrt xtTrafo) {
+		toolchain.xtTrafo = xtTrafo
+	}
+	
+	def getCppQrtTrafo() {
+		toolchain.cppQrtTrafo
+	}
+	
+	def setCppQrtTrafo(XtumlCPPTransformationQrt cppQrtTrafo) {
+		toolchain.cppQrtTrafo = cppQrtTrafo
+	}
+	
+	def getCppCompTrafo() {
+		toolchain.cppCompTrafo
+	}
+	
+	def setCppCompTrafo(XtumlComponentCPPTransformation cppCompTrafo){
+		toolchain.cppCompTrafo = cppCompTrafo
+	}
+	
+	def getCppCodeGeneration(){
+		toolchain.cppCodeGeneration
+	}
+	
+	def setCppCodeGeneration(CPPCodeGeneration cppCodeGeneration) {
+		toolchain.cppCodeGeneration = cppCodeGeneration
+	}
+	
+	def getFilegen() {
+		toolchain.filegen
+	}
+	
+	def setFilegen(FileAndDirectoryGeneration filegen) {
+		toolchain.filegen = filegen
+	}
+	
+	def getMakefileGeneration() {
+		toolchain.makefileGeneration
+	}
+	
+	def setMakefileGeneration(MakefileGeneration makefileGeneration) {
+		toolchain.makefileGeneration = makefileGeneration
+	}
+	
+	def getXtumlChangeMonitor() {
+		toolchain.xtumlChangeMonitor
+	}
+	
+	def setXtumlChangeMonitor(XtumlModelChangeMonitor xtumlChangeMonitor) {
+		toolchain.xtumlChangeMonitor = xtumlChangeMonitor
+	}
+	
+	def getFileManager() {
+		toolchain.fileManager
+	}
+	
+	def setFileManager(FileManager fileManager) {
+		toolchain.fileManager = fileManager
+	}
+	
+	def getPrimitiveTypeMapping(){
+		toolchain.primitiveTypeMapping
+	}
+	
+	def setPrimitiveTypeMapping(Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping){
+		toolchain.primitiveTypeMapping = primitiveTypeMapping
+	}
+	
+	def getExtensionServices(){
+		toolchain.extensionServices
+	}
+	
+	def setExtensionServices(Set<UmlIntegrationExtension> extensionServices){
+		toolchain.extensionServices = extensionServices
 	}
 	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {

@@ -44,7 +44,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		
 		initializeCppQrtTransformation
 		executeCppQrtTransformation
@@ -69,7 +69,7 @@ abstract class EventDrivenTransformationTest<XtumlObject extends EObject, CppObj
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		
 		initializeCppQrtTransformation
 		executeCppQrtTransformation

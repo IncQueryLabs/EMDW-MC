@@ -69,6 +69,8 @@ class Toolchain {
 		return new ToolchainBuilder
 	}
 	
+	protected new(){}
+	
 	static val TOOLCHAIN_QUERIES = GenericPatternGroup.of(
 			StateMachine.instance,
 			Structure.instance,
@@ -144,6 +146,13 @@ class Toolchain {
 	def initializeXtTransformation() {
 		if(!isXumlrtTrafoInitialized) {
 			val watch = Stopwatch.createStarted
+			if(xtTrafo == null){
+				xtTrafo = new TransformationQrt
+			}
+			if(extensionServices == null) {
+				extensionServices = <UmlIntegrationExtension>newHashSet(new CPPRuleExtensionService)
+			}
+			
 			val xUmlRtResource = xumlrtModel.eResource
 			val Set<UmlIntegrationExtension> extensionServices = newHashSet(new CPPRuleExtensionService)
 			extensionServices.forEach[initialize(engine, xUmlRtResource)]
@@ -159,6 +168,9 @@ class Toolchain {
 	def initializeCppQrtTransformation() {
 		initializeCppTransformationPrerequisites
 		if(!isCppQrtTrafoInitialized) {
+			if(cppQrtTrafo == null) {
+				cppQrtTrafo = new XtumlCPPTransformationQrt
+			}
 			val watch = Stopwatch.createStarted
 			cppQrtTrafo.initialize(engine)
 			isCppQrtTrafoInitialized = true
@@ -170,6 +182,9 @@ class Toolchain {
 	def initializeCppComponentTransformation() {
 		initializeCppTransformationPrerequisites
 		if(! isCppCompTrafoInitialized){
+			if(cppCompTrafo == null) {
+				cppCompTrafo = new XtumlComponentCPPTransformation
+			}
 			val watch = Stopwatch.createStarted
 			cppCompTrafo.initialize(engine)
 			isCppCompTrafoInitialized = true
@@ -198,6 +213,9 @@ class Toolchain {
 	
 	def initializeCppCodegeneration() {
 		if(!isCppCodegenerationInitialized){
+			if(cppCodeGeneration == null) {
+				cppCodeGeneration = new CPPCodeGeneration
+			}
 			val watch = Stopwatch.createStarted
 			cppCodeGeneration.initialize(engine)
 			isCppCodegenerationInitialized = true
@@ -208,6 +226,9 @@ class Toolchain {
 	
 	def initializeMakefileGeneration() {
 		if(!isMakefileGenerationInitialized) {
+			if(makefileGeneration == null) {
+				makefileGeneration = new MakefileGeneration
+			}
 			val watch = Stopwatch.createStarted
 			makefileGeneration.initialize()
 			isMakefileGenerationInitialized = true
@@ -283,9 +304,12 @@ class Toolchain {
 	def executeFileGeneration(CPPModel cppModel, CPPDirectory runtimeDirectory, Map<CPPSourceFile, CharSequence> cppSourceFileContents){
 		val watch = Stopwatch.createStarted
 		checkNotNull(fileManager)
+		if(filegen == null) {
+			filegen = new FileAndDirectoryGeneration
+		}
 		filegen.initialize(engine, fileManager, ImmutableMap.copyOf(cppSourceFileContents))
-		
 		watch.logTime(Phase.INIT_FILEGEN)
+		
 		watch.reset.start
 		// Model based file generation
 		filegen.execute(cppModel.headerDir)
@@ -299,7 +323,10 @@ class Toolchain {
 	
 	
 	def startChangeMonitor() {
-		if (xtumlChangeMonitor != null && !xtumlChangeMonitor.started) {
+		if(xtumlChangeMonitor == null) {
+			xtumlChangeMonitor = new XtumlModelChangeMonitor(engine)
+		}
+		if (!xtumlChangeMonitor.started) {
 			xtumlChangeMonitor.startMonitoring
 		}
 	}

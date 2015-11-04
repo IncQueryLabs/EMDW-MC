@@ -45,7 +45,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation
@@ -62,7 +62,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		initializeXtTransformation
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
@@ -80,7 +80,7 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation

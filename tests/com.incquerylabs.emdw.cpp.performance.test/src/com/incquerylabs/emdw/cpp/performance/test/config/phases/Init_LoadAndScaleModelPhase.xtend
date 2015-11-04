@@ -18,6 +18,7 @@ import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PackageableElement
+import com.incquerylabs.emdw.toolchain.ToolchainManager
 
 class Init_LoadAndScaleModelPhase extends AtomicPhase {
 	
@@ -58,15 +59,17 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		val mapping = complexModelUtil.createRootMapping(umlModel, engine)
 		val xumlResourceSet = mapping.xtumlrtRoot.eResource.resourceSet
 		
-		val primitiveTypeMapping = createPrimitiveTypeMapping(umlResourceSet, xumlResourceSet)
-		
-		toolchainBuilder => [
-			it.engine = engine
-			it.xumlrtModel = mapping.xtumlrtRoot
-			it.primitiveTypeMapping = primitiveTypeMapping
-			it.fileManager = new EclipseWorkspaceFileManager("test","src")
-		]
-		val toolchain = toolchainBuilder.buildOrGetManager
+		var toolchain = ToolchainManager.getToolchain(engine)
+		if(toolchain == null) {
+			val primitiveTypeMapping = createPrimitiveTypeMapping(umlResourceSet, xumlResourceSet)
+			toolchainBuilder => [
+				it.engine = engine
+				it.xumlrtModel = mapping.xtumlrtRoot
+				it.primitiveTypeMapping = primitiveTypeMapping
+				it.fileManager = new EclipseWorkspaceFileManager("test","src")
+			]
+			toolchain = toolchainBuilder.build
+		}
 		toolchain.logLevel = Level.TRACE
 		mcToken.toolchain = toolchain
 		// WORK END

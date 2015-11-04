@@ -84,7 +84,7 @@ class IntegrationTest {
 		val toolchainBuilder = Toolchain.builder =>[
 			it.xumlrtModel = xtumlrtModel
 		]
-		val toolchain = toolchainBuilder.buildOrGetManager
+		val toolchain = toolchainBuilder.build
 		toolchain.initializeXtTransformation
 		toolchain.executeXtTransformation
 		

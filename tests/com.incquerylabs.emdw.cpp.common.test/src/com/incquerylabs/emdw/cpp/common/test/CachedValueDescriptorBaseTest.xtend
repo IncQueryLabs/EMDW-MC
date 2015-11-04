@@ -29,7 +29,7 @@ abstract class CachedValueDescriptorBaseTest<UmlObject extends Element, IValueDe
 			it.xumlrtModel = mapping.xtumlrtRoot
 			it.primitiveTypeMapping = createPrimitiveTypeMapping(rs, xumlrtRS)
 		]
-		toolchain = toolchainBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeTransformations

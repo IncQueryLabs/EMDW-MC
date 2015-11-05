@@ -57,6 +57,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import static com.google.common.base.Preconditions.*
 import java.nio.file.Paths
 import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
+import org.eclipse.incquery.validation.core.ValidationEngine
+import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 
 class Toolchain {
 	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -500,6 +502,21 @@ class Toolchain {
 			return runtimeCppDirectory
 		}
 		return null
+	}
+	
+	def validateXtumlModel() {
+		val validationEngine = ValidationEngine.builder.setEngine(engine).build
+		val constraintSpecifications = #{
+			new TransitionTriggerWithoutSignalConstraint0()
+		}
+		constraintSpecifications.forEach[
+			validationEngine.addConstraintSpecification(it)
+		]
+		validationEngine.initialize
+		val allViolations = validationEngine.constraints.map[listViolations].flatten 
+		
+		validationEngine.dispose
+		allViolations
 	}
 	
 	def createMissingExternalLibrary(Resource cppResource){

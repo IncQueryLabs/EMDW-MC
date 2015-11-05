@@ -25,6 +25,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.swt.widgets.Shell
 import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
+import com.incquerylabs.emdw.toolchain.Toolchain
 
 class UmlHandler extends AbstractHandler {
 	
@@ -65,37 +66,25 @@ class UmlHandler extends AbstractHandler {
 								user = true
 							]
 							
-							var Iterable<XTComponent> dirtyComponents
 							val toolchain = generatorJob.toolchain
 							if(toolchain!=null) {
-								toolchain.createChangeMonitorCheckpoint
-								dirtyComponents = toolchain.dirtyXtComponents
-								val dialog = new MessageDialog(
-									shell, 
-									"xUML-RT Code Generation", 
-									null, 
-									'''
-									Do you want to transform all components, or only the following dirty components?
-									
-									«IF dirtyComponents.isNullOrEmpty»
-									No dirty components
-									
-									«ENDIF»
-									«FOR component : dirtyComponents»
-										* «component.name»
-									«ENDFOR»
-									'''
-									,
-									MessageDialog.QUESTION,
-									#["All components", "Dirty components", "Cancel"],
-									1 // "Dirty components" is the default
-								)
-								val dialogResult = dialog.open()
-								if(dialogResult == 2){
+								// Validate xUML-RT model
+								val violations = toolchain.validateXtumlModel
+								val isValid = violations.isNullOrEmpty
+								if(!isValid) {
+									reportError(shell, null, "Invalid xtUML model",
+										'''
+										The following problems were found in the xtUML model, please correct and re-run code generation:
+										«FOR violation : violations»
+										  - «violation.message»
+										«ENDFOR»
+										'''
+									)
 									return null
 								}
-								val transformAllComponents = (dialogResult == 0);
-								generatorJob.transformAllComponents = transformAllComponents
+								
+								// Run on all components or on dirty components
+								generatorJob.askForTransformationScope(toolchain, shell)
 							}
 							
 							generatorJob.addJobChangeListener(new JobChangeAdapter() {
@@ -150,6 +139,37 @@ class UmlHandler extends AbstractHandler {
 		}
 		
 		return null;
+	}
+	
+	def askForTransformationScope(GeneratorJob generatorJob, Toolchain toolchain, Shell parentShell) {
+		toolchain.createChangeMonitorCheckpoint
+		var Iterable<XTComponent> dirtyComponents = toolchain.dirtyXtComponents
+		val dialog = new MessageDialog(
+			parentShell, 
+			"xUML-RT Code Generation", 
+			null, 
+			'''
+			Do you want to transform all components, or only the following dirty components?
+			
+			«IF dirtyComponents.isNullOrEmpty»
+			No dirty components
+			
+			«ENDIF»
+			«FOR component : dirtyComponents»
+				* «component.name»
+			«ENDFOR»
+			'''
+			,
+			MessageDialog.QUESTION,
+			#["All components", "Dirty components", "Cancel"],
+			1 // "Dirty components" is the default
+		)
+		val dialogResult = dialog.open()
+		if(dialogResult == 2){
+			return null
+		}
+		val transformAllComponents = (dialogResult == 0);
+		generatorJob.transformAllComponents = transformAllComponents
 	}
 	
 	def reportError(Shell shell, Throwable exception, String message, String details) {

@@ -123,36 +123,6 @@ class UmlHandler extends AbstractHandler {
 								
 							})
 							generatorJob.schedule
-							
-//							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-//							val managerBuilder = Toolchain.builder => [
-//								it.engine = engine
-//								it.xumlrtModel = xtModel
-//								it.xtumlChangeMonitor = getChangeMonitor(modelSet)
-//								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
-//							]
-//							val Toolchain toolchain = managerBuilder.buildOrGetManager()
-//							toolchain.clearMeasuredTimes
-//							toolchain.logLevel = Level.DEBUG
-//							toolchain.initializeCppQrtTransformation()
-//							toolchain.initializeCppComponentTransformation()
-//							toolchain.initializeCppCodegeneration()
-//							toolchain.initializeMakefileGeneration()
-//							
-//							toolchain.executeCppQrtTransformation
-//							toolchain.executeDeltaCodeAndFileGeneration
-//							toolchain.startChangeMonitor()
-//							toolchain.logMeasuredTimes
-//							val cppModel = toolchain.getOrCreateCPPModel
-//							cppModel.eResource.save(#{})
-							
-//							MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
-//								 "xUML-RT Code Generation finished successfully",
-//								'''
-//								C++ code generated into project:
-//								com.ericsson.emdw.cpp.generated.code.«umlResource.URI.trimFileExtension.lastSegment»
-//								'''
-//							)
 						} catch (Exception e) {
 							reportError(shell,e, "xUML-RT Code Generation finished with error",
 								'''

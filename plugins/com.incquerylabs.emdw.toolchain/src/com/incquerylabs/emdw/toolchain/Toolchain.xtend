@@ -23,6 +23,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
 import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
+import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
@@ -37,6 +38,7 @@ import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
 import com.incquerylabs.emdw.umlintegration.queries.Trace
 import com.incquerylabs.emdw.xtuml.incquery.XtumlValidationQueries
+import java.nio.file.Paths
 import java.util.Map
 import java.util.Set
 import java.util.concurrent.TimeUnit
@@ -55,15 +57,19 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
-import java.nio.file.Paths
-import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 
 class Toolchain {
-	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
-	static val RUNTIME_TARGET_DIRECTORY = "model/runtime"
-	static val CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
+	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
+	protected String RUNTIME_TARGET_DIRECTORY = "model/runtime"
+	
+	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
 	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	static val RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
+	static val DEFAULT_RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
+	
+	protected URI CPP_BASIC_TYPES_URI = URI.createPlatformPluginURI(DEFAULT_CPP_BASIC_TYPES_PATH, true)
+	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true)
+	protected URI RUNTIME_MODEL_URI = URI.createPlatformPluginURI(DEFAULT_RUNTIME_MODEL_PATH, true)
+	
 	
 	public static def ToolchainBuilder builder(){
 		return new ToolchainBuilder
@@ -123,6 +129,7 @@ class Toolchain {
 	@Accessors AdvancedIncQueryEngine engine
 	@Accessors XtumlModelChangeMonitor xtumlChangeMonitor
 	@Accessors IFileManager fileManager
+	@Accessors IFileManager mapperFileManager
 	
 	boolean isDisposed = false
 	boolean isXumlrtTrafoInitialized = false
@@ -197,6 +204,7 @@ class Toolchain {
 		if(!areCppPrerequisitesInitialized) {
 			val watch = Stopwatch.createStarted
 			val resourceSet = xumlrtModel.eResource.resourceSet
+						
 			managedEngine = IncQueryEngine.on(new EMFScope(resourceSet))
 			GenericPatternGroup.of(
 				OoplQueryBasedFeatures.instance,
@@ -485,7 +493,9 @@ class Toolchain {
 	def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			val mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+			if(mapperFileManager == null) {
+				mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+			}
 			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(RUNTIME_TARGET_DIRECTORY, mapperCppDir.name))
 			mapper.execute
 			return mapper.mappedSourceFiles
@@ -509,22 +519,15 @@ class Toolchain {
 	}
 	
 	def loadCPPBasicTypes(ResourceSet rs) {
-		rs.getResource(
-			URI.createPlatformPluginURI(CPP_BASIC_TYPES_PATH, true),
-			true)
+		rs.getResource(CPP_BASIC_TYPES_URI, true)
 	}
 	
 	def loadDefaultContainerImplementations(ResourceSet rs) {
-		rs.getResource(
-			URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true),
-			true)
+		rs.getResource(COLLECTION_IMPLEMENTATIONS_URI, true)
 	}
 	
 	def loadCPPRuntimeModelResource(ResourceSet rs) {
-		rs.getResource(
-			URI.createPlatformPluginURI(RUNTIME_MODEL_PATH, true), 
-			true
-		)
+		rs.getResource(RUNTIME_MODEL_URI, true)
 	}
 
 	def void dispose() {
@@ -630,3 +633,4 @@ class Toolchain {
 		measuredTimes.clear
 	}
 }
+

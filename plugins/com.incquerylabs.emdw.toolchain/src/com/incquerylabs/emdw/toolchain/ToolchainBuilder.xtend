@@ -21,6 +21,8 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.emf.common.util.URI
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 
 class ToolchainBuilder {
 	
@@ -147,6 +149,54 @@ class ToolchainBuilder {
 	
 	def setExtensionServices(Set<UmlIntegrationExtension> extensionServices){
 		toolchain.extensionServices = extensionServices
+	}
+	
+	def getRuntimeBundleRootDirectory() {
+		toolchain.RUNTIME_BUNDLE_ROOT_DIRECTORY
+	}
+	
+	def setRuntimeBundleRootDirectory(String runtimeBundleRootDirectory) {
+		toolchain.RUNTIME_BUNDLE_ROOT_DIRECTORY = runtimeBundleRootDirectory
+	}
+	
+	def getRuntimeTargetDirectory() {
+		toolchain.RUNTIME_TARGET_DIRECTORY
+	}
+	
+	def setRuntimeTargetDirectory(String runtimeTargetDirectory) {
+		toolchain.RUNTIME_TARGET_DIRECTORY = runtimeTargetDirectory
+	}
+	
+	def getCppBasicTypesURI() {
+		toolchain.CPP_BASIC_TYPES_URI
+	}
+	
+	def setCppBasicTypesURI(URI cppBasicTypesURI) {
+		toolchain.CPP_BASIC_TYPES_URI = cppBasicTypesURI
+	}
+	
+	def getCollectionImplementationsURI() {
+		toolchain.COLLECTION_IMPLEMENTATIONS_URI
+	}
+	
+	def setCollectionImplementationsURI(URI defaultImplementationsURI) {
+		toolchain.COLLECTION_IMPLEMENTATIONS_URI = defaultImplementationsURI
+	}
+	
+	def getRuntimeModelURI() {
+		toolchain.RUNTIME_MODEL_URI
+	}
+	
+	def setRuntimeModelURI(URI runtimeModelURI) {
+		toolchain.RUNTIME_MODEL_URI = runtimeModelURI
+	}
+	
+	def getMapperFileManager() {
+		toolchain.mapperFileManager
+	}
+	
+	def setMapperFileManager(IFileManager fileManager) {
+		toolchain.mapperFileManager = fileManager
 	}
 	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {

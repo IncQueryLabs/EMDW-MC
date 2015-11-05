@@ -3,6 +3,7 @@ package com.incquerylabs.uml.ralf.snippetcompiler
 import com.google.common.base.Optional
 import com.google.common.base.Preconditions
 import com.google.common.collect.Lists
+import com.incquerylabs.emdw.cpp.common.TypeConverter
 import com.incquerylabs.emdw.cpp.common.util.OperationTypedValueDescriptorPair
 import com.incquerylabs.emdw.cpp.common.util.UmlTypedValueDescriptor
 import com.incquerylabs.emdw.valuedescriptor.ValueDescriptor
@@ -72,6 +73,7 @@ class ExpressionVisitor {
 	extension LoggerUtil loggerutil = new LoggerUtil
 	extension ReducedAlfSystem typeSystem
 	public extension Logger logger = Logger.getLogger(class)
+	val typeConverter = new TypeConverter
 	
 	new(SnippetTemplateCompilerUtil util, ReducedAlfSystem typeSystem){
 		this.typeSystem = typeSystem
@@ -162,7 +164,7 @@ class ExpressionVisitor {
 	
 	def dispatch ValueDescriptor visit(NullExpression ex, StringBuilder parent){
 		logger.logVisitingStarted(ex)
-		val nullDescriptor = createExistingVariableDescriptor(ex,'''nullptr''', context.getThisType(ex))
+		val nullDescriptor = createExistingVariableDescriptor(ex, typeConverter.nullPointer, context.getThisType(ex))
 		
 		logger.logVisitingFinished(ex, nullDescriptor.stringRepresentation)
 		return nullDescriptor	
@@ -1152,7 +1154,7 @@ class ExpressionVisitor {
 		
 		
 		if(ex instanceof NullExpression) {
-			return '''nullptr'''	
+			return typeConverter.nullPointer
 		}		
 		else if(typeSystem.type(ex).value.umlType instanceof Class) {
 			return descr.pointerRepresentation

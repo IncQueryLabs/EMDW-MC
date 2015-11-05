@@ -29,6 +29,8 @@ class ToolchainBuilder {
 	
 	private var Toolchain toolchain = new Toolchain
 	
+	protected new(){}
+	
 	def Toolchain build(){
 		checkNotNull(xumlrtModel, "xUML-RT Model cannot be null!")
 		if(engine == null) {

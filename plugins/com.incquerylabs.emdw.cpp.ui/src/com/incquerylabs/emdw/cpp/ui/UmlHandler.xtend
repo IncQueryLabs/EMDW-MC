@@ -66,10 +66,10 @@ class UmlHandler extends AbstractHandler {
 							]
 							
 							var Iterable<XTComponent> dirtyComponents
-							val toolcain = generatorJob.toolchain
-							if(toolcain!=null) {
-								toolcain.createChangeMonitorCheckpoint
-								dirtyComponents = toolcain.dirtyXtComponents
+							val toolchain = generatorJob.toolchain
+							if(toolchain!=null) {
+								toolchain.createChangeMonitorCheckpoint
+								dirtyComponents = toolchain.dirtyXtComponents
 								val dialog = new MessageDialog(
 									shell, 
 									"xUML-RT Code Generation", 

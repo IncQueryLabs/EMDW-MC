@@ -7,8 +7,7 @@ import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
-import com.incquerylabs.emdw.toolchain.ToolchainManager
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import org.apache.log4j.Level
 import org.eclipse.emf.ecore.resource.ResourceSet
@@ -29,8 +28,8 @@ abstract class AbstractConversionTest {
 	
 	@After
 	def void cleanupTest() {
-		toolchainManager.dispose
-		toolchainManager.disposeEngine
+		toolchain.dispose
+		toolchain.disposeEngine
 		
 		umlModel.eResource.resourceSet.cleanUpResourceSet
 		cppModel.eResource.resourceSet.cleanUpResourceSet
@@ -50,7 +49,7 @@ abstract class AbstractConversionTest {
 	
 	protected BodyConverter bodyConverter
 	protected extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
-	private ToolchainManager toolchainManager
+	private Toolchain toolchain
 	private extension ComplexModelUtil modelUtil = new ComplexModelUtil
 	
 	
@@ -61,33 +60,33 @@ abstract class AbstractConversionTest {
 	protected def initTrafos(String umlModelPath) {
 		val resourceSet = new ResourceSetImpl
 		
-		val managerBuilder = new ToolchainManagerBuilder
+		val toolchainBuilder = Toolchain.builder
 		
-		val engine = managerBuilder.createDefaultEngine(resourceSet)
+		val engine = toolchainBuilder.createDefaultEngine(resourceSet)
 		context =  new BasicUMLContextProvider(engine)
 		val rootMapping = createRootMapping(umlModelPath, resourceSet, engine)
 		umlModel = rootMapping.umlRoot
 		val xumlrtRS = rootMapping.eResource.resourceSet
 		val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet, xumlrtRS)
 		
-		managerBuilder => [
+		toolchainBuilder => [
 			it.engine = engine
 			it.xumlrtModel = rootMapping.xtumlrtRoot
 			it.primitiveTypeMapping = primitiveTypeMapping
 		]
 		
-		toolchainManager = managerBuilder.buildOrGetManager
-		toolchainManager.logLevel = Level.TRACE
+		toolchain = toolchainBuilder.build
+		toolchain.logLevel = Level.TRACE
 		
-		toolchainManager.initializeXtTransformation
-		toolchainManager.initializeCppQrtTransformation
-		toolchainManager.initializeCppComponentTransformation
+		toolchain.initializeXtTransformation
+		toolchain.initializeCppQrtTransformation
+		toolchain.initializeCppComponentTransformation
 	}
 	
 	def void executeTrafos() {
-		toolchainManager.executeXtTransformation
-		toolchainManager.executeCppQrtTransformation
-		toolchainManager.executeCppStructureTransformation
+		toolchain.executeXtTransformation
+		toolchain.executeCppQrtTransformation
+		toolchain.executeCppStructureTransformation
 	}
 	
 	def createRootMapping(String umlModelPath, ResourceSet resourceSet, AdvancedIncQueryEngine engine) {
@@ -105,6 +104,6 @@ abstract class AbstractConversionTest {
 	}
 	
 	def getEngine() {
-		toolchainManager.engine
+		toolchain.engine
 	}
 }

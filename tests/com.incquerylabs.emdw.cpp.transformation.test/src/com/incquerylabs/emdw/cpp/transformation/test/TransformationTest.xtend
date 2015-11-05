@@ -7,16 +7,15 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
 import com.incquerylabs.emdw.testing.common.utils.CppUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
-import com.incquerylabs.emdw.toolchain.ToolchainManager
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.After
+import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.Before
 
 /**
  * Base class for testing transformation rules.
@@ -24,7 +23,7 @@ import org.junit.Before
 abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends EObject> {
 
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension ToolchainManager toolchainManager
+	protected extension Toolchain toolchain
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension CppUtil cppUtil = new CppUtil
 	
@@ -52,10 +51,10 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation
@@ -66,8 +65,8 @@ abstract class TransformationTest<XtumlObject extends EObject, CPPObject extends
 	
 	@After
 	def cleanup() {
-		toolchainManager.dispose
-		toolchainManager.disposeEngine
+		toolchain.dispose
+		toolchain.disposeEngine
 		
 		val resources = xtModel.eResource.resourceSet.resources
 		resources.forEach[it.unload]

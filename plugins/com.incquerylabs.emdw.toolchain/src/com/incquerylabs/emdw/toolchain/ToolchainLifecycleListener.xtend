@@ -4,23 +4,21 @@ import org.eclipse.incquery.runtime.api.IncQueryEngineLifecycleListener
 import org.eclipse.incquery.runtime.api.IncQueryMatcher
 import org.eclipse.incquery.runtime.api.IPatternMatch
 
-class ToolchainManagerLifecycleListener implements IncQueryEngineLifecycleListener {
-	val ToolchainManager manager
-	val ToolchainManagerBuilder builder
+class ToolchainLifecycleListener implements IncQueryEngineLifecycleListener {
+	val Toolchain toolchain
 
-	new(ToolchainManagerBuilder builder, ToolchainManager manager) {
-		this.builder = builder
-		this.manager = manager
+	new(Toolchain toolchain) {
+		this.toolchain = toolchain
 	}
 	
 	override engineBecameTainted(String message, Throwable t) { }
 	
 	override engineDisposed() {
-		builder.disposeToolchainManager(manager)
+		ToolchainManager.disposeToolchain(toolchain)
 	}
 	
 	override engineWiped() {
-		builder.disposeToolchainManager(manager)
+		ToolchainManager.disposeToolchain(toolchain)
 	}
 	
 	override matcherInstantiated(IncQueryMatcher<? extends IPatternMatch> matcher) { }

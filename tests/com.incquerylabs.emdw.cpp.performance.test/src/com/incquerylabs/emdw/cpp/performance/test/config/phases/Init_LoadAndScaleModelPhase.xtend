@@ -1,9 +1,10 @@
 package com.incquerylabs.emdw.cpp.performance.test.config.phases
 
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.performance.test.config.MCDataToken
 import com.incquerylabs.emdw.modelmultiplicator.ModelMultiplicator
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
 import eu.mondo.sam.core.DataToken
 import eu.mondo.sam.core.metrics.MemoryMetric
 import eu.mondo.sam.core.metrics.TimeMetric
@@ -17,8 +18,7 @@ import org.eclipse.uml2.uml.Component
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.Package
 import org.eclipse.uml2.uml.PackageableElement
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
+import com.incquerylabs.emdw.toolchain.ToolchainManager
 
 class Init_LoadAndScaleModelPhase extends AtomicPhase {
 	
@@ -54,22 +54,24 @@ class Init_LoadAndScaleModelPhase extends AtomicPhase {
 		components.ownersSet.forEach[ it.copyPackagedElements(mcToken.componentsScale, Component) ]
 		mcToken.addLogLine('''Multiplicated model size: «umlModel.eAllContents.size»''')
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder
-		val engine = toolchainManagerBuilder.createDefaultEngine(umlResourceSet)
+		val toolchainBuilder = Toolchain.builder
+		val engine = toolchainBuilder.createDefaultEngine(umlResourceSet)
 		val mapping = complexModelUtil.createRootMapping(umlModel, engine)
 		val xumlResourceSet = mapping.xtumlrtRoot.eResource.resourceSet
 		
-		val primitiveTypeMapping = createPrimitiveTypeMapping(umlResourceSet, xumlResourceSet)
-		
-		toolchainManagerBuilder => [
-			it.engine = engine
-			it.xumlrtModel = mapping.xtumlrtRoot
-			it.primitiveTypeMapping = primitiveTypeMapping
-			it.fileManager = new EclipseWorkspaceFileManager("test","src")
-		]
-		val toolchainManager = toolchainManagerBuilder.buildOrGetManager
-		toolchainManager.logLevel = Level.TRACE
-		mcToken.toolchainManager = toolchainManager
+		var toolchain = ToolchainManager.getToolchain(engine)
+		if(toolchain == null) {
+			val primitiveTypeMapping = createPrimitiveTypeMapping(umlResourceSet, xumlResourceSet)
+			toolchainBuilder => [
+				it.engine = engine
+				it.xumlrtModel = mapping.xtumlrtRoot
+				it.primitiveTypeMapping = primitiveTypeMapping
+				it.fileManager = new EclipseWorkspaceFileManager("test","src")
+			]
+			toolchain = toolchainBuilder.build
+		}
+		toolchain.logLevel = Level.TRACE
+		mcToken.toolchain = toolchain
 		// WORK END
 		
 		timer.stopMeasure

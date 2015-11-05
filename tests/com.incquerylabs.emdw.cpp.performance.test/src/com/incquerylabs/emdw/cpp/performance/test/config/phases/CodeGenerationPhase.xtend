@@ -25,17 +25,17 @@ class CodeGenerationPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		mcToken.toolchainManager.initializeCppCodegeneration
-		val dirtyComponents = mcToken.toolchainManager.dirtyXtComponents
+		mcToken.toolchain.initializeCppCodegeneration
+		val dirtyComponents = mcToken.toolchain.dirtyXtComponents
 		
 		val cppComponents = dirtyComponents.map[ xtComponent |
-			mcToken.toolchainManager.engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
+			mcToken.toolchain.engine.cppComponents.getAllValuesOfcppComponent(xtComponent).head
 		]
 		if(mcToken.cppSourceFileContents == null) {
 			mcToken.cppSourceFileContents = <CPPSourceFile, CharSequence>newHashMap
 		}
 		cppComponents.forEach[ cppComponent |
-			val cppSourceFileContentsForComponent = mcToken.toolchainManager.executeCppCodeGeneration(cppComponent)
+			val cppSourceFileContentsForComponent = mcToken.toolchain.executeCppCodeGeneration(cppComponent)
 			mcToken.cppSourceFileContents.putAll(cppSourceFileContentsForComponent)
 		]
 		// WORK END

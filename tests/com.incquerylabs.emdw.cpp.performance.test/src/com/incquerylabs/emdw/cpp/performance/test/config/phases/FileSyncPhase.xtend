@@ -24,13 +24,13 @@ class FileSyncPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		val cppModel = mcToken.toolchainManager.getOrCreateCPPModel
-		val runtimeCppDir = mcToken.toolchainManager.runtimeCppDir
-		mcToken.toolchainManager.executeFileGeneration(cppModel, runtimeCppDir, mcToken.cppSourceFileContents)
+		val cppModel = mcToken.toolchain.getOrCreateCPPModel
+		val runtimeCppDir = mcToken.toolchain.runtimeCppDir
+		mcToken.toolchain.executeFileGeneration(cppModel, runtimeCppDir, mcToken.cppSourceFileContents)
 		// Manual filegeneration for main makefile and main.cc
-		mcToken.toolchainManager.performMakefileGeneration(cppModel, runtimeCppDir)
-		val allCppComponents = mcToken.toolchainManager.engine.cppComponents.getAllValuesOfcppComponent
-		mcToken.toolchainManager.performMainGeneration(allCppComponents)
+		mcToken.toolchain.performMakefileGeneration(cppModel, runtimeCppDir)
+		val allCppComponents = mcToken.toolchain.engine.cppComponents.getAllValuesOfcppComponent
+		mcToken.toolchain.performMainGeneration(allCppComponents)
 		// WORK END
 		
 		timer.stopMeasure

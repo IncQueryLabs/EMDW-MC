@@ -3,8 +3,7 @@ package com.incquerylabs.emdw.umlintegration.test
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.testing.common.utils.UmlUtil
 import com.incquerylabs.emdw.testing.common.utils.XtumlUtil
-import com.incquerylabs.emdw.toolchain.ToolchainManager
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
+import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.umlintegration.rules.AbstractMapping
 import com.incquerylabs.emdw.umlintegration.trace.RootMapping
 import org.apache.log4j.Level
@@ -15,7 +14,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.uml2.uml.Element
 import org.eclipse.uml2.uml.Model
 import org.junit.After
-import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 
@@ -26,7 +24,7 @@ import static org.junit.Assert.*
  */
 abstract class TransformationTest<UmlObject extends Element, XtumlrtObject extends EObject> {
 	protected extension Logger logger = Logger.getLogger(class)
-	protected extension ToolchainManager toolchainManager
+	protected extension Toolchain toolchain
 	protected extension UmlUtil umlUtil = new UmlUtil
 	protected extension XtumlUtil xtumlUtil = new XtumlUtil
 	protected extension ComplexModelUtil complexUtil = new ComplexModelUtil
@@ -44,10 +42,10 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val resourceSet = new ResourceSetImpl
 		mapping = createBasicRootMapping(testId, resourceSet)
-		val managerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
-		toolchainManager = managerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation
@@ -61,10 +59,10 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val resourceSet = new ResourceSetImpl
 		mapping = createBasicRootMapping(testId, resourceSet)
-		val managerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
-		toolchainManager = managerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		initializeXtTransformation
 		executeXtTransformation
 		val umlObject = createUmlObject(mapping.umlRoot)
@@ -79,10 +77,10 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 		startTest(testId)
 		val resourceSet = new ResourceSetImpl
 		mapping = createBasicRootMapping(testId, resourceSet)
-		val managerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = mapping.xtumlrtRoot
 		]
-		toolchainManager = managerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		val umlObject = createUmlObject(mapping.umlRoot)
 		initializeXtTransformation
 		executeXtTransformation
@@ -102,8 +100,8 @@ abstract class TransformationTest<UmlObject extends Element, XtumlrtObject exten
 
 	@After
 	def cleanup() {
-		toolchainManager.dispose
-		toolchainManager.disposeEngine
+		toolchain.dispose
+		toolchain.disposeEngine
 		
 		val umlRSresources = mapping.eResource.resourceSet.resources
 		umlRSresources.forEach[it.unload]

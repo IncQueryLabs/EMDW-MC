@@ -166,19 +166,19 @@ class ToolchainBuilder {
 		toolchain.RUNTIME_TARGET_DIRECTORY = runtimeTargetDirectory
 	}
 	
-	def getCppBasicTypesPath() {
+	def getCppBasicTypesURI() {
 		toolchain.CPP_BASIC_TYPES_URI
 	}
 	
-	def setCppBasicTypesPath(URI cppBasicTypesURI) {
+	def setCppBasicTypesURI(URI cppBasicTypesURI) {
 		toolchain.CPP_BASIC_TYPES_URI = cppBasicTypesURI
 	}
 	
-	def getDefaultImplementationsPath() {
+	def getCollectionImplementationsURI() {
 		toolchain.COLLECTION_IMPLEMENTATIONS_URI
 	}
 	
-	def setDefaultImplementationsPath(URI defaultImplementationsURI) {
+	def setCollectionImplementationsURI(URI defaultImplementationsURI) {
 		toolchain.COLLECTION_IMPLEMENTATIONS_URI = defaultImplementationsURI
 	}
 	

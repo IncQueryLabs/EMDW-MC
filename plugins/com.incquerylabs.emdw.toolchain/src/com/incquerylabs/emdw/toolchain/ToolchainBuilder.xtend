@@ -21,6 +21,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.emf.common.util.URI
 
 class ToolchainBuilder {
 	
@@ -166,26 +167,27 @@ class ToolchainBuilder {
 	}
 	
 	def getCppBasicTypesPath() {
-		toolchain.CPP_BASIC_TYPES_PATH
+		toolchain.CPP_BASIC_TYPES_URI
 	}
 	
-	def setCppBasicTypesPath(String cppBasicTypesPath) {
-		toolchain.CPP_BASIC_TYPES_PATH = cppBasicTypesPath
+	def setCppBasicTypesPath(URI cppBasicTypesURI) {
+		toolchain.CPP_BASIC_TYPES_URI = cppBasicTypesURI
 	}
 	
 	def getDefaultImplementationsPath() {
-		toolchain.DEFAULT_IMPLEMENTATIONS_PATH
-	}
-	def setDefaultImplementationsPath(String defaultImplementationsPath) {
-		toolchain.DEFAULT_IMPLEMENTATIONS_PATH = defaultImplementationsPath
+		toolchain.COLLECTION_IMPLEMENTATIONS_URI
 	}
 	
-	def getRuntimeModelPath() {
-		toolchain.RUNTIME_MODEL_PATH
+	def setDefaultImplementationsPath(URI defaultImplementationsURI) {
+		toolchain.COLLECTION_IMPLEMENTATIONS_URI = defaultImplementationsURI
 	}
 	
-	def setRuntimeModelPath(String runtimeModelPath) {
-		toolchain.RUNTIME_MODEL_PATH = runtimeModelPath
+	def getRuntimeModelURI() {
+		toolchain.RUNTIME_MODEL_URI
+	}
+	
+	def setRuntimeModelURI(URI runtimeModelURI) {
+		toolchain.RUNTIME_MODEL_URI = runtimeModelURI
 	}
 	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {

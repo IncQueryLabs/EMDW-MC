@@ -59,11 +59,11 @@ import java.nio.file.Paths
 import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 
 class Toolchain {
-	static val RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
-	static val RUNTIME_TARGET_DIRECTORY = "model/runtime"
-	static val CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
-	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	static val RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
+	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
+	protected String RUNTIME_TARGET_DIRECTORY = "model/runtime"
+	protected String CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
+	protected String DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
+	protected String RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
 	
 	public static def ToolchainBuilder builder(){
 		return new ToolchainBuilder
@@ -630,3 +630,4 @@ class Toolchain {
 		measuredTimes.clear
 	}
 }
+

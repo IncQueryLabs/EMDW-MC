@@ -149,6 +149,45 @@ class ToolchainBuilder {
 		toolchain.extensionServices = extensionServices
 	}
 	
+	def getRuntimeBundleRootDirectory() {
+		toolchain.RUNTIME_BUNDLE_ROOT_DIRECTORY
+	}
+	
+	def setRuntimeBundleRootDirectory(String runtimeBundleRootDirectory) {
+		toolchain.RUNTIME_BUNDLE_ROOT_DIRECTORY = runtimeBundleRootDirectory
+	}
+	
+	def getRuntimeTargetDirectory() {
+		toolchain.RUNTIME_TARGET_DIRECTORY
+	}
+	
+	def setRuntimeTargetDirectory(String runtimeTargetDirectory) {
+		toolchain.RUNTIME_TARGET_DIRECTORY = runtimeTargetDirectory
+	}
+	
+	def getCppBasicTypesPath() {
+		toolchain.CPP_BASIC_TYPES_PATH
+	}
+	
+	def setCppBasicTypesPath(String cppBasicTypesPath) {
+		toolchain.CPP_BASIC_TYPES_PATH = cppBasicTypesPath
+	}
+	
+	def getDefaultImplementationsPath() {
+		toolchain.DEFAULT_IMPLEMENTATIONS_PATH
+	}
+	def setDefaultImplementationsPath(String defaultImplementationsPath) {
+		toolchain.DEFAULT_IMPLEMENTATIONS_PATH = defaultImplementationsPath
+	}
+	
+	def getRuntimeModelPath() {
+		toolchain.RUNTIME_MODEL_PATH
+	}
+	
+	def setRuntimeModelPath(String runtimeModelPath) {
+		toolchain.RUNTIME_MODEL_PATH = runtimeModelPath
+	}
+	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {
 		val options = new BaseIndexOptions().withResourceFilterConfiguration([
 			val uri = getURI();

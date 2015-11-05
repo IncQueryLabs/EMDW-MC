@@ -22,12 +22,12 @@ class XumlrtToCppComponentStructurePhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		mcToken.toolchainManager.initializeCppComponentTransformation
-		mcToken.toolchainManager.createChangeMonitorCheckpoint
-		val dirtyComponents = mcToken.toolchainManager.dirtyXtComponents
+		mcToken.toolchain.initializeCppComponentTransformation
+		mcToken.toolchain.createChangeMonitorCheckpoint
+		val dirtyComponents = mcToken.toolchain.dirtyXtComponents
 		
 		dirtyComponents.forEach[ xtComponent |
-			mcToken.toolchainManager.executeCppStructureTransformation(xtComponent)
+			mcToken.toolchain.executeCppStructureTransformation(xtComponent)
 		]
 		// WORK END
 		

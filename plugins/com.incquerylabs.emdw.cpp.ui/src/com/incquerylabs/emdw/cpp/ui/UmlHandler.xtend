@@ -66,10 +66,10 @@ class UmlHandler extends AbstractHandler {
 							]
 							
 							var Iterable<XTComponent> dirtyComponents
-							val toolcainManager = generatorJob.toolchainManager
-							if(toolcainManager!=null) {
-								toolcainManager.createChangeMonitorCheckpoint
-								dirtyComponents = toolcainManager.dirtyXtComponents
+							val toolchain = generatorJob.toolchain
+							if(toolchain!=null) {
+								toolchain.createChangeMonitorCheckpoint
+								dirtyComponents = toolchain.dirtyXtComponents
 								val dialog = new MessageDialog(
 									shell, 
 									"xUML-RT Code Generation", 
@@ -123,36 +123,6 @@ class UmlHandler extends AbstractHandler {
 								
 							})
 							generatorJob.schedule
-							
-//							val targetFolder = GeneratorHelper.getTargetFolder(xtumlResource, false)
-//							val managerBuilder = new ToolchainManagerBuilder => [
-//								it.engine = engine
-//								it.xumlrtModel = xtModel
-//								it.xtumlChangeMonitor = getChangeMonitor(modelSet)
-//								it.fileManager = new EclipseWorkspaceFileManager(targetFolder)
-//							]
-//							val ToolchainManager toolchainManager = managerBuilder.buildOrGetManager()
-//							toolchainManager.clearMeasuredTimes
-//							toolchainManager.logLevel = Level.DEBUG
-//							toolchainManager.initializeCppQrtTransformation()
-//							toolchainManager.initializeCppComponentTransformation()
-//							toolchainManager.initializeCppCodegeneration()
-//							toolchainManager.initializeMakefileGeneration()
-//							
-//							toolchainManager.executeCppQrtTransformation
-//							toolchainManager.executeDeltaCodeAndFileGeneration
-//							toolchainManager.startChangeMonitor()
-//							toolchainManager.logMeasuredTimes
-//							val cppModel = toolchainManager.getOrCreateCPPModel							
-//							cppModel.eResource.save(#{})
-							
-//							MessageDialog.openInformation(HandlerUtil.getActiveShell(event),
-//								 "xUML-RT Code Generation finished successfully",
-//								'''
-//								C++ code generated into project:
-//								com.ericsson.emdw.cpp.generated.code.«umlResource.URI.trimFileExtension.lastSegment»
-//								'''
-//							)
 						} catch (Exception e) {
 							reportError(shell,e, "xUML-RT Code Generation finished with error",
 								'''

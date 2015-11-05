@@ -22,8 +22,8 @@ class XumlrtToCppQrtPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		mcToken.toolchainManager.initializeCppQrtTransformation
-		mcToken.toolchainManager.executeCppQrtTransformation
+		mcToken.toolchain.initializeCppQrtTransformation
+		mcToken.toolchain.executeCppQrtTransformation
 		// WORK END
 		
 		timer.stopMeasure

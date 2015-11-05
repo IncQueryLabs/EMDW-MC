@@ -22,7 +22,7 @@ class ChangeMonitorInitializationPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		mcToken.toolchainManager.startChangeMonitor
+		mcToken.toolchain.startChangeMonitor
 		// WORK END
 		
 		timer.stopMeasure

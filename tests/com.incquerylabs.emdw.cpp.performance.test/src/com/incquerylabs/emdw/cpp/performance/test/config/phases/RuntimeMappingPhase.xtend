@@ -22,8 +22,8 @@ class RuntimeMappingPhase extends AtomicPhase {
 		timer.startMeasure
 		
 		// WORK START
-		val runtimeCppDir = mcToken.toolchainManager.runtimeCppDir
-		mcToken.cppSourceFileContents.putAll(mcToken.toolchainManager.mapRuntime(runtimeCppDir))
+		val runtimeCppDir = mcToken.toolchain.runtimeCppDir
+		mcToken.cppSourceFileContents.putAll(mcToken.toolchain.mapRuntime(runtimeCppDir))
 		// WORK END
 		
 		timer.stopMeasure

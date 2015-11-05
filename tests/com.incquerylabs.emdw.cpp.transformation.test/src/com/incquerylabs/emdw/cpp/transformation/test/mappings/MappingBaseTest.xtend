@@ -2,10 +2,10 @@ package com.incquerylabs.emdw.cpp.transformation.test.mappings
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.incquerylabs.emdw.cpp.transformation.test.TransformationTest
+import com.incquerylabs.emdw.toolchain.Toolchain
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.junit.Test
-import com.incquerylabs.emdw.toolchain.ToolchainManagerBuilder
 
 abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EObject> extends TransformationTest<XtumlObject, CPPObject> {
 	
@@ -23,10 +23,10 @@ abstract class MappingBaseTest<XtumlObject extends EObject, CPPObject extends EO
 		val cppModel = prepareCPPModel(cppResource, xtModel)
 		val cppObject = prepareCppModel(cppModel)
 		
-		val toolchainManagerBuilder = new ToolchainManagerBuilder => [
+		val toolchainBuilder = Toolchain.builder => [
 			it.xumlrtModel = xtModel
 		]
-		toolchainManager = toolchainManagerBuilder.buildOrGetManager
+		toolchain = toolchainBuilder.build
 		// transform to CPP
 		initializeCppComponentTransformation
 		executeCppStructureTransformation

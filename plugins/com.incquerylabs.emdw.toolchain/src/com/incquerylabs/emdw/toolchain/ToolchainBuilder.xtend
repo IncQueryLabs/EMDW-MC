@@ -22,6 +22,7 @@ import org.eclipse.uml2.uml.Type
 
 import static com.google.common.base.Preconditions.*
 import org.eclipse.emf.common.util.URI
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 
 class ToolchainBuilder {
 	
@@ -188,6 +189,14 @@ class ToolchainBuilder {
 	
 	def setRuntimeModelURI(URI runtimeModelURI) {
 		toolchain.RUNTIME_MODEL_URI = runtimeModelURI
+	}
+	
+	def getMapperFileManager() {
+		toolchain.mapperFileManager
+	}
+	
+	def setMapperFileManager(IFileManager fileManager) {
+		toolchain.mapperFileManager = fileManager
 	}
 	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {

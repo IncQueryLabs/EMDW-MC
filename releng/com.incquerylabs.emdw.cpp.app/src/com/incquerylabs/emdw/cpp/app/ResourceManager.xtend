@@ -37,18 +37,16 @@ class ResourceManager {
 	new(ResourceSet resourceSet, String umlPath, String targetFolderPath) {
 		this.resourceSet = resourceSet
 		val uri = URI.createFileURI(umlPath)
-		umlResource = this.resourceSet.createResource(uri) => [ 
-			load(#{})
-		]
+		umlResource = this.resourceSet.getResource(uri, true)
 		
 		UMLResourcesUtil.init(resourceSet)
 		this.targetFolderPath = targetFolderPath
 	}
 	
-	def createPrimitiveTypeMapping(String umlPrimitiveTypes) {
+	def createPrimitiveTypeMapping(URI umlPrimitiveTypes) {
 		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
-		val commonTypesResource = resourceSet.getResource(URI.createURI(umlPrimitiveTypes), true) => [ load(#{}) ]
+		val commonTypesResource = resourceSet.getResource(umlPrimitiveTypes, true)
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		

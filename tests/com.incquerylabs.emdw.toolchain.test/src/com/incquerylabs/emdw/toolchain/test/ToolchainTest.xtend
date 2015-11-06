@@ -26,7 +26,7 @@ import org.junit.After
 import org.junit.Test
 
 class ToolchainTest {
-	val UML_RESOURCE_PATH = "com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml"
+	val UML_RESOURCE_PATH = "com.incquerylabs.emdw.cpp.bodyconverter.test/models/ClientServer/clientserver.uml"
 	val generationProjectPrefix = "com.ericsson.emdw.cpp.generated.code."
 	var generationProjectName = ""
 	val codeGenerationDirectoryName = "src"

@@ -57,8 +57,6 @@ abstract class FileManager implements IFileManager {
 			this.rootDirectory = "/"
 		if(!this.rootDirectory.endsWith("/"))
 			this.rootDirectory = this.rootDirectory + "/"
-		if(!this.rootDirectory.startsWith("/"))
-			this.rootDirectory = "/" + this.rootDirectory
 	}
 	
 	def String getRootDirectory() {

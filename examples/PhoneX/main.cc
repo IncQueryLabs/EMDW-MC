@@ -24,18 +24,15 @@ void test1(){
 	::PhoneX::PhoneX::Implementation::Call call;
 	::PhoneX::PhoneX::PhoneX* comp = new ::PhoneX::PhoneX::PhoneX();
 
-	call._comp = comp;
 	call.perform_initialization();
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callrcvd_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callerbusyorunknown_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callerverifiedandsynced_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::_Call_termination_event(false));
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callrcvd_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callerbusyorunknown_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callerverifiedandsynced_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::_Call_termination_event());
 
 	for (int i = 0; i < 3; ++i) {
 		comp->process();
 	}
-
-	delete comp;
 }
 
 void test2(){
@@ -43,20 +40,17 @@ void test2(){
 	::PhoneX::PhoneX::Implementation::Call call;
 	::PhoneX::PhoneX::PhoneX* comp = new ::PhoneX::PhoneX::PhoneX();
 
-	call._comp = comp;
 	call.perform_initialization();
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callrcvd_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callerverifiedandsynced_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Calledverifiedandsynced_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callrequestaccepted_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Endcallrcvd_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Calledverifiedandsynced_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::Callerverifiedandsynced_event(false));
-	call.generate_event(new ::PhoneX::PhoneX::Implementation::Call::_Call_termination_event(false));
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callrcvd_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callerverifiedandsynced_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Calledverifiedandsynced_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callrequestaccepted_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Endcallrcvd_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Calledverifiedandsynced_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callerverifiedandsynced_event());
+	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::_Call_termination_event());
 
 	for (int i = 0; i < 7; ++i) {
 		comp->process();
 	}
-
-	delete comp;
 }

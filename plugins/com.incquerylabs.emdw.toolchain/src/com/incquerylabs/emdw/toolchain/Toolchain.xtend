@@ -59,6 +59,8 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import static com.google.common.base.Preconditions.*
 import org.eclipse.incquery.validation.core.ValidationEngine
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0
 
 class Toolchain {
 	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -517,7 +519,9 @@ class Toolchain {
 	def validateXtumlModel() {
 		val validationEngine = ValidationEngine.builder.setEngine(engine).build
 		val constraintSpecifications = #{
-			new TransitionTriggerWithoutSignalConstraint0()
+			new TransitionTriggerWithoutSignalConstraint0(),
+			new FileNameCollisionConstraint0(),
+			new CppNameCollisionConstraint0()
 		}
 		constraintSpecifications.forEach[
 			validationEngine.addConstraintSpecification(it)

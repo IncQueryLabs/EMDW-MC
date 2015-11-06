@@ -4,4 +4,14 @@
       <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
     </constraint>
   </extension>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.cppNameCollision" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.cppNameCollision">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.fileNameCollision" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.fileNameCollision">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
 </plugin>

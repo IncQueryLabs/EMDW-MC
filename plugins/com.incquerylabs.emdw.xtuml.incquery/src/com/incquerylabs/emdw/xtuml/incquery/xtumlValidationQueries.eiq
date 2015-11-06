@@ -16,3 +16,63 @@ pattern transitionTriggerWithoutSignal(transition : Transition, trigger : Trigge
 pattern eventTriggerSignal(trigger : XTEventTrigger, signal : XTClassEvent) {
 	XTEventTrigger.signal(trigger, signal);
 }
+
+@Constraint(
+	key = {"namedElement1"},
+	message = "Name collision between elements $namedElement1$ and $namedElement2$ inside $baseContainer$",
+	severity = "error"
+)
+pattern cppNameCollision(
+	baseContainer : BaseContainer,
+	namedElement1 : NamedElement,
+	namedElement2 : NamedElement
+) {
+	find containedElements(baseContainer, namedElement1);
+	find containedElements(baseContainer, namedElement2);
+	namedElement1 != namedElement2;
+	NamedElement.name(namedElement1, name);
+	NamedElement.name(namedElement2, name);
+}
+
+@Constraint(
+	key = {"namedElement1"},
+	message = "Name collision between elements $namedElement1$ and $namedElement2$ inside package hierarchy of $baseContainer$",
+	severity = "error"
+)
+pattern fileNameCollision(
+	baseContainer : BaseContainer,
+	namedElement1 : NamedElement,
+	namedElement2 : NamedElement
+) {
+	find elementsInPackageHierarchy(baseContainer, namedElement1);
+	find elementsInPackageHierarchy(baseContainer, namedElement2);
+	namedElement1 != namedElement2;
+	NamedElement.name(namedElement1, name);
+	NamedElement.name(namedElement2, name);
+}
+
+pattern elementsInPackageHierarchy(
+	baseContainer : BaseContainer,
+	namedElement : NamedElement
+) {
+	find containedElements(baseContainer, namedElement);
+} or {
+	find containedPackages+(baseContainer, subPackage);
+	find containedElements(subPackage, namedElement);
+}
+
+pattern containedElements(
+	baseContainer : BaseContainer,
+	namedElement : NamedElement
+) {
+	BaseContainer.packages(baseContainer, namedElement);
+} or {
+	BaseContainer.entities(baseContainer, namedElement);
+}
+
+pattern containedPackages(
+	baseContainer : BaseContainer,
+	subPackage : Package
+) {
+	BaseContainer.packages(baseContainer, subPackage);
+}

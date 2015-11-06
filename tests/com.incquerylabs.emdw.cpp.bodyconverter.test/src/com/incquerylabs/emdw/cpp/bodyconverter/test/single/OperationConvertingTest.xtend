@@ -178,17 +178,17 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::xumlrt::to_string(3.14);'''
 			],
-			#[  "Static operation call send new signal test (EATF)",
-				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
-				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 
+			#[  "Static operation call send new signal test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
 				'''
-				send new CallLeg::remove() to CallLeg::instances().one();
+				send new ping_s() to Ping::instances().one();
 				''',
 				'''
-				::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event* __remove_ralf_0 = new ::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::remove_event();
+				::model::Comp::Pong::ping_s_event* __ping_s_ralf_0 = new ::model::Comp::Pong::ping_s_event();
 
-				::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::CallLeg::_instances)->generate_external_event(__remove_ralf_0);'''
+				::xumlrt::select_any(::model::Comp::Ping::_instances)->generate_external_event(__ping_s_ralf_0);'''
 			],
 			#[  "Collection attribute access with collection operation call test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
@@ -232,31 +232,31 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::xumlrt::select_many(this->R1_ping);'''
 			],
-			#[  "Association access test (EATF)",
-				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
-				"eatf::ComponentsLibrary::EATF::eatfImplPkg::ByeDelayTimer::create", 
+			#[  "Association access test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
+				"PhoneX::PhoneX::Implementation::Call::CleanUp", 
 				ConversionType.Operation,
 				'''
-					PacketSwitchLeg packetSwitchLeg = PacketSwitchLeg::instances().one();
-					PublicSafetyAccessPointLeg psapLeg = packetSwitchLeg->'manages incoming side of'->'is terminated in'.one();
+				Call call = Call::instances().one();
+				UnregisteredSubscriber unsub = call->'service'->'registrationProcess'->'unregisteredSubscriber'.one();
 				''',
 				'''
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg* packetSwitchLeg = ::xumlrt::select_any(::eatf::ComponentsLibrary::EATF::eatfImplPkg::PacketSwitchLeg::_instances);
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::PublicSafetyAccessPointLeg* psapLeg = ::xumlrt::select_any(packetSwitchLeg->R101_manages_incoming_side_of->R102_is_terminated_in);'''
+				::PhoneX::PhoneX::Implementation::Call* call = ::xumlrt::select_any(::PhoneX::PhoneX::Implementation::Call::_instances);
+				::PhoneX::PhoneX::Implementation::UnregisteredSubscriber* unsub = ::xumlrt::select_any(::xumlrt::indirect_chain< ::PhoneX::PhoneX::Implementation::UnregisteredSubscriber* >(call->R6_service->R7_registrationProcess, &::PhoneX::PhoneX::Implementation::RegistrationProcess::R4_unregisteredSubscriber));'''
 			],
-			#[  "Foreach test (EATF)",
-				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/EATF/eatf.uml",
-				"eatf::ComponentsLibrary::EATF::eatfImplPkg::eatfImpl::cleanupAllInstances", 
+			#[  "Foreach test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
 				'''
-					for(FallBackTimer __timer in FallBackTimer::instances()) {
-					FallBackTimer timer = __timer;
-					}
+				for(Ping __ping in Ping::instances()) {
+					Ping ping = __ping;
+				}
 				''',
 				'''
-					for(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* __timer : ::xumlrt::select_many(::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer::_instances)) {
-					::eatf::ComponentsLibrary::EATF::eatfImplPkg::FallBackTimer* timer = __timer;
-					}'''
+				for(::model::Comp::Ping* __ping : ::xumlrt::select_many(::model::Comp::Ping::_instances)) {
+				::model::Comp::Ping* ping = __ping;
+				}'''
 			]
 		)
 	}

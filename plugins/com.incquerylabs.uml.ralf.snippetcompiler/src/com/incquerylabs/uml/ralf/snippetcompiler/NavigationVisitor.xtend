@@ -76,9 +76,9 @@ class NavigationVisitor {
 					if (currentUpperBound ==
 						-1
 					) { // a->(*)b->(*)c => merged chain
-						'''«MERGED_CHAIN_FQN»< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+						'''«MERGED_CHAIN_FQN»< «propertyAccessDescriptor.fullType» >(«childExpr.stringRepresentation», «ex.toMemberAccess(ctxDescriptor)»)'''
 					} else { // a->(*)b->(0..1)c or a->(*)b->(1)c => indirect chain
-						'''«INDIRECT_CHAIN_FQN»< «propertyAccessDescriptor.fullType» >(«childExpr», «ex.toMemberAccess(ctxDescriptor)»)'''
+						'''«INDIRECT_CHAIN_FQN»< «propertyAccessDescriptor.fullType» >(«childExpr.stringRepresentation», «ex.toMemberAccess(ctxDescriptor)»)'''
 					}
 				}
 			} else {

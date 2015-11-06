@@ -1,5 +1,6 @@
 package com.incquerylabs.emdw.cpp.ui
 
+import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.umlintegration.papyrus.EMFResourcePapyrusModel
 import com.incquerylabs.uml.papyrus.IncQueryEngineService
 import java.util.List
@@ -25,9 +26,14 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.swt.widgets.Shell
 import org.eclipse.ui.handlers.HandlerUtil
 import org.eclipse.uml2.uml.Model
-import com.incquerylabs.emdw.toolchain.Toolchain
 
 class UmlHandler extends AbstractHandler {
+	
+	enum TransformationScope{
+		AllComponents,
+		DirtyComponents,
+		Cancel
+	}
 	
 	override execute(ExecutionEvent event) throws ExecutionException {
 		var selection = HandlerUtil.getCurrentSelection(event);
@@ -84,7 +90,12 @@ class UmlHandler extends AbstractHandler {
 								}
 								
 								// Run on all components or on dirty components
-								generatorJob.askForTransformationScope(toolchain, shell)
+								val transformationScope = askForTransformationScope(generatorJob, toolchain, shell)
+								if(transformationScope == TransformationScope.Cancel){
+									return null
+								}
+								val transformAllComponents = (transformationScope == TransformationScope.AllComponents);
+								generatorJob.transformAllComponents = transformAllComponents
 							}
 							
 							generatorJob.addJobChangeListener(new JobChangeAdapter() {
@@ -165,11 +176,7 @@ class UmlHandler extends AbstractHandler {
 			1 // "Dirty components" is the default
 		)
 		val dialogResult = dialog.open()
-		if(dialogResult == 2){
-			return null
-		}
-		val transformAllComponents = (dialogResult == 0);
-		generatorJob.transformAllComponents = transformAllComponents
+		return TransformationScope.values.get(dialogResult)
 	}
 	
 	def reportError(Shell shell, Throwable exception, String message, String details) {

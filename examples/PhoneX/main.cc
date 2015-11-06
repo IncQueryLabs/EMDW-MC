@@ -22,7 +22,7 @@ int main(int , char **) {
 void test1(){
 	::std::cout << ::std::endl << "************************HACKING ATTEMPT TEST************************" << ::std::endl;
 	::PhoneX::PhoneX::Implementation::Call call;
-	::PhoneX::PhoneX::PhoneX* comp = new ::PhoneX::PhoneX::PhoneX();
+	::PhoneX::PhoneX::PhoneX* comp = ::PhoneX::PhoneX::PhoneX::get_instance();
 
 	call.perform_initialization();
 	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callrcvd_event());
@@ -38,7 +38,7 @@ void test1(){
 void test2(){
 	::std::cout << ::std::endl << "************************SUCCESSFUL CALL TEST************************" << ::std::endl;
 	::PhoneX::PhoneX::Implementation::Call call;
-	::PhoneX::PhoneX::PhoneX* comp = new ::PhoneX::PhoneX::PhoneX();
+	::PhoneX::PhoneX::PhoneX* comp = ::PhoneX::PhoneX::PhoneX::get_instance();
 
 	call.perform_initialization();
 	call.generate_external_event(new ::PhoneX::PhoneX::Implementation::Call::Callrcvd_event());

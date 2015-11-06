@@ -26,14 +26,15 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
 
     @Override
     public String getMessageFormat() {
-        return "Name collision between elements $namedElement1$ and $namedElement2$ inside package hierarchy of $baseContainer$";
+        return "Multiple elements with name $namedElement1$ inside package hierarchy of $baseContainer$";
     }
 
 
     @Override
     public Map<String,Object> getKeyObjects(IPatternMatch signature) {
         Map<String,Object> map = ImmutableMap.of(
-            "namedElement1",signature.get("namedElement1")
+            "namedElement1",signature.get("namedElement1"),
+            "namedElement2",signature.get("namedElement2")
         );
         return map;
     }
@@ -41,7 +42,8 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
     @Override
     public List<String> getKeyNames() {
         List<String> keyNames = ImmutableList.of(
-            "namedElement1"
+            "namedElement1",
+            "namedElement2"
         );
         return keyNames;
     }
@@ -49,8 +51,7 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
     @Override
     public List<String> getPropertyNames() {
         List<String> propertyNames = ImmutableList.of(
-            "baseContainer",
-            "namedElement2"
+            "baseContainer"
         );
         return propertyNames;
     }
@@ -65,6 +66,10 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
     @Override
     public Set<List<String>> getSymmetricKeyNames() {
         Set<List<String>> symmetricKeyNamesSet = ImmutableSet.<List<String>>of(
+            ImmutableList.of(
+            "namedElement1",
+            "namedElement2"
+            )
         );
         return symmetricKeyNamesSet;
     }

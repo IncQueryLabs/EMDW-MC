@@ -186,6 +186,10 @@ class TypeConverter {
 		'''«type»*'''
 	}
 	
+	def String getNullPointer(){
+		'''nullptr'''
+	}
+	
 	/**
 	 * Prepends the address-of operator to the provided variable, literal or operation call
 	 * 
@@ -232,7 +236,7 @@ class TypeConverter {
 		if(type.isPrimitiveType) {
 			(type as OOPLBasicType).defaultValue
 		} else if(type.isReferenceType) {
-			'''nullptr'''
+			nullPointer
 		}
 	}
 	

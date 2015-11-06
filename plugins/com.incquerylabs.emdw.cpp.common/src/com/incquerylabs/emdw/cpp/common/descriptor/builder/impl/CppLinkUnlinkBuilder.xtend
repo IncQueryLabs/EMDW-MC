@@ -77,8 +77,8 @@ class CppLinkUnlinkBuilder implements IOoplLinkUnlinkBuilder {
 		val nullDescriptor = factory.createSingleVariableDescriptor => [
 			it.baseType = voidTypeString
 			it.fullType = voidTypeString
-			it.stringRepresentation = "nullptr"
-			it.pointerRepresentation = "nullptr"
+			it.stringRepresentation = converter.nullPointer
+			it.pointerRepresentation = converter.nullPointer
 		]
 		return ((new CppAssociationWriteBuilder(engine)) => [
 				var newTargetDescriptor = targetDescriptor

@@ -18,9 +18,10 @@ pattern eventTriggerSignal(trigger : XTEventTrigger, signal : XTClassEvent) {
 }
 
 @Constraint(
-	key = {"namedElement1"},
-	message = "Name collision between elements $namedElement1$ and $namedElement2$ inside $baseContainer$",
-	severity = "error"
+	key = {"namedElement1", "namedElement2"},
+	message = "Multiple elements with name $namedElement1$ inside $baseContainer$",
+	severity = "error",
+	symmetric = {"namedElement1", "namedElement2"}
 )
 pattern cppNameCollision(
 	baseContainer : BaseContainer,
@@ -35,9 +36,10 @@ pattern cppNameCollision(
 }
 
 @Constraint(
-	key = {"namedElement1"},
-	message = "Name collision between elements $namedElement1$ and $namedElement2$ inside package hierarchy of $baseContainer$",
-	severity = "error"
+	key = {"namedElement1", "namedElement2"},
+	message = "Multiple elements with name $namedElement1$ inside package hierarchy of $baseContainer$",
+	severity = "error",
+	symmetric = {"namedElement1", "namedElement2"}
 )
 pattern fileNameCollision(
 	baseContainer : BaseContainer,

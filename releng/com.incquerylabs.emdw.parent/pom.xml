@@ -75,7 +75,9 @@
 				<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
 				<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
 				<module>../com.incquerylabs.emdw.umlintegration.feature</module>
-				<module>../com.incquerylabs.emdw.update</module>
+				<module>../com.incquerylabs.emdw.update</module>				
+				<module>../com.incquerylabs.emdw.cpp.app</module>
+				<module>../com.incquerylabs.emdw.cpp.app.product</module>
 			</modules>
 		</profile>
 	</profiles>

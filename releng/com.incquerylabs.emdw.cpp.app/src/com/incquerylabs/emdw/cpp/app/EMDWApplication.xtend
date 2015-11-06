@@ -37,6 +37,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage
 import org.eclipse.uml2.uml.UMLPackage
 import org.eclipse.uml2.uml.resource.UMLResource
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
+import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 
 class EMDWApplication implements IApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
@@ -99,6 +100,7 @@ class EMDWApplication implements IApplication {
 		
 		// Initialize IncQuery
 		new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
+		new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 	}
 	
 	

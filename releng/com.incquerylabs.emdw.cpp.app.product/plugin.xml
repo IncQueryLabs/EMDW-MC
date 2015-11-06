@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="rcp_app_product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="com.incquerylabs.emdw.cpp.app.application"
+            name="EMDW Headless RCP Application">
+         <property
+               name="appName"
+               value="EMDW Headless RCP Application">
+         </property>
+      </product>
+   </extension>
+
+</plugin>

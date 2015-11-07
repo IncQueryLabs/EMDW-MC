@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ActionLanguage="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmlns:xumlrt="http://modelexecution.eltesoft.hu/xumlrt/" xsi:schemaLocation="http://www.omg.org/spec/ALF/20120827/ActionLanguage-Profile pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ">
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:standard="http://www.eclipse.org/uml2/5.0.0/UML/Profile/Standard" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmlns:xumlrt="http://modelexecution.eltesoft.hu/xumlrt/">
   <uml:Model xmi:id="_nrzE0ERNEeWkj9RR80hJXw" name="PhoneX">
     <packageImport xmi:type="uml:PackageImport" xmi:id="_nrzE0URNEeWkj9RR80hJXw">
       <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
@@ -113,7 +113,7 @@ Call call = this->call.one();&#xD;
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n60YQ0RNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
                   <body>  // select one call related by self->Call[R3];&#xD;
-Call call = this->call;&#xD;
+Call call = this->call.one();&#xD;
   // generate Call4:'CalledVerifiedAndSynced' to call;&#xD;
   send new Call::Calledverifiedandsynced() to call;</body>
                 </entry>
@@ -274,7 +274,7 @@ send new PhoneXPort_Out::TerminateCall(UserID=> called.PhoneNumber) to PhoneXPor
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7GsIERNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
                   <body>  // select one caller related by self->Caller[R2];&#xD;
-  Caller caller = this->'caller';&#xD;
+  Caller caller = this->'caller'.one();&#xD;
   // if empty caller&#xD;
   if(caller == null) {&#xD;
     // return;&#xD;
@@ -408,7 +408,7 @@ send new DBPort_Out::AddUserIfNotExist(ServiceId=> Service::GetServiceId(), User
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7TgcURNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
                   <body>  // select one unregsub related by self->UnregisteredSubscriber[R4];&#xD;
- UnregisteredSubscriber unregsub = this->'unregisteredSubscriber';&#xD;
+ UnregisteredSubscriber unregsub = this->'unregisteredSubscriber'.one();&#xD;
 //send DBPort_Out::AddUserIfNotExist(ServiceId: Service::GetServiceId(), UserId: unregsub.PhoneNumber );&#xD;
 send new DBPort_Out::AddUserIfNotExist(ServiceId=> Service::GetServiceId(), UserId=> unregsub.PhoneNumber ) to DBPort_Out::instances().one();</body>
                 </entry>
@@ -493,7 +493,7 @@ send new PhoneXPort_Out::UnregistrationResult(UserID=> regsub.PhoneNumber, isSuc
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n7aOIERNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
                   <body>  // select one regsub related by self->RegisteredSubscriber[R5];&#xD;
-  RegisteredSubscriber regsub = this->'registeredSubscriber';&#xD;
+  RegisteredSubscriber regsub = this->'registeredSubscriber'.one();&#xD;
 //send PhoneXPort::UnregistrationResult(UserID: regsub.PhoneNumber, isSuccessfull: true);&#xD;
 send new PhoneXPort_Out::UnregistrationResult(UserID=> regsub.PhoneNumber, isSuccessfull=> true) to PhoneXPort_Out::instances().one();&#xD;
   // generate UnregistrationProcess4:'TerminateCmd' to self;&#xD;
@@ -706,7 +706,7 @@ send new DBPort_Out::SetUserStatus(ServiceId=> Service::GetServiceId(), UserId=>
                 <entry xmi:type="uml:OpaqueBehavior" xmi:id="_n8RJw0RNEeWkj9RR80hJXw" name="entryBehavior">
                   <language>rALF</language>
                   <body>  // select one call related by self->Call[R2];&#xD;
-  Call call = this->'call';&#xD;
+  Call call = this->'call'.one();&#xD;
   // generate Call7:'EndCallRcvd' to call;&#xD;
   send new Call::Endcallrcvd() to call;&#xD;
 </body>
@@ -1227,7 +1227,7 @@ else{&#xD;
         <packagedElement xmi:type="uml:Class" xmi:id="_A5HJwES6EeWF_ZPyFqjTUQ" name="TRACE">
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_ycJV8EXiEeWF_ZPyFqjTUQ" name="method$traceError$1" specification="_I0XwIES6EeWF_ZPyFqjTUQ">
             <language>rALF</language>
-            <body>std::out::println(msg=>msg);</body>
+            <body>std::out::println(value=>msg);</body>
           </ownedBehavior>
           <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_5qbhkEXiEeWF_ZPyFqjTUQ" name="method$traceWarning$1" specification="_5dj10ETHEeWF_ZPyFqjTUQ">
             <language>rALF</language>
@@ -2064,5 +2064,4 @@ this.Busy=Busy;</body>
   </uml:Model>
   <standard:Create xmi:id="_wcFV0ETpEeWF_ZPyFqjTUQ" base_BehavioralFeature="_rhKT8ETpEeWF_ZPyFqjTUQ"/>
   <xumlrt:ExternalEntity xmi:id="_dufJQISaEeW3ibZUI-YDDg" base_Class="_bcwG4ETCEeWF_ZPyFqjTUQ"/>
-  <ActionLanguage:TextualRepresentation xmi:id="_9NrXMISeEeWMbr-FfQn0_w" language="com.incquerylabs.uml.ralf.ReducedAlfLanguage"/>
 </xmi:XMI>

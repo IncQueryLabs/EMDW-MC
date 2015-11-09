@@ -25,6 +25,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.emf.transaction.RecordingCommand
 
 class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
@@ -116,8 +117,14 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 		resource
 	}
 
-	override dispose(ModelSet modelsManager) {
-		transformation.dispose
+	override dispose(ModelSet modelSet) {
+		val domain = modelSet.transactionalEditingDomain
+		val command = new RecordingCommand(domain) {
+			override protected doExecute() {
+				transformation.dispose
+			}
+		}
+		domain.commandStack.execute(command)
 	}
 	
 	def createPrimitiveTypeMapping(IncQueryEngine engine, ResourceSet rs, ModelSet modelSet){

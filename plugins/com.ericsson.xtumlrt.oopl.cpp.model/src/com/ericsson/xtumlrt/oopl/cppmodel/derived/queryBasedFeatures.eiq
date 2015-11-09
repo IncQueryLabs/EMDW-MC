@@ -121,6 +121,7 @@ pattern cppQualifiedNamedElementCppQualifiedName(
 	target == eval("::" + name);
 }
 
+
 pattern cppQualifiedNamedElementParentChild(
 	parent : CPPQualifiedNamedElement,
 	child : CPPQualifiedNamedElement

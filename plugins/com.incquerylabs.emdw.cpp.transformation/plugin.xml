@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><plugin>
-  <extension id="com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries" id="com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries"/>
-  </extension>
   <extension id="com.incquerylabs.emdw.cpp.transformation.queries.CppQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.transformation.queries.CppQueries" id="com.incquerylabs.emdw.cpp.transformation.queries.CppQueries"/>
+  </extension>
+  <extension id="com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries" id="com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries"/>
   </extension>
   <extension id="com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries" id="com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries"/>

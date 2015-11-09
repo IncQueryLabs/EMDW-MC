@@ -87,8 +87,8 @@
 		<tycho.version>0.21.0</tycho.version>
 		<emdw.common.repository.url>http://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
 		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
-		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
-		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>
+		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
+		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
 		<papyrus.repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus.repo.url>
 		<jacoco.version>0.7.5.201505241946</jacoco.version>
 		<jacoco.targetdir>${project.basedir}/../../target</jacoco.targetdir>
@@ -129,7 +129,7 @@
 		<repository>
 			<id>xtext</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones/</url>
 		</repository>
 		<repository>
 			<id>orbit</id>
@@ -139,7 +139,7 @@
 		<repository>
 			<id>xsemantics</id>
 			<layout>p2</layout>
-			<url>http://master.dl.sourceforge.net/project/xsemantics/updates/releases/1.8/</url>
+			<url>http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/</url>
 		</repository>
 		<repository>
             <id>emdw-p2-mirror</id>

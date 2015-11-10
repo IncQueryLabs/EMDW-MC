@@ -1,6 +1,5 @@
 package com.incquerylabs.emdw.umlintegration.papyrus
 
-import com.google.common.collect.ImmutableList
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
 import com.incquerylabs.emdw.umlintegration.cpp.CPPRuleExtensionService
@@ -25,6 +24,7 @@ import org.eclipse.papyrusrt.xtumlrt.common.Type
 import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.emf.transaction.RecordingCommand
 
 class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
@@ -41,9 +41,10 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
 	override start(ModelSet modelSet) {
 		try{
-			// this is required to find only the loaded models at the start
-			val defaultUMLResources = ImmutableList.copyOf(modelSet.resources.filter(UMLResource))
-			if(!defaultUMLResources.exists[hasEMDWCommonProjectNature]) {
+			val umlResources = modelSet.resources.filter(UMLResource)
+			val primaryUmlResource = umlResources.findFirst[URI.trimFileExtension.equals(modelSet.URIWithoutExtension)]
+			
+			if(!primaryUmlResource.hasEMDWCommonProjectNature) {
 				logger.debug('''The project does not have the EMDW common project nature.''')
 				return
 			}
@@ -55,11 +56,9 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 			emfBaseIndex.navigationHelper.addRoot(resourceSet)
 			
 			val mappings = newHashSet()
-			(defaultUMLResources).forEach[resource |
-				if (!resource.contents.filter(Model).empty) {
-					mappings += createMapping(resource, modelSet, resourceSet)
-				}
-			]
+			if (!primaryUmlResource.contents.filter(Model).empty) {
+				mappings += createMapping(primaryUmlResource, modelSet, resourceSet)
+			}
 			
 			
 			val xUmlRtResource = resourceSet.resources.findFirst[it.URI.toString.contains(".xtuml")]
@@ -116,8 +115,14 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 		resource
 	}
 
-	override dispose(ModelSet modelsManager) {
-		transformation.dispose
+	override dispose(ModelSet modelSet) {
+		val domain = modelSet.transactionalEditingDomain
+		val command = new RecordingCommand(domain) {
+			override protected doExecute() {
+				transformation.dispose
+			}
+		}
+		domain.commandStack.execute(command)
 	}
 	
 	def createPrimitiveTypeMapping(IncQueryEngine engine, ResourceSet rs, ModelSet modelSet){

@@ -15,6 +15,7 @@
         <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
       </ownedAttribute>
       <ownedAttribute xmi:id="_qz75wEpIEeW2H4EMK1eo4g" name="pongProperty" type="_LbgdgBmkEeWkDIIs2OLK7g"/>
+      <ownedAttribute xmi:id="_QXgN4ILVEeWoK-NPDxoonw" name="enumProperty" type="_cLK1AIIsEeWS3darQ9SvCg"/>
       <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_a8SY4BmmEeWkDIIs2OLK7g" name="Pong_SM">
         <region xmi:id="_bYo9sBmmEeWkDIIs2OLK7g" name="Region1">
           <transition xmi:id="_hewAUBmmEeWkDIIs2OLK7g" name="i" source="_faJEQBmmEeWkDIIs2OLK7g" target="_cUor4BmmEeWkDIIs2OLK7g"/>
@@ -125,6 +126,9 @@
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
         </ownedParameter>
       </ownedOperation>
+      <ownedOperation xmi:id="_c0Ax4ILVEeWoK-NPDxoonw" name="doEnumVoid">
+        <ownedParameter xmi:id="_c0BY8ILVEeWoK-NPDxoonw" name="parameter" type="_cLK1AIIsEeWS3darQ9SvCg"/>
+      </ownedOperation>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s">
         <ownedAttribute xmi:id="_0fRLEEpSEeW2H4EMK1eo4g" name="integerAttribute">
           <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
@@ -181,6 +185,9 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MxQvgRmkEeWkDIIs2OLK7g" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxQvghmkEeWkDIIs2OLK7g" value="1"/>
       </ownedEnd>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_cLK1AIIsEeWS3darQ9SvCg" name="Enum">
+      <ownedLiteral xmi:id="_gYE6UIIsEeWS3darQ9SvCg" name="literal"/>
     </nestedClassifier>
     <packagedElement xmi:type="uml:Class" xmi:id="_5kpZ0EAoEeW6Nbb8DxSQBg" name="Pong2">
       <generalization xmi:id="__5FMUEAoEeW6Nbb8DxSQBg" general="_LbgdgBmkEeWkDIIs2OLK7g"/>

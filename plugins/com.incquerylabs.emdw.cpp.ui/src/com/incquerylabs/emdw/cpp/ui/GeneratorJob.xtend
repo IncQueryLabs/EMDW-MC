@@ -3,12 +3,14 @@ package com.incquerylabs.emdw.cpp.ui
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.ui.util.EMDWProgressMonitor
 import com.incquerylabs.emdw.toolchain.Toolchain
+import com.incquerylabs.emdw.toolchain.ToolchainManager
 import org.apache.log4j.Level
 import org.eclipse.core.runtime.IProgressMonitor
 import org.eclipse.core.runtime.Status
 import org.eclipse.core.runtime.SubMonitor
 import org.eclipse.core.runtime.jobs.Job
 import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.emf.transaction.RecordingCommand
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrus.infra.core.resource.ModelSet
 import org.eclipse.papyrusrt.xtumlrt.common.Model
@@ -16,7 +18,6 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import org.eclipse.xtend.lib.annotations.Data
 
 import static com.incquerylabs.emdw.cpp.ui.util.CMUtils.*
-import com.incquerylabs.emdw.toolchain.ToolchainManager
 
 class GeneratorJob extends Job {
 
@@ -119,11 +120,22 @@ class GeneratorJob extends Job {
 		
 		try {
 			val taskIterator = tasks.iterator
-			while (taskIterator.hasNext) {
-				if (subMonitor.canceled)
-					return Status::CANCEL_STATUS
-				val nextTask = taskIterator.next
-				nextTask.run(toolchain, subMonitor.newChild(nextTask.progress))
+			
+			val domain = modelSet.transactionalEditingDomain
+			
+			val command = new RecordingCommand(domain){
+				override protected doExecute() {
+					while (taskIterator.hasNext) {
+						if (subMonitor.canceled)
+							return
+						val nextTask = taskIterator.next
+						nextTask.run(toolchain, subMonitor.newChild(nextTask.progress))
+					}
+				}
+			}
+			domain.commandStack.execute(command)
+			if(subMonitor.isCanceled) {
+				return Status::CANCEL_STATUS
 			}
 		} catch (Exception e) {
 			// initialize error status since there is no static version of it

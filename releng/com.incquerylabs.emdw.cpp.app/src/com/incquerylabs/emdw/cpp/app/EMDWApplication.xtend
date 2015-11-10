@@ -57,6 +57,10 @@ class EMDWApplication implements IApplication {
 	def static void main(String[] args) {
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
+			// Initialize Xtext languages
+			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
+			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
+			
 			val resourceSet = new ResourceSetImpl
 			
 			resourceSet.loadDefaultSettings
@@ -97,10 +101,6 @@ class EMDWApplication implements IApplication {
 			QuerySpecificationRegistry::registerQuerySpecification(specification)
 		]
 		EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.put("org.eclipse.incquery.querybasedfeature", new QueryBasedFeatureSettingDelegateFactory)
-		
-		// Initialize IncQuery
-		new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
-		new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 	}
 	
 	
@@ -108,6 +108,10 @@ class EMDWApplication implements IApplication {
 		var List<String> args = Arrays.asList(context.getArguments().get("application.args") as String[])
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
+			// Initialize Xtext languages
+			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
+			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
+			
 			val resourceSet = new ResourceSetImpl
 			resourceSet.run(args.umlModelPath, args.targetFolderPath, URI::createURI('''platform:/plugin«ResourceManager.COMMON_PRIMITIVE_TYPES_PATH»'''), Toolchain::builder)
 		}

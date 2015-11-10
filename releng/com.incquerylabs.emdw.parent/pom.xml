@@ -87,9 +87,15 @@
 		<tycho.version>0.21.0</tycho.version>
 		<emdw.common.repository.url>http://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
 		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
-		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/integration</viatra.repository.url>
-		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/integration</incquery.repository.url>
+		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
+		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>
 		<papyrus.repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus.repo.url>
+		
+		<xtext.repo.url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones/</xtext.repo.url>
+		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</orbit.repo.url>
+		<xsemantics.repo.url>http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/</xsemantics.repo.url>
+		<emdw_mirror.repo.url>http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/</emdw_mirror.repo.url>
+		
 		<jacoco.version>0.7.5.201505241946</jacoco.version>
 		<jacoco.targetdir>${project.basedir}/../../target</jacoco.targetdir>
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
@@ -129,21 +135,21 @@
 		<repository>
 			<id>xtext</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones/</url>
+			<url>${xtext.repo.url}</url>
 		</repository>
 		<repository>
 			<id>orbit</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
+			<url>${orbit.repo.url}</url>
 		</repository>
 		<repository>
 			<id>xsemantics</id>
 			<layout>p2</layout>
-			<url>http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/</url>
+			<url>${xsemantics.repo.url}</url>
 		</repository>
 		<repository>
             <id>emdw-p2-mirror</id>
-            <url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>
+            <url>${emdw_mirror.repo.url}</url>
         </repository>
 	</repositories>
 	<pluginRepositories>

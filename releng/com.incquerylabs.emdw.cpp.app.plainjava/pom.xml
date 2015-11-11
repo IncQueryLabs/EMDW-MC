@@ -3,20 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.incquerylabs.emdw</groupId>
-	<version>1.0.0-SNAPSHOT</version>
+	<parent>
+		<groupId>com.incquerylabs.emdw</groupId>
+		<artifactId>com.incquerylabs.emdw</artifactId>
+		<relativePath>../../releng/com.incquerylabs.emdw.parent</relativePath>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 	<artifactId>com.incquerylabs.emdw.cpp.app.plainjava</artifactId>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<emdw.common.repository.url>http://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
-		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
-		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
-		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>
-		<papyrus.repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus.repo.url>
-		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
-		<incquery.version>1.0.0</incquery.version>
-	</properties>
 	
 	<build>
 		<plugins>
@@ -82,29 +75,28 @@
 	
 	<dependencies>
 		<!-- IncQuery -->
-		<dependency>
-			<groupId>org.eclipse.incquery</groupId>
-			<artifactId>incquery-runtime</artifactId>
-			<version>${incquery.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.incquery</groupId>
-			<artifactId>incquery-maven-plugin</artifactId>
-			<version>${incquery.version}</version>
-		</dependency>
-		<dependency>
-			<!-- requires many more dependencies - only use if required -->
-			<groupId>org.eclipse.incquery</groupId>
-			<artifactId>incquery-patternlanguage</artifactId>
-			<version>${incquery.version}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.eclipse.incquery</groupId> -->
+<!-- 			<artifactId>incquery-runtime</artifactId> -->
+<!-- 			<version>${incquery.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.eclipse.incquery</groupId> -->
+<!-- 			<artifactId>incquery-maven-plugin</artifactId> -->
+<!-- 			<version>${incquery.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.eclipse.incquery</groupId> -->
+<!-- 			<artifactId>incquery-patternlanguage</artifactId> -->
+<!-- 			<version>${incquery.version}</version> -->
+<!-- 		</dependency> -->
 
 		<!-- VIATRA -->
-		<dependency>
-			<groupId>org.eclipse.viatra</groupId>
-			<artifactId>viatra-emf-runtime</artifactId>
-			<version>0.7.0-SNAPSHOT</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.eclipse.viatra</groupId> -->
+<!-- 			<artifactId>viatra-emf-runtime</artifactId> -->
+<!-- 			<version>0.7.0-SNAPSHOT</version> -->
+<!-- 		</dependency> -->
 
 		<!-- EMDW Models -->
 		<dependency>
@@ -181,60 +173,60 @@
 		</dependency>
 
 	</dependencies>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>incquery</id>
-			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>emdw-p2-mirror</id>
-			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>
-		</pluginRepository>
-	</pluginRepositories>
-	<repositories>
-		<repository>
-			<id>emdw-common</id>
-			<url>${emdw.common.repository.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>mars</id>
-			<url>${mars.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>papyrus</id>
-			<url>${papyrus.repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>emf-incquery</id>
-			<url>${incquery.repository.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>viatra.update</id>
-			<layout>p2</layout>
-			<url>${viatra.repository.url}</url>
-		</repository>
-		<repository>
-			<id>xtext</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
-		</repository>
-		<repository>
-			<id>orbit</id>
-			<layout>p2</layout>
-			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
-		</repository>
-		<repository>
-			<id>xsemantics</id>
-			<layout>p2</layout>
-			<url>http://master.dl.sourceforge.net/project/xsemantics/updates/releases/1.8/</url>
-		</repository>
-		<repository>
-			<id>emdw-p2-mirror</id>
-			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>
-		</repository>
-	</repositories>
+<!-- 	<pluginRepositories> -->
+<!-- 		<pluginRepository> -->
+<!-- 			<id>incquery</id> -->
+<!-- 			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url> -->
+<!-- 		</pluginRepository> -->
+<!-- 		<pluginRepository> -->
+<!-- 			<id>emdw-p2-mirror</id> -->
+<!-- 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url> -->
+<!-- 		</pluginRepository> -->
+<!-- 	</pluginRepositories> -->
+<!-- 	<repositories> -->
+<!-- 		<repository> -->
+<!-- 			<id>emdw-common</id> -->
+<!-- 			<url>${emdw.common.repository.url}</url> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>mars</id> -->
+<!-- 			<url>${mars.repo.url}</url> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>papyrus</id> -->
+<!-- 			<url>${papyrus.repo.url}</url> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>emf-incquery</id> -->
+<!-- 			<url>${incquery.repository.url}</url> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>viatra.update</id> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 			<url>${viatra.repository.url}</url> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>xtext</id> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>orbit</id> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>xsemantics</id> -->
+<!-- 			<layout>p2</layout> -->
+<!-- 			<url>http://master.dl.sourceforge.net/project/xsemantics/updates/releases/1.8/</url> -->
+<!-- 		</repository> -->
+<!-- 		<repository> -->
+<!-- 			<id>emdw-p2-mirror</id> -->
+<!-- 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url> -->
+<!-- 		</repository> -->
+<!-- 	</repositories> -->
 </project>

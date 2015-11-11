@@ -78,6 +78,7 @@
 				<module>../com.incquerylabs.emdw.update</module>				
 				<module>../com.incquerylabs.emdw.cpp.app</module>
 				<module>../com.incquerylabs.emdw.cpp.app.product</module>
+				<module>../com.incquerylabs.emdw.cpp.app.plainjava</module>
 			</modules>
 		</profile>
 	</profiles>

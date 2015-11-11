@@ -75,28 +75,28 @@
 	
 	<dependencies>
 		<!-- IncQuery -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.incquery</groupId> -->
-<!-- 			<artifactId>incquery-runtime</artifactId> -->
-<!-- 			<version>${incquery.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.incquery</groupId> -->
-<!-- 			<artifactId>incquery-maven-plugin</artifactId> -->
-<!-- 			<version>${incquery.version}</version> -->
-<!-- 		</dependency> -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.incquery</groupId> -->
-<!-- 			<artifactId>incquery-patternlanguage</artifactId> -->
-<!-- 			<version>${incquery.version}</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-runtime</artifactId>
+			<version>${incquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-maven-plugin</artifactId>
+			<version>${incquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-patternlanguage</artifactId>
+			<version>${incquery.version}</version>
+		</dependency>
 
 		<!-- VIATRA -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.eclipse.viatra</groupId> -->
-<!-- 			<artifactId>viatra-emf-runtime</artifactId> -->
-<!-- 			<version>0.7.0-SNAPSHOT</version> -->
-<!-- 		</dependency> -->
+		<dependency>
+			<groupId>org.eclipse.viatra</groupId>
+			<artifactId>viatra-emf-runtime</artifactId>
+			<version>0.7.0-SNAPSHOT</version>
+		</dependency>
 
 		<!-- EMDW Models -->
 		<dependency>

@@ -11,11 +11,14 @@ import org.junit.runner.RunWith
 import org.junit.runners.Suite
 import org.junit.runners.Suite.SuiteClasses
 
+import static org.junit.Assert.*
+
 @SuiteClasses(#[
 	XTClassInModelMappingTest,
 	XTClassInPackageMappingTest,
 	XTClassInComponentAsNestedClassifierMappingTest,
-	XTClassInComponentAsPackagedElementMappingTest
+	XTClassInComponentAsPackagedElementMappingTest,
+	AbstractXTClassMappingTest
 ])
 @RunWith(Suite)
 class XTClassMappingTestSuite {}
@@ -50,6 +53,7 @@ class XTClassInPackageMappingTest extends TransformationTest<Class, XTClass> {
 	}
 
 	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
+		assertFalse("XTClass is set to abstract by default", xtumlrtObject.isAbstract)
 	}
 	
 }
@@ -90,4 +94,21 @@ class XTClassInComponentAsPackagedElementMappingTest extends TransformationTest<
 	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
 	}
 	
+}
+
+class AbstractXTClassMappingTest extends TransformationTest<Class, XTClass> {
+	override protected createUmlObject(Model umlRoot) {
+		val umlClass = umlRoot.createClassInModel => [
+			isAbstract = true
+		]
+		umlClass
+	}
+	
+	override protected getXtumlrtObjects(org.eclipse.papyrusrt.xtumlrt.common.Model xtumlrtRoot) {
+		xtumlrtRoot.entities.filter(XTClass)
+	}
+	
+	override protected checkXtumlrtObject(RootMapping mapping, Class umlObject, XTClass xtumlrtObject) {
+		assertTrue("XTClass is not set to abstract", xtumlrtObject.isAbstract)
+	}
 }

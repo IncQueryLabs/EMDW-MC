@@ -6,6 +6,18 @@
 	<groupId>com.incquerylabs.emdw</groupId>
 	<version>1.0.0-SNAPSHOT</version>
 	<artifactId>com.incquerylabs.emdw.cpp.app.plainjava</artifactId>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<emdw.common.repository.url>http://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
+		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
+		<viatra.repository.url>http://download.eclipse.org/viatra2/emf/updates/release</viatra.repository.url>
+		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>
+		<papyrus.repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus.repo.url>
+		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
+		<incquery.version>1.0.0</incquery.version>
+	</properties>
+	
 	<build>
 		<plugins>
 			<!-- download source code in Eclipse, best practice -->
@@ -67,7 +79,34 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 	<dependencies>
+		<!-- IncQuery -->
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-runtime</artifactId>
+			<version>${incquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-maven-plugin</artifactId>
+			<version>${incquery.version}</version>
+		</dependency>
+		<dependency>
+			<!-- requires many more dependencies - only use if required -->
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>incquery-patternlanguage</artifactId>
+			<version>${incquery.version}</version>
+		</dependency>
+
+		<!-- VIATRA -->
+		<dependency>
+			<groupId>org.eclipse.viatra</groupId>
+			<artifactId>viatra-emf-runtime</artifactId>
+			<version>0.7.0-SNAPSHOT</version>
+		</dependency>
+
+		<!-- EMDW Models -->
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>emdw-metamodels</artifactId>
@@ -78,6 +117,43 @@
 			<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!-- EMDW plugins -->
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.cpp.app</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.cpp.bodyconverter</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.cpp.codegeneration</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.cpp.common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.cpp.transformation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.cpp.ui</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.uml.ralf.snippetcompiler</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.toolchain</artifactId>
@@ -85,8 +161,80 @@
 		</dependency>
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
-			<artifactId>com.incquerylabs.emdw.cpp.app</artifactId>
+			<artifactId>com.incquerylabs.emdw.umlintegration.papyrus</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.umlintegration.transformation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.xtuml.incquery</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.xtuml.incquery.validation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
 	</dependencies>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>emdw-p2-mirror</id>
+			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<repositories>
+		<repository>
+			<id>emdw-common</id>
+			<url>${emdw.common.repository.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>mars</id>
+			<url>${mars.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>papyrus</id>
+			<url>${papyrus.repo.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>emf-incquery</id>
+			<url>${incquery.repository.url}</url>
+			<layout>p2</layout>
+		</repository>
+		<repository>
+			<id>viatra.update</id>
+			<layout>p2</layout>
+			<url>${viatra.repository.url}</url>
+		</repository>
+		<repository>
+			<id>xtext</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/</url>
+		</repository>
+		<repository>
+			<id>orbit</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository/</url>
+		</repository>
+		<repository>
+			<id>xsemantics</id>
+			<layout>p2</layout>
+			<url>http://master.dl.sourceforge.net/project/xsemantics/updates/releases/1.8/</url>
+		</repository>
+		<repository>
+			<id>emdw-p2-mirror</id>
+			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url>
+		</repository>
+	</repositories>
 </project>

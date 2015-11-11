@@ -183,7 +183,15 @@
 <!-- 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url> -->
 <!-- 		</pluginRepository> -->
 <!-- 	</pluginRepositories> -->
-<!-- 	<repositories> -->
+	<repositories>
+		<repository>
+			<id>incquery</id>
+			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
+		</repository>
+		<repository>
+			<id>viatra</id>
+			<url>https://repo.eclipse.org/content/groups/viatra2/</url>
+		</repository>
 <!-- 		<repository> -->
 <!-- 			<id>emdw-common</id> -->
 <!-- 			<url>${emdw.common.repository.url}</url> -->
@@ -228,5 +236,5 @@
 <!-- 			<id>emdw-p2-mirror</id> -->
 <!-- 			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-p2-mirrors/</url> -->
 <!-- 		</repository> -->
-<!-- 	</repositories> -->
+	</repositories>
 </project>

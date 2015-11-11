@@ -75,12 +75,17 @@
 		</dependency>
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.toolchain</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
-			<artifactId>com.incquerylabs.emdw.umlintegration.trace</artifactId>
+			<artifactId>com.incquerylabs.emdw.cpp.app</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

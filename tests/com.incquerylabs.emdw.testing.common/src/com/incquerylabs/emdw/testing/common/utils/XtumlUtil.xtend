@@ -500,6 +500,20 @@ class XtumlUtil extends ModelUtil {
 
 	}
 
+	def createAbstractOperation(Entity root, VisibilityKind visibility, Type returnType, String name, Parameter ... parameter) {
+		val op = commonFactory.createOperation => [
+			it.name = name
+			it.abstract = true
+			it.visibility = visibility
+			it.returnType = commonFactory.createTypedMultiplicityElement => [
+				type = returnType
+			]
+			it.parameters += parameter
+		]
+		root.operations += op
+		op
+	}
+	
 	def createOperation(Entity root, VisibilityKind visibility, boolean isStatic, Type returnType, String name,
 		String language, String body, Parameter ... parameter) {
 		val op = commonFactory.createOperation => [

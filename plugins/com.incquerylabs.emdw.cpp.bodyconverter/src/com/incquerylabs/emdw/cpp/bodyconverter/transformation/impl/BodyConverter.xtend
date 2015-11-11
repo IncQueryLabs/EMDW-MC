@@ -44,11 +44,15 @@ class BodyConverter implements IBodyConverter {
 	/**
 	 * @param target The target of the transformation
 	 * @return The string which is the C++ equivalent of the rALF code in the target
-	 * @throws IllegalArgumentException if the target has no body with rALF language
+	 * @throws IllegalArgumentException if the target is not abstract and has no body with rALF language
 	 */
 	override String convertOperation(CPPOperation target) throws IllegalArgumentException {
 		val umlOperation = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(target).head as Operation
 		val behavior = umlOperation.methods.filter(OpaqueBehavior).head
+		if(umlOperation.isAbstract) {
+			target.compiledBody = null
+			return ""
+		}
 		if(behavior==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior with rALF language for «umlOperation.name» operation.''')
 		}

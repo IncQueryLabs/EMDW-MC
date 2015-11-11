@@ -54,7 +54,7 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
     	bodyConverter.initialize(engine, context)
     	
     	// Start test
-	    resolveUmlTarget()
+		scopedUmlObject = resolveUmlTarget(scopedUmlObjectFQN, conversionType)
     	scopedUmlObject.replaceRalfCode
     	executeTrafos()
 	    scopedCppObject = scopedUmlObject.resolveCppTarget(conversionType)
@@ -85,23 +85,6 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
 	
     }
     
-    protected def resolveUmlTarget() {
-    	if(!scopedUmlObjectFQN.equals("")){
-    		switch(conversionType) {
-    		case Operation: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(Operation).findFirst[op | op.qualifiedName.equals(scopedUmlObjectFQN)]
-       		}
-       		case StateEntry,
-       		case StateExit: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(State).findFirst[state | state.qualifiedName.equals(scopedUmlObjectFQN)]
-       		}
-       		case Transition,
-       		case TransitionGuard: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(Transition).findFirst[state | scopedUmlObjectFQN == state.qualifiedName]
-       		}
-       	}
-    	}
-    }
 	
 	def dispatch void replaceRalfCode(Operation operation) {
 		val behavior = operation.getOrCreateBehavior
@@ -179,22 +162,4 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
 			it.bodies += ralfCode
 		]
 	}
-    
-    protected def CPPQualifiedNamedElement resolveCppTarget(NamedElement scopedUmlObject, ConversionType conversionType) {
-	    if(scopedUmlObject!=null){
-    		switch(conversionType) {
-    		case Operation: {
-       			return engine.umlOperation2CppOperation.getAllValuesOfcppOperation(scopedUmlObject).head
-       		}
-       		case StateEntry,
-       		case StateExit: {
-       			return engine.umlState2CppState.getAllValuesOfcppState(scopedUmlObject).head
-       		}
-       		case Transition,
-       		case TransitionGuard: {
-       			return engine.umlTransition2CppTransition.getAllValuesOfcppTransition(scopedUmlObject).head
-       		}
-       	}
-    	}
-    }
 }

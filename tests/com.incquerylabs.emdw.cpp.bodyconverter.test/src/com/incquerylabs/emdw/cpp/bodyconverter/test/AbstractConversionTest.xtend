@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
@@ -15,14 +16,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.NamedElement
+import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.State
+import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.UMLFactory
 import org.junit.After
 import org.junit.FixMethodOrder
-import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.junit.runners.Parameterized
 
-@RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 abstract class AbstractConversionTest {
 	
@@ -97,6 +99,44 @@ abstract class AbstractConversionTest {
 		cppModel = mapping.xtumlrtRoot.prepareCPPResource
 		
 		mapping
+	}
+	
+	protected def resolveUmlTarget(String umlObjectFQN, ConversionType conversionType) {
+		if(umlObjectFQN.equals("")) {
+			return null
+		}
+		switch(conversionType) {
+			case Operation: {
+				return umlModel.allOwnedElements.filter(Operation).findFirst[op | op.qualifiedName == umlObjectFQN]
+			}
+			case StateEntry,
+			case StateExit: {
+				return umlModel.allOwnedElements.filter(State).findFirst[state | state.qualifiedName == umlObjectFQN]
+			}
+			case Transition,
+			case TransitionGuard: {
+				return umlModel.allOwnedElements.filter(Transition).findFirst[state | state.qualifiedName == umlObjectFQN]
+			}
+		}
+	}
+	
+	protected def CPPQualifiedNamedElement resolveCppTarget(NamedElement scopedUmlObject, ConversionType conversionType) {
+		if(scopedUmlObject == null){
+			return null
+		}
+		switch(conversionType) {
+			case Operation: {
+				return engine.umlOperation2CppOperation.getAllValuesOfcppOperation(scopedUmlObject).head
+			}
+			case StateEntry,
+			case StateExit: {
+				return engine.umlState2CppState.getAllValuesOfcppState(scopedUmlObject).head
+			}
+			case Transition,
+			case TransitionGuard: {
+				return engine.umlTransition2CppTransition.getAllValuesOfcppTransition(scopedUmlObject).head
+			}
+		}	
 	}
 	
 	def purgeRalfComments(String string){

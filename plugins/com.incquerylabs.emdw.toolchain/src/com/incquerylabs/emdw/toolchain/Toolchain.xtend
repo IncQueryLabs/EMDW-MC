@@ -12,7 +12,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Maps
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlXumlrtMappingQueries
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
@@ -94,7 +94,7 @@ class Toolchain {
 			CppQueries.instance,
 			CppCodeGenerationQueries.instance,
 			CppFileAndDirectoryQueries.instance,
-			UmlCppMappingQueries.instance,
+			UmlXumlrtMappingQueries.instance,
 			OoplQueryBasedFeatures.instance,
 			QueryBasedFeatures.instance
 		)

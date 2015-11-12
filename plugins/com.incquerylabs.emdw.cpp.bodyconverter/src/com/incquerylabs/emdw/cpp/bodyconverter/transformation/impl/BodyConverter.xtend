@@ -1,12 +1,10 @@
 package com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.IBodyConverter
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlXumlrtMappingQueries
 import com.incquerylabs.emdw.cpp.common.descriptor.factory.impl.UmlValueDescriptorFactory
+import com.incquerylabs.emdw.snippettemplate.Snippet
 import com.incquerylabs.emdw.snippettemplate.SnippetTemplateFactory
 import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.uml.ralf.api.impl.ReducedAlfGenerator
@@ -22,7 +20,7 @@ import org.eclipse.uml2.uml.State
 import org.eclipse.uml2.uml.Transition
 
 class BodyConverter implements IBodyConverter {
-	extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
+	extension UmlXumlrtMappingQueries mappingQueries = UmlXumlrtMappingQueries.instance
 	
 	private static final val rALF = "rALF"
 	
@@ -42,16 +40,15 @@ class BodyConverter implements IBodyConverter {
 	}
 	
 	/**
-	 * @param target The target of the transformation
-	 * @return The string which is the C++ equivalent of the rALF code in the target
-	 * @throws IllegalArgumentException if the target is not abstract and has no body with rALF language
+	 * @param commonOperation The {@link org.eclipse.papyrusrt.xtumlrt.common.Operation Operation} to be transformed
+	 * @return The {@link Snippet} containing the C++ equivalent of the rALF code in the transformed element
+	 * @throws IllegalArgumentException if the operation is not abstract and has no body with rALF language
 	 */
-	override String convertOperation(CPPOperation target) throws IllegalArgumentException {
-		val umlOperation = engine.umlOperation2CppOperation.getAllValuesOfumlOperation(target).head as Operation
-		val commonOperation = target.commonOperation
+	override Snippet convertOperation(org.eclipse.papyrusrt.xtumlrt.common.Operation commonOperation)
+	throws IllegalArgumentException {
+		val umlOperation = engine.umlOperation2CommonOperation.getAllValuesOfumlOperation(commonOperation).head as Operation
 		if(commonOperation.isAbstract) {
-			target.compiledBody = null
-			return ""
+			return null
 		}
 		
 		val contextObject = umlOperation.methods.filter(OpaqueBehavior).head
@@ -63,106 +60,112 @@ class BodyConverter implements IBodyConverter {
 		val ralfActionBody = xtAction.body.findFirst[language == rALF]
 		context.contextObject = contextObject
 		if(ralfActionBody == null) {
-			target.compiledBody = factory.createStringSnippet => [
+			return factory.createStringSnippet => [
 				it.value = xtAction.cppCode
 			]
 		} else {
-			target.compiledBody = ralfActionBody.createSnippet
+			return ralfActionBody.createSnippet
 		}
-		// Create the snippet code based on the snippet template
-		return serializer.serialize(target.compiledBody)
 	}
 	
-	override String convertStateEntry(CPPState target) throws IllegalArgumentException {
-		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State
+	/**
+	 * @param commonState The {@link org.eclipse.papyrusrt.xtumlrt.common.State State} to be transformed
+	 * @return The {@link Snippet} containing the C++ equivalent of the rALF code in the transformed element
+	 * @throws IllegalArgumentException if the state has no body with rALF language
+	 */
+	override Snippet convertStateEntry(org.eclipse.papyrusrt.xtumlrt.common.State commonState) throws IllegalArgumentException {
+		val umlState = engine.umlState2CommonState.getAllValuesOfumlState(commonState).head as State
 		val contextObject = umlState.entry as OpaqueBehavior
 		
 		if(contextObject==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's entry.''')
 		}
 		
-		val commonState = target.commonState
 		val xtAction = commonState.entryAction as XTAction
 		val ralfActionBody = xtAction.body.findFirst[language == rALF]
 		context.contextObject = contextObject
 		if(ralfActionBody == null) {
-			target.compiledEntryBody = factory.createStringSnippet => [
+			return factory.createStringSnippet => [
 				it.value = xtAction.cppCode
 			]
 		} else {
-			target.compiledEntryBody = ralfActionBody.createSnippet
+			return ralfActionBody.createSnippet
 		}
-		//Create the snippet code based on the snippet template
-		return serializer.serialize(target.compiledEntryBody)
 	}
 	
-	override String convertStateExit(CPPState target) throws IllegalArgumentException {
-		val umlState = engine.umlState2CppState.getAllValuesOfumlState(target).head as State
+	/**
+	 * @param commonState The {@link org.eclipse.papyrusrt.xtumlrt.common.State State} to be transformed
+	 * @return The {@link Snippet} containing the C++ equivalent of the rALF code in the transformed element
+	 * @throws IllegalArgumentException if the state has no body with rALF language
+	 */
+	override Snippet convertStateExit(org.eclipse.papyrusrt.xtumlrt.common.State commonState) throws IllegalArgumentException {
+		val umlState = engine.umlState2CommonState.getAllValuesOfumlState(commonState).head as State
 		val contextObject = umlState.exit as OpaqueBehavior
 		
 		if(contextObject==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlState.name» state's exit.''')
 		}
 		
-		val commonState = target.commonState
 		val xtAction = commonState.exitAction as XTAction
 		val ralfActionBody = xtAction.body.findFirst[language == rALF]
 		context.contextObject = contextObject
 		if(ralfActionBody == null) {
-			target.compiledExitBody = factory.createStringSnippet => [
+			return factory.createStringSnippet => [
 				it.value = xtAction.cppCode
 			]
 		} else {
-			target.compiledExitBody = ralfActionBody.createSnippet
+			return ralfActionBody.createSnippet
 		}
-		//Create the snippet code based on the snippet template
-		return serializer.serialize(target.compiledExitBody)
 	}
 	
-	override String convertTransition(CPPTransition target) throws IllegalArgumentException {
-		val umlTransition = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(target).head as Transition
+	/**
+	 * @param commonTransition The {@link org.eclipse.papyrusrt.xtumlrt.common.Transition Transition} to be transformed
+	 * @return The {@link Snippet} containing the C++ equivalent of the rALF code in the transformed element
+	 * @throws IllegalArgumentException if the transition has no body with rALF language
+	 */
+	override Snippet convertTransition(org.eclipse.papyrusrt.xtumlrt.common.Transition commonTransition) throws IllegalArgumentException {
+		val umlTransition = engine.umlTransition2CommonTransition.getAllValuesOfumlTransition(commonTransition).head as Transition
 		val contextObject = umlTransition.effect as OpaqueBehavior
 		
 		if(contextObject==null) {
 			throw new IllegalArgumentException('''There is no OpaqueBehavior for «umlTransition.name» transition.''')
 		}
 		
-		val commonTransition = target.commonTransition
 		val xtAction = commonTransition.actionChain.actions.head as XTAction
 		val ralfActionBody = xtAction.body.findFirst[language == rALF]
 		context.contextObject = contextObject
 		if(ralfActionBody == null) {
-			target.compiledEffectBody = factory.createStringSnippet => [
+			return factory.createStringSnippet => [
 				it.value = xtAction.cppCode
 			]
 		} else {
-			target.compiledEffectBody = ralfActionBody.createSnippet
+			return ralfActionBody.createSnippet
 		}
-		//Create the snippet code based on the snippet template
-		return serializer.serialize(target.compiledEffectBody)
 	}
 	
-	override String convertTransitionGuard(CPPTransition target) throws IllegalArgumentException {
-		val umlTransition = engine.umlTransition2CppTransition.getAllValuesOfumlTransition(target).head as Transition
+	/**
+	 * @param commonTransition The {@link org.eclipse.papyrusrt.xtumlrt.common.Transition Transition} to be transformed
+	 * @return The {@link Snippet} containing the C++ equivalent of the rALF code in the transformed element
+	 * @throws IllegalArgumentException if the transition has no body with rALF language
+	 */
+	override Snippet convertTransitionGuard(org.eclipse.papyrusrt.xtumlrt.common.Transition commonTransition) throws IllegalArgumentException {
+		val umlTransition = engine.umlTransition2CommonTransition.getAllValuesOfumlTransition(commonTransition).head as Transition
 		val contextObject = umlTransition.guard.specification as OpaqueExpression
 		
 		if(contextObject==null) {
 			throw new IllegalArgumentException('''There is no OpaqueExpression for «umlTransition.guard.name» constraint.''')
 		}
 		
-		val commonTransition = target.commonTransition
 		val xtAction = commonTransition.guard.body as XTAction
 		val ralfActionBody = xtAction.body.findFirst[language == rALF]
 		context.contextObject = contextObject
 		if(ralfActionBody == null) {
-			target.compiledGuardBody = factory.createStringSnippet => [
+			return factory.createStringSnippet => [
 				it.value = xtAction.cppCode
 			]
 		} else {
-			target.compiledGuardBody = ralfActionBody.createSnippet
+			return ralfActionBody.createSnippet
 		}
-		//Create the snippet code based on the snippet template
-		return serializer.serialize(target.compiledGuardBody)
 	}
 	
 	private def String getCppCode(XTAction xtAction) {

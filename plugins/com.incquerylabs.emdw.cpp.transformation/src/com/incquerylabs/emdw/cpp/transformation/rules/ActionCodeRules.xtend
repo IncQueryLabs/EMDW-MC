@@ -42,8 +42,9 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val operationActionCodeRule = createRule.precondition(cppOperationWithActionCodes).action [ match |
 		val cppOperation = match.cppOperation
+		val commonOperation = cppOperation.commonOperation
 		try{
-			cppOperation.convertOperation
+			cppOperation.compiledBody = commonOperation.convertOperation
 			logResult('''Converted Operation «cppOperation.cppName»'s code''')
 		} catch (Exception e) {
 			e.rethrowOrLogException('''ERROR in Operation «cppOperation.cppName»'s code''')
@@ -53,8 +54,9 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val stateEntryActionCodeRule = createRule.precondition(cppStateWithEntryActionCodes).action[ match |
 		val cppState = match.cppState
+		val commonState = cppState.commonState
 		try{
-			cppState.convertStateEntry
+			cppState.compiledEntryBody = commonState.convertStateEntry
 			logResult('''Converted State «cppState.cppName»'s entry code''')
 		} catch (Exception e) {
 			e.rethrowOrLogException('''ERROR in State «cppState.cppName»'s entry code''')
@@ -64,8 +66,9 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val stateExitActionCodeRule = createRule.precondition(cppStateWithExitActionCodes).action[ match |
 		val cppState = match.cppState
+		val commonState = cppState.commonState
 		try{
-			cppState.convertStateExit
+			cppState.compiledExitBody = commonState.convertStateExit
 			logResult('''Converted State «cppState.cppName»'s exit code''')
 		} catch (Exception e) {
 			e.rethrowOrLogException('''ERROR in State «cppState.cppName»'s exit code''')
@@ -75,8 +78,9 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val transitionActionCodeRule = createRule.precondition(cppTransitionWithActionCodes).action[ match |
 		val cppTransition = match.cppTransition
+		val commonTransition = cppTransition.commonTransition
 		try{
-			cppTransition.convertTransition
+			cppTransition.compiledEffectBody = commonTransition.convertTransition
 			logResult('''Converted Transition «cppTransition.cppName»'s code''')
 		} catch (Exception e) {
 			e.rethrowOrLogException('''ERROR in Transition «cppTransition.cppName»'s code''')
@@ -86,8 +90,9 @@ class ActionCodeRules {
 	@Accessors(PUBLIC_GETTER)
 	val guardActionCodeRule = createRule.precondition(cppTransitionWithGuardActionCodes).action[ match |
 		val cppTransition = match.cppTransition
+		val commonTransition = cppTransition.commonTransition
 		try{
-			cppTransition.convertTransitionGuard
+			cppTransition.compiledGuardBody = commonTransition.convertTransitionGuard
 			logResult('''Converted Transition «cppTransition.cppName»'s guard code''')
 		} catch (Exception e) {
 			e.rethrowOrLogException('''ERROR in Transition «cppTransition.cppName»'s guard code''')

@@ -2,11 +2,11 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlXumlrtMappingQueries
+import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
@@ -46,14 +46,15 @@ abstract class AbstractConversionTest {
 	protected CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 		
 	protected Model umlModel
+	protected org.eclipse.papyrusrt.xtumlrt.common.Model xumlrtModel
 	protected CPPModel cppModel
 	protected BasicUMLContextProvider context
 	
 	protected BodyConverter bodyConverter
-	protected extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
+	protected extension UmlXumlrtMappingQueries mappingQueries = UmlXumlrtMappingQueries.instance
 	private Toolchain toolchain
 	private extension ComplexModelUtil modelUtil = new ComplexModelUtil
-	
+	protected extension ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
 	
 	public enum ConversionType {
 		Operation, StateEntry, StateExit, Transition, TransitionGuard
@@ -68,6 +69,7 @@ abstract class AbstractConversionTest {
 		context =  new BasicUMLContextProvider(engine)
 		val rootMapping = createRootMapping(umlModelPath, resourceSet, engine)
 		umlModel = rootMapping.umlRoot
+		xumlrtModel = rootMapping.xtumlrtRoot
 		val xumlrtRS = rootMapping.eResource.resourceSet
 		val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet, xumlrtRS)
 		
@@ -120,21 +122,21 @@ abstract class AbstractConversionTest {
 		}
 	}
 	
-	protected def CPPQualifiedNamedElement resolveCppTarget(NamedElement scopedUmlObject, ConversionType conversionType) {
+	protected def resolveXumlrtTarget(NamedElement scopedUmlObject, ConversionType conversionType) {
 		if(scopedUmlObject == null){
 			return null
 		}
 		switch(conversionType) {
 			case Operation: {
-				return engine.umlOperation2CppOperation.getAllValuesOfcppOperation(scopedUmlObject).head
+				return engine.umlOperation2CommonOperation.getAllValuesOfcommonOperation(scopedUmlObject).head
 			}
 			case StateEntry,
 			case StateExit: {
-				return engine.umlState2CppState.getAllValuesOfcppState(scopedUmlObject).head
+				return engine.umlState2CommonState.getAllValuesOfcommonState(scopedUmlObject).head
 			}
 			case Transition,
 			case TransitionGuard: {
-				return engine.umlTransition2CppTransition.getAllValuesOfcppTransition(scopedUmlObject).head
+				return engine.umlTransition2CommonTransition.getAllValuesOfcommonTransition(scopedUmlObject).head
 			}
 		}	
 	}

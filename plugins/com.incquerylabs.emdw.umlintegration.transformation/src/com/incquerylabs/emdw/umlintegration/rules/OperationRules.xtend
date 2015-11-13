@@ -61,6 +61,7 @@ class OperationMapping extends AbstractObjectMapping<RegularOperationMatch, org.
 	override updateXtumlrtObject(Operation xtumlrtObject, RegularOperationMatch match) {
 		val umlObject = match.umlObject;
 		xtumlrtObject.static = umlObject.static
+		xtumlrtObject.abstract = umlObject.abstract
 		xtumlrtObject.visibility = TransformationUtil.transform(umlObject.visibility)
 		
 		val umlParams = umlObject.ownedParameters

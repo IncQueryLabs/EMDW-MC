@@ -1,11 +1,8 @@
 package com.incquerylabs.emdw.cpp.bodyconverter.test.single
 
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
 import com.incquerylabs.emdw.cpp.bodyconverter.test.AbstractConversionTest
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
+import com.incquerylabs.emdw.snippettemplate.Snippet
 import org.eclipse.uml2.uml.BodyOwner
 import org.eclipse.uml2.uml.Class
 import org.eclipse.uml2.uml.NamedElement
@@ -33,7 +30,7 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
     @Parameter(2)
     public String scopedUmlObjectFQN=""
 	private NamedElement scopedUmlObject
-	private CPPQualifiedNamedElement scopedCppObject
+	private org.eclipse.papyrusrt.xtumlrt.common.NamedElement scopedXumlrtObject
     
     @Parameter(3)
     public ConversionType conversionType
@@ -54,54 +51,38 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
     	bodyConverter.initialize(engine, context)
     	
     	// Start test
-	    resolveUmlTarget()
+		scopedUmlObject = resolveUmlTarget(scopedUmlObjectFQN, conversionType)
     	scopedUmlObject.replaceRalfCode
     	executeTrafos()
-	    scopedCppObject = scopedUmlObject.resolveCppTarget(conversionType)
+	    scopedXumlrtObject = scopedUmlObject.resolveXumlrtTarget(conversionType)
     	
-    	var String serializedSnippet
+    	var Snippet snippet
     	switch(conversionType) {
-    		case Operation: {
     	// *******************************************************************************
     	// Call body converter
     	// *******************************************************************************
-       			serializedSnippet = bodyConverter.convertOperation(scopedCppObject as CPPOperation)
+    		case Operation: {
+       			snippet = bodyConverter.convertOperation(scopedXumlrtObject as org.eclipse.papyrusrt.xtumlrt.common.Operation)
        		}
        		case StateEntry: {
-       			serializedSnippet = bodyConverter.convertStateEntry(scopedCppObject as CPPState)
+       			snippet = bodyConverter.convertStateEntry(scopedXumlrtObject as org.eclipse.papyrusrt.xtumlrt.common.State)
        		}
        		case StateExit: {
-       			serializedSnippet = bodyConverter.convertStateExit(scopedCppObject as CPPState)
+       			snippet = bodyConverter.convertStateExit(scopedXumlrtObject as org.eclipse.papyrusrt.xtumlrt.common.State)
        		}
        		case Transition: {
-       			serializedSnippet = bodyConverter.convertTransition(scopedCppObject as CPPTransition)
+       			snippet = bodyConverter.convertTransition(scopedXumlrtObject as org.eclipse.papyrusrt.xtumlrt.common.Transition)
        		}
        		case TransitionGuard: {
-       			serializedSnippet = bodyConverter.convertTransitionGuard(scopedCppObject as CPPTransition)
+       			snippet = bodyConverter.convertTransitionGuard(scopedXumlrtObject as org.eclipse.papyrusrt.xtumlrt.common.Transition)
        		}
        	}
+    	var serializedSnippet = snippet.serialize
        	serializedSnippet = serializedSnippet.purgeRalfComments
     	assertEquals("The created snippet does not match the expected result",expectedOutput,serializedSnippet)
 	
     }
     
-    protected def resolveUmlTarget() {
-    	if(!scopedUmlObjectFQN.equals("")){
-    		switch(conversionType) {
-    		case Operation: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(Operation).findFirst[op | op.qualifiedName.equals(scopedUmlObjectFQN)]
-       		}
-       		case StateEntry,
-       		case StateExit: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(State).findFirst[state | state.qualifiedName.equals(scopedUmlObjectFQN)]
-       		}
-       		case Transition,
-       		case TransitionGuard: {
-       			scopedUmlObject = umlModel.allOwnedElements.filter(Transition).findFirst[state | scopedUmlObjectFQN == state.qualifiedName]
-       		}
-       	}
-    	}
-    }
 	
 	def dispatch void replaceRalfCode(Operation operation) {
 		val behavior = operation.getOrCreateBehavior
@@ -179,22 +160,4 @@ abstract class AbstractSingleConversionTest extends AbstractConversionTest {
 			it.bodies += ralfCode
 		]
 	}
-    
-    protected def CPPQualifiedNamedElement resolveCppTarget(NamedElement scopedUmlObject, ConversionType conversionType) {
-	    if(scopedUmlObject!=null){
-    		switch(conversionType) {
-    		case Operation: {
-       			return engine.umlOperation2CppOperation.getAllValuesOfcppOperation(scopedUmlObject).head
-       		}
-       		case StateEntry,
-       		case StateExit: {
-       			return engine.umlState2CppState.getAllValuesOfcppState(scopedUmlObject).head
-       		}
-       		case Transition,
-       		case TransitionGuard: {
-       			return engine.umlTransition2CppTransition.getAllValuesOfcppTransition(scopedUmlObject).head
-       		}
-       	}
-    	}
-    }
 }

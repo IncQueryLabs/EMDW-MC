@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_8Reo0Ih8EeWE4K2gyErJKQ" name="AbstractOperationModel">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_8WvjUIh8EeWE4K2gyErJKQ">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:Component" xmi:id="_A4i6kIh9EeWE4K2gyErJKQ" name="AbstractOperationComponent">
+    <packagedElement xmi:type="uml:Class" xmi:id="_CtcmsIh9EeWE4K2gyErJKQ" name="AbstractOperationClass" isAbstract="true">
+      <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_tdmj0IiHEeWE4K2gyErJKQ" name="notAbstractOperationBehavior" specification="_dSrNUIiHEeWE4K2gyErJKQ">
+        <language>rALF</language>
+        <body>std::out::println(&quot;Hello world!&quot;);&#xD;
+return true;</body>
+      </ownedBehavior>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_Hb7IAIh9EeWE4K2gyErJKQ" name="abstractOperation" isAbstract="true">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_MwSkoIh9EeWE4K2gyErJKQ" name="returnValue" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_dSrNUIiHEeWE4K2gyErJKQ" name="notAbstractOperation" method="_tdmj0IiHEeWE4K2gyErJKQ">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_gDquQIiHEeWE4K2gyErJKQ" name="returnValue" direction="return">
+          <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Boolean"/>
+        </ownedParameter>
+      </ownedOperation>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>

@@ -383,11 +383,12 @@ class Toolchain {
 	}
 	
 	def void executeCodeAndFileGeneration(Iterable<XTComponent> componentsToTransform, IEMDWProgressMonitor progressMonitor){
+		progressMonitor.workRemaining = componentsToTransform.size
 		val watch = Stopwatch.createStarted
 		// CPP Component Transformation
 		componentsToTransform.forEach[
 			it.executeCppStructureTransformation
-			it.executeCppActionCodeCompile(progressMonitor)
+			it.executeCppActionCodeCompile(progressMonitor.newChild(1))
 		]
 		
 		// ******* FILE CONTENT GENERATION *******
@@ -613,30 +614,40 @@ class Toolchain {
 	
 	def logMeasuredTimes() {
 		info('''********** Phase durations **********''')
+		val fullTime = measuredTimes.values.reduce[p1, p2|p1 + p2]
 		measuredTimes.forEach[phase, time |
-			logPhase(phase, time)
+			logPhase(phase, time, fullTime)
 		]
 		info('''*************************************''')
 	}
 	
-	def logPhase(Phase phase, long time){
+	def logPhase(Phase phase, long time) {
+		logPhase(phase, time, -1)
+	}
+	
+	def logPhase(Phase phase, long time, long fullTime){
+		var percentageString = ""
+		if(fullTime > 0){
+			val percentage = 100*time/fullTime
+			percentageString = ''' («percentage»%)'''
+		}
 		switch phase {
-			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms''')
-			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms''')
-			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms''')
-			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms''')
-			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms''')
-			case INIT_FILEGEN: info('''File generation initialization: «time» ms''')
-			case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms''')
-			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms''')
-			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms''')
-			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms''')
-			case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms''')
-			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms''')
-			case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms''')
-			case EXECUTE_FILEGEN: info('''File generation: «time» ms''')
-			case EXECUTE_DELTA: info('''Delta transformation: «time» ms''')
-			default : info('''Unknown phase: «time» ms''')
+			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms«percentageString»''')
+			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms«percentageString»''')
+			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms«percentageString»''')
+			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms«percentageString»''')
+			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms«percentageString»''')
+			case INIT_FILEGEN: info('''File generation initialization: «time» ms«percentageString»''')
+			case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms«percentageString»''')
+			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms«percentageString»''')
+			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms«percentageString»''')
+			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms«percentageString»''')
+			case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms«percentageString»''')
+			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms«percentageString»''')
+			case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms«percentageString»''')
+			case EXECUTE_FILEGEN: info('''File generation: «time» ms«percentageString»''')
+			case EXECUTE_DELTA: info('''Delta transformation: «time» ms«percentageString»''')
+			default : info('''Unknown phase: «time» ms«percentageString»''')
 		}
 	}
 	

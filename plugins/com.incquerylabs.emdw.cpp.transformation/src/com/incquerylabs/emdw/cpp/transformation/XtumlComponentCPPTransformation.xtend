@@ -139,14 +139,13 @@ class XtumlComponentCPPTransformation {
 			transitionActionCodeMatches, 
 			guardActionCodeMatches
 		].map[size].reduce[p1, p2| p1 + p2]
-		val numberOfActionsPerWork = Math.max(totalNumberOfActions / 65, 1)
-		var completedActions = 0
+		progressMonitor.workRemaining = totalNumberOfActions
 		
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
+		statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor.newChild(operationActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor.newChild(stateEntryActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor.newChild(stateExitActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor.newChild(transitionActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor.newChild(guardActionCodeMatches.size))
 		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
@@ -184,14 +183,13 @@ class XtumlComponentCPPTransformation {
 			transitionActionCodeMatches, 
 			guardActionCodeMatches
 		].map[size].reduce[p1, p2| p1 + p2]
-		val numberOfActionsPerWork = Math.max(totalNumberOfActions / 65, 1)
-		var completedActions = 0
+		progressMonitor.workRemaining = totalNumberOfActions
 		
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
-		completedActions += statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor, numberOfActionsPerWork, completedActions)
+		statements.fireWhileNotCancelled(actionCodeRules.operationActionCodeRule, operationActionCodeMatches, progressMonitor.newChild(operationActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.stateEntryActionCodeRule, stateEntryActionCodeMatches, progressMonitor.newChild(stateEntryActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.stateExitActionCodeRule, stateExitActionCodeMatches, progressMonitor.newChild(stateExitActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.transitionActionCodeRule, transitionActionCodeMatches, progressMonitor.newChild(transitionActionCodeMatches.size))
+		statements.fireWhileNotCancelled(actionCodeRules.guardActionCodeRule, guardActionCodeMatches, progressMonitor.newChild(guardActionCodeMatches.size))
 		
 		info('''Execution of rALF code compilation finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
@@ -204,21 +202,14 @@ class XtumlComponentCPPTransformation {
 		BatchTransformationStatements statements,
 		BatchTransformationRule<Match, ?> rule,
 		Collection<Match> matches,
-		IEMDWProgressMonitor progressMonitor,
-		int numberOfActionsPerWork,
-		int completedActions
+		IEMDWProgressMonitor progressMonitor
 	) {
-		var actionsCompiled = 0
 		for(match : matches) {
 			if(progressMonitor.isCanceled) {
-				return actionsCompiled;
+				return
 			}
 			statements.fireAllCurrent(rule)[it == match]
-			actionsCompiled++
-			if((completedActions + actionsCompiled) % numberOfActionsPerWork == 0){
-				progressMonitor.worked(1);
-			}
+			progressMonitor.worked(1);
 		}
-		return actionsCompiled
 	}
 }

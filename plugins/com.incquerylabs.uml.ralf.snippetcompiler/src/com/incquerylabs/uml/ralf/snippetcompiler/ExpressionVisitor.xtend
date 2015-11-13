@@ -66,6 +66,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend2.lib.StringConcatenation
+import org.eclipse.uml2.uml.EnumerationLiteral
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -757,6 +758,10 @@ class ExpressionVisitor {
 				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				return descriptor
 			}
+		}else if (ex.reference instanceof EnumerationLiteral){
+			val descriptor = getDescriptor(ex)
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
+			return descriptor
 		}else{
 			throw new UnsupportedOperationException("Only variables and parameters are supported")
 		}

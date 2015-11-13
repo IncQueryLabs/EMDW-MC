@@ -57,6 +57,13 @@ pattern cppFormalParameter2Parameter(
 	CPPFormalParameter.commonParameter(cppFormalParameter, commonParameter);
 }
 
+pattern cppEnumLiteral2EnumLiteral(
+	commonEnumLiteral,
+	cppEnumLiteral
+) {
+	CPPEnumerator.commonEnumerationLiteral(cppEnumLiteral, commonEnumLiteral);
+}
+
 pattern structuredTypeChildren(
 	parent : StructuredType,
 	child : StructuredType

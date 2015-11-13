@@ -13,6 +13,7 @@
     <genClasses ecoreClass="xtuml.ecore#//XTClass">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClass/relations"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference xtuml.ecore#//XTClass/events"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute xtuml.ecore#//XTClass/abstract"/>
     </genClasses>
     <genClasses ecoreClass="xtuml.ecore#//XTRelation"/>
     <genClasses ecoreClass="xtuml.ecore#//XTAssociation">

@@ -55,6 +55,8 @@ class XTClassMapping extends AbstractObjectMapping<XtClassMatch, Class, XTClass>
 	}
 
 	override updateXtumlrtObject(XTClass xtumlrtObject, XtClassMatch match) {
+		val umlObject = match.umlObject
+		xtumlrtObject.abstract = umlObject.abstract
 	}
 
 	override protected insertXtumlrtObject(XTClass xtumlrtObject, XtClassMatch match) {

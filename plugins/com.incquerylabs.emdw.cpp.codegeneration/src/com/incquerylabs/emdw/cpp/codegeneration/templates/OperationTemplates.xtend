@@ -40,10 +40,15 @@ class OperationTemplates extends CPPTemplate{
 	def operationDeclarationInClassHeader(CPPOperation operation, boolean withReturnType, boolean isVirtual) {
 		val commonOp = operation.commonOperation
 		val isStatic = commonOp.static
-		'''«operationSignature(operation, false, withReturnType, isVirtual, isStatic)»;'''
+		val isPureVirtual = commonOp.isAbstract
+		'''«operationSignature(operation, false, withReturnType, isVirtual, isStatic)»«IF isPureVirtual» = 0«ENDIF»;'''
 	}
 	
 	def operationDefinitionInClassBody(CPPOperation operation, boolean withReturnType) {
+		if(operation.commonOperation.isAbstract) {
+			return ""
+		}
+		
 		val containerElement = operation.eContainer as CPPNamedElement
 		val operationSignature = operationSignature(operation, true, withReturnType, false, false)
 		'''

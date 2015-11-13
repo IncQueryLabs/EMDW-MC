@@ -33,6 +33,7 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		val xtPar2 = createParameter(xtType, "myParam2", DirectionKind.IN)
 		xtPar2.upperBound = 2;
 		val xtOp = xtClass.createOperation(VisibilityKind.PUBLIC, false, xtType, "myOp", "C++", "PSEUDO_CODE", xtPar, xtPar2)
+		val abstractXtOperation = xtClass.createAbstractOperation(VisibilityKind.PUBLIC, xtType, "abstractOperation")
 		
 		val cppPackage = cppModel.createCPPPackage(xtPackage)
 		val cppComponent = cppPackage.createCPPComponentWithDirectoriesAndFiles(xtComponent)
@@ -40,7 +41,10 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		val cppClassBody = cppComponent.bodyDirectory.createCPPBodyFile
 		val cppClass = cppComponent.createCPPClass(xtClass, cppClassHeader, cppClassBody)
 		val cppOp = cppClass.createCPPOperation(xtOp)
+		val abstractCppOp = cppClass.createCPPOperation(abstractXtOperation)
 		val cppType = cppModel.findCPPBasicType(xtType)
+		cppOp.createCPPReturnValue(xtOp.returnType)
+		abstractCppOp.createCPPReturnValue(abstractXtOperation.returnType)
 		cppOp.createCPPFormalParameter(xtPar, cppType, false)
 		cppOp.createCPPFormalParameter(xtPar2, cppType, true)
 		
@@ -61,6 +65,10 @@ class OperationMappingTest extends TransformationTest<State, CPPClass> {
 		assertTrue(classBody.contains("TEST::myOp)("))
 		assertTrue(classBody.contains("bool myParam"))
 		assertTrue(classBody.contains("set< bool > myParam2"))
+		
+		// check for abstract operation
+		assertTrue(classHeader.contains("bool abstractOperation() = 0;"))
+		assertFalse(classBody.contains("abstractOperation"))
 		
 	}
 	

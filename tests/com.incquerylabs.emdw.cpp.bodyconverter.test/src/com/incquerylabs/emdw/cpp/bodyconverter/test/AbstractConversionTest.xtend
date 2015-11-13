@@ -5,7 +5,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.incquerylabs.emdw.cpp.bodyconverter.scoping.BasicUMLContextProvider
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlXumlrtMappingQueries
+import com.incquerylabs.emdw.snippettemplate.serializer.ReducedAlfSnippetTemplateSerializer
 import com.incquerylabs.emdw.testing.common.utils.ComplexModelUtil
 import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
@@ -15,14 +16,15 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.CommonFactory
 import org.eclipse.uml2.uml.Model
+import org.eclipse.uml2.uml.NamedElement
+import org.eclipse.uml2.uml.Operation
+import org.eclipse.uml2.uml.State
+import org.eclipse.uml2.uml.Transition
 import org.eclipse.uml2.uml.UMLFactory
 import org.junit.After
 import org.junit.FixMethodOrder
-import org.junit.runner.RunWith
 import org.junit.runners.MethodSorters
-import org.junit.runners.Parameterized
 
-@RunWith(Parameterized)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 abstract class AbstractConversionTest {
 	
@@ -44,14 +46,15 @@ abstract class AbstractConversionTest {
 	protected CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
 		
 	protected Model umlModel
+	protected org.eclipse.papyrusrt.xtumlrt.common.Model xumlrtModel
 	protected CPPModel cppModel
 	protected BasicUMLContextProvider context
 	
 	protected BodyConverter bodyConverter
-	protected extension UmlCppMappingQueries mappingQueries = UmlCppMappingQueries.instance
+	protected extension UmlXumlrtMappingQueries mappingQueries = UmlXumlrtMappingQueries.instance
 	private Toolchain toolchain
 	private extension ComplexModelUtil modelUtil = new ComplexModelUtil
-	
+	protected extension ReducedAlfSnippetTemplateSerializer serializer = new ReducedAlfSnippetTemplateSerializer
 	
 	public enum ConversionType {
 		Operation, StateEntry, StateExit, Transition, TransitionGuard
@@ -66,6 +69,7 @@ abstract class AbstractConversionTest {
 		context =  new BasicUMLContextProvider(engine)
 		val rootMapping = createRootMapping(umlModelPath, resourceSet, engine)
 		umlModel = rootMapping.umlRoot
+		xumlrtModel = rootMapping.xtumlrtRoot
 		val xumlrtRS = rootMapping.eResource.resourceSet
 		val primitiveTypeMapping = createPrimitiveTypeMapping(resourceSet, xumlrtRS)
 		
@@ -97,6 +101,44 @@ abstract class AbstractConversionTest {
 		cppModel = mapping.xtumlrtRoot.prepareCPPResource
 		
 		mapping
+	}
+	
+	protected def resolveUmlTarget(String umlObjectFQN, ConversionType conversionType) {
+		if(umlObjectFQN.equals("")) {
+			return null
+		}
+		switch(conversionType) {
+			case Operation: {
+				return umlModel.allOwnedElements.filter(Operation).findFirst[op | op.qualifiedName == umlObjectFQN]
+			}
+			case StateEntry,
+			case StateExit: {
+				return umlModel.allOwnedElements.filter(State).findFirst[state | state.qualifiedName == umlObjectFQN]
+			}
+			case Transition,
+			case TransitionGuard: {
+				return umlModel.allOwnedElements.filter(Transition).findFirst[state | state.qualifiedName == umlObjectFQN]
+			}
+		}
+	}
+	
+	protected def resolveXumlrtTarget(NamedElement scopedUmlObject, ConversionType conversionType) {
+		if(scopedUmlObject == null){
+			return null
+		}
+		switch(conversionType) {
+			case Operation: {
+				return engine.umlOperation2CommonOperation.getAllValuesOfcommonOperation(scopedUmlObject).head
+			}
+			case StateEntry,
+			case StateExit: {
+				return engine.umlState2CommonState.getAllValuesOfcommonState(scopedUmlObject).head
+			}
+			case Transition,
+			case TransitionGuard: {
+				return engine.umlTransition2CommonTransition.getAllValuesOfcommonTransition(scopedUmlObject).head
+			}
+		}	
 	}
 	
 	def purgeRalfComments(String string){

@@ -621,33 +621,49 @@ class Toolchain {
 		info('''*************************************''')
 	}
 	
+	/**
+	 * Log the duration of the given phase
+	 * @param phase the phase to be logged
+	 * @param time the duration of the pase
+	 */
 	def logPhase(Phase phase, long time) {
-		logPhase(phase, time, -1)
+		return '''«phase.logMessage» «time» ms'''
 	}
 	
+	/**
+	 * Log the duration and the proportion of the given phase
+	 * @param phase the phase to be logged
+	 * @param time the duration of the pase
+	 * @param fullTime the duration of the full toolchain execution. If 0 or negative, no proportion info is logged
+	 */
 	def logPhase(Phase phase, long time, long fullTime){
 		var percentageString = ""
 		if(fullTime > 0){
 			val percentage = 100*time/fullTime
 			percentageString = ''' («percentage»%)'''
 		}
+		
+		return '''«phase.logMessage» «time» ms«percentageString»'''
+	}
+	
+	private def getLogMessage(Phase phase) {
 		switch phase {
-			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms«percentageString»''')
-			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms«percentageString»''')
-			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms«percentageString»''')
-			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms«percentageString»''')
-			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms«percentageString»''')
-			case INIT_FILEGEN: info('''File generation initialization: «time» ms«percentageString»''')
-			case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms«percentageString»''')
-			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms«percentageString»''')
-			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms«percentageString»''')
-			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms«percentageString»''')
-			case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms«percentageString»''')
-			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms«percentageString»''')
-			case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms«percentageString»''')
-			case EXECUTE_FILEGEN: info('''File generation: «time» ms«percentageString»''')
-			case EXECUTE_DELTA: info('''Delta transformation: «time» ms«percentageString»''')
-			default : info('''Unknown phase: «time» ms«percentageString»''')
+			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization:''')
+			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization:''')
+			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization:''')
+			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization:''')
+			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization:''')
+			case INIT_FILEGEN: info('''File generation initialization:''')
+			case INIT_MAKEFILE_GEN: info('''Make file generation initialization:''')
+			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution:''')
+			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution:''')
+			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation:''')
+			case EXECUTE_RALF_COMPILE: info('''Action code compile:''')
+			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation:''')
+			case EXECUTE_CONTENT_GEN : info('''All file content generation:''')
+			case EXECUTE_FILEGEN: info('''File generation:''')
+			case EXECUTE_DELTA: info('''Delta transformation:''')
+			default : info('''Unknown phase:''')
 		}
 	}
 	

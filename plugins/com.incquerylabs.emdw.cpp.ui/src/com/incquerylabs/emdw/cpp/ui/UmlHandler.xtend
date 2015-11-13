@@ -68,7 +68,7 @@ class UmlHandler extends AbstractHandler {
 					} else {
 						try{
 							val generatorJob = new GeneratorJob(modelSet, xtumlResource, xtModel, engine) => [
-								priority = Job.BUILD // FIXME: is this the correct priority?
+								priority = Job.BUILD
 								user = true
 							]
 							
@@ -160,10 +160,10 @@ class UmlHandler extends AbstractHandler {
 			"xUML-RT Code Generation", 
 			null, 
 			'''
-			Do you want to transform all components, or only the following dirty components?
+			Do you want to transform all components, or only the following modified components?
 			
 			«IF dirtyComponents.isNullOrEmpty»
-			No dirty components
+			No modified components
 			
 			«ENDIF»
 			«FOR component : dirtyComponents»
@@ -172,8 +172,8 @@ class UmlHandler extends AbstractHandler {
 			'''
 			,
 			MessageDialog.QUESTION,
-			#["All components", "Dirty components", "Cancel"],
-			1 // "Dirty components" is the default
+			#["All components", "Modified components", "Cancel"],
+			1 // "Modified components" is the default
 		)
 		val dialogResult = dialog.open()
 		return TransformationScope.values.get(dialogResult)

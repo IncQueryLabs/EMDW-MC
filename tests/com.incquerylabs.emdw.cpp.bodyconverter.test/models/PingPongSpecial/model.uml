@@ -38,10 +38,8 @@
           <subvertex xmi:type="uml:State" xmi:id="_cUor4BmmEeWkDIIs2OLK7g" name="s1"/>
           <subvertex xmi:type="uml:State" xmi:id="_d8s14BmmEeWkDIIs2OLK7g" name="s2">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_Dxv2kBpDEeWJmP2mki6rxQ" name="sendPong">
-              <language>C++</language>
               <language>rALF</language>
-              <body>R1_ping->generate_event(new Ping::pong_s_event(false));</body>
-              <body>send new Ping::pong_s() to this->ping;</body>
+              <body>send new Ping::pong_s() to this->ping.one();</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_faJEQBmmEeWkDIIs2OLK7g" name="initial"/>
@@ -109,6 +107,9 @@
       </ownedOperation>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_HNhU8EWoEeWcLrJDHOFUIQ" name="sendPing" method="_sVl38EWhEeWcLrJDHOFUIQ"/>
       <ownedOperation xmi:type="uml:Operation" xmi:id="_AyKwUGsyEeWYkv5PNs0h2A" name="staticOperation" isStatic="true"/>
+      <ownedOperation xmi:type="uml:Operation" xmi:id="_jlF3YIoYEeWMa8ArUnTLCg" name="testEnumOutParameter">
+        <ownedParameter xmi:type="uml:Parameter" xmi:id="_nxUnQIoYEeWMa8ArUnTLCg" name="testEnum" type="_U2FT0IntEeWRkuqmL8x08w" direction="out"/>
+      </ownedOperation>
       <nestedClassifier xmi:type="uml:Signal" xmi:id="_6nat4BmmEeWkDIIs2OLK7g" name="ping_s"/>
       <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_Tfv7cDE3EeW_U4Ge-CTh1A" name="TestBehavior" specification="_vE8jQDeBEeWL0_G-UoY53A">
         <ownedParameter xmi:type="uml:Parameter" xmi:id="_93Gp8DE0EeW_U4Ge-CTh1A" name="inParameter">
@@ -123,7 +124,9 @@
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_sVl38EWhEeWcLrJDHOFUIQ" name="sendPingBehavior" specification="_HNhU8EWoEeWcLrJDHOFUIQ">
         <language>rALF</language>
-        <body>send new ping_s() to this->ping;</body>
+        <body>send new ping_s() to this->ping.one();&#xD;
+PingPongEnum  temp2;&#xD;
+PingPongEnum  temp = PingPongEnum::Ping;</body>
       </nestedClassifier>
       <nestedClassifier xmi:type="uml:OpaqueBehavior" xmi:id="_QJwlYGsyEeWYkv5PNs0h2A" name="staticOperationBehavior" language="" body=""/>
       <ownedReception xmi:type="uml:Reception" xmi:id="_l3-fkBpEEeWgOeVNG9guWg" name="Reception1" signal="_6nat4BmmEeWkDIIs2OLK7g"/>
@@ -141,13 +144,13 @@
           <subvertex xmi:type="uml:State" xmi:id="_oUtdcBmkEeWkDIIs2OLK7g" name="s1">
             <exit xmi:type="uml:OpaqueBehavior" xmi:id="_16j3gEvKEeWnFNKQM2H9lw" name="sendPing">
               <language>rALF</language>
-              <body>send new Pong::ping_s() to this->pong;</body>
+              <body>send new Pong::ping_s() to this->pong.one();</body>
             </exit>
           </subvertex>
           <subvertex xmi:type="uml:State" xmi:id="_oolbsBmkEeWkDIIs2OLK7g" name="s2">
             <entry xmi:type="uml:OpaqueBehavior" xmi:id="_uYtu8FLWEeW-0fejM8NS7Q" name="sendPing">
               <language>rALF</language>
-              <body>send new Pong::ping_s() to this->pong;</body>
+              <body>send new Pong::ping_s() to this->pong.one();</body>
             </entry>
           </subvertex>
           <subvertex xmi:type="uml:Pseudostate" xmi:id="_rax2gBmkEeWkDIIs2OLK7g" name="initial"/>
@@ -165,6 +168,10 @@
         <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_MxQvgRmkEeWkDIIs2OLK7g" value="1"/>
         <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_MxQvghmkEeWkDIIs2OLK7g" value="1"/>
       </ownedEnd>
+    </nestedClassifier>
+    <nestedClassifier xmi:type="uml:Enumeration" xmi:id="_U2FT0IntEeWRkuqmL8x08w" name="PingPongEnum">
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_9vbr4IntEeWRkuqmL8x08w" name="Ping"/>
+      <ownedLiteral xmi:type="uml:EnumerationLiteral" xmi:id="_-pECkIntEeWRkuqmL8x08w" name="Pong"/>
     </nestedClassifier>
     <packagedElement xmi:type="uml:Class" xmi:id="_5kpZ0EAoEeW6Nbb8DxSQBg" name="Pong2">
       <generalization xmi:type="uml:Generalization" xmi:id="__5FMUEAoEeW6Nbb8DxSQBg" general="_LbgdgBmkEeWkDIIs2OLK7g"/>

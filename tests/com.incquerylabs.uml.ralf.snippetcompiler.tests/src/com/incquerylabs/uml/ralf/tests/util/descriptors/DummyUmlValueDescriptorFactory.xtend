@@ -99,4 +99,8 @@ class DummyUmlValueDescriptorFactory implements IUmlDescriptorFactory{
 		new DummyForeachBuilder
 	}
 	
+	override createEnumerationLiteralDescriptorBuilder() {
+		new DummyEnumLiteralBuilder
+	}
+	
 }

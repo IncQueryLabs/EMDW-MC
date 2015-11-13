@@ -15,6 +15,7 @@ import com.ericsson.xtumlrt.oopl.SequenceUniquenessKind
 import com.ericsson.xtumlrt.oopl.AssociativeCollectionKind
 import com.ericsson.xtumlrt.oopl.SimpleCollectionKind
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
+import org.eclipse.papyrusrt.xtumlrt.common.EnumerationLiteral
 
 class XtumlToOoplMapper {
 	extension XtumlQueries xtumlQueries = XtumlQueries.instance
@@ -55,6 +56,10 @@ class XtumlToOoplMapper {
 	
 	def convertParameter(Parameter parameter) {
 		return engine.cppFormalParameter2Parameter.getAllValuesOfcppFormalParameter(parameter).head
+	}
+	
+	def convertEnumLiteral(EnumerationLiteral enumLiteral) {
+		return engine.cppEnumLiteral2EnumLiteral.getAllValuesOfcppEnumLiteral(enumLiteral).head
 	}
 	
 	def findBasicType(String primitiveType) {

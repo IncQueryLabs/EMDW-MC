@@ -9,6 +9,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import com.incquerylabs.emdw.cpp.common.TypeConverter
 import org.eclipse.incquery.runtime.api.IncQueryEngine
+import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 
 class OperationTemplates extends CPPTemplate{
 	
@@ -86,23 +87,28 @@ class OperationTemplates extends CPPTemplate{
 		}
 	}
 		
-	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor) {
+	def destructorDefinitionInClassBody(CPPClass cppClass, CPPOperation destructor, CPPComponent component, boolean clearEventQueue) {
 		val containerElement = destructor.eContainer as CPPNamedElement
 		val destructorSignature = operationSignature(destructor, true, false, false, false)
 		'''
 			«destructorSignature» {
 				«tracingMessage('''[«containerElement.cppName»] destructor call: «destructorSignature»''')»
 				«actionCodeTemplates.generateActionCode(destructor.compiledBody)»
-				«instancesRemoveTemplates(cppClass)»
+				«instancesRemoveTemplates(cppClass, component, clearEventQueue)»
 			}
 		'''
 	}
 	
-	def instancesRemoveTemplates(CPPClass cppClass) {
+	def instancesRemoveTemplates(CPPClass cppClass, CPPComponent component, boolean clearEventQueue) {
 		'''
 		«FOR cppClassRefStorage : cppClass.referenceStorage.filter(CPPClassReferenceStorage).sortBy[cppName]»
 			«cppClassRefStorage.generateRemoveTemplate("this")»
 		«ENDFOR»
+		
+		«IF (clearEventQueue)»
+			if(!_internalEvents.empty() || !_externalEvents.empty())
+				«component.cppQualifiedName»::«component.cppName»::get_instance()->unschedule(_scheduler_queue_position);
+		«ENDIF»
 		'''
 	}
 	

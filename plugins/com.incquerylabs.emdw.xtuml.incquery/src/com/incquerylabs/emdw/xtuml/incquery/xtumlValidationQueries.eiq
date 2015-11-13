@@ -36,31 +36,17 @@ pattern cppNameCollision(
 }
 
 @Constraint(
-	key = {"namedElement1", "namedElement2"},
-	message = "Multiple elements with name $namedElement1$ inside package hierarchy of $baseContainer$",
-	severity = "error",
-	symmetric = {"namedElement1", "namedElement2"}
+	key = {"namedElement"},
+	message = "Element with name $namedElement$ has the same name as its containing Package",
+	severity = "error"
 )
 pattern fileNameCollision(
-	baseContainer : BaseContainer,
-	namedElement1 : NamedElement,
-	namedElement2 : NamedElement
-) {
-	find elementsInPackageHierarchy(baseContainer, namedElement1);
-	find elementsInPackageHierarchy(baseContainer, namedElement2);
-	namedElement1 != namedElement2;
-	NamedElement.name(namedElement1, name);
-	NamedElement.name(namedElement2, name);
-}
-
-pattern elementsInPackageHierarchy(
-	baseContainer : BaseContainer,
+	umlPackage : Package,
 	namedElement : NamedElement
 ) {
-	find containedElements(baseContainer, namedElement);
-} or {
-	find containedPackages+(baseContainer, subPackage);
-	find containedElements(subPackage, namedElement);
+	Package.entities(umlPackage, namedElement);
+	NamedElement.name(umlPackage, name);
+	NamedElement.name(namedElement, name);
 }
 
 pattern containedElements(
@@ -70,11 +56,4 @@ pattern containedElements(
 	BaseContainer.packages(baseContainer, namedElement);
 } or {
 	BaseContainer.entities(baseContainer, namedElement);
-}
-
-pattern containedPackages(
-	baseContainer : BaseContainer,
-	subPackage : Package
-) {
-	BaseContainer.packages(baseContainer, subPackage);
 }

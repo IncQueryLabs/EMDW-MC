@@ -26,15 +26,14 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
 
     @Override
     public String getMessageFormat() {
-        return "Multiple elements with name $namedElement1$ inside package hierarchy of $baseContainer$";
+        return "Element with name $namedElement$ has the same name as its containing Package";
     }
 
 
     @Override
     public Map<String,Object> getKeyObjects(IPatternMatch signature) {
         Map<String,Object> map = ImmutableMap.of(
-            "namedElement1",signature.get("namedElement1"),
-            "namedElement2",signature.get("namedElement2")
+            "namedElement",signature.get("namedElement")
         );
         return map;
     }
@@ -42,8 +41,7 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
     @Override
     public List<String> getKeyNames() {
         List<String> keyNames = ImmutableList.of(
-            "namedElement1",
-            "namedElement2"
+            "namedElement"
         );
         return keyNames;
     }
@@ -51,7 +49,7 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
     @Override
     public List<String> getPropertyNames() {
         List<String> propertyNames = ImmutableList.of(
-            "baseContainer"
+            "umlPackage"
         );
         return propertyNames;
     }
@@ -66,10 +64,6 @@ public class FileNameCollisionConstraint0 implements IConstraintSpecification {
     @Override
     public Set<List<String>> getSymmetricKeyNames() {
         Set<List<String>> symmetricKeyNamesSet = ImmutableSet.<List<String>>of(
-            ImmutableList.of(
-            "namedElement1",
-            "namedElement2"
-            )
         );
         return symmetricKeyNamesSet;
     }

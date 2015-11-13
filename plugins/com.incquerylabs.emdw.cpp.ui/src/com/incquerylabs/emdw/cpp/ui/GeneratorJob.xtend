@@ -93,12 +93,12 @@ class GeneratorJob extends Job {
 		if(transformAllComponents){
 			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchain, progressMonitor, progress |
 				toolchain.executeCodeAndFileGenerationForAllComponents(EMDWProgressMonitor::convert(progressMonitor))
-				progressMonitor.worked(progress)
+//				progressMonitor.worked(progress)
 			]
 		} else {
 			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchain, progressMonitor, progress |
 				toolchain.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
-				progressMonitor.worked(progress)
+//				progressMonitor.worked(progress)
 			]
 		}
 		tasks += new GeneratorTask(CHANGE_MONITOR_INIT_WORK, "Starting change monitor.") [ toolchain, progressMonitor, progress |

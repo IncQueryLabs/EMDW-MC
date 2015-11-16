@@ -132,7 +132,7 @@ Call call = this->call.one();&#xD;
           <ownedReception xmi:type="uml:Reception" xmi:id="_OSFGYEW0EeWF_ZPyFqjTUQ" name="Callended" signal="_n8WCQkRNEeWkj9RR80hJXw"/>
           <ownedReception xmi:type="uml:Reception" xmi:id="_OSFtcEW0EeWF_ZPyFqjTUQ" name="Startverification" signal="_n8WpUkRNEeWkj9RR80hJXw"/>
         </packagedElement>
-        <packagedElement xmi:type="uml:Class" xmi:id="_ny-D0ERNEeWkj9RR80hJXw" name="Subscriber">
+        <packagedElement xmi:type="uml:Class" xmi:id="_ny-D0ERNEeWkj9RR80hJXw" name="Subscriber" isAbstract="true">
           <ownedAttribute xmi:type="uml:Property" xmi:id="_nzaIsERNEeWkj9RR80hJXw" name="PhoneNumber">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
             <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_nzbW0ERNEeWkj9RR80hJXw" value="1"/>
@@ -1790,7 +1790,7 @@ this.Busy=Busy;</body>
             </ownedParameter>
           </ownedOperation>
         </packagedElement>
-        <packagedElement xmi:type="uml:Class" xmi:id="_iWhjkEWdEeWF_ZPyFqjTUQ" name="Test1" isActive="true">
+        <packagedElement xmi:type="uml:Class" xmi:id="_iWhjkEWdEeWF_ZPyFqjTUQ" name="Test1" classifierBehavior="_BiWgEEXjEeWF_ZPyFqjTUQ" isActive="true">
           <ownedAttribute xmi:type="uml:Property" xmi:id="_QL7jIEXkEeWF_ZPyFqjTUQ" name="PopulatedUsers">
             <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
           </ownedAttribute>
@@ -1902,7 +1902,26 @@ this.Busy=Busy;</body>
           </ownedEnd>
           <ownedEnd xmi:type="uml:Property" xmi:id="_5tT90EXfEeWF_ZPyFqjTUQ" name="phonexport_out" type="__dmNAETEEeWF_ZPyFqjTUQ" association="_5tPsYEXfEeWF_ZPyFqjTUQ"/>
         </packagedElement>
-        <packagedElement xmi:type="uml:Class" xmi:id="_D6-EoEXgEeWF_ZPyFqjTUQ" name="Test2" isActive="true">
+        <packagedElement xmi:type="uml:Class" xmi:id="_D6-EoEXgEeWF_ZPyFqjTUQ" name="Test2" classifierBehavior="_2AjRAIWBEeWNP4hHrbpAxg" isActive="true">
+          <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_2AjRAIWBEeWNP4hHrbpAxg" name="Test2SM">
+            <region xmi:type="uml:Region" xmi:id="_2AjRAYWBEeWNP4hHrbpAxg" name="Region1">
+              <transition xmi:type="uml:Transition" xmi:id="_2AjRAoWBEeWNP4hHrbpAxg" source="_2AjRB4WBEeWNP4hHrbpAxg" target="_2AjRCIWBEeWNP4hHrbpAxg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_2AjRA4WBEeWNP4hHrbpAxg" name="effect$initial">
+                  <language>rALF</language>
+                  <body>send new PhoneXPort_In::RegisterUser(UserID=>0,ServiceId=>0) to  PhoneXPort_In::instances().one();</body>
+                </effect>
+              </transition>
+              <transition xmi:type="uml:Transition" xmi:id="_2AjRBIWBEeWNP4hHrbpAxg" name="RegistrationResult" source="_2AjRCIWBEeWNP4hHrbpAxg" target="_2AjRCIWBEeWNP4hHrbpAxg">
+                <effect xmi:type="uml:OpaqueBehavior" xmi:id="_2AjRBYWBEeWNP4hHrbpAxg">
+                  <language>rALF</language>
+                  <body>send new PhoneXPort_In::RegisterUser(UserID=>1,ServiceId=>0) to  PhoneXPort_In::instances().one();</body>
+                </effect>
+                <trigger xmi:type="uml:Trigger" xmi:id="_2AjRBoWBEeWNP4hHrbpAxg" name="RegistrationResult" event="_NLO3EUWIEeWF_ZPyFqjTUQ"/>
+              </transition>
+              <subvertex xmi:type="uml:Pseudostate" xmi:id="_2AjRB4WBEeWNP4hHrbpAxg" name="Initial1"/>
+              <subvertex xmi:type="uml:State" xmi:id="_2AjRCIWBEeWNP4hHrbpAxg" name="Populate"/>
+            </region>
+          </ownedBehavior>
           <ownedReception xmi:type="uml:Reception" xmi:id="_gTNskEXgEeWF_ZPyFqjTUQ" name="UnknownNumber" signal="_M5WAcETFEeWF_ZPyFqjTUQ">
             <ownedParameter xmi:type="uml:Parameter" xmi:id="_gTNskUXgEeWF_ZPyFqjTUQ" name="UserID">
               <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>

@@ -23,4 +23,12 @@ class EMDWProgressMonitor implements IEMDWProgressMonitor {
 		monitor.worked(work)
 	}
 	
+	override setWorkRemaining(int work) {
+		monitor.workRemaining = work
+	}
+	
+	override newChild(int totalWork) {
+		convert(monitor.newChild(totalWork))
+	}
+	
 }

@@ -23,6 +23,9 @@ import org.eclipse.uml2.uml.Association
 import org.eclipse.uml2.uml.Parameter
 import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Type
+import org.eclipse.uml2.uml.EnumerationLiteral
+import com.incquerylabs.uml.ralf.reducedAlfLanguage.NamedExpression
+import org.eclipse.uml2.uml.Enumeration
 
 class SnippetTemplateCompilerUtil {
 	
@@ -122,8 +125,8 @@ class SnippetTemplateCompilerUtil {
 			(descriptorFactory.createSingleVariableDescriptorBuilder => [
 				name = st.variable.name
 				type = typeSystem.type(st.variable).value.umlType
-				// if the statement has no expression, then initialization is also needed
-				initialize = (st.expression == null)
+				// if the statement has no expression and is not an enum, then initialization is also needed
+				initialize = (st.expression == null) && !(typeSystem.type(st.variable).value.umlType instanceof Enumeration)
 			]).build
 		}
 	}
@@ -152,6 +155,13 @@ class SnippetTemplateCompilerUtil {
 				return (descriptorFactory.createParameterDescriptorBuilder => [
 					it.parameter = parameter
 				]).build	
+			}
+		}else if (ex.reference instanceof EnumerationLiteral) {
+			val enumLiteral = ex.reference as EnumerationLiteral
+			if(enumLiteral != null) {
+				return (descriptorFactory.createEnumerationLiteralDescriptorBuilder => [
+					enumerationLiteral = enumLiteral
+				]).build
 			}
 		}else{
 			throw new UnsupportedOperationException("Only single/collection variables and parameters are supported")

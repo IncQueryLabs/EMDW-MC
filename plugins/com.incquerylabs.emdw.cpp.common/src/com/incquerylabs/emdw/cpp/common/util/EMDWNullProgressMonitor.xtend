@@ -12,4 +12,12 @@ class EMDWNullProgressMonitor implements IEMDWProgressMonitor {
 		return
 	}
 	
+	override setWorkRemaining(int work) {
+		return
+	}
+	
+	override newChild(int totalWork) {
+		new EMDWNullProgressMonitor()
+	}
+	
 }

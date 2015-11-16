@@ -23,15 +23,15 @@ class GeneratorJob extends Job {
 
 	static val JOB_NAME = "EMDW Code Generation"
 	
-	static val CPP_QRT_INIT_WORK = 5
-	static val CPP_COMPONENT_INIT_WORK = 5
-	static val CPP_INIT_WORK = 5
-	static val MAKEFILE_INIT_WORK = 5
-	static val CPP_QRT_TRANSFORM_WORK = 10
-	static val CPP_CODE_AND_FILEGEN_WORK = 65
+	static val CPP_QRT_INIT_WORK = 1
+	static val CPP_COMPONENT_INIT_WORK = 1
+	static val CPP_INIT_WORK = 1
+	static val MAKEFILE_INIT_WORK = 1
+	static val CPP_QRT_TRANSFORM_WORK = 1
+	static val CPP_CODE_AND_FILEGEN_WORK = 100
 	static val CHANGE_MONITOR_INIT_WORK = 1
 	static val LOG_WORK = 1
-	static val CPPMODEL_SAVE_WORK = 2
+	static val CPPMODEL_SAVE_WORK = 1
 	
 	
 	val ModelSet modelSet
@@ -66,8 +66,42 @@ class GeneratorJob extends Job {
 	}
 
 	override protected run(IProgressMonitor monitor) {
-		val tasks = newArrayList
+		val tasks = createGeneratorTasks
+		// calculate the sum of the progresses of the tasks
+		val fullProgress = tasks.map[progress].fold(0)[$0 + $1]
+		val subMonitor = SubMonitor::convert(monitor, JOB_NAME, fullProgress)
+		
+		try {
+			val taskIterator = tasks.iterator
+			
+			val domain = modelSet.transactionalEditingDomain
+			
+			val command = new RecordingCommand(domain){
+				override protected doExecute() {
+					while (taskIterator.hasNext) {
+						if (subMonitor.canceled)
+							return
+						val nextTask = taskIterator.next
+						val childMonitor = subMonitor.newChild(nextTask.progress)
+						nextTask.run(toolchain, childMonitor)
+					}
+				}
+			}
+			domain.commandStack.execute(command)
+			if(subMonitor.isCanceled) {
+				return Status::CANCEL_STATUS
+			}
+		} catch (Exception e) {
+			// initialize error status since there is no static version of it
+			// TODO use proper plugin id and code
+			return new Status(Status::ERROR, "unknown", 1, "xUML-RT Code Generation finished with error", e);
+		}
 
+		return Status::OK_STATUS
+	}
+	
+	private def createGeneratorTasks() {
+		val tasks = newArrayList
 		tasks += new GeneratorTask(CPP_QRT_INIT_WORK, "Initializing C++ QRT transformation.") [ toolchain, progressMonitor, progress |
 			toolchain.initializeCppQrtTransformation
 			progressMonitor.worked(progress)
@@ -93,12 +127,10 @@ class GeneratorJob extends Job {
 		if(transformAllComponents){
 			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchain, progressMonitor, progress |
 				toolchain.executeCodeAndFileGenerationForAllComponents(EMDWProgressMonitor::convert(progressMonitor))
-				progressMonitor.worked(progress)
 			]
 		} else {
 			tasks += new GeneratorTask(CPP_CODE_AND_FILEGEN_WORK, "Executing C++ code and file generation.") [ toolchain, progressMonitor, progress |
 				toolchain.executeDeltaCodeAndFileGeneration(EMDWProgressMonitor::convert(progressMonitor))
-				progressMonitor.worked(progress)
 			]
 		}
 		tasks += new GeneratorTask(CHANGE_MONITOR_INIT_WORK, "Starting change monitor.") [ toolchain, progressMonitor, progress |
@@ -113,37 +145,7 @@ class GeneratorJob extends Job {
 			toolchain.logMeasuredTimes
 			progressMonitor.worked(progress)
 		]
-
-		// calculate the sum of the progresses of the tasks
-		val fullProgress = tasks.map[progress].fold(0)[$0 + $1]
-		val subMonitor = SubMonitor::convert(monitor, JOB_NAME, fullProgress)
-		
-		try {
-			val taskIterator = tasks.iterator
-			
-			val domain = modelSet.transactionalEditingDomain
-			
-			val command = new RecordingCommand(domain){
-				override protected doExecute() {
-					while (taskIterator.hasNext) {
-						if (subMonitor.canceled)
-							return
-						val nextTask = taskIterator.next
-						nextTask.run(toolchain, subMonitor.newChild(nextTask.progress))
-					}
-				}
-			}
-			domain.commandStack.execute(command)
-			if(subMonitor.isCanceled) {
-				return Status::CANCEL_STATUS
-			}
-		} catch (Exception e) {
-			// initialize error status since there is no static version of it
-			// TODO use proper plugin id and code
-			return new Status(Status::ERROR, "unknown", 1, "xUML-RT Code Generation finished with error", e);
-		}
-
-		return Status::OK_STATUS
+		return tasks
 	}
 
 }

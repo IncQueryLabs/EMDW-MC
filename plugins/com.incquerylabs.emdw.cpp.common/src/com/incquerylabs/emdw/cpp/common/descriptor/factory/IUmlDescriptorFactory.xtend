@@ -19,6 +19,7 @@ import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSigdataDescriptor
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlSingleVariableDescriptorBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlStaticOperationCallBuilder
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlCollectionOperationCallBuilder
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.IUmlEnumerationLiteralDescriptorBuilder
 
 interface IUmlDescriptorFactory {
 	def IUmlDescriptorFactory createChild()
@@ -28,6 +29,8 @@ interface IUmlDescriptorFactory {
 	def IUmlSingleVariableDescriptorBuilder createSingleVariableDescriptorBuilder()
 	
 	def IUmlParameterDescriptorBuilder createParameterDescriptorBuilder()
+	
+	def IUmlEnumerationLiteralDescriptorBuilder createEnumerationLiteralDescriptorBuilder();
 	
 	def IUmlCollectionVariableDescriptorBuilder createCollectionVariableDescriptorBuilder()
 	

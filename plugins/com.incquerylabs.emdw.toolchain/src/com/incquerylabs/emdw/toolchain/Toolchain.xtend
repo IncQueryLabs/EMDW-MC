@@ -61,18 +61,15 @@ import org.eclipse.incquery.validation.core.ValidationEngine
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0
+import com.incquerylabs.emdw.cpp.common.XumlResource
 
 class Toolchain {
 	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	protected String RUNTIME_TARGET_DIRECTORY = "model/runtime"
 	
-	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
-	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	static val DEFAULT_RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
-	
-	protected URI CPP_BASIC_TYPES_URI = URI.createPlatformPluginURI(DEFAULT_CPP_BASIC_TYPES_PATH, true)
-	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true)
-	protected URI RUNTIME_MODEL_URI = URI.createPlatformPluginURI(DEFAULT_RUNTIME_MODEL_PATH, true)
+	protected URI CPP_BASIC_TYPES_URI = URI.createURI(XumlResource.CPP_BASIC_TYPES_LIBRARY_PATH)
+	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createURI(XumlResource.CPP_COLLECTIONS_LIBRARY_PATH)
+	protected URI RUNTIME_MODEL_URI = URI.createURI(XumlResource.CPP_RUNTIME_LIBRARY_PATH)
 	
 	
 	public static def ToolchainBuilder builder(){

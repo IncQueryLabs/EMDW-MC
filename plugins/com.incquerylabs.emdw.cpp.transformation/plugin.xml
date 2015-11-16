@@ -8,4 +8,15 @@
   <extension id="com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries" id="com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries"/>
   </extension>
+  <extension
+        point="org.eclipse.emf.ecore.uri_mapping">
+     <mapping
+           source="pathmap://EMDW/cpp/BasicTypes.cppmodel"
+           target="platform:/plugin/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel">
+     </mapping>
+     <mapping
+           source="pathmap://EMDW/cpp/Collections.cppmodel"
+           target="platform:/plugin/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel">
+     </mapping>
+  </extension>
 </plugin>

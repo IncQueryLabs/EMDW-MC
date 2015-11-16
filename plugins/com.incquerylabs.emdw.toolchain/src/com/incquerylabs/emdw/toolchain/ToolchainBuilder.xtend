@@ -202,7 +202,7 @@ class ToolchainBuilder {
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {
 		val options = new BaseIndexOptions().withResourceFilterConfiguration([
 			val uri = getURI();
-			if (uri.toString().contains("RALF")) {
+			if (uri.toString().contains("RALF") || uri.toString.contains("EMDW")) {
 				return false;
 			}
 			return PATHMAP_SCHEME.equals(uri.scheme()) && !uri.authority().equals(UML_LIBRARIES_AUTHORITY);

@@ -128,8 +128,8 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 	def createPrimitiveTypeMapping(IncQueryEngine engine, ResourceSet rs, ModelSet modelSet){
 		val primitiveTypeMapping = new HashMap<org.eclipse.uml2.uml.Type, Type>();
 			
-		val commonTypesPath = "org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
-		val commonTypesURI = URI.createPlatformPluginURI(commonTypesPath,true)
+		val commonTypesPath = "pathmap://EMDW/xumlrt/PrimitiveTypes.common"
+		val commonTypesURI = URI.createURI(commonTypesPath)
 		val commonTypesResource = rs.getResource(commonTypesURI,true);
 		
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model

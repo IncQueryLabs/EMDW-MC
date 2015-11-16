@@ -54,6 +54,7 @@ abstract class AbstractPerformanceTest {
 		benchmarkEngine.runBenchmark(scenario, token)
 		token.printLog
 		token.printMetrics
+		token.toolchain.logMeasuredTimes
 	}
 	
 	def String getJsonResultFolder(String targetFolder) '''«targetFolder»«JSON_RESULT_FOLDER»'''

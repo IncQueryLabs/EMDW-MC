@@ -48,7 +48,7 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassName = cppClass.cppName
 		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
 		val anyParentHasEvents = codeGenQueries.getCppClassAllParentEvent(engine).hasMatch(cppClass, null)
-		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val hasStateMachine = cppClass.hasStateMachine
 		val headerGuardPostfix = "HEADER"
 		
 		'''
@@ -158,7 +158,9 @@ class ClassTemplates extends CPPTemplate {
 		val List<String> superClassStrings = newArrayList()
 		val cppSuperClasses = getSuperClasses(cppClass)
 		
-		if(!parentHasEvents && (hasStateMachine || hasEvents)){
+		if(cppClass.isStateful
+			&& !cppClass.superClasses.exists[isStateful]
+		){
 			superClassStrings += '''public «STATEFUL_CLASS_FQN»'''
 		}
 		cppSuperClasses.forEach[ superClass |
@@ -304,7 +306,7 @@ class ClassTemplates extends CPPTemplate {
 	}
 	
 	def classBodyTemplate(CPPClass cppClass) {
-		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val hasStateMachine = cppClass.hasStateMachine
 		
 		'''
 		«cppClass.bodyFile.inclusions»
@@ -412,6 +414,12 @@ class ClassTemplates extends CPPTemplate {
 		return cppSuperClasses
 	}
 	
+	def Iterable<CPPClass> getSubClasses(CPPClass cppSuperClass) {
+		val cppSubClassMatcher = codeGenQueries.getCppSuperClasses(engine)
+		val cppSubClasses = cppSubClassMatcher.getAllValuesOfcppClass(cppSuperClass)
+		return cppSubClasses
+	}
+	
 	def parameters(CPPOperation cppOperation) {
 		return cppOperation.subElements.filter(CPPFormalParameter)
 	}
@@ -420,7 +428,7 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
-		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val hasStateMachine = cppClass.hasStateMachine
 		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~" + cppClass.cppName].sortBy[cppName]
 		val defaultDestructorSignature = '''«cppFQN»::~«cppClassName»()'''
 		
@@ -555,5 +563,21 @@ class ClassTemplates extends CPPTemplate {
 			
 		}
 		'''
+	}
+	
+	def boolean isStateful(CPPClass cppClass) {
+		if(cppClass.hasStateMachine) {
+			return true
+		}
+		if (cppClass.xtClass.isAbstract &&
+			cppClass.subClasses.forall[isStateful]
+		) {
+			return true
+		}
+		return false
+	}
+	
+	def hasStateMachine(CPPClass cppClass) {
+		codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 	}
 }

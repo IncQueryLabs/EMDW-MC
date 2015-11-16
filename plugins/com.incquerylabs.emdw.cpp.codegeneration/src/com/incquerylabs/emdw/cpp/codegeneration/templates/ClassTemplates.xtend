@@ -420,7 +420,6 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
-		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
 		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
 		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~" + cppClass.cppName].sortBy[cppName]
 		val defaultDestructorSignature = '''«cppFQN»::~«cppClassName»()'''
@@ -430,11 +429,11 @@ class ClassTemplates extends CPPTemplate {
 		«IF destructors.size == 0»
 			«defaultDestructorSignature» {
 				«tracingMessage('''[«cppClassName»] destructor call: «defaultDestructorSignature»''')»
-				«operationTemplates.instancesRemoveTemplates(cppClass, component, hasStateMachine || hasEvents)»
+				«operationTemplates.instancesRemoveTemplates(cppClass, component, hasStateMachine)»
 			}
 		«ENDIF»
 		«FOR destructor : destructors»
-			«operationTemplates.destructorDefinitionInClassBody(cppClass, destructor, component, hasStateMachine || hasEvents)»
+			«operationTemplates.destructorDefinitionInClassBody(cppClass, destructor, component, hasStateMachine)»
 		«ENDFOR»
 		'''
 	}

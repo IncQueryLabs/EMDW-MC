@@ -61,15 +61,15 @@ import org.eclipse.incquery.validation.core.ValidationEngine
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0
-import com.incquerylabs.emdw.cpp.common.XumlResource
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class Toolchain {
 	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	protected String RUNTIME_TARGET_DIRECTORY = "model/runtime"
 	
-	protected URI CPP_BASIC_TYPES_URI = URI.createURI(XumlResource.CPP_BASIC_TYPES_LIBRARY_PATH)
-	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createURI(XumlResource.CPP_COLLECTIONS_LIBRARY_PATH)
-	protected URI RUNTIME_MODEL_URI = URI.createURI(XumlResource.CPP_RUNTIME_LIBRARY_PATH)
+	protected URI CPP_BASIC_TYPES_URI = URI.createURI(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH)
+	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH)
+	protected URI RUNTIME_MODEL_URI = URI.createURI(EMDWConstants.CPP_RUNTIME_LIBRARY_PATH)
 	
 	
 	public static def ToolchainBuilder builder(){

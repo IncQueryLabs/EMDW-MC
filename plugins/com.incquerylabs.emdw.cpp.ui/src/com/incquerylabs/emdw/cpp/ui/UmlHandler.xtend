@@ -113,11 +113,12 @@ class UmlHandler extends AbstractHandler {
 											)	
 										]
 									} else if (result.severity == Status.ERROR) {
-										reportError(shell,result.exception, "xUML-RT Code Generation finished with error",
-											'''
-											Look at the Error Log for details!
-											'''
-										)
+										display.asyncExec[reportError(shell,result.exception, "xUML-RT Code Generation finished with error",
+												'''
+												Look at the Error Log for details!
+												'''
+											)
+										]
 									}
 								}
 								

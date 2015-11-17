@@ -6,6 +6,6 @@
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries" id="com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries"/>
   </extension>
   <extension point="org.eclipse.emf.ecore.uri_mapping">
-    <mapping source="pathmap://EMDW/cpp/Runtime.cppmodel" target="platform:/plugin/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"/>
+    <mapping source="pathmap://EMDW/cpp/codegeneration/" target="platform:/plugin/com.incquerylabs.emdw.cpp.codegeneration/model/"/>
   </extension>
 </plugin>

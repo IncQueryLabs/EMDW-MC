@@ -25,6 +25,7 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.emf.transaction.RecordingCommand
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 
@@ -128,7 +129,7 @@ class XUMLRTIntegrationModelSetSnippet implements IModelSetSnippet {
 	def createPrimitiveTypeMapping(IncQueryEngine engine, ResourceSet rs, ModelSet modelSet){
 		val primitiveTypeMapping = new HashMap<org.eclipse.uml2.uml.Type, Type>();
 			
-		val commonTypesPath = "pathmap://EMDW/xumlrt/PrimitiveTypes.common"
+		val commonTypesPath = EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH
 		val commonTypesURI = URI.createURI(commonTypesPath)
 		val commonTypesResource = rs.getResource(commonTypesURI,true);
 		

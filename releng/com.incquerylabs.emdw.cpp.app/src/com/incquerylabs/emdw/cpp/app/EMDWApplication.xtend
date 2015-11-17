@@ -39,7 +39,7 @@ import org.eclipse.uml2.uml.resource.UMLResource
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 import org.eclipse.emf.ecore.resource.URIConverter
-import com.incquerylabs.emdw.cpp.common.XumlResource
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class EMDWApplication implements IApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
@@ -54,9 +54,10 @@ class EMDWApplication implements IApplication {
 	private static final String FILE_LOG_LAYOUT_PREFIX = "[%d{MMM/dd HH:mm:ss}] "
 	// TODO: locations for models
 	public static final val RESOURCES = #{
-		XumlResource.CPP_BASIC_TYPES_LIBRARY_PATH	->	"",
-		XumlResource.CPP_COLLECTIONS_LIBRARY_PATH	->	"",
-		XumlResource.CPP_RUNTIME_LIBRARY_PATH		->	""
+		URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(""),
+		URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(""),
+		URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(""),
+		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI("")	
 	}
 	
 	
@@ -74,13 +75,14 @@ class EMDWApplication implements IApplication {
 			resourceSet.loadDefaultSettings
 			
 			val toolchainBuilder = Toolchain::builder => [
-				it.cppBasicTypesURI = XumlResource.CPP_BASIC_TYPES_LIBRARY_PATH.toEURI
-				it.collectionImplementationsURI = XumlResource.CPP_COLLECTIONS_LIBRARY_PATH.toEURI
-				it.runtimeModelURI = XumlResource.CPP_RUNTIME_LIBRARY_PATH.toEURI
+				it.cppBasicTypesURI = URI::createURI(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH)
+				it.collectionImplementationsURI = URI::createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH)
+				it.runtimeModelURI = URI::createURI(EMDWConstants.CPP_RUNTIME_LIBRARY_PATH)
 				it.mapperFileManager = new JarFileManager
 			]
 			
-			resourceSet.run(args.umlModelPath, args.targetFolderPath, XumlResource.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH.toEURI, toolchainBuilder)
+			resourceSet.URIConverter = URIConverter::INSTANCE
+			resourceSet.run(args.umlModelPath, args.targetFolderPath, URI::createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH), toolchainBuilder)
 		}
 		System.out.println('''************* «APP_NAME» finished *************''')
 	}
@@ -121,7 +123,7 @@ class EMDWApplication implements IApplication {
 			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			
 			val resourceSet = new ResourceSetImpl
-			resourceSet.run(args.umlModelPath, args.targetFolderPath, URI::createURI(XumlResource.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH), Toolchain::builder)
+			resourceSet.run(args.umlModelPath, args.targetFolderPath, URI::createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH), Toolchain::builder)
 		}
 		System.out.println('''************* «APP_NAME» finished *************''')
 		return IApplication.EXIT_OK
@@ -130,8 +132,8 @@ class EMDWApplication implements IApplication {
 	private static def void initializePathmaps() {
 		RESOURCES.forEach[pathmapPath, locationPath|
 			URIConverter.URI_MAP.put(
-				URI.createURI(pathmapPath),
-				URI.createURI(locationPath)
+				pathmapPath,
+				locationPath
 			)			
 		]
 	}
@@ -236,10 +238,6 @@ class EMDWApplication implements IApplication {
 		} catch (IOException e) {
 			e.printStackTrace()
 		}
-	}
-	
-	private static def toEURI(String url) {
-		URI::createURI(url)
 	}
 }
 			

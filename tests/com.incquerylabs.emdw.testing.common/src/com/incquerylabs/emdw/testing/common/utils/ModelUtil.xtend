@@ -1,7 +1,7 @@
 package com.incquerylabs.emdw.testing.common.utils
 
 import org.apache.log4j.Logger
-import com.incquerylabs.emdw.cpp.common.XumlResource
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 abstract class ModelUtil {
 
@@ -9,9 +9,9 @@ abstract class ModelUtil {
 		ModelUtil
 	)
 
-	public static final String PATH_COMMON_TYPES = XumlResource.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH
-	public static final String PATH_CPP_COLLECTIONS = XumlResource.CPP_COLLECTIONS_LIBRARY_PATH
-	public static final String PATH_CPP_TYPES = XumlResource.CPP_BASIC_TYPES_LIBRARY_PATH
+	public static final String PATH_COMMON_TYPES = EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH
+	public static final String PATH_CPP_COLLECTIONS = EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH
+	public static final String PATH_CPP_TYPES = EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH
 	public static final String PATH_RALF_COLLECTIONS = "pathmap://RALF/library.uml"
 
 	public static final String URI_DUMMY_UML = "dummyUmlUri.uml"

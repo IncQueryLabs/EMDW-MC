@@ -24,7 +24,7 @@ import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.junit.After
 import org.junit.Test
-import com.incquerylabs.emdw.cpp.common.XumlResource
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class ToolchainTest {
 	val UML_RESOURCE_PATH = "com.incquerylabs.emdw.cpp.bodyconverter.test/models/ClientServer/clientserver.uml"
@@ -138,7 +138,7 @@ class ToolchainTest {
 	def createPrimitiveTypeMapping(ResourceSet rs){
 		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
-		val commonTypesResource = rs.getResource(URI.createURI(XumlResource.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH), true) => [ load(#{}) ]
+		val commonTypesResource = rs.getResource(URI.createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH), true) => [ load(#{}) ]
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		

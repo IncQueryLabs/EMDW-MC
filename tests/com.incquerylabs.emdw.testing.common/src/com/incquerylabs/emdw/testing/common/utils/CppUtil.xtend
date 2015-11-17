@@ -55,7 +55,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
-import com.incquerylabs.emdw.cpp.common.XumlResource
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class CppUtil extends ModelUtil {
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
@@ -532,7 +532,7 @@ class CppUtil extends ModelUtil {
 	}
 	
 	def CPPBasicType findCPPBasicType(CPPQualifiedNamedElement root, Type type) {
-		val cppBasicTypesResource = root.eResource.resourceSet.resources.findFirst[it.URI.toString.equals(XumlResource.CPP_BASIC_TYPES_LIBRARY_PATH)]
+		val cppBasicTypesResource = root.eResource.resourceSet.resources.findFirst[it.URI.toString.equals(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH)]
 		val basicTypes = cppBasicTypesResource.allContents.filter(CPPBasicType).toList
 		return basicTypes.findFirst[it.commonType == type]
 	}
@@ -563,7 +563,7 @@ class CppUtil extends ModelUtil {
 	
 	def OOPLSequenceImplementation getSequenceImplementation(OOPLDataType type, boolean ordered, boolean unique) {
 		val implementationResource = type.eResource.resourceSet.getResource(
-			URI.createURI(XumlResource.CPP_COLLECTIONS_LIBRARY_PATH, true),
+			URI.createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH, true),
 			true)
 		val orderness = decodeSequenceOrderness(ordered)
 		val uniqueness = decodeSequenceUniqueness(unique)

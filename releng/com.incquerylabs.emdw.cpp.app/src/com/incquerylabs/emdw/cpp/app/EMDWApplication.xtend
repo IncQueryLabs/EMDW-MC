@@ -4,11 +4,13 @@ import com.ericsson.xtumlrt.oopl.OoplPackage
 import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 import com.incquerylabs.emdw.cpp.common.util.EMDWNullProgressMonitor
 import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.trace.TracePackage
+import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 import java.io.IOException
 import java.net.URL
 import java.util.Arrays
@@ -26,7 +28,6 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
 import org.eclipse.equinox.app.IApplication
 import org.eclipse.equinox.app.IApplicationContext
-import org.eclipse.incquery.patternlanguage.emf.EMFPatternLanguageStandaloneSetup
 import org.eclipse.incquery.querybasedfeatures.runtime.QueryBasedFeatureSettingDelegateFactory
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
@@ -36,8 +37,6 @@ import org.eclipse.papyrusrt.xtumlrt.common.CommonPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage
 import org.eclipse.uml2.uml.UMLPackage
 import org.eclipse.uml2.uml.resource.UMLResource
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
-import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 
 class EMDWApplication implements IApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
@@ -55,15 +54,16 @@ class EMDWApplication implements IApplication {
 	
 	
 	def static void main(String[] args) {
+		System.in.read()
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
 			// Initialize Xtext languages
-			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
+//			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			
+			loadDefaultSettings
 			val resourceSet = new ResourceSetImpl
 			
-			resourceSet.loadDefaultSettings
 			
 			val toolchainBuilder = Toolchain::builder => [
 				it.cppBasicTypesURI = EMDWApplication.getResource("/model/cppBasicTypes.cppmodel").toEURI
@@ -77,7 +77,7 @@ class EMDWApplication implements IApplication {
 		System.out.println('''************* «APP_NAME» finished *************''')
 	}
 	
-	def static void loadDefaultSettings(ResourceSet resourceSet) {
+	def static void loadDefaultSettings() {
 		// Register resource factories
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE)
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl())
@@ -109,7 +109,6 @@ class EMDWApplication implements IApplication {
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
 			// Initialize Xtext languages
-			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			
 			val resourceSet = new ResourceSetImpl

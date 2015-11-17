@@ -11,8 +11,10 @@ import com.incquerylabs.emdw.cpp.common.TypeConverter
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries
 
 class ClassTemplates extends CPPTemplate {
+	protected extension val StatefulClassQueries statefulClassQueries = StatefulClassQueries.instance
 	
 	val TypeConverter typeConverter
 	public static val STATEFUL_CLASS_FQN = '''«RUNTIME_NAMESPACE»::stateful_class'''

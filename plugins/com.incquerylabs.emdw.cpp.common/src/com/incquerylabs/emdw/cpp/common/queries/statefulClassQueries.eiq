@@ -1,0 +1,93 @@
+package com.incquerylabs.emdw.cpp.common.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+
+
+private pattern cppClasses(
+	xtClass : XTClass,
+	cppClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+}
+
+private pattern cppClassStateMachine(
+	xtClass : XTClass,
+	cppClass : CPPClass,
+	statemachine : StateMachine
+) {
+	XTClass.behaviour(xtClass, statemachine);
+	find cppClasses(xtClass, cppClass);
+}
+
+private pattern cppSuperClasses(
+	cppClass : CPPClass,
+	cppSuperClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+	XTClass.generalizations(xtClass, generalization);
+	Generalization.^super(generalization, xtSuperClass);
+	CPPClass.xtClass(cppSuperClass, xtSuperClass);
+}
+
+// Stateful classes
+pattern topLevelStatefulClass(
+	cppClass : CPPClass
+) {
+	find cppStatefulClass(cppClass);
+	neg find statefulParentClass(cppClass, _);
+}
+
+pattern statefulParentClass(
+	cppClass : CPPClass,
+	cppSuperClass : CPPClass
+) {
+	find cppSuperClasses(cppClass, cppSuperClass);
+	find cppStatefulClass(cppSuperClass);
+}
+
+pattern cppStatefulClass(
+	cppClass : CPPClass
+) {
+	CPPClass(cppClass);
+	neg find cppStatelessClass(cppClass);
+}
+
+pattern cppStatelessClass(
+	cppClass : CPPClass
+) {
+	find cppClassWithNoInheritedOrOwnedStateMachine(cppClass);
+	neg find cppAbstractClass(cppClass);
+} or {
+	find cppClassWithNoInheritedOrOwnedStateMachine(cppClass);
+	find cppAbstractClass(cppClass);
+	find cppSuperClasses(cppSubClass, cppClass);
+	find cppStatelessClass(cppSubClass);
+} or {
+	find cppClassWithNoInheritedOrOwnedStateMachine(cppClass);
+	find cppAbstractClass(cppClass);
+	neg find cppSuperClasses(_, cppClass);
+}
+
+pattern cppClassWithNoInheritedOrOwnedStateMachine(
+	cppClass : CPPClass
+) {
+	neg find cppClassStateMachine(_, cppClass, _);
+	neg find cppClassWithInheritedStatemachine(cppClass);
+}
+
+pattern cppClassWithInheritedStatemachine(
+	cppClass : CPPClass
+) {
+	find cppSuperClasses+(cppClass, superClass);
+	find cppClassStateMachine(_, superClass, _);
+}
+
+pattern cppAbstractClass(
+	cppClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+	XTClass.abstract(xtClass, true);
+}

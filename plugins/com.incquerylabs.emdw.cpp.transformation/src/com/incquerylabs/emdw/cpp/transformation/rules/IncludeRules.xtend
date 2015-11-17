@@ -24,10 +24,12 @@ import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationRuleFactory
 import org.eclipse.viatra.emf.runtime.rules.batch.BatchTransformationStatements
 import org.eclipse.viatra.emf.runtime.transformation.batch.BatchTransformation
 import org.eclipse.xtend.lib.annotations.Accessors
+import com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries
 
 class IncludeRules {
 	static extension val CppQueries cppQueries = CppQueries.instance
 	static extension val XtumlQueries xtumlQueries = XtumlQueries.instance
+	static extension val StatefulClassQueries statefulClassQueries = StatefulClassQueries.instance
 	
 	extension val IncQueryEngine engine
 	extension val Logger logger = Logger.getLogger(class)
@@ -123,11 +125,9 @@ class IncludeRules {
 	].build
 	
 	@Accessors(PUBLIC_GETTER)
-	val statemachineRuntimeIncludeRule = createRule.precondition(cppClassStateMachine).action[ match |
+	val statemachineRuntimeIncludeRule = createRule.precondition(topLevelStatefulClass).action[ match |
 		val cppClass = match.cppClass
 		val cppHeader = cppClass.headerFile
-		val eventExternalHeader = getExternalHeader('''"xumlrt_runtime/event.hh"''')
-		cppHeader.addInclude(eventExternalHeader, "Required for stateful_class.generate_event")
 		val statefulClassExternalHeader = getExternalHeader('''"xumlrt_runtime/stateful_class.hh"''')
 		cppHeader.addInclude(statefulClassExternalHeader, "Stateful Class superclass in Runtime")
 	].build
@@ -138,8 +138,6 @@ class IncludeRules {
 		val cppHeader = cppClass.headerFile
 		val eventExternalHeader = getExternalHeader('''"xumlrt_runtime/event.hh"''')
 		cppHeader.addInclude(eventExternalHeader, "Event class in Runtime")
-		val statefulClassExternalHeader = getExternalHeader('''"xumlrt_runtime/stateful_class.hh"''')
-		cppHeader.addInclude(statefulClassExternalHeader, "Stateful Class superclass in Runtime is necessary for event owners")
 	].build
 	
 	@Accessors(PUBLIC_GETTER)

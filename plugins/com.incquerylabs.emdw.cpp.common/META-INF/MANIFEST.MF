@@ -10,6 +10,8 @@ Export-Package: com.incquerylabs.emdw.cpp.common,
  com.incquerylabs.emdw.cpp.common.descriptor.factory.impl,
  com.incquerylabs.emdw.cpp.common.mapper.queries,
  com.incquerylabs.emdw.cpp.common.mapper.queries.util,
+ com.incquerylabs.emdw.cpp.common.queries,
+ com.incquerylabs.emdw.cpp.common.queries.util,
  com.incquerylabs.emdw.cpp.common.util
 Require-Bundle: org.eclipse.xtend.lib,
  com.incquerylabs.emdw.valuedescriptor.model;bundle-version="1.0.0",

@@ -5,4 +5,7 @@
   <extension id="com.incquerylabs.emdw.cpp.common.mapper.queries.XtumlQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.common.mapper.queries.XtumlQueries" id="com.incquerylabs.emdw.cpp.common.mapper.queries.XtumlQueries"/>
   </extension>
+  <extension id="com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries" id="com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries"/>
+  </extension>
 </plugin>

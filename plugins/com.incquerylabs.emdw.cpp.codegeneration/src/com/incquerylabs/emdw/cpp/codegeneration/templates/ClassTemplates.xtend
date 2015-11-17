@@ -158,9 +158,7 @@ class ClassTemplates extends CPPTemplate {
 		val List<String> superClassStrings = newArrayList()
 		val cppSuperClasses = getSuperClasses(cppClass)
 		
-		if(cppClass.isStateful
-			&& !cppClass.superClasses.exists[isStateful]
-		){
+		if(cppClass.isTopLevelStatefulClass){
 			superClassStrings += '''public «STATEFUL_CLASS_FQN»'''
 		}
 		cppSuperClasses.forEach[ superClass |
@@ -565,19 +563,11 @@ class ClassTemplates extends CPPTemplate {
 		'''
 	}
 	
-	def boolean isStateful(CPPClass cppClass) {
-		if(cppClass.hasStateMachine) {
-			return true
-		}
-		if (cppClass.xtClass.isAbstract &&
-			cppClass.subClasses.forall[isStateful]
-		) {
-			return true
-		}
-		return false
+	def isTopLevelStatefulClass(CPPClass cppClass) {
+		engine.topLevelStatefulClass.hasMatch(cppClass);
 	}
 	
 	def hasStateMachine(CPPClass cppClass) {
-		codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		engine.cppClassStateMachine.hasMatch(null, cppClass, null)
 	}
 }

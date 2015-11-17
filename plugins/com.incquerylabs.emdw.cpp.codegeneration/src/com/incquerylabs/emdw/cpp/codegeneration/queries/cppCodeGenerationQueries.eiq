@@ -30,6 +30,64 @@ pattern cppSuperClasses(
 	CPPClass.xtClass(cppSuperClass, xtSuperClass);
 }
 
+// Stateful classes
+pattern topLevelStatefulClass(
+	cppClass : CPPClass
+) {
+	find cppStatefulClass(cppClass);
+	neg find statefulParentClass(cppClass, _);
+}
+
+pattern statefulParentClass(
+	cppClass : CPPClass,
+	cppSuperClass : CPPClass
+) {
+	find cppSuperClasses(cppClass, cppSuperClass);
+	find cppStatefulClass(cppSuperClass);
+}
+
+pattern cppStatefulClass(
+	cppClass : CPPClass
+) {
+	CPPClass(cppClass);
+	neg find cppStatelessClass(cppClass);
+}
+
+pattern cppStatelessClass(
+	cppClass : CPPClass
+) {
+	find cppClassWithNoInheritedOrOwnedStateMachine(cppClass);
+	neg find cppAbstractClass(cppClass);
+} or {
+	find cppClassWithNoInheritedOrOwnedStateMachine(cppClass);
+	find cppAbstractClass(cppClass);
+	find cppClassWithStatelessChildOrNoChild(cppClass);
+}
+
+pattern cppClassWithNoInheritedOrOwnedStateMachine(
+	cppClass : CPPClass
+) {
+	neg find cppClassStateMachine(_, cppClass, _);
+	find cppSuperClasses+(cppClass, superClass);
+	neg find cppClassStateMachine(_, superClass, _);
+}
+
+pattern cppClassWithStatelessChildOrNoChild(
+	cppClass : CPPClass
+) {
+	find cppSuperClasses(cppSubClass, cppClass);
+	find cppStatelessClass(cppSubClass);
+} or {
+	neg find cppSuperClasses(_, cppClass);
+}
+
+pattern cppAbstractClass(
+	cppClass : CPPClass
+) {
+	CPPClass.xtClass(cppClass, xtClass);
+	XTClass.abstract(xtClass, true);
+}
+
 // Elements directly in containers
 pattern cppClassInQualifiedNamedElement(
 	cppClass : CPPClass,

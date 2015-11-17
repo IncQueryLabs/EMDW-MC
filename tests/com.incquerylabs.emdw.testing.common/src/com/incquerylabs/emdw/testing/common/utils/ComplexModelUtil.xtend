@@ -109,8 +109,8 @@ class ComplexModelUtil extends ModelUtil {
     	
     	// create dummy resource
 		val cppResource = rs.createResource(URI.createURI('''model/«xumlrtModel.name»/«URI_DUMMY_CPP»'''))
-		rs.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
-		rs.getResource(URI.createPlatformPluginURI(PATH_CPP_TYPES, true), true)
+		rs.getResource(URI.createURI(PATH_CPP_COLLECTIONS), true)
+		rs.getResource(URI.createURI(PATH_CPP_TYPES), true)
 		
 		prepareCPPModel(cppResource, xumlrtModel)
 	}
@@ -118,7 +118,7 @@ class ComplexModelUtil extends ModelUtil {
 	def createPrimitiveTypeMapping(ResourceSet umlRS, ResourceSet xumlrtRS){
 		val primitiveTypeMapping = <org.eclipse.uml2.uml.Type, Type>newHashMap
 		
-		val commonTypesResource = xumlrtRS.getResource(URI.createPlatformPluginURI(PATH_COMMON_TYPES, true), true) => [ load(#{}) ]
+		val commonTypesResource = xumlrtRS.getResource(URI.createURI(PATH_COMMON_TYPES), true) => [ load(#{}) ]
 		val commonTypesModel = commonTypesResource.contents.head as Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		

@@ -145,6 +145,11 @@
 		<!-- EMDW plugins -->
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.uml.ralf</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.cpp.app</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -54,7 +54,6 @@ class EMDWApplication implements IApplication {
 	
 	
 	def static void main(String[] args) {
-		System.in.read()
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
 			// Initialize Xtext languages

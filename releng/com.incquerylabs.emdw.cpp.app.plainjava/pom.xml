@@ -77,7 +77,7 @@
 		<dependency>
 			<groupId>org.eclipse.equinox</groupId>
 			<artifactId>org.eclipse.equinox.common</artifactId>
-			<version>3.7.0</version>
+			<version>3.6.0</version>
 		</dependency>
 				
 		<!-- Xtext -->

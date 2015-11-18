@@ -64,7 +64,7 @@
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<mainClass>com.incquerylabs.emdw.cpp.app.EMDWApplicationMain</mainClass>
+							<mainClass>com.incquerylabs.emdw.cpp.app.EMDWJavaApplication</mainClass>
 							<classpathPrefix>dependency-jars/</classpathPrefix>
 						</manifest>
 					</archive>

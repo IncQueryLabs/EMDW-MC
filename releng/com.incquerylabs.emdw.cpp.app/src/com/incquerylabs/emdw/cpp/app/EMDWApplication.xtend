@@ -13,7 +13,6 @@ import com.incquerylabs.emdw.umlintegration.trace.TracePackage
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 import java.io.IOException
 import java.net.URL
-import java.util.Arrays
 import java.util.List
 import org.apache.log4j.FileAppender
 import org.apache.log4j.Level
@@ -26,8 +25,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
-import org.eclipse.equinox.app.IApplication
-import org.eclipse.equinox.app.IApplicationContext
 import org.eclipse.incquery.querybasedfeatures.runtime.QueryBasedFeatureSettingDelegateFactory
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
@@ -38,7 +35,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage
 import org.eclipse.uml2.uml.UMLPackage
 import org.eclipse.uml2.uml.resource.UMLResource
 
-class EMDWApplication implements IApplication {
+class EMDWApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
 	private static final String ARGS_HELP = 
 	'''
@@ -103,8 +100,8 @@ class EMDWApplication implements IApplication {
 	}
 	
 	
-	override Object start(IApplicationContext context) throws Exception {
-		var List<String> args = Arrays.asList(context.getArguments().get("application.args") as String[])
+	def void start(String[] context) throws Exception {
+		var List<String> args = context
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
 			// Initialize Xtext languages
@@ -114,10 +111,9 @@ class EMDWApplication implements IApplication {
 			resourceSet.run(args.umlModelPath, args.targetFolderPath, URI::createURI('''platform:/plugin«ResourceManager.COMMON_PRIMITIVE_TYPES_PATH»'''), Toolchain::builder)
 		}
 		System.out.println('''************* «APP_NAME» finished *************''')
-		return IApplication.EXIT_OK
 	}
 
-	override void stop() { /* nothing to do */ }
+	def void stop() { /* nothing to do */ }
 	
 	private static def void run(ResourceSet resourceSet, String umlModelPath, String targetFolderPath, URI umlPrimitiveTypes, ToolchainBuilder toolchainBuilder) {
 		initLogger(targetFolderPath.loggerPath, umlModelPath.fileName)

@@ -1,6 +1,6 @@
 package com.incquerylabs.emdw.cpp.app;
 
-public class EMDWApplicationMain {
+public class EMDWJavaApplication {
 
     public static void main(String[] args) {
         try{

@@ -19,14 +19,12 @@ class JarFileManager extends FileManager {
 	
 	override readFileContent(String directoryPath, String filename) {
 		val fullPath = '''«directoryPath»/«filename»'''
+		val fileResource = JarFileManager.classLoader.getResourceAsStream(fullPath)
+		if(fileResource==null) {
+			throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
+		}
 		try {
-			val fileResource = JarFileManager.classLoader.getResourceAsStream(fullPath)
-			if(fileResource==null) {
-				throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
-			}
 			return ByteStreams::toByteArray(fileResource)
-		} catch(FileManagerException fsaex) {
-			throw fsaex
 		} catch(Exception ex) {
 			throw new FileManagerException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
 		}
@@ -34,26 +32,32 @@ class JarFileManager extends FileManager {
 	
 	override readFileContentAsString(String directoryPath, String filename) {
 		val fullPath = Paths::get(directoryPath, filename).toString
+		val fileResource = JarFileManager.classLoader.getResourceAsStream(fullPath)
+		if(fileResource==null) {
+			throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
+		}
 		try {
-			val fileResource = JarFileManager.classLoader.getResourceAsStream(fullPath)
-			if(fileResource==null) {
-				throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
-			}
 			val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
 			return contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
-		} catch(FileManagerException fsaex) {
-			throw fsaex
 		} catch(Exception ex) {
 			throw new FileManagerException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
 		}
 	}
 	
 	override directoryExists(String path) {
-		JarFileManager.classLoader.getResource(path) != null
+		try {
+			return JarFileManager.classLoader.getResource(path) != null
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while check directory existence in jar! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 	
 	override fileExists(String directoryPath, String filename) {
-		JarFileManager.classLoader.getResource('''«directoryPath»/«filename»''') != null
+		try {
+			return JarFileManager.classLoader.getResource('''«directoryPath»/«filename»''') != null
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while check file existence in jar! File: «directoryPath»«filename»''', ex)
+		}
 	}
 	
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {

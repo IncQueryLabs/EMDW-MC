@@ -74,7 +74,7 @@ class BundleFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while checking file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -84,7 +84,7 @@ class BundleFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while checking directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -96,7 +96,7 @@ class BundleFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while explore sub directories in bundle! Directory: «path»''', ex)
+			throw new FileManagerException('''Something went wrong while exploring sub directories in bundle! Directory: «path»''', ex)
 		}
 	}
 	
@@ -108,7 +108,7 @@ class BundleFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while explore contained files in bundle! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while exploring contained files in bundle! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	

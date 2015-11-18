@@ -79,7 +79,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 				f instanceof IFolder
 			].map[f|f.name].toList
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while explore sub directories in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while exploring sub directories in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -89,7 +89,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 				f instanceof IFile
 			].map[f|f.name].toList
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while explore contained files in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while exploring contained files in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -97,7 +97,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		try {
 			return path.folder.exists
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while checking directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 
@@ -120,7 +120,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while delete file from Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while deleting file from Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -130,7 +130,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while checking file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -141,7 +141,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while reading file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -152,7 +152,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while reading file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	

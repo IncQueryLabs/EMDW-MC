@@ -26,7 +26,7 @@ class JarFileManager extends FileManager {
 		try {
 			return ByteStreams::toByteArray(fileResource)
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
+			throw new FileManagerException('''Something went wrong while reading file in jar! File: «fullPath»''', ex)
 		}
 	}
 	
@@ -40,7 +40,7 @@ class JarFileManager extends FileManager {
 			val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
 			return contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
+			throw new FileManagerException('''Something went wrong while reading file in jar! File: «fullPath»''', ex)
 		}
 	}
 	
@@ -48,7 +48,7 @@ class JarFileManager extends FileManager {
 		try {
 			return JarFileManager.classLoader.getResource(path) != null
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while check directory existence in jar! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while checking directory existence in jar! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -56,7 +56,7 @@ class JarFileManager extends FileManager {
 		try {
 			return JarFileManager.classLoader.getResource('''«directoryPath»/«filename»''') != null
 		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while check file existence in jar! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while checking file existence in jar! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	

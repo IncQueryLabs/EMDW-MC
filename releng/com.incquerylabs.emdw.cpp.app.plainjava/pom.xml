@@ -74,6 +74,12 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.equinox</groupId>
+			<artifactId>org.eclipse.equinox.common</artifactId>
+			<version>3.7.0</version>
+		</dependency>
+				
 		<!-- Xtext -->
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>

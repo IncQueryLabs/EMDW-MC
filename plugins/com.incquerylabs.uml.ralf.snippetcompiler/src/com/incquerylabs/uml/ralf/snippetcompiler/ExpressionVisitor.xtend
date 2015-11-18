@@ -203,7 +203,7 @@ class ExpressionVisitor {
 					}else{
 						variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 							name = statement.variable.name
-							type = typeSystem.type(statement.variable).value.umlType
+							type = typeSystem.objectType(statement.variable, statement).value.umlType
 							isExistingVariable = true
 						]).build
 					}
@@ -1033,7 +1033,7 @@ class ExpressionVisitor {
 	
 	private def parameterEqualsExpression(NamedExpression namedExpression, Parameter operationParameter){
 		val expType = typeSystem.type(namedExpression.expression).value
-		val paramType = typeSystem.type(operationParameter).value
+		val paramType = typeSystem.objectType(operationParameter, namedExpression).value
 		if(paramType instanceof CollectionTypeReference){
 			return (expType instanceof CollectionTypeReference 
 				&& paramType.type.equals((expType as CollectionTypeReference).type)
@@ -1049,7 +1049,7 @@ class ExpressionVisitor {
 	
 	private def parameterEqualsExpression(Expression expression, Parameter operationParameter){
 		val expType = typeSystem.type(expression).value
-		val paramType = typeSystem.type(operationParameter).value
+		val paramType = typeSystem.objectType(operationParameter, expression).value
 		if(paramType instanceof CollectionTypeReference){
 			return (expType instanceof CollectionTypeReference 
 				&& paramType.type.equals((expType as CollectionTypeReference).type)

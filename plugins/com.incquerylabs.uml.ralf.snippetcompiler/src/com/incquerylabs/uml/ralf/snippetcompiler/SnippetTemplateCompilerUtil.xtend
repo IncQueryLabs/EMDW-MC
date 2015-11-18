@@ -124,9 +124,9 @@ class SnippetTemplateCompilerUtil {
 		}else{
 			(descriptorFactory.createSingleVariableDescriptorBuilder => [
 				name = st.variable.name
-				type = typeSystem.type(st.variable).value.umlType
+				type = typeSystem.objectType(st.variable, st).value.umlType
 				// if the statement has no expression and is not an enum, then initialization is also needed
-				initialize = (st.expression == null) && !(typeSystem.type(st.variable).value.umlType instanceof Enumeration)
+				initialize = (st.expression == null) && !(typeSystem.objectType(st.variable, st).value.umlType instanceof Enumeration)
 			]).build
 		}
 	}
@@ -145,7 +145,7 @@ class SnippetTemplateCompilerUtil {
 			if(variable != null){
 				return (descriptorFactory.createSingleVariableDescriptorBuilder => [
 					name = variable.name
-					type = typeSystem.type(variable).value.umlType
+					type = typeSystem.objectType(variable, ex).value.umlType
 					isExistingVariable = true
 				]).build	
 			}

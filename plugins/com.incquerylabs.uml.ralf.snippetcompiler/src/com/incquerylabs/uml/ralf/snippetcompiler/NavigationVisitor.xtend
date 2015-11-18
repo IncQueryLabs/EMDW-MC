@@ -114,7 +114,7 @@ class NavigationVisitor {
 		logger.logVisitingStarted(ex)
 		recursionDepth++
 
-		val parameterType = typeSystem.type(ex.declaration).value.umlType
+		val parameterType = typeSystem.objectType(ex.declaration, ex).value.umlType
 		val typeDescriptor = ex.createNewVariableDescriptor(parameterType)
 
 		var lambda = ex.composeLambda(typeDescriptor)

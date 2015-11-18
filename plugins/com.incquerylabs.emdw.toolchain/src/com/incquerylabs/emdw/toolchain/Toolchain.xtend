@@ -624,7 +624,7 @@ class Toolchain {
 	 * @param time the duration of the pase
 	 */
 	def logPhase(Phase phase, long time) {
-		return '''«phase.logMessage» «time» ms'''
+		info('''«phase.logMessage» «time» ms''')
 	}
 	
 	/**
@@ -640,27 +640,27 @@ class Toolchain {
 			percentageString = ''' («percentage»%)'''
 		}
 		
-		return '''«phase.logMessage» «time» ms«percentageString»'''
+		info('''«phase.logMessage» «time» ms«percentageString»''')
 	}
 	
 	private def getLogMessage(Phase phase) {
 		switch phase {
-			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization:''')
-			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization:''')
-			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization:''')
-			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization:''')
-			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization:''')
-			case INIT_FILEGEN: info('''File generation initialization:''')
-			case INIT_MAKEFILE_GEN: info('''Make file generation initialization:''')
-			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution:''')
-			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution:''')
-			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation:''')
-			case EXECUTE_RALF_COMPILE: info('''Action code compile:''')
-			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation:''')
-			case EXECUTE_CONTENT_GEN : info('''All file content generation:''')
-			case EXECUTE_FILEGEN: info('''File generation:''')
-			case EXECUTE_DELTA: info('''Delta transformation:''')
-			default : info('''Unknown phase:''')
+			case INIT_XUMLRT_QRT: '''Uml to xuml-rt transformation initialization:'''
+			case INIT_CPP_PREREQUISITES: '''Cpp transformation prerequisites initialization:'''
+			case INIT_CPP_QRT: '''Xuml-rt to cppmodel QRT transformation initialization:'''
+			case INIT_CPP_COMP: '''Xuml-rt to cppmodel component transformation initialization:'''
+			case INIT_CPP_CODEGEN: '''Cpp code generation initialization:'''
+			case INIT_FILEGEN: '''File generation initialization:'''
+			case INIT_MAKEFILE_GEN: '''Make file generation initialization:'''
+			case EXECUTE_XUMLRT_QRT: '''Uml to xuml-rt transformation manual execution:'''
+			case EXECUTE_CPP_QRT: '''Xuml-rt to cppmodel QRT transformation manual execution:'''
+			case EXECUTE_CPP_COMP: '''Xuml-rt to cppmodel component structure transformation:'''
+			case EXECUTE_RALF_COMPILE: '''Action code compile:'''
+			case EXECUTE_CPP_CODEGEN: '''Cpp code generation:'''
+			case EXECUTE_CONTENT_GEN : '''All file content generation:'''
+			case EXECUTE_FILEGEN: '''File generation:'''
+			case EXECUTE_DELTA: '''Delta transformation:'''
+			default : '''Unknown phase:'''
 		}
 	}
 	

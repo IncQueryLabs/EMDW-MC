@@ -11,8 +11,10 @@ import com.incquerylabs.emdw.cpp.common.TypeConverter
 import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.common.VisibilityKind
+import com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries
 
 class ClassTemplates extends CPPTemplate {
+	protected extension val StatefulClassQueries statefulClassQueries = StatefulClassQueries.instance
 	
 	val TypeConverter typeConverter
 	public static val STATEFUL_CLASS_FQN = '''«RUNTIME_NAMESPACE»::stateful_class'''
@@ -48,7 +50,7 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassName = cppClass.cppName
 		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
 		val anyParentHasEvents = codeGenQueries.getCppClassAllParentEvent(engine).hasMatch(cppClass, null)
-		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val hasStateMachine = cppClass.hasStateMachine
 		val headerGuardPostfix = "HEADER"
 		
 		'''
@@ -158,7 +160,7 @@ class ClassTemplates extends CPPTemplate {
 		val List<String> superClassStrings = newArrayList()
 		val cppSuperClasses = getSuperClasses(cppClass)
 		
-		if(!parentHasEvents && (hasStateMachine || hasEvents)){
+		if(cppClass.isTopLevelStatefulClass){
 			superClassStrings += '''public «STATEFUL_CLASS_FQN»'''
 		}
 		cppSuperClasses.forEach[ superClass |
@@ -304,7 +306,7 @@ class ClassTemplates extends CPPTemplate {
 	}
 	
 	def classBodyTemplate(CPPClass cppClass) {
-		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val hasStateMachine = cppClass.hasStateMachine
 		
 		'''
 		«cppClass.bodyFile.inclusions»
@@ -412,6 +414,12 @@ class ClassTemplates extends CPPTemplate {
 		return cppSuperClasses
 	}
 	
+	def Iterable<CPPClass> getSubClasses(CPPClass cppSuperClass) {
+		val cppSubClassMatcher = codeGenQueries.getCppSuperClasses(engine)
+		val cppSubClasses = cppSubClassMatcher.getAllValuesOfcppClass(cppSuperClass)
+		return cppSubClasses
+	}
+	
 	def parameters(CPPOperation cppOperation) {
 		return cppOperation.subElements.filter(CPPFormalParameter)
 	}
@@ -420,9 +428,7 @@ class ClassTemplates extends CPPTemplate {
 		val cppClassName = cppClass.cppName
 		val cppFQN = cppClass.cppQualifiedName
 		val component = engine.cppClassInComponentSubPackages.getAllValuesOfcppComponent(cppClass).head
-		val hasEvents = codeGenQueries.getCppClassEvent(engine).hasMatch(null, cppClass, null)
-		val parentHasEvents = codeGenQueries.getCppClassAllParentEvent(engine).hasMatch(cppClass, null)
-		val hasStateMachine = codeGenQueries.getCppClassStateMachine(engine).hasMatch(null, cppClass, null)
+		val hasStateMachine = cppClass.hasStateMachine
 		val destructors = cppClass.subElements.filter(CPPOperation).filter[it.cppName == "~" + cppClass.cppName].sortBy[cppName]
 		val defaultDestructorSignature = '''«cppFQN»::~«cppClassName»()'''
 		
@@ -431,15 +437,11 @@ class ClassTemplates extends CPPTemplate {
 		«IF destructors.size == 0»
 			«defaultDestructorSignature» {
 				«tracingMessage('''[«cppClassName»] destructor call: «defaultDestructorSignature»''')»
-				«operationTemplates.instancesRemoveTemplates(cppClass)»
-				«IF (hasStateMachine || hasEvents)»
-					if(!_internalEvents.empty() || !_externalEvents.empty())
-						«component.cppQualifiedName»::«component.cppName»::get_instance()->unschedule(_scheduler_queue_position);
-				«ENDIF»
+				«operationTemplates.instancesRemoveTemplates(cppClass, component, hasStateMachine)»
 			}
 		«ENDIF»
 		«FOR destructor : destructors»
-			«operationTemplates.destructorDefinitionInClassBody(cppClass, destructor)»
+			«operationTemplates.destructorDefinitionInClassBody(cppClass, destructor, component, hasStateMachine)»
 		«ENDFOR»
 		'''
 	}
@@ -561,5 +563,13 @@ class ClassTemplates extends CPPTemplate {
 			
 		}
 		'''
+	}
+	
+	def isTopLevelStatefulClass(CPPClass cppClass) {
+		engine.topLevelStatefulClass.hasMatch(cppClass);
+	}
+	
+	def hasStateMachine(CPPClass cppClass) {
+		engine.cppClassStateMachine.hasMatch(null, cppClass, null)
 	}
 }

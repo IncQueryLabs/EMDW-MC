@@ -131,6 +131,21 @@ class UmlUtil extends ModelUtil {
 		return attribute
 	}
 	
+	def createAbstractOperation(Model umlRoot, Type returnType) {
+		val operation = umlFactory.createOperation => [
+			ownedParameters += umlFactory.createParameter => [
+				direction = ParameterDirectionKind.RETURN_LITERAL
+				type = returnType
+			]
+			isAbstract = true
+		]
+		createClassInModel(umlRoot) => [
+			ownedOperations += operation
+		]
+		
+		operation
+	}
+	
 	private def createOperation(Model umlRoot, String body) {
 		val beh = createBehavior(body)
 		val operation = umlFactory.createOperation => [

@@ -66,6 +66,7 @@ import org.eclipse.uml2.uml.Property
 import org.eclipse.uml2.uml.Signal
 import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend2.lib.StringConcatenation
+import org.eclipse.uml2.uml.EnumerationLiteral
 
 class ExpressionVisitor {
 	extension NavigationVisitor navigationVisitor
@@ -202,7 +203,7 @@ class ExpressionVisitor {
 					}else{
 						variableDescriptor = (descriptorFactory.createSingleVariableDescriptorBuilder => [
 							name = statement.variable.name
-							type = typeSystem.type(statement.variable).value.umlType
+							type = typeSystem.objectType(statement.variable, statement).value.umlType
 							isExistingVariable = true
 						]).build
 					}
@@ -757,6 +758,10 @@ class ExpressionVisitor {
 				logger.logVisitingFinished(ex, descriptor.stringRepresentation)
 				return descriptor
 			}
+		}else if (ex.reference instanceof EnumerationLiteral){
+			val descriptor = getDescriptor(ex)
+			logger.logVisitingFinished(ex, descriptor.stringRepresentation)
+			return descriptor
 		}else{
 			throw new UnsupportedOperationException("Only variables and parameters are supported")
 		}
@@ -1028,7 +1033,7 @@ class ExpressionVisitor {
 	
 	private def parameterEqualsExpression(NamedExpression namedExpression, Parameter operationParameter){
 		val expType = typeSystem.type(namedExpression.expression).value
-		val paramType = typeSystem.type(operationParameter).value
+		val paramType = typeSystem.objectType(operationParameter, namedExpression).value
 		if(paramType instanceof CollectionTypeReference){
 			return (expType instanceof CollectionTypeReference 
 				&& paramType.type.equals((expType as CollectionTypeReference).type)
@@ -1044,7 +1049,7 @@ class ExpressionVisitor {
 	
 	private def parameterEqualsExpression(Expression expression, Parameter operationParameter){
 		val expType = typeSystem.type(expression).value
-		val paramType = typeSystem.type(operationParameter).value
+		val paramType = typeSystem.objectType(operationParameter, expression).value
 		if(paramType instanceof CollectionTypeReference){
 			return (expType instanceof CollectionTypeReference 
 				&& paramType.type.equals((expType as CollectionTypeReference).type)

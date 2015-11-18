@@ -46,6 +46,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlFactory
 
 import static org.junit.Assert.*
 import org.eclipse.papyrusrt.xtumlrt.common.ActionCode
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class XtumlUtil extends ModelUtil {
 	static extension val CommonFactory commonFactory = CommonFactory.eINSTANCE
@@ -500,6 +501,20 @@ class XtumlUtil extends ModelUtil {
 
 	}
 
+	def createAbstractOperation(Entity root, VisibilityKind visibility, Type returnType, String name, Parameter ... parameter) {
+		val op = commonFactory.createOperation => [
+			it.name = name
+			it.abstract = true
+			it.visibility = visibility
+			it.returnType = commonFactory.createTypedMultiplicityElement => [
+				type = returnType
+			]
+			it.parameters += parameter
+		]
+		root.operations += op
+		op
+	}
+	
 	def createOperation(Entity root, VisibilityKind visibility, boolean isStatic, Type returnType, String name,
 		String language, String body, Parameter ... parameter) {
 		val op = commonFactory.createOperation => [
@@ -647,7 +662,7 @@ class XtumlUtil extends ModelUtil {
 	}
 
 	def findPrimitiveType(NamedElement ne, String name) {
-		val umlPrimitiveTypesResource = ne.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("umlPrimitiveTypes")]
+		val umlPrimitiveTypesResource = ne.eResource.resourceSet.resources.findFirst[it.URI.toString.equals(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)]
 		val primitiveTypes = umlPrimitiveTypesResource.allContents.filter(PrimitiveType).toList
 		return primitiveTypes.findFirst[it.name == name]
 	}

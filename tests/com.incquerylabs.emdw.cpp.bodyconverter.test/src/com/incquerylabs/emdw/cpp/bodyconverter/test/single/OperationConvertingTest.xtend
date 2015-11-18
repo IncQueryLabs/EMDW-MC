@@ -257,6 +257,16 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				for(::model::Comp::Ping* __ping : ::xumlrt::select_many(::model::Comp::Ping::_instances)) {
 				::model::Comp::Ping* ping = __ping;
 				}'''
+			],
+			#[ "Enum as out parameter test",
+				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
+				"model::Comp::Pong::testEnumOutParameter",
+				ConversionType.Operation,
+				'''
+				testEnum = PingPongEnum::Pong;
+				''',
+				'''
+				(*testEnum) = ::model::Comp::PingPongEnum::Pong;'''
 			]
 		)
 	}

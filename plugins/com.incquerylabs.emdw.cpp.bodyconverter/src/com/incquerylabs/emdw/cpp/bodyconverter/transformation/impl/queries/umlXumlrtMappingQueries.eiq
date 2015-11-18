@@ -1,0 +1,28 @@
+package com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries
+
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://incquerylabs.com/emdw/umlintegration/trace"
+
+pattern umlOperation2CommonOperation(
+	commonOperation : Operation,
+	umlOperation
+) {
+	Trace.xtumlrtElements(trace, commonOperation);
+	Trace.umlElements(trace, umlOperation);
+}
+
+pattern umlState2CommonState(
+	commonState : State,
+	umlState
+) {
+	Trace.xtumlrtElements(trace, commonState);
+	Trace.umlElements(trace, umlState);
+}
+
+pattern umlTransition2CommonTransition(
+	commonTransition : Transition,
+	umlTransition
+) {
+	Trace.xtumlrtElements(trace, commonTransition);
+	Trace.umlElements(trace, umlTransition);
+}

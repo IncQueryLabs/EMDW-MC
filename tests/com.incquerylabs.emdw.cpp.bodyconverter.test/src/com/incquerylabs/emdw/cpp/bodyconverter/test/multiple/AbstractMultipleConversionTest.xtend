@@ -2,13 +2,13 @@ package com.incquerylabs.emdw.cpp.bodyconverter.test.multiple
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalBridge
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPOperation
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPQualifiedNamedElement
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
-import com.ericsson.xtumlrt.oopl.cppmodel.CPPTransition
+import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage
 import com.incquerylabs.emdw.cpp.bodyconverter.test.AbstractConversionTest
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.BodyConverter
 import java.util.HashMap
 import java.util.List
+import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.papyrusrt.xtumlrt.common.CommonPackage
 import org.eclipse.uml2.uml.BodyOwner
 import org.eclipse.uml2.uml.NamedElement
 import org.eclipse.uml2.uml.OpaqueBehavior
@@ -82,7 +82,8 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 				val umlElement = element.umlElement
 				val ralfCode = umlElement.ralfCode(conversionType)
 				try {
-					val cppBody = element.getBody(conversionType)
+					val snippet = element.getBody(conversionType)
+					val cppBody = snippet.serialize
 					
 					// In some cases error messages starting with five * is generated
 					// in case of errors instead of throwing exceptions
@@ -156,40 +157,56 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 	}
 	
 	def getElements(ConversionType conversionType) {
+		val navHelper = EMFScope::extractUnderlyingEMFIndex(engine)
 		switch conversionType {
-			case ConversionType.Operation : cppModel.eResource.allContents.filter(CPPOperation).filter[
-												!(it.eContainer instanceof CPPExternalBridge)
-											].toList.sortBy[qualifiedName]
-			case ConversionType.StateEntry : cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.entryAction!=null].toList.sortBy[qualifiedName]
-			case ConversionType.StateExit : cppModel.eResource.allContents.filter(CPPState).filter[it.commonState.exitAction!=null].toList.sortBy[qualifiedName]
-			case ConversionType.Transition : cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.actionChain!=null && !it.commonTransition.actionChain.actions.empty].toList.sortBy[qualifiedName]
-			case ConversionType.TransitionGuard : cppModel.eResource.allContents.filter(CPPTransition).filter[it.commonTransition.guard!=null].toList.sortBy[qualifiedName]
+			// The cppModel is needed to decide if an operation is inside an external entity
+			case ConversionType.Operation : {
+				val allCppOperations = navHelper.getAllInstances(CppmodelPackage.Literals.CPP_OPERATION).filter(CPPOperation)
+				val notExternalCppOperations = allCppOperations.filter[!(it.eContainer instanceof CPPExternalBridge)]
+				return notExternalCppOperations.map[commonOperation].toList.sortBy[qualifiedName]
+			}
+			case ConversionType.StateEntry : {
+				val allCommonStates = navHelper.getAllInstances(CommonPackage.Literals.STATE).filter(org.eclipse.papyrusrt.xtumlrt.common.State)
+				return allCommonStates.filter[it.entryAction!=null].toList.sortBy[qualifiedName]
+			}
+			case ConversionType.StateExit : {
+				val allCommonStates = navHelper.getAllInstances(CommonPackage.Literals.STATE).filter(org.eclipse.papyrusrt.xtumlrt.common.State)
+				return allCommonStates.filter[it.exitAction!=null].toList.sortBy[qualifiedName]
+			}
+			case ConversionType.Transition : {
+				val allCommonTransitions = navHelper.getAllInstances(CommonPackage.Literals.TRANSITION).filter(org.eclipse.papyrusrt.xtumlrt.common.Transition)
+				return allCommonTransitions.filter[it.actionChain!=null && !it.actionChain.actions.isNullOrEmpty].toList.sortBy[qualifiedName]
+			}
+			case ConversionType.TransitionGuard : {
+				val allCommonTransitions = navHelper.getAllInstances(CommonPackage.Literals.TRANSITION).filter(org.eclipse.papyrusrt.xtumlrt.common.Transition)
+				allCommonTransitions.filter[it.guard!=null].toList.sortBy[qualifiedName]
+			}
 		}
 	}
 	
-	def getUmlElement(CPPQualifiedNamedElement element) {
+	def getUmlElement(org.eclipse.papyrusrt.xtumlrt.common.NamedElement element) {
 		switch element{
-			CPPOperation : engine.umlOperation2CppOperation.getAllValuesOfumlOperation(element).head as Operation
-			CPPState : engine.umlState2CppState.getAllValuesOfumlState(element).head as State
-			CPPTransition : engine.umlTransition2CppTransition.getAllValuesOfumlTransition(element).head as Transition
+			org.eclipse.papyrusrt.xtumlrt.common.Operation : engine.umlOperation2CommonOperation.getAllValuesOfumlOperation(element).head as Operation
+			org.eclipse.papyrusrt.xtumlrt.common.State : engine.umlState2CommonState.getAllValuesOfumlState(element).head as State
+			org.eclipse.papyrusrt.xtumlrt.common.Transition : engine.umlTransition2CommonTransition.getAllValuesOfumlTransition(element).head as Transition
 		}
 	}
 	
-	def getBody(CPPQualifiedNamedElement element, ConversionType conversionType) {
+	def getBody(org.eclipse.papyrusrt.xtumlrt.common.NamedElement element, ConversionType conversionType) {
 		switch conversionType {
-			case ConversionType.Operation : bodyConverter.convertOperation(element as CPPOperation)
-			case ConversionType.StateEntry : bodyConverter.convertStateEntry(element as CPPState)
-			case ConversionType.StateExit : bodyConverter.convertStateExit(element as CPPState)
-			case ConversionType.Transition : bodyConverter.convertTransition(element as CPPTransition)
-			case ConversionType.TransitionGuard : bodyConverter.convertTransitionGuard(element as CPPTransition)
+			case ConversionType.Operation : bodyConverter.convertOperation(element as org.eclipse.papyrusrt.xtumlrt.common.Operation)
+			case ConversionType.StateEntry : bodyConverter.convertStateEntry(element as org.eclipse.papyrusrt.xtumlrt.common.State)
+			case ConversionType.StateExit : bodyConverter.convertStateExit(element as org.eclipse.papyrusrt.xtumlrt.common.State)
+			case ConversionType.Transition : bodyConverter.convertTransition(element as org.eclipse.papyrusrt.xtumlrt.common.Transition)
+			case ConversionType.TransitionGuard : bodyConverter.convertTransitionGuard(element as org.eclipse.papyrusrt.xtumlrt.common.Transition)
 		}
 	}
 	
-	def String getQualifiedName(CPPQualifiedNamedElement qne) {
-		switch qne {
-			CPPOperation : '''Operation: <br/>«(engine.umlOperation2CppOperation.getAllValuesOfumlOperation(qne).head as Operation).qualifiedName.form»'''
-			CPPState : '''State: <br/>«(engine.umlState2CppState.getAllValuesOfumlState(qne).head as State).qualifiedName.form»'''
-			CPPTransition : '''Transition: <br/>«(engine.umlTransition2CppTransition.getAllValuesOfumlTransition(qne).head as Transition).qualifiedName.form»'''
+	def String getQualifiedName(org.eclipse.papyrusrt.xtumlrt.common.NamedElement xumlrtElement) {
+		switch xumlrtElement {
+			org.eclipse.papyrusrt.xtumlrt.common.Operation : '''Operation: <br/>«(engine.umlOperation2CommonOperation.getAllValuesOfumlOperation(xumlrtElement).head as Operation).qualifiedName.form»'''
+			org.eclipse.papyrusrt.xtumlrt.common.State : '''State: <br/>«(engine.umlState2CommonState.getAllValuesOfumlState(xumlrtElement).head as State).qualifiedName.form»'''
+			org.eclipse.papyrusrt.xtumlrt.common.Transition : '''Transition: <br/>«(engine.umlTransition2CommonTransition.getAllValuesOfumlTransition(xumlrtElement).head as Transition).qualifiedName.form»'''
 		}
 	}
 	
@@ -218,7 +235,7 @@ abstract class AbstractMultipleConversionTest extends AbstractConversionTest {
 		
 	}
 	
-	def getResultString(CPPQualifiedNamedElement element, String ralfCodes, String body, ConversionType conversionType, boolean isException) {
+	def getResultString(org.eclipse.papyrusrt.xtumlrt.common.NamedElement element, String ralfCodes, String body, ConversionType conversionType, boolean isException) {
 		val resultType = switch conversionType {
 			case ConversionType.Operation : '''Operation'''
 			case ConversionType.StateEntry : '''State Entry'''

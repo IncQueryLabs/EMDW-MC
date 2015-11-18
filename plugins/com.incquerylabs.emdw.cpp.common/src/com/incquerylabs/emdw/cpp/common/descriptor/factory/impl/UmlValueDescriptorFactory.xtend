@@ -34,6 +34,8 @@ import org.eclipse.uml2.uml.Type
 import static com.google.common.base.Preconditions.*
 import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlCollectionOperationCallBuilder
 import org.apache.log4j.Logger
+import com.incquerylabs.emdw.cpp.common.descriptor.builder.impl.UmlEnumerationLiteralDescriptorBuilder
+import org.eclipse.uml2.uml.EnumerationLiteral
 
 class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCacheManager{
 	extension Logger logger = Logger.getLogger(class)
@@ -396,6 +398,10 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 		new UmlCollectionOperationCallBuilder(engine)
 	}
 	
+	override createEnumerationLiteralDescriptorBuilder() {
+		return new UmlEnumerationLiteralDescriptorBuilder(engine)
+	}
+	
 	override createInstancesBuilder() {
 		new UmlInstancesBuilder(engine)
 	}
@@ -507,4 +513,5 @@ class UmlValueDescriptorFactory implements IUmlDescriptorFactory, IDescriptorCac
 			collectionVariableCache.put(descriptor.stringRepresentation, descriptor)
 		}
 	}
+	
 }

@@ -13,5 +13,12 @@
             class="org.eclipse.papyrusrt.xtumlrt.common.CommonPackage"
             genModel="model/common.genmodel"/>
    </extension>
+   <extension
+         point="org.eclipse.emf.ecore.uri_mapping">
+      <mapping
+            source="pathmap://EMDW/xumlrt/"
+            target="platform:/plugin/org.eclipse.papyrusrt.xtumlrt.common.model/model/">
+      </mapping>
+   </extension>
 
 </plugin>

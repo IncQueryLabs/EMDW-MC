@@ -4,6 +4,7 @@ import com.incquerylabs.uml.ralf.tests.util.basetests.AbstractPluginValidatorTes
 import java.util.Collection
 import org.junit.BeforeClass
 import org.junit.runners.Parameterized.Parameters
+import com.incquerylabs.uml.ralf.validation.ReducedAlfLanguageValidator
 
 class UMLVariableDeclarationValidatorTest extends AbstractPluginValidatorTest{
 	@BeforeClass
@@ -24,6 +25,11 @@ class UMLVariableDeclarationValidatorTest extends AbstractPluginValidatorTest{
 			    '''Pong x = null;''',
 				"model::Comp::Pong::TestOperation",
 			    #[]
+			],
+			#[  "Local Variable: Abstract",
+			    '''AbstractPong x = new AbstractPong();''',
+				"model::Comp::Pong::TestOperation",
+			    #[ReducedAlfLanguageValidator.CODE_ABTRACT_INSTANTIATION]
 			]
 		)
 	}

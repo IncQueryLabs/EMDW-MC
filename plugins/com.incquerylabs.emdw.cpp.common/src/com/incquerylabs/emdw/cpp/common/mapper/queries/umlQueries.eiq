@@ -61,6 +61,14 @@ pattern primitiveType2EcorePrimitiveType(
 	Trace.xtumlrtElements(trace, xtumlPT);
 }
 
+pattern enumerationLiteral2UmlEnumerationLiteral(
+	umlEnumLiteral,
+	xtumlEnumLiteral : EnumerationLiteral
+) {
+	Trace.umlElements(trace, umlEnumLiteral);
+	Trace.xtumlrtElements(trace, xtumlEnumLiteral);
+}
+
 pattern xtPrimitiveTypeByName(
 	xtumlPT : PrimitiveType,
 	ptName

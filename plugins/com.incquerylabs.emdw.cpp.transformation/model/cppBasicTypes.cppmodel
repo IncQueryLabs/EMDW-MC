@@ -10,7 +10,7 @@
         xsi:type="cpp:CPPBasicType" defaultValue="false">
       <commonType
           xsi:type="common:PrimitiveType"
-          href="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
+          href="pathmap://EMDW/xumlrt/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.0/@type"/>
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="bool"/>
@@ -19,7 +19,7 @@
         xsi:type="cpp:CPPBasicType" defaultValue="0l">
       <commonType
           xsi:type="common:PrimitiveType"
-          href="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
+          href="pathmap://EMDW/xumlrt/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.1/@type"/>
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="long"/>
@@ -28,7 +28,7 @@
         xsi:type="cpp:CPPBasicType" defaultValue="0.0">
       <commonType
           xsi:type="common:PrimitiveType"
-          href="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
+          href="pathmap://EMDW/xumlrt/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.2/@type"/>
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="double"/>
@@ -37,7 +37,7 @@
         xsi:type="cpp:CPPBasicType">
       <commonType
           xsi:type="common:PrimitiveType"
-          href="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
+          href="pathmap://EMDW/xumlrt/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.4/@type"/>
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="void"/>
@@ -51,7 +51,7 @@
         xsi:type="cpp:CPPBasicType">
       <commonType
           xsi:type="common:PrimitiveType"
-          href="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
+          href="pathmap://EMDW/xumlrt/umlPrimitiveTypes.common#//@packages.0/@typeDefinitions.3/@type"/>
       <ooplNameProvider
           xsi:type="oopl:OOPLDerivedNameProvider"
           name="string"/>

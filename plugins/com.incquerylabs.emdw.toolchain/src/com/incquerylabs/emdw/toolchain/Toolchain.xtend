@@ -12,7 +12,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.google.common.base.Stopwatch
 import com.google.common.collect.ImmutableMap
 import com.google.common.collect.Maps
-import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlCppMappingQueries
+import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlXumlrtMappingQueries
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
@@ -61,18 +61,15 @@ import org.eclipse.incquery.validation.core.ValidationEngine
 import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class Toolchain {
 	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	protected String RUNTIME_TARGET_DIRECTORY = "model/runtime"
 	
-	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
-	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	static val DEFAULT_RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
-	
-	protected URI CPP_BASIC_TYPES_URI = URI.createPlatformPluginURI(DEFAULT_CPP_BASIC_TYPES_PATH, true)
-	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true)
-	protected URI RUNTIME_MODEL_URI = URI.createPlatformPluginURI(DEFAULT_RUNTIME_MODEL_PATH, true)
+	protected URI CPP_BASIC_TYPES_URI = URI.createURI(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH)
+	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH)
+	protected URI RUNTIME_MODEL_URI = URI.createURI(EMDWConstants.CPP_RUNTIME_LIBRARY_PATH)
 	
 	
 	public static def ToolchainBuilder builder(){
@@ -94,7 +91,7 @@ class Toolchain {
 			CppQueries.instance,
 			CppCodeGenerationQueries.instance,
 			CppFileAndDirectoryQueries.instance,
-			UmlCppMappingQueries.instance,
+			UmlXumlrtMappingQueries.instance,
 			OoplQueryBasedFeatures.instance,
 			QueryBasedFeatures.instance
 		)
@@ -383,11 +380,12 @@ class Toolchain {
 	}
 	
 	def void executeCodeAndFileGeneration(Iterable<XTComponent> componentsToTransform, IEMDWProgressMonitor progressMonitor){
+		progressMonitor.workRemaining = componentsToTransform.size
 		val watch = Stopwatch.createStarted
 		// CPP Component Transformation
 		componentsToTransform.forEach[
 			it.executeCppStructureTransformation
-			it.executeCppActionCodeCompile(progressMonitor)
+			it.executeCppActionCodeCompile(progressMonitor.newChild(1))
 		]
 		
 		// ******* FILE CONTENT GENERATION *******
@@ -613,30 +611,56 @@ class Toolchain {
 	
 	def logMeasuredTimes() {
 		info('''********** Phase durations **********''')
+		val fullTime = measuredTimes.values.reduce[p1, p2|p1 + p2]
 		measuredTimes.forEach[phase, time |
-			logPhase(phase, time)
+			logPhase(phase, time, fullTime)
 		]
 		info('''*************************************''')
 	}
 	
-	def logPhase(Phase phase, long time){
+	/**
+	 * Log the duration of the given phase
+	 * @param phase the phase to be logged
+	 * @param time the duration of the pase
+	 */
+	def logPhase(Phase phase, long time) {
+		info('''«phase.logMessage» «time» ms''')
+	}
+	
+	/**
+	 * Log the duration and the proportion of the given phase
+	 * @param phase the phase to be logged
+	 * @param time the duration of the pase
+	 * @param fullTime the duration of the full toolchain execution. If 0 or negative, no proportion info is logged
+	 */
+	def logPhase(Phase phase, long time, long fullTime){
+		var percentageString = ""
+		if(fullTime > 0){
+			val percentage = 100*time/fullTime
+			percentageString = ''' («percentage»%)'''
+		}
+		
+		info('''«phase.logMessage» «time» ms«percentageString»''')
+	}
+	
+	private def getLogMessage(Phase phase) {
 		switch phase {
-			case INIT_XUMLRT_QRT: info('''Uml to xuml-rt transformation initialization: «time» ms''')
-			case INIT_CPP_PREREQUISITES: info('''Cpp transformation prerequisites initialization: «time» ms''')
-			case INIT_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation initialization: «time» ms''')
-			case INIT_CPP_COMP: info('''Xuml-rt to cppmodel component transformation initialization: «time» ms''')
-			case INIT_CPP_CODEGEN: info('''Cpp code generation initialization: «time» ms''')
-			case INIT_FILEGEN: info('''File generation initialization: «time» ms''')
-			case INIT_MAKEFILE_GEN: info('''Make file generation initialization: «time» ms''')
-			case EXECUTE_XUMLRT_QRT: info('''Uml to xuml-rt transformation manual execution: «time» ms''')
-			case EXECUTE_CPP_QRT: info('''Xuml-rt to cppmodel QRT transformation manual execution: «time» ms''')
-			case EXECUTE_CPP_COMP: info('''Xuml-rt to cppmodel component structure transformation: «time» ms''')
-			case EXECUTE_RALF_COMPILE: info('''Action code compile: «time» ms''')
-			case EXECUTE_CPP_CODEGEN: info('''Cpp code generation: «time» ms''')
-			case EXECUTE_CONTENT_GEN : info('''All file content generation: «time» ms''')
-			case EXECUTE_FILEGEN: info('''File generation: «time» ms''')
-			case EXECUTE_DELTA: info('''Delta transformation: «time» ms''')
-			default : info('''Unknown phase: «time» ms''')
+			case INIT_XUMLRT_QRT: '''Uml to xuml-rt transformation initialization:'''
+			case INIT_CPP_PREREQUISITES: '''Cpp transformation prerequisites initialization:'''
+			case INIT_CPP_QRT: '''Xuml-rt to cppmodel QRT transformation initialization:'''
+			case INIT_CPP_COMP: '''Xuml-rt to cppmodel component transformation initialization:'''
+			case INIT_CPP_CODEGEN: '''Cpp code generation initialization:'''
+			case INIT_FILEGEN: '''File generation initialization:'''
+			case INIT_MAKEFILE_GEN: '''Make file generation initialization:'''
+			case EXECUTE_XUMLRT_QRT: '''Uml to xuml-rt transformation manual execution:'''
+			case EXECUTE_CPP_QRT: '''Xuml-rt to cppmodel QRT transformation manual execution:'''
+			case EXECUTE_CPP_COMP: '''Xuml-rt to cppmodel component structure transformation:'''
+			case EXECUTE_RALF_COMPILE: '''Action code compile:'''
+			case EXECUTE_CPP_CODEGEN: '''Cpp code generation:'''
+			case EXECUTE_CONTENT_GEN : '''All file content generation:'''
+			case EXECUTE_FILEGEN: '''File generation:'''
+			case EXECUTE_DELTA: '''Delta transformation:'''
+			default : '''Unknown phase:'''
 		}
 	}
 	

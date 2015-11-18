@@ -55,6 +55,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPReturnValue
 import org.eclipse.papyrusrt.xtumlrt.common.TypedMultiplicityElement
 import org.eclipse.papyrusrt.xtumlrt.common.Parameter
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class CppUtil extends ModelUtil {
 	static extension val CppmodelFactory cppFactory = CppmodelFactory.eINSTANCE
@@ -83,7 +84,7 @@ class CppUtil extends ModelUtil {
 			it.ooplNameProvider = provider
 		]
 		cppResource.contents += cppModel
-		cppResource.resourceSet.getResource(URI.createPlatformPluginURI(PATH_CPP_TYPES, true), true)
+		cppResource.resourceSet.getResource(URI.createURI(PATH_CPP_TYPES), true)
 		cppModel
 	}
 	
@@ -527,18 +528,18 @@ class CppUtil extends ModelUtil {
 	// OTHER ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	def loadDefaultContainerImplementations(Resource resource) {
 		val resourceSet = resource.resourceSet
-		resourceSet.getResource(URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true), true)
+		resourceSet.getResource(URI.createURI(PATH_CPP_COLLECTIONS), true)
 	}
 	
 	def CPPBasicType findCPPBasicType(CPPQualifiedNamedElement root, Type type) {
-		val cppBasicTypesResource = root.eResource.resourceSet.resources.findFirst[it.URI.toString.contains("cppBasicTypes")]
+		val cppBasicTypesResource = root.eResource.resourceSet.resources.findFirst[it.URI.toString.equals(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH)]
 		val basicTypes = cppBasicTypesResource.allContents.filter(CPPBasicType).toList
 		return basicTypes.findFirst[it.commonType == type]
 	}
 	
 	def OOPLClassRefSimpleCollectionImplementation getClassRefSimpleCollectionImplementation(Resource res, SimpleCollectionKind kind) {
 		val implementationResource = res.resourceSet.getResource(
-			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			URI.createURI(PATH_CPP_COLLECTIONS),
 			true)
 		val implementations = implementationResource.contents
 													.filter[
@@ -550,7 +551,7 @@ class CppUtil extends ModelUtil {
 	
 	def OOPLClassRefAssocCollectionImplementation getClassRefAssocCollectionImplementation(Resource res, AssociativeCollectionKind kind) {
 		val implementationResource = res.resourceSet.getResource(
-			URI.createPlatformPluginURI(PATH_CPP_COLLECTIONS, true),
+			URI.createURI(PATH_CPP_COLLECTIONS),
 			true)
 		val implementations = implementationResource.contents
 													.filter[
@@ -562,7 +563,7 @@ class CppUtil extends ModelUtil {
 	
 	def OOPLSequenceImplementation getSequenceImplementation(OOPLDataType type, boolean ordered, boolean unique) {
 		val implementationResource = type.eResource.resourceSet.getResource(
-			URI.createPlatformPluginURI("/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel", true),
+			URI.createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH, true),
 			true)
 		val orderness = decodeSequenceOrderness(ordered)
 		val uniqueness = decodeSequenceUniqueness(unique)

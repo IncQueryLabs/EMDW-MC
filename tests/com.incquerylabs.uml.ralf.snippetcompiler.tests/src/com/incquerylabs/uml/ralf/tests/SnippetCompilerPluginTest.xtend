@@ -577,6 +577,20 @@ class SnippetCompilerPluginTest extends AbstractPluginSnippetTest{
 				
 				'''return 1;''',
 				"model::Comp::Pong::returnInteger"
+			],
+			#[
+				"Enumeration literal",
+				'''PingPongEnum testEnum;''',
+				
+				'''model::Comp::PingPongEnum testEnum;''',
+				"model::Comp::Pong::TestOperation"
+			],
+						#[
+				"Enumeration literal assignment",
+				'''PingPongEnum testEnum = PingPongEnum::Ping;''',
+				
+				'''model::Comp::PingPongEnum testEnum = model::Comp::PingPongEnum::Ping;''',
+				"model::Comp::Pong::TestOperation"
 			]
 		)
 	}

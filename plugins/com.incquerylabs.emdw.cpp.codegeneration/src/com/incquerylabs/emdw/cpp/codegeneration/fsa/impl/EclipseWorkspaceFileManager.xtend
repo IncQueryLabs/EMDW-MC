@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
 import java.util.zip.Adler32
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FSAException
 
 class EclipseWorkspaceFileManager extends FileManager {
 
@@ -35,15 +36,19 @@ class EclipseWorkspaceFileManager extends FileManager {
 	private def void createFolder(IResource resource) {
 		if (!resource.parent.exists)
 			createFolder(resource.parent)
-
-		switch (resource.type) {
-			case IResource.PROJECT: {
-				val iproject = resource as IProject
-				iproject.create(null)
-				iproject.open(null)
+		
+		try{
+			switch (resource.type) {
+				case IResource.PROJECT: {
+					val iproject = resource as IProject
+					iproject.create(null)
+					iproject.open(null)
+				}
+				case IResource.FOLDER: 
+					(resource as IFolder).create(IResource.NONE, true, null)
 			}
-			case IResource.FOLDER: 
-				(resource as IFolder).create(IResource.NONE, true, null)
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong with directory creation in Eclipse workspace! Directory: «resource.fullPath»''', ex)
 		}
 	}
 
@@ -51,49 +56,104 @@ class EclipseWorkspaceFileManager extends FileManager {
 	 * Directory management methods
 	 */ 
 	override void performDirectoryCreation(String path) {
-		path.folder.createFolder
+		try{
+			path.folder.createFolder
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong with directory creation in Eclipse workspace! Directory: «path»''', ex)
+		}
 	}
 
 	override void performDirectoryDeletion(String path) {
-		path.folder.delete(true, null)
+		try{
+			path.folder.delete(true, null)
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong with directory deletion in Eclipse workspace! Directory: «path»''', ex)
+		}
 	}
 	
-	// XXX Is it OK to filter to IFolders - what about inner projects?
 	override readSubDirectoryNames(String path) {
-		path.folder.members.filter[f|f instanceof IFolder].map[f|f.name].toList
+		try {
+			return path.folder.members.filter[ f |
+				f instanceof IFolder
+			].map[f|f.name].toList
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while explore sub directories in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 	
 	override readContainedFileNames(String path) {
-		path.folder.members.filter[f|f instanceof IFile].map[f|f.name].toList
+		try {
+			return path.folder.members.filter[ f |
+				f instanceof IFile
+			].map[f|f.name].toList
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while explore contained files in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 	
 	override directoryExists(String path) {
-		return path.folder.exists
+		try {
+			return path.folder.exists
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 
 	/*
 	 * File management methods
 	 */
 	override void performFileCreation(String directoryPath, String filename, CharSequence content) {
-		directoryPath.folder.getFile(filename).create(new ByteArrayInputStream(content.toString.bytes), true, null)
+		try {
+			directoryPath.folder.getFile(filename).create(new ByteArrayInputStream(content.toString.bytes), true, null)
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong with file creation in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+		}
 	}
 
 	override void performFileDeletion(String directoryPath, String filename) {
-		directoryPath.folder.getFile(filename).delete(true, null)
+		try {
+			directoryPath.folder.getFile(filename).delete(true, null)
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while delete file from Eclipse workspace! File: «directoryPath»«filename»''', ex)
+		}
 	}
 	
 	override boolean fileExists(String directoryPath, String filename) {
-		directoryPath.folder.getFile(filename).exists
+		try {
+			return directoryPath.folder.getFile(filename).exists
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+		}
 	}
 	
 	override byte[] readFileContent(String directoryPath, String filename) {
-		val file = directoryPath.folder.getFile(filename)
-		Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
+		try {
+			val file = directoryPath.folder.getFile(filename)
+			return Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+		}
 	}
 	
 	override String readFileContentAsString(String directoryPath, String filename) {
-		val file = directoryPath.folder.getFile(filename)
-		Files.toString(file.rawLocation.makeAbsolute.toFile, DEFAULT_CHARSET)
+		try {
+			val file = directoryPath.folder.getFile(filename)
+			Files.toString(file.rawLocation.makeAbsolute.toFile, DEFAULT_CHARSET)
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+		}
 	}
 	
 	// Use Adler32 to calculate file checksum

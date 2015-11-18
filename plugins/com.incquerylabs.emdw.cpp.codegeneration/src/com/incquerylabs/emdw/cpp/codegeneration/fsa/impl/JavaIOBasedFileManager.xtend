@@ -5,6 +5,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import java.io.File
 import java.io.FileWriter
 import java.util.zip.Adler32
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FSAException
 
 class JavaIOBasedFileManager extends FileManager {
 
@@ -13,51 +14,94 @@ class JavaIOBasedFileManager extends FileManager {
 	}
 
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {
-		val file = new File(directoryPath.addRootDirectory, filename)
-		file.createNewFile
-		val os = new FileWriter(file)
-		os.append(content)
-		os.flush
-		os.close
+		try {
+			val file = new File(directoryPath.addRootDirectory, filename)
+			file.createNewFile
+			val os = new FileWriter(file)
+			os.append(content)
+			os.flush
+			os.close
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong with file creation in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+		}
 	}
 
 	override performFileDeletion(String directoryPath, String filename) {
-		new File(directoryPath.addRootDirectory, filename).delete
+		try {
+			new File(directoryPath.addRootDirectory, filename).delete
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong with file deletion in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+		}
 	}
 
 	override readFileContent(String directoryPath, String filename) {
-		readFileContentAsString(directoryPath, filename).bytes
+		try {
+			return readFileContentAsString(directoryPath, filename).bytes
+		} catch(FSAException fsaex) {
+			throw fsaex
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while read file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+		}
 	}
 
 	override readFileContentAsString(String directoryPath, String filename) {
-		Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
+		try {
+			return Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while read file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+		}
 	}
 
 	override fileExists(String directoryPath, String filename) {
-		new File(directoryPath.addRootDirectory, filename).exists
+		try {
+			return new File(directoryPath.addRootDirectory, filename).exists
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while check file existence in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+		}
 	}
 
 	override performDirectoryCreation(String path) {
-		new File(path.addRootDirectory).mkdirs
+		try {
+			new File(path.addRootDirectory).mkdirs
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while create directory in file system! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 
 	override performDirectoryDeletion(String path) {
-		new File(path.addRootDirectory).deleteDirectory
+		try {
+			new File(path.addRootDirectory).deleteDirectory
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while delete directory in file system! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 
 	override readSubDirectoryNames(String path) {
-		new File(path.addRootDirectory).list.filter [ filename |
-			new File('''«path.addRootDirectory»/«filename»''').directory
-		].toList
+		try {
+			return new File(path.addRootDirectory).list.filter [ filename |
+				new File('''«path.addRootDirectory»/«filename»''').directory
+			].toList
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while explore sub directories in file system! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 
 	override readContainedFileNames(String path) {
-		new File(path.addRootDirectory).list.filter[filename|new File('''«path.addRootDirectory»/«filename»''').file].
-			toList
+		try {
+			return new File(path.addRootDirectory).list.filter[ filename |
+				new File('''«path.addRootDirectory»/«filename»''').file
+			].toList
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while explore contained files in file system! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 
 	override directoryExists(String path) {
-		new File(path.addRootDirectory).exists
+		try {
+			return new File(path.addRootDirectory).exists
+		} catch(Exception ex) {
+			throw new FSAException('''Something went wrong while check directory existence in file system! Directory: «path.addRootDirectory»''', ex)
+		}
 	}
 
 	private def boolean deleteDirectory(File _file) {

@@ -6,7 +6,7 @@ import java.io.File
 import java.net.URI
 import org.eclipse.core.runtime.FileLocator
 import org.eclipse.core.runtime.Platform
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.FSAException
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class BundleFileManager extends FileManager {
 	
@@ -38,15 +38,15 @@ class BundleFileManager extends FileManager {
 			val bundle = Platform.getBundle(rootDirectory)
 			val url = bundle.getEntry(fullPath.replace(File::separator, '/'))
 			if(url==null) {
-				throw new FSAException('''Cannot resolve file in bundle! File: «fullPath»''')
+				throw new FileManagerException('''Cannot resolve file in bundle! File: «fullPath»''')
 			}
 			val resolvedFileURL = FileLocator.toFileURL(url);
 			val resolvedURI = new URI(resolvedFileURL.getProtocol(), resolvedFileURL.getPath(), null)
 			return new File(resolvedURI)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with file resolution in bundle! File: «fullPath»''', ex)
+			throw new FileManagerException('''Something went wrong with file resolution in bundle! File: «fullPath»''', ex)
 		}
 	}
 	
@@ -55,7 +55,7 @@ class BundleFileManager extends FileManager {
 		try {
 			Files.toByteArray(file)
 		} catch(Exception ex) {
-			throw new FSAException('''File cannot be converted to byte array! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''File cannot be converted to byte array! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -64,27 +64,27 @@ class BundleFileManager extends FileManager {
 		try {
 			Files.toString(file, DEFAULT_CHARSET)
 		} catch(Exception ex) {
-			throw new FSAException('''File cannot be converted to string! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''File cannot be converted to string! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
 	override fileExists(String directoryPath, String filename) {
 		try {
 			return directoryPath.getFile(filename).isFile
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
 	override directoryExists(String path) {
 		try {
 			return path.folder.isDirectory
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -93,10 +93,10 @@ class BundleFileManager extends FileManager {
 			return path.folder.list.filter[ filename |
 				path.getFile(filename).directory
 			].toList
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while explore sub directories in bundle! Directory: «path»''', ex)
+			throw new FileManagerException('''Something went wrong while explore sub directories in bundle! Directory: «path»''', ex)
 		}
 	}
 	
@@ -105,10 +105,10 @@ class BundleFileManager extends FileManager {
 			return path.folder.list.filter[ filename |
 				path.getFile(filename).file
 			].toList
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while explore contained files in bundle! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while explore contained files in bundle! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	

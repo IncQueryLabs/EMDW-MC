@@ -5,7 +5,7 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import java.io.File
 import java.io.FileWriter
 import java.util.zip.Adler32
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.FSAException
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class JavaIOBasedFileManager extends FileManager {
 
@@ -22,7 +22,7 @@ class JavaIOBasedFileManager extends FileManager {
 			os.flush
 			os.close
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with file creation in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+			throw new FileManagerException('''Something went wrong with file creation in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
 		}
 	}
 
@@ -30,17 +30,17 @@ class JavaIOBasedFileManager extends FileManager {
 		try {
 			new File(directoryPath.addRootDirectory, filename).delete
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with file deletion in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+			throw new FileManagerException('''Something went wrong with file deletion in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
 		}
 	}
 
 	override readFileContent(String directoryPath, String filename) {
 		try {
 			return readFileContentAsString(directoryPath, filename).bytes
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while read file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while read file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
 		}
 	}
 
@@ -48,7 +48,7 @@ class JavaIOBasedFileManager extends FileManager {
 		try {
 			return Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while read file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while read file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
 		}
 	}
 
@@ -56,7 +56,7 @@ class JavaIOBasedFileManager extends FileManager {
 		try {
 			return new File(directoryPath.addRootDirectory, filename).exists
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while check file existence in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while check file existence in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
 		}
 	}
 
@@ -64,7 +64,7 @@ class JavaIOBasedFileManager extends FileManager {
 		try {
 			new File(path.addRootDirectory).mkdirs
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while create directory in file system! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while create directory in file system! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 
@@ -72,7 +72,7 @@ class JavaIOBasedFileManager extends FileManager {
 		try {
 			new File(path.addRootDirectory).deleteDirectory
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while delete directory in file system! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while delete directory in file system! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 
@@ -82,7 +82,7 @@ class JavaIOBasedFileManager extends FileManager {
 				new File('''«path.addRootDirectory»/«filename»''').directory
 			].toList
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while explore sub directories in file system! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while explore sub directories in file system! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 
@@ -92,7 +92,7 @@ class JavaIOBasedFileManager extends FileManager {
 				new File('''«path.addRootDirectory»/«filename»''').file
 			].toList
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while explore contained files in file system! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while explore contained files in file system! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 
@@ -100,7 +100,7 @@ class JavaIOBasedFileManager extends FileManager {
 		try {
 			return new File(path.addRootDirectory).exists
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while check directory existence in file system! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while check directory existence in file system! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 

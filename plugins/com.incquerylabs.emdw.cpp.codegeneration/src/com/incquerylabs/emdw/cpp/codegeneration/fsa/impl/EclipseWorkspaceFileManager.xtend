@@ -9,7 +9,7 @@ import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
 import java.util.zip.Adler32
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.FSAException
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class EclipseWorkspaceFileManager extends FileManager {
 
@@ -48,7 +48,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 					(resource as IFolder).create(IResource.NONE, true, null)
 			}
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with directory creation in Eclipse workspace! Directory: «resource.fullPath»''', ex)
+			throw new FileManagerException('''Something went wrong with directory creation in Eclipse workspace! Directory: «resource.fullPath»''', ex)
 		}
 	}
 
@@ -58,10 +58,10 @@ class EclipseWorkspaceFileManager extends FileManager {
 	override void performDirectoryCreation(String path) {
 		try{
 			path.folder.createFolder
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with directory creation in Eclipse workspace! Directory: «path»''', ex)
+			throw new FileManagerException('''Something went wrong with directory creation in Eclipse workspace! Directory: «path»''', ex)
 		}
 	}
 
@@ -69,7 +69,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		try{
 			path.folder.delete(true, null)
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with directory deletion in Eclipse workspace! Directory: «path»''', ex)
+			throw new FileManagerException('''Something went wrong with directory deletion in Eclipse workspace! Directory: «path»''', ex)
 		}
 	}
 	
@@ -79,7 +79,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 				f instanceof IFolder
 			].map[f|f.name].toList
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while explore sub directories in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while explore sub directories in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -89,7 +89,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 				f instanceof IFile
 			].map[f|f.name].toList
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while explore contained files in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while explore contained files in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 	
@@ -97,7 +97,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 		try {
 			return path.folder.exists
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
+			throw new FileManagerException('''Something went wrong while check directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
 		}
 	}
 
@@ -107,30 +107,30 @@ class EclipseWorkspaceFileManager extends FileManager {
 	override void performFileCreation(String directoryPath, String filename, CharSequence content) {
 		try {
 			directoryPath.folder.getFile(filename).create(new ByteArrayInputStream(content.toString.bytes), true, null)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong with file creation in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong with file creation in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 
 	override void performFileDeletion(String directoryPath, String filename) {
 		try {
 			directoryPath.folder.getFile(filename).delete(true, null)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while delete file from Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while delete file from Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
 	override boolean fileExists(String directoryPath, String filename) {
 		try {
 			return directoryPath.folder.getFile(filename).exists
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while check file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -138,10 +138,10 @@ class EclipseWorkspaceFileManager extends FileManager {
 		try {
 			val file = directoryPath.folder.getFile(filename)
 			return Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	
@@ -149,10 +149,10 @@ class EclipseWorkspaceFileManager extends FileManager {
 		try {
 			val file = directoryPath.folder.getFile(filename)
 			Files.toString(file.rawLocation.makeAbsolute.toFile, DEFAULT_CHARSET)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
+			throw new FileManagerException('''Something went wrong while read file in Eclipse workspace! File: «directoryPath»«filename»''', ex)
 		}
 	}
 	

@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
 import java.util.stream.Collectors
 import org.eclipse.xtend2.lib.StringConcatenation
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.FSAException
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class JarFileManager extends FileManager {
 	
@@ -22,13 +22,13 @@ class JarFileManager extends FileManager {
 		try {
 			val fileResource = JarFileManager.classLoader.getResourceAsStream(fullPath)
 			if(fileResource==null) {
-				throw new FSAException('''Cannot resolve file in jar! File: «fullPath»''')
+				throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
 			}
 			return ByteStreams::toByteArray(fileResource)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
+			throw new FileManagerException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
 		}
 	}
 	
@@ -37,14 +37,14 @@ class JarFileManager extends FileManager {
 		try {
 			val fileResource = JarFileManager.classLoader.getResourceAsStream(fullPath)
 			if(fileResource==null) {
-				throw new FSAException('''Cannot resolve file in jar! File: «fullPath»''')
+				throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
 			}
 			val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
 			return contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
-		} catch(FSAException fsaex) {
+		} catch(FileManagerException fsaex) {
 			throw fsaex
 		} catch(Exception ex) {
-			throw new FSAException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
+			throw new FileManagerException('''Something went wrong while read file in jar! File: «fullPath»''', ex)
 		}
 	}
 	

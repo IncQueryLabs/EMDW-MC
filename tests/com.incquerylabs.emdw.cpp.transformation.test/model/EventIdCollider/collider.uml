@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_6xISEI6rEeWceZJE60cxnw" name="Collider">
+  <packagedElement xmi:type="uml:Component" xmi:id="_m119cI6tEeWceZJE60cxnw" name="ColliderComponent">
+    <packagedElement xmi:type="uml:Package" xmi:id="_woGhsI6tEeWceZJE60cxnw" name="SignalEvents">
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_1i-gQI6tEeWceZJE60cxnw" name="expected_signal_event" signal="_vQB7gI6tEeWceZJE60cxnw"/>
+      <packagedElement xmi:type="uml:SignalEvent" xmi:id="_FUyzMI6uEeWceZJE60cxnw" name="conflicting_signal_event" signal="_BFObcI6uEeWceZJE60cxnw"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_yfmO0I6tEeWceZJE60cxnw" name="ColliderImplementation">
+      <packagedElement xmi:type="uml:Class" xmi:id="_oVzUUI6tEeWceZJE60cxnw" name="ColliderExecutor" classifierBehavior="_JLy58I6uEeWceZJE60cxnw">
+        <ownedBehavior xmi:type="uml:StateMachine" xmi:id="_JLy58I6uEeWceZJE60cxnw" name="ExecutorStateMachine">
+          <region xmi:type="uml:Region" xmi:id="_NG-9II6uEeWceZJE60cxnw" name="MainRegion">
+            <transition xmi:type="uml:Transition" xmi:id="_To2HoI6uEeWceZJE60cxnw" name="init_transition" source="_RVchoI6uEeWceZJE60cxnw" target="_Rt9vUI6uEeWceZJE60cxnw"/>
+            <transition xmi:type="uml:Transition" xmi:id="_UetYoI6uEeWceZJE60cxnw" name="expected" source="_Rt9vUI6uEeWceZJE60cxnw" target="_SGEGQI6uEeWceZJE60cxnw">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_u3t9oI63EeWceZJE60cxnw" name="print_expected">
+                <language>rALF</language>
+                <body>std::out::println(std::int::toString(sigdata.expected_int));</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_46AM0I61EeWceZJE60cxnw" name="expectedTrigger" event="_1i-gQI6tEeWceZJE60cxnw"/>
+            </transition>
+            <transition xmi:type="uml:Transition" xmi:id="_U8YzII6uEeWceZJE60cxnw" name="conflicting" source="_Rt9vUI6uEeWceZJE60cxnw" target="_SoI4kI6uEeWceZJE60cxnw">
+              <effect xmi:type="uml:OpaqueBehavior" xmi:id="_A278QI64EeWceZJE60cxnw" name="printConflicting">
+                <language>rALF</language>
+                <body>std::out::println(std::real::toString(sigdata.conflicting_real));</body>
+              </effect>
+              <trigger xmi:type="uml:Trigger" xmi:id="_Cfs7wI62EeWceZJE60cxnw" name="conflictingTrigger" event="_FUyzMI6uEeWceZJE60cxnw"/>
+            </transition>
+            <subvertex xmi:type="uml:Pseudostate" xmi:id="_RVchoI6uEeWceZJE60cxnw" name="Initial1"/>
+            <subvertex xmi:type="uml:State" xmi:id="_Rt9vUI6uEeWceZJE60cxnw" name="State1">
+              <entry xmi:type="uml:OpaqueBehavior" xmi:id="_cmuooI6uEeWceZJE60cxnw" name="sendCollidingSignals">
+                <language>rALF</language>
+                <body>send new Collider::ColliderComponent::ColliderImplementation::ColliderExecutor::conflicting_signal(conflicting_real => 5.5) to this;&#xD;
+send new Collider::ColliderComponent::ColliderImplementation::ColliderContainer::expected_signal(expected_int => 3) to this;&#xD;
+</body>
+              </entry>
+            </subvertex>
+            <subvertex xmi:type="uml:State" xmi:id="_SGEGQI6uEeWceZJE60cxnw" name="State2"/>
+            <subvertex xmi:type="uml:State" xmi:id="_SoI4kI6uEeWceZJE60cxnw" name="State3"/>
+          </region>
+        </ownedBehavior>
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_BFObcI6uEeWceZJE60cxnw" name="conflicting_signal">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_aaMwkI63EeWceZJE60cxnw" name="conflicting_real">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Real"/>
+          </ownedAttribute>
+        </nestedClassifier>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_iMq5QI61EeWceZJE60cxnw" name="ExpectedSignalReception" signal="_vQB7gI6tEeWceZJE60cxnw"/>
+        <ownedReception xmi:type="uml:Reception" xmi:id="_l2wlYI61EeWceZJE60cxnw" name="ConflictingSignalReception" signal="_BFObcI6uEeWceZJE60cxnw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_s-AOgI6tEeWceZJE60cxnw" name="ColliderContainer">
+        <nestedClassifier xmi:type="uml:Signal" xmi:id="_vQB7gI6tEeWceZJE60cxnw" name="expected_signal">
+          <ownedAttribute xmi:type="uml:Property" xmi:id="_eeNYkI63EeWceZJE60cxnw" name="expected_int">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+        </nestedClassifier>
+      </packagedElement>
+    </packagedElement>
+  </packagedElement>
+  <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_4_NyF463EeWceZJE60cxnw">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_4_PAMI63EeWceZJE60cxnw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+      <references xmi:type="ecore:EPackage" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#_Kv8EIKFXEeS_KNX0nfvIVQ"/>
+    </eAnnotations>
+    <appliedProfile xmi:type="uml:Profile" href="pathmap://PAPYRUS_ACTIONLANGUAGE_PROFILE/ActionLanguage-Profile.profile.uml#ActionLanguage"/>
+  </profileApplication>
+</uml:Model>

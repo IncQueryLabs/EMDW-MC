@@ -33,24 +33,32 @@
 				</configuration>
 			</plugin>
 			<!-- Copy project dependency -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<!-- exclude junit, we need runtime dependency only -->
-							<includeScope>runtime</includeScope>
-							<outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
+			
+        	<plugin>
+  				<groupId>org.apache.maven.plugins</groupId>
+  				<artifactId>maven-shade-plugin</artifactId>
+  				<version>2.3</version>
+  				<executions>
+    				<execution>
+      					<phase>package</phase>
+      					<goals>
+        					<goal>shade</goal>
+      					</goals>
+      					<configuration>
+  							<filters>
+  							<filter>
+  								<artifact>*:*</artifact>
+                  					<excludes>
+                    					<exclude>META-INF/*.SF</exclude>
+                    					<exclude>META-INF/*.DSA</exclude>
+                    					<exclude>META-INF/*.RSA</exclude>
+                    					<exclude>*.profile</exclude>
+                  					</excludes>
+                  				</filter>
+                  			</filters>
+  						</configuration>
+    				</execution>
+  				</executions>
 			</plugin>
 			<!-- Make this jar executable -->
 			<plugin>
@@ -65,7 +73,6 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<mainClass>com.incquerylabs.emdw.cpp.app.EMDWJavaApplication</mainClass>
-							<classpathPrefix>dependency-jars/</classpathPrefix>
 						</manifest>
 					</archive>
 				</configuration>
@@ -89,17 +96,17 @@
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
-			<version>2.8.4</version>
+			<version>2.9.0.rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
-			<version>2.8.4</version>
+			<version>2.9.0.rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.util</artifactId>
-			<version>2.8.4</version>
+			<version>2.9.0.rc2</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.xsemantics</groupId>
@@ -112,6 +119,17 @@
 			<groupId>org.eclipse.incquery</groupId>
 			<artifactId>incquery-runtime</artifactId>
 			<version>${incquery.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.incquery</groupId>
+			<artifactId>org.eclipse.incquery.querybasedfeatures.runtime</artifactId>
+			<version>${incquery.version}</version>
+			<exclusions>
+		        <exclusion>
+        		    <groupId>*</groupId>
+		            <artifactId>*</artifactId>
+			    </exclusion>
+			</exclusions>
 		</dependency>
 		<!-- <dependency> -->
 		<!-- <groupId>org.eclipse.incquery</groupId> -->
@@ -134,6 +152,33 @@
 			<groupId>org.eclipse.uml2</groupId>
 			<artifactId>org.eclipse.uml2.types</artifactId>
 			<version>2.0.0.v20140910-1354</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.uml2</groupId>
+			<artifactId>org.eclipse.uml2.common</artifactId>
+			<version>2.0.1.v20140910-1354</version>
+		</dependency>
+		<dependency>
+    		<groupId>org.eclipse.uml2.uml</groupId>
+    		<artifactId>resources</artifactId>
+    		<version>5.0.0-v20140602-0749</version>
+    		<exclusions>
+		        <exclusion>
+        		    <groupId>*</groupId>
+		            <artifactId>*</artifactId>
+			    </exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.uml2.uml.profile</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.0.0-v20140602-0749</version>
+			<exclusions>
+		        <exclusion>
+        		    <groupId>*</groupId>
+		            <artifactId>*</artifactId>
+			    </exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- EMDW models -->
@@ -216,6 +261,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.umlintegration.queries</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.umlintegration.papyrus</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -232,6 +282,36 @@
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.xtuml.incquery.validation</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.ericsson.xtumlrt.oopl.model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.ericsson.xtumlrt.oopl.cpp.model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.valuedescriptor.model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.snippet.model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.papyrusrt</groupId>
+			<artifactId>org.eclipse.papyrusrt.xtumlrt.common.model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.papyrusrt</groupId>
+			<artifactId>org.eclipse.papyrusrt.xtumlrt.xtuml.model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>

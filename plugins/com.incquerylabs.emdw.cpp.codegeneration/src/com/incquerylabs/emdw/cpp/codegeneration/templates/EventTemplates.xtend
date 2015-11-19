@@ -31,19 +31,19 @@ class EventTemplates extends CPPTemplate {
 		'''
 	}
 	
-	def eventEnumClassName(CPPClass cppClass) {
+	def String eventEnumClassName(CPPClass cppClass) {
 		'''«cppClass.cppName»_event'''
 	}
 	
-	def eventEnumClassQualifiedName(CPPClass cppClass) {
+	def String eventEnumClassQualifiedName(CPPClass cppClass) {
 		'''«cppClass.cppQualifiedName»::«cppClass.eventEnumClassName»'''
 	}
 	
-	def eventEnumeratorName(CPPClass cppClass, CPPEvent cppEvent) {
+	def String eventEnumeratorName(CPPClass cppClass, CPPEvent cppEvent) {
 		'''«cppEvent.cppName»_event'''
 	}
 	
-	def eventEnumeratorQualifiedName(CPPClass cppClass, CPPEvent cppEvent) {
+	def String eventEnumeratorQualifiedName(CPPClass cppClass, CPPEvent cppEvent) {
 		'''«cppClass.eventEnumClassQualifiedName»::«eventEnumeratorName(cppClass, cppEvent)»'''
 	}
 	
@@ -53,8 +53,7 @@ class EventTemplates extends CPPTemplate {
 		«FOR event : classEvents»
 			class «event.generatedEventClassName» : «event.superEventsTemplate» {
 				public:
-					// Constructor
-					«event.generatedEventClassName»();
+					«typeIdTemplate(event.generatedEventClassName)»
 					// Virtual clone
 					virtual «event.generatedEventClassQualifiedName»* clone() const;
 					// Attributes
@@ -107,32 +106,9 @@ class EventTemplates extends CPPTemplate {
 		val classEvents = cppClass.subElements.filter(CPPEvent).sortBy[cppName]
 		'''
 		«FOR event : classEvents»
-			«event.constructorTemplate»
 			«event.cloneTemplate»
 		«ENDFOR»
 		'''
-	}
-	
-	def constructorTemplate(CPPEvent event){
-		var CPPClass cppClass = event.eContainer as CPPClass
-		val superEvents = event.superEvents
-		
-		if(superEvents.isNullOrEmpty){
-			'''
-				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»() : 
-				«ClassTemplates.EVENT_FQN»(«eventEnumeratorQualifiedName(cppClass, event)»){
-				}
-			'''
-		} else {
-			'''
-				«event.generatedEventClassQualifiedName»::«event.generatedEventClassName»() : 
-				«superEvents.head.generatedEventClassQualifiedName»(){
-					this->«ClassTemplates.EVENT_FQN»::_id = «eventEnumeratorQualifiedName(cppClass, event)»;
-				}
-			'''
-		}
-		
-		
 	}
 	
 	def cloneTemplate(CPPEvent event){

@@ -53,7 +53,6 @@ class StateMappingTest extends TransformationTest<State, CPPClass> {
 		assertTrue(classHeader.contains("s1"))
 		assertTrue(classHeader.contains("s2"))
 		
-		assertTrue(classHeader.contains("class TEST_event"))
 		assertTrue(classHeader.contains("ClassEvent"))
 		
 		// check state and transition operations in declaration

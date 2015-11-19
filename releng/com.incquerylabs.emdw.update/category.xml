@@ -21,13 +21,13 @@
    <feature url="features/org.eclipse.papyrus.sdk.feature_1.1.0.qualifier.jar" id="org.eclipse.papyrus.sdk.feature" version="1.1.0.qualifier">
       <category name="com.incquerylabs.emdw.update"/>
    </feature>
-   <feature url="features/org.eclipse.incquery.uml.feature_1.1.0.201511061736.jar" id="org.eclipse.incquery.uml.feature" version="1.1.0.201511061736">
+   <feature url="features/org.eclipse.incquery.uml.feature_1.1.0.qualifier.jar" id="org.eclipse.incquery.uml.feature" version="1.1.0.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
    <feature url="features/org.eclipse.viatra.emf.runtime.feature_0.8.0.qualifier.jar" id="org.eclipse.viatra.emf.runtime.feature" version="0.8.0.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
-   <feature url="features/org.eclipse.incquery.sdk.feature_1.1.0.201511061736.jar" id="org.eclipse.incquery.sdk.feature" version="1.1.0.201511061736">
+   <feature url="features/org.eclipse.incquery.sdk.feature_1.1.0.qualifier.jar" id="org.eclipse.incquery.sdk.feature" version="1.1.0.qualifier">
       <category name="com.incquerylabs.emdw.update.developer"/>
    </feature>
    <category-def name="com.incquerylabs.emdw.update" label="xUML-RT Model Compiler"/>

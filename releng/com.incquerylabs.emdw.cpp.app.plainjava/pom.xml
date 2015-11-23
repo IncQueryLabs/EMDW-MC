@@ -355,6 +355,10 @@
 			<url>https://repo.eclipse.org/content/groups/emf-incquery/</url>
 		</repository>
 		<repository>
+			<id>viatra</id>
+			<url>https://repo.eclipse.org/content/repositories/viatra2-snapshots/</url>
+		</repository>
+		<repository>
 			<id>scout-releases</id>
 			<url>https://repo.eclipse.org/content/repositories/scout-releases/</url>
 		</repository>

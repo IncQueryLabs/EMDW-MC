@@ -9,7 +9,7 @@
 		<relativePath>../../releng/com.incquerylabs.emdw.parent</relativePath>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>com.incquerylabs.emdw.toolchain</artifactId>
+	<artifactId>com.incquerylabs.emdw.toolchain.mwe2integration</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<build>
 		<plugins>

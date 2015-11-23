@@ -465,7 +465,7 @@ class Toolchain {
 		
 		val mainContent = mainGeneration.execute(components)
 		// only create main file if it doesn't exist yet
-		if(!fileManager.fileExists("", "main.cc")){
+		if(!fileManager.isFileExists("", "main.cc")) {
 			fileManager.createFile("main.cc", mainContent, true, false)
 		}
 	}
@@ -480,7 +480,7 @@ class Toolchain {
 		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
 		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
 		// only create MakeFile if it doesn't exist yet
-		if(!fileManager.fileExists("", "Makefile")){
+		if(!fileManager.isFileExists("", "Makefile")) {
 			fileManager.createFile("Makefile", makefileContent, true, false)
 		}
 	}

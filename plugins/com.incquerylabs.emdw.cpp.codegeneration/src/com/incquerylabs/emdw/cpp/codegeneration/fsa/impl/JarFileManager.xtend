@@ -23,11 +23,8 @@ class JarFileManager extends FileManager {
 		if(fileResource==null) {
 			throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
 		}
-		try {
-			return ByteStreams::toByteArray(fileResource)
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while reading file in jar! File: «fullPath»''', ex)
-		}
+		
+		return ByteStreams::toByteArray(fileResource)
 	}
 	
 	override readFileContentAsString(String directoryPath, String filename) {
@@ -36,28 +33,17 @@ class JarFileManager extends FileManager {
 		if(fileResource==null) {
 			throw new FileManagerException('''Cannot resolve file in jar! File: «fullPath»''')
 		}
-		try {
-			val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
-			return contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while reading file in jar! File: «fullPath»''', ex)
-		}
+		
+		val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
+		return contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
 	}
 	
 	override directoryExists(String path) {
-		try {
-			return JarFileManager.classLoader.getResource(path) != null
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while checking directory existence in jar! Directory: «path.addRootDirectory»''', ex)
-		}
+		return JarFileManager.classLoader.getResource(path) != null
 	}
 	
 	override fileExists(String directoryPath, String filename) {
-		try {
-			return JarFileManager.classLoader.getResource('''«directoryPath»/«filename»''') != null
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while checking file existence in jar! File: «directoryPath»«filename»''', ex)
-		}
+		return JarFileManager.classLoader.getResource('''«directoryPath»/«filename»''') != null
 	}
 	
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {

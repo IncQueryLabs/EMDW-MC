@@ -5,109 +5,67 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
 import java.io.File
 import java.io.FileWriter
 import java.util.zip.Adler32
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class JavaIOBasedFileManager extends FileManager {
 
 	new(String rootDirectory) {
 		super(rootDirectory)
+		type = "file system"
 	}
 
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {
-		try {
-			val file = new File(directoryPath.addRootDirectory, filename)
-			file.createNewFile
-			val os = new FileWriter(file)
-			os.append(content)
-			os.flush
-			os.close
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong with file creation in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
-		}
+		val file = new File(directoryPath.addRootDirectory, filename)
+		file.createNewFile
+		val os = new FileWriter(file)
+		os.append(content)
+		os.flush
+		os.close
 	}
 
 	override performFileDeletion(String directoryPath, String filename) {
-		try {
-			new File(directoryPath.addRootDirectory, filename).delete
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong with file deletion in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
-		}
+		new File(directoryPath.addRootDirectory, filename).delete
 	}
 
 	override readFileContent(String directoryPath, String filename) {
-		try {
-			return readFileContentAsString(directoryPath, filename).bytes
-		} catch(FileManagerException fsaex) {
-			throw fsaex
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while reading file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
-		}
+		return readFileContentAsString(directoryPath, filename).bytes
 	}
 
 	override readFileContentAsString(String directoryPath, String filename) {
-		try {
-			return Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while reading file in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
-		}
+		return Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
 	}
 
 	override fileExists(String directoryPath, String filename) {
-		try {
-			return new File(directoryPath.addRootDirectory, filename).exists
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while checking file existence in file system! File: «directoryPath.addRootDirectory»/«filename»''', ex)
-		}
+		return new File(directoryPath.addRootDirectory, filename).exists
 	}
 
 	override performDirectoryCreation(String path) {
-		try {
-			new File(path.addRootDirectory).mkdirs
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while creating directory in file system! Directory: «path.addRootDirectory»''', ex)
-		}
+		new File(path.addRootDirectory).mkdirs
 	}
 
 	override performDirectoryDeletion(String path) {
-		try {
-			new File(path.addRootDirectory).deleteDirectory
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while deleting directory in file system! Directory: «path.addRootDirectory»''', ex)
-		}
+		new File(path.addRootDirectory).deleteDirectory
 	}
 
 	override readSubDirectoryNames(String path) {
-		try {
-			return new File(path.addRootDirectory).list.filter [ filename |
-				new File('''«path.addRootDirectory»/«filename»''').directory
-			].toList
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while exploring sub directories in file system! Directory: «path.addRootDirectory»''', ex)
-		}
+		return new File(path.addRootDirectory).list.filter [ filename |
+			new File('''«path.addRootDirectory»/«filename»''').directory
+		].toList
 	}
 
 	override readContainedFileNames(String path) {
-		try {
-			return new File(path.addRootDirectory).list.filter[ filename |
-				new File('''«path.addRootDirectory»/«filename»''').file
-			].toList
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while exploring contained files in file system! Directory: «path.addRootDirectory»''', ex)
-		}
+		return new File(path.addRootDirectory).list.filter [ filename |
+			new File('''«path.addRootDirectory»/«filename»''').file
+		].toList
 	}
 
 	override directoryExists(String path) {
-		try {
-			return new File(path.addRootDirectory).exists
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while checking directory existence in file system! Directory: «path.addRootDirectory»''', ex)
-		}
+		return new File(path.addRootDirectory).exists
 	}
 
 	private def boolean deleteDirectory(File _file) {
 		val file = _file as File
 		if (file.directory) {
-			for(File child : file.listFiles)
+			for (File child : file.listFiles)
 				child.deleteDirectory
 			file.delete
 		} else {
@@ -115,7 +73,7 @@ class JavaIOBasedFileManager extends FileManager {
 		}
 
 	}
-	
+
 	// Use Adler32 to calculate file checksum
 	override def String calculateHash(byte[] content) {
 		val adler32 = new Adler32()

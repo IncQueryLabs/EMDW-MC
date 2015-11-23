@@ -34,82 +34,44 @@ class BundleFileManager extends FileManager {
 	}
 	
 	private def resolveFile(String fullPath) {
-		try{
-			val bundle = Platform.getBundle(rootDirectory)
-			val url = bundle.getEntry(fullPath.replace(File::separator, '/'))
-			if(url==null) {
-				throw new FileManagerException('''Cannot resolve file in bundle! File: «fullPath»''')
-			}
-			val resolvedFileURL = FileLocator.toFileURL(url);
-			val resolvedURI = new URI(resolvedFileURL.getProtocol(), resolvedFileURL.getPath(), null)
-			return new File(resolvedURI)
-		} catch(FileManagerException fsaex) {
-			throw fsaex
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong with file resolution in bundle! File: «fullPath»''', ex)
+		val bundle = Platform.getBundle(rootDirectory)
+		val url = bundle.getEntry(fullPath.replace(File::separator, '/'))
+		if(url==null) {
+			throw new FileManagerException('''Cannot resolve file in bundle! File: «fullPath»''')
 		}
+		val resolvedFileURL = FileLocator.toFileURL(url);
+		val resolvedURI = new URI(resolvedFileURL.getProtocol(), resolvedFileURL.getPath(), null)
+		return new File(resolvedURI)
 	}
 	
 	override readFileContent(String directoryPath, String filename) {
 		val file = directoryPath.getFile(filename)
-		try {
-			Files.toByteArray(file)
-		} catch(Exception ex) {
-			throw new FileManagerException('''File cannot be converted to byte array! File: «directoryPath»«filename»''', ex)
-		}
+		Files.toByteArray(file)
 	}
 	
 	override readFileContentAsString(String directoryPath, String filename) {
 		val file = directoryPath.getFile(filename)
-		try {
-			Files.toString(file, DEFAULT_CHARSET)
-		} catch(Exception ex) {
-			throw new FileManagerException('''File cannot be converted to string! File: «directoryPath»«filename»''', ex)
-		}
+		Files.toString(file, DEFAULT_CHARSET)
 	}
 	
 	override fileExists(String directoryPath, String filename) {
-		try {
-			return directoryPath.getFile(filename).isFile
-		} catch(FileManagerException fsaex) {
-			throw fsaex
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while checking file existence in Eclipse workspace! File: «directoryPath»«filename»''', ex)
-		}
+		return directoryPath.getFile(filename).isFile
 	}
 	
 	override directoryExists(String path) {
-		try {
-			return path.folder.isDirectory
-		} catch(FileManagerException fsaex) {
-			throw fsaex
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while checking directory existence in Eclipse workspace! Directory: «path.addRootDirectory»''', ex)
-		}
+		return path.folder.isDirectory
 	}
 	
 	override readSubDirectoryNames(String path) {
-		try {
-			return path.folder.list.filter[ filename |
-				path.getFile(filename).directory
-			].toList
-		} catch(FileManagerException fsaex) {
-			throw fsaex
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while exploring sub directories in bundle! Directory: «path»''', ex)
-		}
+		return path.folder.list.filter[ filename |
+			path.getFile(filename).directory
+		].toList
 	}
 	
 	override readContainedFileNames(String path) {
-		try {
-			return path.folder.list.filter[ filename |
-				path.getFile(filename).file
-			].toList
-		} catch(FileManagerException fsaex) {
-			throw fsaex
-		} catch(Exception ex) {
-			throw new FileManagerException('''Something went wrong while exploring contained files in bundle! Directory: «path.addRootDirectory»''', ex)
-		}
+		return path.folder.list.filter[ filename |
+			path.getFile(filename).file
+		].toList
 	}
 	
 	

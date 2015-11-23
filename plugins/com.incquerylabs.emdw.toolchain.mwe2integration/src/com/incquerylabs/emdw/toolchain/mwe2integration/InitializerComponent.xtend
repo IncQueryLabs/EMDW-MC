@@ -46,6 +46,7 @@ import org.eclipse.xtend.lib.annotations.Accessors
 import static com.google.common.base.Preconditions.*
 
 class InitializerComponent implements IWorkflowComponent {
+	
 	static val TOOLCHAIN_QUERIES = GenericPatternGroup.of(
 			StateMachine.instance,
 			Structure.instance,
@@ -92,7 +93,7 @@ class InitializerComponent implements IWorkflowComponent {
 	}
 
 	override void invoke(IWorkflowContext ctx) {
-		val resourceSet = new ResourceSetImpl
+		val resourceSet = new ResourceSetImpl	
 		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI(umlResourcePath, true)) => [ load(#{}) ]
 		val umlModel = umlResource.contents.filter(Model).head
 		generationProjectName = generationProjectPrefix + umlModel.name
@@ -224,5 +225,5 @@ class InitializerComponent implements IWorkflowComponent {
 			folder.create(true, true, null);
 		}
 		return folder;
-	}
+	}	
 }

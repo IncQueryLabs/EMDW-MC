@@ -6,8 +6,13 @@ import org.eclipse.emf.mwe2.runtime.workflow.WorkflowContextImpl
 import org.eclipse.viatra.emf.mwe2integration.initializer.MWE2IntegrationInitializer
 
 class MWE2IntegrationRunner {
-	public static final String workflowPath = "src/com/incquerylabs/emdw/toolchain/mwe2integration/EMDWWorkflow.mwe2"
+	private String workflowPath
 	extension MWE2IntegrationInitializer initializer = new MWE2IntegrationInitializer()
+	
+	new(String path){
+		workflowPath = path
+	}
+	
 	
 	def void RunHeadlessEclipse() {
 		val  mweRunner = initializeHeadlessEclipse(class.classLoader)

@@ -7,6 +7,7 @@ import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.mwe2integration.IMessage
 import org.eclipse.viatra.emf.mwe2integration.IMessageProcessor
 import org.eclipse.viatra.emf.mwe2integration.ITransformationStep
+import com.incquerylabs.emdw.toolchain.mwe2integration.FileContentCreationStep
 
 class DirtyComponentsMessageProcessor implements IMessageProcessor<Set<XTComponent>, DirtyComponentsMessage> {
 	protected ITransformationStep parent
@@ -26,8 +27,11 @@ class DirtyComponentsMessageProcessor implements IMessageProcessor<Set<XTCompone
 			
 			//Register dirty components
 			if (parent instanceof CppComponentTransformationStep) {
-				var m2tparent = (parent as CppComponentTransformationStep)
-				m2tparent.dirtyComponents = event.parameter
+				var castparent = (parent as CppComponentTransformationStep)
+				castparent.dirtyComponents = event.parameter
+			}else if (parent instanceof FileContentCreationStep){
+				var castparent = (parent as FileContentCreationStep)
+				castparent.dirtyComponents = event.parameter
 			}
 		}
 	}

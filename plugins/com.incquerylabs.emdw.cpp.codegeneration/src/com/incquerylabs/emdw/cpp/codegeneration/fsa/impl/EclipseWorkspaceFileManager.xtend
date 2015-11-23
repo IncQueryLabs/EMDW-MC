@@ -9,6 +9,7 @@ import org.eclipse.core.resources.IFolder
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
 import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.resources.IContainer
 
 class EclipseWorkspaceFileManager extends FileManager {
 
@@ -31,7 +32,10 @@ class EclipseWorkspaceFileManager extends FileManager {
 	}
 	
 	// Implementation specific methods
-	private def IFolder getFolder(String path) {
+	private def IContainer getContainer(String path) {
+		if(path.isNullOrEmpty) {
+			return rootProject
+		}
 		rootProject.getFolder(path.addRootDirectory)
 	}
 
@@ -54,52 +58,60 @@ class EclipseWorkspaceFileManager extends FileManager {
 	 * Directory management methods
 	 */ 
 	override void performDirectoryCreation(String path) {
-		path.folder.createFolder
+		path.container.createFolder
 	}
 
 	override void performDirectoryDeletion(String path) {
-		path.folder.delete(true, null)
+		path.container.delete(true, null)
 	}
 	
 	override readSubDirectoryNames(String path) {
-		return path.folder.members.filter[ f |
+		return path.container.members.filter[ f |
 			f instanceof IFolder
 		].map[f|f.name].toList
 	}
 	
 	override readContainedFileNames(String path) {
-		return path.folder.members.filter[ f |
+		return path.container.members.filter[ f |
 			f instanceof IFile
 		].map[f|f.name].toList
 	}
 	
 	override directoryExists(String path) {
-		return path.folder.exists
+		return path.container.exists
 	}
 
 	/*
 	 * File management methods
 	 */
 	override void performFileCreation(String directoryPath, String filename, CharSequence content) {
-		directoryPath.folder.getFile(filename).create(new ByteArrayInputStream(content.toString.bytes), true, null)
+		directoryPath.container.getFile(filename).create(new ByteArrayInputStream(content.toString.bytes), true, null)
 	}
 
 	override void performFileDeletion(String directoryPath, String filename) {
-		directoryPath.folder.getFile(filename).delete(true, null)
+		directoryPath.container.getFile(filename).delete(true, null)
 	}
 	
 	override boolean fileExists(String directoryPath, String filename) {
-		return directoryPath.folder.getFile(filename).exists
+		return directoryPath.container.getFile(filename).exists
 	}
 	
 	override byte[] readFileContent(String directoryPath, String filename) {
-		val file = directoryPath.folder.getFile(filename)
+		val file = directoryPath.container.getFile(filename)
 		return Files.toByteArray(file.rawLocation.makeAbsolute.toFile)
 	}
 	
 	override String readFileContentAsString(String directoryPath, String filename) {
-		val file = directoryPath.folder.getFile(filename)
+		val file = directoryPath.container.getFile(filename)
 		Files.toString(file.rawLocation.makeAbsolute.toFile, DEFAULT_CHARSET)
+	}
+	
+	private dispatch def IFile getFile(IFolder folder, String filename) {
+		folder.getFile(filename)
+	}
+	
+	private dispatch def IFile getFile(IProject project, String filename) {
+		project.getFile(filename)
 	}
 	
 	// Use Adler32 to calculate file checksum

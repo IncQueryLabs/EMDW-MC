@@ -2,6 +2,7 @@ package com.incquerylabs.emdw.cpp.codegeneration.test.fsa
 
 import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import java.text.MessageFormat
 import java.util.List
 import org.apache.log4j.AppenderSkeleton
@@ -14,12 +15,13 @@ import org.junit.BeforeClass
 import org.junit.Test
 
 import static org.junit.Assert.*
+import org.junit.Ignore
 
 abstract class FileManagerBaseTest<T extends FileManager> {
 
 	protected extension Logger logger = Logger.getLogger(class)
 
-	private T fileManager
+	private IFileManager fileManager
 
 	private final String directoryPath = "test_directory"
 
@@ -40,52 +42,112 @@ abstract class FileManagerBaseTest<T extends FileManager> {
 	
 	@Before
 	public def void initialize() {
-		fileManager.deleteDirectory(directoryPath)
-		fileManager.createDirectory(directoryPath)
 		testAppender = new TestAppender
 		Logger.getRootLogger().addAppender(testAppender);
 	}
 	
-	@Test
-	public def void fileCreationWithoutCache_test() {
-		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
-		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
-		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
-		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, fileName))
+	public def void initializeTestDirectory() {
+		fileManager.deleteDirectory(directoryPath)
+		fileManager.createDirectory(directoryPath)		
 	}
 	
 	@Test
+	public def void directoryCreation_test() {
+		assertTrue(fileManager.createDirectory(directoryPath))
+		assertLastLog(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, directoryPath, directoryPath))
+		assertTrue(fileManager.createDirectory(directoryPath))
+		assertLastLog(MessageFormat.format(FileManager.messages.DIRECTORY_ALREADY_EXIST, directoryPath, directoryPath))
+		cleanupTestDirectory
+	}
+	
+	@Test
+	public def void directoryDelete_test() {
+		assertTrue(fileManager.createDirectory(directoryPath))
+		assertLastLog(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, directoryPath))
+		assertTrue(fileManager.deleteDirectory(directoryPath))
+		assertLastLog(MessageFormat.format(FileManager.messages.DIRECTORY_DELETED, directoryPath))
+	}
+	
+	@Test
+	@Ignore("File cannot be deleted without directory")
+	public def void fileCreationWithoutCache_test() {
+		assertTrue(fileManager.createFile(fileName, fileContent1, false, false))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, "", fileName))
+		assertTrue(fileManager.createFile(fileName, fileContent1, false, false))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, "", fileName))
+		fileManager.deleteFile("", fileName)
+	}
+	
+	@Test
+	@Ignore("File cannot be deleted without directory")
 	public def void fileCreationWithCache_test() {
+		assertTrue(fileManager.createFile(fileName, fileContent1, false, true))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, "", fileName))
+		assertTrue(fileManager.createFile(fileName, fileContent1, false, true))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, "", fileName))
+		fileManager.deleteFile("", fileName)
+	}
+	
+	@Test
+	public def void fileCreationWithoutCacheIntoDirectory_test() {
+		initializeTestDirectory
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, fileName))
+		cleanupTestDirectory
+	}
+	
+	@Test
+	public def void fileCreationWithCacheIntoDirectory_test() {
+		initializeTestDirectory
 		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
 		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_NOT_CHANGED, directoryPath, fileName))
+		cleanupTestDirectory
+	}
+	
+	@Test
+	public def void getFileContentAsString_test() {
+		initializeTestDirectory
+		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
+		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
+		assertEquals(fileContent1, fileManager.getFileContentAsString(directoryPath, fileName))
+		cleanupTestDirectory
 	}
 	
 	@Test
 	public def void fileUpdate_test() {
+		initializeTestDirectory
 		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, false))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
 		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent2, false, false))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_UPDATED, directoryPath, fileName))
+		cleanupTestDirectory
 	}
 	
 	@Test
 	public def void fileDelete_test() {
+		initializeTestDirectory
 		assertTrue(fileManager.createFile(directoryPath, fileName, fileContent1, false, true))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, fileName))
 		assertTrue(fileManager.deleteFile(directoryPath, fileName))
 		assertLastLog(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, fileName))
+		cleanupTestDirectory
 	}
-
+	
+	public def void cleanupTestDirectory() {
+		fileManager.deleteDirectory(directoryPath)
+	}
+	
 	@After
 	public def void cleanup() {
-		fileManager.deleteDirectory(directoryPath)
 		fileManager.clearFileCache
 	}
 	
 	private def void assertLastLog(String msg) {
-		assertTrue(testAppender.events.last.message.equals(msg))
+		assertEquals(msg, testAppender.events.last.message)
 	}
 	
 	static class TestAppender extends AppenderSkeleton {

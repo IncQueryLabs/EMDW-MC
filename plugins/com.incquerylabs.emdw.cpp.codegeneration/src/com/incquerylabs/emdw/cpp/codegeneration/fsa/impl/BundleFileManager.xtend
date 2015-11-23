@@ -13,6 +13,7 @@ class BundleFileManager extends FileManager {
 	new(String rootDirectory) {
 		super(rootDirectory)
 		formatRootDirectory
+		type = "bundle"
 	}
 	
 	private def formatRootDirectory() {

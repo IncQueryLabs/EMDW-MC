@@ -22,6 +22,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 			rootProject.create(null)
 		}
 		rootProject.open(null)
+		type = "Eclpse workspace"
 	}
 	
 	new(IFolder targetFolder) {

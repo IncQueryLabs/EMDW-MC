@@ -15,6 +15,7 @@ class JarFileManager extends FileManager {
 	
 	new() {
 		super(".")
+		type = "jar"
 	}
 	
 	override readFileContent(String directoryPath, String filename) {

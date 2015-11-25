@@ -220,7 +220,7 @@ class EMDWApplication {
 
 	private static def void initLogger(String targetFolder, String modelName) {
 		Logger.getLogger("org.eclipse.incquery").setLevel(Level.INFO)
-		var String logFilePath = '''«targetFolder»./log/log_«modelName»_startedAt_«System.currentTimeMillis()».log'''
+		var String logFilePath = '''«targetFolder»./log_«modelName»_startedAt_«System.currentTimeMillis()».log'''
 		var FileAppender fileAppender
 		try {
 			fileAppender = new FileAppender(new PatternLayout(FILE_LOG_LAYOUT_PREFIX + COMMON_LAYOUT), logFilePath, true)

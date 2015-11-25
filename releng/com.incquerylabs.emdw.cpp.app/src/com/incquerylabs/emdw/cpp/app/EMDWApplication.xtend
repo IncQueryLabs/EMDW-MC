@@ -48,12 +48,13 @@ class EMDWApplication {
 	private static final String LOGGER_FOLDER = "log"
 	private static final String COMMON_LAYOUT = "%30.30c - %m%n"
 	private static final String FILE_LOG_LAYOUT_PREFIX = "[%d{MMM/dd HH:mm:ss}] "
-	// TODO: locations for models
+	
 	public static final val RESOURCES = #{
 		URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/cppBasicTypes.cppmodel").toString),
 		URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/defaultImplementations.cppmodel").toString),
 		URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(EMDWApplication.getResource("/model/runtime.cppmodel").toString),
-		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(EMDWApplication.getResource("/model/umlPrimitiveTypes.common").toString)	
+		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(EMDWApplication.getResource("/model/umlPrimitiveTypes.common").toString),
+		URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(EMDWApplication.getResource("/model/collections/collections.uml").toString)
 	}
 	
 	
@@ -165,7 +166,7 @@ class EMDWApplication {
 	private static def void executeToolchainManager(ToolchainBuilder builder) {
 		val toolchainManager = builder.build
 		toolchainManager.clearMeasuredTimes
-		toolchainManager.logLevel = Level.TRACE
+		toolchainManager.logLevel = Level.WARN
 			
 			
 		toolchainManager.initializeTransformations
@@ -219,7 +220,7 @@ class EMDWApplication {
 	}
 
 	private static def void initLogger(String targetFolder, String modelName) {
-		Logger.getLogger("org.eclipse.incquery").setLevel(Level.INFO)
+		Logger.getLogger("org.eclipse.incquery").setLevel(Level.WARN)
 		var String logFilePath = '''«targetFolder»./log_«modelName»_startedAt_«System.currentTimeMillis()».log'''
 		var FileAppender fileAppender
 		try {
@@ -228,7 +229,7 @@ class EMDWApplication {
 			rootLogger.removeAllAppenders()
 			rootLogger.addAppender(fileAppender)
 			rootLogger.setAdditivity(false)
-			rootLogger.setLevel(Level.INFO)
+			rootLogger.setLevel(Level.WARN)
 		} catch (IOException e) {
 			e.printStackTrace()
 		}

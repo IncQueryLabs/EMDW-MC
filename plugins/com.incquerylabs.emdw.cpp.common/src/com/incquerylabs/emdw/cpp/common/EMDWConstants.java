@@ -13,7 +13,8 @@ public interface EMDWConstants {
     
     String CPP_TRANSFORMATION_MODELS_PATH = CPP_PATHMAP + "transformation/";
     String CPP_CODEGENERATION_MODELS_PATH = CPP_PATHMAP + "codegeneration/";
-    String CPP_RALF_MODELS_PATH = RALF_PATHMAP + "collections/" + "collections." + UML_FILE_EXTENSION;
+    
+    String CPP_RALF_MODELS_PATH = RALF_PATHMAP + "library." + UML_FILE_EXTENSION;
     
     String CPP_BASIC_TYPES_LIBRARY_PATH = CPP_TRANSFORMATION_MODELS_PATH + "cppBasicTypes." + CPP_FILE_EXTENSION;
     String CPP_COLLECTIONS_LIBRARY_PATH = CPP_TRANSFORMATION_MODELS_PATH + "defaultImplementations." + CPP_FILE_EXTENSION;

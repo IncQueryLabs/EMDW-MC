@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Paths
 import java.util.stream.Collectors
 import org.eclipse.xtend2.lib.StringConcatenation
+import java.nio.file.Path
 
 class JarFileManager extends FileManager {
 	
@@ -25,14 +26,25 @@ class JarFileManager extends FileManager {
 	}
 	
 	override readFileContent(String directoryPath, String filename) {
-		val fileResource = JarFileManager.classLoader.getResourceAsStream('''«directoryPath»/«filename»''')
+		val fileResource = JarFileManager.classLoader.getResourceAsStream('''«directoryPath»/«filename»'''.toUnixString)
 		return ByteStreams::toByteArray(fileResource)
 	}
 	
 	override readFileContentAsString(String directoryPath, String filename) {
-		val fileResource = JarFileManager.classLoader.getResourceAsStream(Paths::get(directoryPath, filename).toString)
+		val fileResource = JarFileManager.classLoader.getResourceAsStream(Paths::get(directoryPath, filename).toUnixString)
 		val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
 		contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
+	}
+	
+	// Need to use this because exported jar's ClassLoader does not work with Windows specific path separator ('\')
+	def dispatch String toUnixString(Path path) {
+		path.toString.replace('\\', '/')
+	}
+	def dispatch String toUnixString(String path) {
+		path.replace('\\', '/')
+	}
+	def dispatch String toUnixString(CharSequence path) {
+		path.toString.replace('\\', '/')
 	}
 	
 	override performDirectoryCreation(String path) {
@@ -52,11 +64,11 @@ class JarFileManager extends FileManager {
 	}
 	
 	override directoryExists(String path) {
-		JarFileManager.classLoader.getResource(path) != null
+		JarFileManager.classLoader.getResource(path.toUnixString) != null
 	}
 	
 	override fileExists(String directoryPath, String filename) {
-		JarFileManager.classLoader.getResource('''«directoryPath»/«filename»''') != null
+		JarFileManager.classLoader.getResource('''«directoryPath»/«filename»'''.toUnixString) != null
 	}
 	
 	

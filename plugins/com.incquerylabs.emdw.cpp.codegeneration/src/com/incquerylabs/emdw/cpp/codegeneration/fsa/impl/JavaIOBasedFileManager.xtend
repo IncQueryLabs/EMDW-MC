@@ -10,6 +10,7 @@ class JavaIOBasedFileManager extends FileManager {
 
 	new(String rootDirectory) {
 		super(rootDirectory)
+		type = "file system"
 	}
 
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {
@@ -26,15 +27,15 @@ class JavaIOBasedFileManager extends FileManager {
 	}
 
 	override readFileContent(String directoryPath, String filename) {
-		readFileContentAsString(directoryPath, filename).bytes
+		return readFileContentAsString(directoryPath, filename).bytes
 	}
 
 	override readFileContentAsString(String directoryPath, String filename) {
-		Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
+		return Files.toString(new File(directoryPath.addRootDirectory, filename), DEFAULT_CHARSET)
 	}
 
 	override fileExists(String directoryPath, String filename) {
-		new File(directoryPath.addRootDirectory, filename).exists
+		return new File(directoryPath.addRootDirectory, filename).exists
 	}
 
 	override performDirectoryCreation(String path) {
@@ -46,24 +47,25 @@ class JavaIOBasedFileManager extends FileManager {
 	}
 
 	override readSubDirectoryNames(String path) {
-		new File(path.addRootDirectory).list.filter [ filename |
+		return new File(path.addRootDirectory).list.filter [ filename |
 			new File('''«path.addRootDirectory»/«filename»''').directory
 		].toList
 	}
 
 	override readContainedFileNames(String path) {
-		new File(path.addRootDirectory).list.filter[filename|new File('''«path.addRootDirectory»/«filename»''').file].
-			toList
+		return new File(path.addRootDirectory).list.filter [ filename |
+			new File('''«path.addRootDirectory»/«filename»''').file
+		].toList
 	}
 
 	override directoryExists(String path) {
-		new File(path.addRootDirectory).exists
+		return new File(path.addRootDirectory).exists
 	}
 
 	private def boolean deleteDirectory(File _file) {
 		val file = _file as File
 		if (file.directory) {
-			for(File child : file.listFiles)
+			for (File child : file.listFiles)
 				child.deleteDirectory
 			file.delete
 		} else {
@@ -71,7 +73,7 @@ class JavaIOBasedFileManager extends FileManager {
 		}
 
 	}
-	
+
 	// Use Adler32 to calculate file checksum
 	override def String calculateHash(byte[] content) {
 		val adler32 = new Adler32()

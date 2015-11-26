@@ -180,15 +180,13 @@ class TransitionTemplates extends CPPTemplate {
 			''''''
 		} else if(triggers.size == 1){
 			val trigger = triggers.head
-			val cppEvent = trigger.getEvent
-			val cppClass = cppEvent.eContainer as CPPClass 
-			'''event->_id == «eventTemplates.eventEnumeratorQualifiedName(cppClass, cppEvent)»'''
+			val cppEvent = trigger.event
+			'''event->__get_dynamic_type_number() == «eventTemplates.generatedEventClassQualifiedName(cppEvent)»::__get_static_type_number()'''
 		} else {
 			'''
 			(
 			«FOR trigger : triggers SEPARATOR " || "»
-				«val cppClass = trigger.getEvent.eContainer as CPPClass »
-				event->_id == «eventTemplates.eventEnumeratorQualifiedName(cppClass, trigger.getEvent)»
+				event->__get_dynamic_type_number() == «eventTemplates.generatedEventClassQualifiedName(trigger.event)»::__get_static_type_number()
 			«ENDFOR»
 			)
 			'''

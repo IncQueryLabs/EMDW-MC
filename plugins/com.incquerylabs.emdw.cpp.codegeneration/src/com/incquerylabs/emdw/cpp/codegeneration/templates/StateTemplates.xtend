@@ -3,7 +3,6 @@ package com.incquerylabs.emdw.cpp.codegeneration.templates
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPClass
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPState
 import com.incquerylabs.emdw.cpp.codegeneration.util.TransitionInfo
-import java.util.List
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 
 class StateTemplates extends CPPTemplate {
@@ -27,7 +26,7 @@ class StateTemplates extends CPPTemplate {
 		val terminatePointCount = terminatePointMatcher.countMatches(null, cppClass, null)
 		val cppStates = cppClass.subElements.filter(CPPState).sortBy[cppName]
 		val enumName = '''«cppClass.stateEnumClassName»'''
-		val List<CharSequence> enumeratorNames = newArrayList(cppStates.map[ state | stateEnumeratorName(cppClass, state) ])
+		val enumeratorNames = <String>newArrayList(cppStates.map[ state | stateEnumeratorName(cppClass, state) ])
 		if(terminatePointCount > 0){
 			enumeratorNames += stateEnumeratorName(cppClass, TERMINATE_POSTFIX)
 		}
@@ -35,27 +34,27 @@ class StateTemplates extends CPPTemplate {
 		return enumClassTemplate(enumName, enumeratorNames)
 	}
 	
-	def stateEnumClassName(CPPClass cppClass) {
+	def String stateEnumClassName(CPPClass cppClass) {
 		'''«cppClass.cppName»_state'''
 	}
 	
-	def stateEnumClassQualifiedName(CPPClass cppClass) {
+	def String stateEnumClassQualifiedName(CPPClass cppClass) {
 		'''«cppClass.cppQualifiedName»::«cppClass.stateEnumClassName»'''
 	}
 	
-	def stateEnumeratorName(CPPClass cppClass, CharSequence cppStateName) {
+	def String stateEnumeratorName(CPPClass cppClass, CharSequence cppStateName) {
 		'''«cppStateName»'''
 	}
 	
-	def stateEnumeratorName(CPPClass cppClass, CPPState cppState) {
+	def String stateEnumeratorName(CPPClass cppClass, CPPState cppState) {
 		stateEnumeratorName(cppClass, cppState.cppName)
 	}
 	
-	def stateEnumeratorQualifiedName(CPPClass cppClass, CPPState cppState) {
+	def String stateEnumeratorQualifiedName(CPPClass cppClass, CPPState cppState) {
 		'''«cppClass.stateEnumClassQualifiedName»::«stateEnumeratorName(cppClass, cppState)»'''
 	}
 	
-	def stateEnumeratorQualifiedName(CPPClass cppClass, CharSequence cppStateName) {
+	def String stateEnumeratorQualifiedName(CPPClass cppClass, CharSequence cppStateName) {
 		'''«cppClass.stateEnumClassQualifiedName»::«stateEnumeratorName(cppClass, cppStateName)»'''
 	}
 	

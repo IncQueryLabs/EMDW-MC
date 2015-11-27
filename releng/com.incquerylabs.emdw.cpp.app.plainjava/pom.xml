@@ -134,7 +134,7 @@
 		<dependency>
 			<groupId>net.sf.xsemantics</groupId>
 			<artifactId>it.xsemantics.runtime</artifactId>
-			<version>1.8.1</version>
+			<version>${xsemantics.version}</version>
 		</dependency>
 
 		<!-- IncQuery -->
@@ -159,16 +159,6 @@
 			<artifactId>org.eclipse.viatra.emf.runtime</artifactId>
 			<version>${viatra.version}</version>
 		</dependency>
-		<!-- <dependency> -->
-		<!-- <groupId>org.eclipse.incquery</groupId> -->
-		<!-- <artifactId>incquery-maven-plugin</artifactId> -->
-		<!-- <version>${incquery.version}</version> -->
-		<!-- </dependency> -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.eclipse.incquery</groupId> -->
-		<!-- <artifactId>incquery-patternlanguage</artifactId> -->
-		<!-- <version>${incquery.version}</version> -->
-		<!-- </dependency> -->
 
 		<!-- UML2 -->
 		<dependency>

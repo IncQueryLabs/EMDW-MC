@@ -34,7 +34,7 @@ class EclipseWorkspaceFileManager extends FileManager {
 	// Implementation specific methods
 	private def IContainer getContainer(String path) {
 		if(path.isNullOrEmpty) {
-			return rootProject
+			return rootProject.getFolder(rootDirectory)
 		}
 		rootProject.getFolder(path.addRootDirectory)
 	}

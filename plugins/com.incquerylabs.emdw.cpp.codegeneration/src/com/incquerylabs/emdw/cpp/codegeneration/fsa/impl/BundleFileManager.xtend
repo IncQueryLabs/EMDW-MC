@@ -6,12 +6,14 @@ import java.io.File
 import java.net.URI
 import org.eclipse.core.runtime.FileLocator
 import org.eclipse.core.runtime.Platform
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class BundleFileManager extends FileManager {
 	
 	new(String rootDirectory) {
 		super(rootDirectory)
 		formatRootDirectory
+		type = "bundle"
 	}
 	
 	private def formatRootDirectory() {
@@ -35,9 +37,12 @@ class BundleFileManager extends FileManager {
 	private def resolveFile(String fullPath) {
 		val bundle = Platform.getBundle(rootDirectory)
 		val url = bundle.getEntry(fullPath.replace(File::separator, '/'))
+		if(url==null) {
+			throw new FileManagerException('''Cannot resolve file in bundle! File: «fullPath»''')
+		}
 		val resolvedFileURL = FileLocator.toFileURL(url);
 		val resolvedURI = new URI(resolvedFileURL.getProtocol(), resolvedFileURL.getPath(), null)
-		new File(resolvedURI)
+		return new File(resolvedURI)
 	}
 	
 	override readFileContent(String directoryPath, String filename) {
@@ -51,40 +56,40 @@ class BundleFileManager extends FileManager {
 	}
 	
 	override fileExists(String directoryPath, String filename) {
-		directoryPath.getFile(filename).isFile
+		return directoryPath.getFile(filename).isFile
 	}
 	
 	override directoryExists(String path) {
-		path.folder.isDirectory
+		return path.folder.isDirectory
 	}
 	
 	override readSubDirectoryNames(String path) {
-		path.folder.list.filter[ filename |
+		return path.folder.list.filter[ filename |
 			path.getFile(filename).directory
 		].toList
 	}
 	
 	override readContainedFileNames(String path) {
-		path.folder.list.filter[ filename |
+		return path.folder.list.filter[ filename |
 			path.getFile(filename).file
 		].toList
 	}
 	
 	
 	override performFileCreation(String directoryPath, String filename, CharSequence content) {
-		throw new UnsupportedOperationException("Unsupported operation: cannot create file in a bundle")
+		throw new UnsupportedOperationException('''Unsupported operation: cannot create file in a bundle! File: «directoryPath»«filename»''')
 	}
 	
 	override performFileDeletion(String directoryPath, String filename) {
-		throw new UnsupportedOperationException("Unsupported operation: cannot delete file in a bundle")
+		throw new UnsupportedOperationException('''Unsupported operation: cannot delete file from a bundle! File: «directoryPath»«filename»''')
 	}
 	
 	override performDirectoryCreation(String path) {
-		throw new UnsupportedOperationException("Unsupported operation: cannot create directory in a bundle")
+		throw new UnsupportedOperationException('''Unsupported operation: cannot create directory in a bundle! Directory: «path»''')
 	}
 	
 	override performDirectoryDeletion(String path) {
-		throw new UnsupportedOperationException("Unsupported operation: cannot delete directory in a bundle")
+		throw new UnsupportedOperationException('''Unsupported operation: cannot delete directory from a bundle! Directory: «path»''')
 	}
 	
 }

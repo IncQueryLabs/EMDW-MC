@@ -16,11 +16,9 @@ import static com.google.common.base.Preconditions.*
 abstract class FileManager implements IFileManager {
 	
 	protected String rootDirectory;
-	
+	protected String type
 	protected HashMap<String, String> fileHashCache;
-	
 	private final static String HASH_METHOD = "MD5"
-	
 	protected final static Charset DEFAULT_CHARSET = Charsets.UTF_8
 	
 	new(String rootDirectory) {
@@ -137,7 +135,7 @@ abstract class FileManager implements IFileManager {
 		checkStringArgument(filename, "Filename")
 	}
 	 
-	override boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) {
+	override boolean createFile(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) throws FileManagerException {
 	 	checkDirectoryPathAndFileName(directoryPath, filename)
 	 	if (!isDirectoryExists(directoryPath)) {
 			debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
@@ -152,7 +150,7 @@ abstract class FileManager implements IFileManager {
 	 	return ceateFileInExistingDirectory(directoryPath, filename, content, force, useCache)
 	}
 	 
-	override boolean createFile(String filename, CharSequence content, boolean force, boolean useCache) {
+	override boolean createFile(String filename, CharSequence content, boolean force, boolean useCache) throws FileManagerException {
 	 	checkFileName(filename)
 		
 	 	if (!force && isExistingFileWithContent(filename, content)) {
@@ -163,48 +161,68 @@ abstract class FileManager implements IFileManager {
 		return ceateFileInExistingDirectory("", filename, content, force, useCache)
 	}
 	
-	private def ceateFileInExistingDirectory(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) {
-		if(fileExists(directoryPath, filename)) {
-			performFileDeletion(directoryPath, filename)
-			performFileCreation(directoryPath, filename, content)
-			debug(MessageFormat.format(FileManager.messages.FILE_UPDATED, directoryPath, filename))
-		} else {
-			performFileCreation(directoryPath, filename, content)
-			debug(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, filename))
+	private def ceateFileInExistingDirectory(String directoryPath, String filename, CharSequence content, boolean force, boolean useCache) throws FileManagerException {
+		try {
+			if(fileExists(directoryPath, filename)) {
+				performFileDeletion(directoryPath, filename)
+				performFileCreation(directoryPath, filename, content)
+				debug(MessageFormat.format(FileManager.messages.FILE_UPDATED, directoryPath, filename))
+			} else {
+				performFileCreation(directoryPath, filename, content)
+				debug(MessageFormat.format(FileManager.messages.FILE_CREATED, directoryPath, filename))
+			}
+			
+			if(useCache) {
+				cacheFile(directoryPath, filename, content)
+			}
+			return true
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while creating file in «type»! Directory: «directoryPath», File name: «filename»''', ex)
 		}
-		
-		if(useCache) cacheFile(directoryPath, filename, content)
-		
-		return true
 	}
 	
-	override boolean deleteFile(String directoryPath, String filename) {
-		checkDirectoryPathAndFileName(directoryPath, filename)
-		if (!isDirectoryExists(directoryPath)) {
-			debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
-			return false
+	override boolean deleteFile(String directoryPath, String filename) throws FileManagerException {
+		try {
+			checkDirectoryPathAndFileName(directoryPath, filename)
+			if (!isDirectoryExists(directoryPath)) {
+				debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, directoryPath))
+				return false
+			}
+			
+			if(fileExists(directoryPath, filename)) {
+				performFileDeletion(directoryPath, filename)
+				debug(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, filename))
+			} else {
+				debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			}
+			
+			return true
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while deleting file in «type»! Directory: «directoryPath», File name: «filename»''', ex)
 		}
-		if(fileExists(directoryPath, filename)) {
-			performFileDeletion(directoryPath, filename)
-			debug(MessageFormat.format(FileManager.messages.FILE_DELETED, directoryPath, filename))
-		} else
-			debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
-		
-		return true
 	}
 	
-	override boolean checkFileContent(String directoryPath, String filename, CharSequence content) {
-		val expectedCheckSum = calculateHash(content)
-		return existsInFileSystem(directoryPath, filename, expectedCheckSum)
+	override boolean checkFileContent(String directoryPath, String filename, CharSequence content) throws FileManagerException {
+		try {
+			val expectedCheckSum = calculateHash(content)
+			return existsInFileSystem(directoryPath, filename, expectedCheckSum)
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while checking file content in «type»! Directory: «directoryPath», File name: «filename»''', ex)
+		}
 	}
 	
-	override String getFileContentAsString(String directoryPath, String filename) {
-		checkDirectoryPathAndFileName(directoryPath, filename)
-		if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename))
-			return readFileContentAsString(directoryPath, filename)
-		else
-			debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
-		return null
+	override String getFileContentAsString(String directoryPath, String filename) throws FileManagerException {
+		try {
+			checkDirectoryPathAndFileName(directoryPath, filename)
+			if(isDirectoryExists(directoryPath) && fileExists(directoryPath, filename)) {
+				return readFileContentAsString(directoryPath, filename)
+			} else {
+				debug(MessageFormat.format(FileManager.messages.FILE_NOT_EXIST, directoryPath, filename))
+			}
+			return null
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while getting file content as string in «type»! Directory: «directoryPath», File name: «filename»''', ex)
+		}
 	}
 	
 	
@@ -236,46 +254,76 @@ abstract class FileManager implements IFileManager {
 	/*
 	 * Directory management methods
 	 */
-	override boolean createDirectory(String path) {
+	override boolean createDirectory(String path) throws FileManagerException {
 		if(isDirectoryExists(path)) {
 			debug(MessageFormat.format(FileManager.messages.DIRECTORY_ALREADY_EXIST, path))
 		} else {
-			performDirectoryCreation(path)
-			debug(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, path))
+			try {
+				performDirectoryCreation(path)
+				debug(MessageFormat.format(FileManager.messages.DIRECTORY_CREATED, path))
+			} catch(Exception ex) {
+				throw new FileManagerException('''Something went wrong while creating directory in «type»! Directory: «path»''', ex)
+			}
 		}
 		return true
 	}
 	
-	override boolean deleteDirectory(String path) {
+	override boolean deleteDirectory(String path) throws FileManagerException {
 		checkStringArgument(path, "Directory path")
 		if(!isDirectoryExists(path)) {
 			debug(MessageFormat.format(FileManager.messages.DIRECTORY_NOT_EXIST, path))
 		} else {
-			performDirectoryDeletion(path)
-			debug(MessageFormat.format(FileManager.messages.DIRECTORY_DELETED, path))
+			try {
+				performDirectoryDeletion(path)
+				debug(MessageFormat.format(FileManager.messages.DIRECTORY_DELETED, path))
+			} catch(Exception ex) {
+				throw new FileManagerException('''Something went wrong while deleting directory in «type»! Directory: «path»''', ex)
+			}
 		}
 		return true
 	}
 	
-	override List<String> getSubDirectoryNames(String path) {
+	override List<String> getSubDirectoryNames(String path) throws FileManagerException {
 		checkStringArgument(path, "Directory path")
-		if(isDirectoryExists(path))
-			readSubDirectoryNames(path)
-		else
-			<String>newArrayList()
+		if(isDirectoryExists(path)) {
+			try {
+				return readSubDirectoryNames(path)
+			} catch (Exception ex) {
+				throw new FileManagerException('''Something went wrong while exploring sub directories in «type»! Directory: «path»''', ex)
+			}
+		} else {
+			return <String>newArrayList()
+		}
 	}
 	
 	override List<String> getContainedFileNames(String path) {
 		checkStringArgument(path, "Directory path")
 		if(isDirectoryExists(path))
-			readContainedFileNames(path)
+			try {
+				readContainedFileNames(path)
+			} catch (Exception ex) {
+				throw new FileManagerException('''Something went wrong while exploring contained files in «type»! Directory: «path»''', ex)
+			}
 		else
 			<String>newArrayList()
 	}
 	
-	override boolean isDirectoryExists(String path) {
+	override boolean isFileExists(String directoryPath, String filename) throws FileManagerException {
+		checkStringArgument(filename, "File name")
+		try {
+			fileExists(directoryPath, filename)
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while checking file existence in «type»! Directory: «directoryPath», File name: «filename»''', ex)
+		}
+	}
+	
+	override boolean isDirectoryExists(String path) throws FileManagerException {
 		checkStringArgument(path, "Directory path")
-		directoryExists(path)
+		try {
+			directoryExists(path)
+		} catch(Exception ex) {
+			throw new FileManagerException('''Something went wrong while checking directory existence in «type»! Directory: «path»''', ex)
+		}
 	}
 	
 	abstract def void performDirectoryCreation(String path)
@@ -287,6 +335,8 @@ abstract class FileManager implements IFileManager {
 	abstract def List<String> readContainedFileNames(String path)
 	
 	abstract def boolean directoryExists(String path)
+	
+	abstract def boolean fileExists(String directoryPath, String filename)
 	
 	/*
 	 * Helper methods

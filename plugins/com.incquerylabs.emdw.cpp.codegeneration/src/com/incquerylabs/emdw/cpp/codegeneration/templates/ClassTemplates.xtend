@@ -19,8 +19,6 @@ class ClassTemplates extends CPPTemplate {
 	val TypeConverter typeConverter
 	public static val STATEFUL_CLASS_FQN = '''«RUNTIME_NAMESPACE»::stateful_class'''
 	public static val EVENT_FQN = '''«RUNTIME_NAMESPACE»::event'''
-	public static val UNIQUE_NUMBER_FQN = '''«RUNTIME_NAMESPACE»::unique_number'''
-	public static val TYPE_NUMBER_FQN = '''«RUNTIME_NAMESPACE»::type_number'''
 
 	extension val NamespaceTemplates namespaceTemplates
 	extension val HeaderGuardTemplates headerGuardTemplates
@@ -90,7 +88,7 @@ class ClassTemplates extends CPPTemplate {
 		
 		«cppClass.instanceStorageInClassHeader»
 		
-		«typeIdTemplate(cppClass)»
+		«typeIdTemplate(cppClass.cppName)»
 		
 		// Initialization
 		void perform_initialization();
@@ -101,9 +99,6 @@ class ClassTemplates extends CPPTemplate {
 		
 		«operationDeclarationsInClassHeader(cppClass, VisibilityKind.PUBLIC)»
 		«IF hasEvents»
-			
-			«eventTemplates.enumInClassHeader(cppClass)»
-			
 			«eventTemplates.innerClassesInClassHeader(cppClass)»
 		«ENDIF»
 
@@ -145,14 +140,6 @@ class ClassTemplates extends CPPTemplate {
 		«IF hasStateMachine»
 			«privateStateMachineCodeInClassHeader(cppClass)»
 		«ENDIF»
-		'''
-	}
-	
-	def typeIdTemplate(CPPClass cppClass) {
-		'''
-		// Type id getters
-		static «UNIQUE_NUMBER_FQN» __get_static_type_number() { return «TYPE_NUMBER_FQN»<«cppClass.cppName»*>::number; }
-		virtual «UNIQUE_NUMBER_FQN» __get_dynamic_type_number() { return __get_static_type_number(); }
 		'''
 	}
 	
@@ -504,7 +491,7 @@ class ClassTemplates extends CPPTemplate {
 		
 		void «cppFQN»::process_event(const «com.incquerylabs.emdw.cpp.codegeneration.templates.ClassTemplates.EVENT_FQN»* event) {
 			«IF generateTracingCode»
-				::std::cout << "[«cppClassName»] Event " << event->_id << " received." << ::std::endl;
+				::std::cout << "[«cppClassName»] Event " << event->__get_dynamic_type_number().getId() << " received." << ::std::endl;
 			«ENDIF»
 		
 			switch(current_state){

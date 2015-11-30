@@ -9,6 +9,7 @@ import java.nio.file.Paths
 import java.util.stream.Collectors
 import org.eclipse.xtend2.lib.StringConcatenation
 import java.nio.file.Path
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.FileManagerException
 
 class JarFileManager extends FileManager {
 	
@@ -27,11 +28,17 @@ class JarFileManager extends FileManager {
 	
 	override readFileContent(String directoryPath, String filename) {
 		val fileResource = JarFileManager.classLoader.getResourceAsStream('''«directoryPath»/«filename»'''.toUnixString)
+		if(fileResource==null) {
+			throw new FileManagerException('''Cannot resolve file in jar! File: «'''«directoryPath»/«filename»'''.toUnixString»''')
+		}
 		return ByteStreams::toByteArray(fileResource)
 	}
 	
 	override readFileContentAsString(String directoryPath, String filename) {
 		val fileResource = JarFileManager.classLoader.getResourceAsStream(Paths::get(directoryPath, filename).toUnixString)
+		if(fileResource==null) {
+			throw new FileManagerException('''Cannot resolve file in jar! File: «'''«directoryPath»/«filename»'''.toUnixString»''')
+		}
 		val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
 		contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
 	}

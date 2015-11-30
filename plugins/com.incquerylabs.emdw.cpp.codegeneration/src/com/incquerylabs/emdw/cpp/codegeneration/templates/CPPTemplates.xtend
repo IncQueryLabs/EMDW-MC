@@ -8,6 +8,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPExternalBridge
 
 class CPPTemplates {
 	public static boolean GENERATE_TRACING_CODE = true
+	public static boolean USE_CPP11 = true
 	
 	val NamespaceTemplates namespaceTemplates
 	val ClassTemplates classTemplates

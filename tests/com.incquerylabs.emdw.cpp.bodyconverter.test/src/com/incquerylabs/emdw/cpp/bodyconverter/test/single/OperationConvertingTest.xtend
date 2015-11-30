@@ -222,7 +222,7 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::xumlrt::select_any(::model::Comp::Pong::_instances);'''
 			],
-			#[  "Association access test",
+			#[  "Association access test 1",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",
 				"model::Comp::Pong::sendPing", 
 				ConversionType.Operation,
@@ -232,17 +232,17 @@ class OperationConvertingTest extends AbstractSingleConversionTest{
 				'''
 				::xumlrt::select_many(this->R1_ping);'''
 			],
-			#[  "Association access test",
+			#[  "Association access test 2",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CleanUp", 
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CleanUp", 
 				ConversionType.Operation,
 				'''
 				Call call = Call::instances().one();
-				UnregisteredSubscriber unsub = call->'service'->'registrationProcess'->'unregisteredSubscriber'.one();
+				Call second_call = call->'is being run / handled by'->'handles / runs'->'is being run / handled by'->'handles / runs'.one();
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Call* call = ::xumlrt::select_any(::PhoneX::PhoneX::Implementation::Call::_instances);
-				::PhoneX::PhoneX::Implementation::UnregisteredSubscriber* unsub = ::xumlrt::select_any(::xumlrt::indirect_chain< ::PhoneX::PhoneX::Implementation::UnregisteredSubscriber* >(call->R6_service->R7_registrationProcess, &::PhoneX::PhoneX::Implementation::RegistrationProcess::R4_unregisteredSubscriber));'''
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call* call = ::xumlrt::select_any(::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::_instances);
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call* second_call = ::xumlrt::select_any(::xumlrt::indirect_chain< ::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Service* >(call->R6_is_being_run___handled_by->R6_handles___runs, &::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::R6_is_being_run___handled_by)->R6_handles___runs);'''
 			],
 			#[  "Foreach test",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PingPongSpecial/model.uml",

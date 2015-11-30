@@ -102,7 +102,7 @@
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 		<incquery.version>1.1.0-SNAPSHOT</incquery.version>
 		<viatra.version>0.8.0-SNAPSHOT</viatra.version>
-		<xsemantics.version>1.9.0</xsemantics.version>
+		<xsemantics.version>1.9.0.rc2</xsemantics.version>
 		<!-- Sonar -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>

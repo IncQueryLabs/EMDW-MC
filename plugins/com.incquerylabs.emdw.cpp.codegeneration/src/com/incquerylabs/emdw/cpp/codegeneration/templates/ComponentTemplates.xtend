@@ -166,10 +166,13 @@ class ComponentTemplates extends CPPTemplate {
 	
 	def CharSequence forwardDeclarationsTemplate(CPPQualifiedNamedElement cppContainer) {
 		val cppClasses = cppContainer.subElements.filter(CPPClass).sortBy[cppName]
-		val cppEnumTypes = cppContainer.subElements.filter(CPPEnumType).sortBy[cppName]
+		val cppEnumTypes = <CPPEnumType>newArrayList
+		if(!CPPTemplates.USE_CPP11) {
+			cppEnumTypes.addAll(cppContainer.subElements.filter(CPPEnumType).sortBy[cppName])
+		}
 		val cppStructTypes = cppContainer.subElements.filter(CPPStructType).sortBy[cppName]
 		val innerCppPackages = cppContainer.subElements.filter(CPPPackage).sortBy[cppName]
-		val hasForwardDeclarations = !(cppClasses.isNullOrEmpty && cppEnumTypes.isNullOrEmpty)
+		val hasForwardDeclarations = !(cppClasses.isNullOrEmpty && cppEnumTypes.isNullOrEmpty && cppStructTypes.isNullOrEmpty)
 		'''
 		«IF hasForwardDeclarations»
 			«cppContainer.namespaceOpenerTemplate»

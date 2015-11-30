@@ -14,19 +14,13 @@ import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryEventRealm
 import org.eclipse.viatra.emf.mwe2integration.eventdriven.mwe2impl.MWE2ControlledExecutor
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class CppQrtTransformationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
 	XtumlCPPTransformationQrt cppQrtTrafo
 	MWE2ControlledExecutor executor
 	
-	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
-	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	
-	protected URI CPP_BASIC_TYPES_URI = URI.createPlatformPluginURI(DEFAULT_CPP_BASIC_TYPES_PATH, true)
-	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true)
-	
-
 	override void doInitialize(IWorkflowContext ctx) {
 		engine = ctx.get("engine") as AdvancedIncQueryEngine
 		executor = new MWE2ControlledExecutor(IncQueryEventRealm.create(engine));
@@ -68,10 +62,10 @@ class CppQrtTransformationStep extends TransformationStep {
 	}
 	
 	private def loadCPPBasicTypes(ResourceSet rs) {
-		rs.getResource(CPP_BASIC_TYPES_URI, true)
+		rs.getResource(URI.createURI(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH), true)
 	}
 	
 	private def loadDefaultContainerImplementations(ResourceSet rs) {
-		rs.getResource(COLLECTION_IMPLEMENTATIONS_URI, true)
+		rs.getResource(URI.createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH), true)
 	}
 }

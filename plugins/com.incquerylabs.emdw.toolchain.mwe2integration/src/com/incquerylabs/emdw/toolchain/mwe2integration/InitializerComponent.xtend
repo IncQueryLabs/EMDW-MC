@@ -18,6 +18,8 @@ import com.incquerylabs.emdw.umlintegration.queries.Structure
 import com.incquerylabs.emdw.umlintegration.queries.Trace
 import com.incquerylabs.emdw.umlintegration.trace.TraceFactory
 import com.incquerylabs.emdw.xtuml.incquery.XtumlValidationQueries
+import java.util.Arrays
+import java.util.List
 import java.util.Map
 import org.eclipse.core.resources.IProject
 import org.eclipse.core.resources.IResource
@@ -27,6 +29,7 @@ import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.URIConverter
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowComponent
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext
@@ -41,11 +44,14 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
+import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
 
 class InitializerComponent implements IWorkflowComponent {
+	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
+	static val DEFAULT_COLLECTION_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
 	
 	static val TOOLCHAIN_QUERIES = GenericPatternGroup.of(
 			StateMachine.instance,
@@ -64,10 +70,12 @@ class InitializerComponent implements IWorkflowComponent {
 			OoplQueryBasedFeatures.instance,
 			QueryBasedFeatures.instance
 		)
+	Map<URI,URI> resourcesMap
 	
 	static val PATHMAP_SCHEME = "pathmap";
-	static val UML_LIBRARIES_AUTHORITY = "UML_LIBRARIES";
-	
+	private static final List<String> INDEXED_AUTHORITIES = Arrays.asList("UML_LIBRARIES", "RALF",
+			"XUMLRT_PROFILE", "EMDW");
+			
 	@Accessors String umlResourcePath
 	@Accessors String generationProjectPrefix
 	@Accessors String codeGenerationDirectoryName
@@ -92,7 +100,7 @@ class InitializerComponent implements IWorkflowComponent {
 	override void preInvoke() {
 	}
 
-	override void invoke(IWorkflowContext ctx) {
+	override void invoke(IWorkflowContext ctx) {	
 		val resourceSet = new ResourceSetImpl	
 		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI(umlResourcePath, true)) => [ load(#{}) ]
 		val umlModel = umlResource.contents.filter(Model).head
@@ -169,10 +177,10 @@ class InitializerComponent implements IWorkflowComponent {
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {
 		val options = new BaseIndexOptions().withResourceFilterConfiguration([
 			val uri = getURI();
-			if (uri.toString().contains("RALF")) {
+			if (INDEXED_AUTHORITIES.contains(uri.authority())) {
 				return false;
 			}
-			return PATHMAP_SCHEME.equals(uri.scheme()) && !uri.authority().equals(UML_LIBRARIES_AUTHORITY);
+			return PATHMAP_SCHEME.equals(uri.scheme());
 		]);
 		val scope = new EMFScope(resourceSet, options);
 		val engine = AdvancedIncQueryEngine.createUnmanagedEngine(scope);
@@ -225,5 +233,5 @@ class InitializerComponent implements IWorkflowComponent {
 			folder.create(true, true, null);
 		}
 		return folder;
-	}	
+	}		
 }

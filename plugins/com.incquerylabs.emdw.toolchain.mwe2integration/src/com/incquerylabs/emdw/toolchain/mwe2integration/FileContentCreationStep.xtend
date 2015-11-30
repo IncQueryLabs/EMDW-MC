@@ -4,11 +4,17 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPSourceFile
+import com.google.common.collect.ImmutableMap
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.Model2FileMapper
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
 import java.nio.file.Paths
 import java.util.Map
@@ -22,10 +28,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.incquerylabs.emdw.cpp.codegeneration.FileAndDirectoryGeneration
-import com.google.common.collect.ImmutableMap
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
-import com.incquerylabs.emdw.cpp.codegeneration.MainGeneration
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 
 class FileContentCreationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
@@ -33,6 +36,7 @@ class FileContentCreationStep extends TransformationStep {
 	CPPCodeGeneration cppCodeGeneration
 	MakefileGeneration makefileGeneration
 	MainGeneration mainGeneration
+	
 	IFileManager mapperFileManager
 	IFileManager fileManager
 	
@@ -42,18 +46,11 @@ class FileContentCreationStep extends TransformationStep {
 	
 	Map<CPPSourceFile, CharSequence> cppSourceFileContents
 	@Accessors Set<XTComponent> dirtyComponents
-	
-	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
-	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	static val DEFAULT_RUNTIME_MODEL_PATH = "/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel"
-	
-	protected String RUNTIME_TARGET_DIRECTORY = "model/runtime"
-	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
-	protected URI CPP_BASIC_TYPES_URI = URI.createPlatformPluginURI(DEFAULT_CPP_BASIC_TYPES_PATH, true)
-	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true)
-	protected URI RUNTIME_MODEL_URI = URI.createPlatformPluginURI(DEFAULT_RUNTIME_MODEL_PATH, true)
-
+	@Accessors boolean isJavaApp = false
+	@Accessors String RUNTIME_TARGET_DIRECTORY = "model/runtime"
+	@Accessors String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	extension XtumlQueries xtUmlQueries = XtumlQueries.instance
+	
 
 	override void doInitialize(IWorkflowContext ctx) {
 		engine = ctx.get("engine") as AdvancedIncQueryEngine
@@ -69,9 +66,15 @@ class FileContentCreationStep extends TransformationStep {
 		
 		//init file manager
 		
-		targetDir = ctx.get("targetFolder") as IFolder
-		fileManager = new EclipseWorkspaceFileManager(targetDir)
-		
+		if(isJavaApp) {
+			var targetLocation = ctx.get("targetFolder") as String
+			mapperFileManager = new JarFileManager
+			fileManager = new JavaIOBasedFileManager(targetLocation)
+		} else {
+			targetDir = ctx.get("targetFolder") as IFolder
+			mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+			fileManager = new EclipseWorkspaceFileManager(targetDir)
+		}
 		//init MK generation
 		if(makefileGeneration == null) {
 			makefileGeneration = new MakefileGeneration
@@ -118,7 +121,7 @@ class FileContentCreationStep extends TransformationStep {
 	}
 	
 	private def loadCPPRuntimeModelResource(ResourceSet rs) {
-		rs.getResource(RUNTIME_MODEL_URI, true)
+		rs.getResource(URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)	, true)
 	}
 	
 	private def executeFileContentGeneration(Iterable<XTComponent> componentsToTransform, CPPModel cppModel, CPPDirectory runtimeCppDir) {
@@ -148,9 +151,6 @@ class FileContentCreationStep extends TransformationStep {
 	private def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			if(mapperFileManager == null) {
-				mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
-			}
 			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(RUNTIME_TARGET_DIRECTORY, mapperCppDir.name))
 			mapper.execute
 			return mapper.mappedSourceFiles

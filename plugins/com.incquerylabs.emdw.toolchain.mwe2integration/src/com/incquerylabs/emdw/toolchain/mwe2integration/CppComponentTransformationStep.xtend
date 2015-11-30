@@ -8,7 +8,6 @@ import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import java.util.Set
 import org.apache.log4j.Level
 import org.apache.log4j.Logger
-import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
@@ -21,11 +20,6 @@ class CppComponentTransformationStep extends TransformationStep {
 	
 	@Accessors Set<XTComponent> dirtyComponents
 	
-	static val DEFAULT_CPP_BASIC_TYPES_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel"
-	static val DEFAULT_IMPLEMENTATIONS_PATH = "/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel"
-	
-	protected URI CPP_BASIC_TYPES_URI = URI.createPlatformPluginURI(DEFAULT_CPP_BASIC_TYPES_PATH, true)
-	protected URI COLLECTION_IMPLEMENTATIONS_URI = URI.createPlatformPluginURI(DEFAULT_IMPLEMENTATIONS_PATH, true)
 	extension val Logger logger = Logger.getLogger(this.class.package.name)
 
 	override void doInitialize(IWorkflowContext ctx) {

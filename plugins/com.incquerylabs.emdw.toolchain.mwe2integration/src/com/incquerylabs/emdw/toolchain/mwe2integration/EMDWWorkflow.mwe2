@@ -9,8 +9,6 @@ Workflow {
 		codeGenerationDirectoryName = "src"
 		generationProjectPrefix = "com.ericsson.emdw.cpp.generated.code."
 		modelGenerationDirectoryName = "model"
-		
-		
 		umlResourcePath =  "com.ericsson.emdw.tests.models/models/system-test/eatf.uml"
 		primitiveTypesPath = "/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common"
 	}

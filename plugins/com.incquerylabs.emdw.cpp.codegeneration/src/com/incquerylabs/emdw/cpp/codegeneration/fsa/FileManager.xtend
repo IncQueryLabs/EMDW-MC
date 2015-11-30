@@ -309,7 +309,6 @@ abstract class FileManager implements IFileManager {
 	}
 	
 	override boolean isFileExists(String directoryPath, String filename) throws FileManagerException {
-		checkStringArgument(directoryPath, "Directory path")
 		checkStringArgument(filename, "File name")
 		try {
 			fileExists(directoryPath, filename)

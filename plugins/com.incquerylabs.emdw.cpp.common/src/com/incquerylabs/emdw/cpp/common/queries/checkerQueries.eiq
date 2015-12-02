@@ -1,0 +1,47 @@
+package com.incquerylabs.emdw.cpp.common.queries
+
+import "http://www.ericsson.com/xtumlrt/oopl/cpp"
+import "http://www.ericsson.com/xtumlrt/oopl"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/xtuml"
+import "http://www.eclipse.org/papyrusrt/xtumlrt/common"
+import "http://incquerylabs.com/emdw/umlintegration/trace"
+import "http://www.eclipse.org/uml2/5.0.0/UML" as uml
+
+pattern umlPrimitiveTypeByQualifiedName(
+	primitiveType : uml::PrimitiveType, 
+	qualifiedName
+) {
+	uml::PrimitiveType.qualifiedName(primitiveType, qualifiedName);
+}
+
+pattern ooplSequenceImplementation(
+	impl : OOPLSequenceImplementation, 
+	orderedness : SequenceOrderednessKind,
+	uniqueness : SequenceUniquenessKind
+) {
+	OOPLSequenceImplementation.orderedness(impl, orderedness);
+	OOPLSequenceImplementation.uniqueness(impl, uniqueness);
+}
+
+pattern ooplClassRefAssocImplementation(
+	impl : OOPLClassRefAssocCollectionImplementation, 
+	kind : AssociativeCollectionKind
+) {
+	OOPLClassRefAssocCollectionImplementation.kind(impl, kind);
+}
+
+pattern ooplClassRefSimpleImplementation(
+	impl : OOPLClassRefSimpleCollectionImplementation, 
+	kind : SimpleCollectionKind
+) {
+	OOPLClassRefSimpleCollectionImplementation.kind(impl, kind);
+}
+
+pattern cppBasicTypeForUmlPrimitiveType(
+	primitiveType,
+	basicType : CPPBasicType
+) {
+	Trace.umlElements(trace, primitiveType);
+	Trace.xtumlrtElements(trace, xtpt);
+	CPPBasicType.commonType(basicType, xtpt);
+}

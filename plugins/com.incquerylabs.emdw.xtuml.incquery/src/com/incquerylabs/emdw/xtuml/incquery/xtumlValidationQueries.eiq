@@ -49,6 +49,55 @@ pattern fileNameCollision(
 	NamedElement.name(namedElement, name);
 }
 
+@Constraint(
+	key = {"attribute"},
+	message = "Attribute $attribute$ in structured type $structuredType$ has no type",
+	severity = "error"
+)
+pattern attributeWithoutType(structuredType : StructuredType, attribute : Attribute) {
+	StructuredType.attributes(structuredType, attribute);
+	neg find typedMultiplicityElementWithType(attribute, _);
+}
+
+@Constraint(
+	key = {"parameter"},
+	message = "Parameter $parameter$ of signal $signal$ has no type",
+	severity = "error"
+)
+pattern signalParameterWithoutType(signal : Signal, parameter : Parameter) {
+	Signal.parameters(signal, parameter);
+	neg find typedMultiplicityElementWithType(parameter, _);
+}
+
+@Constraint(
+	key = {"parameter"},
+	message = "Parameter $parameter$ of operation $operation$ in entity $entity$ has no type",
+	severity = "error"
+)
+pattern operationParameterWithoutType(entity : Entity, operation : OperationSignature, parameter : Parameter) {
+	Entity.operations(entity, operation);
+	OperationSignature.parameters(operation, parameter);
+	neg find typedMultiplicityElementWithType(parameter, _);
+}
+
+@Constraint(
+	key = {"returnType"},
+	message = "Return type of operation $operation$ is not set",
+	severity = "error"
+)
+pattern operationWithUnsetReturnType(entity : Entity, operation : OperationSignature, returnType : TypedMultiplicityElement) {
+	Entity.operations(entity, operation);
+	OperationSignature.returnType(operation, returnType);
+	neg find typedMultiplicityElementWithType(returnType, _);
+}
+
+private pattern typedMultiplicityElementWithType(
+	element : TypedMultiplicityElement,
+	type : Type
+) {
+	TypedMultiplicityElement.type(element, type);
+}
+
 pattern containedElements(
 	baseContainer : BaseContainer,
 	namedElement : NamedElement

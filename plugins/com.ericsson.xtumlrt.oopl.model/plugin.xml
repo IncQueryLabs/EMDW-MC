@@ -4,9 +4,6 @@
     <!-- @generated oopl -->
     <package class="com.ericsson.xtumlrt.oopl.OoplPackage" genModel="model/oopl.genmodel" uri="http://www.ericsson.com/xtumlrt/oopl"/>
   </extension>
-  <extension id="com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
-    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures"/>
-  </extension>
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.ooplStructMemberType" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="OOPLStructMember" feature-name="type" package-nsUri="http://www.ericsson.com/xtumlrt/oopl"/>
   </extension>
@@ -18,5 +15,8 @@
   </extension>
   <extension id="extension.derived.com.ericsson.xtumlrt.oopl.ooplEnumTypeDefaultValue" point="org.eclipse.incquery.runtime.base.wellbehaving.derived.features">
     <wellbehaving-derived-feature classifier-name="OOPLEnumType" feature-name="defaultValue" package-nsUri="http://www.ericsson.com/xtumlrt/oopl"/>
+  </extension>
+  <extension id="com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures" id="com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures"/>
   </extension>
 </plugin>

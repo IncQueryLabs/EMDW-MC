@@ -60,7 +60,7 @@
     <repository
         url="http://download.eclipse.org/incquery/updates-extra/milestone"/>
     <repository
-        url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones"/>
+        url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
     <repository
         url="http://download.eclipse.org/viatra2/emf/updates/milestone"/>
     <repository
@@ -193,7 +193,7 @@
         <repository
             url="http://download.eclipse.org/incquery/updates-extra/milestone"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
             url="http://download.eclipse.org/viatra2/emf/updates/milestone"/>
         <repository
@@ -214,7 +214,7 @@
         <repository
             url="http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/"/>
         <repository
-            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/milestones"/>
+            url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
             url="http://download.itemis.com/updates/releases"/>
       </repositoryList>
@@ -387,6 +387,7 @@
     </setupTask>
     <setupTask
         xsi:type="mylyn:MylynQueriesTask"
+        id="emdw-mc.mylyn.issues.mc"
         connectorKind="github"
         repositoryURL="https://github.com/IncQueryLabs/EMDW-MC"
         userID="${github.user.id}"
@@ -410,6 +411,33 @@
             value="open::closed::"/>
       </query>
       <query
+          summary="EMDW MC - October 2015">
+        <attribute
+            key="milestone"
+            value="6"/>
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+      <query
+          summary="EMDW MC - November 2015">
+        <attribute
+            key="milestone"
+            value="7"/>
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+      <query
+          summary="EMDW MC - December 2015">
+        <attribute
+            key="milestone"
+            value="8"/>
+        <attribute
+            key="state"
+            value="open::closed::"/>
+      </query>
+      <query
           summary="EMDW MC - Future"
           url="">
         <attribute
@@ -423,20 +451,7 @@
     </setupTask>
     <setupTask
         xsi:type="mylyn:MylynQueriesTask"
-        connectorKind="githubPullRequests"
-        repositoryURL="https://github.com/IncQueryLabs/EMDW-MC/pulls"
-        userID="${github.user.id}"
-        password="${github.user.password}">
-      <query
-          summary="EMDW-MC pull requests"
-          url="">
-        <attribute
-            key="state"
-            value="open::closed::"/>
-      </query>
-    </setupTask>
-    <setupTask
-        xsi:type="mylyn:MylynQueriesTask"
+        id="emdw-mc.mylyn.issues.common"
         connectorKind="github"
         repositoryURL="https://github.com/IncQueryLabs/EMDW-Common"
         userID="${github.user.id}"
@@ -450,40 +465,13 @@
     </setupTask>
     <setupTask
         xsi:type="mylyn:MylynQueriesTask"
-        connectorKind="githubPullRequests"
-        repositoryURL="https://github.com/IncQueryLabs/EMDW-Common/pulls"
-        userID="${github.user.id}"
-        password="${github.user.password}">
-      <query
-          summary="EMDW-Common pull requests"
-          url="">
-        <attribute
-            key="state"
-            value="open::closed::"/>
-      </query>
-    </setupTask>
-    <setupTask
-        xsi:type="mylyn:MylynQueriesTask"
+        id="emdw-mc.mylyn.issues.tests"
         connectorKind="github"
         repositoryURL="https://github.com/IncQueryLabs/EMDW-Tests"
         userID="${github.user.id}"
         password="${github.user.password}">
       <query
           summary="EMDW Tests">
-        <attribute
-            key="state"
-            value="open::closed::"/>
-      </query>
-    </setupTask>
-    <setupTask
-        xsi:type="mylyn:MylynQueriesTask"
-        connectorKind="githubPullRequests"
-        repositoryURL="https://github.com/IncQueryLabs/EMDW-Tests/pulls"
-        userID="${github.user.id}"
-        password="${github.user.password}">
-      <query
-          summary="EMDW-Tests pull requests"
-          url="">
         <attribute
             key="state"
             value="open::closed::"/>

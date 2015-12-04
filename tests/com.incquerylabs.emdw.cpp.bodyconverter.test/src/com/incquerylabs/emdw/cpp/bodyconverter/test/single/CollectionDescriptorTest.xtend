@@ -9,29 +9,29 @@ class CollectionDescriptorTest extends AbstractSingleConversionTest {
 		newArrayList(
 			#[  "Unlink expression collection test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Service service = this->'service'.one();
-				R6::unlink('service'=>service,'call'=>this);
+				Service service = this->'is being run / handled by'.one();
+				R6::unlink('is being run / handled by'=>service,'handles / runs'=>this);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* service = ::xumlrt::select_any(this->R6_service);
-				::xumlrt::collections::list::basic_list::remove(service->R6_call, this);
-				this->R6_service = nullptr;'''
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Service* service = ::xumlrt::select_any(this->R6_is_being_run___handled_by);
+				::xumlrt::collections::list::basic_list::remove(service->R6_handles___runs, this);
+				this->R6_is_being_run___handled_by = nullptr;'''
 			],
 			#[  "Link expression collection test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Service service = this->'service'.one();
-				R6::link('call'=>this,'service'=>service);
+				Service service = this->'is being run / handled by'.one();
+				R6::link('handles / runs'=>this,'is being run / handled by'=>service);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* service = ::xumlrt::select_any(this->R6_service);
-				this->R6_service = service;
-				::xumlrt::collections::list::basic_list::add(service->R6_call, this);'''
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Service* service = ::xumlrt::select_any(this->R6_is_being_run___handled_by);
+				this->R6_is_being_run___handled_by = service;
+				::xumlrt::collections::list::basic_list::add(service->R6_handles___runs, this);'''
 			],
 /******************************
  * SET<PRIMITIVE TYPE>

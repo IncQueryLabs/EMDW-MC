@@ -32,48 +32,48 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 			],
 			#[  "Unlink expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Called cd = this->'called'.one();
-				R3::unlink('call'=>this,'called'=>cd);
+				Called cd = this->'is joined by'.one();
+				R3::unlink('joins'=>this,'is joined by'=>cd);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Called* cd = ::xumlrt::select_any(this->R3_called);
-				this->R3_called = nullptr;
-				cd->R3_call = nullptr;'''
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Called* cd = ::xumlrt::select_any(this->R3_is_joined_by);
+				this->R3_is_joined_by = nullptr;
+				cd->R3_joins = nullptr;'''
 			],
 			#[  "Link expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Called cd = this->'called'.one();
-				R3::link('call'=>this,'called'=>cd);
+				Called cd = this->'is joined by'.one();
+				R3::link('joins'=>this,'is joined by'=>cd);
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Called* cd = ::xumlrt::select_any(this->R3_called);
-				this->R3_called = cd;
-				cd->R3_call = this;'''
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Called* cd = ::xumlrt::select_any(this->R3_is_joined_by);
+				this->R3_is_joined_by = cd;
+				cd->R3_joins = this;'''
 			],
 			#[  "Delete expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Service service = this->'service'.one();
+				Service service = this->'is being run / handled by'.one();
 				delete service;
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* service = ::xumlrt::select_any(this->R6_service);
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Service* service = ::xumlrt::select_any(this->R6_is_being_run___handled_by);
 				delete service;'''
 			],
 			#[  "Pointer equality expression test (PhoneX)",
 				"/com.incquerylabs.emdw.cpp.bodyconverter.test/models/PhoneX/phonex.uml",
-				"PhoneX::PhoneX::Implementation::Call::CallStateMachine::DefaultRegion::Terminated",
+				"PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Call::CallStateMachine::DefaultRegion::Terminated",
 				ConversionType.StateEntry,
 				'''
-				Service service = this->'service'.one();
+				Service service = this->'is being run / handled by'.one();
 				Integer x = 1;
 				if(service == null){
 				};
@@ -81,7 +81,7 @@ class StateEntryConvertingTest extends AbstractSingleConversionTest{
 				}
 				''',
 				'''
-				::PhoneX::PhoneX::Implementation::Service* service = ::xumlrt::select_any(this->R6_service);
+				::PhoneX::ComponentLibrary::PhoneX::ImplementationPkg::Service* service = ::xumlrt::select_any(this->R6_is_being_run___handled_by);
 				long x = 1;
 				if ((service == nullptr)) {
 				

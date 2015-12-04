@@ -236,12 +236,24 @@
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- EMDW plugins -->
+		<!-- EMDW-Common plugins -->
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.uml.ralf</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>com.incquerylabs.emdw.umlintegration.queries</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.incquerylabs.emdw</groupId>
+			<artifactId>hu.eltesoft.modelexecution.profile</artifactId>
+			<version>0.6.0-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- EMDW-MC plugins -->
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.cpp.app</artifactId>
@@ -280,11 +292,6 @@
 		<dependency>
 			<groupId>com.incquerylabs.emdw</groupId>
 			<artifactId>com.incquerylabs.emdw.toolchain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.incquerylabs.emdw</groupId>
-			<artifactId>com.incquerylabs.emdw.umlintegration.queries</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -355,6 +362,11 @@
 		<repository> <!-- For UML2 Maven artifacts -->
 			<id>acceleo-releases</id>
 			<url>https://repo.eclipse.org/content/repositories/acceleo-releases/</url>
+		</repository>
+		<repository>
+			<id>nexus-emdw-snapshots</id>
+			<name>EMDW Project Repository</name>
+			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-snapshots/</url>
 		</repository>
 	</repositories>
 </project>

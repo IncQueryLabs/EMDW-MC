@@ -55,7 +55,7 @@ class EMDWApplication {
 		URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(EMDWApplication.getResource("/model/runtime.cppmodel").toString),
 		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(EMDWApplication.getResource("/model/umlPrimitiveTypes.common").toString),
 		URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(EMDWApplication.getResource("/model/collections/collections.uml").toString),
-		URI::createURI(EMDWConstants::XUMLRT_PROFILE_PATHMAP)				->	URI::createURI(EMDWApplication.getResource("/profile/xumlrt.profile.uml").toString)
+		URI::createURI(EMDWConstants::XUMLRT_PROFILE_PATHMAP)				->	URI::createURI(EMDWApplication.getResource("/profile/").toString)
 	}
 	
 	

@@ -36,6 +36,8 @@ import org.eclipse.uml2.uml.UMLPackage
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.emf.ecore.resource.URIConverter
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
+import hu.eltesoft.modelexecution.profile.xumlrt.XUMLRTPackage
+import org.eclipse.uml2.uml.UMLPlugin
 
 class EMDWApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
@@ -94,11 +96,15 @@ class EMDWApplication {
 		
 		// Initialize EMF model element types
 		UMLPackage.eINSTANCE.eClass
+		XUMLRTPackage.eINSTANCE.eClass
 		TracePackage.eINSTANCE.eClass
 		CommonPackage.eINSTANCE.eClass
 		XtumlPackage.eINSTANCE.eClass
 		OoplPackage.eINSTANCE.eClass
 		CppmodelPackage.eINSTANCE.eClass
+		
+		// register xUML-RT profile
+		UMLPlugin.EPackageNsURIToProfileLocationMap.put(XUMLRTPackage.eNS_URI, URI.createURI("pathmap://XUMLRT_PROFILE/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"))
 		
 		OoplQueryBasedFeatures::instance.specifications.forEach[IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>> specification |
 			QuerySpecificationRegistry::registerQuerySpecification(specification)

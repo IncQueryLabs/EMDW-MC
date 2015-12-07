@@ -38,9 +38,7 @@
 		
 				<!-- Toolchain manager -->
 				<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
-				<!-- 
 				<module>../../plugins/com.incquerylabs.emdw.toolchain.mwe2integration</module>
-				 -->
 		
 				<!-- UML integration -->
 				<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>

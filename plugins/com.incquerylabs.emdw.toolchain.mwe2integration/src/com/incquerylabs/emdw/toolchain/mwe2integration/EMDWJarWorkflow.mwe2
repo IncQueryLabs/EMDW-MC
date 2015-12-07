@@ -27,7 +27,6 @@ Workflow {
 		step = FileContentCreationStep{
 			subscription = SubscribeTo{topicName = "FileContentCreation" processor = messages.DirtyComponentsMessageProcessor{}}
 			isJavaApp = true
-			isJUnitTestApp = true
 		}
 		
 	}

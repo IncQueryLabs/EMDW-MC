@@ -9,14 +9,9 @@ import org.eclipse.xtext.xbase.lib.Pair.*
 Workflow {
 	component = PlainJavaInitializerComponent{
 		//Add absolute path of uml model
-		umlModelPath = "D:\\source\\eatf.uml"
+		umlModelPath = "D:/source/eatf.uml"
 		//Add absolute path of target dir
-		targetFolderPath = "D:\\target"
-		//cppBasicTypesPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.transformation\\model\\cppBasicTypes.cppmodel"
-		//cppCollectionsPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.transformation\\model\\defaultImplementations.cppmodel"
-		//cppRuntimePath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.codegeneration\\model\\runtime.cppmodel"
-		//xumlRTTypesPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\org.eclipse.papyrusrt.xtumlrt.common.model\\model\\umlPrimitiveTypes.common"
-		//ralfCollectionsPath = "D:\\lunk.peter\\GIT\\EMDW-Common\\plugins\\com.incquerylabs.uml.ralf\\model\\collections\\collections.uml"
+		targetFolderPath = "D:/target"
 	}
 	
 	component = TransformationChain {
@@ -34,9 +29,10 @@ Workflow {
 		}
 		
 		step = FileContentCreationStep{
-			xtumlrtRuntimeDirectory = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.codegeneration\\model\\runtime"
+			xtumlrtRuntimeDirectory = "D:/lunk.peter/GIT/EMDW-MC/plugins/com.incquerylabs.emdw.cpp.codegeneration/model/runtime"
 			subscription = SubscribeTo{topicName = "FileContentCreation" processor = messages.DirtyComponentsMessageProcessor{}}
 			isJavaApp = true
+			isJUnitTestApp = true
 		}
 		
 	}

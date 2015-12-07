@@ -373,7 +373,7 @@
 		</repository>
 		<repository>
 			<id>viatra</id>
-			<url>https://repo.eclipse.org/content/repositories/viatra2-snapshots/</url>
+			<url>https://repo.eclipse.org/content/repositories/viatra2/</url>
 		</repository>
 		<repository>
 			<id>scout-releases</id>

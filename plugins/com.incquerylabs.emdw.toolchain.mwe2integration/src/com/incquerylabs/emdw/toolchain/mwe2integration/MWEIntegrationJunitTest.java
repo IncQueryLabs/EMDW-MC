@@ -15,6 +15,7 @@ import org.eclipse.incquery.runtime.extensibility.QuerySpecificationRegistry;
 import org.eclipse.papyrusrt.xtumlrt.common.CommonPackage;
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage;
 import org.eclipse.uml2.uml.UMLPackage;
+import org.eclipse.uml2.uml.UMLPlugin;
 import org.eclipse.uml2.uml.resource.UMLResource;
 import org.junit.Test;
 
@@ -28,15 +29,17 @@ import com.incquerylabs.emdw.toolchain.mwe2integration.steps.MWE2IntegrationRunn
 import com.incquerylabs.emdw.umlintegration.trace.TracePackage;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup;
 
+import hu.eltesoft.modelexecution.profile.xumlrt.XUMLRTPackage;
+
 
 public class MWEIntegrationJunitTest {
     static Map<URI,URI> resourcesMap;
-    static String cppBasicTypesPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.transformation\\model\\cppBasicTypes.cppmodel";
-    static String cppCollectionsPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.transformation\\model\\defaultImplementations.cppmodel";
-    static String cppRuntimePath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.codegeneration\\model\\runtime.cppmodel";
-    static String xumlRTTypesPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\org.eclipse.papyrusrt.xtumlrt.common.model\\model\\umlPrimitiveTypes.common";
-    static String ralfCollectionsPath = "D:\\lunk.peter\\GIT\\EMDW-Common\\plugins\\com.incquerylabs.uml.ralf\\model\\collections\\collections.uml";
-    
+    static String cppBasicTypesPath = "D:/lunk.peter/GIT/EMDW-MC/plugins/com.incquerylabs.emdw.cpp.transformation/model/cppBasicTypes.cppmodel";
+    static String cppCollectionsPath = "D:/lunk.peter/GIT/EMDW-MC/plugins/com.incquerylabs.emdw.cpp.transformation/model/defaultImplementations.cppmodel";
+    static String cppRuntimePath = "D:/lunk.peter/GIT/EMDW-MC/plugins/com.incquerylabs.emdw.cpp.codegeneration/model/runtime.cppmodel";
+    static String xumlRTTypesPath = "D:/lunk.peter/GIT/EMDW-MC/plugins/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common";
+    static String ralfCollectionsPath = "D:/lunk.peter/GIT/EMDW-Common/plugins/com.incquerylabs.uml.ralf/model/collections/collections.uml";
+    static String xumlrtProfile = "D:/lunk.peter/GIT/EMDW-Common/plugins/hu.eltesoft.modelexecution.profile/profile/xumlrt.profile";
     @Test
     public void test() {
         initializePathmaps();
@@ -54,6 +57,9 @@ public class MWEIntegrationJunitTest {
         resourcesMap.put(URI.createURI(EMDWConstants.CPP_RUNTIME_LIBRARY_PATH) , URI.createFileURI(cppRuntimePath));
         resourcesMap.put(URI.createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH) , URI.createFileURI(xumlRTTypesPath));
         resourcesMap.put(URI.createURI(EMDWConstants.CPP_RALF_MODELS_PATH) , URI.createFileURI(ralfCollectionsPath));
+        resourcesMap.put(URI.createURI(EMDWConstants.XUMLRT_PROFILE_PATHMAP) , URI.createFileURI(xumlrtProfile));
+        
+        
                 
         for (URI uri : resourcesMap.keySet()) {
             URIConverter.URI_MAP.put(
@@ -75,11 +81,15 @@ public class MWEIntegrationJunitTest {
         
         // Initialize EMF model element types
         UMLPackage.eINSTANCE.eClass();
+        XUMLRTPackage.eINSTANCE.eClass();
         TracePackage.eINSTANCE.eClass();
         CommonPackage.eINSTANCE.eClass();
         XtumlPackage.eINSTANCE.eClass();
         OoplPackage.eINSTANCE.eClass();
         CppmodelPackage.eINSTANCE.eClass();
+        
+     // register xUML-RT profile
+        UMLPlugin.getEPackageNsURIToProfileLocationMap().put(XUMLRTPackage.eNS_URI, URI.createURI("pathmap://XUMLRT_PROFILE/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"));
         
         try {
             for(IQuerySpecification<?> spec : OoplQueryBasedFeatures.instance().getSpecifications()){

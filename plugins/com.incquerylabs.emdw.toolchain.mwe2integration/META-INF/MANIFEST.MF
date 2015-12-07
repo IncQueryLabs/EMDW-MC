@@ -31,7 +31,8 @@ Require-Bundle: org.eclipse.emf.mwe2.launch,
  com.incquerylabs.emdw.cpp.bodyconverter;bundle-version="1.0.0",
  com.incquerylabs.uml.ralf;bundle-version="1.0.0",
  org.eclipse.incquery.querybasedfeatures.runtime;bundle-version="1.1.0",
- org.eclipse.uml2.uml.resources;bundle-version="5.1.0"
+ org.eclipse.uml2.uml.resources;bundle-version="5.1.0",
+ hu.eltesoft.modelexecution.profile;bundle-version="0.6.0"
 Bundle-Vendor: IncQuery Labs Ltd.
 Export-Package: com.incquerylabs.emdw.toolchain.mwe2integration
 

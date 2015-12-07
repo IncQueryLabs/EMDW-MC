@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
@@ -6,10 +6,8 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CPPModel
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelFactory
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.incquerylabs.emdw.cpp.bodyconverter.transformation.impl.queries.UmlXumlrtMappingQueries
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
-import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.CppQueries
 import com.incquerylabs.emdw.cpp.transformation.queries.MonitorQueries
@@ -23,11 +21,14 @@ import com.incquerylabs.emdw.xtuml.incquery.XtumlValidationQueries
 import java.util.Arrays
 import java.util.List
 import java.util.Map
+import org.eclipse.core.resources.IProject
+import org.eclipse.core.resources.IResource
+import org.eclipse.core.resources.ResourcesPlugin
+import org.eclipse.core.runtime.CoreException
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.eclipse.emf.ecore.resource.URIConverter
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowComponent
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext
@@ -42,13 +43,11 @@ import org.eclipse.uml2.uml.Model
 import org.eclipse.uml2.uml.PrimitiveType
 import org.eclipse.uml2.uml.Type
 import org.eclipse.uml2.uml.resource.UMLResource
-import org.eclipse.uml2.uml.resources.util.UMLResourcesUtil
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
 
-class PlainJavaInitializerComponent implements IWorkflowComponent {
-	
+class InitializerComponent implements IWorkflowComponent {
 	static val TOOLCHAIN_QUERIES = GenericPatternGroup.of(
 			StateMachine.instance,
 			Structure.instance,
@@ -66,21 +65,15 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 			OoplQueryBasedFeatures.instance,
 			QueryBasedFeatures.instance
 		)
-	
-//	Map<URI,URI> resourcesMap
+	static val PATHMAP_SCHEME = "pathmap";
 	private static final List<String> INDEXED_AUTHORITIES = Arrays.asList("UML_LIBRARIES", "RALF",
 			"XUMLRT_PROFILE", "EMDW");
-	static val PATHMAP_SCHEME = "pathmap";
-	//static val UML_LIBRARIES_AUTHORITY = "UML_LIBRARIES";
-	private static final String MODEL_GENERATION_DIRECTORY_NAME = "model"
-	
-	@Accessors String targetFolderPath
-	@Accessors String umlModelPath
-//	@Accessors String cppBasicTypesPath
-//	@Accessors String cppCollectionsPath
-//	@Accessors String cppRuntimePath
-//	@Accessors String xumlRTTypesPath
-//	@Accessors String ralfCollectionsPath
+			
+	@Accessors String umlResourcePath
+	@Accessors String generationProjectPrefix
+	@Accessors String codeGenerationDirectoryName
+	@Accessors String modelGenerationDirectoryName
+	@Accessors String primitiveTypesPath
 	
 	String generationProjectName
 	IncQueryEngine engine
@@ -96,26 +89,18 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 	var Resource traceResource
 	var Resource cppmodelResource
 	var CPPModel cppModel
-	
 
 	override void preInvoke() {
 	}
 
-	override void invoke(IWorkflowContext ctx) {
-//		initializePathmaps
-		val resourceSet = new ResourceSetImpl
-		resourceSet.URIConverter = URIConverter::INSTANCE
-		UMLResourcesUtil.init(resourceSet)
-		
-		val umlResource = resourceSet.createResource(URI.createFileURI(umlModelPath))
-		umlResource.load(null)
+	override void invoke(IWorkflowContext ctx) {	
+		val resourceSet = new ResourceSetImpl	
+		val umlResource = resourceSet.createResource(URI.createPlatformPluginURI(umlResourcePath, true)) => [ load(#{}) ]
 		val umlModel = umlResource.contents.filter(Model).head
-		generationProjectName = targetFolderPath + umlModel.name
+		generationProjectName = generationProjectPrefix + umlModel.name
 		
 		val mapping = resourceSet.createRootMapping(umlResource)
-		
-		
-		primitiveTypeMapping = resourceSet.createPrimitiveTypeMapping(URI::createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH))
+		primitiveTypeMapping = resourceSet.createPrimitiveTypeMapping
 		
 		checkNotNull(mapping.xtumlrtRoot, "xUML-RT Model cannot be null!")
 		if(engine == null) {
@@ -124,8 +109,8 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		
 		TOOLCHAIN_QUERIES.prepare(engine)
 		
-		val fileManager = new JavaIOBasedFileManager('''«targetFolderPath»''')
-		fileManager.createDirectory("/code")
+		val parent = getOrCreateProject(generationProjectName)
+		val targetFolder = getOrCreateFolder(parent, codeGenerationDirectoryName)
 			
 		ctx.put("engine", engine)
 		ctx.put("primitiveTypeMapping", primitiveTypeMapping)
@@ -133,12 +118,8 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		ctx.put("traceResource", traceResource)
 		ctx.put("cppmodelResource", cppmodelResource)
 		ctx.put("cppModel", cppModel)
-		ctx.put("targetFolder", '''«targetFolderPath»/code''')
+		ctx.put("targetFolder", targetFolder)
 		
-	}
-	
-	private def String getModelTargetFolderPath() {
-		return '''«targetFolderPath»/«MODEL_GENERATION_DIRECTORY_NAME»'''
 	}
 
 	override void postInvoke() {
@@ -147,7 +128,8 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 	private def createRootMapping(ResourceSet resourceSet, Resource umlResource) {
 		val umlModel = umlResource.contents.filter(Model).head
 		
-		val myuri = URI.createFileURI('''«modelTargetFolderPath»/«umlModel.name»''')
+		val project = getOrCreateProject(generationProjectName)
+		val myuri = URI.createFileURI('''«project.location.toOSString»/«modelGenerationDirectoryName»/«umlModel.name»''')
 		val RESULT_PATH = myuri.toFileString
 		
 		// Create xtuml resource with xtuml model
@@ -186,7 +168,6 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 	}
 	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {
-
 		val options = new BaseIndexOptions().withResourceFilterConfiguration([
 			val uri = getURI();
 			if (INDEXED_AUTHORITIES.contains(uri.authority())) {
@@ -199,14 +180,14 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		return engine;
 	}
 	
-	private def createPrimitiveTypeMapping(ResourceSet rs, URI primitiveUri){
+	private def createPrimitiveTypeMapping(ResourceSet rs){
 		val primitiveTypeMapping = <Type, org.eclipse.papyrusrt.xtumlrt.common.Type>newHashMap
 		
-		val commonTypesResource = rs.getResource(primitiveUri, true)
+		val commonTypesResource = rs.getResource(URI.createPlatformPluginURI(primitiveTypesPath, true), true) => [ load(#{}) ]
 		val commonTypesModel = commonTypesResource.contents.head as org.eclipse.papyrusrt.xtumlrt.common.Model
 		val commonTypes = commonTypesModel.packages.head.typeDefinitions.map[td|td.type]
 		
-		val umlTypesResource = rs.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI, false), true)
+		val umlTypesResource = rs.getResource(URI.createURI(UMLResource.UML_PRIMITIVE_TYPES_LIBRARY_URI), true) => [ load(#{}) ]
 		val model = umlTypesResource.contents.filter(Model).head
 		val umlTypes = model.packagedElements.filter(PrimitiveType)
 		
@@ -226,21 +207,24 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		resource.contents += root
 		resource
 	}
+			
+	private def getOrCreateProject(String name) throws CoreException {
+		val workspace = ResourcesPlugin.workspace
+		val project = workspace.root.getProject(name)
 		
-//	private def void initializePathmaps() {
-//		resourcesMap = #{
-//			URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createFileURI(cppBasicTypesPath),
-//			URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createFileURI(cppCollectionsPath),
-//			URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createFileURI(cppRuntimePath),
-//			URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createFileURI(xumlRTTypesPath),
-//			URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createFileURI(xumlRTTypesPath)
-//		}
-//
-//		resourcesMap.forEach[pathmapPath, locationPath|
-//			URIConverter.URI_MAP.put(
-//				pathmapPath,
-//				locationPath
-//			)			
-//		]
-//	}	
+		if (!project.exists) {
+			project.create(null)
+		}
+		project.open(IResource.BACKGROUND_REFRESH, null)
+		
+		return project
+	 }
+	
+	def getOrCreateFolder(IProject project, String folderName){
+		val folder = project.getFolder(folderName);
+		if (!folder.exists()) {
+			folder.create(true, true, null);
+		}
+		return folder;
+	}		
 }

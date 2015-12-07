@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
@@ -47,7 +47,8 @@ class FileContentCreationStep extends TransformationStep {
 	Map<CPPSourceFile, CharSequence> cppSourceFileContents
 	@Accessors Set<XTComponent> dirtyComponents
 	@Accessors boolean isJavaApp = false
-	@Accessors String RUNTIME_TARGET_DIRECTORY = "model/runtime"
+	@Accessors boolean isJUnitTestApp = false
+	@Accessors String xtumlrtRuntimeDirectory = "model/runtime"
 	@Accessors String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	extension XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
@@ -67,9 +68,15 @@ class FileContentCreationStep extends TransformationStep {
 		//init file manager
 		
 		if(isJavaApp) {
-			var targetLocation = ctx.get("targetFolder") as String
-			mapperFileManager = new JarFileManager
-			fileManager = new JavaIOBasedFileManager(targetLocation)
+			if(isJUnitTestApp){
+				var targetLocation = ctx.get("targetFolderLocation") as String
+				mapperFileManager = new JavaIOBasedFileManager("")
+				fileManager = new JavaIOBasedFileManager(targetLocation)
+			}else{
+				var targetLocation = ctx.get("targetFolderLocation") as String
+				mapperFileManager = new JarFileManager
+				fileManager = new JavaIOBasedFileManager(targetLocation)
+			}
 		} else {
 			targetDir = ctx.get("targetFolder") as IFolder
 			mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
@@ -151,7 +158,13 @@ class FileContentCreationStep extends TransformationStep {
 	private def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(RUNTIME_TARGET_DIRECTORY, mapperCppDir.name))
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
+//			if(isJavaApp){
+//				mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
+//			}else{
+//				mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
+//			}
+			
 			mapper.execute
 			return mapper.mappedSourceFiles
 		}
@@ -189,7 +202,7 @@ class FileContentCreationStep extends TransformationStep {
 		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
 		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
 		// only create MakeFile if it doesn't exist yet
-		if(!fileManager.fileExists("", "Makefile")){
+		if(!fileManager.isFileExists("", "Makefile")){
 			fileManager.createFile("Makefile", makefileContent, true, false)
 		}
 	}
@@ -199,7 +212,7 @@ class FileContentCreationStep extends TransformationStep {
 		
 		val mainContent = mainGeneration.execute(components)
 		// only create main file if it doesn't exist yet
-		if(!fileManager.fileExists("", "main.cc")){
+		if(!fileManager.isFileExists("", "main.cc")){
 			fileManager.createFile("main.cc", mainContent, true, false)
 		}
 	}

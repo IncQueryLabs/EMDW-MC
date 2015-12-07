@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
@@ -12,18 +12,18 @@ import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryEventRealm
-import org.eclipse.viatra.emf.mwe2integration.eventdriven.mwe2impl.MWE2ControlledExecutor
+import org.eclipse.viatra.emf.mwe2integration.eventdriven.mwe2impl.MWE2ControllableExecutor
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
 
 class CppQrtTransformationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
 	XtumlCPPTransformationQrt cppQrtTrafo
-	MWE2ControlledExecutor executor
+	MWE2ControllableExecutor executor
 	
 	override void doInitialize(IWorkflowContext ctx) {
 		engine = ctx.get("engine") as AdvancedIncQueryEngine
-		executor = new MWE2ControlledExecutor(IncQueryEventRealm.create(engine));
+		executor = new MWE2ControllableExecutor(IncQueryEventRealm.create(engine));
 		
 		val xUmlRtResource = ctx.get("xumlrtResource") as Resource
 		

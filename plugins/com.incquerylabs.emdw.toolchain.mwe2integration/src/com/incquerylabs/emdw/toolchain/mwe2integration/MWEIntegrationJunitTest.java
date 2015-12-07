@@ -24,6 +24,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage;
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures;
 import com.google.common.collect.Maps;
 import com.incquerylabs.emdw.cpp.common.EMDWConstants;
+import com.incquerylabs.emdw.toolchain.mwe2integration.steps.MWE2IntegrationRunner;
 import com.incquerylabs.emdw.umlintegration.trace.TracePackage;
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup;
 
@@ -42,7 +43,7 @@ public class MWEIntegrationJunitTest {
         new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
         loadDefaultSettings();
         
-        MWE2IntegrationRunner runner = new MWE2IntegrationRunner("src/com/incquerylabs/emdw/toolchain/mwe2integration/EMDWJavaWorkflow.mwe2");
+        MWE2IntegrationRunner runner = new MWE2IntegrationRunner("src/com/incquerylabs/emdw/toolchain/mwe2integration/EMDWJUnitWorkflow.mwe2");
         runner.RunPlainJava();
     }
     

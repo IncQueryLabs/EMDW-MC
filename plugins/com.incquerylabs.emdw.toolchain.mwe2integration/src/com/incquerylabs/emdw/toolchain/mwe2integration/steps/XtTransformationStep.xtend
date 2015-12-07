@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.incquerylabs.emdw.umlintegration.TransformationQrt
 import com.incquerylabs.emdw.umlintegration.UmlIntegrationExtension
@@ -10,18 +10,18 @@ import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext
 import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.evm.specific.event.IncQueryEventRealm
 import org.eclipse.uml2.uml.Type
-import org.eclipse.viatra.emf.mwe2integration.eventdriven.mwe2impl.MWE2ControlledExecutor
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
+import org.eclipse.viatra.emf.mwe2integration.eventdriven.mwe2impl.MWE2ControllableExecutor
 
 class XtTransformationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
 	TransformationQrt xtTrafo
 	Set<UmlIntegrationExtension> extensionServices
-	MWE2ControlledExecutor executor
+	MWE2ControllableExecutor executor
 
 	override void doInitialize(IWorkflowContext ctx) {
 		engine = ctx.get("engine") as AdvancedIncQueryEngine
-		executor = new MWE2ControlledExecutor(IncQueryEventRealm.create(engine));
+		executor = new MWE2ControllableExecutor(IncQueryEventRealm.create(engine));
 		
 		
 		if(xtTrafo == null){

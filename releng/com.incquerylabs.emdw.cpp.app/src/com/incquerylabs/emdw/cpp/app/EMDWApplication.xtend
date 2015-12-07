@@ -38,6 +38,7 @@ import org.eclipse.emf.ecore.resource.URIConverter
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import hu.eltesoft.modelexecution.profile.xumlrt.XUMLRTPackage
 import org.eclipse.uml2.uml.UMLPlugin
+import java.util.Map
 
 class EMDWApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
@@ -51,14 +52,7 @@ class EMDWApplication {
 	private static final String COMMON_LAYOUT = "%30.30c - %m%n"
 	private static final String FILE_LOG_LAYOUT_PREFIX = "[%d{MMM/dd HH:mm:ss}] "
 	
-	public static final val RESOURCES = #{
-		URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/cppBasicTypes.cppmodel").toString),
-		URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/defaultImplementations.cppmodel").toString),
-		URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(EMDWApplication.getResource("/model/runtime.cppmodel").toString),
-		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(EMDWApplication.getResource("/model/umlPrimitiveTypes.common").toString),
-		URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(EMDWApplication.getResource("/model/collections/collections.uml").toString),
-		URI::createURI(EMDWConstants::XUMLRT_PROFILE_PATHMAP)				->	URI::createURI(EMDWApplication.getResource("/profile/").toString)
-	}
+	public static final Map<URI,URI> RESOURCES = <URI,URI>newHashMap
 	
 	
 	def static void main(String[] args) {
@@ -130,6 +124,14 @@ class EMDWApplication {
 	}
 	
 	private static def void initializePathmaps() {
+		RESOURCES.putAll(#{
+			URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/cppBasicTypes.cppmodel").toString),
+			URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/defaultImplementations.cppmodel").toString),
+			URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(EMDWApplication.getResource("/model/runtime.cppmodel").toString),
+			URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(EMDWApplication.getResource("/model/umlPrimitiveTypes.common").toString),
+			URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(EMDWApplication.getResource("/model/collections/collections.uml").toString),
+			URI::createURI(EMDWConstants::XUMLRT_PROFILE_PATHMAP)				->	URI::createURI(EMDWApplication.getResource("/profile/").toString)
+		})
 		RESOURCES.forEach[pathmapPath, locationPath|
 			URIConverter.URI_MAP.put(
 				pathmapPath,

@@ -2,6 +2,7 @@ module com.incquerylabs.emdw.toolchain.mwe2integration
 
 import org.eclipse.viatra.emf.mwe2integration.*
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.*
+import com.incquerylabs.emdw.toolchain.mwe2integration.steps.*
 import com.incquerylabs.emdw.toolchain.mwe2integration.*
 import org.eclipse.xtext.xbase.lib.Pair.*
 
@@ -32,9 +33,11 @@ Workflow {
 			subscription = SubscribeTo{topicName = "DirtyComponents" processor = messages.DirtyComponentsMessageProcessor{}}
 		}
 		
-//		step = FileContentCreationStep{
-//			subscription = SubscribeTo{topicName = "FileContentCreation" processor = messages.DirtyComponentsMessageProcessor{}}
-//		}
+		step = FileContentCreationStep{
+			xtumlrtRuntimeDirectory = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.codegeneration\\model\\runtime"
+			subscription = SubscribeTo{topicName = "FileContentCreation" processor = messages.DirtyComponentsMessageProcessor{}}
+			isJavaApp = true
+		}
 		
 	}
 }

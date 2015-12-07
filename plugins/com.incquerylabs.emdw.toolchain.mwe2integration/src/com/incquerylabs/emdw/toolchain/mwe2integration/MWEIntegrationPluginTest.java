@@ -2,6 +2,8 @@ package com.incquerylabs.emdw.toolchain.mwe2integration;
 
 import org.junit.Test;
 
+import com.incquerylabs.emdw.toolchain.mwe2integration.steps.MWE2IntegrationRunner;
+
 public class MWEIntegrationPluginTest {
 
     @Test

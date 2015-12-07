@@ -1,13 +1,13 @@
 package com.incquerylabs.emdw.toolchain.mwe2integration.messages
 
-import com.incquerylabs.emdw.toolchain.mwe2integration.CppComponentTransformationStep
+import com.incquerylabs.emdw.toolchain.mwe2integration.steps.CppComponentTransformationStep
+import com.incquerylabs.emdw.toolchain.mwe2integration.steps.FileContentCreationStep
 import java.security.InvalidParameterException
 import java.util.Set
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.mwe2integration.IMessage
 import org.eclipse.viatra.emf.mwe2integration.IMessageProcessor
 import org.eclipse.viatra.emf.mwe2integration.ITransformationStep
-import com.incquerylabs.emdw.toolchain.mwe2integration.FileContentCreationStep
 
 class DirtyComponentsMessageProcessor implements IMessageProcessor<Set<XTComponent>, DirtyComponentsMessage> {
 	protected ITransformationStep parent

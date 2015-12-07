@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.incquerylabs.emdw.cpp.codegeneration.CPPCodeGeneration
 import com.incquerylabs.emdw.cpp.codegeneration.MakefileGeneration

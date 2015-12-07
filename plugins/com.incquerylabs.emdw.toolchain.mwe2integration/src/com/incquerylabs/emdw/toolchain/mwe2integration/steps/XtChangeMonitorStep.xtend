@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.incquerylabs.emdw.cpp.transformation.monitor.XtumlModelChangeMonitor
 import org.eclipse.emf.mwe2.runtime.workflow.IWorkflowContext

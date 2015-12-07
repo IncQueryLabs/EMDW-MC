@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import java.util.HashMap
 import org.eclipse.emf.common.util.URI

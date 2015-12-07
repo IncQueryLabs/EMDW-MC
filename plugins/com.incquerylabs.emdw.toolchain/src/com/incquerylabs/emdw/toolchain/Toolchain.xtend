@@ -139,6 +139,7 @@ class Toolchain {
 	@Accessors XtumlModelChangeMonitor xtumlChangeMonitor
 	@Accessors IFileManager fileManager
 	@Accessors IFileManager mapperFileManager
+	@Accessors boolean checkNeeded = true
 	
 	boolean isDisposed = false
 	boolean isXumlrtTrafoInitialized = false
@@ -257,7 +258,9 @@ class Toolchain {
 	// Incremental transformations
 	def executeXtTransformation() {
 		val watch = Stopwatch.createStarted
-		engine.checkUmlXumlTypeMapping(primitiveTypeMapping)
+		if(checkNeeded) {
+			engine.checkUmlXumlTypeMapping(primitiveTypeMapping)
+		}
 		xtTrafo.execute
 		
 		watch.logTime(Phase.EXECUTE_XUMLRT_QRT)
@@ -266,8 +269,10 @@ class Toolchain {
 	def executeCppQrtTransformation() {
 		val watch = Stopwatch.createStarted
 		getOrCreateCPPModel
-		engine.checkCppBasicTypes
-		engine.checkCppCollections
+		if(checkNeeded) {
+			engine.checkCppBasicTypes
+			engine.checkCppCollections
+		}
 		cppQrtTrafo.execute
 		
 		watch.logTime(Phase.EXECUTE_CPP_QRT)

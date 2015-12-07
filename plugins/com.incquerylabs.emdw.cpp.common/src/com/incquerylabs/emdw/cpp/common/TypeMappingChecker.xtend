@@ -12,6 +12,9 @@ class TypeMappingChecker {
 	static extension val CheckerQueries checkerQueries = CheckerQueries.instance
 	
 	public static def checkUmlXumlTypeMapping(AdvancedIncQueryEngine engine, Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> primitiveTypeMapping) throws TypeMappingCheckerException {
+		if(primitiveTypeMapping==null) {
+			throw new TypeMappingCheckerException("No primitive type mapping")
+		}
 		EMDWConstants.SUPPORTED_UML_PRIMITIVE_TYPES.forEach[ qn |
 			val match = engine.umlPrimitiveTypeByQualifiedName.getOneArbitraryMatch(null, qn)
 			if(match==null) {

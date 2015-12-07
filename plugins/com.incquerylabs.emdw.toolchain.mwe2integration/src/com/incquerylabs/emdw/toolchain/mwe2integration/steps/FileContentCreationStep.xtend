@@ -14,9 +14,9 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import java.nio.file.Paths
 import java.util.Map
 import java.util.Set
 import org.eclipse.core.resources.IFolder
@@ -28,7 +28,6 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 
 class FileContentCreationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
@@ -158,7 +157,7 @@ class FileContentCreationStep extends TransformationStep {
 	private def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, xtumlrtRuntimeDirectory+"/"+mapperCppDir.name)
 //			if(isJavaApp){
 //				mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
 //			}else{

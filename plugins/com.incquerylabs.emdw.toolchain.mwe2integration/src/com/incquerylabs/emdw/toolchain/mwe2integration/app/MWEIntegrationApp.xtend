@@ -7,6 +7,7 @@ import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import com.incquerylabs.emdw.umlintegration.trace.TracePackage
 import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
+import hu.eltesoft.modelexecution.profile.xumlrt.XUMLRTPackage
 import java.util.HashMap
 import java.util.List
 import java.util.Map
@@ -16,6 +17,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.URIConverter
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
+import org.eclipse.emf.mwe2.language.Mwe2StandaloneSetup
 import org.eclipse.emf.mwe2.runtime.workflow.WorkflowContextImpl
 import org.eclipse.incquery.querybasedfeatures.runtime.QueryBasedFeatureSettingDelegateFactory
 import org.eclipse.incquery.runtime.api.IPatternMatch
@@ -25,10 +27,9 @@ import org.eclipse.incquery.runtime.extensibility.QuerySpecificationRegistry
 import org.eclipse.papyrusrt.xtumlrt.common.CommonPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage
 import org.eclipse.uml2.uml.UMLPackage
+import org.eclipse.uml2.uml.UMLPlugin
 import org.eclipse.uml2.uml.resource.UMLResource
 import org.eclipse.viatra.emf.mwe2integration.initializer.MWE2IntegrationInitializer
-import com.google.common.collect.Maps
-import org.eclipse.emf.mwe2.language.Mwe2StandaloneSetup
 import org.eclipse.emf.mwe2.launch.runtime.Mwe2Runner
 
 class MWEIntegrationApp {
@@ -40,35 +41,31 @@ class MWEIntegrationApp {
 	 * second arg: target folder for generated code
 	 * third arg: MWE file location
 	'''	
-//	public static final val RESOURCES = #{
-//		URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(MWEIntegrationApp.getResource("/model/cppBasicTypes.cppmodel").toString),
-//		URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(MWEIntegrationApp.getResource("/model/defaultImplementations.cppmodel").toString),
-//		URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(MWEIntegrationApp.getResource("/model/runtime.cppmodel").toString),
-//		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(MWEIntegrationApp.getResource("/model/umlPrimitiveTypes.common").toString),
-//		URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(MWEIntegrationApp.getResource("/model/collections/collections.uml").toString)
-//	}
-	static String cppBasicTypesPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.transformation\\model\\cppBasicTypes.cppmodel";
-    static String cppCollectionsPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.transformation\\model\\defaultImplementations.cppmodel";
-    static String cppRuntimePath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\com.incquerylabs.emdw.cpp.codegeneration\\model\\runtime.cppmodel";
-    static String xumlRTTypesPath = "D:\\lunk.peter\\GIT\\EMDW-MC\\plugins\\org.eclipse.papyrusrt.xtumlrt.common.model\\model\\umlPrimitiveTypes.common";
-    static String ralfCollectionsPath = "D:\\lunk.peter\\GIT\\EMDW-Common\\plugins\\com.incquerylabs.uml.ralf\\model\\collections\\collections.uml";
 
 	def static void main(String[] args) {
-		val resourcesMap = Maps.newHashMap();
-        resourcesMap.put(URI.createURI(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH) , URI.createFileURI(cppBasicTypesPath));
-        resourcesMap.put(URI.createURI(EMDWConstants.CPP_COLLECTIONS_LIBRARY_PATH) , URI.createFileURI(cppCollectionsPath));
-        resourcesMap.put(URI.createURI(EMDWConstants.CPP_RUNTIME_LIBRARY_PATH) , URI.createFileURI(cppRuntimePath));
-        resourcesMap.put(URI.createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH) , URI.createFileURI(xumlRTTypesPath));
-        resourcesMap.put(URI.createURI(EMDWConstants.CPP_RALF_MODELS_PATH) , URI.createFileURI(ralfCollectionsPath));
 		System.out.println('''************* «APP_NAME» started *************''')		
+//		val resources = #{
+//			URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(MWEIntegrationApp.getResource("/model/cppBasicTypes.cppmodel").toString),
+//			URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(MWEIntegrationApp.getResource("/model/defaultImplementations.cppmodel").toString),
+//			URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(MWEIntegrationApp.getResource("/model/runtime.cppmodel").toString),
+//			URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(MWEIntegrationApp.getResource("/model/umlPrimitiveTypes.common").toString),
+//			URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(MWEIntegrationApp.getResource("/model/collections/collections.uml").toString),
+//			URI::createURI(EMDWConstants::XUMLRT_PROFILE_PATHMAP)				->	URI::createURI(MWEIntegrationApp.getResource("/profile/").toString)
+//		}
+		
 		
 		if(args.checkArguments) {
-			
 			val initializer = new MWE2IntegrationInitializer
-			initializePathmaps(resourcesMap);
+			//initializePathmaps(resources);
         	new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
         	loadDefaultSettings();
-        	val  mweRunner = initializer.initializePlainJava()
+        	
+        	val injector = new Mwe2StandaloneSetup().createInjectorAndDoEMFRegistration()
+
+        	
+       		val mweRunner = injector.getInstance(JarMwe2Runner);
+        	
+        	//val  mweRunner = initializer.initializePlainJava()
 			var WorkflowContextImpl context = new WorkflowContextImpl()
 			
 			context.put("targetFolderPath", args.get(0))
@@ -77,10 +74,8 @@ class MWEIntegrationApp {
 			
 		}
 		System.out.println('''************* «APP_NAME» finished *************''')
-		
-		
+			
 	}
-	
 	
 	private static def boolean checkArguments(List<String> args) {
 		System.out.println("Passed arguments:")
@@ -100,15 +95,18 @@ class MWEIntegrationApp {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("xtuml", new XMIResourceFactoryImpl())
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("cppmodel", new XMIResourceFactoryImpl())
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("common", new XMIResourceFactoryImpl())
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("mwe2", new Mwe2Runner())
 		
 		// Initialize EMF model element types
 		UMLPackage.eINSTANCE.eClass
+		XUMLRTPackage.eINSTANCE.eClass
 		TracePackage.eINSTANCE.eClass
 		CommonPackage.eINSTANCE.eClass
 		XtumlPackage.eINSTANCE.eClass
 		OoplPackage.eINSTANCE.eClass
 		CppmodelPackage.eINSTANCE.eClass
+		
+		// register xUML-RT profile
+		UMLPlugin.EPackageNsURIToProfileLocationMap.put(XUMLRTPackage.eNS_URI, URI.createURI("pathmap://XUMLRT_PROFILE/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"))
 		
 		OoplQueryBasedFeatures::instance.specifications.forEach[IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>> specification |
 			QuerySpecificationRegistry::registerQuerySpecification(specification)
@@ -119,14 +117,13 @@ class MWEIntegrationApp {
 		EStructuralFeature.Internal.SettingDelegate.Factory.Registry.INSTANCE.put("org.eclipse.incquery.querybasedfeature", new QueryBasedFeatureSettingDelegateFactory)
 	} 
 	
-	private static def void initializePathmaps(Map<URI, URI> resources) {
-		Mwe2StandaloneSetup.doSetup()
-		resources.forEach[pathmapPath, locationPath|
-			URIConverter.URI_MAP.put(
-				pathmapPath,
-				locationPath
-			)			
-		]
-	}
+//	private static def void initializePathmaps(Map<URI, URI> resources) {
+//		resources.forEach[pathmapPath, locationPath|
+//			URIConverter.URI_MAP.put(
+//				pathmapPath,
+//				locationPath
+//			)			
+//		]
+//	}
 	
 }

@@ -47,6 +47,7 @@
       <plugin id="com.incquerylabs.emdw.xtuml.incquery.validation"/>
       <plugin id="com.incquerylabs.uml.ralf"/>
       <plugin id="com.incquerylabs.uml.ralf.snippetcompiler"/>
+      <plugin id="hu.eltesoft.modelexecution.profile"/>
       <plugin id="it.xsemantics.runtime"/>
       <plugin id="javax.inject"/>
       <plugin id="javax.xml"/>
@@ -110,6 +111,7 @@
       <plugin id="org.eclipse.xtext"/>
       <plugin id="org.eclipse.xtext.common.types"/>
       <plugin id="org.eclipse.xtext.logging" fragment="true"/>
+      <plugin id="org.eclipse.xtext.smap"/>
       <plugin id="org.eclipse.xtext.util"/>
       <plugin id="org.eclipse.xtext.xbase"/>
       <plugin id="org.eclipse.xtext.xbase.lib"/>

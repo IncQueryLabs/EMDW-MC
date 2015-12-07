@@ -27,9 +27,9 @@ class JarFileManager extends FileManager {
 	}
 	
 	override readFileContent(String directoryPath, String filename) {
-		val fileResource = JarFileManager.classLoader.getResourceAsStream('''«directoryPath»/«filename»'''.toUnixString)
+		val fileResource = JarFileManager.classLoader.getResourceAsStream(directoryPath.append(filename).toUnixString)
 		if(fileResource==null) {
-			throw new FileManagerException('''Cannot resolve file in jar! File: «'''«directoryPath»/«filename»'''.toUnixString»''')
+			throw new FileManagerException('''Cannot resolve file in jar! File: «directoryPath.append(filename).toUnixString»''')
 		}
 		return ByteStreams::toByteArray(fileResource)
 	}
@@ -37,7 +37,7 @@ class JarFileManager extends FileManager {
 	override readFileContentAsString(String directoryPath, String filename) {
 		val fileResource = JarFileManager.classLoader.getResourceAsStream(Paths::get(directoryPath, filename).toUnixString)
 		if(fileResource==null) {
-			throw new FileManagerException('''Cannot resolve file in jar! File: «'''«directoryPath»/«filename»'''.toUnixString»''')
+			throw new FileManagerException('''Cannot resolve file in jar! File: «directoryPath.append(filename).toUnixString»''')
 		}
 		val contentList= new BufferedReader(new InputStreamReader(fileResource, StandardCharsets.UTF_8)).lines.collect(Collectors::toList)
 		contentList.join(StringConcatenation.DEFAULT_LINE_DELIMITER)
@@ -75,7 +75,7 @@ class JarFileManager extends FileManager {
 	}
 	
 	override fileExists(String directoryPath, String filename) {
-		JarFileManager.classLoader.getResource('''«directoryPath»/«filename»'''.toUnixString) != null
+		JarFileManager.classLoader.getResource(directoryPath.append(filename).toUnixString) != null
 	}
 	
 	

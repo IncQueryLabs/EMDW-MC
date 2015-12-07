@@ -50,19 +50,19 @@ class TypeMappingChecker {
 		EMDWConstants.SUPPORTED_OOPL_SEQUENCES.forEach[ p |
 			val match = engine.ooplSequenceImplementation.getOneArbitraryMatch(null, p.key, p.value)
 			if(match==null) {
-				throwMissingCollectionException('''«p.key.getName», «p.value.getName»''', "OOPLSequenceImplementation")
+				throwTypeMappingCheckerException(TypeMappingCheckerException.Messages.MISSING_COLLECTION, '''«p.key.getName», «p.value.getName»''', "OOPLSequenceImplementation")
 			}
 		]
 		EMDWConstants.SUPPORTED_OOPL_ASSOC_COLLECTIONS.forEach[ kind |
 			val match = engine.ooplClassRefAssocImplementation.getOneArbitraryMatch(null, kind)
 			if(match==null) {
-				throwMissingCollectionException(kind.getName, "OOPLClassRefAssocCollectionImplementation")
+				throwTypeMappingCheckerException(TypeMappingCheckerException.Messages.MISSING_COLLECTION, kind.getName, "OOPLClassRefAssocCollectionImplementation")
 			}
 		]
 		EMDWConstants.SUPPORTED_OOPL_SIMPLE_COLLECTION.forEach[ kind |
 			val match = engine.ooplClassRefSimpleImplementation.getOneArbitraryMatch(null, kind)
 			if(match==null) {
-				throwMissingCollectionException(kind.getName, "OOPLClassRefSimpleCollectionImplementation")
+				throwTypeMappingCheckerException(TypeMappingCheckerException.Messages.MISSING_COLLECTION, kind.getName, "OOPLClassRefSimpleCollectionImplementation")
 			}
 		]
 	}
@@ -70,39 +70,20 @@ class TypeMappingChecker {
 	public static def Resource resourceBasicCheck(ResourceSet rs, String modelPath) throws TypeMappingCheckerException {
 		val resource = rs.resources.findFirst[modelPath.equals(it.URI)]
 		if(resource==null) {
-			throwMissingModelException(modelPath)
+			throwTypeMappingCheckerException(TypeMappingCheckerException.Messages.MISSING_MODEL, modelPath)
 		}
 		if(resource.allContents.isNullOrEmpty) {
-			throwEmptyModelException(modelPath)
+			throwTypeMappingCheckerException(TypeMappingCheckerException.Messages.EMPTY_MODEL, modelPath)
 		}
 		return resource
 		
 	}
 	
-	private static def void throwMissingModelException(String modelPath) throws TypeMappingCheckerException {
+	private static def void throwTypeMappingCheckerException(String message, String... params) throws TypeMappingCheckerException {
 		throw new TypeMappingCheckerException(
 				MessageFormat.format(
-					TypeMappingCheckerException.messages.MISSING_MODEL, 
-					modelPath
-			)
-		)
-	}
-	
-	private static def void throwEmptyModelException(String modelPath) throws TypeMappingCheckerException {
-		throw new TypeMappingCheckerException(
-				MessageFormat.format(
-					TypeMappingCheckerException.messages.EMPTY_MODEL, 
-					modelPath
-			)
-		)
-	}
-	
-	private static def void throwMissingCollectionException(String kind, String type) throws TypeMappingCheckerException {
-		throw new TypeMappingCheckerException(
-				MessageFormat.format(
-					TypeMappingCheckerException.messages.MISSING_COLLECTION, 
-					kind, 
-					type
+					message, 
+					params
 			)
 		)
 	}

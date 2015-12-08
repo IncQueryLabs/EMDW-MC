@@ -4,14 +4,15 @@ import com.ericsson.xtumlrt.oopl.OoplPackage
 import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
 import com.ericsson.xtumlrt.oopl.cppmodel.CppmodelPackage
 import com.ericsson.xtumlrt.oopl.cppmodel.derived.QueryBasedFeatures
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 import com.incquerylabs.emdw.cpp.common.util.EMDWNullProgressMonitor
 import com.incquerylabs.emdw.toolchain.Toolchain
 import com.incquerylabs.emdw.toolchain.ToolchainBuilder
 import com.incquerylabs.emdw.umlintegration.trace.TracePackage
+import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 import java.io.IOException
 import java.net.URL
-import java.util.Arrays
 import java.util.List
 import org.apache.log4j.FileAppender
 import org.apache.log4j.Level
@@ -24,9 +25,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl
-import org.eclipse.equinox.app.IApplication
-import org.eclipse.equinox.app.IApplicationContext
-import org.eclipse.incquery.patternlanguage.emf.EMFPatternLanguageStandaloneSetup
 import org.eclipse.incquery.querybasedfeatures.runtime.QueryBasedFeatureSettingDelegateFactory
 import org.eclipse.incquery.runtime.api.IPatternMatch
 import org.eclipse.incquery.runtime.api.IQuerySpecification
@@ -36,12 +34,13 @@ import org.eclipse.papyrusrt.xtumlrt.common.CommonPackage
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XtumlPackage
 import org.eclipse.uml2.uml.UMLPackage
 import org.eclipse.uml2.uml.resource.UMLResource
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
-import com.incquerylabs.uml.ralf.ReducedAlfLanguageStandaloneSetup
 import org.eclipse.emf.ecore.resource.URIConverter
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
+import hu.eltesoft.modelexecution.profile.xumlrt.XUMLRTPackage
+import org.eclipse.uml2.uml.UMLPlugin
+import java.util.Map
 
-class EMDWApplication implements IApplication {
+class EMDWApplication {
 	private static final String APP_NAME = "EMDW-MC RCP Application"
 	private static final String ARGS_HELP = 
 	'''
@@ -52,13 +51,8 @@ class EMDWApplication implements IApplication {
 	private static final String LOGGER_FOLDER = "log"
 	private static final String COMMON_LAYOUT = "%30.30c - %m%n"
 	private static final String FILE_LOG_LAYOUT_PREFIX = "[%d{MMM/dd HH:mm:ss}] "
-	// TODO: locations for models
-	public static final val RESOURCES = #{
-		URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(""),
-		URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(""),
-		URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(""),
-		URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI("")	
-	}
+	
+	public static final Map<URI,URI> RESOURCES = <URI,URI>newHashMap
 	
 	
 	def static void main(String[] args) {
@@ -67,12 +61,10 @@ class EMDWApplication implements IApplication {
 			// Initialize pathmap
 			initializePathmaps
 			// Initialize Xtext languages
-			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			
+			loadDefaultSettings
 			val resourceSet = new ResourceSetImpl
-			
-			resourceSet.loadDefaultSettings
 			
 			val toolchainBuilder = Toolchain::builder => [
 				it.cppBasicTypesURI = URI::createURI(EMDWConstants.CPP_BASIC_TYPES_LIBRARY_PATH)
@@ -87,7 +79,7 @@ class EMDWApplication implements IApplication {
 		System.out.println('''************* «APP_NAME» finished *************''')
 	}
 	
-	def static void loadDefaultSettings(ResourceSet resourceSet) {
+	def static void loadDefaultSettings() {
 		// Register resource factories
 		Resource.Factory.Registry.INSTANCE.extensionToFactoryMap.put(UMLResource.FILE_EXTENSION, UMLResource.Factory.INSTANCE)
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("ecore", new EcoreResourceFactoryImpl())
@@ -98,11 +90,15 @@ class EMDWApplication implements IApplication {
 		
 		// Initialize EMF model element types
 		UMLPackage.eINSTANCE.eClass
+		XUMLRTPackage.eINSTANCE.eClass
 		TracePackage.eINSTANCE.eClass
 		CommonPackage.eINSTANCE.eClass
 		XtumlPackage.eINSTANCE.eClass
 		OoplPackage.eINSTANCE.eClass
 		CppmodelPackage.eINSTANCE.eClass
+		
+		// register xUML-RT profile
+		UMLPlugin.EPackageNsURIToProfileLocationMap.put(XUMLRTPackage.eNS_URI, URI.createURI("pathmap://XUMLRT_PROFILE/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"))
 		
 		OoplQueryBasedFeatures::instance.specifications.forEach[IQuerySpecification<? extends IncQueryMatcher<? extends IPatternMatch>> specification |
 			QuerySpecificationRegistry::registerQuerySpecification(specification)
@@ -114,22 +110,28 @@ class EMDWApplication implements IApplication {
 	}
 	
 	
-	override Object start(IApplicationContext context) throws Exception {
-		var List<String> args = Arrays.asList(context.getArguments().get("application.args") as String[])
+	def void start(String[] context) throws Exception {
+		var List<String> args = context
 		System.out.println('''************* «APP_NAME» started *************''')
 		if(args.checkArguments) {
 			// Initialize Xtext languages
-			new EMFPatternLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			new ReducedAlfLanguageStandaloneSetup().createInjectorAndDoEMFRegistration()
 			
 			val resourceSet = new ResourceSetImpl
 			resourceSet.run(args.umlModelPath, args.targetFolderPath, URI::createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH), Toolchain::builder)
 		}
 		System.out.println('''************* «APP_NAME» finished *************''')
-		return IApplication.EXIT_OK
 	}
 	
 	private static def void initializePathmaps() {
+		RESOURCES.putAll(#{
+			URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/cppBasicTypes.cppmodel").toString),
+			URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createURI(EMDWApplication.getResource("/model/defaultImplementations.cppmodel").toString),
+			URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createURI(EMDWApplication.getResource("/model/runtime.cppmodel").toString),
+			URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createURI(EMDWApplication.getResource("/model/umlPrimitiveTypes.common").toString),
+			URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createURI(EMDWApplication.getResource("/model/collections/collections.uml").toString),
+			URI::createURI(EMDWConstants::XUMLRT_PROFILE_PATHMAP)				->	URI::createURI(EMDWApplication.getResource("/profile/").toString)
+		})
 		RESOURCES.forEach[pathmapPath, locationPath|
 			URIConverter.URI_MAP.put(
 				pathmapPath,
@@ -138,7 +140,7 @@ class EMDWApplication implements IApplication {
 		]
 	}
 
-	override void stop() { /* nothing to do */ }
+	def void stop() { /* nothing to do */ }
 	
 	private static def void run(ResourceSet resourceSet, String umlModelPath, String targetFolderPath, URI umlPrimitiveTypes, ToolchainBuilder toolchainBuilder) {
 		initLogger(targetFolderPath.loggerPath, umlModelPath.fileName)
@@ -171,7 +173,7 @@ class EMDWApplication implements IApplication {
 	private static def void executeToolchainManager(ToolchainBuilder builder) {
 		val toolchainManager = builder.build
 		toolchainManager.clearMeasuredTimes
-		toolchainManager.logLevel = Level.TRACE
+		toolchainManager.logLevel = Level.WARN
 			
 			
 		toolchainManager.initializeTransformations
@@ -225,8 +227,8 @@ class EMDWApplication implements IApplication {
 	}
 
 	private static def void initLogger(String targetFolder, String modelName) {
-		Logger.getLogger("org.eclipse.incquery").setLevel(Level.INFO)
-		var String logFilePath = '''«targetFolder»./log/log_«modelName»_startedAt_«System.currentTimeMillis()».log'''
+		Logger.getLogger("org.eclipse.incquery").setLevel(Level.WARN)
+		var String logFilePath = '''«targetFolder»./log_«modelName»_startedAt_«System.currentTimeMillis()».log'''
 		var FileAppender fileAppender
 		try {
 			fileAppender = new FileAppender(new PatternLayout(FILE_LOG_LAYOUT_PREFIX + COMMON_LAYOUT), logFilePath, true)
@@ -234,10 +236,14 @@ class EMDWApplication implements IApplication {
 			rootLogger.removeAllAppenders()
 			rootLogger.addAppender(fileAppender)
 			rootLogger.setAdditivity(false)
-			rootLogger.setLevel(Level.INFO)
+			rootLogger.setLevel(Level.WARN)
 		} catch (IOException e) {
 			e.printStackTrace()
 		}
+	}
+	
+	private static def toEURI(URL url) {
+		URI::createURI(url.toString)
 	}
 }
 			

@@ -7,7 +7,7 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="com.incquerylabs.emdw.cpp.app.EMDWApplication">
+               class="com.incquerylabs.emdw.cpp.app.EMDWEclipseApplication">
          </run>
       </application>
    </extension>

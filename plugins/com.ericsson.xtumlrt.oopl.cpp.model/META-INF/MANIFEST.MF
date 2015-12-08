@@ -20,7 +20,6 @@ Require-Bundle: org.eclipse.incquery.querybasedfeatures.runtime;bundle-version="
  com.ericsson.xtumlrt.oopl.model;visibility:=reexport,
  com.incquerylabs.emdw.snippet.model;visibility:=reexport,
  org.eclipse.incquery.runtime;bundle-version="1.1.0",
- com.google.guava,
  org.eclipse.xtend.lib;bundle-version="2.9.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

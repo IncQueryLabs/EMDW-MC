@@ -11,6 +11,7 @@ interface EMDWConstants {
 	String UML_FILE_EXTENSION = "uml"
 	String EMDW_PATHMAP = "pathmap://EMDW/"
 	String RALF_PATHMAP = "pathmap://RALF/"
+	String XUMLRT_PROFILE_PATHMAP = "pathmap://XUMLRT_PROFILE/";
 	String CPP_PATHMAP = EMDW_PATHMAP + "cpp/"
 	String XUMLRT_PATHMAP = EMDW_PATHMAP + "xumlrt/"
 	String CPP_TRANSFORMATION_MODELS_PATH = CPP_PATHMAP + "transformation/"

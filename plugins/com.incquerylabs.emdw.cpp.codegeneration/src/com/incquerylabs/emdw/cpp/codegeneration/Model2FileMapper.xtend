@@ -27,7 +27,7 @@ class Model2FileMapper {
 	
 	private def void mapFiles(CPPDirectory qne, Path directoryPath) {
 		for(file : qne.files) {
-			val content = fileManager.getFileContentAsString('''«directoryPath»«File::separator»''', file.generationName)
+			val content = fileManager.getFileContentAsString(directoryPath.toString, file.generationName)
 			mappedSourceFiles.put(file, content)
 		}
 		for(dirOwner : qne.subDirectories) {

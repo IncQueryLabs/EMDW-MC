@@ -4,6 +4,9 @@ import java.util.List
 
 interface IFileManager {
 	
+	def void setSeparator(char separator)
+	def char getSeparator()
+	
 	/*
 	 * Directory management methods
 	 */

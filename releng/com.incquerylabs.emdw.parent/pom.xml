@@ -38,6 +38,9 @@
 		
 				<!-- Toolchain manager -->
 				<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
+				<!-- 
+				<module>../../plugins/com.incquerylabs.emdw.toolchain.mwe2integration</module>
+				 -->
 		
 				<!-- UML integration -->
 				<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
@@ -78,6 +81,7 @@
 				<module>../com.incquerylabs.emdw.update</module>				
 				<module>../com.incquerylabs.emdw.cpp.app</module>
 				<module>../com.incquerylabs.emdw.cpp.app.product</module>
+				<module>../com.incquerylabs.emdw.cpp.app.plainjava</module>
 			</modules>
 		</profile>
 	</profiles>
@@ -101,6 +105,8 @@
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 		<incquery.version>1.1.0</incquery.version>
 		<xtext.compiler.version>2.9.0</xtext.compiler.version>
+		<viatra.version>0.8.0</viatra.version>
+		<xsemantics.version>1.9.0</xsemantics.version>
 		<!-- Sonar -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>

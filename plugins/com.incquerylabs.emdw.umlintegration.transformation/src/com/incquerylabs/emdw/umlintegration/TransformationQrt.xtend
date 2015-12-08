@@ -21,6 +21,8 @@ import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTran
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.ExecutionSchemaBuilder
 
 import static com.google.common.base.Preconditions.*
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.incquery.runtime.evm.api.Executor
 
 class TransformationQrt {
 	/**
@@ -36,6 +38,7 @@ class TransformationQrt {
 	static val structurePatterns = Structure.instance
 	private var ISchedulerFactory schedulerFactory
 	private var Map<Type, org.eclipse.papyrusrt.xtumlrt.common.Type> externalTypeMap
+	@Accessors Executor executor
 	
 	var Set<UmlIntegrationExtension> extensionServices = #{}
 	private var initialized = false;
@@ -108,6 +111,9 @@ class TransformationQrt {
 			val executionSchemaBuilder = new ExecutionSchemaBuilder();
 			executionSchemaBuilder.engine = engine
 			executionSchemaBuilder.scheduler = schedulerFactory
+			if(executor !=null){
+				executionSchemaBuilder.executor = executor
+			}
 			executionSchemaBuilder.conflictResolver = fixedPriorityResolver
 			val executionSchema = executionSchemaBuilder.build
 			

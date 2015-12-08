@@ -48,13 +48,13 @@ class JavaIOBasedFileManager extends FileManager {
 
 	override readSubDirectoryNames(String path) {
 		return new File(path.addRootDirectory).list.filter [ filename |
-			new File('''«path.addRootDirectory»/«filename»''').directory
+			new File(path.addRootDirectory.append(filename)).directory
 		].toList
 	}
 
 	override readContainedFileNames(String path) {
 		return new File(path.addRootDirectory).list.filter [ filename |
-			new File('''«path.addRootDirectory»/«filename»''').file
+			new File(path.addRootDirectory.append(filename)).file
 		].toList
 	}
 

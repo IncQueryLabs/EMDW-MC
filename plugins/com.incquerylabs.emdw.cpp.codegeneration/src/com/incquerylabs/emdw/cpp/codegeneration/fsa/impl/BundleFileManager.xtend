@@ -26,7 +26,7 @@ class BundleFileManager extends FileManager {
 	}
 	
 	private def File getFile(String directoryPath, String filename) {
-		val fullPath = directoryPath+filename
+		val fullPath = directoryPath.append(filename)
 		resolveFile(fullPath)
 	}
 	
@@ -36,7 +36,7 @@ class BundleFileManager extends FileManager {
 	
 	private def resolveFile(String fullPath) {
 		val bundle = Platform.getBundle(rootDirectory)
-		val url = bundle.getEntry(fullPath.replace(File::separator, '/'))
+		val url = bundle.getEntry(fullPath.correctSeparators)
 		if(url==null) {
 			throw new FileManagerException('''Cannot resolve file in bundle! File: «fullPath»''')
 		}

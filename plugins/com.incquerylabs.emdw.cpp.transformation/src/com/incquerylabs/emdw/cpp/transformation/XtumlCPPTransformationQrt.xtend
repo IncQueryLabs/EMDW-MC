@@ -10,6 +10,9 @@ import org.eclipse.incquery.runtime.evm.api.Scheduler.ISchedulerFactory
 import org.eclipse.incquery.runtime.evm.specific.Schedulers
 import org.eclipse.viatra.emf.runtime.transformation.eventdriven.EventDrivenTransformation
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
+import org.eclipse.xtend.lib.annotations.Accessors
+import org.eclipse.incquery.runtime.evm.api.Executor
+import org.eclipse.viatra.emf.runtime.transformation.eventdriven.ExecutionSchemaBuilder
 
 class XtumlCPPTransformationQrt {
 	
@@ -22,7 +25,7 @@ class XtumlCPPTransformationQrt {
 	private var ISchedulerFactory schedulerFactory
 	
 	private var initialized = false;
-	
+	@Accessors Executor executor
 	def initialize(IncQueryEngine engine) {
 		if(!initialized) {
 			if(schedulerFactory == null) {
@@ -37,6 +40,14 @@ class XtumlCPPTransformationQrt {
 		queries.prepare(engine)
 		
 		val transformationBuilder = EventDrivenTransformation.forEngine(engine)
+		
+		if(executor !=null){
+			val schema = new ExecutionSchemaBuilder()
+				.setEngine(engine)
+				.setExecutor(executor).build
+			transformationBuilder.schema = schema
+		}
+		
 		ruleProvider = new RuleProvider(engine)
 		initRules
 		

@@ -58,11 +58,11 @@
     <requirement
         name="org.eclipse.xtext.sdk.feature.group"/>
     <repository
-        url="http://download.eclipse.org/incquery/updates-extra/release"/>
+        url="http://download.eclipse.org/incquery/updates-extra/milestone"/>
     <repository
         url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
     <repository
-        url="http://download.eclipse.org/viatra2/emf/updates/release"/>
+        url="http://download.eclipse.org/viatra2/emf/updates/milestone"/>
     <repository
         url="http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/"/>
     <repository
@@ -191,11 +191,11 @@
         <repository
             url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars"/>
         <repository
-            url="http://download.eclipse.org/incquery/updates-extra/release"/>
+            url="http://download.eclipse.org/incquery/updates-extra/milestone"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
-            url="http://download.eclipse.org/viatra2/emf/updates/release"/>
+            url="http://download.eclipse.org/viatra2/emf/updates/milestone"/>
         <repository
             url="http://download.eclipse.org/releases/mars"/>
       </repositoryList>

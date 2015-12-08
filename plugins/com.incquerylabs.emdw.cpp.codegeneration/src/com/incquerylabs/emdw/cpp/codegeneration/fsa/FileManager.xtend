@@ -12,6 +12,7 @@ import javax.xml.bind.DatatypeConverter
 import org.apache.log4j.Logger
 
 import static com.google.common.base.Preconditions.*
+import java.io.File
 
 abstract class FileManager implements IFileManager {
 	
@@ -20,6 +21,7 @@ abstract class FileManager implements IFileManager {
 	protected HashMap<String, String> fileHashCache;
 	private final static String HASH_METHOD = "MD5"
 	protected final static Charset DEFAULT_CHARSET = Charsets.UTF_8
+	protected char separator = "/"
 	
 	new(String rootDirectory) {
 		this.rootDirectory = rootDirectory
@@ -52,9 +54,9 @@ abstract class FileManager implements IFileManager {
 	 */
 	private def formatRootDirectory() {
 		if(rootDirectory == null || rootDirectory.equals(""))
-			this.rootDirectory = "/"
-		if(!this.rootDirectory.endsWith("/"))
-			this.rootDirectory = this.rootDirectory + "/"
+			this.rootDirectory = separator.toString
+		if(!this.rootDirectory.endsWith(separator.toString))
+			this.rootDirectory = this.rootDirectory + separator
 	}
 	
 	def String getRootDirectory() {
@@ -70,16 +72,16 @@ abstract class FileManager implements IFileManager {
 	 */
 	private def boolean fileNotChanged(String directoryPath, String filename, CharSequence content) {
 		val newContentHash = calculateHash(content)
-		existsInFileCache('''«directoryPath»/«filename»''', newContentHash) || existsInFileSystem(directoryPath, filename, newContentHash)	
+		existsInFileCache(directoryPath.append(filename), newContentHash) || existsInFileSystem(directoryPath, filename, newContentHash)	
 	}
 	
 	private def boolean isExistingFileWithContent(String filename, CharSequence content) {
 		val newContentHash = calculateHash(content)
-		existsInFileCache('''./«filename»''', newContentHash) || existsInFileSystem(filename, newContentHash)	
+		existsInFileCache(".".append(filename), newContentHash) || existsInFileSystem(filename, newContentHash)	
 	}
 	
 	private def cacheFile(String directoryPath, String filename, CharSequence content) {
-		fileHashCache.put('''«directoryPath»/«filename»''', calculateHash(content))
+		fileHashCache.put(directoryPath.append(filename), calculateHash(content))
 	}
 	
 	// Check in memory cache
@@ -343,6 +345,27 @@ abstract class FileManager implements IFileManager {
 	 */
 	private def checkStringArgument(String argument, String name) {
 		checkArgument(!argument.isNullOrEmpty, MessageFormat.format(FileManager.messages.ARG_NOT_NULL, name))
+	}
+	
+	override void setSeparator(char seperator) {
+		this.separator = seperator
+	}
+	
+	override char getSeparator() {
+		return this.separator
+	}
+	
+	protected def String append(String directoryPath, String name) {
+		val dp = directoryPath.correctSeparators
+		if(dp.endsWith(separator.toString)) {
+			return dp + name
+		} else {
+			return dp + separator + name			
+		}
+	}
+	
+	protected def String correctSeparators(String path) {
+		return path.replace('/', separator).replace('\\', separator)
 	}
 	
 }

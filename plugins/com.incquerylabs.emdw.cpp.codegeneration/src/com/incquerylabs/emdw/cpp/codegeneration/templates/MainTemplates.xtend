@@ -19,9 +19,15 @@ class MainTemplates {
 	«FOR component : components»
 	#include "«component.definitionHeaderFile.generationPath»"
 	«ENDFOR»
+	#include <iostream> //<iostream> for standard io; 
 	
 	int main(int , char **) {
+		
+		::std::cout << "[MAIN] Application started" << ::std::endl;
+		
 	    // TODO: your code
+
+		::std::cout << "[MAIN] Application finished" << ::std::endl;
 	}
 	'''
 }

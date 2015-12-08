@@ -22,7 +22,6 @@ class RuleProvider {
 	extension val CPPTemplates templates
 	
 	IncQueryEngine engine
-	public val generatedFiles = <String, String>newHashMap
 	public val generatedCPPSourceFiles = <CPPSourceFile, CharSequence>newHashMap()
 	extension BatchTransformationStatements statements
 	
@@ -35,22 +34,12 @@ class RuleProvider {
 	@Accessors(PUBLIC_GETTER)
 	val cppComponentRule = createRule.precondition(cppComponents).action[ match |
 		val cppComponent = match.cppComponent
-		val componentName = cppComponent.cppName
-		val declHeaderName = '''«componentName»_decl.hh'''
-		val defHeaderName = '''«componentName»_def.hh'''
-		val mainHeaderName = '''«componentName»_main.hh'''
-		val mainBodyName = '''«componentName»_main.cc'''
-		
 		trace('''Generating code for «cppComponent.cppName» CPPComponent''')
 		
 		val declHeader = componentDeclHeaderTemplate(cppComponent)
 		val defHeader = componentDefHeaderTemplate(cppComponent)
 		val mainHeader = componentMainHeaderTemplate(cppComponent)
 		val mainBody = componentMainBodyTemplate(cppComponent)
-		generatedFiles.put(declHeaderName, declHeader.toString)
-		generatedFiles.put(defHeaderName, defHeader.toString)
-		generatedFiles.put(mainHeaderName, mainHeader.toString)
-		generatedFiles.put(mainBodyName, mainBody.toString)
 		generatedCPPSourceFiles.put(cppComponent.declarationHeaderFile, declHeader)
 		generatedCPPSourceFiles.put(cppComponent.definitionHeaderFile, defHeader)
 		generatedCPPSourceFiles.put(cppComponent.mainHeaderFile, mainHeader)
@@ -68,15 +57,10 @@ class RuleProvider {
 	  createRule.precondition(cppPackageInQualifiedNamedElement).action[ match |
 		val cppPackage = match.cppPackage
 		val packageName = cppPackage.cppName
-		val mainHeaderName = '''«packageName»_main.hh'''
-		val mainBodyName = '''«packageName»_main.cc'''
 		
 		trace('''Generating code for «packageName» CPPPackage''')
-		
 		val mainHeader = packageMainHeaderTemplate(cppPackage)
 		val mainBody = packageMainBodyTemplate(cppPackage)
-		generatedFiles.put(mainHeaderName, mainHeader.toString)
-		generatedFiles.put(mainBodyName, mainBody.toString)
 		generatedCPPSourceFiles.put(cppPackage.headerFile, mainHeader)
 		generatedCPPSourceFiles.put(cppPackage.bodyFile, mainBody)
 		
@@ -93,11 +77,8 @@ class RuleProvider {
 		val cppClass = match.cppClass
 		trace('''Generating code for «cppClass.cppName» CPPClass''')
 		val header = classHeaderTemplate(cppClass)
-		val className = cppClass.cppName + "_statemachine_snippet"
-		generatedFiles.put('''«className».hh''', header.toString)
 		generatedCPPSourceFiles.put(cppClass.headerFile, header)
 		val body = classBodyTemplate(cppClass)
-		generatedFiles.put('''«className».cc''', body.toString)
 		generatedCPPSourceFiles.put(cppClass.bodyFile, body)
 		trace('''Generated code for «cppClass.cppName» CPPClass''')
 	].build
@@ -107,11 +88,8 @@ class RuleProvider {
 		val cppExternalBridge = match.cppExternalBridge
 		trace('''Generating code for «cppExternalBridge.cppName» CPPExternalBridge''')
 		val header = externalBridgeHeaderTemplate(cppExternalBridge)
-		val bridgeName = cppExternalBridge.cppName
-		generatedFiles.put('''«bridgeName».hh''', header.toString)
 		generatedCPPSourceFiles.put(cppExternalBridge.headerFile, header)
 		val body = externalBridgeBodyTemplate(cppExternalBridge)
-		generatedFiles.put('''«bridgeName».cc''', body.toString)
 		generatedCPPSourceFiles.put(cppExternalBridge.bodyFile, body)
 		trace('''Generated code for «cppExternalBridge.cppName» CPPExternalBridge''')
 	].build

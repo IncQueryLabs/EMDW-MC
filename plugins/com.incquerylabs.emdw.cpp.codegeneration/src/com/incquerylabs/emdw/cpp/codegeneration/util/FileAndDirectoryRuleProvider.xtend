@@ -85,7 +85,7 @@ class FileAndDirectoryRuleProvider {
 		if (fileContent != null){
 			fileManager.createFile(cppDirectory.path, cppSourceFile.generationName, fileContent, false, false)
 		} else {
-			warn('''The contents of the CPPSourceFile «cppSourceFile.generationName» was null.''');
+			debug('''The contents of the CPPSourceFile «cppSourceFile.generationName» was null.''');
 		}
 		
 	].build

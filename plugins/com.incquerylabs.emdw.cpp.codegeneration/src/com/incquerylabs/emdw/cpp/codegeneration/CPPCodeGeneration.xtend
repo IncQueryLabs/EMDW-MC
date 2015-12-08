@@ -63,10 +63,6 @@ class CPPCodeGeneration {
 			info('''Initial execution of transformation rules finished («watch.elapsed(TimeUnit.MILLISECONDS)» ms)''')
 	}
 	
-	def getGeneratedFiles() {
-		return ImmutableMap.copyOf(ruleProvider.generatedFiles)
-	}
-	
 	def getGeneratedCPPSourceFiles() {
 		return ImmutableMap.copyOf(ruleProvider.generatedCPPSourceFiles)
 	}

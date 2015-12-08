@@ -22,7 +22,9 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppCodeGenerationQueries
 import com.incquerylabs.emdw.cpp.codegeneration.queries.CppFileAndDirectoryQueries
+import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import com.incquerylabs.emdw.cpp.common.mapper.queries.UmlQueries
+import com.incquerylabs.emdw.cpp.common.queries.CheckerQueries
 import com.incquerylabs.emdw.cpp.common.util.IEMDWProgressMonitor
 import com.incquerylabs.emdw.cpp.transformation.XtumlCPPTransformationQrt
 import com.incquerylabs.emdw.cpp.transformation.XtumlComponentCPPTransformation
@@ -37,6 +39,13 @@ import com.incquerylabs.emdw.umlintegration.queries.CppExtensionQueries
 import com.incquerylabs.emdw.umlintegration.queries.StateMachine
 import com.incquerylabs.emdw.umlintegration.queries.Structure
 import com.incquerylabs.emdw.umlintegration.queries.Trace
+import com.incquerylabs.emdw.xtuml.incquery.AttributeWithoutTypeConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.OperationParameterWithoutTypeConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.OperationWithUnsetReturnTypeConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.SignalParameterWithoutTypeConstraint0
+import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
 import com.incquerylabs.emdw.xtuml.incquery.XtumlValidationQueries
 import java.nio.file.Paths
 import java.util.Map
@@ -51,17 +60,15 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.incquery.runtime.api.GenericPatternGroup
 import org.eclipse.incquery.runtime.api.IncQueryEngine
 import org.eclipse.incquery.runtime.emf.EMFScope
+import org.eclipse.incquery.validation.core.ValidationEngine
 import org.eclipse.papyrusrt.xtumlrt.common.Model
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.uml2.uml.Type
 import org.eclipse.xtend.lib.annotations.Accessors
 
 import static com.google.common.base.Preconditions.*
-import org.eclipse.incquery.validation.core.ValidationEngine
-import com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0
-import com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0
-import com.incquerylabs.emdw.xtuml.incquery.CppNameCollisionConstraint0
-import com.incquerylabs.emdw.cpp.common.EMDWConstants
+
+import static extension com.incquerylabs.emdw.cpp.common.TypeMappingChecker.*
 
 class Toolchain {
 	protected String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -93,7 +100,8 @@ class Toolchain {
 			CppFileAndDirectoryQueries.instance,
 			UmlXumlrtMappingQueries.instance,
 			OoplQueryBasedFeatures.instance,
-			QueryBasedFeatures.instance
+			QueryBasedFeatures.instance,
+			CheckerQueries.instance
 		)
 	
 	enum Phase {
@@ -131,6 +139,7 @@ class Toolchain {
 	@Accessors XtumlModelChangeMonitor xtumlChangeMonitor
 	@Accessors IFileManager fileManager
 	@Accessors IFileManager mapperFileManager
+	@Accessors boolean checkNeeded = true
 	
 	boolean isDisposed = false
 	boolean isXumlrtTrafoInitialized = false
@@ -249,6 +258,9 @@ class Toolchain {
 	// Incremental transformations
 	def executeXtTransformation() {
 		val watch = Stopwatch.createStarted
+		if(checkNeeded) {
+			engine.checkUmlXumlTypeMapping(primitiveTypeMapping)
+		}
 		xtTrafo.execute
 		
 		watch.logTime(Phase.EXECUTE_XUMLRT_QRT)
@@ -257,6 +269,10 @@ class Toolchain {
 	def executeCppQrtTransformation() {
 		val watch = Stopwatch.createStarted
 		getOrCreateCPPModel
+		if(checkNeeded) {
+			engine.checkCppBasicTypes
+			engine.checkCppCollections
+		}
 		cppQrtTrafo.execute
 		
 		watch.logTime(Phase.EXECUTE_CPP_QRT)
@@ -519,7 +535,11 @@ class Toolchain {
 		val constraintSpecifications = #{
 			new TransitionTriggerWithoutSignalConstraint0(),
 			new FileNameCollisionConstraint0(),
-			new CppNameCollisionConstraint0()
+			new CppNameCollisionConstraint0(),
+			new AttributeWithoutTypeConstraint0(),
+			new SignalParameterWithoutTypeConstraint0(),
+			new OperationParameterWithoutTypeConstraint0(),
+			new OperationWithUnsetReturnTypeConstraint0()
 		}
 		constraintSpecifications.forEach[
 			validationEngine.addConstraintSpecification(it)

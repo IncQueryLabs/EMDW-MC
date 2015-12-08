@@ -8,4 +8,7 @@
   <extension id="com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries" point="org.eclipse.incquery.runtime.queryspecification">
     <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries" id="com.incquerylabs.emdw.cpp.common.queries.StatefulClassQueries"/>
   </extension>
+  <extension id="com.incquerylabs.emdw.cpp.common.queries.CheckerQueries" point="org.eclipse.incquery.runtime.queryspecification">
+    <group group="org.eclipse.incquery.runtime.extensibility.SingletonExtensionFactory:com.incquerylabs.emdw.cpp.common.queries.CheckerQueries" id="com.incquerylabs.emdw.cpp.common.queries.CheckerQueries"/>
+  </extension>
 </plugin>

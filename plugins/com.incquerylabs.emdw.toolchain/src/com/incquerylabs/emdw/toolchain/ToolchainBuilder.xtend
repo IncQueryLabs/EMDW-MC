@@ -199,6 +199,14 @@ class ToolchainBuilder {
 		toolchain.mapperFileManager = fileManager
 	}
 	
+	def getCheckNeeded() {
+		toolchain.checkNeeded
+	}
+	
+	def setCheckNeeded(boolean checkNeeded) {
+		toolchain.checkNeeded = checkNeeded
+	}
+	
 	def createDefaultEngine(ResourceSet resourceSet) throws IncQueryException {
 		val options = new BaseIndexOptions().withResourceFilterConfiguration([
 			val uri = getURI();

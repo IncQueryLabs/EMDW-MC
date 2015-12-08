@@ -1,2 +1,1 @@
-*
-!.gitignore
+# Folder cannot be ignored, because the server does not compile constraints

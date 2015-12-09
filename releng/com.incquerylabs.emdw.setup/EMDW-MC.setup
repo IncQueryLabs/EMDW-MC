@@ -64,7 +64,7 @@
     <repository
         url="http://download.eclipse.org/viatra2/emf/updates/milestone"/>
     <repository
-        url="http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/"/>
+        url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.9"/>
     <repository
         url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars"/>
   </setupTask>
@@ -212,7 +212,7 @@
           name="de.itemis.xtext.antlr.sdk.feature.group"/>
       <repositoryList>
         <repository
-            url="http://sourceforge.net/projects/xsemantics/files/temp-snapshots/1.9/"/>
+            url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.9"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository

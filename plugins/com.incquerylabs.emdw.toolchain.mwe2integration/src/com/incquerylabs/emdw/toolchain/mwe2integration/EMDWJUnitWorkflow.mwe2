@@ -29,7 +29,7 @@ Workflow {
 		}
 		
 		step = FileContentCreationStep{
-			xtumlrtRuntimeDirectory = "D:/lunk.peter/GIT/EMDW-MC/plugins/com.incquerylabs.emdw.cpp.codegeneration/model/runtime"
+			xtumlrtRuntimeDirectory = "D:/lunk.peter/GIT/EMDW-MC/plugins/com.incquerylabs.emdw.cpp.codegeneration/model/runtime/xumlrt_runtime"
 			subscription = SubscribeTo{topicName = "FileContentCreation" processor = messages.DirtyComponentsMessageProcessor{}}
 			isJavaApp = true
 			isJUnitTestApp = true

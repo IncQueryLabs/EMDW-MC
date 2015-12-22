@@ -28,6 +28,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
 import org.eclipse.xtend.lib.annotations.Accessors
+import java.nio.file.Paths
 
 class FileContentCreationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
@@ -47,7 +48,7 @@ class FileContentCreationStep extends TransformationStep {
 	@Accessors Set<XTComponent> dirtyComponents
 	@Accessors boolean isJavaApp = false
 	@Accessors boolean isJUnitTestApp = false
-	@Accessors String xtumlrtRuntimeDirectory = "model/runtime"
+	@Accessors String xtumlrtRuntimeDirectory = "model/runtime/xumlrt_runtime"
 	@Accessors String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	extension XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
@@ -79,6 +80,7 @@ class FileContentCreationStep extends TransformationStep {
 		} else {
 			targetDir = ctx.get("targetFolder") as IFolder
 			mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+			mapperFileManager.separator = "/"
 			fileManager = new EclipseWorkspaceFileManager(targetDir)
 		}
 		//init MK generation
@@ -157,12 +159,7 @@ class FileContentCreationStep extends TransformationStep {
 	private def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, xtumlrtRuntimeDirectory+"/"+mapperCppDir.name)
-//			if(isJavaApp){
-//				mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
-//			}else{
-//				mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory, mapperCppDir.name))
-//			}
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory))
 			
 			mapper.execute
 			return mapper.mappedSourceFiles

@@ -40,6 +40,7 @@ public class MWEIntegrationJunitTest {
     static String xumlRTTypesPath = "D:/lunk.peter/GIT/EMDW-MC/plugins/org.eclipse.papyrusrt.xtumlrt.common.model/model/umlPrimitiveTypes.common";
     static String ralfCollectionsPath = "D:/lunk.peter/GIT/EMDW-Common/plugins/com.incquerylabs.uml.ralf/model/collections/collections.uml";
     static String xumlrtProfile = "D:/lunk.peter/GIT/EMDW-Common/plugins/hu.eltesoft.modelexecution.profile/profile/xumlrt.profile";
+    static String ralfLibraryPathmap = "pathmap://RALF/library.uml";
     @Test
     public void test() {
         initializePathmaps();
@@ -58,7 +59,7 @@ public class MWEIntegrationJunitTest {
         resourcesMap.put(URI.createURI(EMDWConstants.XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH) , URI.createFileURI(xumlRTTypesPath));
         resourcesMap.put(URI.createURI(EMDWConstants.CPP_RALF_MODELS_PATH) , URI.createFileURI(ralfCollectionsPath));
         resourcesMap.put(URI.createURI(EMDWConstants.XUMLRT_PROFILE_PATHMAP) , URI.createFileURI(xumlrtProfile));
-        
+        resourcesMap.put(URI.createURI(ralfLibraryPathmap) , URI.createFileURI(ralfCollectionsPath));
         
                 
         for (URI uri : resourcesMap.keySet()) {

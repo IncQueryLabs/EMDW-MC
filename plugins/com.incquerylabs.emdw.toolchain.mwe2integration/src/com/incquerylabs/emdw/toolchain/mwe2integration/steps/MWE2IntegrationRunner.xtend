@@ -13,7 +13,6 @@ class MWE2IntegrationRunner {
 		workflowPath = path
 	}
 	
-	
 	def void RunHeadlessEclipse() {
 		val  mweRunner = initializeHeadlessEclipse(class.classLoader)
 		var WorkflowContextImpl context = new WorkflowContextImpl()

@@ -211,8 +211,6 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		val umlTypes = model.packagedElements.filter(PrimitiveType)
 		
 		commonTypes.forEach[type|
-			// Here the void xtUML type is put into the map with null key because 
-			// UML null types are mapped to void in xtUML as there is no void UML basic type.
 			val umlType = umlTypes.filter[umlType | umlType.name.equals(type.name)].head
 			primitiveTypeMapping.put(umlType, type)
 		]
@@ -225,22 +223,5 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		val resource = resourceSet.createResource(uri)
 		resource.contents += root
 		resource
-	}
-		
-//	private def void initializePathmaps() {
-//		resourcesMap = #{
-//			URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createFileURI(cppBasicTypesPath),
-//			URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createFileURI(cppCollectionsPath),
-//			URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createFileURI(cppRuntimePath),
-//			URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createFileURI(xumlRTTypesPath),
-//			URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createFileURI(xumlRTTypesPath)
-//		}
-//
-//		resourcesMap.forEach[pathmapPath, locationPath|
-//			URIConverter.URI_MAP.put(
-//				pathmapPath,
-//				locationPath
-//			)			
-//		]
-//	}	
+	}	
 }

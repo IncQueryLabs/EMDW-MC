@@ -68,15 +68,9 @@ class FileContentCreationStep extends TransformationStep {
 		//init file manager
 		
 		if(isJavaApp) {
-			if(isJUnitTestApp){
-				var targetLocation = ctx.get("targetFolderLocation") as String
-				mapperFileManager = new JavaIOBasedFileManager("")
-				fileManager = new JavaIOBasedFileManager(targetLocation)
-			}else{
-				var targetLocation = ctx.get("targetFolderLocation") as String
-				mapperFileManager = new JarFileManager
-				fileManager = new JavaIOBasedFileManager(targetLocation)
-			}
+			var targetLocation = ctx.get("targetFolderLocation") as String
+			mapperFileManager = new JarFileManager
+			fileManager = new JavaIOBasedFileManager(targetLocation)
 		} else {
 			targetDir = ctx.get("targetFolder") as IFolder
 			mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)

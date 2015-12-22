@@ -412,5 +412,10 @@
 			<id>acceleo-releases</id>
 			<url>https://repo.eclipse.org/content/repositories/acceleo-releases/</url>
 		</repository>
+		<repository>
+			<id>nexus-emdw-snapshots</id>
+			<name>EMDW Project Repository</name>
+			<url>https://build.inf.mit.bme.hu/nexus/content/repositories/emdw-snapshots/</url>
+		</repository>
 	</repositories>
 </project>

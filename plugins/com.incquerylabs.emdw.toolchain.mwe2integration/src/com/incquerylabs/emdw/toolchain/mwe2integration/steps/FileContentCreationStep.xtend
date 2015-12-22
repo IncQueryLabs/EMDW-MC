@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPComponent
 import com.ericsson.xtumlrt.oopl.cppmodel.CPPDirectory
@@ -14,9 +14,9 @@ import com.incquerylabs.emdw.cpp.codegeneration.fsa.IFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.BundleFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.EclipseWorkspaceFileManager
 import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JarFileManager
+import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
 import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import com.incquerylabs.emdw.cpp.transformation.queries.XtumlQueries
-import java.nio.file.Paths
 import java.util.Map
 import java.util.Set
 import org.eclipse.core.resources.IFolder
@@ -28,7 +28,7 @@ import org.eclipse.incquery.runtime.api.AdvancedIncQueryEngine
 import org.eclipse.papyrusrt.xtumlrt.xtuml.XTComponent
 import org.eclipse.viatra.emf.mwe2integration.mwe2impl.TransformationStep
 import org.eclipse.xtend.lib.annotations.Accessors
-import com.incquerylabs.emdw.cpp.codegeneration.fsa.impl.JavaIOBasedFileManager
+import java.nio.file.Paths
 
 class FileContentCreationStep extends TransformationStep {
 	AdvancedIncQueryEngine engine
@@ -47,7 +47,8 @@ class FileContentCreationStep extends TransformationStep {
 	Map<CPPSourceFile, CharSequence> cppSourceFileContents
 	@Accessors Set<XTComponent> dirtyComponents
 	@Accessors boolean isJavaApp = false
-	@Accessors String RUNTIME_TARGET_DIRECTORY = "model/runtime"
+	@Accessors boolean isJUnitTestApp = false
+	@Accessors String xtumlrtRuntimeDirectory = "model/runtime/xumlrt_runtime"
 	@Accessors String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
 	extension XtumlQueries xtUmlQueries = XtumlQueries.instance
 	
@@ -67,12 +68,13 @@ class FileContentCreationStep extends TransformationStep {
 		//init file manager
 		
 		if(isJavaApp) {
-			var targetLocation = ctx.get("targetFolder") as String
+			var targetLocation = ctx.get("targetFolderLocation") as String
 			mapperFileManager = new JarFileManager
 			fileManager = new JavaIOBasedFileManager(targetLocation)
 		} else {
 			targetDir = ctx.get("targetFolder") as IFolder
 			mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+			mapperFileManager.separator = "/"
 			fileManager = new EclipseWorkspaceFileManager(targetDir)
 		}
 		//init MK generation
@@ -151,7 +153,8 @@ class FileContentCreationStep extends TransformationStep {
 	private def Map<CPPSourceFile, CharSequence> mapRuntime(CPPDirectory mapperCppDir) {
 		if(mapperCppDir!=null) {
 			// Map static file sources
-			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(RUNTIME_TARGET_DIRECTORY, mapperCppDir.name))
+			val mapper = new Model2FileMapper(mapperFileManager, mapperCppDir, Paths::get(xtumlrtRuntimeDirectory))
+			
 			mapper.execute
 			return mapper.mappedSourceFiles
 		}
@@ -189,7 +192,7 @@ class FileContentCreationStep extends TransformationStep {
 		otherDirsForMakefile.forEach[listOfDirs.add(it.name)]
 		val makefileContent = makefileGeneration.executeMakefile(cppModel.cppName, listOfDirs)
 		// only create MakeFile if it doesn't exist yet
-		if(!fileManager.fileExists("", "Makefile")){
+		if(!fileManager.isFileExists("", "Makefile")){
 			fileManager.createFile("Makefile", makefileContent, true, false)
 		}
 	}
@@ -199,7 +202,7 @@ class FileContentCreationStep extends TransformationStep {
 		
 		val mainContent = mainGeneration.execute(components)
 		// only create main file if it doesn't exist yet
-		if(!fileManager.fileExists("", "main.cc")){
+		if(!fileManager.isFileExists("", "main.cc")){
 			fileManager.createFile("main.cc", mainContent, true, false)
 		}
 	}

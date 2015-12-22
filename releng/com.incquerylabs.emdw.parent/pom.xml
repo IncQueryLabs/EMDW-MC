@@ -38,9 +38,7 @@
 		
 				<!-- Toolchain manager -->
 				<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
-				<!-- 
 				<module>../../plugins/com.incquerylabs.emdw.toolchain.mwe2integration</module>
-				 -->
 		
 				<!-- UML integration -->
 				<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
@@ -82,6 +80,7 @@
 				<module>../com.incquerylabs.emdw.cpp.app</module>
 				<module>../com.incquerylabs.emdw.cpp.app.product</module>
 				<module>../com.incquerylabs.emdw.cpp.app.plainjava</module>
+				<module>../com.incquerylabs.emdw.toolchain.mwe2integration.plainjava</module>
 			</modules>
 		</profile>
 	</profiles>

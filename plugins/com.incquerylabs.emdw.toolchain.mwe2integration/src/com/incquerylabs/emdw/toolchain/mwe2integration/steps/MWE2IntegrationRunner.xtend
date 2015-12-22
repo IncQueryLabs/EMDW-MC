@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import java.util.HashMap
 import org.eclipse.emf.common.util.URI
@@ -12,7 +12,6 @@ class MWE2IntegrationRunner {
 	new(String path){
 		workflowPath = path
 	}
-	
 	
 	def void RunHeadlessEclipse() {
 		val  mweRunner = initializeHeadlessEclipse(class.classLoader)

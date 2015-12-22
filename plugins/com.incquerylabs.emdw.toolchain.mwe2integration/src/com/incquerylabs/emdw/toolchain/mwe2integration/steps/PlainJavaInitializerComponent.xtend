@@ -1,4 +1,4 @@
-package com.incquerylabs.emdw.toolchain.mwe2integration
+package com.incquerylabs.emdw.toolchain.mwe2integration.steps
 
 import com.ericsson.xtumlrt.oopl.OoplFactory
 import com.ericsson.xtumlrt.oopl.OoplQueryBasedFeatures
@@ -67,20 +67,13 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 			QueryBasedFeatures.instance
 		)
 	
-//	Map<URI,URI> resourcesMap
 	private static final List<String> INDEXED_AUTHORITIES = Arrays.asList("UML_LIBRARIES", "RALF",
 			"XUMLRT_PROFILE", "EMDW");
 	static val PATHMAP_SCHEME = "pathmap";
-	//static val UML_LIBRARIES_AUTHORITY = "UML_LIBRARIES";
 	private static final String MODEL_GENERATION_DIRECTORY_NAME = "model"
 	
 	@Accessors String targetFolderPath
 	@Accessors String umlModelPath
-//	@Accessors String cppBasicTypesPath
-//	@Accessors String cppCollectionsPath
-//	@Accessors String cppRuntimePath
-//	@Accessors String xumlRTTypesPath
-//	@Accessors String ralfCollectionsPath
 	
 	String generationProjectName
 	IncQueryEngine engine
@@ -102,7 +95,13 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 	}
 
 	override void invoke(IWorkflowContext ctx) {
-//		initializePathmaps
+		if(ctx.get("targetFolderPath")!=null){
+			this.targetFolderPath = ctx.get("targetFolderPath") as String
+		}
+		if(ctx.get("umlModelPath")!=null){
+			this.umlModelPath = ctx.get("umlModelPath") as String
+		}
+		
 		val resourceSet = new ResourceSetImpl
 		resourceSet.URIConverter = URIConverter::INSTANCE
 		UMLResourcesUtil.init(resourceSet)
@@ -126,6 +125,7 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		
 		val fileManager = new JavaIOBasedFileManager('''«targetFolderPath»''')
 		fileManager.createDirectory("/code")
+		val targetFolderLocation = targetFolderPath+"/code"
 			
 		ctx.put("engine", engine)
 		ctx.put("primitiveTypeMapping", primitiveTypeMapping)
@@ -133,7 +133,7 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		ctx.put("traceResource", traceResource)
 		ctx.put("cppmodelResource", cppmodelResource)
 		ctx.put("cppModel", cppModel)
-		ctx.put("targetFolder", '''«targetFolderPath»/code''')
+		ctx.put("targetFolderLocation", targetFolderLocation)
 		
 	}
 	
@@ -211,8 +211,6 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		val umlTypes = model.packagedElements.filter(PrimitiveType)
 		
 		commonTypes.forEach[type|
-			// Here the void xtUML type is put into the map with null key because 
-			// UML null types are mapped to void in xtUML as there is no void UML basic type.
 			val umlType = umlTypes.filter[umlType | umlType.name.equals(type.name)].head
 			primitiveTypeMapping.put(umlType, type)
 		]
@@ -225,22 +223,5 @@ class PlainJavaInitializerComponent implements IWorkflowComponent {
 		val resource = resourceSet.createResource(uri)
 		resource.contents += root
 		resource
-	}
-		
-//	private def void initializePathmaps() {
-//		resourcesMap = #{
-//			URI::createURI(EMDWConstants::CPP_BASIC_TYPES_LIBRARY_PATH)			->	URI::createFileURI(cppBasicTypesPath),
-//			URI::createURI(EMDWConstants::CPP_COLLECTIONS_LIBRARY_PATH)			->	URI::createFileURI(cppCollectionsPath),
-//			URI::createURI(EMDWConstants::CPP_RUNTIME_LIBRARY_PATH)				->	URI::createFileURI(cppRuntimePath),
-//			URI::createURI(EMDWConstants::XUMLRT_PRIMITIVE_TYPES_LIBRARY_PATH)	->	URI::createFileURI(xumlRTTypesPath),
-//			URI::createURI(EMDWConstants::CPP_RALF_MODELS_PATH)					->	URI::createFileURI(xumlRTTypesPath)
-//		}
-//
-//		resourcesMap.forEach[pathmapPath, locationPath|
-//			URIConverter.URI_MAP.put(
-//				pathmapPath,
-//				locationPath
-//			)			
-//		]
-//	}	
+	}	
 }

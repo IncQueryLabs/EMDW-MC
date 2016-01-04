@@ -42,7 +42,7 @@ import java.util.Map
 import org.eclipse.incquery.uml.IncQueryUMLStandaloneSetup
 
 class EMDWApplication {
-	private static final String APP_NAME = "EMDW-MC Plain Java Application"
+	private static final String APP_NAME = "EMDW-MC Application"
 	private static final String ARGS_HELP = 
 	'''
 	We need these arguments:

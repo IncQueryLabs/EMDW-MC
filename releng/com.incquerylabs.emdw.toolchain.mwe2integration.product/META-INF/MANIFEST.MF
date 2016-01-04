@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: EMDW MWE2 Headless RCP Application Product
+Bundle-SymbolicName: com.incquerylabs.emdw.toolchain.mwe2integration.product;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: IncQuery Labs Ltd.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

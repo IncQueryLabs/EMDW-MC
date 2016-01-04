@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension
+         id="mwe2_rcp_application"
+         point="org.eclipse.core.runtime.applications">
+      <application>
+         <run
+               class="com.incquerylabs.emdw.toolchain.mwe2integration.app.MWEIntegrationEclipseApp">
+         </run>
+      </application>
+   </extension>
+</plugin>

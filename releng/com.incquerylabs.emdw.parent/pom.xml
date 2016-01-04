@@ -81,6 +81,7 @@
 				<module>../com.incquerylabs.emdw.cpp.app.product</module>
 				<module>../com.incquerylabs.emdw.cpp.app.plainjava</module>
 				<module>../com.incquerylabs.emdw.toolchain.mwe2integration.plainjava</module>
+				<module>../com.incquerylabs.emdw.toolchain.mwe2integration.product</module>
 			</modules>
 		</profile>
 	</profiles>

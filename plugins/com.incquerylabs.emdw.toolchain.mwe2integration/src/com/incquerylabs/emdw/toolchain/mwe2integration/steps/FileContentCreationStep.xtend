@@ -47,6 +47,7 @@ class FileContentCreationStep extends TransformationStep {
 	Map<CPPSourceFile, CharSequence> cppSourceFileContents
 	@Accessors Set<XTComponent> dirtyComponents
 	@Accessors boolean isJavaApp = false
+	@Accessors boolean isRcpApp = false
 	@Accessors boolean isJUnitTestApp = false
 	@Accessors String xtumlrtRuntimeDirectory = "model/runtime/xumlrt_runtime"
 	@Accessors String RUNTIME_BUNDLE_ROOT_DIRECTORY = "com.incquerylabs.emdw.cpp.codegeneration"
@@ -72,10 +73,16 @@ class FileContentCreationStep extends TransformationStep {
 			mapperFileManager = new JarFileManager
 			fileManager = new JavaIOBasedFileManager(targetLocation)
 		} else {
-			targetDir = ctx.get("targetFolder") as IFolder
-			mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
-			mapperFileManager.separator = "/"
-			fileManager = new EclipseWorkspaceFileManager(targetDir)
+			if(isRcpApp){
+				var targetLocation = ctx.get("targetFolderLocation") as String
+				mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+				fileManager = new JavaIOBasedFileManager(targetLocation)
+			}else{
+				targetDir = ctx.get("targetFolder") as IFolder
+				mapperFileManager = new BundleFileManager(RUNTIME_BUNDLE_ROOT_DIRECTORY)
+				mapperFileManager.separator = "/"
+				fileManager = new EclipseWorkspaceFileManager(targetDir)
+			}
 		}
 		//init MK generation
 		if(makefileGeneration == null) {

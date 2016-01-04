@@ -39,9 +39,10 @@ import com.incquerylabs.emdw.cpp.common.EMDWConstants
 import hu.eltesoft.modelexecution.profile.xumlrt.XUMLRTPackage
 import org.eclipse.uml2.uml.UMLPlugin
 import java.util.Map
+import org.eclipse.incquery.uml.IncQueryUMLStandaloneSetup
 
 class EMDWApplication {
-	private static final String APP_NAME = "EMDW-MC RCP Application"
+	private static final String APP_NAME = "EMDW-MC Plain Java Application"
 	private static final String ARGS_HELP = 
 	'''
 	We need these arguments:
@@ -96,6 +97,9 @@ class EMDWApplication {
 		XtumlPackage.eINSTANCE.eClass
 		OoplPackage.eINSTANCE.eClass
 		CppmodelPackage.eINSTANCE.eClass
+		
+		// initialize UML surrogate queries
+		IncQueryUMLStandaloneSetup.doSetup
 		
 		// register xUML-RT profile
 		UMLPlugin.EPackageNsURIToProfileLocationMap.put(XUMLRTPackage.eNS_URI, URI.createURI("pathmap://XUMLRT_PROFILE/xumlrt.profile.uml#_HaqtUBDoEeWE3_d6VQejPQ"))

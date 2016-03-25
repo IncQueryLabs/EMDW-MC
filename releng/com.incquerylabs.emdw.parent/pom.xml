@@ -35,6 +35,7 @@
 			<modules>
 				<!-- Testing common -->
 				<module>../../tests/com.incquerylabs.emdw.testing.common</module>
+				<module>../../tests/com.incquerylabs.emdw.modelmultiplicator</module>
 		
 				<!-- Toolchain manager -->
 				<module>../../plugins/com.incquerylabs.emdw.toolchain</module>

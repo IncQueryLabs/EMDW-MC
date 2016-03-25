@@ -484,7 +484,7 @@
     <setupTask
         xsi:type="mylyn:MylynBuildsTask"
         excludedTriggers="STARTUP"
-        serverURL="https://build.inf.mit.bme.hu/jenkins"
+        serverURL="https://build.incquerylabs.com/jenkins"
         userID=""
         password="">
       <buildPlan

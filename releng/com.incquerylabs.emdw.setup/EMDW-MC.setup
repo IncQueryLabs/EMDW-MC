@@ -173,6 +173,10 @@
           name="org.eclipse.incquery.uml.feature.feature.group"/>
       <requirement
           name="org.eclipse.cdt.sdk.feature.group"/>
+      <requirement
+          name="org.eclipse.viatra.emf.mwe2integration.feature.feature.group"
+          versionRange="[0.8.0,0.9.0)"
+          filter=""/>
       <repositoryList
           name="Luna">
         <repository
@@ -195,7 +199,7 @@
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
-            url="http://download.eclipse.org/viatra2/emf/updates/milestone"/>
+            url="http://download.eclipse.org/viatra2/emf/updates/release"/>
         <repository
             url="http://download.eclipse.org/releases/mars"/>
       </repositoryList>
@@ -593,7 +597,7 @@
       </workingSet>
     </setupTask>
     <stream
-        name="master"/>
+        name="0.1-maintenance"/>
   </project>
   <stream name="master"/>
   <logicalProjectContainer

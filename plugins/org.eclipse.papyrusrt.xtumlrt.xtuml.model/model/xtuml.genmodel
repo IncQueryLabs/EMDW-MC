@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
-    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model/src"
-    editDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit/src" editorDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor/src"
-    modelPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model" modelName="xtuml" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
-    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" copyrightFields="false"
-    editPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit" editorPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor"
-    usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" copyrightText="Copyright (c) 2015-2016 IncQuery Labs Ltd. and Ericsson AB&#xD;&#xA;All rights reserved. This program and the accompanying materials&#xD;&#xA;are made available under the terms of the Eclipse Public License v1.0&#xD;&#xA;which accompanies this distribution, and is available at&#xD;&#xA;http://www.eclipse.org/legal/epl-v10.html&#xD;&#xA;&#xD;&#xA;Contributors:&#xD;&#xA;    Akos Horvath, Abel Hegedus, Adam Balogh - initial API and implementation"
+    modelDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model/src" editDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit/src"
+    editorDirectory="/org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor/src" modelPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model"
+    modelName="xtuml" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    importerID="org.eclipse.emf.importer.ecore" complianceLevel="6.0" editPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model.edit"
+    editorPluginID="org.eclipse.papyrusrt.xtumlrt.xtuml.model.editor" usedGenPackages="../../org.eclipse.papyrusrt.xtumlrt.common.model/model/common.genmodel#//common"
     operationReflection="true" importOrganizing="true">
   <foreignModel>xtuml.ecore</foreignModel>
   <genPackages prefix="Xtuml" basePackage="org.eclipse.papyrusrt.xtumlrt" disposableProviderFactory="true"

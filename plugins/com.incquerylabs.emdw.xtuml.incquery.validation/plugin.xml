@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?><plugin>
+<?xml version="1.0" encoding="UTF-8"?><!--
+    Copyright (c) 2015-2016 IncQuery Labs Ltd. and Ericsson AB
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Eclipse Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+   
+    Contributors:
+        Akos Horvath, Abel Hegedus, Zoltan Ujhelyi, Daniel Segesdi, Tamas Borbas, Peter Lunk - initial API and implementation
+ --><plugin>
   <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.transitionTriggerWithoutSignal" point="org.eclipse.incquery.validation.runtime.constraint">
     <constraint class="com.incquerylabs.emdw.xtuml.incquery.TransitionTriggerWithoutSignalConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.transitionTriggerWithoutSignal">
       <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
@@ -11,6 +20,26 @@
   </extension>
   <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.fileNameCollision" point="org.eclipse.incquery.validation.runtime.constraint">
     <constraint class="com.incquerylabs.emdw.xtuml.incquery.FileNameCollisionConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.fileNameCollision">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.signalParameterWithoutType" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.SignalParameterWithoutTypeConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.signalParameterWithoutType">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.attributeWithoutType" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.AttributeWithoutTypeConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.attributeWithoutType">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.operationWithUnsetReturnType" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.OperationWithUnsetReturnTypeConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.operationWithUnsetReturnType">
+      <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.com.incquerylabs.emdw.xtuml.incquery.operationParameterWithoutType" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="com.incquerylabs.emdw.xtuml.incquery.OperationParameterWithoutTypeConstraint0" name="com.incquerylabs.emdw.xtuml.incquery.operationParameterWithoutType">
       <enabledForEditor editorId="org.eclipse.papyrusrt.xtumlrt.common.presentation.CommonEditorID"/>
     </constraint>
   </extension>

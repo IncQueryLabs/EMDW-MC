@@ -15,20 +15,26 @@
 	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.incquerylabs.emdw</groupId>
-	<artifactId>com.incquerylabs.emdw.common</artifactId>
+	<artifactId>com.incquerylabs.emdw</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>../../plugins/com.incquerylabs.emdw.umlintegration.queries</module>
+		<!-- Metamodels -->
+		<module>../../plugins/org.eclipse.papyrusrt.xtumlrt.common.model</module>
+		<module>../../plugins/org.eclipse.papyrusrt.xtumlrt.xtuml.model</module>
+		<module>../../plugins/com.incquerylabs.emdw.valuedescriptor.model</module>
+		<module>../../plugins/com.ericsson.xtumlrt.oopl.model</module>
+		<module>../../plugins/com.ericsson.xtumlrt.oopl.cpp.model</module>
+		<module>../../plugins/com.ericsson.xtumlrt.oopl.java.model</module>
+		<module>../../plugins/com.incquerylabs.uml.xtuml.profile</module>
+		<module>../../plugins/com.incquerylabs.emdw.snippet.model</module>
 
-		<!-- xUML-RT profile -->
-		<module>../../plugins/hu.eltesoft.modelexecution.profile</module>
+		<!-- Maven plugins -->
+		<module>../../maven/emdw-metamodels</module>
 
-		<!-- rALF Language -->
-		<module>../../plugins/com.incquerylabs.uml.ralf</module>
 	</modules>
-	
+
 	<profiles>
 		<profile>
 			<id>complete</id>
@@ -38,47 +44,80 @@
 				</property>
 			</activation>
 			<modules>
-				<!-- Project nature -->
-				<module>../../plugins/com.incquerylabs.emdw.common.nature</module>
+				<!-- Testing common -->
+				<module>../../tests/com.incquerylabs.emdw.testing.common</module>
+		
+				<!-- Toolchain manager -->
+				<module>../../plugins/com.incquerylabs.emdw.toolchain</module>
+				<module>../../plugins/com.incquerylabs.emdw.toolchain.mwe2integration</module>
+		
+				<!-- UML integration -->
+				<module>../../plugins/com.incquerylabs.emdw.umlintegration.trace</module>
+				<module>../../plugins/com.incquerylabs.emdw.umlintegration.transformation</module>
+				<module>../../tests/com.incquerylabs.emdw.umlintegration.transformation.test</module>
 		
 				<!-- Papyrus integration -->
-				<module>../../plugins/com.incquerylabs.uml.papyrus</module>
-
-				<!-- Examples -->
-				<module>../../examples/com.incquerylabs.emdw.examples</module>
+				<module>../../plugins/com.incquerylabs.emdw.umlintegration.papyrus</module>
+		
+				<!-- Validation -->
+				<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery</module>
+				<module>../../plugins/com.incquerylabs.emdw.xtuml.incquery.validation</module>
+				
+				<!-- XTUML-CPP transformation -->
+				<module>../../plugins/com.incquerylabs.emdw.cpp.transformation</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.transformation.test</module>
+		
+				<!-- CPP code generation -->
+				<module>../../plugins/com.incquerylabs.emdw.cpp.common</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.common.test</module>
+				<module>../../plugins/com.incquerylabs.emdw.cpp.codegeneration</module>
+				<module>../../plugins/com.incquerylabs.emdw.cpp.ui</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.codegeneration.test</module>
+				<module>../../tests/com.incquerylabs.emdw.cpp.bodyconverter.test</module>
+				<module>../../plugins/com.incquerylabs.emdw.cpp.bodyconverter</module>
 				
 				<!-- rALF Language -->
-				<module>../../plugins/com.incquerylabs.uml.ralf.languagegenerator</module>
-				<module>../../plugins/com.incquerylabs.uml.ralf.papyrus.ui</module>
-				<module>../../plugins/com.incquerylabs.uml.ralf.ui</module>
+				<module>../../tests/com.incquerylabs.uml.ralf.tests</module>
+				<module>../../tests/com.incquerylabs.uml.ralf.tests.examples</module>
+				<module>../../plugins/com.incquerylabs.uml.ralf.snippetcompiler</module>
+				<module>../../tests/com.incquerylabs.uml.ralf.snippetcompiler.tests</module>
 				
 				<!-- Releng -->
-				<module>../com.incquerylabs.uml.ralf.feature</module>
-				<module>../com.incquerylabs.emdw.common.project.feature</module>
-				<module>../com.incquerylabs.emdw.examples.feature</module>
-				<module>../com.incquerylabs.uml.papyrus.feature</module>		
-				<module>../com.incquerylabs.emdw.common.update</module>
+				<module>../org.eclipse.papyrusrt.xtumlrt-feature</module>
+				<module>../com.ericsson.xtumlrt.oopl.metamodels.feature</module>
+				<module>../com.incquerylabs.emdw.cpp.generator.feature</module>
+				<module>../com.incquerylabs.emdw.umlintegration.feature</module>
+				<module>../com.incquerylabs.emdw.update</module>				
+				<module>../com.incquerylabs.emdw.cpp.app</module>
+				<module>../com.incquerylabs.emdw.cpp.app.product</module>
+				<module>../com.incquerylabs.emdw.cpp.app.plainjava</module>
+				<module>../com.incquerylabs.emdw.toolchain.mwe2integration.plainjava</module>
+				<module>../com.incquerylabs.emdw.toolchain.mwe2integration.product</module>
 			</modules>
 		</profile>
 	</profiles>
-	
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<tycho.version>0.21.0</tycho.version>
+		<emdw.common.repository.url>http://static.incquerylabs.com/projects/ericsson/emdw-common-ci</emdw.common.repository.url>
 		<mars.repo.url>http://download.eclipse.org/releases/mars</mars.repo.url>
 		<viatra.repository.url>http://download.eclipse.org/viatra/updates/release/0.8.0</viatra.repository.url>
 		<incquery.repository.url>http://download.eclipse.org/incquery/updates-extra/release</incquery.repository.url>
 		<papyrus.repo.url>http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars</papyrus.repo.url>
+		
 		<xtext.repo.url>http://download.eclipse.org/modeling/tmf/xtext/updates/releases/2.9.2</xtext.repo.url>
 		<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150519210750/repository</orbit.repo.url>
 		<xsemantics.repo.url>http://sourceforge.net/projects/xsemantics/files/updates/releases/1.9</xsemantics.repo.url>
+		<emdw_mirror.repo.url>https://build.incquerylabs.com/nexus/content/repositories/emdw-p2-mirrors</emdw_mirror.repo.url>
+		
 		<jacoco.version>0.7.5.201505241946</jacoco.version>
 		<jacoco.targetdir>${project.basedir}/../../target</jacoco.targetdir>
 		<org.eclipse.papyrusrt.version>1.0.0-SNAPSHOT</org.eclipse.papyrusrt.version>
 		<incquery.version>1.1.0</incquery.version>
 		<xtext.compiler.version>2.9.2</xtext.compiler.version>
-		<xsemantics.maven.version>1.9.0</xsemantics.maven.version>
+		<viatra.version>0.8.0</viatra.version>
+		<xsemantics.version>1.9.0</xsemantics.version>
 		<!-- Sonar -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -86,6 +125,11 @@
 	</properties>
 
 	<repositories>
+		<repository>
+			<id>emdw-common</id>
+			<url>${emdw.common.repository.url}</url>
+			<layout>p2</layout>
+		</repository>
 		<repository>
 			<id>mars</id>
 			<url>${mars.repo.url}</url>
@@ -121,6 +165,10 @@
 			<layout>p2</layout>
 			<url>${xsemantics.repo.url}</url>
 		</repository>
+		<repository>
+            <id>emdw-p2-mirror</id>
+            <url>${emdw_mirror.repo.url}</url>
+        </repository>
 	</repositories>
 	<pluginRepositories>
         <pluginRepository>
@@ -144,7 +192,7 @@
 			<url>https://build.incquerylabs.com/nexus/content/repositories/emdw-snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 	<build>
 		<plugins>
 			<plugin>

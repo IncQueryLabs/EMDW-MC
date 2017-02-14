@@ -18,7 +18,7 @@
   <setupTask
       xsi:type="setup:EclipseIniTask"
       option="-Doomph.redirection.emdw.setup"
-      value="=http://static.incquerylabs.com/projects/ericsson/setup/com.incquerylabs.emdw.setup/EMDW-MC.setup->${git.clone.emdw-mc.location|uri}/releng/com.incquerylabs.emdw.setup/EMDW-MC.setup"
+      value="=https://raw.githubusercontent.com/IncQueryLabs/EMDW-MC/master/releng/com.incquerylabs.emdw.setup/EMDW-MC.setup->${git.clone.emdw-mc.location|uri}/releng/com.incquerylabs.emdw.setup/EMDW-MC.setup"
       vm="true">
     <description></description>
   </setupTask>
@@ -64,7 +64,7 @@
     <repository
         url="http://download.eclipse.org/viatra/updates/release/0.8.0"/>
     <repository
-        url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.9"/>
+        url="https://dl.bintray.com/lorenzobettini/xsemantics/updates/1.9"/>
     <repository
         url="http://download.eclipse.org/modeling/mdt/papyrus/updates/releases/mars"/>
   </setupTask>
@@ -111,28 +111,6 @@
       </detail>
     </annotation>
     <description>EMDW-MC</description>
-  </setupTask>
-  <setupTask
-      xsi:type="git:GitCloneTask"
-      id="git.clone.emdw-tests"
-      remoteURI="IncQueryLabs/EMDW-Tests"
-      checkoutBranch="master">
-    <annotation
-        source="http://www.eclipse.org/oomph/setup/InducedChoices">
-      <detail
-          key="inherit">
-        <value>github.remoteURIs</value>
-      </detail>
-      <detail
-          key="label">
-        <value>EMDW-Tests Git Repository</value>
-      </detail>
-      <detail
-          key="target">
-        <value>remoteURI</value>
-      </detail>
-    </annotation>
-    <description>EMDW-Tests</description>
   </setupTask>
   <setupTask
       xsi:type="projects:ProjectsImportTask">
@@ -216,7 +194,7 @@
           name="de.itemis.xtext.antlr.sdk.feature.group"/>
       <repositoryList>
         <repository
-            url="http://sourceforge.net/projects/xsemantics/files/updates/releases/1.9"/>
+            url="https://dl.bintray.com/lorenzobettini/xsemantics/updates/1.9"/>
         <repository
             url="http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases"/>
         <repository
@@ -228,7 +206,6 @@
       label="Mylyn">
     <setupTask
         xsi:type="setup:VariableTask"
-        id=""
         type="PASSWORD"
         name="github.user.password">
       <description>Github password for Mylyn access</description>
